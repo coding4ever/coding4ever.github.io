@@ -1,0 +1,596 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Menambahkan Serial Number Pada Paket Instalasi (Inno Setup) - Coding4ever&#8217;s Blog</title>
+  <meta name="author" content="Admin">
+
+  
+  <meta name="description" content="Melengkapi koleksi artikel saya tentang pembuatan paket instalasi, kali ini kita akan menambahkan serial number pada paket instalasi yang kita buat &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://coding4ever.net/blog/2010/04/05/menambahkan-serial-number-pada-paket-instalasi-inno-setup">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Coding4ever's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50866618-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Coding4ever&#8217;s Blog</a></h1>
+  
+    <h2>Just coding&#8230; coding&#8230; and coding&#8230; because coding should be fun :)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:coding4ever.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/gudang-software">Gudang Software</a></li>
+  <li><a href="/source-code">Source Code</a></li>  
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Menambahkan Serial Number Pada Paket Instalasi (Inno Setup)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2010-04-05T00:01:04+07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>12:01 am</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Melengkapi koleksi artikel saya tentang pembuatan <a href="http://coding4ever.wordpress.com/category/tools-installer/">paket instalasi</a>, kali ini kita akan menambahkan serial number pada <a href="http://coding4ever.wordpress.com/category/tools-installer/">paket instalasi</a> yang kita buat menggunakan <a href="http://jrsoftware.org/">Inno Setup</a>.</p>
+
+<p><a href="http://www.mjfreelancing.com/IKG.htm">IKG</a> (Inno Key Generator) adalah <a href="http://en.wikipedia.org/wiki/Third_party">Third-Party</a> files yang akan kita gunakan pada artikel ini dan <a href="http://jrsoftware.org/">Inno Setup</a> yang saya gunakan adalah versi 5.0.8.</p>
+
+<p>Silahkan Anda download <a href="http://www.mjfreelancing.com/IKG.htm">IKG</a> dari situs resminya atau bisa juga download di<a href="http://dc196.4shared.com/download/257069716/702b80a7">sini</a> tetapi saya lebih menyarankan Anda untuk  mendownload dari link ke <a href="http://dc196.4shared.com/download/257069716/702b80a7">dua</a> saja :D karena sudah saya seleksi file-file apa saja yang dibutuhkan.</p>
+
+<!-- more -->
+
+
+<p>Jika sudah selesai downloadnya silahkan Anda ekstrak file IKG.rarnya, berikut adalah penjelasan singkat tentang file-file yang ada di dalam file IKG.rar</p>
+
+<ol>
+<li><p> <strong>ISID.dll</strong>, file ini dibutuhkan untuk melakukan validasi serial number/unlock code yang diinputkan pada saat proses instalasi, otomatis harus kita sertakan pada saat pembuatan paket instalasi.</p></li>
+<li><p> <strong>IKG.exe</strong> adalah tool untuk mengenerate file Inno Key yang berisi informasi user + serial number valid yang sudah terenkripsi,<del> jadi setiap paket instalasi yang kita buat membutuhkan file inno key yang unik (huhhhh report juga ya) namanya juga mau aman (walaupun tidak 100%) report sedikitkan engga pa2 kan</del> (ralat 1 public key inno bisa untuk beberapa user name yg berbeda).</p></li>
+<li><p> <strong>IKGHelp.pdf</strong>, klo yang ini kayaxnya enggak perlu saya jelasin.</p></li>
+</ol>
+
+
+<p>Oke langsung saja Anda jalankan file IKG.exe, setelah itu akan tampil form berikut :</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/04/05042010-1.jpg"><img src="http://coding4ever.files.wordpress.com/2010/04/05042010-1.jpg?w=300" alt="" /></a></p>
+
+<p>Langkah pertama yang harus kita lakukan adalah mengeset password IKG, agar tidak semua orang bisa menggunakan tool ini.</p>
+
+<p>Klik menu File -> Change Bank Password</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/04/05042010-2.jpg"><img src="http://coding4ever.files.wordpress.com/2010/04/05042010-2.jpg?w=300" alt="" /></a></p>
+
+<p>Selanjutnya kita tinggal masukkan passwordnya</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/04/05042010-3.jpg"><img src="http://coding4ever.files.wordpress.com/2010/04/05042010-3.jpg" alt="" /></a></p>
+
+<p>Untuk menyederhanakan pembahasan, informasi yang akan kita tambahkan pada saat instalasi kita batasi sebagai berikut :</p>
+
+<ol>
+<li><p> Registered Name</p></li>
+<li><p> Registered Company</p></li>
+<li><p> Registration Code</p></li>
+<li><p> Private Key</p></li>
+</ol>
+
+
+<p>Maka konfigurasi yang harus kita set pada tool IKG adalah sebagai berikut :</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/04/05042010-4.jpg"><img src="http://coding4ever.files.wordpress.com/2010/04/05042010-4.jpg?w=300" alt="" /></a></p>
+
+<p>Kita tinggal menginputkan informasi Registered Name dan Organisation, untuk informasi Registration Code dan Private Key sudah otomatis terisi.</p>
+
+<p>Jika sudah kita langsung saja simpan file Inno Keynya, file ini berisi informasi Registered Name, Registered Company, Registration Code dan Private Key (sesuai setting diatas) yang sudah dienkripsi.</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/04/05042010-5.jpg"><img src="http://coding4ever.files.wordpress.com/2010/04/05042010-5.jpg?w=300" alt="" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/04/05042010-6.jpg"><img src="http://coding4ever.files.wordpress.com/2010/04/05042010-6.jpg?w=300" alt="" /></a></p>
+
+<p>Jadi jika kita akan membuat file setup berikutnya, kita harus mengetik ulang informasi Registered Name dan Registered Company yang lain (unik) dan menyimpan ulang file Inno Key (sebaiknya dengan nama yang berbeda).</p>
+
+<p>Sampai disini kita akan memasuki bagian yang paling menyenangkan yaitu coding :D. Kita akan menambahkan beberapa baris kode pada bagian <strong>[Files]</strong> dan <strong>[Code]</strong>.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[Files]
+</span><span class='line'>;file klien-1.iky dihasilkan oleh tool IKG
+</span><span class='line'>Source: klien-1.iky; DestDir: {tmp}; Flags: ignoreversion
+</span><span class='line'>Source: ISID.dll; DestDir: {sys}; Flags: ignoreversion
+</span><span class='line'>
+</span><span class='line'>[Code]
+</span><span class='line'>function ValidateSerialNumber(InnoKeyFile, User, Orgn, ProdCode, HDD, MAC, PrivateKey, Serial: String): Boolean;
+</span><span class='line'>external 'ValidateSerialNumber@files:ISID.dll stdcall';
+</span><span class='line'>
+</span><span class='line'>const
+</span><span class='line'>    INNO_KEY = 'klien-1.iky';
+</span><span class='line'>
+</span><span class='line'>var
+</span><span class='line'>  UserPage   : TInputQueryWizardPage;
+</span><span class='line'>  UserValues : TArrayOfString;
+</span><span class='line'>
+</span><span class='line'>procedure InitializeWizard();
+</span><span class='line'>begin
+</span><span class='line'>  { create the custom page }
+</span><span class='line'>    UserPage := CreateInputQueryPage(wpInfoBefore, 'Informasi Registrasi', 'Anda memerlukan user yang valid agar bisa melanjutkan proses instalasi',
+</span><span class='line'>      'Masukkan informasi registrasi (case sensitive), kemudian klik tombol Lanjut >.');
+</span><span class='line'>
+</span><span class='line'>  UserPage.Add('Registered Name:', False);
+</span><span class='line'>  UserPage.Add('Registered Company:', False);
+</span><span class='line'>  UserPage.Add('Registration Code:', False);
+</span><span class='line'>  UserPage.Add('Private Key:', False);
+</span><span class='line'>
+</span><span class='line'>  { Set default values }
+</span><span class='line'>      SetArrayLength(UserValues, 4);
+</span><span class='line'>      RegQueryStringValue(HKLM, 'Software\Microsoft\Windows\CurrentVersion', 'RegisteredOwner', UserValues[0]);
+</span><span class='line'>      RegQueryStringValue(HKLM, 'Software\Microsoft\Windows\CurrentVersion', 'RegisteredOrganization', UserValues[1]);
+</span><span class='line'>      if (UserValues[0] = '') and (UserValues[1] = '') then begin
+</span><span class='line'>      RegQueryStringValue(HKCU, 'Software\Microsoft\MS Setup (ACME)\User Info', 'DefName', UserValues[0]);
+</span><span class='line'>      RegQueryStringValue(HKCU, 'Software\Microsoft\MS Setup (ACME)\User Info', 'DefCompany', UserValues[1]);
+</span><span class='line'>      end;
+</span><span class='line'>
+</span><span class='line'>      { Try to find the settings that were stored last time (also see below). }
+</span><span class='line'>      UserPage.Values[0] := GetPreviousData('Name', UserValues[0]);
+</span><span class='line'>      UserPage.Values[1] := GetPreviousData('Company', UserValues[1]);
+</span><span class='line'>      UserPage.Values[2] := GetPreviousData('Unlock', UserValues[2]);
+</span><span class='line'>      UserPage.Values[3] := GetPreviousData('Private', UserValues[3]);
+</span><span class='line'>
+</span><span class='line'>end;
+</span><span class='line'>
+</span><span class='line'>procedure RegisterPreviousData(PreviousDataKey: Integer);
+</span><span class='line'>begin
+</span><span class='line'>  { Store the settings so we can restore them next time }
+</span><span class='line'>  SetPreviousData(PreviousDataKey, 'Name', UserPage.Values[0]);
+</span><span class='line'>  SetPreviousData(PreviousDataKey, 'Company', UserPage.Values[1]);
+</span><span class='line'>  SetPreviousData(PreviousDataKey, 'Unlock', UserPage.Values[2]);
+</span><span class='line'>  SetPreviousData(PreviousDataKey, 'Private', UserPage.Values[3]);
+</span><span class='line'>end;
+</span><span class='line'>
+</span><span class='line'>function ScriptDlgPages(CurPage: Integer; BackClicked: Boolean): Boolean;
+</span><span class='line'>var
+</span><span class='line'>      ExpPath: String;
+</span><span class='line'>
+</span><span class='line'>begin
+</span><span class='line'>  Result := True;
+</span><span class='line'>
+</span><span class='line'>  if (CurPage = UserPage.ID) then
+</span><span class='line'>  begin
+</span><span class='line'>        ExtractTemporaryFile(INNO_KEY);       { the public key file }
+</span><span class='line'>
+</span><span class='line'>      ExpPath := ExpandConstant('{tmp}\' + INNO_KEY);
+</span><span class='line'>
+</span><span class='line'>      Result := False;
+</span><span class='line'>
+</span><span class='line'>      UserValues[0] := UserPage.Values[0];
+</span><span class='line'>      UserValues[1] := UserPage.Values[1];
+</span><span class='line'>      UserValues[2] := UserPage.Values[2];
+</span><span class='line'>      UserValues[3] := UserPage.Values[3];
+</span><span class='line'>
+</span><span class='line'>      if (UserValues[0] = '') or (UserValues[1] = '') or (UserValues[2] = '') or (UserValues[3] = '') then
+</span><span class='line'>          MsgBox('No fields can be blank !', mbError, MB_OK)
+</span><span class='line'>      else
+</span><span class='line'>      begin
+</span><span class='line'>          Result := ValidateSerialNumber(ExpPath, UserValues[0], UserValues[1], '', '', '', UserValues[3], UserValues[2]);
+</span><span class='line'>
+</span><span class='line'>          if (not Result) then
+</span><span class='line'>              MsgBox('Invalid Entry !', mbError, MB_OK);
+</span><span class='line'>
+</span><span class='line'>      end
+</span><span class='line'>  end
+</span><span class='line'>end;
+</span><span class='line'>
+</span><span class='line'>function NextButtonClick(CurPage: Integer): Boolean;
+</span><span class='line'>begin
+</span><span class='line'>  Result := ScriptDlgPages(CurPage, False);
+</span><span class='line'>end;
+</span><span class='line'>
+</span><span class='line'>function BackButtonClick(CurPage: Integer): Boolean;
+</span><span class='line'>begin
+</span><span class='line'>  Result := True;//ScriptDlgPages(CurPage, True);
+</span><span class='line'>end;
+</span><span class='line'>
+</span><span class='line'>function HasHtmlHelp(): Boolean;
+</span><span class='line'>begin
+</span><span class='line'>  { HHCTRL.OCX GUID }
+</span><span class='line'>  Result := RegValueExists(HKCR, 'CLSID\{4662DAB0-D393-11D0-9A56-00C04FB68B66}\InprocServer32', '');
+</span><span class='line'>end;
+</span><span class='line'>
+</span><span class='line'>function HasNoHtmlHelp(): Boolean;
+</span><span class='line'>begin
+</span><span class='line'>  Result := not HasHtmlHelp;
+</span><span class='line'>end;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Jika sudah selesai silahkan compile (CTRL+F9) skrip inno setup Anda, dan ingat skrip diatas hanya potongan skrip inno setup. Contoh skrip yang lengkap bisa Anda lihat di<a href="http://coding4ever.net/blog/2009/12/31/membuat-paket-instalasi-vb-mysql-dengan-inno-setup/">sini</a> dan <a href="http://coding4ever.net/blog/2010/01/05/membuat-paket-instalasi-vb-firebird-dengan-inno-setup/">sini</a>.</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/04/05042010-7.jpg"><img src="http://coding4ever.files.wordpress.com/2010/04/05042010-7.jpg?w=300" alt="" /></a>
+<a href="http://coding4ever.files.wordpress.com/2010/04/05042010-8.jpg"><img src="http://coding4ever.files.wordpress.com/2010/04/05042010-8.jpg?w=300" alt="" /></a>
+Jika kita mencoba memasukkan informasi registrasi yang salah, maka akan tampil pesan berikut :</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/04/05042010-9.jpg"><img src="http://coding4ever.files.wordpress.com/2010/04/05042010-9.jpg" alt="" /></a></p>
+
+<p>Selamat mencoba :)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Admin</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2010-04-05T00:01:04+07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>12:01 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/inno-setup/'>inno setup</a>, <a class='category' href='/blog/categories/tools-installer/'>tools installer</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2010/03/31/menambahkan-skin-pada-paket-instalasi-inno-setup/" title="Previous Post: Menambahkan skin pada paket instalasi (Inno Setup)">&laquo; Menambahkan skin pada paket instalasi (Inno Setup)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2010/04/09/tips-mengatur-posisi-caption-objek-commandbutton/" title="Next Post: Tips mengatur posisi caption objek CommandButton">Tips mengatur posisi caption objek CommandButton &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Admin</h1>
+  <p>Software developer yang berasal dari Riau, tapi malah betah tinggal di Yogyakarta :)</p>
+  
+  <p>Pernah mengajar di salah satu perguruan tinggi swasta (PTS) di Yogyakarta.<br>
+     Saat ini bekerja sebagai staf IT di PTS yang sama sebagai senior software developer.</p>
+  
+  <p>Fokus mengembangkan aplikasi di atas platform .NET, dan diwaktu luang insya Alloh akan terus berbagi pengalaman di blog <a href="http://coding4ever.net/" target="_blank">ini</a>.</p>    
+</section><section>
+  <h1>Contacts :</h1>
+    <ul>		
+		<li>			
+			<a href="mailto:coding4ever.net@gmail.com" title="GMail" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/gmail-small2.png" border="0" alt="GMail" /></a>
+		</li>		
+		<li>			
+			<a href="https://github.com/k4m4r82?tab=repositories" title="GitHub" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/github-small2.png" border="0" alt="GitHub" /></a>
+		</li>
+		<li>
+			<a href="http://www.facebook.com/abu.anas.1232" title="Facebook" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/fb-small2.png" border="0" alt="Facebook" /></a>
+		</li>				
+	</ul>
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/06/08/entity-framework-part-8/">Entity Framework Part 8</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/manajemen-proyek-menggunakan-redmine-bagian-1/">Manajemen Proyek Menggunakan Redmine Bagian 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/21/manajemen-password-menggunakan-keepass/">Manajemen Password Menggunakan KeePass</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/10/sms-gateway-edisi-net-part-1/">SMS Gateway Edisi .NET Part 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/11/entity-framework-part-7/">Entity Framework Part 7</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/03/entity-framework-part-6/">Entity Framework Part 6</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/01/entity-framework-part-5/">Entity Framework Part 5</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/27/entity-framework-part-4/">Entity Framework Part 4</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/26/entity-framework-part-3/">Entity Framework Part 3</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/21/entity-framework-part-2/">Entity Framework Part 2</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+    <ul id="category-list"><li><a href='/blog/categories/dot-net-remoting/'>.net remoting (9)</a></li><li><a href='/blog/categories/active-report/'>active report (4)</a></li><li><a href='/blog/categories/aplikasi/'>aplikasi (3)</a></li><li><a href='/blog/categories/dapper-net/'>dapper .net (3)</a></li><li><a href='/blog/categories/entity-framework/'>entity framework (8)</a></li><li><a href='/blog/categories/firebird/'>firebird (11)</a></li><li><a href='/blog/categories/freeware/'>freeware (7)</a></li><li><a href='/blog/categories/inno-setup/'>inno setup (6)</a></li><li><a href='/blog/categories/jaringan/'>jaringan (1)</a></li><li><a href='/blog/categories/mysql/'>mysql (3)</a></li><li><a href='/blog/categories/nsis/'>nsis (2)</a></li><li><a href='/blog/categories/nuget/'>nuget (3)</a></li><li><a href='/blog/categories/sql-server-2000/'>sql server 2000 (1)</a></li><li><a href='/blog/categories/sqlite/'>sqlite (3)</a></li><li><a href='/blog/categories/tools-installer/'>tools installer (8)</a></li><li><a href='/blog/categories/uncategorized/'>uncategorized (6)</a></li><li><a href='/blog/categories/visual-basic/'>visual basic (73)</a></li><li><a href='/blog/categories/visual-basic-net/'>visual basic .net (11)</a></li><li><a href='/blog/categories/visual-c-number/'>visual c# (32)</a></li><li><a href='/blog/categories/winsock/'>winsock (6)</a></li></ul>
+</section>
+<section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/blog/categories/dot-net-remoting' style='font-size: 107.3972602739726%'>.net remoting(9)</a> <a href='/blog/categories/active-report' style='font-size: 103.28767123287672%'>active report(4)</a> <a href='/blog/categories/aplikasi' style='font-size: 102.46575342465754%'>aplikasi(3)</a> <a href='/blog/categories/dapper-net' style='font-size: 102.46575342465754%'>dapper .net(3)</a> <a href='/blog/categories/entity-framework' style='font-size: 106.57534246575342%'>entity framework(8)</a> <a href='/blog/categories/firebird' style='font-size: 109.04109589041096%'>firebird(11)</a> <a href='/blog/categories/freeware' style='font-size: 105.75342465753425%'>freeware(7)</a> <a href='/blog/categories/inno-setup' style='font-size: 104.93150684931507%'>inno setup(6)</a> <a href='/blog/categories/jaringan' style='font-size: 100.82191780821918%'>jaringan(1)</a> <a href='/blog/categories/mysql' style='font-size: 102.46575342465754%'>mysql(3)</a> <a href='/blog/categories/nsis' style='font-size: 101.64383561643835%'>nsis(2)</a> <a href='/blog/categories/nuget' style='font-size: 102.46575342465754%'>nuget(3)</a> <a href='/blog/categories/sql-server-2000' style='font-size: 100.82191780821918%'>sql server 2000(1)</a> <a href='/blog/categories/sqlite' style='font-size: 102.46575342465754%'>sqlite(3)</a> <a href='/blog/categories/tools-installer' style='font-size: 106.57534246575342%'>tools installer(8)</a> <a href='/blog/categories/uncategorized' style='font-size: 104.93150684931507%'>uncategorized(6)</a> <a href='/blog/categories/visual-basic' style='font-size: 160.0%'>visual basic(73)</a> <a href='/blog/categories/visual-basic-net' style='font-size: 109.04109589041096%'>visual basic .net(11)</a> <a href='/blog/categories/visual-c-number' style='font-size: 126.30136986301369%'>visual c#(32)</a> <a href='/blog/categories/winsock' style='font-size: 104.93150684931507%'>winsock(6)</a> </span>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'k4m4r82',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Admin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'coding4ever';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://coding4ever.net/blog/2010/04/05/menambahkan-serial-number-pada-paket-instalasi-inno-setup/';
+        var disqus_url = 'http://coding4ever.net/blog/2010/04/05/menambahkan-serial-number-pada-paket-instalasi-inno-setup/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

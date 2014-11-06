@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Uncategorized | Coding4ever's Blog]]></title>
+  <link href="http://coding4ever.net/blog/categories/uncategorized/atom.xml" rel="self"/>
+  <link href="http://coding4ever.net/"/>
+  <updated>2014-11-06T10:08:33+07:00</updated>
+  <id>http://coding4ever.net/</id>
+  <author>
+    <name><![CDATA[Admin]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Repository Coding4ever]]></title>
+    <link href="http://coding4ever.net/blog/2014/03/10/repository-coding4ever/"/>
+    <updated>2014-03-10T14:52:06+07:00</updated>
+    <id>http://coding4ever.net/blog/2014/03/10/repository-coding4ever</id>
+    <content type="html"><![CDATA[<p>Untuk mempermudah mengakses source code coding4ever, beberapa source code terbaru sudah saya push ke repository <a href="https://github.com/">GitHub</a>, dan sisanya menyusul :D</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/03/github1.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/github1.jpg" alt="github" /></a></p>
+
+<p>Link repository : <a href="https://github.com/k4m4r82?tab=repositories">https://github.com/k4m4r82</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Q & A]]></title>
+    <link href="http://coding4ever.net/blog/2014/03/10/q-a/"/>
+    <updated>2014-03-10T12:56:14+07:00</updated>
+    <id>http://coding4ever.net/blog/2014/03/10/q-a</id>
+    <content type="html"><![CDATA[<p>Alhamdulillah &hellip;</p>
+
+<p>Engga terasa komen di blog ini sudah lebih dari 7000 :)</p>
+
+<p>Jadi saya mohon maaf jika ada pertanyaan yang terlewatkan baik karena memang lagi males ngecek komentar :D atau karena terbatasnya ilmu.</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/03/comment.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/comment.jpg" alt="comment" /></a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Visual Studio Color Schemes]]></title>
+    <link href="http://coding4ever.net/blog/2011/12/20/visual-studio-color-schemes/"/>
+    <updated>2011-12-20T16:33:32+07:00</updated>
+    <id>http://coding4ever.net/blog/2011/12/20/visual-studio-color-schemes</id>
+    <content type="html"><![CDATA[<p>Enggak sengaja ketemu link <a href="http://studiostyl.es/">ini</a>, berhubung saya juga udah bosan dengan color scheme bawaan visual studio .net akhirnya ikutan coba deh.</p>
+
+<p>Di link tersebut sudah tersedia ratusan color scheme yang siap pake, saya sendiri baru mencoba color scheme dengan rating tertinggi :D.</p>
+
+<!-- more -->
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/12/20122011-1.png"><img src="http://coding4ever.files.wordpress.com/2011/12/20122011-1.png" alt="" /></a></p>
+
+<p>Untuk downloadnya tinggal klik link <a href="http://studiostyl.es/schemes/son-of-obsidian">ini</a>, sudah tersedia untuk VS 2005, 2008 dan 2010.</p>
+
+<p>Setelah download tinggal impor file schemesnya dari menu Tools -> Import and Export Settings &hellip;, selanjutnya tinggal ikuti wizard yang ada.</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/12/20122011-2.png"><img src="http://coding4ever.files.wordpress.com/2011/12/20122011-2.png" alt="" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/12/20122011-3.png"><img src="http://coding4ever.files.wordpress.com/2011/12/20122011-3.png" alt="" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/12/20122011-4.png"><img src="http://coding4ever.files.wordpress.com/2011/12/20122011-4.png" alt="" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/12/20122011-5.png"><img src="http://coding4ever.files.wordpress.com/2011/12/20122011-5.png" alt="" /></a></p>
+
+<p>Agar semakin manteb editornya, download juga <a href="http://www.microsoft.com/download/en/details.aspx?id=17879">Consolas Font Pack</a> dari situs resminya om Bill Gates.</p>
+
+<p>Kemudian dilanjutkan dengan merubah jenis font editor menjadi Consolas dan size = 10.</p>
+
+<p>Caranya dengan klik menu Tools -> Options</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/12/20122011-6.png"><img src="http://coding4ever.files.wordpress.com/2011/12/20122011-6.png" alt="" /></a></p>
+
+<p>Entah kenapa font jenis ini terlihat begitu indah di mata para programer he he he :D</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/12/20122011-7.png"><img src="http://coding4ever.files.wordpress.com/2011/12/20122011-7.png" alt="" /></a></p>
+
+<p>Selamat mencoba :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Nulis Kode Biar Enak Diliat]]></title>
+    <link href="http://coding4ever.net/blog/2011/11/15/nulis-kode-biar-enak-diliat/"/>
+    <updated>2011-11-15T14:47:13+07:00</updated>
+    <id>http://coding4ever.net/blog/2011/11/15/nulis-kode-biar-enak-diliat</id>
+    <content type="html"><![CDATA[<p>Ini hanya sebagai referensi untuk om2x yang nanya sambil posting kode atau yg lagi baik pengen ngasih sumbangan kode, biar kodenya terlihat lebih &ldquo;keren&rdquo; :D.</p>
+
+<p>Caranya dengan menggunakan tag yang sudah disediakan wordpress, kan sayang udah susah-susah dibuatin tapi enggak dipake :D</p>
+
+<p>Untuk contoh dibawah ini khusus untuk skrip VB Classic, VB .NET, C# dan SQL</p>
+
+<!-- more -->
+
+
+<ol>
+<li>Visual Basic</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/11/15112011-1.png"><img src="http://coding4ever.files.wordpress.com/2011/11/15112011-1.png" alt="" /></a>Hasil :</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">Command1_Click</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">i</span> <span class="ow">As</span> <span class="kt">Integer</span>
+</span><span class='line'>    <span class="k">For</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">To</span> <span class="mi">10</span>
+</span><span class='line'>        <span class="n">Debug</span><span class="p">.</span><span class="n">Print</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="err">;</span><span class="n">Iterasi</span> <span class="n">ke#</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="err">;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">i</span>
+</span><span class='line'>    <span class="k">Next</span> <span class="n">i</span>
+</span><span class='line'><span class="k">End</span> <span class="k">Sub</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<ol>
+<li>Visual Basic .NET</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/11/151120112.png"><img src="http://coding4ever.files.wordpress.com/2011/11/151120112.png" alt="" /></a>Hasil :</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">Button1_Click</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">sender</span> <span class="ow">As</span> <span class="n">System</span><span class="p">.</span><span class="n">Object</span><span class="p">,</span> <span class="k">ByVal</span> <span class="n">e</span> <span class="ow">As</span> <span class="n">System</span><span class="p">.</span><span class="n">EventArgs</span><span class="p">)</span> <span class="k">Handles</span> <span class="n">Button1</span><span class="p">.</span><span class="n">Click</span>
+</span><span class='line'>    <span class="k">For</span> <span class="n">i</span> <span class="ow">As</span> <span class="kt">Integer</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">To</span> <span class="mi">10</span>
+</span><span class='line'>        <span class="n">Debug</span><span class="p">.</span><span class="n">Print</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="err">;</span><span class="n">Iterasi</span> <span class="n">ke#</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="err">;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">i</span><span class="p">.</span><span class="n">ToString</span><span class="p">())</span>
+</span><span class='line'>    <span class="k">Next</span> <span class="n">i</span>
+</span><span class='line'><span class="k">End</span> <span class="k">Sub</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<ol>
+<li>C#</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/11/151120113.png"><img src="http://coding4ever.files.wordpress.com/2011/11/151120113.png" alt="" /></a>Hasil :</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">button1_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">EventArgs</span> <span class="n">e</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span> <span class="n">i</span> <span class="p">&amp;</span><span class="n">lt</span><span class="p">;=</span> <span class="m">10</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">System</span><span class="p">.</span><span class="n">Diagnostics</span><span class="p">.</span><span class="n">Debug</span><span class="p">.</span><span class="n">Print</span> <span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Iterasi</span> <span class="n">ke</span><span class="err">#</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="p">+</span> <span class="n">i</span><span class="p">.</span><span class="n">ToString</span><span class="p">());</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<ol>
+<li>SQL</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/11/151120114.png"><img src="http://coding4ever.files.wordpress.com/2011/11/151120114.png" alt="" /></a>Hasil :</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="k">SELECT</span> <span class="n">beli</span><span class="p">.</span><span class="n">nota</span><span class="p">,</span> <span class="n">beli</span><span class="p">.</span><span class="n">tanggal</span><span class="p">,</span> <span class="n">barang</span><span class="p">.</span><span class="n">nama</span> <span class="k">AS</span> <span class="n">barang</span><span class="p">,</span> <span class="n">item_beli</span><span class="p">.</span><span class="n">jumlah</span><span class="p">,</span> <span class="n">item_beli</span><span class="p">.</span><span class="n">harga_beli</span><span class="p">,</span>
+</span><span class='line'><span class="n">supplier</span><span class="p">.</span><span class="n">nama</span> <span class="k">AS</span> <span class="n">supplier</span>
+</span><span class='line'><span class="k">FROM</span> <span class="n">beli</span> <span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">item_beli</span> <span class="k">ON</span> <span class="n">beli</span><span class="p">.</span><span class="n">nota</span> <span class="o">=</span> <span class="n">item_beli</span><span class="p">.</span><span class="n">nota</span>
+</span><span class='line'><span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">supplier</span> <span class="k">ON</span> <span class="n">beli</span><span class="p">.</span><span class="n">supplier_id</span> <span class="o">=</span> <span class="n">supplier</span><span class="p">.</span><span class="n">id</span> <span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">barang</span> <span class="k">ON</span> <span class="n">item_beli</span><span class="p">.</span><span class="n">barang_id</span> <span class="o">=</span> <span class="n">barang</span><span class="p">.</span><span class="n">id</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Referensi : <a href="http://en.support.wordpress.com/code/posting-source-code/">Posting Source Code</a></p>
+
+<p>Selamat mencoba :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hasil Investigasi Google Talk]]></title>
+    <link href="http://coding4ever.net/blog/2011/06/29/hasil-investigasi-google-talk/"/>
+    <updated>2011-06-29T08:51:33+07:00</updated>
+    <id>http://coding4ever.net/blog/2011/06/29/hasil-investigasi-google-talk</id>
+    <content type="html"><![CDATA[<p>Tadi malam iseng-iseng browsing salah satu web distributor pulsa elektrik trus ngeliat daftar perintah transaksi yang disediakan kemudian &hellip;. tuing-tuing :D</p>
+
+<!-- more -->
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/06/29062011-1.png"><img src="http://coding4ever.files.wordpress.com/2011/06/29062011-1.png" alt="" /></a>Eh ternyata ada perintah untuk mendaftarkan user id goolge talk, yang artinya bisa melakukan transaksi via google talk.</p>
+
+<p>Karena penasaran langsung aja saya install Google Talk trus menjalankan program Spy++, dari hasil investigasi sementara didapat gambar-gambar berikut :</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/06/29062011-2.png"><img src="http://coding4ever.files.wordpress.com/2011/06/29062011-2.png?w=300" alt="" /></a></p>
+
+<p>dari gambar diatas kita bisa mendapatkan<strong> User ID Google Talk</strong> dengan mengecek Window aktif yang nama classnya <strong>Chat View</strong></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/06/29062011-3.png"><img src="http://coding4ever.files.wordpress.com/2011/06/29062011-3.png?w=300" alt="" /></a></p>
+
+<p>kemudian untuk membaca pesan yang masuk urutan class yang harus kita cek adalah :</p>
+
+<p>Chat View -> AtlAxWin71 -> Internet Explorer_Server</p>
+
+<p>klo di win xp mungkin AtlAxWin71 menjadi AtlAxWinXP kali yah &hellip;</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/06/29062011-4.png"><img src="http://coding4ever.files.wordpress.com/2011/06/29062011-4.png?w=300" alt="" /></a>terakhir untuk membalas pesan, urutan class yang harus dilalui adalah :</p>
+
+<p>Chat View -> richEdit20W</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/06/29062011-5.png"><img src="http://coding4ever.files.wordpress.com/2011/06/29062011-5.png" alt="" /></a></p>
+
+<p>Sekarang kita udah punya modal untuk menulis program <strong>Mesin Penjawab Otomatis Google Talk</strong> :D</p>
+
+<p>Ayoooo siapa yang mau coba duluan :)</p>
+]]></content>
+  </entry>
+  
+</feed>

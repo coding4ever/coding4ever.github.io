@@ -1,0 +1,567 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Contoh Pemanggilan Store Procedure Dan View Firebird Dari Aplikasi - Coding4ever&#8217;s Blog</title>
+  <meta name="author" content="Admin">
+
+  
+  <meta name="description" content="Ini merupakan artikel puncax :D dari pengenalan firebird yang dilanjutkan dengan pembuatan store procedure (SP), trigger dan view dan kini saat kita &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://coding4ever.net/blog/2010/03/19/contoh-pemanggilan-store-procedure-dan-view-firebird-dari-aplikasi">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Coding4ever's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50866618-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Coding4ever&#8217;s Blog</a></h1>
+  
+    <h2>Just coding&#8230; coding&#8230; and coding&#8230; because coding should be fun :)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:coding4ever.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/gudang-software">Gudang Software</a></li>
+  <li><a href="/source-code">Source Code</a></li>  
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Contoh Pemanggilan Store Procedure Dan View Firebird Dari Aplikasi</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2010-03-19T07:01:47+07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>7:01 am</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Ini merupakan artikel puncax :D dari <a href="http://coding4ever.net/blog/2010/01/06/berkenalan-dengan-database-firebird/">pengenalan firebird</a> yang dilanjutkan dengan <a href="http://coding4ever.net/blog/2010/03/15/membuat-store-procedure-trigger-dan-view-di-firebird/">pembuatan store procedure (SP), trigger dan view</a> dan kini saat kita membahas penggunaan SP dan view.</p>
+
+<p>Untuk mengakses firebird dari aplikasi kita membutuhkan Firebird ODBC yang bisa didownload di<a href="http://firebirdsql.org/index.php?op=files&amp;id=odbc">sini</a></p>
+
+<p><strong>1. Store Procedure</strong></p>
+
+<p>Disini kita akan mengakses SP <strong>proc_add_supplier</strong> yang mempunyai tiga parameter yaitu : nama, alamat dan telepon</p>
+
+<!-- more -->
+
+
+<p>Ada 2 cara untuk mengakses SP :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub cmdAksesSP_Click()
+</span><span class='line'>    Dim strSql  As String
+</span><span class='line'>
+</span><span class='line'>    strSql = "EXECUTE PROCEDURE proc_add_supplier('KoKom Armagedon', 'Yogyakarta', '0813 8176 xxxx')"
+</span><span class='line'>    conn.Execute strSql 'conn -> variabel dengan tipe ADODB.Connection
+</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>EXECUTE PROCEDURE</strong> merupakan perintah bawaan firebird untuk mengakses store procedure jadi tidak semua database server mempunyai perintah ini.</p>
+
+<p>Cara yang ke dua dengan menggunakan kombinasi objek ADODB.Command, ADODB.Parameter dan ADODB.Connection.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Private Function addSupplier(ByVal nama As String, ByVal alamat As String, ByVal telepon As String) As Boolean
+</span><span class='line'>    Dim cmd     As ADODB.Command
+</span><span class='line'>    Dim param   As ADODB.Parameter
+</span><span class='line'>    Dim i       As Long
+</span><span class='line'>
+</span><span class='line'>    On Error GoTo errHandle
+</span><span class='line'>
+</span><span class='line'>    Set cmd = New ADODB.Command
+</span><span class='line'>    cmd.ActiveConnection = Conn
+</span><span class='line'>
+</span><span class='line'>    Set param = cmd.CreateParameter("nama", adVarChar, adParamInput, 30, nama)
+</span><span class='line'>    cmd.Parameters.Append param
+</span><span class='line'>
+</span><span class='line'>    Set param = cmd.CreateParameter("alamat", adVarChar, adParamInput, 50, alamat)
+</span><span class='line'>    cmd.Parameters.Append param
+</span><span class='line'>
+</span><span class='line'>    Set param = cmd.CreateParameter("telepon", adVarChar, adParamInput, 20, telepon)
+</span><span class='line'>    cmd.Parameters.Append param
+</span><span class='line'>
+</span><span class='line'>    cmd.CommandText = "proc_add_supplier"
+</span><span class='line'>    cmd.CommandType = adCmdStoredProc
+</span><span class='line'>    cmd.Execute
+</span><span class='line'>
+</span><span class='line'>    addSupplier = True
+</span><span class='line'>
+</span><span class='line'>    For i = 0 To cmd.Parameters.Count - 1
+</span><span class='line'>        cmd.Parameters.Delete (0)
+</span><span class='line'>    Next
+</span><span class='line'>
+</span><span class='line'>    Set cmd = Nothing
+</span><span class='line'>    Set param = Nothing
+</span><span class='line'>
+</span><span class='line'>    Exit Function
+</span><span class='line'>errHandle:
+</span><span class='line'>    addSupplier = False
+</span><span class='line'>End Function</span></code></pre></td></tr></table></div></figure>
+
+
+<p>kemudian tinggal panggil seperti ini</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub cmdAksesSP_Click()
+</span><span class='line'>    Dim result  As Boolean
+</span><span class='line'>
+</span><span class='line'>    result = addSupplier("KoKom Armagedon", "Yogykarta", "0813 8176 xxxx")
+</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>2. Store Procedure yang dijadikan fungsi</strong></p>
+
+<p>Store procedure yang kita akses adalah <strong>func_get_stok</strong> yang mempunyai parameter kode barang. Caranya mirip dengan cara ke dua untuk mengakses store procedure biasa.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Private Function getStokBarang(ByVal kodeBarang As String) As Long
+</span><span class='line'>    Dim cmd     As ADODB.Command
+</span><span class='line'>    Dim param   As ADODB.Parameter
+</span><span class='line'>    Dim i       As Long
+</span><span class='line'>
+</span><span class='line'>    On Error GoTo errHandle
+</span><span class='line'>
+</span><span class='line'>    Set cmd = New ADODB.Command
+</span><span class='line'>    cmd.ActiveConnection = conn
+</span><span class='line'>
+</span><span class='line'>    Set param = cmd.CreateParameter("kode_barang", adVarChar, adParamInput, 20, kodeBarang)
+</span><span class='line'>    cmd.Parameters.Append param
+</span><span class='line'>
+</span><span class='line'>    Set param = cmd.CreateParameter("stok", adNumeric, adParamOutput)  'ini tambahan parameter yg harus didaftarkan untuk menampung return value
+</span><span class='line'>    param.Precision = 5
+</span><span class='line'>    param.NumericScale = 2
+</span><span class='line'>    cmd.Parameters.Append param
+</span><span class='line'>
+</span><span class='line'>    cmd.CommandText = "func_get_stok"
+</span><span class='line'>    cmd.CommandType = adCmdStoredProc
+</span><span class='line'>    cmd.Execute
+</span><span class='line'>
+</span><span class='line'>    getStokBarang = cmd.Parameters("stok").Value 'membaca nilai kembalian fungsi (return value)
+</span><span class='line'>
+</span><span class='line'>    For i = 0 To cmd.Parameters.Count - 1
+</span><span class='line'>        cmd.Parameters.Delete (0)
+</span><span class='line'>    Next
+</span><span class='line'>
+</span><span class='line'>    Set cmd = Nothing
+</span><span class='line'>    Set param = Nothing
+</span><span class='line'>
+</span><span class='line'>    Exit Function
+</span><span class='line'>errHandle:
+</span><span class='line'>    getStokBarang = 1
+</span><span class='line'>End Function</span></code></pre></td></tr></table></div></figure>
+
+
+<p>kemudian tinggal panggil seperti ini</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub cmdAksesSP_Click()
+</span><span class='line'>    Debug.Print "jumlah stok : " & getStokBarang("12345")
+</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Variabel cmd, param dan i sebaiknya dideklarasikan di bagian [general declaration] jika akan digunakan lebih dari 1 kali.</p>
+
+<p><strong>3. View</strong></p>
+
+<p>Untuk mengakses view sama seperti memanggil query biasa, oleh karena itu kita membutuhkan variabel dengan tipe recordset untuk menampung hasil view/query.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub cmdAksesView_Click()
+</span><span class='line'>    Dim rs      As ADODB.Recordset
+</span><span class='line'>    Dim strSql  As String
+</span><span class='line'>    Dim i       As Long
+</span><span class='line'>
+</span><span class='line'>    strSql = "SELECT * FROM v_info_pembelian" 'v_info_pembelian -> nama view
+</span><span class='line'>    Set rs = openRecordset(strSql)
+</span><span class='line'>    If Not rs.EOF Then
+</span><span class='line'>        For i = 1 To getRecordCount(rs)
+</span><span class='line'>            Debug.Print "Supplier : " & rs("nama").Value & vbCrLf & _
+</span><span class='line'>                        "Alamat : " & rs("alamat").Value & vbCrLf & _
+</span><span class='line'>                        "Nota : " & rs("nota").Value & vbCrLf & _
+</span><span class='line'>                        "Tanggal " & Format(rs("tanggal").Value, "dd/MM/yyyy")
+</span><span class='line'>            rs.MoveNext
+</span><span class='line'>        Next i
+</span><span class='line'>    End If
+</span><span class='line'>    Call closeRecordset(rs)
+</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Sample program bisa didownload di<a href="https://github.com/k4m4r82/AksesSPdanView">sini</a>.</p>
+
+<p>Selamat mencoba :)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Admin</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2010-03-19T07:01:47+07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>7:01 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/firebird/'>firebird</a>, <a class='category' href='/blog/categories/visual-basic/'>visual basic</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2010/03/17/info-kajian-umum-palestina-kapan-kembali-ke-tangan-kita/" title="Previous Post: Info Kajian Umum - PALESTINA, Kapan Kembali Ke Tangan Kita ?">&laquo; Info Kajian Umum - PALESTINA, Kapan Kembali Ke Tangan Kita ?</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2010/03/22/bermain-main-dengan-windows-service/" title="Next Post: Bermain-main dengan windows service">Bermain-main dengan windows service &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Admin</h1>
+  <p>Software developer yang berasal dari Riau, tapi malah betah tinggal di Yogyakarta :)</p>
+  
+  <p>Pernah mengajar di salah satu perguruan tinggi swasta (PTS) di Yogyakarta.<br>
+     Saat ini bekerja sebagai staf IT di PTS yang sama sebagai senior software developer.</p>
+  
+  <p>Fokus mengembangkan aplikasi di atas platform .NET, dan diwaktu luang insya Alloh akan terus berbagi pengalaman di blog <a href="http://coding4ever.net/" target="_blank">ini</a>.</p>    
+</section><section>
+  <h1>Contacts :</h1>
+    <ul>		
+		<li>			
+			<a href="mailto:coding4ever.net@gmail.com" title="GMail" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/gmail-small2.png" border="0" alt="GMail" /></a>
+		</li>		
+		<li>			
+			<a href="https://github.com/k4m4r82?tab=repositories" title="GitHub" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/github-small2.png" border="0" alt="GitHub" /></a>
+		</li>
+		<li>
+			<a href="http://www.facebook.com/abu.anas.1232" title="Facebook" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/fb-small2.png" border="0" alt="Facebook" /></a>
+		</li>				
+	</ul>
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/06/08/entity-framework-part-8/">Entity Framework Part 8</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/manajemen-proyek-menggunakan-redmine-bagian-1/">Manajemen Proyek Menggunakan Redmine Bagian 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/21/manajemen-password-menggunakan-keepass/">Manajemen Password Menggunakan KeePass</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/10/sms-gateway-edisi-net-part-1/">SMS Gateway Edisi .NET Part 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/11/entity-framework-part-7/">Entity Framework Part 7</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/03/entity-framework-part-6/">Entity Framework Part 6</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/01/entity-framework-part-5/">Entity Framework Part 5</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/27/entity-framework-part-4/">Entity Framework Part 4</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/26/entity-framework-part-3/">Entity Framework Part 3</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/21/entity-framework-part-2/">Entity Framework Part 2</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+    <ul id="category-list"><li><a href='/blog/categories/dot-net-remoting/'>.net remoting (9)</a></li><li><a href='/blog/categories/active-report/'>active report (4)</a></li><li><a href='/blog/categories/aplikasi/'>aplikasi (3)</a></li><li><a href='/blog/categories/dapper-net/'>dapper .net (3)</a></li><li><a href='/blog/categories/entity-framework/'>entity framework (8)</a></li><li><a href='/blog/categories/firebird/'>firebird (11)</a></li><li><a href='/blog/categories/freeware/'>freeware (7)</a></li><li><a href='/blog/categories/inno-setup/'>inno setup (6)</a></li><li><a href='/blog/categories/jaringan/'>jaringan (1)</a></li><li><a href='/blog/categories/mysql/'>mysql (3)</a></li><li><a href='/blog/categories/nsis/'>nsis (2)</a></li><li><a href='/blog/categories/nuget/'>nuget (3)</a></li><li><a href='/blog/categories/sql-server-2000/'>sql server 2000 (1)</a></li><li><a href='/blog/categories/sqlite/'>sqlite (3)</a></li><li><a href='/blog/categories/tools-installer/'>tools installer (8)</a></li><li><a href='/blog/categories/uncategorized/'>uncategorized (6)</a></li><li><a href='/blog/categories/visual-basic/'>visual basic (73)</a></li><li><a href='/blog/categories/visual-basic-net/'>visual basic .net (11)</a></li><li><a href='/blog/categories/visual-c-number/'>visual c# (32)</a></li><li><a href='/blog/categories/winsock/'>winsock (6)</a></li></ul>
+</section>
+<section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/blog/categories/dot-net-remoting' style='font-size: 107.3972602739726%'>.net remoting(9)</a> <a href='/blog/categories/active-report' style='font-size: 103.28767123287672%'>active report(4)</a> <a href='/blog/categories/aplikasi' style='font-size: 102.46575342465754%'>aplikasi(3)</a> <a href='/blog/categories/dapper-net' style='font-size: 102.46575342465754%'>dapper .net(3)</a> <a href='/blog/categories/entity-framework' style='font-size: 106.57534246575342%'>entity framework(8)</a> <a href='/blog/categories/firebird' style='font-size: 109.04109589041096%'>firebird(11)</a> <a href='/blog/categories/freeware' style='font-size: 105.75342465753425%'>freeware(7)</a> <a href='/blog/categories/inno-setup' style='font-size: 104.93150684931507%'>inno setup(6)</a> <a href='/blog/categories/jaringan' style='font-size: 100.82191780821918%'>jaringan(1)</a> <a href='/blog/categories/mysql' style='font-size: 102.46575342465754%'>mysql(3)</a> <a href='/blog/categories/nsis' style='font-size: 101.64383561643835%'>nsis(2)</a> <a href='/blog/categories/nuget' style='font-size: 102.46575342465754%'>nuget(3)</a> <a href='/blog/categories/sql-server-2000' style='font-size: 100.82191780821918%'>sql server 2000(1)</a> <a href='/blog/categories/sqlite' style='font-size: 102.46575342465754%'>sqlite(3)</a> <a href='/blog/categories/tools-installer' style='font-size: 106.57534246575342%'>tools installer(8)</a> <a href='/blog/categories/uncategorized' style='font-size: 104.93150684931507%'>uncategorized(6)</a> <a href='/blog/categories/visual-basic' style='font-size: 160.0%'>visual basic(73)</a> <a href='/blog/categories/visual-basic-net' style='font-size: 109.04109589041096%'>visual basic .net(11)</a> <a href='/blog/categories/visual-c-number' style='font-size: 126.30136986301369%'>visual c#(32)</a> <a href='/blog/categories/winsock' style='font-size: 104.93150684931507%'>winsock(6)</a> </span>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'k4m4r82',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Admin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'coding4ever';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://coding4ever.net/blog/2010/03/19/contoh-pemanggilan-store-procedure-dan-view-firebird-dari-aplikasi/';
+        var disqus_url = 'http://coding4ever.net/blog/2010/03/19/contoh-pemanggilan-store-procedure-dan-view-firebird-dari-aplikasi/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

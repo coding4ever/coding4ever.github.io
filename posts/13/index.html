@@ -1,0 +1,656 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Coding4ever&#8217;s Blog</title>
+  <meta name="author" content="Admin">
+
+  
+  <meta name="description" content="Akhirnya rilis juga artikel terakhir dari 5 seri belajar winsock ini, sebelum kita melanjutkan pembahasan ada baiknya kita melakukan sedikit review &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://coding4ever.net/posts/13">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Coding4ever's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50866618-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Coding4ever&#8217;s Blog</a></h1>
+  
+    <h2>Just coding&#8230; coding&#8230; and coding&#8230; because coding should be fun :)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:coding4ever.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/gudang-software">Gudang Software</a></li>
+  <li><a href="/source-code">Source Code</a></li>  
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/02/04/belajar-winsock-bagian-akhir-e28093-contoh-kasus-mengakses-data-stok-barang-dari-luar/">Belajar Winsock Bagian Akhir – Contoh Kasus Mengakses Data Stok Barang Dari Luar</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2010-02-04T16:47:57+07:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>4:47 pm</span></time>
+        
+           | <a href="/blog/2010/02/04/belajar-winsock-bagian-akhir-e28093-contoh-kasus-mengakses-data-stok-barang-dari-luar/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2010/02/04/belajar-winsock-bagian-akhir-e28093-contoh-kasus-mengakses-data-stok-barang-dari-luar/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Akhirnya rilis juga artikel terakhir dari 5 seri belajar winsock ini, sebelum kita melanjutkan pembahasan ada baiknya kita melakukan sedikit review :</p>
+
+<ol>
+<li><p> <a href="http://coding4ever.net/blog/2010/01/26/belajar-winsock-bagian-1-intro/">Dasar-dasar penggunaan winsock</a> sudah kita pelajari</p></li>
+<li><p> Ini terbukti dengan suksesnya kita membuat <a href="http://coding4ever.net/blog/2010/01/28/belajar-winsock-bagian-2-membuat-aplikasi-chat-sederhana-11/">aplikasi chat sederhana</a></p></li>
+<li><p> Di tambah lagi ada teman kita yang mau nebeng sehingga terciptanya <a href="http://coding4ever.net/blog/2010/01/30/belajar-winsock-bagian-3-%E2%80%93-multiple-connection/">aplikasi chat multiple connection</a></p></li>
+<li><p> <a href="http://coding4ever.net/blog/2010/02/02/belajar-winsock-bagian-4-%e2%80%93-membuat-jaringan-vpn-sendiri/">Jalan tol</a> antara laptop mas Paijo dan komputer server tokonya juga udah selesai dibangun dengan anggaran 0 Rp :D</p></li>
+</ol>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2010/02/04/belajar-winsock-bagian-akhir-e28093-contoh-kasus-mengakses-data-stok-barang-dari-luar/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/02/02/belajar-winsock-bagian-4-e28093-membuat-jaringan-vpn-sendiri/">Belajar Winsock Bagian 4 – Membuat Jaringan VPN Sendiri</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2010-02-02T03:19:07+07:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2010</span></span> <span class='time'>3:19 am</span></time>
+        
+           | <a href="/blog/2010/02/02/belajar-winsock-bagian-4-e28093-membuat-jaringan-vpn-sendiri/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2010/02/02/belajar-winsock-bagian-4-e28093-membuat-jaringan-vpn-sendiri/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Pada artikel kali ini kita stop dulu untuk mengetikan baris-baris kode yang indah itu :D dan kita akan mencoba untuk membuat jaringan <a href="http://id.wikipedia.org/wiki/VPN">VPN</a> sendiri yang tentunya dengan investasi yang murah meriah :D dan nyaris dengan biaya 0 rupiah. G percaya ? Oke kita ikuti saja pembahasan berikut.</p>
+
+<p>Misalkan kita punya klien sebutnya saja namanya mas Paijo yang sudah menggunakan program retail kita selama beberapa tahun. Mas Paijo ini sering berbelanja untuk keperluan tokonya ke luar kota dan masalah yang dihadapinya adalah kesulitan untuk mengecek jumlah stok barang di toko (selama ini untuk menanyakan jumlah stok masih telp2xan :D), dan baru-baru ini mas Paijo menghubungi kita untuk minta dibuatkan program kecil yang hanya sekedar untuk mengecek stok barang.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2010/02/02/belajar-winsock-bagian-4-e28093-membuat-jaringan-vpn-sendiri/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/01/30/belajar-winsock-bagian-3-e28093-multiple-connection/">Belajar Winsock Bagian 3 – Multiple Connection</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2010-01-30T10:52:28+07:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>10:52 am</span></time>
+        
+           | <a href="/blog/2010/01/30/belajar-winsock-bagian-3-e28093-multiple-connection/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2010/01/30/belajar-winsock-bagian-3-e28093-multiple-connection/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Di <a href="http://coding4ever.net/blog/2010/01/28/belajar-winsock-bagian-2-membuat-aplikasi-chat-sederhana-11/">postingan</a> saya sebelumnya kita sudah mengetahui bagai mana cara membuat aplikasi chat sederhana yang hanya melibatkan saya dan Anda :D, dan bagai mana jika ada teman saya yang lain ikut nimbrung ?</p>
+
+<p>Jelas ini tidak bisa karena 1 winsock hanya bisa menangani 1 port, trus bagaimana jika kita ingin teman kita yang lain bisa konek di port yang sama dan hanya menggunakan 1 winsock? Jawabannya sederhana objek winsocknya kita jadikan array.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2010/01/30/belajar-winsock-bagian-3-e28093-multiple-connection/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/01/28/belajar-winsock-bagian-2-membuat-aplikasi-chat-sederhana-11/">Belajar Winsock Bagian 2 - Membuat Aplikasi Chat Sederhana 1:1</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2010-01-28T14:26:04+07:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>2:26 pm</span></time>
+        
+           | <a href="/blog/2010/01/28/belajar-winsock-bagian-2-membuat-aplikasi-chat-sederhana-11/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2010/01/28/belajar-winsock-bagian-2-membuat-aplikasi-chat-sederhana-11/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Setelah memahami <a href="http://coding4ever.net/blog/2010/01/26/belajar-winsock-bagian-1/">properties-properties dasar</a> yang harus disetting untuk membuat aplikasi sederhana menggunakan winsock, pada artikel ke 2 dari 5 seri belajar winsock ini kita akan membuat aplikasi chat sederhana dengan pola 1:1 atau dengan istilah lainnya single connection.</p>
+
+<p>Membuat aplikasi chatting seperti MSN Messenger atau Yahoo Messenger sebenarnya mudah (tapi tidak termasuk saya ya :D) dan kita sudah mempelajari bagaimana membuat koneksi sederhana menggunakan winsock, selanjutnya kita tinggal mengirimkan data menggunakan method <strong>.SendData</strong> dan menghandle data yang diterima melalui event <strong>Winsock_DataArrival</strong>.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2010/01/28/belajar-winsock-bagian-2-membuat-aplikasi-chat-sederhana-11/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/01/26/belajar-winsock-bagian-1-intro/">Belajar Winsock Bagian 1 - Intro</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2010-01-26T01:00:30+07:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>1:00 am</span></time>
+        
+           | <a href="/blog/2010/01/26/belajar-winsock-bagian-1-intro/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2010/01/26/belajar-winsock-bagian-1-intro/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>1. Sekilas tentang Winsock</strong></p>
+
+<p>Kita telah mengetahui bahwa komputer membutuhkan sistem operasi agar bisa bekerja. Sistem operasi itu sendiri adalah software. Untuk mengetik, cetak, gambar, semua tugas komputasi membutuhkan software, termasuk juga berkomunikasi dengan komputer lain.</p>
+
+<p>Windows memiliki API (Application Programming Interface) untuk berkomunikasi melalui TCP/IP yang terkenal dengan nama Winsock API. Namun penggunaan API itu sendiri sudah cukup sulit. Microsoft mengerti kebutuhkan para programer dan membuat komponen ActiveX control yang bernama Winsock Control.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2010/01/26/belajar-winsock-bagian-1-intro/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/01/22/membuat-menu-samping-dengan-komponen-vbaccelerator-vb6-explorer-bar/">Membuat Menu Samping Dengan Komponen vbAccelerator VB6 Explorer Bar</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2010-01-22T22:19:38+07:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2010</span></span> <span class='time'>10:19 pm</span></time>
+        
+           | <a href="/blog/2010/01/22/membuat-menu-samping-dengan-komponen-vbaccelerator-vb6-explorer-bar/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2010/01/22/membuat-menu-samping-dengan-komponen-vbaccelerator-vb6-explorer-bar/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Masih pembahasan tentang pembuatan menu alternatif selain menggunakan tool standar vb (menu editor), kali ini kita akan menggunakan komponen <a href="http://www.vbaccelerator.com/home/vb/Code/Controls/Explorer_Bar_Control/article.asp">vbAccelerator VB6 Explorer Bar</a>.</p>
+
+<p><a href="http://www.vbaccelerator.com/home/vb/Code/Controls/Explorer_Bar_Control/article.asp">vbAccelerator VB6 Explorer Bar</a> adalah salah satu komponen keren dan gratis yang tersedia di situs <a href="www.vbaccelerator.com">www.vbaccelerator.com</a>.</p>
+
+<p>Dan masih menggunakan resource yang sama dengan <a href="http://coding4ever.net/blog/2010/01/18/objek-treeview-sebagai-alternatif-membuat-menu/">postingan</a> saya sebelumnya, kita akan membuat menu dengan tampilan seperti berikut :</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2010/01/22/membuat-menu-samping-dengan-komponen-vbaccelerator-vb6-explorer-bar/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/01/19/custom-msgbox-function/">Custom MsgBox Function</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2010-01-19T20:39:54+07:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>8:39 pm</span></time>
+        
+           | <a href="/blog/2010/01/19/custom-msgbox-function/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2010/01/19/custom-msgbox-function/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Fungsi MsgBox digunakan untuk menampilkan pesan/informasi kepada user dan fungsi MsgBox sendiri mempunyai beberapa style yang mana style ini berpengaruh terhadap pilihan tombol yang ditampilkan.</p>
+
+<p>Kita ambil contoh beberapa style yang sering digunakan, lihat gambar :</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2010/01/19/custom-msgbox-function/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/01/18/objek-treeview-sebagai-alternatif-membuat-menu/">Objek TreeView Sebagai Alternatif Membuat Menu</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2010-01-18T16:36:43+07:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>4:36 pm</span></time>
+        
+           | <a href="/blog/2010/01/18/objek-treeview-sebagai-alternatif-membuat-menu/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2010/01/18/objek-treeview-sebagai-alternatif-membuat-menu/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Pada postingan sebelumnya saya sudah membahas bagaimana membuat menu alternatif menggunakan komponen <a href="http://coding4ever.net/blog/2010/01/12/membuat-menu-cantik-dengan-vbsmart-menu-xp/">VBSmartMenu XP</a> dan kali ini kita akan membahas bagaimana membuat menu menggunakan objek TreeView.</p>
+
+<p>Objek TreeView digunakan untuk menampilkan data dalam bentuk Hirarki sehingga sangat cocok untuk menampilkan menu dalam jumlah banyak.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2010/01/18/objek-treeview-sebagai-alternatif-membuat-menu/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/01/17/menambahkan-tombol-baru-di-title-bar/">Menambahkan Tombol Baru Di Title Bar</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2010-01-17T18:05:14+07:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>6:05 pm</span></time>
+        
+           | <a href="/blog/2010/01/17/menambahkan-tombol-baru-di-title-bar/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2010/01/17/menambahkan-tombol-baru-di-title-bar/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Yaph sesuai judulnya kita akan menambahkan tombol baru di Title Bar, lihat gambar :</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/01/17012010-1.jpg"><img src="http://coding4ever.files.wordpress.com/2010/01/17012010-1.jpg?w=300" alt="" /></a></p>
+
+<p>oke langsung saja tambahkan sebuah modul kemudian copy paste kode berikut :</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2010/01/17/menambahkan-tombol-baru-di-title-bar/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/01/16/membuat-paket-instalasi-vb-mysql-dengan-nsis/">Membuat Paket Instalasi Vb + Mysql Dengan NSIS</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2010-01-16T09:43:35+07:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>9:43 am</span></time>
+        
+           | <a href="/blog/2010/01/16/membuat-paket-instalasi-vb-mysql-dengan-nsis/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2010/01/16/membuat-paket-instalasi-vb-mysql-dengan-nsis/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Melengkapi tulisan saya <a href="http://coding4ever.net/blog/2009/12/31/membuat-paket-instalasi-vb-mysql-dengan-inno-setup/">Membuat paket instalasi vb + mysql dengan inno setup</a> kali ini kita akan membuatnya menggunakan <a href="http://nsis.sourceforge.net">NSIS</a>. <a href="http://nsis.sourceforge.net"></a></p>
+
+<p><a href="http://nsis.sourceforge.net">NSIS</a> adalah salah satu tool gratis dan open source untuk membuat paket instalasi. Oke sebelum kita melangkah lebih jauh, berikut adalah hal-hal yang perlu kita persiapkan :</p>
+
+<ol>
+<li><p> <a href="http://nsis.sourceforge.net">NSIS</a></p></li>
+<li><p> <a href="http://dev.mysql.com/downloads/mysql/">MySQL versi noninstall</a> disesuaikan dengan versi MySQL yang terinstall di komputer Anda</p></li>
+<li><p> <a href="http://dev.mysql.com/downloads/connector/odbc/">Connector ODBC</a> yang sudah terinstall biasanya ada di C:\Program Files\MySQL\Connector ODBC 5.1</p></li>
+<li><p> Database yang sudah di backup/dump</p></li>
+<li><p> Untuk editor, bagi Anda yang buta warna cukup pake notepad :D, saya sendiri menggunakan <a href="http://notepad-plus.sourceforge.net/uk/site.htm">notepad++</a> atau kalo pengen lebih nyaman bisa menggunakan <a href="http://www.eclipse.org/downloads/">eclipse</a> kemudian download <a href="http://nsis.sourceforge.net/EclipseNSIS_-_NSIS_plugin_for_Eclipse">plug-in NSIS</a></p></li>
+</ol>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2010/01/16/membuat-paket-instalasi-vb-mysql-dengan-nsis/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/posts/14">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/posts/12">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Admin</h1>
+  <p>Software developer yang berasal dari Riau, tapi malah betah tinggal di Yogyakarta :)</p>
+  
+  <p>Pernah mengajar di salah satu perguruan tinggi swasta (PTS) di Yogyakarta.<br>
+     Saat ini bekerja sebagai staf IT di PTS yang sama sebagai senior software developer.</p>
+  
+  <p>Fokus mengembangkan aplikasi di atas platform .NET, dan diwaktu luang insya Alloh akan terus berbagi pengalaman di blog <a href="http://coding4ever.net/" target="_blank">ini</a>.</p>    
+</section><section>
+  <h1>Contacts :</h1>
+    <ul>		
+		<li>			
+			<a href="mailto:coding4ever.net@gmail.com" title="GMail" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/gmail-small2.png" border="0" alt="GMail" /></a>
+		</li>		
+		<li>			
+			<a href="https://github.com/k4m4r82?tab=repositories" title="GitHub" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/github-small2.png" border="0" alt="GitHub" /></a>
+		</li>
+		<li>
+			<a href="http://www.facebook.com/abu.anas.1232" title="Facebook" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/fb-small2.png" border="0" alt="Facebook" /></a>
+		</li>				
+	</ul>
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/06/08/entity-framework-part-8/">Entity Framework Part 8</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/manajemen-proyek-menggunakan-redmine-bagian-1/">Manajemen Proyek Menggunakan Redmine Bagian 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/21/manajemen-password-menggunakan-keepass/">Manajemen Password Menggunakan KeePass</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/10/sms-gateway-edisi-net-part-1/">SMS Gateway Edisi .NET Part 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/11/entity-framework-part-7/">Entity Framework Part 7</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/03/entity-framework-part-6/">Entity Framework Part 6</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/01/entity-framework-part-5/">Entity Framework Part 5</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/27/entity-framework-part-4/">Entity Framework Part 4</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/26/entity-framework-part-3/">Entity Framework Part 3</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/21/entity-framework-part-2/">Entity Framework Part 2</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+    <ul id="category-list"><li><a href='/blog/categories/dot-net-remoting/'>.net remoting (9)</a></li><li><a href='/blog/categories/active-report/'>active report (4)</a></li><li><a href='/blog/categories/aplikasi/'>aplikasi (3)</a></li><li><a href='/blog/categories/dapper-net/'>dapper .net (3)</a></li><li><a href='/blog/categories/entity-framework/'>entity framework (8)</a></li><li><a href='/blog/categories/firebird/'>firebird (11)</a></li><li><a href='/blog/categories/freeware/'>freeware (7)</a></li><li><a href='/blog/categories/inno-setup/'>inno setup (6)</a></li><li><a href='/blog/categories/jaringan/'>jaringan (1)</a></li><li><a href='/blog/categories/mysql/'>mysql (3)</a></li><li><a href='/blog/categories/nsis/'>nsis (2)</a></li><li><a href='/blog/categories/nuget/'>nuget (3)</a></li><li><a href='/blog/categories/sql-server-2000/'>sql server 2000 (1)</a></li><li><a href='/blog/categories/sqlite/'>sqlite (3)</a></li><li><a href='/blog/categories/tools-installer/'>tools installer (8)</a></li><li><a href='/blog/categories/uncategorized/'>uncategorized (6)</a></li><li><a href='/blog/categories/visual-basic/'>visual basic (73)</a></li><li><a href='/blog/categories/visual-basic-net/'>visual basic .net (11)</a></li><li><a href='/blog/categories/visual-c-number/'>visual c# (32)</a></li><li><a href='/blog/categories/winsock/'>winsock (6)</a></li></ul>
+</section>
+<section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/blog/categories/dot-net-remoting' style='font-size: 107.3972602739726%'>.net remoting(9)</a> <a href='/blog/categories/active-report' style='font-size: 103.28767123287672%'>active report(4)</a> <a href='/blog/categories/aplikasi' style='font-size: 102.46575342465754%'>aplikasi(3)</a> <a href='/blog/categories/dapper-net' style='font-size: 102.46575342465754%'>dapper .net(3)</a> <a href='/blog/categories/entity-framework' style='font-size: 106.57534246575342%'>entity framework(8)</a> <a href='/blog/categories/firebird' style='font-size: 109.04109589041096%'>firebird(11)</a> <a href='/blog/categories/freeware' style='font-size: 105.75342465753425%'>freeware(7)</a> <a href='/blog/categories/inno-setup' style='font-size: 104.93150684931507%'>inno setup(6)</a> <a href='/blog/categories/jaringan' style='font-size: 100.82191780821918%'>jaringan(1)</a> <a href='/blog/categories/mysql' style='font-size: 102.46575342465754%'>mysql(3)</a> <a href='/blog/categories/nsis' style='font-size: 101.64383561643835%'>nsis(2)</a> <a href='/blog/categories/nuget' style='font-size: 102.46575342465754%'>nuget(3)</a> <a href='/blog/categories/sql-server-2000' style='font-size: 100.82191780821918%'>sql server 2000(1)</a> <a href='/blog/categories/sqlite' style='font-size: 102.46575342465754%'>sqlite(3)</a> <a href='/blog/categories/tools-installer' style='font-size: 106.57534246575342%'>tools installer(8)</a> <a href='/blog/categories/uncategorized' style='font-size: 104.93150684931507%'>uncategorized(6)</a> <a href='/blog/categories/visual-basic' style='font-size: 160.0%'>visual basic(73)</a> <a href='/blog/categories/visual-basic-net' style='font-size: 109.04109589041096%'>visual basic .net(11)</a> <a href='/blog/categories/visual-c-number' style='font-size: 126.30136986301369%'>visual c#(32)</a> <a href='/blog/categories/winsock' style='font-size: 104.93150684931507%'>winsock(6)</a> </span>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'k4m4r82',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Admin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'coding4ever';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

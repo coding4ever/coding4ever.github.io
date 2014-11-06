@@ -1,0 +1,2016 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Visual C# | Coding4ever's Blog]]></title>
+  <link href="http://coding4ever.net/blog/categories/visual-c-number/atom.xml" rel="self"/>
+  <link href="http://coding4ever.net/"/>
+  <updated>2014-11-06T10:08:33+07:00</updated>
+  <id>http://coding4ever.net/</id>
+  <author>
+    <name><![CDATA[Admin]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Entity Framework Part 8]]></title>
+    <link href="http://coding4ever.net/blog/2014/06/08/entity-framework-part-8/"/>
+    <updated>2014-06-08T10:21:10+07:00</updated>
+    <id>http://coding4ever.net/blog/2014/06/08/entity-framework-part-8</id>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="http://coding4ever.files.wordpress.com/2014/03/entity_image.png">http://coding4ever.files.wordpress.com/2014/03/entity_image.png</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Melanjutkan kembali pembahasan tentang <a href="/blog/categories/entity-framework/">Entity Framework</a>.</p>
+
+<p>Misalkan kita mempunyai struktur tabel seperti gambar di bawah ini.</p>
+
+<!-- more -->
+
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2014/06/11.png">https://coding4ever.files.wordpress.com/2014/06/11.png</a>&#8221;></p>
+
+<p>Jika kita buatkan class entity dari ketiga tabel di atas, class diagramnya akan terlihat seperti berikut :</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2014/06/21.png">https://coding4ever.files.wordpress.com/2014/06/21.png</a>&#8221;></p>
+
+<p>Dari gambar class diagram di atas, kita bisa melihat bahwa class <code>Siswa</code>, <code>Guru</code> dan <code>Pegawai</code> mempunyai beberapa property yang sama yaitu <code>Jalan</code>, <code>Kota</code>, <code>Provinsi</code> dan <code>KodePos</code>.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2014/06/31.png">https://coding4ever.files.wordpress.com/2014/06/31.png</a>&#8221;></p>
+
+<p>Untuk alasan desain class entity yang lebih baik sebaiknya kita pisahkan property <code>Jalan</code>, <code>Kota</code>, <code>Provinsi</code> dan <code>KodePos</code> ke dalam class tersendiri, misal dengan nama class <code>Alamat</code>, kemudian masing-masing class entity <code>Siswa</code>, <code>Guru</code> dan <code>Pegawai</code> menambahkan property baru dengan tipe <code>class Alamat</code>, sehingga class diagram kita akan menjadi seperti berikut :</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2014/06/41.png">https://coding4ever.files.wordpress.com/2014/06/41.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2014/06/10.png">https://coding4ever.files.wordpress.com/2014/06/10.png</a>&#8221;></p>
+
+<p>Nah class baru (Alamat) inilah yang akan menjadi pembahasan kita pada postingan kali ini yang dikenal dengan istilah <code>Complex Types</code> atau <code>Value Types</code>.</p>
+
+<p>Sejak awal <a href="/blog/categories/entity-framework/">Entity Framework</a> sudah mendukung <code>Complex Types</code> atau yang dikenal juga dengan istilah <code>value types</code>.</p>
+
+<p><code>Complex Types</code> atau <code>value types</code> bisa digunakan sebagai tipe data dari sebuah property sehingga ada kemiripan dengan class entity biasa yang sudah kita kenal, yang disebut dengan istilah <code>entity types</code>.</p>
+
+<p>Lalu di mana perbedaannya ?</p>
+
+<p>Di dalam <a href="/blog/categories/entity-framework/">Entity Framework</a> setiap <code>entity types</code> harus mempunyai <code>property key</code> sedangkan <code>complex types</code> tidak.</p>
+
+<p>Contoh :</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2014/06/51.png">https://coding4ever.files.wordpress.com/2014/06/51.png</a>&#8221;></p>
+
+<h3>Mendefinisikan Complex Types</h3>
+
+<p>Setelah mengetahui perbedaan antara <code>entity types</code> dan <code>complex types</code> kita juga harus mengetahui aturan dalam membuat <code>complex types</code>.</p>
+
+<p>Berikut aturan-aturan yang harus kita penuhi untuk membuat <code>complex types</code>.</p>
+
+<ol>
+<li><code>Complex types</code> tidak boleh mempunyai <code>property key</code>.</li>
+<li>Semua property yang dimiliki <code>complex types</code> harus bertipe <a href="http://en.wikipedia.org/wiki/Primitive_data_type">primitif</a>.</li>
+<li>Ketika digunakan sebagai tipe data oleh class lain, tidak boleh sebagai <code>collection type</code> harus <code>single
+instance</code></li>
+</ol>
+
+
+<p>Contoh :</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2014/06/62.png">https://coding4ever.files.wordpress.com/2014/06/62.png</a>&#8221;></p>
+
+<h3>Konfigurasi Mapping (pemetaan) Complex Types</h3>
+
+<p>Untuk menyederhanakan contoh kode program, konfigurasi mapping (pemetaan) <code>complex types</code> di bawah ini menggunakan konfigurasi <a href="http://msdn.microsoft.com/en-us/data/jj591583.aspx">Data Annotations</a>. Saya sendiri lebih senang menggunakan konfigurasi <a href="http://msdn.microsoft.com/en-us/data/jj591617.aspx">Fluent API</a> dengan tujuan agar class entity kita tetap bersih dari atribut-atribut <a href="http://msdn.microsoft.com/en-us/data/jj591583.aspx">Data Annotations</a>.</p>
+
+<p>Caranya adalah dengan mengedit class Alamat, kemudian menambahkan atribut <a href="http://msdn.microsoft.com/en-us/data/jj591583.aspx">Data Annotations</a></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2014/06/71.png">https://coding4ever.files.wordpress.com/2014/06/71.png</a>&#8221;></p>
+
+<p>Terakhir kita coba untuk mengakses property dengan tipe <code>complex types</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2014/06/81.png">https://coding4ever.files.wordpress.com/2014/06/81.png</a>&#8221;></p>
+
+<p>Jika kode di atas dijalankan, akan menghasilkan output seperti berikut :</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2014/06/91.png">https://coding4ever.files.wordpress.com/2014/06/91.png</a>&#8221;></p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/EntityFramework8">MENCOBA</a> :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[SMS Gateway Edisi .NET Part 1]]></title>
+    <link href="http://coding4ever.net/blog/2014/05/10/sms-gateway-edisi-net-part-1/"/>
+    <updated>2014-05-10T10:11:25+07:00</updated>
+    <id>http://coding4ever.net/blog/2014/05/10/sms-gateway-edisi-net-part-1</id>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="http://coding4ever.files.wordpress.com/2014/05/sms_gateway.png">http://coding4ever.files.wordpress.com/2014/05/sms_gateway.png</a>&#8220;>Postingan pertama di <a href="">domain</a> yang baru :), saya ingin membahas lagi tentang pembuatan aplikasi SMS Gateway. Alasannya sederhana karna salah satu artikel yang paling banyak dibaca di blog ini adalah artikel <a href="/blog/2010/07/12/membuat-sms-gateway-itu-gampang-jangan-dipersulit/">Membuat Sms Gateway Itu Gampang, Jangan Dipersulit !!!</a>.</p>
+
+<p>Jika pada artikel <a href="/blog/2010/07/12/membuat-sms-gateway-itu-gampang-jangan-dipersulit/">Membuat Sms Gateway Itu Gampang, Jangan Dipersulit !!!</a>, kita menggunakan bahasa pemrograman VB 6, untuk postingan kali ini kita akan menggunakan bahasa pemrograman C#.</p>
+
+<!-- more -->
+
+
+<p>Untuk membaca dan mengirim sms kita akan menggunakan library <a href="http://www.nuget.org/packages/GSMComm/">GSMComm</a>, yang bisa diinstall via <a href="/blog/categories/nuget/">NuGet</a>.</p>
+
+<p>Sebelum lanjut kita lihat dulu fitur dari library <a href="http://www.nuget.org/packages/GSMComm/">GSMComm</a> :</p>
+
+<ul>
+<li>Manage SMS messages: Send, read, delete, store, import and export messages, get memory status, get/set SMSC.</li>
+<li>Manage the phonebook: Create, find, delete, read, import and export phonebook entries, get memory status.</li>
+<li>Manage the phone: Read general info, reset configuration, enter PIN</li>
+<li>Supports notifications about new messages as well as forwarding them directly to the application.</li>
+<li>Detect phone connection/disconnection.</li>
+<li>Other SMS message variants also possible, such as alerts and notifications.</li>
+<li>Support for Smart Messaging and related messages to create, locate and recombine concatenated text messages, and also to create operator logo messages.</li>
+<li>Logging support with 4 levels to assist in troubleshooting.</li>
+<li>Support for GSM 7-bit default alphabet and Unicode for the message text.</li>
+<li>Supports some operator functions.</li>
+<li>Remoting support for sending SMS messages.</li>
+<li>SMS batch mode for faster sending of multiple messages.</li>
+<li>Execution of custom commands that are not directly supported.</li>
+</ul>
+
+
+<p>Keren bukan untuk ukuran library gratis :)</p>
+
+<p>Pada postingan bagian pertama ini kita hanya akan membahas perintah-perintah dasar yang dibutuhkan untuk membuat aplikasi SMS Gateway, seperti <code>koneksi ke device modem atau hp</code>, <code>membaca sms masuk</code>, dan <code>mengirim sms</code>.</p>
+
+<h3>Membuat Project</h3>
+
+<p>Project yang kita gunakan adalah project berbasis Windows Form.</p>
+
+<p><img class="center <a" src="href="http://coding4ever.files.wordpress.com/2014/05/1.png">http://coding4ever.files.wordpress.com/2014/05/1.png</a>&#8221;></p>
+
+<h3>Menambahkan Library <a href="http://www.nuget.org/packages/GSMComm/">GSMComm</a> via <a href="/blog/categories/nuget/">NuGet</a></h3>
+
+<ul>
+<li><p>Klik kanan node References -> Manage NuGet Packages &hellip;</p>
+
+<p><img class="center <a" src="href="http://coding4ever.files.wordpress.com/2014/05/21.png">http://coding4ever.files.wordpress.com/2014/05/21.png</a>&#8221;></p></li>
+<li><p>Pada tab Online pilih nuget.org, pada kotak pencarian ketik <code>gsm</code>, kemudian klik tombol <code>Install</code>.</p>
+
+<p><img class="center <a" src="href="http://coding4ever.files.wordpress.com/2014/05/3.png">http://coding4ever.files.wordpress.com/2014/05/3.png</a>&#8221;></p></li>
+</ul>
+
+
+<p>kemudian tunggu sampai proses instalasi selesai.</p>
+
+<p><img class="center <a" src="href="http://coding4ever.files.wordpress.com/2014/05/4.png">http://coding4ever.files.wordpress.com/2014/05/4.png</a>&#8221;></p>
+
+<p>Tutup dialog NuGet package, Kemudian cek node references, seharusnya ada empat library baru yang sudah ditambahkan yaitu <code>GSMCommServer</code>, <code>GSMCommShared</code>, <code>GSMCommunication</code> dan <code>PDUConverter</code>.</p>
+
+<p><img class="center <a" src="href="http://coding4ever.files.wordpress.com/2014/05/5.png">http://coding4ever.files.wordpress.com/2014/05/5.png</a>&#8221;></p>
+
+<p>Library <code>PDUConverter</code> bertanggung jawaban untuk melakukan proses <code>decoding</code> pesan sms, sedangkan yang bertugas untuk melakukan komunikasi ke modem atau hp adalah library <code>GSMCommunication</code>.</p>
+
+<p>Untuk library <code>GSMCommServer</code> dan <code>GSMCommShared</code> hanya digunakan jika kita ingin mengaktifkan fitur <a href="/blog/categories/dot-net-remoting/">.NET Remoting</a> untuk mengirim sms.</p>
+
+<p>Setelah semua persiapan selesai, kita bisa langsung mencoba perintah-perintah dasar yang diperlukan untuk pembuatan aplikasi sms gateway.</p>
+
+<h3>1. Konek ke device modem atau hp</h3>
+
+<p>Untuk melakukan koneksi ke modem atau hp, ada beberapa tahapan yang harus kita lakukan :</p>
+
+<ul>
+<li>Membuat objek dari class GsmCommMain</li>
+<li>Mendaftarkan method ke event <code>MessageReceived</code>, yang dikenal dengan istilah <a href="http://www.codeproject.com/Articles/11657/Understanding-Delegates-in-C">delegate</a>    method.</li>
+<li>Memanggil method <code>Open</code>.</li>
+</ul>
+
+
+<p><strong>Membuat objek dari class GsmCommMain</strong></p>
+
+<p>Misal kita akan membuat sebuah objek dari class GsmCommMain dengan nama <code>comm</code>, maka perintahnya yang digunakan adalah :</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="kt">var</span> <span class="n">port</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">COM1</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;</span> <span class="c1">// port yang digunakan menyesuaikan</span>
+</span><span class='line'><span class="kt">var</span> <span class="n">baudRate</span> <span class="p">=</span> <span class="m">9600</span><span class="p">;</span>
+</span><span class='line'><span class="kt">var</span> <span class="n">timeout</span> <span class="p">=</span> <span class="m">150</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="kt">var</span> <span class="n">comm</span> <span class="p">=</span> <span class="k">new</span> <span class="n">GsmCommMain</span><span class="p">(</span><span class="n">port</span><span class="p">,</span> <span class="n">baudRate</span><span class="p">,</span> <span class="n">timeout</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p><strong>Mendaftarkan method ke event <code>MessageReceived</code> yang dikenal dengan istilah <a href="http://www.codeproject.com/Articles/11657/Understanding-Delegates-in-C">delegate</a>    method</strong></p>
+
+<p>Salah satu fitur keren yang dimiliki oleh library <a href="http://www.nuget.org/packages/GSMComm/">GSMComm</a> adalah Event <code>MessageReceived</code>. Dengan adanya event ini kita tidak perlu menggunakan objek timer untuk mengecek apakah ada sms yang masuk.</p>
+
+<p>Event ini tidak bisa kita akses secara langsung, yang perlu kita lakukan adalah membuat sebuah method kemudian mendaftarkannya ke event ini.</p>
+
+<p>Contoh kita membuat sebuah method dengan nama <code>comm_MessageReceived</code>, method ini hanya akan menampilkan notifikasi sms masuk. Untuk selanjutnya method ini bisa kita kembangkan lagi, misal ketika ada sms masuk datanya langsung kita simpan ke database.</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">comm_MessageReceived</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">MessageReceivedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">obj</span> <span class="p">=</span> <span class="n">e</span><span class="p">.</span><span class="n">IndicationObject</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">if</span> <span class="p">(</span><span class="n">obj</span> <span class="k">is</span> <span class="n">MemoryLocation</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">loc</span> <span class="p">=</span> <span class="p">(</span><span class="n">MemoryLocation</span><span class="p">)</span><span class="n">obj</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">msg</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;New message received in storage \&quot;{0}\&quot;, index {1}.&quot;</span><span class="p">,</span>
+</span><span class='line'>                            <span class="n">loc</span><span class="p">.</span><span class="n">Storage</span><span class="p">,</span> <span class="n">loc</span><span class="p">.</span><span class="n">Index</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">obj</span> <span class="k">is</span> <span class="n">ShortMessage</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">msg</span> <span class="p">=</span> <span class="p">(</span><span class="n">ShortMessage</span><span class="p">)</span><span class="n">obj</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">pdu</span> <span class="p">=</span> <span class="n">comm</span><span class="p">.</span><span class="n">DecodeReceivedMessage</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="s">&quot;New message received&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Kemudian kita daftarkan ke event <code>MessageReceived</code> dengan perintah :</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="n">comm</span><span class="p">.</span><span class="n">MessageReceived</span> <span class="p">+=</span> <span class="k">new</span> <span class="n">MessageReceivedEventHandler</span><span class="p">(</span><span class="n">comm_MessageReceived</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>sehingga ketika ada sms yang masuk method <code>comm_MessageReceived</code> akan otomatis dipanggil.</p>
+
+<p><strong>Memanggil method <code>Open</code></strong></p>
+
+<p>Setelah langkah pertama dan kedua selesai dikerjakan kita bisa langsung memanggil method <code>Open</code> untuk melakukan koneksi ke modem atau hp.</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="n">comm</span><span class="p">.</span><span class="n">Open</span><span class="p">();&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">while</span> <span class="p">(!</span><span class="n">comm</span><span class="p">.</span><span class="n">IsConnected</span><span class="p">())</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">msgResult</span> <span class="p">=</span> <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">No</span> <span class="n">phone</span> <span class="n">connected</span><span class="p">.&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Connection</span> <span class="n">setup</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span>
+</span><span class='line'>                                        <span class="n">MessageBoxButtons</span><span class="p">.</span><span class="n">RetryCancel</span><span class="p">,</span> <span class="n">MessageBoxIcon</span><span class="p">.</span><span class="n">Exclamation</span><span class="p">);&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">if</span> <span class="p">(</span><span class="n">msgResult</span> <span class="p">==</span> <span class="n">DialogResult</span><span class="p">.</span><span class="n">Cancel</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">comm</span><span class="p">.</span><span class="n">Close</span><span class="p">();</span>
+</span><span class='line'>    <span class="k">return</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">comm</span><span class="p">.</span><span class="n">Close</span><span class="p">();</span>
+</span><span class='line'>    <span class="n">comm</span><span class="p">.</span><span class="n">Open</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<h3>2. Membaca SMS Masuk</h3>
+
+<p>Method yang digunakan untuk membaca sms adalah method <code>ReadMessages</code>, method ini mempunyai dua parameter yaitu <code>PhoneMessageStatus</code> dan <code>Storage</code>.</p>
+
+<p>Untuk <code>PhoneMessageStatus</code> pilihannya adalah : <code>ReceivedUnread</code>, <code>ReceivedRead</code>, <code>StoredUnsent</code>, <code>StoredSent</code> dan <code>All</code>. Sedangkan <code>Storage</code> pilihannya hanya dua yaitu : <code>SM</code> dan <code>ME</code>.</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'>  <span class="p">&lt;</span><span class="n">br</span><span class="p">/&gt;</span>
+</span><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">btnBacaSMS_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">EventArgs</span> <span class="n">e</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">messages</span> <span class="p">=</span> <span class="n">comm</span><span class="p">.</span><span class="n">ReadMessages</span><span class="p">(</span><span class="n">PhoneMessageStatus</span><span class="p">.</span><span class="n">All</span><span class="p">,</span> <span class="n">PhoneStorageType</span><span class="p">.</span><span class="n">Sim</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">message</span> <span class="k">in</span> <span class="n">messages</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="kt">var</span> <span class="n">data</span> <span class="p">=</span> <span class="p">(</span><span class="n">SmsDeliverPdu</span><span class="p">)</span><span class="n">message</span><span class="p">.</span><span class="n">Data</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span>    <span class="kt">var</span> <span class="n">phoneNumber</span> <span class="p">=</span> <span class="n">data</span><span class="p">.</span><span class="n">OriginatingAddress</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">msg</span> <span class="p">=</span> <span class="n">data</span><span class="p">.</span><span class="n">UserDataText</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">tanggal</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;{0:yyyy/MM/dd}&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">.</span><span class="n">SCTimestamp</span><span class="p">.</span><span class="n">ToDateTime</span><span class="p">());</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">jam</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;{0:HH:mm:ss}&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">.</span><span class="n">SCTimestamp</span><span class="p">.</span><span class="n">ToDateTime</span><span class="p">());</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">lstDaftarSMS</span><span class="p">.</span><span class="n">Items</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;{0}, {1}, {2}, {3}&quot;</span><span class="p">,</span> <span class="n">tanggal</span><span class="p">,</span> <span class="n">jam</span><span class="p">,</span> <span class="n">phoneNumber</span><span class="p">,</span> <span class="n">msg</span><span class="p">));</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<h3>3. Mengirim SMS</h3>
+
+<p>Untuk mengirim sms kita menggunakan method <code>SendMessage</code> yang membutuhkan objek <a href="http://en.wikipedia.org/wiki/Protocol_data_unit">pdu</a>.</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">btnKirimSMS_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">EventArgs</span> <span class="n">e</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">msg</span> <span class="p">=</span> <span class="n">txtPesan</span><span class="p">.</span><span class="n">Text</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">phoneNumber</span> <span class="p">=</span> <span class="n">txtNoHp</span><span class="p">.</span><span class="n">Text</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="kt">var</span> <span class="n">pdu</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SmsSubmitPdu</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">phoneNumber</span><span class="p">,</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span><span class="p">);</span>
+</span><span class='line'><span class="n">comm</span><span class="p">.</span><span class="n">SendMessage</span><span class="p">(</span><span class="n">pdu</span><span class="p">);</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Kode di atas hanya bisa mengirim sms dengan jumlah karakter maksimal 160 karakter, jika ingin lebih kita harus merevisi kode di atas dengan menambahkan beberapa method baru yaitu <code>CreateConcatMessage</code> dan <code>SendMultiple</code>.</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="n">OutgoingSmsPdu</span><span class="p">[]</span> <span class="nf">CreateConcatMessage</span><span class="p">(</span><span class="kt">string</span> <span class="n">message</span><span class="p">,</span> <span class="kt">string</span> <span class="n">number</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">OutgoingSmsPdu</span><span class="p">[]</span> <span class="n">pdus</span> <span class="p">=</span> <span class="k">null</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">try</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">pdus</span> <span class="p">=</span> <span class="n">SmartMessageFactory</span><span class="p">.</span><span class="n">CreateConcatTextMessage</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">number</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">catch</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="k">null</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="n">pdus</span><span class="p">;</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">SendMultiple</span><span class="p">(</span><span class="n">OutgoingSmsPdu</span><span class="p">[]</span> <span class="n">pdus</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">num</span> <span class="p">=</span> <span class="n">pdus</span><span class="p">.</span><span class="n">Length</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">try</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="c1">// Send the created messages</span>
+</span><span class='line'>    <span class="n">comm</span><span class="p">.</span><span class="n">EnableTemporarySmsBatchMode</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">foreach</span> <span class="p">(</span><span class="n">OutgoingSmsPdu</span> <span class="n">pdu</span> <span class="k">in</span> <span class="n">pdus</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">comm</span><span class="p">.</span><span class="n">SendMessage</span><span class="p">(</span><span class="n">pdu</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">catch</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Terakhir kode yang ada di method <code>btnKirimSMS_Click</code> juga harus di revisi :</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">btnKirimSMS_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">EventArgs</span> <span class="n">e</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">msg</span> <span class="p">=</span> <span class="n">txtPesan</span><span class="p">.</span><span class="n">Text</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">phoneNumber</span> <span class="p">=</span> <span class="n">txtNoHp</span><span class="p">.</span><span class="n">Text</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">if</span> <span class="p">(</span><span class="n">msg</span><span class="p">.</span><span class="n">Length</span> <span class="p">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="m">160</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">pdus</span> <span class="p">=</span> <span class="n">CreateConcatMessage</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">phoneNumber</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">pdus</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span> <span class="n">SendMultiple</span><span class="p">(</span><span class="n">pdus</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">pdu</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SmsSubmitPdu</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">phoneNumber</span><span class="p">,</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">comm</span><span class="p">.</span><span class="n">SendMessage</span><span class="p">(</span><span class="n">pdu</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Yuph akhirnya selesai juga.</p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/SMSGatewayNET1">MENCOBA</a> :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Entity Framework Part 7]]></title>
+    <link href="http://coding4ever.net/blog/2014/04/11/entity-framework-part-7/"/>
+    <updated>2014-04-11T10:52:57+07:00</updated>
+    <id>http://coding4ever.net/blog/2014/04/11/entity-framework-part-7</id>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="http://coding4ever.files.wordpress.com/2014/03/entity_image.png">http://coding4ever.files.wordpress.com/2014/03/entity_image.png</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Masih melanjutkan <a href="/blog/2014/04/03/entity-framework-part-6/">postingan</a> sebelumnya, setelah data pembelian berhasil disimpan tentu suatu saat kita ingin menampilkan kembali data tersebut.</p>
+
+<p>Sedikit berbeda dengan postingan yang di<a href="/blog/2014/04/01/entity-framework-part-5/">sini</a>, saya sudah mendemokan bagaimana <a href="http://msdn.microsoft.com/en-us/data/aa937723">Entity Framework </a>melakukan query dari sebuah tabel.</p>
+
+<p>Sedangkan pada postingan kali ini, kita akan melihat bagaimana <a href="http://msdn.microsoft.com/en-us/data/aa937723">Entity Framework</a> melakukan query dari beberapa tabel sekaligus yang saling berhubungan.</p>
+
+<p>Misal kita ingin menampilkan datanya dengan format seperti berikut :</p>
+
+<!-- more -->
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/04/16.jpg"><img src="http://coding4ever.files.wordpress.com/2014/04/16.jpg" alt="1" /></a></p>
+
+<p>Maka ada dua proses yang perlu kita lakukan :</p>
+
+<ol>
+<li><p> Mengambil data header (beli dan supplier)</p></li>
+<li><p> Mengambil data detail (item beli dan barang)</p></li>
+</ol>
+
+
+<p>Untuk poin pertama, jika menggunakan query konvensional, perintah SQL SELECTnya seperti berikut :</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="k">SELECT</span> <span class="n">Beli</span><span class="p">.</span><span class="n">Nota</span><span class="p">,</span> <span class="n">Beli</span><span class="p">.</span><span class="n">Tanggal</span><span class="p">,</span> <span class="n">Supplier</span><span class="p">.</span><span class="n">SupplierID</span><span class="p">,</span> <span class="n">Supplier</span><span class="p">.</span><span class="n">NamaSupplier</span>
+</span><span class='line'><span class="k">FROM</span> <span class="n">Supplier</span> <span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">Beli</span> <span class="k">ON</span> <span class="n">Supplier</span><span class="p">.</span><span class="n">SupplierID</span> <span class="o">=</span> <span class="n">Beli</span><span class="p">.</span><span class="n">SupplierID</span>
+</span><span class='line'><span class="k">WHERE</span> <span class="n">Beli</span><span class="p">.</span><span class="n">Nota</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="n">N001</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/04/21.jpg"><img src="http://coding4ever.files.wordpress.com/2014/04/21.jpg" alt="2" /></a></p>
+
+<p>Sedangkan poin kedua perintahnya seperti berikut :</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="k">SELECT</span> <span class="n">Barang</span><span class="p">.</span><span class="n">BarangID</span><span class="p">,</span> <span class="n">Barang</span><span class="p">.</span><span class="n">NamaBarang</span><span class="p">,</span> <span class="n">ItemBeli</span><span class="p">.</span><span class="n">Jumlah</span><span class="p">,</span> <span class="n">ItemBeli</span><span class="p">.</span><span class="n">HargaBeli</span><span class="p">,</span> <span class="n">ItemBeli</span><span class="p">.</span><span class="n">HargaJual</span>
+</span><span class='line'><span class="k">FROM</span> <span class="n">Barang</span> <span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">ItemBeli</span> <span class="k">ON</span> <span class="n">Barang</span><span class="p">.</span><span class="n">BarangID</span> <span class="o">=</span> <span class="n">ItemBeli</span><span class="p">.</span><span class="n">BarangID</span>
+</span><span class='line'><span class="k">WHERE</span> <span class="n">ItemBeli</span><span class="p">.</span><span class="n">Nota</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="n">N001</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/04/31.jpg"><img src="http://coding4ever.files.wordpress.com/2014/04/31.jpg" alt="3" /></a></p>
+
+<p>Selanjutnya kita tinggal implementasikan dalam bentuk kode program (menggunakan ADO.NET) dengan membuat dua buah method masing-masing dengan nama <code>GetPembelianUsingADONET</code> dan <code>GetDetailPembelian</code>.</p>
+
+<p>Method <code>GetPembelianUsingADONET</code> akan mengeksekusi query pertama sedangkan query kedua akan dieksekusi oleh method <code>GetDetailPembelian</code>.</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="n">Beli</span> <span class="nf">GetPembelianUsingADONET</span><span class="p">(</span><span class="kt">string</span> <span class="n">nota</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">Beli</span> <span class="n">beli</span> <span class="p">=</span> <span class="k">null</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="c1">// ambil data header</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">sql</span> <span class="p">=</span> <span class="s">@&quot;SELECT Beli.Nota, Beli.Tanggal, Supplier.SupplierID, Supplier.NamaSupplier</span>
+</span><span class='line'><span class="s">                FROM Supplier INNER JOIN Beli ON Supplier.SupplierID = Beli.SupplierID</span>
+</span><span class='line'><span class="s">                WHERE Beli.Nota = @1&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SqlCommand</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="n">nota</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">dtr</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteReader</span><span class="p">())</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="n">dtr</span><span class="p">.</span><span class="n">Read</span><span class="p">())</span>
+</span><span class='line'>            <span class="p">{</span>
+</span><span class='line'>                <span class="c1">// mapping record ke objek supplier</span>
+</span><span class='line'>                <span class="kt">var</span> <span class="n">supplier</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Supplier</span>
+</span><span class='line'>                <span class="p">{</span>
+</span><span class='line'>                    <span class="n">SupplierID</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;SupplierID&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="m">0</span> <span class="p">:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;SupplierID&quot;</span><span class="p">],</span>
+</span><span class='line'>                    <span class="n">NamaSupplier</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;NamaSupplier&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;NamaSupplier&quot;</span><span class="p">]</span>
+</span><span class='line'>                <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">// mapping record ke objek beli</span>
+</span><span class='line'>                <span class="n">beli</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Beli</span><span class="p">();</span>
+</span><span class='line'>                <span class="n">beli</span><span class="p">.</span><span class="n">Nota</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Nota&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Nota&quot;</span><span class="p">];</span>
+</span><span class='line'>                <span class="n">beli</span><span class="p">.</span><span class="n">Tanggal</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Tanggal&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">MinValue</span> <span class="p">:</span> <span class="p">(</span><span class="n">DateTime</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Tanggal&quot;</span><span class="p">];</span>
+</span><span class='line'>                <span class="n">beli</span><span class="p">.</span><span class="n">Supplier</span> <span class="p">=</span> <span class="n">supplier</span><span class="p">;</span> <span class="c1">// hubungkan objek supplier dan beli</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">beli</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// ambil data detail</span>
+</span><span class='line'>        <span class="kt">var</span> <span class="n">daftarItemBeli</span> <span class="p">=</span> <span class="n">GetDetailPembelian</span><span class="p">(</span><span class="n">nota</span><span class="p">,</span> <span class="n">conn</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">beli</span><span class="p">.</span><span class="n">ItemBelis</span> <span class="p">=</span> <span class="n">daftarItemBeli</span><span class="p">;</span> <span class="c1">// hubungkan objek beli dg detail beli</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="n">beli</span><span class="p">;</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">private</span> <span class="k">static</span> <span class="n">IList</span><span class="p">&lt;</span><span class="n">ItemBeli</span><span class="p">&gt;</span> <span class="n">GetDetailPembelian</span><span class="p">(</span><span class="kt">string</span> <span class="n">nota</span><span class="p">,</span> <span class="n">SqlConnection</span> <span class="n">conn</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">daftarItemBeli</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">ItemBeli</span><span class="p">&gt;();&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="kt">var</span> <span class="n">sql</span> <span class="p">=</span> <span class="s">@&quot;SELECT Barang.BarangID, Barang.NamaBarang, ItemBeli.Jumlah, ItemBeli.HargaBeli, ItemBeli.HargaJual</span>
+</span><span class='line'><span class="s">            FROM Barang INNER JOIN ItemBeli ON Barang.BarangID = ItemBeli.BarangID</span>
+</span><span class='line'><span class="s">            WHERE ItemBeli.Nota = @1&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SqlCommand</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="n">nota</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">dtr</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteReader</span><span class="p">())</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="k">while</span> <span class="p">(</span><span class="n">dtr</span><span class="p">.</span><span class="n">Read</span><span class="p">())</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="c1">// mapping record ke objek barang</span>
+</span><span class='line'>            <span class="kt">var</span> <span class="n">barang</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Barang</span>
+</span><span class='line'>            <span class="p">{</span>
+</span><span class='line'>                <span class="n">BarangID</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;BarangID&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;BarangID&quot;</span><span class="p">],</span>
+</span><span class='line'>                <span class="n">NamaBarang</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;NamaBarang&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;NamaBarang&quot;</span><span class="p">]</span>
+</span><span class='line'>            <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="c1">// mapping record ke objek item beli</span>
+</span><span class='line'>            <span class="kt">var</span> <span class="n">itemBeli</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ItemBeli</span>
+</span><span class='line'>            <span class="p">{</span>
+</span><span class='line'>                <span class="n">Barang</span> <span class="p">=</span> <span class="n">barang</span><span class="p">,</span> <span class="c1">// hubungkan barang dg item beli</span>
+</span><span class='line'>                <span class="n">Jumlah</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Jumlah&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="m">0</span> <span class="p">:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Jumlah&quot;</span><span class="p">],</span>
+</span><span class='line'>                <span class="n">HargaBeli</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;HargaBeli&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="m">0</span> <span class="p">:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;HargaBeli&quot;</span><span class="p">],</span>
+</span><span class='line'>                <span class="n">HargaJual</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;HargaJual&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="m">0</span> <span class="p">:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;HargaJual&quot;</span><span class="p">]</span>
+</span><span class='line'>            <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">daftarItemBeli</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">itemBeli</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="n">daftarItemBeli</span><span class="p">;</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Untuk mencoba kode di atas gunakan kode berikut :</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">static</span> <span class="k">void</span> <span class="nf">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">beli</span> <span class="p">=</span> <span class="n">GetPembelianUsingADONET</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">N001</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Nota</span> <span class="p">:</span> <span class="p">{</span><span class="m">0</span><span class="p">}</span><span class="err">\</span><span class="n">nTanggal</span> <span class="p">:</span> <span class="p">{</span><span class="m">1</span><span class="p">}</span><span class="err">\</span><span class="n">nSupplier</span> <span class="p">:</span> <span class="p">{</span><span class="m">2</span><span class="p">}&amp;</span><span class="n">rdquo</span><span class="p">;,</span>
+</span><span class='line'>                        <span class="n">beli</span><span class="p">.</span><span class="n">Nota</span><span class="p">,</span> <span class="n">beli</span><span class="p">.</span><span class="n">Tanggal</span><span class="p">,</span> <span class="n">beli</span><span class="p">.</span><span class="n">Supplier</span><span class="p">.</span><span class="n">NamaSupplier</span><span class="p">);&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;\nItem Beli :&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// ekstrak item beli</span>
+</span><span class='line'><span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">item</span> <span class="k">in</span> <span class="n">beli</span><span class="p">.</span><span class="n">ItemBelis</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Barang : {0}, Jumlah : {1}, Harga Jual : {2}&quot;</span><span class="p">,</span>
+</span><span class='line'>                        <span class="n">item</span><span class="p">.</span><span class="n">Barang</span><span class="p">.</span><span class="n">NamaBarang</span><span class="p">,</span> <span class="n">item</span><span class="p">.</span><span class="n">Jumlah</span><span class="p">,</span> <span class="n">item</span><span class="p">.</span><span class="n">HargaJual</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;\nPress any key to exit ...&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="n">Console</span><span class="p">.</span><span class="n">ReadKey</span><span class="p">();</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Jika kode di atas dijalankan akan menghasilkan output seperti <a href="http://coding4ever.files.wordpress.com/2014/04/16.jpg">gambar pertama</a>.</p>
+
+<p>Trus bagaimana dengan <a href="http://msdn.microsoft.com/en-us/data/aa937723">Entity Framework</a> ?</p>
+
+<p>Tool <a href="http://en.wikipedia.org/wiki/Object-relational_mapping">ORM</a> seperti <a href="http://msdn.microsoft.com/en-us/data/aa937723">Entity Framework</a>, dibuat untuk memudahkan hidup kita sebagai pengembang aplikasi. Hidup ini sudah susah kenapa harus dipersulit :D</p>
+
+<p>Oke, kita akan tulis ulang kode di atas menggunakan <a href="http://msdn.microsoft.com/en-us/data/aa937723">Entity Framework</a>.</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="n">Beli</span> <span class="nf">GetPembelianUsingEF</span><span class="p">(</span><span class="kt">string</span> <span class="n">nota</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">Beli</span> <span class="n">beli</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">db</span> <span class="p">=</span> <span class="k">new</span> <span class="n">RetailContext</span><span class="p">())</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">beli</span> <span class="p">=</span> <span class="n">db</span><span class="p">.</span><span class="n">Belis</span>
+</span><span class='line'>             <span class="p">.</span><span class="n">Include</span><span class="p">(</span><span class="n">bl</span> <span class="p">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">bl</span><span class="p">.</span><span class="n">Supplier</span><span class="p">)</span>
+</span><span class='line'>             <span class="p">.</span><span class="n">Include</span><span class="p">(</span><span class="n">bl</span> <span class="p">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">bl</span><span class="p">.</span><span class="n">ItemBelis</span><span class="p">.</span><span class="n">Select</span><span class="p">(</span><span class="n">ib</span> <span class="p">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">ib</span><span class="p">.</span><span class="n">Barang</span><span class="p">))</span>
+</span><span class='line'>             <span class="p">.</span><span class="n">Where</span><span class="p">(</span><span class="n">bl</span> <span class="p">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">bl</span><span class="p">.</span><span class="n">Nota</span> <span class="p">==</span> <span class="n">nota</span><span class="p">)</span>
+</span><span class='line'>             <span class="p">.</span><span class="n">SingleOrDefault</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="n">beli</span><span class="p">;</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Gimana lebih simple bukan ? :)</p>
+
+<p>Dan ingat &hellip;</p>
+
+<blockquote><p>Semakin sedikit kode yang kita tulis, semakin sedikit juga <strong><em>bug</em></strong> yang dihasilkan dan semakin sedikit kode yang kita tulis, semakin mudah juga untuk melakukan <strong><em>maintenance</em></strong>.</p></blockquote>
+
+<p>Selamat <a href="https://github.com/k4m4r82/EntityFramework7">MENCOBA</a> :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Entity Framework Part 6]]></title>
+    <link href="http://coding4ever.net/blog/2014/04/03/entity-framework-part-6/"/>
+    <updated>2014-04-03T10:17:31+07:00</updated>
+    <id>http://coding4ever.net/blog/2014/04/03/entity-framework-part-6</id>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="http://coding4ever.files.wordpress.com/2014/03/entity_image.png">http://coding4ever.files.wordpress.com/2014/03/entity_image.png</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Pada <a href="/blog/2014/04/01/entity-framework-part-5/">postingan</a> sebelumnya kita sudah membahas bagaimana <a href="http://msdn.microsoft.com/en-us/data/aa937723">Entity Framework</a> menangani sebuah tabel tunggal. Pada kenyataannya hampir semua aplikasi database menggunakan lebih dari satu tabel dan tentunya diantara tabel ini juga mempunyai hubungan (relasi).</p>
+
+<p>Di postingan kali ini kita akan membahas bagaimana <a href="http://msdn.microsoft.com/en-us/data/aa937723">Entity Framework</a> menangani dua buah tabel yang saling berhubungan yaitu <em>Beli</em> dan <em>ItemBeli.</em></p>
+
+<!-- more -->
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/04/4.png"><img src="http://coding4ever.files.wordpress.com/2014/04/4.png" alt="4" /></a></p>
+
+<p>Untuk tabel Supplier dan Barang kita abaikan dulu walaupun kedua tabel ini juga terhubung ke tabel Beli dan ItemBeli.</p>
+
+<p>Proses pembelian di dalam sebuah aplikasinya biasa masuk ke dalam modul transaksi. Ada sebuah proses yang penting ketika akan menyimpan data berupa transaksi, apalagi jika data tersebut saling berhubungan.</p>
+
+<p>Proses ini dikenal dengan istilah <em><a href="http://en.wikipedia.org/wiki/Database_transaction">transaction</a>,</em> dan salah satu poin pentingnya adalah <a href="http://en.wikipedia.org/wiki/Atomicity_%28database_systems%29"><em>atomic</em></a>, yaitu beberapa perintah dianggap sebagai satu kesatuan. Kalau satu gagal, yang lain harus dibatalkan. Contoh pada saat transaksi pembelian proses yang terjadi adalah :</p>
+
+<ol>
+<li><p> Insert 1 kali ke tabel Beli</p></li>
+<li><p> Insert n kali ke tabel ItemBeli</p></li>
+<li><p> Menambah stok barang (tidak di bahas di postingan ini), karena bisa juga diselesaikan dengan database <a href="http://en.wikipedia.org/wiki/Database_trigger">trigger</a></p></li>
+</ol>
+
+
+<p>Ketika insert ke tabel ItemBeli gagal, maka tabel Belinya juga harus di batalkan (undo), klo enggak ya datanya jadi enggak konsisten dong, ada nota Beli yang enggak ada item belinya.</p>
+
+<p>Nah kabar gembiranya <a href="http://msdn.microsoft.com/en-us/data/aa937723">Entity Framework</a> secara default sudah mendukung <em><a href="http://en.wikipedia.org/wiki/Database_transaction">transaction</a>.</em></p>
+
+<p>Untuk membuat class entity Barang dan ItemBeli berikut class mappingnya sudah tidak dibahas lagi disini, karena saya menggunakan <a href="http://visualstudiogallery.msdn.microsoft.com/72a60b14-1581-4b9b-89f2-846072eff19d">Entity Framework Power Tools</a>.</p>
+
+<p>Sebelum kita lanjut ke pembahasan kode program, kita lihat dulu class entity diagram ke empat tabel di atas.<a href="http://coding4ever.files.wordpress.com/2014/04/12.jpg"><img src="http://coding4ever.files.wordpress.com/2014/04/12.jpg" alt="1" /></a></p>
+
+<p><strong>Independent association dan Foreign key association</strong></p>
+
+<p>Hubungan dua buah entity atau lebih dikenal dengan istilah asosiasi (association). Asosiasi ini mencakup <em>one-to-one, one-to-many</em> dan <em>many-to-many</em>.</p>
+
+<p>Dari sisi pemrograman Entity Framework, diperkenalkan lagi dua jenis asosiasi. Yang pertama dikenal dengan istilah <a href="http://www.ladislavmrnka.com/2011/05/foreign-key-vs-independent-associations-in-ef-4/"><em>independent association</em></a>, asosiasi ini sudah diperkenalkan sejak Entity Framework versi awal, dan untuk memudahkan kita sebagai pengembang aplikasi, mulai Entity Framework versi 4, tim Entity Framework menambahkan asosiasi kedua yaitu <em><a href="http://www.ladislavmrnka.com/2011/05/foreign-key-vs-independent-associations-in-ef-4/">foreign key association</a></em>.</p>
+
+<p>Dari kedua asosiasi di atas, implementasi <em>foreign key association</em> lebih disarankan dibandingkan <em>independent association</em>, sehingga untuk kode Entity Framework di bawah ini kita juga menggunakan <em>foreign key association</em> :D.</p>
+
+<p>Untuk informasi lebih lanjut mengenai <em>Independent association</em> dan <em>Foreign key association</em> bisa merujuk ke referensi berikut :</p>
+
+<ul>
+<li><p><a href="http://it-ebooks.info/book/1619/">Entity Framework 4 in Action</a></p></li>
+<li><p><a href="http://it-ebooks.info/book/613/">Programming Entity Framework, 2nd Edition</a></p></li>
+<li><p><a href="http://www.ladislavmrnka.com/2011/05/foreign-key-vs-independent-associations-in-ef-4/">Foreign key vs. Independent associations in EF 4</a></p></li>
+</ul>
+
+
+<p>Seperti <a href="/blog/2014/04/01/entity-framework-part-5/">postingan</a> sebelumnya, saya akan menuliskan 2 versi kode sebagai bahan perbandingan yaitu menggunakan ADO.NET secara langsung dan Entity Framework.</p>
+
+<p>Nama method yang akan kita gunakan untuk menambahkan data beli berikut itemnya adalah <em>AddPembelian</em>. Method ini akan menambahkan data di dua tabel sekaligus (Beli dan ItemBeli), sehingga sangat disarankan menggunakan database <em><a href="http://en.wikipedia.org/wiki/Database_transaction">transaction</a>.</em></p>
+
+<p>Untuk ADO.NET fitur <em><a href="http://en.wikipedia.org/wiki/Database_transaction">transaction</a></em> harus ditambahkan secara manual, sedangkan Entity Framework secara default sudah menerapkan fitur <em><a href="http://en.wikipedia.org/wiki/Database_transaction">transaction</a>.</em></p>
+
+<p><strong>ADO.NET</strong></p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="kt">int</span> <span class="nf">AddPembelianUsingADONET</span><span class="p">(</span><span class="n">Beli</span> <span class="n">beli</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="m">0</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">try</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// mulai transaksi</span>
+</span><span class='line'>        <span class="kt">var</span> <span class="n">transaction</span> <span class="p">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">BeginTransaction</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kt">var</span> <span class="n">sql</span> <span class="p">=</span> <span class="s">@&quot;INSERT INTO Beli (Nota, SupplierID, Tanggal, Keterangan)</span>
+</span><span class='line'><span class="s">                    VALUES (@1, @2, @3, @4)&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// insert ke tabel beli</span>
+</span><span class='line'>        <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SqlCommand</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">transaction</span><span class="p">))</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="n">beli</span><span class="p">.</span><span class="n">Nota</span><span class="p">);</span>
+</span><span class='line'>            <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@2&quot;</span><span class="p">,</span> <span class="n">beli</span><span class="p">.</span><span class="n">SupplierID</span><span class="p">);</span>
+</span><span class='line'>            <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@3&quot;</span><span class="p">,</span> <span class="n">beli</span><span class="p">.</span><span class="n">Tanggal</span><span class="p">);</span>
+</span><span class='line'>            <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@4&quot;</span><span class="p">,</span> <span class="n">beli</span><span class="p">.</span><span class="n">Keterangan</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">result</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteNonQuery</span><span class="p">();</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">sql</span> <span class="p">=</span> <span class="s">@&quot;INSERT INTO ItemBeli (Nota, BarangID, Jumlah, HargaBeli, HargaJual)</span>
+</span><span class='line'><span class="s">                VALUES (@1, @2, @3, @4, @5)&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// insert ke tabel item beli sebanyak n item</span>
+</span><span class='line'>        <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">item</span> <span class="k">in</span> <span class="n">beli</span><span class="p">.</span><span class="n">ItemBelis</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SqlCommand</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">transaction</span><span class="p">))</span>
+</span><span class='line'>            <span class="p">{</span>
+</span><span class='line'>                <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="n">beli</span><span class="p">.</span><span class="n">Nota</span><span class="p">);</span>
+</span><span class='line'>                <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@2&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">.</span><span class="n">BarangID</span><span class="p">);</span>
+</span><span class='line'>                <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@3&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">.</span><span class="n">Jumlah</span><span class="p">);</span>
+</span><span class='line'>                <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@4&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">.</span><span class="n">HargaBeli</span><span class="p">);</span>
+</span><span class='line'>                <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@5&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">.</span><span class="n">HargaJual</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="n">result</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteNonQuery</span><span class="p">();</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// transaksi selesai</span>
+</span><span class='line'>        <span class="c1">// simpan perubahan secara permanen</span>
+</span><span class='line'>        <span class="n">transaction</span><span class="p">.</span><span class="n">Commit</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">result</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span> <span class="c1">// status transaksi berhasil</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">catch</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">result</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p><strong>Entity Framework</strong></p>
+
+<p>Menggunakan Entity Framework ternyata sangat mudah, coba lihat kode berikut setara dengan kode ADO.NET di atas :)</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="kt">int</span> <span class="nf">AddPembelianUsingEF</span><span class="p">(</span><span class="n">Beli</span> <span class="n">beli</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="m">0</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">db</span> <span class="p">=</span> <span class="k">new</span> <span class="n">RetailContext</span><span class="p">())</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">try</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">db</span><span class="p">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">beli</span><span class="p">).</span><span class="n">State</span> <span class="p">=</span> <span class="n">EntityState</span><span class="p">.</span><span class="n">Added</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">db</span><span class="p">.</span><span class="n">SaveChanges</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">result</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">catch</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Contoh penggunaan :</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="c1">// buat objek item beli (3 objek)</span>
+</span><span class='line'><span class="kt">var</span> <span class="n">item1</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ItemBeli</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">BarangID</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">BB</span><span class="p">-</span><span class="m">7421</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span>
+</span><span class='line'>    <span class="n">Jumlah</span> <span class="p">=</span> <span class="m">5</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">HargaBeli</span> <span class="p">=</span> <span class="m">54</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">HargaJual</span> <span class="p">=</span> <span class="m">60</span>
+</span><span class='line'><span class="p">};&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="kt">var</span> <span class="n">item2</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ItemBeli</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">BarangID</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">BB</span><span class="p">-</span><span class="m">8107</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span>
+</span><span class='line'>    <span class="n">Jumlah</span> <span class="p">=</span> <span class="m">7</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">HargaBeli</span> <span class="p">=</span> <span class="m">101</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">HargaJual</span> <span class="p">=</span> <span class="m">110</span>
+</span><span class='line'><span class="p">};&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="kt">var</span> <span class="n">item3</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ItemBeli</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">BarangID</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">BK</span><span class="p">-</span><span class="n">M18B</span><span class="p">-</span><span class="m">44</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span>
+</span><span class='line'>    <span class="n">Jumlah</span> <span class="p">=</span> <span class="m">10</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">HargaBeli</span> <span class="p">=</span> <span class="m">540</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">HargaJual</span> <span class="p">=</span> <span class="m">693</span>
+</span><span class='line'><span class="p">};&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="c1">// buat objek beli</span>
+</span><span class='line'><span class="kt">var</span> <span class="n">beli</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Beli</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">Nota</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">N001</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span>
+</span><span class='line'>    <span class="n">SupplierID</span> <span class="p">=</span> <span class="m">3</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">Tanggal</span> <span class="p">=</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">Today</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">Keterangan</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Transaksi</span> <span class="n">beli</span> <span class="n">menggunakan</span> <span class="n">Entity</span> <span class="n">Framework</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'><span class="p">};&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="c1">// tambahkan item beli ke objek beli</span>
+</span><span class='line'><span class="n">beli</span><span class="p">.</span><span class="n">ItemBelis</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">item1</span><span class="p">);</span>
+</span><span class='line'><span class="n">beli</span><span class="p">.</span><span class="n">ItemBelis</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">item2</span><span class="p">);</span>
+</span><span class='line'><span class="n">beli</span><span class="p">.</span><span class="n">ItemBelis</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">item3</span><span class="p">);&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="n">AddPembelianUsingEF</span><span class="p">(</span><span class="n">beli</span><span class="p">);&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="err">\</span><span class="n">nStatus</span> <span class="n">transaksi</span> <span class="p">:</span> <span class="p">{</span><span class="m">0</span><span class="p">}&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">result</span> <span class="p">==</span> <span class="m">1</span> <span class="p">?</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Sukses</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="p">:</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Gagal</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/04/13.jpg"><img src="http://coding4ever.files.wordpress.com/2014/04/13.jpg" alt="1" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/04/2.jpg"><img src="http://coding4ever.files.wordpress.com/2014/04/2.jpg" alt="2" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/04/3.jpg"><img src="http://coding4ever.files.wordpress.com/2014/04/3.jpg" alt="3" /></a></p>
+
+<p>Tabel Beli terhubung dengan tabel Supplier, sehingga Supplier dengan ID 3 harus sudah ada di tabel Supplier. Begitu juga dengan table ItemBeli yang terhubung dengan tabel Barang, sehingga Barang dengan ID BB-7421, BB-8107 dan BK-M18B-44 juga harus ada di tabel Barang.</p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/EntityFramework6">MENCOBA</a> :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Entity Framework Part 5]]></title>
+    <link href="http://coding4ever.net/blog/2014/04/01/entity-framework-part-5/"/>
+    <updated>2014-04-01T09:53:25+07:00</updated>
+    <id>http://coding4ever.net/blog/2014/04/01/entity-framework-part-5</id>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="http://coding4ever.files.wordpress.com/2014/03/entity_image.png">http://coding4ever.files.wordpress.com/2014/03/entity_image.png</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Setelah selesai melakukan mapping, baik secara <a href="/blog/2014/03/21/entity-framework-part-2/">manual</a> atau menggunakan tool seperti <a href="/blog/2014/03/26/entity-framework-part-3/">ADO.NET Entity Data Model Designer</a> dan <a href="/blog/2014/03/27/entity-framework-part-4/">Entity Framework Power Tools</a>, kita bisa langsung mencoba method-method dasar aplikasi database yang dikenal dengan istilah method <a href="http://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a> seperti Save, Update, Delete dan Get.</p>
+
+<p>Ingat tujuan kita menggunakan <a href="http://en.wikipedia.org/wiki/Object-relational_mapping">ORM</a> seperti <a href="http://msdn.microsoft.com/en-us/data/aa937723">Entity Framework</a> dalam pengembangan aplikasi database adalah agar kita tidak  lagi berhubungan secara langsung dengan database berikut objek-objeknya seperti tabel, view dan objek database lainnya, sehingga bisa lebih fokus ke aturan bisnis dari aplikasi yang sedang dikembangkan.</p>
+
+<!-- more -->
+
+
+<p>Dalam paradigma <a href="http://www.google.co.id/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;cad=rja&amp;uact=8&amp;ved=0CCYQFjAA&amp;url=http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FObject-oriented_programming&amp;ei=YOk0U--cLsS_rgfhqICQBg&amp;usg=AFQjCNHESpDSeAXQKCKWdjccXfDywTnxtg&amp;bvm=bv.63808443,d.bmk">OOP</a>, semuanya adalah objek. Saya, Anda, Customer, Supplier, Product adalah objek.</p>
+
+<p>Ada beberapa keuntungan yang kita dapatkan ketika berhubungan dengan class dan objek :</p>
+
+<ul>
+<li><p>Persistence ignorance - Kita tidak perlu lagi khawatir bagaimana data disimpan ataupun media yang digunakan.</p></li>
+<li><p>Strong typing - Kita tidak perlu lagi melakukan konversi secara manual untuk setiap tipe data kolom/field yang ada di dalam sebuah tabel ketika ingin mengambil nilainya.</p></li>
+<li><p>Compile-time checking - Class mempunyai daftar property, jika kita mengetikkan nama property yang salah, secara langsung akan mendapatkan kompilasi error. Sehingga tidak perlu menjalankan aplikasi untuk mengetahui kesalahan penulisan kode.</p></li>
+<li><p>Ease of development - Editor kode seperti Visual Studio mempunyai fitur IntelliSense untuk mempercepat proses pengembangan aplikasi. IntelliSense memberikan petunjuk kepada pengembang aplikasi tentang daftar property, event dan method yang dimiliki oleh sebuah class. Tetapi jika kita menggunakan DataSet atau DataReader, fitur IntelliSense jadi tidak berfungsi karena penulisan nama field/kolom berbasis teks (string).</p></li>
+</ul>
+
+
+<p>Di bawah ini kita akan membandingkan pembuatan method-method <a href="http://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a> menggunakan library ADO.NET secara langsung dan menggunakan Entity Framework.</p>
+
+<p>Adapun sebagai targetnya adalah tabel Supplier yang diwakili oleh class Supplier.</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/04/1.jpg"><img src="http://coding4ever.files.wordpress.com/2014/04/1.jpg" alt="1" /></a></p>
+
+<p><strong>1. Save - Untuk menambahkan data baru</strong></p>
+
+<p><strong>ADO.NET</strong></p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="kt">int</span> <span class="nf">SaveUsingADONET</span><span class="p">(</span><span class="n">Supplier</span> <span class="n">supplier</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="m">0</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">sql</span> <span class="p">=</span> <span class="s">@&quot;INSERT INTO Supplier (NamaSupplier, Jalan, Kota)</span>
+</span><span class='line'><span class="s">                VALUES (@1, @2, @3)&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SqlCommand</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="n">supplier</span><span class="p">.</span><span class="n">NamaSupplier</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@2&quot;</span><span class="p">,</span> <span class="n">supplier</span><span class="p">.</span><span class="n">Jalan</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@3&quot;</span><span class="p">,</span> <span class="n">supplier</span><span class="p">.</span><span class="n">Kota</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">result</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteNonQuery</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p><strong>Entity Framework (EF)
+</strong></p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="kt">int</span> <span class="nf">SaveUsingEF</span><span class="p">(</span><span class="n">Supplier</span> <span class="n">supplier</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="m">0</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">db</span> <span class="p">=</span> <span class="k">new</span> <span class="n">RetailContext</span><span class="p">())</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">db</span><span class="p">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">supplier</span><span class="p">).</span><span class="n">State</span> <span class="p">=</span> <span class="n">EntityState</span><span class="p">.</span><span class="n">Added</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">db</span><span class="p">.</span><span class="n">SaveChanges</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">result</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Dari dua method di atas, kita bisa melihat bahwa method Save menggunakan Entity Framework (EF) lebih sederhana sehingga mengurangi kesalahan dalam penulisan kode dibandingkan dengan menggunakan ADO.NET secara langsung. Kita tidak lagi menuliskan perintah SQL INSERT yang masih berbasis teks (string).</p>
+
+<p>Contoh penggunaan :</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="c1">// buat objek supplier</span>
+</span><span class='line'><span class="kt">var</span> <span class="n">supplier</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Supplier</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">NamaSupplier</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Morgan</span> <span class="n">Bike</span> <span class="n">Accessories</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span>
+</span><span class='line'>    <span class="n">Jalan</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="m">6387</span> <span class="n">Scenic</span> <span class="n">Avenue</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span>
+</span><span class='line'>    <span class="n">Kota</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Bothell</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'><span class="p">};&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="kt">var</span> <span class="n">result1</span> <span class="p">=</span> <span class="n">SaveUsingADONET</span><span class="p">(</span><span class="n">supplier</span><span class="p">);</span>
+</span><span class='line'><span class="kt">var</span> <span class="n">result2</span> <span class="p">=</span> <span class="n">SaveUsingEF</span><span class="p">(</span><span class="n">supplier</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p><strong>2. Update - Untuk mengupdate data
+</strong></p>
+
+<p><strong>ADO.NET</strong></p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="kt">int</span> <span class="nf">UpdateUsingADONET</span><span class="p">(</span><span class="n">Supplier</span> <span class="n">supplier</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="m">0</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">sql</span> <span class="p">=</span> <span class="s">@&quot;UPDATE Supplier SET NamaSupplier = @1, Jalan = @2, Kota = @3</span>
+</span><span class='line'><span class="s">                WHERE SupplierID = @4&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SqlCommand</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="n">supplier</span><span class="p">.</span><span class="n">NamaSupplier</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@2&quot;</span><span class="p">,</span> <span class="n">supplier</span><span class="p">.</span><span class="n">Jalan</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@3&quot;</span><span class="p">,</span> <span class="n">supplier</span><span class="p">.</span><span class="n">Kota</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@4&quot;</span><span class="p">,</span> <span class="n">supplier</span><span class="p">.</span><span class="n">SupplierID</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">result</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteNonQuery</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p><strong>Entity Framework (EF)
+</strong></p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="kt">int</span> <span class="nf">UpdateUsingEF</span><span class="p">(</span><span class="n">Supplier</span> <span class="n">supplier</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="m">0</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">db</span> <span class="p">=</span> <span class="k">new</span> <span class="n">RetailContext</span><span class="p">())</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">db</span><span class="p">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">supplier</span><span class="p">).</span><span class="n">State</span> <span class="p">=</span> <span class="n">EntityState</span><span class="p">.</span><span class="n">Modified</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">db</span><span class="p">.</span><span class="n">SaveChanges</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">result</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Contoh penggunaan :</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="c1">// buat objek supplier</span>
+</span><span class='line'><span class="kt">var</span> <span class="n">supplier</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Supplier</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">SupplierID</span> <span class="p">=</span> <span class="m">34</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">NamaSupplier</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Morgan</span> <span class="n">Bike</span> <span class="n">Accessories</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span>
+</span><span class='line'>    <span class="n">Jalan</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="m">6387</span> <span class="n">Scenic</span> <span class="n">Avenue</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span>
+</span><span class='line'>    <span class="n">Kota</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Bothell</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'><span class="p">};&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="kt">var</span> <span class="n">result1</span> <span class="p">=</span> <span class="n">UpdateUsingADONET</span><span class="p">(</span><span class="n">supplier</span><span class="p">);</span>
+</span><span class='line'><span class="kt">var</span> <span class="n">result2</span> <span class="p">=</span> <span class="n">UpdateUsingEF</span><span class="p">(</span><span class="n">supplier</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p><strong>3. Delete - Untuk menghapus data
+</strong></p>
+
+<p><strong>ADO.NET</strong></p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="kt">int</span> <span class="nf">DeleteUsingADONET</span><span class="p">(</span><span class="n">Supplier</span> <span class="n">supplier</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="m">0</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">sql</span> <span class="p">=</span> <span class="s">@&quot;DELETE FROM Supplier</span>
+</span><span class='line'><span class="s">                WHERE SupplierID = @1&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SqlCommand</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="n">supplier</span><span class="p">.</span><span class="n">SupplierID</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">result</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteNonQuery</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p><strong>Entity Framework (EF)
+</strong></p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="kt">int</span> <span class="nf">DeleteUsingEF</span><span class="p">(</span><span class="n">Supplier</span> <span class="n">supplier</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="m">0</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">db</span> <span class="p">=</span> <span class="k">new</span> <span class="n">RetailContext</span><span class="p">())</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">db</span><span class="p">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">supplier</span><span class="p">).</span><span class="n">State</span> <span class="p">=</span> <span class="n">EntityState</span><span class="p">.</span><span class="n">Deleted</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">db</span><span class="p">.</span><span class="n">SaveChanges</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">result</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Contoh penggunaan :</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="c1">// buat objek supplier</span>
+</span><span class='line'><span class="kt">var</span> <span class="n">supplier</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Supplier</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">SupplierID</span> <span class="p">=</span> <span class="m">34</span>
+</span><span class='line'><span class="p">};&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="kt">var</span> <span class="n">result1</span> <span class="p">=</span> <span class="n">DeleteUsingADONET</span><span class="p">(</span><span class="n">supplier</span><span class="p">);</span>
+</span><span class='line'><span class="kt">var</span> <span class="n">result2</span> <span class="p">=</span> <span class="n">DeleteUsingEF</span><span class="p">(</span><span class="n">supplier</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p><strong>4. GetAll - Untuk menampilkan semua data
+</strong></p>
+
+<p>Method ini akan mengembalikan kumpulan objek supplier, karena objek suppliernya bisa lebih dari satu maka dibutuhkan sebuah wadah (container) untuk menampung kumpulan objek supplier.</p>
+
+<p>Untuk contoh di bawah ini saya menggunakan objek <a href="http://msdn.microsoft.com/en-us/library/6sh2ey19%28v=vs.110%29.aspx">List</a> untuk menampung kumpulan objek supplier.</p>
+
+<p><strong>ADO.NET</strong></p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="n">IList</span><span class="p">&lt;</span><span class="n">Supplier</span><span class="p">&gt;</span> <span class="n">GetAllUsingADONET</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">daftarSupplier</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Supplier</span><span class="p">&gt;();&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">sql</span> <span class="p">=</span> <span class="s">@&quot;SELECT SupplierID, NamaSupplier, Jalan, Kota</span>
+</span><span class='line'><span class="s">                FROM Supplier</span>
+</span><span class='line'><span class="s">                ORDER BY NamaSupplier&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SqlCommand</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">dtr</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteReader</span><span class="p">())</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="k">while</span> <span class="p">(</span><span class="n">dtr</span><span class="p">.</span><span class="n">Read</span><span class="p">())</span>
+</span><span class='line'>            <span class="p">{</span>
+</span><span class='line'>                <span class="kt">var</span> <span class="n">supplier</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Supplier</span>
+</span><span class='line'>                <span class="p">{</span>
+</span><span class='line'>                    <span class="n">SupplierID</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;SupplierID&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="m">0</span> <span class="p">:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;SupplierID&quot;</span><span class="p">],</span>
+</span><span class='line'>                    <span class="n">NamaSupplier</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;NamaSupplier&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;NamaSupplier&quot;</span><span class="p">],</span>
+</span><span class='line'>                    <span class="n">Jalan</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Jalan&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Jalan&quot;</span><span class="p">],</span>
+</span><span class='line'>                    <span class="n">Kota</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Kota&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Kota&quot;</span><span class="p">]</span>
+</span><span class='line'>                <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="n">daftarSupplier</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">supplier</span><span class="p">);</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="n">daftarSupplier</span><span class="p">;</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Contoh penggunaan :</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="kt">var</span> <span class="n">noUrut</span> <span class="p">=</span> <span class="m">1</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="kt">var</span> <span class="n">daftarSupplier</span> <span class="p">=</span> <span class="n">GetAllUsingADONET</span><span class="p">();</span>
+</span><span class='line'><span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">supplier</span> <span class="k">in</span> <span class="n">daftarSupplier</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;{</span><span class="m">0</span><span class="p">}.</span> <span class="p">{</span><span class="m">1</span><span class="p">}&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">noUrut</span><span class="p">,</span> <span class="n">supplier</span><span class="p">.</span><span class="n">NamaSupplier</span><span class="p">);&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="n">noUrut</span><span class="p">++;</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p><strong>Entity Framework (EF)</strong></p>
+
+<p>Tidak seperti ADO.NET yang masih menggunakan perintah SQL SELECT untuk mengakses data yang ada di dalam database, Entity Framework menggunakan <a href="http://msdn.microsoft.com/en-us/library/bb397926.aspx">LINQ</a>.</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="n">IList</span><span class="p">&lt;</span><span class="n">Supplier</span><span class="p">&gt;</span> <span class="n">GetAllUsingEF</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">daftarSupplier</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Supplier</span><span class="p">&gt;();&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">db</span> <span class="p">=</span> <span class="k">new</span> <span class="n">RetailContext</span><span class="p">())</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">daftarSupplier</span> <span class="p">=</span> <span class="n">db</span><span class="p">.</span><span class="n">Suppliers</span>
+</span><span class='line'>                       <span class="p">.</span><span class="n">OrderBy</span><span class="p">(</span><span class="n">s</span> <span class="p">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">s</span><span class="p">.</span><span class="n">NamaSupplier</span><span class="p">)</span>
+</span><span class='line'>                       <span class="p">.</span><span class="n">ToList</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="n">daftarSupplier</span><span class="p">;</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Contoh penggunaan :</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="kt">var</span> <span class="n">noUrut</span> <span class="p">=</span> <span class="m">1</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="kt">var</span> <span class="n">daftarSupplier</span> <span class="p">=</span> <span class="n">GetAllUsingEF</span><span class="p">();</span>
+</span><span class='line'><span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">supplier</span> <span class="k">in</span> <span class="n">daftarSupplier</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;{</span><span class="m">0</span><span class="p">}.</span> <span class="p">{</span><span class="m">1</span><span class="p">}&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">noUrut</span><span class="p">,</span> <span class="n">supplier</span><span class="p">.</span><span class="n">NamaSupplier</span><span class="p">);&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="n">noUrut</span><span class="p">++;</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p><strong>5. GetByName - Untuk menampilkan data berdasarkan nama Supplier
+</strong></p>
+
+<p><strong>ADO.NET</strong></p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="n">IList</span><span class="p">&lt;</span><span class="n">Supplier</span><span class="p">&gt;</span> <span class="n">GetByNameUsingADONET</span><span class="p">(</span><span class="kt">string</span> <span class="n">namaSupplier</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">daftarSupplier</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Supplier</span><span class="p">&gt;();&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">sql</span> <span class="p">=</span> <span class="s">@&quot;SELECT SupplierID, NamaSupplier, Jalan, Kota</span>
+</span><span class='line'><span class="s">                FROM Supplier</span>
+</span><span class='line'><span class="s">                WHERE NamaSupplier LIKE @1</span>
+</span><span class='line'><span class="s">                ORDER BY NamaSupplier&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SqlCommand</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="s">&quot;%&quot;</span> <span class="p">+</span> <span class="n">namaSupplier</span> <span class="p">+</span> <span class="s">&quot;%&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">dtr</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteReader</span><span class="p">())</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="k">while</span> <span class="p">(</span><span class="n">dtr</span><span class="p">.</span><span class="n">Read</span><span class="p">())</span>
+</span><span class='line'>            <span class="p">{</span>
+</span><span class='line'>                <span class="kt">var</span> <span class="n">supplier</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Supplier</span>
+</span><span class='line'>                <span class="p">{</span>
+</span><span class='line'>                    <span class="n">SupplierID</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;SupplierID&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="m">0</span> <span class="p">:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;SupplierID&quot;</span><span class="p">],</span>
+</span><span class='line'>                    <span class="n">NamaSupplier</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;NamaSupplier&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;NamaSupplier&quot;</span><span class="p">],</span>
+</span><span class='line'>                    <span class="n">Jalan</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Jalan&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Jalan&quot;</span><span class="p">],</span>
+</span><span class='line'>                    <span class="n">Kota</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Kota&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Kota&quot;</span><span class="p">]</span>
+</span><span class='line'>                <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="n">daftarSupplier</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">supplier</span><span class="p">);</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="n">daftarSupplier</span><span class="p">;</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Contoh penggunaan :</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="kt">var</span> <span class="n">noUrut</span> <span class="p">=</span> <span class="m">1</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="kt">var</span> <span class="n">daftarSupplier</span> <span class="p">=</span> <span class="n">GetByNameUsingADONET</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="k">new</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+</span><span class='line'><span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">supplier</span> <span class="k">in</span> <span class="n">daftarSupplier</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;{</span><span class="m">0</span><span class="p">}.</span> <span class="p">{</span><span class="m">1</span><span class="p">}&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">noUrut</span><span class="p">,</span> <span class="n">supplier</span><span class="p">.</span><span class="n">NamaSupplier</span><span class="p">);&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="n">noUrut</span><span class="p">++;</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p><strong>Entity Framework (EF)
+</strong></p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="n">IList</span><span class="p">&lt;</span><span class="n">Supplier</span><span class="p">&gt;</span> <span class="n">GetByNameUsingEF</span><span class="p">(</span><span class="kt">string</span> <span class="n">namaSupplier</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">daftarSupplier</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Supplier</span><span class="p">&gt;();&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">db</span> <span class="p">=</span> <span class="k">new</span> <span class="n">RetailContext</span><span class="p">())</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">daftarSupplier</span> <span class="p">=</span> <span class="n">db</span><span class="p">.</span><span class="n">Suppliers</span>
+</span><span class='line'>                       <span class="p">.</span><span class="n">Where</span><span class="p">(</span><span class="n">s</span> <span class="p">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">s</span><span class="p">.</span><span class="n">NamaSupplier</span><span class="p">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">namaSupplier</span><span class="p">))</span>
+</span><span class='line'>                       <span class="p">.</span><span class="n">OrderBy</span><span class="p">(</span><span class="n">s</span> <span class="p">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">s</span><span class="p">.</span><span class="n">NamaSupplier</span><span class="p">)</span>
+</span><span class='line'>                       <span class="p">.</span><span class="n">ToList</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="n">daftarSupplier</span><span class="p">;</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Contoh penggunaan :</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="kt">var</span> <span class="n">noUrut</span> <span class="p">=</span> <span class="m">1</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="kt">var</span> <span class="n">daftarSupplier</span> <span class="p">=</span> <span class="n">GetByNameUsingEF</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="k">new</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+</span><span class='line'><span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">supplier</span> <span class="k">in</span> <span class="n">daftarSupplier</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;{</span><span class="m">0</span><span class="p">}.</span> <span class="p">{</span><span class="m">1</span><span class="p">}&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">noUrut</span><span class="p">,</span> <span class="n">supplier</span><span class="p">.</span><span class="n">NamaSupplier</span><span class="p">);&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="n">noUrut</span><span class="p">++;</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Dan method terakhir adalah &hellip;</p>
+
+<p><strong>6. GetByID - Untuk menampilkan data berdasarkan Supplier ID
+</strong></p>
+
+<p>Method ini hanya mengembalikan satu objek supplier jika ditemukan, selain itu akan mengembalikan nilai null.</p>
+
+<p><strong>ADO.NET</strong></p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="n">Supplier</span> <span class="nf">GetByIDUsingADONET</span><span class="p">(</span><span class="kt">int</span> <span class="n">supplierID</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">Supplier</span> <span class="n">supplier</span> <span class="p">=</span> <span class="k">null</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">sql</span> <span class="p">=</span> <span class="s">@&quot;SELECT SupplierID, NamaSupplier, Jalan, Kota</span>
+</span><span class='line'><span class="s">                FROM Supplier</span>
+</span><span class='line'><span class="s">                WHERE SupplierID = @1&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SqlCommand</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="n">supplierID</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">dtr</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteReader</span><span class="p">())</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="n">dtr</span><span class="p">.</span><span class="n">Read</span><span class="p">())</span>
+</span><span class='line'>            <span class="p">{</span>
+</span><span class='line'>                <span class="n">supplier</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Supplier</span><span class="p">();</span>
+</span><span class='line'>                <span class="n">supplier</span><span class="p">.</span><span class="n">SupplierID</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;SupplierID&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="m">0</span> <span class="p">:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;SupplierID&quot;</span><span class="p">];</span>
+</span><span class='line'>                <span class="n">supplier</span><span class="p">.</span><span class="n">NamaSupplier</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;NamaSupplier&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;NamaSupplier&quot;</span><span class="p">];</span>
+</span><span class='line'>                <span class="n">supplier</span><span class="p">.</span><span class="n">Jalan</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Jalan&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Jalan&quot;</span><span class="p">];</span>
+</span><span class='line'>                <span class="n">supplier</span><span class="p">.</span><span class="n">Kota</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Kota&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Kota&quot;</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="n">supplier</span><span class="p">;</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Contoh penggunaan :</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="kt">var</span> <span class="n">supplier</span> <span class="p">=</span> <span class="n">GetByIDUsingADONET</span><span class="p">(</span><span class="m">19</span><span class="p">);</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">supplier</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;{</span><span class="m">0</span><span class="p">}&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">supplier</span><span class="p">.</span><span class="n">NamaSupplier</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p><strong>Entity Framework (EF)
+</strong></p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="n">Supplier</span> <span class="nf">GetByIDUsingEF</span><span class="p">(</span><span class="kt">int</span> <span class="n">supplierID</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">Supplier</span> <span class="n">supplier</span> <span class="p">=</span> <span class="k">null</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">db</span> <span class="p">=</span> <span class="k">new</span> <span class="n">RetailContext</span><span class="p">())</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">supplier</span> <span class="p">=</span> <span class="n">db</span><span class="p">.</span><span class="n">Suppliers</span>
+</span><span class='line'>                 <span class="p">.</span><span class="n">Where</span><span class="p">(</span><span class="n">s</span> <span class="p">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">s</span><span class="p">.</span><span class="n">SupplierID</span> <span class="p">==</span> <span class="n">supplierID</span><span class="p">)</span>
+</span><span class='line'>                 <span class="p">.</span><span class="n">SingleOrDefault</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="n">supplier</span><span class="p">;</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Contoh penggunaan :</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="kt">var</span> <span class="n">supplier</span> <span class="p">=</span> <span class="n">GetByIDUsingEF</span><span class="p">(</span><span class="m">19</span><span class="p">);</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">supplier</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;{</span><span class="m">0</span><span class="p">}&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">supplier</span><span class="p">.</span><span class="n">NamaSupplier</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Semua contoh method di atas masih menggunakan access modifier <em>private static</em> karena saya melakukan testingnya langsung di method Main (static void Main). Idealnya semua method di atas disimpan di dalam sebuah class dengan access modifier <em>public</em>.</p>
+
+<p>Dan kesimpulan akhirnya adalah, dengan menggunakan <a href="http://en.wikipedia.org/wiki/Object-relational_mapping">ORM</a> seperti <a href="http://msdn.microsoft.com/en-us/data/aa937723">Entity Framework</a>, kita bisa dengan mudah membuat standarisasi penulisan kode untuk mengakses database karena memiliki pola yang sama, yg membedakan hanya nilai Statenya saja.</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/04/1.png"><img src="http://coding4ever.files.wordpress.com/2014/04/1.png" alt="1" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/04/2.png"><img src="http://coding4ever.files.wordpress.com/2014/04/2.png" alt="2" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/04/3.png"><img src="http://coding4ever.files.wordpress.com/2014/04/3.png" alt="3" /></a></p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/EntityFramework5">MENCOBA</a> :)</p>
+]]></content>
+  </entry>
+  
+</feed>

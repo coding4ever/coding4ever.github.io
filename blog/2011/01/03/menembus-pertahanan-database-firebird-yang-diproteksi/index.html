@@ -1,0 +1,413 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Menembus Pertahanan Database Firebird Yang Diproteksi - Coding4ever&#8217;s Blog</title>
+  <meta name="author" content="Admin">
+
+  
+  <meta name="description" content="Sebelumnya saya mohon maaf jika ada pihak yang tidak berkenan atau merasa dirugikan dengan postingan kali ini, dan jika memang ada silahkan &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://coding4ever.net/blog/2011/01/03/menembus-pertahanan-database-firebird-yang-diproteksi">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Coding4ever's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50866618-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Coding4ever&#8217;s Blog</a></h1>
+  
+    <h2>Just coding&#8230; coding&#8230; and coding&#8230; because coding should be fun :)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:coding4ever.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/gudang-software">Gudang Software</a></li>
+  <li><a href="/source-code">Source Code</a></li>  
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Menembus Pertahanan Database Firebird Yang Diproteksi</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2011-01-03T10:31:30+07:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2011</span></span> <span class='time'>10:31 am</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><blockquote><p>Sebelumnya saya mohon maaf jika ada pihak yang tidak berkenan atau merasa dirugikan dengan postingan kali ini, dan jika memang ada silahkan menghubungi Admin dan postingan ini akan dihapus.</p></blockquote>
+
+<p>Salah seorang pengunjung bertanya &ldquo;<a href="http://coding4ever.net/blog/2010/12/09/backup-dan-restore-database-firebird/#comment-1335">bagaimana cara mengekspor data-data yang ada di database Zahir Accounting ke Ms Excel</a>&rdquo;.</p>
+
+<p>Untuk bisa mengekspornya tentu saja kita harus tau dulu isi databasenya seperti apa terutama tabelnya, nah untuk demo Zahir Accounting sendiri bisa di download di<a href="http://www.zahir.info/index.php?_m=downloads&amp;_a=view&amp;parentcategoryid=5&amp;pcid=0&amp;nav=0">sini</a>.</p>
+
+<!-- more -->
+
+
+<p>Setelah menginstallkan kita bisa langsung mengcopy database sample yang sudah disediakan aplikasi ini, secara default lokasinya ada :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>C:\Program Files\Zahir Small Business System Ver. 5.1\Sample Data\SAMPLE.gdb</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Selanjutnya install program <a href="http://www.4shared.com/file/qA3GI_Z1/ibexpert_personal_edition_v200.html">IBExpert Personal Edition</a> kemudian daftarkan sample database tersebut menggunakan user <strong>SYSDBA</strong> dan password <strong>masterkey</strong> dan untungnya Zahir Accounting tidak mengganti password default firebird pada saat instalasi.</p>
+
+<p>Caranya dengan mengklik menu Database -> Register Database, setelah itu akan tampil dialog registrasi database</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/01/03012011-1.jpg"><img src="http://coding4ever.files.wordpress.com/2011/01/03012011-1.jpg?w=300" alt="" /></a></p>
+
+<p>Setelah itu klik ganda node DB ZAHIR ACCOUNTING, tapi apa yang terjadi yang muncul malah pesan error</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/01/03012011-2.jpg"><img src="http://coding4ever.files.wordpress.com/2011/01/03012011-2.jpg?w=300" alt="" /></a></p>
+
+<p>Oke ternyata database ini di<strong>proteksi</strong> dengan cara membuat role dengan nama yang sama dengan user SYSDBA sehingga proses login pun tertolak.</p>
+
+<p>Solusinya adalah kita membuat user baru misalnya dengan nama <strong>k4m4r82</strong> dan password <strong>rahasia</strong> caranya dengan mengklik menu Tools -> User Manager kemudian masukkan login <strong>SYSDBA</strong> dan password <strong>masterkey</strong>.</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/01/03012011-3.jpg"><img src="http://coding4ever.files.wordpress.com/2011/01/03012011-3.jpg" alt="" /></a></p>
+
+<p>Kemudian pada dialog User Manager, klik tombol Add setelah itu isikan informasi user yang akan ditambahkan.</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/01/03012011-4.jpg"><img src="http://coding4ever.files.wordpress.com/2011/01/03012011-4.jpg?w=300" alt="" /></a></p>
+
+<p>Setelah itu kita edit informasi registrasi database sebelumnya khusus dibagian User Name dan Password, caranya dengan mengklik kanan node DB ZAHIR ACCOUNTING kemudian pilih Database Registration Info&hellip;</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/01/03012011-5.jpg"><img src="http://coding4ever.files.wordpress.com/2011/01/03012011-5.jpg?w=269" alt="" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/01/03012011-6.jpg"><img src="http://coding4ever.files.wordpress.com/2011/01/03012011-6.jpg?w=300" alt="" /></a></p>
+
+<p>kemudian klik ganda node DB ZAHIR ACCOUNTING dan login pun berhasil :)</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/01/03012011-7.jpg"><img src="http://coding4ever.files.wordpress.com/2011/01/03012011-7.jpg?w=225" alt="" /></a></p>
+
+<p>Oke apakah sampai disini sudah selesai ? Tentunya belum kita akan lihat dulu isi salah satu tabel misal tabel <strong>ABC</strong> dengan cara mengklik ganda tabel tersebut kemudian mengklik tab <strong>Data</strong> dan wowww apa yang terjadi ?</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/01/03012011-8.jpg"><img src="http://coding4ever.files.wordpress.com/2011/01/03012011-8.jpg?w=300" alt="" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/01/03012011-9.jpg"><img src="http://coding4ever.files.wordpress.com/2011/01/03012011-9.jpg?w=300" alt="" /></a></p>
+
+<p>ternyata user yang baru kita tambah tidak mempunyai hak akses untuk melihat data :(, tamat sudah perjalanan kita dan pandangan pun menjadi buram :D.</p>
+
+<p>Tapi&hellip; ada yang aneh ? Bagaimana aplikasi Zahir Accounting ini bisa login ke database klo login <strong>SYSDBA</strong>nya terlarang ??? Pasti ada user lain yang mungkin saja mempunyai level seperti SYSDBA yang digunakan untuk login.</p>
+
+<p>Untungnya firebird menyediakan banyak tabel sistem, salah satunya yaitu <strong>RDB$USER_PRIVILEGES</strong> tabel ini berisi informasi daftar user yang berhak mengakses database, dan mudah-mudahan saja user yang baru kita tambahkan mempunyai hak akses untuk melihat isi table <strong>RDB$USER_PRIVILEGES</strong>.</p>
+
+<p>Aktifkan SQL Editor dengan mengklik menu Tools -> SQL Editor, kemudian ketik query seperti berikut :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT DISTINCT RDB$USER FROM RDB$USER_PRIVILEGES;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Untuk menjalankan query diatas tekan tombol F9</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/01/03012011-10.jpg"><img src="http://coding4ever.files.wordpress.com/2011/01/03012011-10.jpg?w=300" alt="" /></a></p>
+
+<p>Eh ternyata ada user dengan nama <strong>ZAHIRDBA</strong>, jangan-jangan ini nih user yang digunakan untuk login aplikasi.</p>
+
+<p>Oke klo gitu kita coba aja dengan cara membuat user baru dengan nama <strong>ZAHIRDBA</strong> dan untuk passwordnya <strong>rahasia</strong>, tapi sebelumnya kita harus menutup terlebih dulu database yang aktif.</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/01/03012011-11.jpg"><img src="http://coding4ever.files.wordpress.com/2011/01/03012011-11.jpg?w=282" alt="" /></a></p>
+
+<p>Kemudian klik menu Tools -> User Management, login menggunakan <strong>SYSDBA</strong> dan password <strong>masterkey</strong>.</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/01/03012011-3.jpg"><img src="http://coding4ever.files.wordpress.com/2011/01/03012011-3.jpg" alt="" /></a></p>
+
+<p>kemudian tambahkan user <strong>ZAHIRDBA</strong> dan password <strong>rahasia</strong>.</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/01/03012011-12.jpg"><img src="http://coding4ever.files.wordpress.com/2011/01/03012011-12.jpg?w=300" alt="" /></a></p>
+
+<p>Setelah itu kita edit kembali informasi registrasi database menggunakan user ZAHIRDBA.</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/01/03012011-13.jpg"><img src="http://coding4ever.files.wordpress.com/2011/01/03012011-13.jpg?w=300" alt="" /></a></p>
+
+<p>kemudian klik ganda node DB ZAHIR ACCOUNTING, yuph login berhasil :).</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/01/03012011-7.jpg"><img src="http://coding4ever.files.wordpress.com/2011/01/03012011-7.jpg?w=225" alt="" /></a></p>
+
+<p>sekarang kita coba kembali melihat isi data tabel ABC dengan cara mengklik ganda tabel tersebut kemudian klik tab Data</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/01/03012011-8.jpg"><img src="http://coding4ever.files.wordpress.com/2011/01/03012011-8.jpg?w=300" alt="" /></a></p>
+
+<p>dan hasilnya &hellip;.</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/01/03012011-14.jpg"><img src="http://coding4ever.files.wordpress.com/2011/01/03012011-14.jpg?w=300" alt="" /></a></p>
+
+<p>Selamat mencoba :)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Admin</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2011-01-03T10:31:30+07:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2011</span></span> <span class='time'>10:31 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/firebird/'>firebird</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2010/12/30/menyembunyikan-tulisan-merah-di-activereports-for-net-2-sp-2/" title="Previous Post: Menyembunyikan tulisan MERAH di ActiveReports for .NET 2 SP 2">&laquo; Menyembunyikan tulisan MERAH di ActiveReports for .NET 2 SP 2</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/01/18/cara-mudah-memvalidasi-input-textbox/" title="Next Post: Cara mudah memvalidasi input textbox">Cara mudah memvalidasi input textbox &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Admin</h1>
+  <p>Software developer yang berasal dari Riau, tapi malah betah tinggal di Yogyakarta :)</p>
+  
+  <p>Pernah mengajar di salah satu perguruan tinggi swasta (PTS) di Yogyakarta.<br>
+     Saat ini bekerja sebagai staf IT di PTS yang sama sebagai senior software developer.</p>
+  
+  <p>Fokus mengembangkan aplikasi di atas platform .NET, dan diwaktu luang insya Alloh akan terus berbagi pengalaman di blog <a href="http://coding4ever.net/" target="_blank">ini</a>.</p>    
+</section><section>
+  <h1>Contacts :</h1>
+    <ul>		
+		<li>			
+			<a href="mailto:coding4ever.net@gmail.com" title="GMail" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/gmail-small2.png" border="0" alt="GMail" /></a>
+		</li>		
+		<li>			
+			<a href="https://github.com/k4m4r82?tab=repositories" title="GitHub" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/github-small2.png" border="0" alt="GitHub" /></a>
+		</li>
+		<li>
+			<a href="http://www.facebook.com/abu.anas.1232" title="Facebook" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/fb-small2.png" border="0" alt="Facebook" /></a>
+		</li>				
+	</ul>
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/06/08/entity-framework-part-8/">Entity Framework Part 8</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/manajemen-proyek-menggunakan-redmine-bagian-1/">Manajemen Proyek Menggunakan Redmine Bagian 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/21/manajemen-password-menggunakan-keepass/">Manajemen Password Menggunakan KeePass</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/10/sms-gateway-edisi-net-part-1/">SMS Gateway Edisi .NET Part 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/11/entity-framework-part-7/">Entity Framework Part 7</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/03/entity-framework-part-6/">Entity Framework Part 6</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/01/entity-framework-part-5/">Entity Framework Part 5</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/27/entity-framework-part-4/">Entity Framework Part 4</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/26/entity-framework-part-3/">Entity Framework Part 3</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/21/entity-framework-part-2/">Entity Framework Part 2</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+    <ul id="category-list"><li><a href='/blog/categories/dot-net-remoting/'>.net remoting (9)</a></li><li><a href='/blog/categories/active-report/'>active report (4)</a></li><li><a href='/blog/categories/aplikasi/'>aplikasi (3)</a></li><li><a href='/blog/categories/dapper-net/'>dapper .net (3)</a></li><li><a href='/blog/categories/entity-framework/'>entity framework (8)</a></li><li><a href='/blog/categories/firebird/'>firebird (11)</a></li><li><a href='/blog/categories/freeware/'>freeware (7)</a></li><li><a href='/blog/categories/inno-setup/'>inno setup (6)</a></li><li><a href='/blog/categories/jaringan/'>jaringan (1)</a></li><li><a href='/blog/categories/mysql/'>mysql (3)</a></li><li><a href='/blog/categories/nsis/'>nsis (2)</a></li><li><a href='/blog/categories/nuget/'>nuget (3)</a></li><li><a href='/blog/categories/sql-server-2000/'>sql server 2000 (1)</a></li><li><a href='/blog/categories/sqlite/'>sqlite (3)</a></li><li><a href='/blog/categories/tools-installer/'>tools installer (8)</a></li><li><a href='/blog/categories/uncategorized/'>uncategorized (6)</a></li><li><a href='/blog/categories/visual-basic/'>visual basic (73)</a></li><li><a href='/blog/categories/visual-basic-net/'>visual basic .net (11)</a></li><li><a href='/blog/categories/visual-c-number/'>visual c# (32)</a></li><li><a href='/blog/categories/winsock/'>winsock (6)</a></li></ul>
+</section>
+<section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/blog/categories/dot-net-remoting' style='font-size: 107.3972602739726%'>.net remoting(9)</a> <a href='/blog/categories/active-report' style='font-size: 103.28767123287672%'>active report(4)</a> <a href='/blog/categories/aplikasi' style='font-size: 102.46575342465754%'>aplikasi(3)</a> <a href='/blog/categories/dapper-net' style='font-size: 102.46575342465754%'>dapper .net(3)</a> <a href='/blog/categories/entity-framework' style='font-size: 106.57534246575342%'>entity framework(8)</a> <a href='/blog/categories/firebird' style='font-size: 109.04109589041096%'>firebird(11)</a> <a href='/blog/categories/freeware' style='font-size: 105.75342465753425%'>freeware(7)</a> <a href='/blog/categories/inno-setup' style='font-size: 104.93150684931507%'>inno setup(6)</a> <a href='/blog/categories/jaringan' style='font-size: 100.82191780821918%'>jaringan(1)</a> <a href='/blog/categories/mysql' style='font-size: 102.46575342465754%'>mysql(3)</a> <a href='/blog/categories/nsis' style='font-size: 101.64383561643835%'>nsis(2)</a> <a href='/blog/categories/nuget' style='font-size: 102.46575342465754%'>nuget(3)</a> <a href='/blog/categories/sql-server-2000' style='font-size: 100.82191780821918%'>sql server 2000(1)</a> <a href='/blog/categories/sqlite' style='font-size: 102.46575342465754%'>sqlite(3)</a> <a href='/blog/categories/tools-installer' style='font-size: 106.57534246575342%'>tools installer(8)</a> <a href='/blog/categories/uncategorized' style='font-size: 104.93150684931507%'>uncategorized(6)</a> <a href='/blog/categories/visual-basic' style='font-size: 160.0%'>visual basic(73)</a> <a href='/blog/categories/visual-basic-net' style='font-size: 109.04109589041096%'>visual basic .net(11)</a> <a href='/blog/categories/visual-c-number' style='font-size: 126.30136986301369%'>visual c#(32)</a> <a href='/blog/categories/winsock' style='font-size: 104.93150684931507%'>winsock(6)</a> </span>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'k4m4r82',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Admin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'coding4ever';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://coding4ever.net/blog/2011/01/03/menembus-pertahanan-database-firebird-yang-diproteksi/';
+        var disqus_url = 'http://coding4ever.net/blog/2011/01/03/menembus-pertahanan-database-firebird-yang-diproteksi/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Jaringan | Coding4ever's Blog]]></title>
+  <link href="http://coding4ever.net/blog/categories/jaringan/atom.xml" rel="self"/>
+  <link href="http://coding4ever.net/"/>
+  <updated>2014-11-06T10:08:33+07:00</updated>
+  <id>http://coding4ever.net/</id>
+  <author>
+    <name><![CDATA[Admin]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Belajar Winsock Bagian 4 – Membuat Jaringan VPN Sendiri]]></title>
+    <link href="http://coding4ever.net/blog/2010/02/02/belajar-winsock-bagian-4-e28093-membuat-jaringan-vpn-sendiri/"/>
+    <updated>2010-02-02T03:19:07+07:00</updated>
+    <id>http://coding4ever.net/blog/2010/02/02/belajar-winsock-bagian-4-e28093-membuat-jaringan-vpn-sendiri</id>
+    <content type="html"><![CDATA[<p>Pada artikel kali ini kita stop dulu untuk mengetikan baris-baris kode yang indah itu :D dan kita akan mencoba untuk membuat jaringan <a href="http://id.wikipedia.org/wiki/VPN">VPN</a> sendiri yang tentunya dengan investasi yang murah meriah :D dan nyaris dengan biaya 0 rupiah. G percaya ? Oke kita ikuti saja pembahasan berikut.</p>
+
+<p>Misalkan kita punya klien sebutnya saja namanya mas Paijo yang sudah menggunakan program retail kita selama beberapa tahun. Mas Paijo ini sering berbelanja untuk keperluan tokonya ke luar kota dan masalah yang dihadapinya adalah kesulitan untuk mengecek jumlah stok barang di toko (selama ini untuk menanyakan jumlah stok masih telp2xan :D), dan baru-baru ini mas Paijo menghubungi kita untuk minta dibuatkan program kecil yang hanya sekedar untuk mengecek stok barang.</p>
+
+<!-- more -->
+
+
+<p>Hasil akhir pembicaraan disepakati perangkat jaringan yang akan digunakan adalah sebagai berikut :</p>
+
+<ol>
+<li><p> Komputer server untuk akses internetnya cukup menggunakan speedy dan hanya mendapatkan ip private.</p></li>
+<li><p> Laptop mas Paijo rencananya menggunakan modem CDMA (bisa starone atau lainnya) kita anggap saja menggunakan starone.</p></li>
+</ol>
+
+
+<p>Beberapa solusi yang bisa kita tawarkan adalah sebagai berikut :</p>
+
+<ol>
+<li><p> Menggunakan program remote seperti <a href="www.teamviewer.com">Teamviewer</a> atau <a href="www.crossloop.com">CrossLoop</a>. Loh kok enggak pake program remote seperti <a href="www.radmin.com">Radmin</a>, <a href="www.netsupportmanager.com">Net Support Manager</a>, atau <a href="www.realvnc.com">RealVNC</a> ? Ya jelas enggak bisa, karena komputer servernya hanya mendapatkan ip private kecuali kalo kita mau direportkan dengan menyeting <a href="http://portforward.com/">portforwarding</a>nya.</p></li>
+<li><p> Membuat program sendiri dengan menggunakan komponen Winsock, nah kalo ini cocox karena memang itu intinya dibuat artikel ke 4 ini :D</p></li>
+</ol>
+
+
+<p>Oke sampai disini kita sudah menentukan pilihan tetapi masalah baru muncul jangankan untuk mengakses data di komputer toko mau ngePING aja selalu Request timed out.</p>
+
+<p>Tapi jangan kuatir setiap masalah selalu ada penyelesaiannya dan penyelesaian yang paling sederhana untuk kasus kita kali ini adalah membuat jaringan VPN sendiri dengan bantuan <a href="https://secure.logmein.com/US/products/hamachi2/">LogMeIn Hamachi</a>.</p>
+
+<p>Berikut adalah langkah-langkah mulai dari pendaftaran, konfigurasi dan tentu saja sampai ngPINGnya berhasil :D</p>
+
+<ol>
+<li>Mendaftar dulu di<a href="https://secure.logmein.com/US/products/hamachi2/register.aspx">sini</a></li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/02/02022010-1.jpg"><img src="http://coding4ever.files.wordpress.com/2010/02/02022010-1.jpg?w=266" alt="" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/02/02022010-2.jpg"><img src="http://coding4ever.files.wordpress.com/2010/02/02022010-2.jpg?w=300" alt="" /></a></p>
+
+<ol>
+<li>Setelah proses mendaftar selesai kita lanjutkan dengan membuat jaringan</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/02/02022010-3.jpg"><img src="http://coding4ever.files.wordpress.com/2010/02/02022010-3.jpg?w=300" alt="" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/02/02022010-4.jpg"><img src="http://coding4ever.files.wordpress.com/2010/02/02022010-4.jpg?w=300" alt="" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/02/02022010-5.jpg"><img src="http://coding4ever.files.wordpress.com/2010/02/02022010-5.jpg?w=300" alt="" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/02/02022010-6.jpg"><img src="http://coding4ever.files.wordpress.com/2010/02/02022010-6.jpg?w=300" alt="" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/02/02022010-7.jpg"><img src="http://coding4ever.files.wordpress.com/2010/02/02022010-7.jpg?w=300" alt="" /></a></p>
+
+<ol>
+<li>Langkah berikutnya adalah mendownload LogMeIn Hamachi Installer</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/02/02022010-8.jpg"><img src="http://coding4ever.files.wordpress.com/2010/02/02022010-8.jpg?w=300" alt="" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/02/02022010-9.jpg"><img src="http://coding4ever.files.wordpress.com/2010/02/02022010-9.jpg?w=300" alt="" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/02/02022010-10.jpg"><img src="http://coding4ever.files.wordpress.com/2010/02/02022010-10.jpg?w=300" alt="" /></a></p>
+
+<p>Sambil menungu proses download selesai kita bisa logout dulu dari situs LogMeIn Hamachi.</p>
+
+<ol>
+<li>Setelah download selesai copykan file installer tadi ke laptop mas Paijo dan lakukan instalasi, setelah itu jalankan program LogMeIn Hamachi</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/02/02022010-111.jpg"><img src="http://coding4ever.files.wordpress.com/2010/02/02022010-111.jpg?w=300" alt="" /></a></p>
+
+<ol>
+<li>Selanjutkan kita akan mengganti informasi nama komputer dengan cara klik menu System -> Preferences &hellip;</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/02/02022010-12.jpg"><img src="http://coding4ever.files.wordpress.com/2010/02/02022010-12.jpg?w=300" alt="" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/02/02022010-13.jpg"><img src="http://coding4ever.files.wordpress.com/2010/02/02022010-13.jpg?w=300" alt="" /></a></p>
+
+<ol>
+<li>Bergabung dengan <strong>Jaringan Tokonya Mas Paijo</strong> dengan mengklik menu Network -> Join an existing network &hellip; atau cukup dengan mengklik tombol Join an existing network &hellip;</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/02/02022010-19.jpg"><img src="http://coding4ever.files.wordpress.com/2010/02/02022010-19.jpg?w=186" alt="" /></a></p>
+
+<p>Setelah itu kita diminta untuk memasukkan Network ID dan Password</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/02/02022010-141.jpg"><img src="http://coding4ever.files.wordpress.com/2010/02/02022010-141.jpg?w=300" alt="" /></a></p>
+
+<p>jika berhasil akan kita dapatkan tampilan lebih kurang seperti berikut :</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/02/02022010-15.jpg"><img src="http://coding4ever.files.wordpress.com/2010/02/02022010-15.jpg?w=186" alt="" /></a></p>
+
+<ol>
+<li><p>Ulangi langkah 4 sampai 6 di komputer server</p></li>
+<li><p>Setelah instalasi + konfigurasi di komputer server selesai, coba kita cek masing-masing program LogMeIn Hamachi maka kita akan mendapatkan tampilan seperti berikut :</p></li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/02/02022010-16.jpg"><img src="http://coding4ever.files.wordpress.com/2010/02/02022010-16.jpg?w=300" alt="" /></a></p>
+
+<ol>
+<li>Biar semakin manteb kita login ulang ke<a href="https://secure.logmein.com/US/products/hamachi2/">sini</a> dan jika kita mendapatkan tampilannya seperti berikut berarti langkah-langkah sebelumnya sudah 100% berhasil :)</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/02/02022010-17.jpg"><img src="http://coding4ever.files.wordpress.com/2010/02/02022010-17.jpg?w=300" alt="" /></a></p>
+
+<p>dan otomatis kita juga bisa langsung menggunakan program-program remote seperti <a href="www.radmin.com">Radmin</a>, <a href="www.netsupportmanager.com">Net Support Manager</a>, atau <a href="www.realvnc.com">RealVNC</a> karena kita sudah mendapatkan IP Publik sendiri</p>
+
+<ol>
+<li>Terakhir kita akan mencoba ngePING komputer server</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/02/02022010-18.jpg"><img src="http://coding4ever.files.wordpress.com/2010/02/02022010-18.jpg?w=300" alt="" /></a></p>
+
+<p>Jika hasil ping masih Request timed out coba nonaktifkan windows firewall di komputer server kemudian coba di ping lagi.</p>
+
+<p>Oke sampai disini kita sudah berhasil membuat jaringan VPN sendiri dan memudahkan saya untuk menulis artikel terakhir yang insya Alloh dengan judul <a href="/blog/2010/02/04/belajar-winsock-bagian-akhir-%e2%80%93-contoh-kasus-mengakses-data-stok-barang-dari-luar/">Belajar Winsock bagian akhir – Contoh kasus mengakses data stok barang dari luar</a>.</p>
+
+<p>Selamat mencoba :)</p>
+]]></content>
+  </entry>
+  
+</feed>

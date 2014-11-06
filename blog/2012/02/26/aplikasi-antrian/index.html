@@ -1,0 +1,698 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Aplikasi Antrian - Coding4ever&#8217;s Blog</title>
+  <meta name="author" content="Admin">
+
+  
+  <meta name="description" content="Aplikasi ini merupakan pengembangan dari sample aplikasi yg sudah pernah saya bahas pada postingan sebelumnya, aplikasi ini terdiri dari 2 project &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://coding4ever.net/blog/2012/02/26/aplikasi-antrian">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Coding4ever's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50866618-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Coding4ever&#8217;s Blog</a></h1>
+  
+    <h2>Just coding&#8230; coding&#8230; and coding&#8230; because coding should be fun :)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:coding4ever.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/gudang-software">Gudang Software</a></li>
+  <li><a href="/source-code">Source Code</a></li>  
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Aplikasi Antrian</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-02-26T10:02:09+07:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>10:02 am</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Aplikasi ini merupakan pengembangan dari sample aplikasi yg sudah pernah saya bahas pada postingan <a href="http://coding4ever.net/blog/2010/01/30/belajar-winsock-bagian-3-%e2%80%93-multiple-connection/">sebelumnya</a>, aplikasi ini terdiri dari 2 project yaitu :</p>
+
+<ol>
+<li><p> Aplikasi server memanfaatkan array winsock karena akan menghandle minimal 1 koneksi</p></li>
+<li><p> Untuk aplikasi klien cukup menggunakan winsock standar (non array).</p></li>
+</ol>
+
+
+<!-- more -->
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2012/02/26022012-2.png"><img src="http://coding4ever.files.wordpress.com/2012/02/26022012-2.png" alt="" /></a></p>
+
+<p>Sekarang akan kita bahas cara pembuatannya.</p>
+
+<p><strong>Aplikasi server</strong></p>
+
+<p>Aplikasi server menggunakan winsock yg dijadikan array karena akan menerima lebih dari 1 koneksi, untuk menjadikan sebuah winsock menjadi array cukup dengan mengeset properties index = 0</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2012/02/26022012-1.png"><img src="http://coding4ever.files.wordpress.com/2012/02/26022012-1.png" alt="" /></a></p>
+
+<p>Selain itu agar sebuah winsock bisa menerima koneksi yg masuk, maka winsocknya harus dalam mode &ldquo;Listen&rdquo;, untuk keperluan ini kita akan menyiapkan sebuah fungsi misal dengan nama startListening</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Function</span> <span class="nf">startListening</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">localPort</span> <span class="ow">As</span> <span class="kt">Long</span><span class="p">)</span> <span class="ow">As</span> <span class="kt">Boolean</span>
+</span><span class='line'>    <span class="k">On</span> <span class="k">Error</span> <span class="k">GoTo</span> <span class="n">errHandle</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">If</span> <span class="n">localPort</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">Then</span>
+</span><span class='line'>        <span class="c">&#39;If the socket is already listening, and it&#39;s listening on the same port, don&#39;t bother restarting it.</span>
+</span><span class='line'>        <span class="k">If</span> <span class="p">(</span><span class="n">wckServer</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">State</span> <span class="o">&lt;&gt;</span> <span class="n">sckListening</span><span class="p">)</span> <span class="ow">Or</span> <span class="p">(</span><span class="n">wckServer</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">localPort</span> <span class="o">&lt;&gt;</span> <span class="n">localPort</span><span class="p">)</span> <span class="k">Then</span>
+</span><span class='line'>            <span class="k">With</span> <span class="n">wckServer</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>                <span class="k">Call</span> <span class="p">.</span><span class="n">Close</span>
+</span><span class='line'>                <span class="p">.</span><span class="n">localPort</span> <span class="o">=</span> <span class="n">localPort</span>
+</span><span class='line'>                <span class="k">Call</span> <span class="p">.</span><span class="n">Listen</span>
+</span><span class='line'>            <span class="k">End</span> <span class="k">With</span>
+</span><span class='line'>        <span class="k">End</span> <span class="k">If</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c">&#39;Return true, since the server is now listening for clients.</span>
+</span><span class='line'>        <span class="n">startListening</span> <span class="o">=</span> <span class="k">True</span>
+</span><span class='line'>   <span class="k">End</span> <span class="k">If</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="k">Exit</span> <span class="k">Function</span>
+</span><span class='line'><span class="nf">errHandle</span><span class="p">:</span>
+</span><span class='line'>   <span class="n">startListening</span> <span class="o">=</span> <span class="k">False</span>
+</span><span class='line'><span class="k">End</span> <span class="k">Function</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Selanjutnya tinggal kita panggil pada event Form_Load</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">Form_Load</span><span class="p">()</span>
+</span><span class='line'>    <span class="c">&#39;1234 adalah port yg digunakan untuk komunikasi</span>
+</span><span class='line'>    <span class="c">&#39;antara server dan klien, nilainya bisa disesuaikan</span>
+</span><span class='line'>    <span class="k">If</span> <span class="n">startListening</span><span class="p">(</span><span class="mi">1234</span><span class="p">)</span> <span class="k">Then</span>
+</span><span class='line'>        <span class="n">MsgBox</span> <span class="s">&quot;Status Server ON&quot;</span>
+</span><span class='line'>    <span class="k">Else</span>
+</span><span class='line'>        <span class="n">MsgBox</span> <span class="s">&quot;Status Server OFF&quot;</span>
+</span><span class='line'>    <span class="k">End</span> <span class="k">If</span>
+</span><span class='line'><span class="k">End</span> <span class="k">Sub</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Selain itu ada beberapa kode yang harus kita lengkapi pada event2x yg dimiliki oleh winsock yaitu event Close, ConnectionRequest, DataArrival dan Error</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">wckServer_Close</span><span class="p">(</span><span class="n">Index</span> <span class="ow">As</span> <span class="kt">Integer</span><span class="p">)</span>
+</span><span class='line'>    <span class="c">&#39; Close the socket and raise the event to the parent.</span>
+</span><span class='line'>    <span class="k">Call</span> <span class="n">wckServer</span><span class="p">(</span><span class="n">Index</span><span class="p">).</span><span class="n">Close</span>
+</span><span class='line'><span class="k">End</span> <span class="k">Sub</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">wckServer_ConnectionRequest</span><span class="p">(</span><span class="n">Index</span> <span class="ow">As</span> <span class="kt">Integer</span><span class="p">,</span> <span class="k">ByVal</span> <span class="n">requestID</span> <span class="ow">As</span> <span class="kt">Long</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">i</span>          <span class="ow">As</span> <span class="kt">Long</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">j</span>          <span class="ow">As</span> <span class="kt">Long</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">blnLoaded</span>  <span class="ow">As</span> <span class="kt">Boolean</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">On</span> <span class="k">Error</span> <span class="k">GoTo</span> <span class="n">errHandle</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c">&#39; We shouldn&#39;t get ConnectionRequests on any other socket than the listener</span>
+</span><span class='line'>    <span class="c">&#39; (index 0), but check anyway. Also check that we&#39;re not going to exceed</span>
+</span><span class='line'>    <span class="c">&#39; the MaxClients property.</span>
+</span><span class='line'>    <span class="k">If</span> <span class="p">(</span><span class="n">Index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">Then</span>
+</span><span class='line'>        <span class="c">&#39; Check to see if we&#39;ve got any sockets that are free.</span>
+</span><span class='line'>        <span class="k">For</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">To</span> <span class="n">wckServer</span><span class="p">.</span><span class="n">UBound</span>
+</span><span class='line'>            <span class="k">If</span> <span class="p">(</span><span class="n">wckServer</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">State</span> <span class="o">=</span> <span class="n">sckClosed</span><span class="p">)</span> <span class="k">Then</span>
+</span><span class='line'>                <span class="n">j</span> <span class="o">=</span> <span class="n">i</span>
+</span><span class='line'>                <span class="k">Exit</span> <span class="k">For</span>
+</span><span class='line'>            <span class="k">End</span> <span class="k">If</span>
+</span><span class='line'>        <span class="k">Next</span> <span class="n">i</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c">&#39; If we don&#39;t have any free sockets, load another on the array.</span>
+</span><span class='line'>        <span class="k">If</span> <span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">Then</span>
+</span><span class='line'>            <span class="n">blnLoaded</span> <span class="o">=</span> <span class="k">True</span>
+</span><span class='line'>            <span class="k">Call</span> <span class="n">Load</span><span class="p">(</span><span class="n">wckServer</span><span class="p">(</span><span class="n">wckServer</span><span class="p">.</span><span class="n">UBound</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">j</span> <span class="o">=</span> <span class="n">wckServer</span><span class="p">.</span><span class="n">Count</span> <span class="o">-</span> <span class="mi">1</span>
+</span><span class='line'>        <span class="k">End</span> <span class="k">If</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c">&#39; With the selected socket, reset it and accept the new connection.</span>
+</span><span class='line'>        <span class="k">With</span> <span class="n">wckServer</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">Call</span> <span class="p">.</span><span class="n">Close</span>
+</span><span class='line'>            <span class="k">Call</span> <span class="p">.</span><span class="n">Accept</span><span class="p">(</span><span class="n">requestID</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">End</span> <span class="k">With</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">End</span> <span class="k">If</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">Exit</span> <span class="k">Sub</span>
+</span><span class='line'>    <span class="err">&#39;</span>
+</span><span class='line'><span class="n">errHandle</span><span class="p">:</span>
+</span><span class='line'>    <span class="c">&#39; Close the Winsock that caused the error.</span>
+</span><span class='line'>    <span class="k">Call</span> <span class="n">wckServer</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">Close</span>
+</span><span class='line'><span class="k">End</span> <span class="k">Sub</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Event ConnectionRequest berfungsi untuk memfilter koneksi yg masuk, jika ada koneksi yg masuk akan dilakukan pengecekan terlebih dulu apakah ada winsock yg idle (ngangur) jika ada maka koneksi tersebut akan langsung dihandle oleh winsock yg idle tadi, jika tidak maka akan diload terlebih dulu winsock yg baru kemudian langsung menghandle koneksi yg baru masuk tadi.</p>
+
+<p>Teknik ini merupakah salah satu cara untuk melakukan optimasi program jangan sampai aplikasi server meload secara terus menerus objek winsock yg baru untuk setiap koneksi yg masuk.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">wckServer_DataArrival</span><span class="p">(</span><span class="n">Index</span> <span class="ow">As</span> <span class="kt">Integer</span><span class="p">,</span> <span class="k">ByVal</span> <span class="n">bytesTotal</span> <span class="ow">As</span> <span class="kt">Long</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">cmd</span>     <span class="ow">As</span> <span class="kt">String</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">On</span> <span class="k">Error</span> <span class="k">GoTo</span> <span class="n">errHandle</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c">&#39; Grab the data from the specified Winsock object, and pass it to the parent.</span>
+</span><span class='line'>    <span class="k">Call</span> <span class="n">wckServer</span><span class="p">(</span><span class="n">Index</span><span class="p">).</span><span class="n">GetData</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">Select</span> <span class="k">Case</span> <span class="n">cmd</span>
+</span><span class='line'>        <span class="k">Case</span> <span class="s">&quot;get_no_antrian&quot;</span>
+</span><span class='line'>            <span class="k">Call</span> <span class="n">send</span><span class="p">(</span><span class="n">Index</span><span class="p">,</span> <span class="k">CStr</span><span class="p">(</span><span class="n">noAntrian</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">lblNoAntrian</span><span class="p">.</span><span class="n">Caption</span> <span class="o">=</span> <span class="n">noAntrian</span>
+</span><span class='line'>            <span class="n">noAntrian</span> <span class="o">=</span> <span class="n">noAntrian</span> <span class="o">+</span> <span class="mi">1</span> <span class="c">&#39; naikkan counter nomor antrian</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">Case</span> <span class="k">Else</span>
+</span><span class='line'>            <span class="k">Call</span> <span class="n">send</span><span class="p">(</span><span class="n">Index</span><span class="p">,</span> <span class="s">&quot;perintah tidak dikenal&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">End</span> <span class="k">Select</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">Exit</span> <span class="k">Sub</span>
+</span><span class='line'><span class="nf">errHandle</span><span class="p">:</span>
+</span><span class='line'>   <span class="k">Call</span> <span class="n">wckServer</span><span class="p">(</span><span class="n">Index</span><span class="p">).</span><span class="n">Close</span>
+</span><span class='line'><span class="k">End</span> <span class="k">Sub</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Event DataArrival berfungsi untuk memproses data yg masuk, untuk kasus aplikasi antrian ini data yang paling valid hanya berupa string &ldquo;get_no_antrian&rdquo;, jika datanya valid akan langsung dikirimkan nomor antrian terakhir ke klien yg mengirimkan string &ldquo;get_no_antrian&rdquo; dg memanggil prosedur send.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">send</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">lngIndex</span> <span class="ow">As</span> <span class="kt">Long</span><span class="p">,</span> <span class="k">ByVal</span> <span class="n">strData</span> <span class="ow">As</span> <span class="kt">String</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">If</span> <span class="p">(</span><span class="n">wckServer</span><span class="p">(</span><span class="n">lngIndex</span><span class="p">).</span><span class="n">State</span> <span class="o">=</span> <span class="n">sckConnected</span><span class="p">)</span> <span class="k">Then</span>
+</span><span class='line'>        <span class="k">Call</span> <span class="n">wckServer</span><span class="p">(</span><span class="n">lngIndex</span><span class="p">).</span><span class="n">SendData</span><span class="p">(</span><span class="n">strData</span><span class="p">):</span> <span class="n">DoEvents</span>
+</span><span class='line'>    <span class="k">Else</span>
+</span><span class='line'>        <span class="k">Exit</span> <span class="k">Sub</span>
+</span><span class='line'>    <span class="nf">End</span> <span class="k">If</span>
+</span><span class='line'><span class="k">End</span> <span class="k">Sub</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">wckServer_Error</span><span class="p">(</span><span class="n">Index</span> <span class="ow">As</span> <span class="kt">Integer</span><span class="p">,</span> <span class="k">ByVal</span> <span class="n">Number</span> <span class="ow">As</span> <span class="kt">Integer</span><span class="p">,</span> <span class="n">Description</span> <span class="ow">As</span> <span class="kt">String</span><span class="p">,</span> <span class="k">ByVal</span> <span class="n">Scode</span> <span class="ow">As</span> <span class="kt">Long</span><span class="p">,</span> <span class="k">ByVal</span> <span class="n">Source</span> <span class="ow">As</span> <span class="kt">String</span><span class="p">,</span> <span class="k">ByVal</span> <span class="n">HelpFile</span> <span class="ow">As</span> <span class="kt">String</span><span class="p">,</span> <span class="k">ByVal</span> <span class="n">HelpContext</span> <span class="ow">As</span> <span class="kt">Long</span><span class="p">,</span> <span class="n">CancelDisplay</span> <span class="ow">As</span> <span class="kt">Boolean</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">Call</span> <span class="n">wckServer</span><span class="p">(</span><span class="n">Index</span><span class="p">).</span><span class="n">Close</span>
+</span><span class='line'><span class="k">End</span> <span class="k">Sub</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Untuk aplikasi server sy rasa sudah cukup akan kita lanjutkan dg aplikasi klien.</p>
+
+<p><strong>Aplikasi Klien</strong></p>
+
+<p>Untuk aplikasi klien lebih sederhana lagi, yg kita butuhkan cukup sebuah fungsi untuk melakukan koneksi ke server</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Const</span> <span class="n">conTunggu</span> <span class="ow">As</span> <span class="kt">Long</span> <span class="o">=</span> <span class="mi">100000</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Function</span> <span class="nf">isConnected</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">ipServer</span> <span class="ow">As</span> <span class="kt">String</span><span class="p">,</span> <span class="k">ByVal</span> <span class="n">port</span> <span class="ow">As</span> <span class="kt">Long</span><span class="p">)</span> <span class="ow">As</span> <span class="kt">Boolean</span>
+</span><span class='line'>    <span class="k">Static</span> <span class="n">i</span> <span class="ow">As</span> <span class="kt">Long</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">On</span> <span class="k">Error</span> <span class="k">Resume</span> <span class="k">Next</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">If</span> <span class="n">myClient</span><span class="p">.</span><span class="n">State</span> <span class="o">&lt;&gt;</span> <span class="n">sckClosed</span> <span class="k">Then</span> <span class="n">myClient</span><span class="p">.</span><span class="n">Close</span> <span class="c">&#39; close existing connection</span>
+</span><span class='line'>    <span class="n">myClient</span><span class="p">.</span><span class="n">RemoteHost</span> <span class="o">=</span> <span class="n">ipServer</span>
+</span><span class='line'>    <span class="n">myClient</span><span class="p">.</span><span class="n">RemotePort</span> <span class="o">=</span> <span class="n">port</span>
+</span><span class='line'>    <span class="n">myClient</span><span class="p">.</span><span class="n">Connect</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">With</span> <span class="n">myClient</span>
+</span><span class='line'>        <span class="k">Do</span> <span class="n">Until</span> <span class="p">.</span><span class="n">State</span> <span class="o">=</span> <span class="n">sckConnected</span>
+</span><span class='line'>            <span class="n">DoEvents</span>
+</span><span class='line'>            <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class='line'>            <span class="k">If</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="n">conTunggu</span> <span class="k">Then</span>
+</span><span class='line'>                <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>                <span class="k">Exit</span> <span class="k">Function</span>
+</span><span class='line'>            <span class="nf">End</span> <span class="k">If</span>
+</span><span class='line'>        <span class="k">Loop</span>
+</span><span class='line'>    <span class="k">End</span> <span class="k">With</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">isConnected</span> <span class="o">=</span> <span class="n">myClient</span><span class="p">.</span><span class="n">State</span> <span class="o">=</span> <span class="n">sckConnected</span>
+</span><span class='line'><span class="k">End</span> <span class="k">Function</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Contoh pemanggilan fungsi diatas seperti berikut :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">cmdAmbilNoAntrian_Click</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">ipServer</span>    <span class="ow">As</span> <span class="kt">String</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">cmd</span>         <span class="ow">As</span> <span class="kt">String</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">ipServer</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+</span><span class='line'>    <span class="n">cmd</span> <span class="o">=</span> <span class="s">&quot;get_no_antrian&quot;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c">&#39; 1234 ada port yg menyesuaikan port yg ada di server</span>
+</span><span class='line'>    <span class="k">If</span> <span class="n">isConnected</span><span class="p">(</span><span class="n">ipServer</span><span class="p">,</span> <span class="mi">1234</span><span class="p">)</span> <span class="k">Then</span>
+</span><span class='line'>        <span class="n">myClient</span><span class="p">.</span><span class="n">SendData</span> <span class="n">cmd</span>
+</span><span class='line'>    <span class="k">End</span> <span class="k">If</span>
+</span><span class='line'><span class="k">End</span> <span class="k">Sub</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Untuk mengetahui data yang dikirim balik oleh server kita bisa memanfaatkan event DataArrival yg dimiliki oleh objek winsock</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">myClient_DataArrival</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">bytesTotal</span> <span class="ow">As</span> <span class="kt">Long</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">noAntrian</span> <span class="ow">As</span> <span class="kt">String</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">On</span> <span class="k">Error</span> <span class="k">Resume</span> <span class="k">Next</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">myClient</span><span class="p">.</span><span class="n">GetData</span> <span class="n">noAntrian</span>
+</span><span class='line'>    <span class="n">lblNoAntrian</span><span class="p">.</span><span class="n">Caption</span> <span class="o">=</span> <span class="n">noAntrian</span>
+</span><span class='line'><span class="k">End</span> <span class="k">Sub</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Selesai :)</p>
+
+<p>Aplikasi diatas belum menggunakan database sama sekali, sehingga jika aplikasi server ditutup maka counter nomor antrian akan dimulai dari 1 lagi, dan sy berharap tidak ada pertanyaan bagaimana menyimpan counter nomor antriannya ke database atw bagaimana cara menampilkan nomor atrian terakhir klo servernya error :D.</p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/Antrian">MENCOBA</a> :)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Admin</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2012-02-26T10:02:09+07:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>10:02 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/visual-basic/'>visual basic</a>, <a class='category' href='/blog/categories/winsock/'>winsock</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/02/05/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-2/" title="Previous Post: Pembuatan Aplikasi Client Server dengan Arsitektur 3-tier Part 2">&laquo; Pembuatan Aplikasi Client Server dengan Arsitektur 3-tier Part 2</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/03/03/aplikasi-pendukung-smart-library-school/" title="Next Post: Aplikasi Pendukung Smart Library School">Aplikasi Pendukung Smart Library School &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Admin</h1>
+  <p>Software developer yang berasal dari Riau, tapi malah betah tinggal di Yogyakarta :)</p>
+  
+  <p>Pernah mengajar di salah satu perguruan tinggi swasta (PTS) di Yogyakarta.<br>
+     Saat ini bekerja sebagai staf IT di PTS yang sama sebagai senior software developer.</p>
+  
+  <p>Fokus mengembangkan aplikasi di atas platform .NET, dan diwaktu luang insya Alloh akan terus berbagi pengalaman di blog <a href="http://coding4ever.net/" target="_blank">ini</a>.</p>    
+</section><section>
+  <h1>Contacts :</h1>
+    <ul>		
+		<li>			
+			<a href="mailto:coding4ever.net@gmail.com" title="GMail" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/gmail-small2.png" border="0" alt="GMail" /></a>
+		</li>		
+		<li>			
+			<a href="https://github.com/k4m4r82?tab=repositories" title="GitHub" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/github-small2.png" border="0" alt="GitHub" /></a>
+		</li>
+		<li>
+			<a href="http://www.facebook.com/abu.anas.1232" title="Facebook" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/fb-small2.png" border="0" alt="Facebook" /></a>
+		</li>				
+	</ul>
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/06/08/entity-framework-part-8/">Entity Framework Part 8</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/manajemen-proyek-menggunakan-redmine-bagian-1/">Manajemen Proyek Menggunakan Redmine Bagian 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/21/manajemen-password-menggunakan-keepass/">Manajemen Password Menggunakan KeePass</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/10/sms-gateway-edisi-net-part-1/">SMS Gateway Edisi .NET Part 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/11/entity-framework-part-7/">Entity Framework Part 7</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/03/entity-framework-part-6/">Entity Framework Part 6</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/01/entity-framework-part-5/">Entity Framework Part 5</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/27/entity-framework-part-4/">Entity Framework Part 4</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/26/entity-framework-part-3/">Entity Framework Part 3</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/21/entity-framework-part-2/">Entity Framework Part 2</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+    <ul id="category-list"><li><a href='/blog/categories/dot-net-remoting/'>.net remoting (9)</a></li><li><a href='/blog/categories/active-report/'>active report (4)</a></li><li><a href='/blog/categories/aplikasi/'>aplikasi (3)</a></li><li><a href='/blog/categories/dapper-net/'>dapper .net (3)</a></li><li><a href='/blog/categories/entity-framework/'>entity framework (8)</a></li><li><a href='/blog/categories/firebird/'>firebird (11)</a></li><li><a href='/blog/categories/freeware/'>freeware (7)</a></li><li><a href='/blog/categories/inno-setup/'>inno setup (6)</a></li><li><a href='/blog/categories/jaringan/'>jaringan (1)</a></li><li><a href='/blog/categories/mysql/'>mysql (3)</a></li><li><a href='/blog/categories/nsis/'>nsis (2)</a></li><li><a href='/blog/categories/nuget/'>nuget (3)</a></li><li><a href='/blog/categories/sql-server-2000/'>sql server 2000 (1)</a></li><li><a href='/blog/categories/sqlite/'>sqlite (3)</a></li><li><a href='/blog/categories/tools-installer/'>tools installer (8)</a></li><li><a href='/blog/categories/uncategorized/'>uncategorized (6)</a></li><li><a href='/blog/categories/visual-basic/'>visual basic (73)</a></li><li><a href='/blog/categories/visual-basic-net/'>visual basic .net (11)</a></li><li><a href='/blog/categories/visual-c-number/'>visual c# (32)</a></li><li><a href='/blog/categories/winsock/'>winsock (6)</a></li></ul>
+</section>
+<section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/blog/categories/dot-net-remoting' style='font-size: 107.3972602739726%'>.net remoting(9)</a> <a href='/blog/categories/active-report' style='font-size: 103.28767123287672%'>active report(4)</a> <a href='/blog/categories/aplikasi' style='font-size: 102.46575342465754%'>aplikasi(3)</a> <a href='/blog/categories/dapper-net' style='font-size: 102.46575342465754%'>dapper .net(3)</a> <a href='/blog/categories/entity-framework' style='font-size: 106.57534246575342%'>entity framework(8)</a> <a href='/blog/categories/firebird' style='font-size: 109.04109589041096%'>firebird(11)</a> <a href='/blog/categories/freeware' style='font-size: 105.75342465753425%'>freeware(7)</a> <a href='/blog/categories/inno-setup' style='font-size: 104.93150684931507%'>inno setup(6)</a> <a href='/blog/categories/jaringan' style='font-size: 100.82191780821918%'>jaringan(1)</a> <a href='/blog/categories/mysql' style='font-size: 102.46575342465754%'>mysql(3)</a> <a href='/blog/categories/nsis' style='font-size: 101.64383561643835%'>nsis(2)</a> <a href='/blog/categories/nuget' style='font-size: 102.46575342465754%'>nuget(3)</a> <a href='/blog/categories/sql-server-2000' style='font-size: 100.82191780821918%'>sql server 2000(1)</a> <a href='/blog/categories/sqlite' style='font-size: 102.46575342465754%'>sqlite(3)</a> <a href='/blog/categories/tools-installer' style='font-size: 106.57534246575342%'>tools installer(8)</a> <a href='/blog/categories/uncategorized' style='font-size: 104.93150684931507%'>uncategorized(6)</a> <a href='/blog/categories/visual-basic' style='font-size: 160.0%'>visual basic(73)</a> <a href='/blog/categories/visual-basic-net' style='font-size: 109.04109589041096%'>visual basic .net(11)</a> <a href='/blog/categories/visual-c-number' style='font-size: 126.30136986301369%'>visual c#(32)</a> <a href='/blog/categories/winsock' style='font-size: 104.93150684931507%'>winsock(6)</a> </span>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'k4m4r82',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Admin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'coding4ever';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://coding4ever.net/blog/2012/02/26/aplikasi-antrian/';
+        var disqus_url = 'http://coding4ever.net/blog/2012/02/26/aplikasi-antrian/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

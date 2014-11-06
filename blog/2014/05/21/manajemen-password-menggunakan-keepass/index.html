@@ -1,0 +1,499 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Manajemen Password Menggunakan KeePass - Coding4ever&#8217;s Blog</title>
+  <meta name="author" content="Admin">
+
+  
+  <meta name="description" content="Hari ini kita dituntut untuk mengingat banyak password. Ada password Email, FTP, Facebook, Internet Banking, Remote Desktop dan lain sebagainya. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://coding4ever.net/blog/2014/05/21/manajemen-password-menggunakan-keepass">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Coding4ever's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50866618-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Coding4ever&#8217;s Blog</a></h1>
+  
+    <h2>Just coding&#8230; coding&#8230; and coding&#8230; because coding should be fun :)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:coding4ever.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/gudang-software">Gudang Software</a></li>
+  <li><a href="/source-code">Source Code</a></li>  
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Manajemen Password Menggunakan KeePass</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-05-21T15:12:47+07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2014</span></span> <span class='time'>3:12 pm</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img class="left" src="http://coding4ever.files.wordpress.com/2014/05/keepass2.png">Hari ini kita dituntut untuk mengingat banyak password. Ada password Email, FTP, Facebook, Internet Banking, Remote Desktop dan lain sebagainya. Ditambah lagi pekerjaan kita sebagai <code>Software developer</code> berarti ada tambahan password lagi yang harus kita ingat seperti password SQL Server, MySQL, Firebird, Web hosting dan lain-lain.</p>
+
+<!-- more -->
+
+
+<p>Kita disarankan untuk menggunakan password yang berbeda untuk setiap user. Karena jika kita hanya menggunakan satu password untuk semuanya dan jika seseorang berhasil mendapatkan password kita, berarti kita mempunyai masalah&hellip; ya masalah yang serius, Anda bisa membayangkannya ? Orang tersebut akan memiliki akses ke akun email kita, facebook dan lain sebagainya.</p>
+
+<p><a href="http://keepass.info/">KeePass</a> adalah aplikasi password manager gratis dan open source, yang membantu kita untuk mengelola password dengan cara yang aman. Kita bisa menyimpan semua password dalam satu database. Database ini sendiri dipassword dengan satu password master atau bisa juga dalam bentuk file kunci. Jadi kita hanya perlu mengingat satu password master atau menggunakan file kunci untuk membuka database.</p>
+
+<p>Database <a href="http://keepass.info/">KeePass</a> dienkripsi menggunakan enkripsi yang terbaik dan paling aman untuk saat ini yaitu (<a href="http://en.wikipedia.org/wiki/Advanced_Encryption_Standard">AES</a> dan <a href="http://en.wikipedia.org/wiki/Twofish">Twofish</a>).</p>
+
+<h3>Instalasi</h3>
+
+<p>Langkah-langkah instalasi seperti berikut :</p>
+
+<ol>
+<li>Download <a href="http://keepass.info/download.html">KeePass</a></li>
+<li>Lakukan instalasi, kita tinggal mengikuti langkah-langkah yang ada</li>
+</ol>
+
+
+<h3>Cara penggunaan</h3>
+
+<p>Untuk menggunakan <a href="http://keepass.info/">KeePass</a> sangat mudah, berikut langkah-langkahnya :</p>
+
+<ul>
+<li>Jalankan aplikasi <a href="http://keepass.info/download.html">KeePass</a>, bisa melalui menu Start -> Programs -> KeePass 2 atau melalui desktop.</li>
+<li>Hal pertama yang harus kita lakukan adalah membuat database <a href="http://keepass.info/download.html">KeePass</a>. Caranya dengan mengklik menu File -> New</li>
+</ul>
+
+
+<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/31.png"></p>
+
+<p>   Kemudian tentukan nama database misal <code>DbKeePass</code></p>
+
+<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/41.png"></p>
+
+<ul>
+<li>Setelah itu kita diminta untuk menentukan password yang digunakan untuk membuka database <code>DbKeePass</code></li>
+</ul>
+
+
+<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/51.png"></p>
+
+<p>   kemudian klik <code>OK</code> sekali lagi</p>
+
+<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/6.png"></p>
+
+<h3>Group Password</h3>
+
+<p>Secara default <a href="http://keepass.info/">KeePass</a> sudah menyediakan beberapa group password seperti group password untuk <code>Windows</code>, <code>Network</code>, <code>Email</code> dan sebagainya.</p>
+
+<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/7.png"></p>
+
+<p>Untuk menambahkan group baru, kita tinggal klik kanan pada node utama kemudian pilih Add Group</p>
+
+<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/8.png"></p>
+
+<p>Setelah itu kita inputkan nama group, misal <code>SQL Server</code></p>
+
+<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/9.png"></p>
+
+<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/10.png"></p>
+
+<h3>Item Group</h3>
+
+<p>Setelah semua group password yang diperlukan dibuat, berikutnya adalah menambahkan <code>user</code>, <code>password</code> dan <code>link URL</code> (jika halaman web) untuk masing-masing group password.</p>
+
+<p>Misal kita akan menambahkan user dan password facebook di group Internet.</p>
+
+<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/111.png"></p>
+
+<p>Caranya dengan memilih group Internet kemudian klik kanan area kosong di panel sebelah kanan kemudian pilih Add Entry&hellip;</p>
+
+<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/12.png"></p>
+
+<p>Setelah itu inputkan informasi <code>User Name</code>, <code>Password</code> dan <code>URL</code></p>
+
+<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/13.png"></p>
+
+<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/14.png"></p>
+
+<p>Sampai disini kita bisa mengulangi langkah-langkah sebelumnya untuk mendaftarkan user name dan password lainnya.</p>
+
+<h3>Plugin</h3>
+
+<p><a href="http://keepass.info/">KeePass</a> mempunyai banyak sekali <a href="http://keepass.info/plugins.html">plugin</a> yang bermanfaat, salah satunya adalah <a href="https://github.com/pfn/passifox/">PassIFox</a>, plugin ini memudahkan kita untuk menginputkan secara otomatis <code>user</code> dan <code>password</code> ketika kita mengakses halaman web yang ada form user dan passwordnya.</p>
+
+<p><a href="https://github.com/pfn/passifox/">PassIFox</a> khusus untuk browser <a href="http://www.mozilla.org/en-US/firefox/new/">Firefox</a>, bagi pengguna <a href="https://www.google.com/intl/en/chrome/browser/">Chrome</a> bisa menggunakan <a href="https://chrome.google.com/webstore/detail/chromeipass/ompiailgknfdndiefoaoiligalphfdae">ChromeIPass</a>.</p>
+
+<p>Misal kita mengakses halaman web yang ada form user dan passwordnya seperti <a href="http://wordpress.com/">Wordpress</a>, setelah itu kita klik kanan di inputan <code>Username</code> atau <code>Password</code> kemudian pilih menu <code>Fill User &amp; Pass</code>.</p>
+
+<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/11.png"></p>
+
+<p>Secara otomatis user dan password akan diisikan sesuai dengan data user dan password yang ada pada database <a href="http://keepass.info/">KeePass</a>.</p>
+
+<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/22.png"></p>
+
+<p><a href="https://github.com/pfn/passifox/">PassIFox</a> sendiri membutuhkan plugin yang lain yaitu <a href="https://github.com/pfn/keepasshttp/">KeePassHttp</a>.</p>
+
+<h3>Instalasi Plugin <a href="https://github.com/pfn/keepasshttp/">KeePassHttp</a> dan <a href="https://github.com/pfn/passifox/">PassIFox</a></h3>
+
+<h4><a href="https://github.com/pfn/keepasshttp/">KeePassHttp</a></h4>
+
+<p>Berikut langkah-langkahnya :</p>
+
+<ul>
+<li>Jika aplikasi <a href="http://keepass.info/">KeePass</a> sedang dijalankan, tutup terlebih dulu.</li>
+<li>Download <a href="https://passifox.appspot.com/KeePassHttp.plgx">KeePassHttp</a>.</li>
+<li>Copykan ke folder instalasi KeePass.</li>
+</ul>
+
+
+<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/15.png"></p>
+
+<ul>
+<li>Verifikasi apakah plugin <a href="https://github.com/pfn/keepasshttp/">KeePassHttp</a> sudah terinstall dengan benar melalui menu Tools -> Plugins</li>
+</ul>
+
+
+<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/17.png"></p>
+
+<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/18.png"></p>
+
+<h4><a href="https://github.com/pfn/passifox/">PassIFox</a></h4>
+
+<p>Setelah instalasi plugin <a href="https://github.com/pfn/keepasshttp/">KeePassHttp</a> berhasil, kita lanjutkan dengan menginstall plugin <a href="https://github.com/pfn/passifox/">PassIFox</a>. Adapun langkah-langkahnya seperti berikut :</p>
+
+<ul>
+<li>Jika aplikasi <a href="http://keepass.info/">KeePass</a> sedang dijalankan, tutup terlebih dulu.</li>
+<li>Aktifkan <code>Firefox Add-ons Manager</code></li>
+<li>Pada kota pencarian ketik <code>PassIFox</code></li>
+</ul>
+
+
+<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/16.png"></p>
+
+<ul>
+<li>Setelah instalasi <a href="https://github.com/pfn/passifox/">PassIFox</a>, restart Firefoxnya.</li>
+</ul>
+
+
+<h3>Konfigurasi plugin <a href="https://github.com/pfn/passifox/">PassIFox</a></h3>
+
+<ul>
+<li>Jalankan aplikasi <a href="http://keepass.info/">KeePass</a></li>
+<li>Buka halaman website yang ada form loginnya misal <a href="https://www.facebook.com/">Facebook</a>, kemudian klik tombol <code>Connect</code> yang ada dipojok kanan atas</li>
+</ul>
+
+
+<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/19.png"></p>
+
+<ul>
+<li>Akan tampil dialog konfirmasi, isikan <code>KeePassHttpKey</code> kemudian klik tombol Save</li>
+</ul>
+
+
+<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/20.png"></p>
+
+<p>Langkah-langkah konfigurasi ini hanya sekali saja setelah instalasi awal plugin <a href="https://github.com/pfn/passifox/">PassIFox</a>.</p>
+
+<h3>Uji coba plugin <a href="https://github.com/pfn/passifox/">PassIFox</a></h3>
+
+<ul>
+<li>Jalankan aplikasi <a href="http://keepass.info/">KeePass</a></li>
+<li>Buka halaman website yang ada form loginnya misal <a href="https://www.facebook.com/">Facebook</a></li>
+<li>Akan tampil konfirmasi, jangan lupa untuk mencontreng pilihan <code>Remember this decision</code> agar kotak konfirmasi ini tidak tampil lagi ketika kita mengakses halaman  web yang sama.</li>
+</ul>
+
+
+<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/211.png"></p>
+
+<ul>
+<li>Klik kanan inputan user atau password, kemudian pilih menu <code>Fill User &amp; Pass</code></li>
+</ul>
+
+
+<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/221.png"></p>
+
+<p>dan secara otomatis user dan password akan diisikan sesuai dengan data user dan password yang ada pada database <a href="http://keepass.info/">KeePass</a>.</p>
+
+<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/23.png"></p>
+
+<p>Selamat mencoba :)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Admin</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2014-05-21T15:12:47+07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2014</span></span> <span class='time'>3:12 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/aplikasi/'>aplikasi</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/05/10/sms-gateway-edisi-net-part-1/" title="Previous Post: SMS Gateway Edisi .NET Part 1">&laquo; SMS Gateway Edisi .NET Part 1</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/06/02/manajemen-proyek-menggunakan-redmine-bagian-1/" title="Next Post: Manajemen Proyek Menggunakan Redmine Bagian 1">Manajemen Proyek Menggunakan Redmine Bagian 1 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Admin</h1>
+  <p>Software developer yang berasal dari Riau, tapi malah betah tinggal di Yogyakarta :)</p>
+  
+  <p>Pernah mengajar di salah satu perguruan tinggi swasta (PTS) di Yogyakarta.<br>
+     Saat ini bekerja sebagai staf IT di PTS yang sama sebagai senior software developer.</p>
+  
+  <p>Fokus mengembangkan aplikasi di atas platform .NET, dan diwaktu luang insya Alloh akan terus berbagi pengalaman di blog <a href="http://coding4ever.net/" target="_blank">ini</a>.</p>    
+</section><section>
+  <h1>Contacts :</h1>
+    <ul>		
+		<li>			
+			<a href="mailto:coding4ever.net@gmail.com" title="GMail" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/gmail-small2.png" border="0" alt="GMail" /></a>
+		</li>		
+		<li>			
+			<a href="https://github.com/k4m4r82?tab=repositories" title="GitHub" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/github-small2.png" border="0" alt="GitHub" /></a>
+		</li>
+		<li>
+			<a href="http://www.facebook.com/abu.anas.1232" title="Facebook" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/fb-small2.png" border="0" alt="Facebook" /></a>
+		</li>				
+	</ul>
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/06/08/entity-framework-part-8/">Entity Framework Part 8</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/manajemen-proyek-menggunakan-redmine-bagian-1/">Manajemen Proyek Menggunakan Redmine Bagian 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/21/manajemen-password-menggunakan-keepass/">Manajemen Password Menggunakan KeePass</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/10/sms-gateway-edisi-net-part-1/">SMS Gateway Edisi .NET Part 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/11/entity-framework-part-7/">Entity Framework Part 7</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/03/entity-framework-part-6/">Entity Framework Part 6</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/01/entity-framework-part-5/">Entity Framework Part 5</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/27/entity-framework-part-4/">Entity Framework Part 4</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/26/entity-framework-part-3/">Entity Framework Part 3</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/21/entity-framework-part-2/">Entity Framework Part 2</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+    <ul id="category-list"><li><a href='/blog/categories/dot-net-remoting/'>.net remoting (9)</a></li><li><a href='/blog/categories/active-report/'>active report (4)</a></li><li><a href='/blog/categories/aplikasi/'>aplikasi (3)</a></li><li><a href='/blog/categories/dapper-net/'>dapper .net (3)</a></li><li><a href='/blog/categories/entity-framework/'>entity framework (8)</a></li><li><a href='/blog/categories/firebird/'>firebird (11)</a></li><li><a href='/blog/categories/freeware/'>freeware (7)</a></li><li><a href='/blog/categories/inno-setup/'>inno setup (6)</a></li><li><a href='/blog/categories/jaringan/'>jaringan (1)</a></li><li><a href='/blog/categories/mysql/'>mysql (3)</a></li><li><a href='/blog/categories/nsis/'>nsis (2)</a></li><li><a href='/blog/categories/nuget/'>nuget (3)</a></li><li><a href='/blog/categories/sql-server-2000/'>sql server 2000 (1)</a></li><li><a href='/blog/categories/sqlite/'>sqlite (3)</a></li><li><a href='/blog/categories/tools-installer/'>tools installer (8)</a></li><li><a href='/blog/categories/uncategorized/'>uncategorized (6)</a></li><li><a href='/blog/categories/visual-basic/'>visual basic (73)</a></li><li><a href='/blog/categories/visual-basic-net/'>visual basic .net (11)</a></li><li><a href='/blog/categories/visual-c-number/'>visual c# (32)</a></li><li><a href='/blog/categories/winsock/'>winsock (6)</a></li></ul>
+</section>
+<section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/blog/categories/dot-net-remoting' style='font-size: 107.3972602739726%'>.net remoting(9)</a> <a href='/blog/categories/active-report' style='font-size: 103.28767123287672%'>active report(4)</a> <a href='/blog/categories/aplikasi' style='font-size: 102.46575342465754%'>aplikasi(3)</a> <a href='/blog/categories/dapper-net' style='font-size: 102.46575342465754%'>dapper .net(3)</a> <a href='/blog/categories/entity-framework' style='font-size: 106.57534246575342%'>entity framework(8)</a> <a href='/blog/categories/firebird' style='font-size: 109.04109589041096%'>firebird(11)</a> <a href='/blog/categories/freeware' style='font-size: 105.75342465753425%'>freeware(7)</a> <a href='/blog/categories/inno-setup' style='font-size: 104.93150684931507%'>inno setup(6)</a> <a href='/blog/categories/jaringan' style='font-size: 100.82191780821918%'>jaringan(1)</a> <a href='/blog/categories/mysql' style='font-size: 102.46575342465754%'>mysql(3)</a> <a href='/blog/categories/nsis' style='font-size: 101.64383561643835%'>nsis(2)</a> <a href='/blog/categories/nuget' style='font-size: 102.46575342465754%'>nuget(3)</a> <a href='/blog/categories/sql-server-2000' style='font-size: 100.82191780821918%'>sql server 2000(1)</a> <a href='/blog/categories/sqlite' style='font-size: 102.46575342465754%'>sqlite(3)</a> <a href='/blog/categories/tools-installer' style='font-size: 106.57534246575342%'>tools installer(8)</a> <a href='/blog/categories/uncategorized' style='font-size: 104.93150684931507%'>uncategorized(6)</a> <a href='/blog/categories/visual-basic' style='font-size: 160.0%'>visual basic(73)</a> <a href='/blog/categories/visual-basic-net' style='font-size: 109.04109589041096%'>visual basic .net(11)</a> <a href='/blog/categories/visual-c-number' style='font-size: 126.30136986301369%'>visual c#(32)</a> <a href='/blog/categories/winsock' style='font-size: 104.93150684931507%'>winsock(6)</a> </span>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'k4m4r82',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Admin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'coding4ever';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://coding4ever.net/blog/2014/05/21/manajemen-password-menggunakan-keepass/';
+        var disqus_url = 'http://coding4ever.net/blog/2014/05/21/manajemen-password-menggunakan-keepass/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

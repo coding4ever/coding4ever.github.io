@@ -1,0 +1,591 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Tutorial .NET Remoting Part 4 – Project CalculatorKlien - Coding4ever&#8217;s Blog</title>
+  <meta name="author" content="Admin">
+
+  
+  <meta name="description" content="Ada informasi yg lupa sy sampaikan pada postingan sebelumnya yaitu diproject calculator ini sy menggunakan protokol TCP, makanya namespace yg sy &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://coding4ever.net/blog/2012/01/29/tutorial-net-remoting-part-4-project-calculatorklien">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Coding4ever's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50866618-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Coding4ever&#8217;s Blog</a></h1>
+  
+    <h2>Just coding&#8230; coding&#8230; and coding&#8230; because coding should be fun :)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:coding4ever.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/gudang-software">Gudang Software</a></li>
+  <li><a href="/source-code">Source Code</a></li>  
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Tutorial .NET Remoting Part 4 – Project CalculatorKlien</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-01-29T21:03:38+07:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>9:03 pm</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Ada informasi yg lupa sy sampaikan pada <a href="http://coding4ever.net/blog/2012/01/26/tutorial-net-remoting-part-3-project-calculator-server/">postingan</a> sebelumnya yaitu diproject calculator ini sy menggunakan protokol TCP, makanya namespace yg sy tambahkan di class Program yang ada diproject <a href="http://coding4ever.net/blog/2012/01/26/tutorial-net-remoting-part-3-project-calculator-server/">CalculatorServer</a> adalah :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">using</span> <span class="nn">System.Runtime.Remoting.Channels.Tcp</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>bukan</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">using</span> <span class="nn">System.Runtime.Remoting.Channels.Http</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!-- more -->
+
+
+<p>Alasannya sederhana karena project ini diuji coba pada jaringan lokal jadi protokol yang disarankan adalah tcp bukan http.</p>
+
+<p>Project terakhir yang akan kita buat adalah CalculatorKlien, project ini sudah berbasis Windows Application jadi biar keliatan lebih interaktif :)</p>
+
+<p>CalculatorKlien sebenarnya &ldquo;dummy project&rdquo; untuk melakukan perhitungan sederhana saja tidak bisa sehingga membutuh pertolongan server untuk melakukannya :D</p>
+
+<p>Yg berperan disini adalah objek <a href="http://coding4ever.net/blog/2011/12/26/tutorial-net-remoting-part-1-intro/">proxy</a>, jadi dengan adanya objek ini &ldquo;seakan-akan&rdquo; objek yg ada diserver (remote object) berada dilokalan.</p>
+
+<p>Objek proxy memegang referensi dari remote object, sedikit beda dg &ldquo;memegang referensi&rdquo; yg selama ini kita pelajari pada matakuliah struktur data yaitu pointer (penunjuk) kealamat memory tertentu, tetapi referensi yang ditunjuk oleh proxy lebih berupa &ldquo;server name/IP address plus unix id&rdquo; dari remote object.</p>
+
+<p>Kata kuncinya adalah semua method yang dipanggil oleh objek proxy akan &ldquo;dieksekusi&rdquo; di sisi server.</p>
+
+<p>Kayaxnya cukup untuk intro aplikasi kliennya, langsung saja kita coba pembuatannya tentunya dengan mengaktifkan terlebih dulu solution &ldquo;Calculator&rdquo; yg sudah kita buat pada postingan sebelumnya.</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/12/29122011-1.png"><img src="http://coding4ever.files.wordpress.com/2011/12/29122011-1.png" alt="" /></a></p>
+
+<p><strong>Membuat Project CalculatorKlien</strong></p>
+
+<ol>
+<li>Klik kanan Solution <strong>Calculator</strong> -> Add -> New Project &hellip;</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/12/29122011-2.png"><img src="http://coding4ever.files.wordpress.com/2011/12/29122011-2.png" alt="" /></a></p>
+
+<ol>
+<li>Pada dialog Add New Project aktifkan pilihan Visual C# kemudian pada pilihan Templates pilih Windows Application</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/12/29122011-3.png"><img src="http://coding4ever.files.wordpress.com/2011/12/29122011-3.png" alt="" /></a></p>
+
+<p>Pada isian Name isikan CalculatorKlien untuk isian Location dibiarkan saja setelah itu klik Ok, jika langkah sebelumnya berhasil maka pada solution Calculator akan ketambahan 1 project baru yaitu CalculatorKlien</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/12/29122011-4.png"><img src="http://coding4ever.files.wordpress.com/2011/12/29122011-4.png" alt="" /></a></p>
+
+<p><strong>Desain UI</strong></p>
+
+<p>Untuk desainnya formnya sederhana saja, harap maklum sy enggak biasa mendesain form yg menarik :D</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/12/29122011-5.png"><img src="http://coding4ever.files.wordpress.com/2011/12/29122011-5.png" alt="" /></a></p>
+
+<p>Oke saatnya &ldquo;mengerjai&rdquo; project CalculatorKlien :D</p>
+
+<p>Sama seperti project CalculatorServer, CalculatorKlien juga membutuhkan referensi dari <a href="http://coding4ever.net/blog/2011/12/31/tutorial-net-remoting-part-2-project-calculator-lib/">CalculatorLib.dll</a> jadi kita tambahkan dulu library yg satu ini.</p>
+
+<ol>
+<li>Klik kanan folder References -> Add Reference…</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/12/29122011-6.png"><img src="http://coding4ever.files.wordpress.com/2011/12/29122011-6.png" alt="" /></a></p>
+
+<ol>
+<li>Aktifkan tab Projects kemudian pilih project CalculatorLib</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/12/29122011-7.png"><img src="http://coding4ever.files.wordpress.com/2011/12/29122011-7.png" alt="" /></a></p>
+
+<ol>
+<li>Jika langkah sebelumnya berhasil akan ketambahan 1 buah node dengan nama CalculatorLib pada folder References</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/12/29122011-8.png"><img src="http://coding4ever.files.wordpress.com/2011/12/29122011-8.png" alt="" /></a></p>
+
+<p>Karena pada class ini juga akan mengakses class-class yang berhubungan dengan fitur .NET Remoting maka kita harus menambahkan terlebih dulu referensi library .NET Remoting.</p>
+
+<ol>
+<li>Klik kanan folder References -> Add Reference…</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/12/29122011-9.png"><img src="http://coding4ever.files.wordpress.com/2011/12/29122011-9.png" alt="" /></a></p>
+
+<ol>
+<li>Aktifkan tab .NET kemudian pilih System.Runtime.Remoting</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/12/28122011-18.png"><img src="http://coding4ever.files.wordpress.com/2011/12/28122011-18.png" alt="" /></a></p>
+
+<ol>
+<li>Jika langkah sebelumnya berhasil akan ketambahan 1 buah node dengan nama System.Runtime.Remoting pada folder References</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/12/29122011-10.png"><img src="http://coding4ever.files.wordpress.com/2011/12/29122011-10.png" alt="" /></a></p>
+
+<p>Sampai disini kita sudah bisa mulai melengkapi kode untuk Form Calculatornya</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/12/29122011-11.png"><img src="http://coding4ever.files.wordpress.com/2011/12/29122011-11.png" alt="" /></a></p>
+
+<p>Untuk variabel port dan uri disesuaikan dg settingan di server</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/12/29122011-12.png"><img src="http://coding4ever.files.wordpress.com/2011/12/29122011-12.png" alt="" /></a></p>
+
+<p>untuk sisa kode lainnya seperti berikut :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">Form1_Load</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">EventArgs</span> <span class="n">e</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">cmbOperasi</span><span class="p">.</span><span class="n">Items</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="s">&quot;Penambahan&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">cmbOperasi</span><span class="p">.</span><span class="n">Items</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="s">&quot;Pengurangan&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">cmbOperasi</span><span class="p">.</span><span class="n">Items</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="s">&quot;Perkalian&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">cmbOperasi</span><span class="p">.</span><span class="n">Items</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="s">&quot;Pembagian&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">cmbOperasi</span><span class="p">.</span><span class="n">DropDownStyle</span> <span class="p">=</span> <span class="n">ComboBoxStyle</span><span class="p">.</span><span class="n">DropDownList</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">cmbOperasi</span><span class="p">.</span><span class="n">SelectedIndex</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">txtHasil</span><span class="p">.</span><span class="n">Enabled</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">btnProses_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">EventArgs</span> <span class="n">e</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">result</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// nilai 1 tidak boleh kosong</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">txtNilai1</span><span class="p">.</span><span class="n">Text</span><span class="p">.</span><span class="n">Length</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// nilai 2 tidak boleh kosong</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">txtNilai2</span><span class="p">.</span><span class="n">Text</span><span class="p">.</span><span class="n">Length</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">nilai1</span> <span class="p">=</span> <span class="kt">int</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">txtNilai1</span><span class="p">.</span><span class="n">Text</span><span class="p">);</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">nilai2</span> <span class="p">=</span> <span class="kt">int</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">txtNilai2</span><span class="p">.</span><span class="n">Text</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">try</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="k">switch</span> <span class="p">(</span><span class="n">cmbOperasi</span><span class="p">.</span><span class="n">SelectedIndex</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="k">case</span> <span class="m">0</span><span class="p">:</span> <span class="c1">// penambahan</span>
+</span><span class='line'>                <span class="n">result</span> <span class="p">=</span> <span class="n">calculator</span><span class="p">.</span><span class="n">Penambahan</span><span class="p">(</span><span class="n">nilai1</span><span class="p">,</span> <span class="n">nilai2</span><span class="p">);</span>
+</span><span class='line'>                <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="k">case</span> <span class="m">1</span><span class="p">:</span> <span class="c1">// pengurangan</span>
+</span><span class='line'>                <span class="n">result</span> <span class="p">=</span> <span class="n">calculator</span><span class="p">.</span><span class="n">Pengurangan</span><span class="p">(</span><span class="n">nilai1</span><span class="p">,</span> <span class="n">nilai2</span><span class="p">);</span>
+</span><span class='line'>                <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>            <span class="k">case</span> <span class="m">2</span><span class="p">:</span> <span class="c1">// perkalian</span>
+</span><span class='line'>                <span class="n">result</span> <span class="p">=</span> <span class="n">calculator</span><span class="p">.</span><span class="n">Perkalian</span><span class="p">(</span><span class="n">nilai1</span><span class="p">,</span> <span class="n">nilai2</span><span class="p">);</span>
+</span><span class='line'>                <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="k">default</span><span class="p">:</span> <span class="c1">// pembagian</span>
+</span><span class='line'>                <span class="n">result</span> <span class="p">=</span> <span class="n">calculator</span><span class="p">.</span><span class="n">Pembagian</span><span class="p">(</span><span class="n">nilai1</span><span class="p">,</span> <span class="n">nilai2</span><span class="p">);</span>
+</span><span class='line'>                <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">catch</span> <span class="p">(</span><span class="n">Exception</span> <span class="n">ex</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="n">ex</span><span class="p">.</span><span class="n">Message</span><span class="p">.</span><span class="n">ToString</span><span class="p">(),</span> <span class="s">&quot;Error&quot;</span><span class="p">,</span> <span class="n">MessageBoxButtons</span><span class="p">.</span><span class="n">OK</span><span class="p">,</span> <span class="n">MessageBoxIcon</span><span class="p">.</span><span class="n">Error</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">txtHasil</span><span class="p">.</span><span class="n">Text</span> <span class="p">=</span> <span class="n">result</span><span class="p">.</span><span class="n">ToString</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Sampai disini project CalculatorKlien sebenarnya sudah bisa dijalankan, tapi disini sy ingin sedikit membeberkan &ldquo;<strong>rahasia</strong>&rdquo; bahwa project CalculatorKlien diatas tetap bisa mengakses remote object tanpa harus menambahkan library .NET Remoting, jadi akan kita coba untuk menghapus library .NET Remoting.</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/12/29122011-13.png"><img src="http://coding4ever.files.wordpress.com/2011/12/29122011-13.png" alt="" /></a></p>
+
+<p>dan tentunya juga diikuti dg menonaktifkan namesspace remoting dan kode lainnya yg mengakses class .NET Remoting</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/12/29122011-14.png"><img src="http://coding4ever.files.wordpress.com/2011/12/29122011-14.png" alt="" /></a></p>
+
+<p>Awalnya sy juga bingung kok bisa, karena hampir disemua referensi yg ada untuk aplikasi klien tetap menambahkan library .NET Remoting, usut punya usut akhirnya sy menemukan jawabannya di ebook <a href="http://www.flazx.us/books/365-Distributed-.NET-Programming-in-C">Distributed .NET Programming in C#</a> karangan om Tom Barnaby, mungkin ada baiknya sy kutip aja pernyataan beliau.</p>
+
+<blockquote><p>In fact, if you are using one of the built-in .NET channels, HTTP or TCP, you do not have to register the channel object at all. The runtime will simply use the protocol and port information embedded in the URL to create and register the appropriate channel on your behalf.</p></blockquote>
+
+<p>Nah karna diproject Calculator ini sy menggunakan protokol tcp otomatis secara built-in sudah disupport oleh .NET</p>
+
+<p>Untuk mengetes aplikasi Calculator ini kita harus menjalankan project CalculatorServer dan CalculatorKlien secara bersamaan tentunya dg urutan prioritas server dulu baru klien.</p>
+
+<p>Adapun langkah-langkahnya sebagai berikut :</p>
+
+<ol>
+<li>Klik kanan solution Calculator -> Set StartUp Project&hellip;</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/12/29122011-15.png"><img src="http://coding4ever.files.wordpress.com/2011/12/29122011-15.png" alt="" /></a></p>
+
+<ol>
+<li>Aktifkan pilihan Multiple startup projects kemudian tentukan urutan prioritasnya</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/12/29122011-16.png"><img src="http://coding4ever.files.wordpress.com/2011/12/29122011-16.png" alt="" /></a></p>
+
+<p>Dilanjutkan dengan menekan tombol F5 (Start Debugging)</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/12/29122011-18.png"><img src="http://coding4ever.files.wordpress.com/2011/12/29122011-17.png" alt="" /><img src="http://coding4ever.files.wordpress.com/2011/12/29122011-18.png" alt="" /></a></p>
+
+<p>Terlihat pada demo diatas setiap kali objek calculator memanggil method Penambahan, Pengurangan, Perkalian dan Pembagian semua prosesnya dilakukan diserver, hal ini dibuktikan dengan munculnya tulisan &ldquo;Method xxx dieksekusi secara remote &hellip;.&rdquo; pada saat mengklik tombol Proses.</p>
+
+<p>Nah akhirnya selesai juga :D</p>
+
+<p>Berhubung semua project sudah selesai, kode lengkap bisa didownload di<a href="http://www.4shared.com/rar/YH-TFCt4/Calculator.html">sini</a>.</p>
+
+<p>Untuk postingan berikutnya kita akan coba menerapkan .NET Remoting pada pembuatan aplikasi client server dg arsitektur 3-tier, insya Allah.</p>
+
+<p>Selamat mencoba :)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Admin</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2012-01-29T21:03:38+07:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>9:03 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/dot-net-remoting/'>.net remoting</a>, <a class='category' href='/blog/categories/visual-c-number/'>visual c#</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/01/26/tutorial-net-remoting-part-3-project-calculator-server/" title="Previous Post: Tutorial .NET Remoting Part 3 - Project CalculatorServer">&laquo; Tutorial .NET Remoting Part 3 - Project CalculatorServer</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/02/01/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-1/" title="Next Post: Pembuatan Aplikasi Client Server dengan Arsitektur 3-tier Part 1">Pembuatan Aplikasi Client Server dengan Arsitektur 3-tier Part 1 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Admin</h1>
+  <p>Software developer yang berasal dari Riau, tapi malah betah tinggal di Yogyakarta :)</p>
+  
+  <p>Pernah mengajar di salah satu perguruan tinggi swasta (PTS) di Yogyakarta.<br>
+     Saat ini bekerja sebagai staf IT di PTS yang sama sebagai senior software developer.</p>
+  
+  <p>Fokus mengembangkan aplikasi di atas platform .NET, dan diwaktu luang insya Alloh akan terus berbagi pengalaman di blog <a href="http://coding4ever.net/" target="_blank">ini</a>.</p>    
+</section><section>
+  <h1>Contacts :</h1>
+    <ul>		
+		<li>			
+			<a href="mailto:coding4ever.net@gmail.com" title="GMail" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/gmail-small2.png" border="0" alt="GMail" /></a>
+		</li>		
+		<li>			
+			<a href="https://github.com/k4m4r82?tab=repositories" title="GitHub" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/github-small2.png" border="0" alt="GitHub" /></a>
+		</li>
+		<li>
+			<a href="http://www.facebook.com/abu.anas.1232" title="Facebook" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/fb-small2.png" border="0" alt="Facebook" /></a>
+		</li>				
+	</ul>
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/06/08/entity-framework-part-8/">Entity Framework Part 8</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/manajemen-proyek-menggunakan-redmine-bagian-1/">Manajemen Proyek Menggunakan Redmine Bagian 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/21/manajemen-password-menggunakan-keepass/">Manajemen Password Menggunakan KeePass</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/10/sms-gateway-edisi-net-part-1/">SMS Gateway Edisi .NET Part 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/11/entity-framework-part-7/">Entity Framework Part 7</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/03/entity-framework-part-6/">Entity Framework Part 6</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/01/entity-framework-part-5/">Entity Framework Part 5</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/27/entity-framework-part-4/">Entity Framework Part 4</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/26/entity-framework-part-3/">Entity Framework Part 3</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/21/entity-framework-part-2/">Entity Framework Part 2</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+    <ul id="category-list"><li><a href='/blog/categories/dot-net-remoting/'>.net remoting (9)</a></li><li><a href='/blog/categories/active-report/'>active report (4)</a></li><li><a href='/blog/categories/aplikasi/'>aplikasi (3)</a></li><li><a href='/blog/categories/dapper-net/'>dapper .net (3)</a></li><li><a href='/blog/categories/entity-framework/'>entity framework (8)</a></li><li><a href='/blog/categories/firebird/'>firebird (11)</a></li><li><a href='/blog/categories/freeware/'>freeware (7)</a></li><li><a href='/blog/categories/inno-setup/'>inno setup (6)</a></li><li><a href='/blog/categories/jaringan/'>jaringan (1)</a></li><li><a href='/blog/categories/mysql/'>mysql (3)</a></li><li><a href='/blog/categories/nsis/'>nsis (2)</a></li><li><a href='/blog/categories/nuget/'>nuget (3)</a></li><li><a href='/blog/categories/sql-server-2000/'>sql server 2000 (1)</a></li><li><a href='/blog/categories/sqlite/'>sqlite (3)</a></li><li><a href='/blog/categories/tools-installer/'>tools installer (8)</a></li><li><a href='/blog/categories/uncategorized/'>uncategorized (6)</a></li><li><a href='/blog/categories/visual-basic/'>visual basic (73)</a></li><li><a href='/blog/categories/visual-basic-net/'>visual basic .net (11)</a></li><li><a href='/blog/categories/visual-c-number/'>visual c# (32)</a></li><li><a href='/blog/categories/winsock/'>winsock (6)</a></li></ul>
+</section>
+<section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/blog/categories/dot-net-remoting' style='font-size: 107.3972602739726%'>.net remoting(9)</a> <a href='/blog/categories/active-report' style='font-size: 103.28767123287672%'>active report(4)</a> <a href='/blog/categories/aplikasi' style='font-size: 102.46575342465754%'>aplikasi(3)</a> <a href='/blog/categories/dapper-net' style='font-size: 102.46575342465754%'>dapper .net(3)</a> <a href='/blog/categories/entity-framework' style='font-size: 106.57534246575342%'>entity framework(8)</a> <a href='/blog/categories/firebird' style='font-size: 109.04109589041096%'>firebird(11)</a> <a href='/blog/categories/freeware' style='font-size: 105.75342465753425%'>freeware(7)</a> <a href='/blog/categories/inno-setup' style='font-size: 104.93150684931507%'>inno setup(6)</a> <a href='/blog/categories/jaringan' style='font-size: 100.82191780821918%'>jaringan(1)</a> <a href='/blog/categories/mysql' style='font-size: 102.46575342465754%'>mysql(3)</a> <a href='/blog/categories/nsis' style='font-size: 101.64383561643835%'>nsis(2)</a> <a href='/blog/categories/nuget' style='font-size: 102.46575342465754%'>nuget(3)</a> <a href='/blog/categories/sql-server-2000' style='font-size: 100.82191780821918%'>sql server 2000(1)</a> <a href='/blog/categories/sqlite' style='font-size: 102.46575342465754%'>sqlite(3)</a> <a href='/blog/categories/tools-installer' style='font-size: 106.57534246575342%'>tools installer(8)</a> <a href='/blog/categories/uncategorized' style='font-size: 104.93150684931507%'>uncategorized(6)</a> <a href='/blog/categories/visual-basic' style='font-size: 160.0%'>visual basic(73)</a> <a href='/blog/categories/visual-basic-net' style='font-size: 109.04109589041096%'>visual basic .net(11)</a> <a href='/blog/categories/visual-c-number' style='font-size: 126.30136986301369%'>visual c#(32)</a> <a href='/blog/categories/winsock' style='font-size: 104.93150684931507%'>winsock(6)</a> </span>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'k4m4r82',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Admin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'coding4ever';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://coding4ever.net/blog/2012/01/29/tutorial-net-remoting-part-4-project-calculatorklien/';
+        var disqus_url = 'http://coding4ever.net/blog/2012/01/29/tutorial-net-remoting-part-4-project-calculatorklien/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>
