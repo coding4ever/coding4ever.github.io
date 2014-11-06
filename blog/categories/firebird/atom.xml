@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Firebird | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/firebird/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2014-11-06T10:08:33+07:00</updated>
+  <updated>2014-11-06T12:06:50+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -46,10 +46,10 @@ ada work-around-nya untuk masalah ini om admin?</p></blockquote>
 </ol>
 
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>DELETE FROM rdb$roles
-</span><span class='line'>WHERE rdb$role_name = &lsquo;SYSDBA&rsquo; AND rdb$owner_name = &lsquo;ZAHIRDBA&rsquo;</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+DELETE FROM rdb$roles
+WHERE rdb$role_name = &lsquo;SYSDBA&rsquo; AND rdb$owner_name = &lsquo;ZAHIRDBA&rsquo;
+{% endcodeblock %}</p>
 
 <p><a href="http://coding4ever.files.wordpress.com/2013/06/25062013-2.png"><img src="http://coding4ever.files.wordpress.com/2013/06/25062013-2.png" alt="25062013-2" /></a></p>
 
@@ -129,15 +129,15 @@ ada work-around-nya untuk masalah ini om admin?</p></blockquote>
 
 <p>String koneksi yang digunakan untuk mengakses database Firebird versi non Embedded adalah seperti berikut :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="kt">var</span> <span class="n">strConn</span> <span class="p">=</span> <span class="err">@</span><span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">User</span> <span class="n">ID</span><span class="p">=</span><span class="n">SYSDBA</span><span class="p">;</span><span class="n">Password</span><span class="p">=</span><span class="n">masterkey</span><span class="p">;</span><span class="n">Database</span><span class="p">=</span><span class="n">localhost</span><span class="p">:</span><span class="n">c</span><span class="p">:</span><span class="err">\</span><span class="n">database</span><span class="err">\</span><span class="n">test</span><span class="p">.</span><span class="n">fdb</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+var strConn = @&ldquo;User ID=SYSDBA;Password=masterkey;Database=localhost:c:\database\test.fdb&rdquo;;
+{% endcodeblock %}</p>
 
 <p>Sedangkan untuk versi Embeddednya seperti berikut :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="kt">var</span> <span class="n">strConn</span> <span class="p">=</span> <span class="err">@</span><span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">ServerType</span><span class="p">=</span><span class="m">1</span><span class="p">;</span><span class="n">User</span><span class="p">=</span><span class="n">SYSDBA</span><span class="p">;</span><span class="n">Password</span><span class="p">=</span><span class="n">masterkey</span><span class="p">;</span><span class="n">Dialect</span><span class="p">=</span><span class="m">3</span><span class="p">;</span><span class="n">Database</span><span class="p">=</span><span class="n">c</span><span class="p">:</span><span class="err">\</span><span class="n">database</span><span class="err">\</span><span class="n">test</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+var strConn = @&ldquo;ServerType=1;User=SYSDBA;Password=masterkey;Dialect=3;Database=c:\database\test&rdquo;;
+{% endcodeblock %}</p>
 
 <p>Setelah semua persiapan lengkap saatnya kita menuliskan kode untuk mengakses database Firebird versi Embedded</p>
 
@@ -178,71 +178,40 @@ ada work-around-nya untuk masalah ini om admin?</p></blockquote>
 
 <p>Setelah itu kita akan coba kode untuk melakukan koneksi ke database dan menampilkan datanya.</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">namespace</span> <span class="nn">AksesFirebirdEmbedded</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">class</span> <span class="nc">Program</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">static</span> <span class="k">void</span> <span class="nf">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="kt">var</span> <span class="n">appPath</span> <span class="p">=</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">Directory</span><span class="p">.</span><span class="n">GetCurrentDirectory</span><span class="p">();</span>
-</span><span class='line'>            <span class="kt">var</span> <span class="n">strConn</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">ServerType</span><span class="p">=</span><span class="m">1</span><span class="p">;</span><span class="n">User</span><span class="p">=</span><span class="n">SYSDBA</span><span class="p">;</span><span class="n">Password</span><span class="p">=</span><span class="n">masterkey</span><span class="p">;</span><span class="n">Dialect</span><span class="p">=</span><span class="m">3</span><span class="p">;</span><span class="n">Database</span><span class="p">=&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="p">+</span> <span class="n">appPath</span> <span class="p">+</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="err">\</span><span class="n">TEST</span><span class="p">.</span><span class="n">FDB</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span>        <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="k">new</span> <span class="n">FbConnection</span><span class="p">(</span><span class="n">strConn</span><span class="p">))</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="n">conn</span><span class="p">.</span><span class="n">Open</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="kt">var</span> <span class="n">strSql</span> <span class="p">=</span> <span class="s">&quot;SELECT idagama, deskripsi FROM agama&quot;</span><span class="p">;</span>
-</span><span class='line'>            <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">FbCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
-</span><span class='line'>            <span class="p">{</span>
-</span><span class='line'>                <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">dtr</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteReader</span><span class="p">())</span>
-</span><span class='line'>                <span class="p">{</span>
-</span><span class='line'>                    <span class="k">while</span> <span class="p">(</span><span class="n">dtr</span><span class="p">.</span><span class="n">Read</span><span class="p">())</span>
-</span><span class='line'>                    <span class="p">{</span>
-</span><span class='line'>                        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">dtr</span><span class="p">.</span><span class="n">GetString</span><span class="p">(</span><span class="m">0</span><span class="p">)</span> <span class="p">+</span> <span class="s">&quot;, &quot;</span> <span class="p">+</span> <span class="n">dtr</span><span class="p">.</span><span class="n">GetString</span><span class="p">(</span><span class="m">1</span><span class="p">));</span>
-</span><span class='line'>                    <span class="p">}</span>
-</span><span class='line'>                <span class="p">}</span>
-</span><span class='line'>            <span class="p">}</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">Console</span><span class="p">.</span><span class="n">ReadKey</span><span class="p">();</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+namespace AksesFirebirdEmbedded
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var appPath = System.IO.Directory.GetCurrentDirectory();
+            var strConn = &ldquo;ServerType=1;User=SYSDBA;Password=masterkey;Dialect=3;Database=&rdquo; + appPath + &ldquo;\TEST.FDB&rdquo;;</p>
+
+<pre><code>        using (var conn = new FbConnection(strConn))
+        {
+            conn.Open();
+
+            var strSql = "SELECT idagama, deskripsi FROM agama";
+            using (var cmd = new FbCommand(strSql, conn))
+            {
+                using (var dtr = cmd.ExecuteReader())
+                {
+                    while (dtr.Read())
+                    {
+                        Console.WriteLine(dtr.GetString(0) + ", " + dtr.GetString(1));
+                    }
+                }
+            }
+        }
+
+        Console.ReadKey();
+    }
+}
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p><a href="http://coding4ever.files.wordpress.com/2013/01/09012013-10.png"><img src="http://coding4ever.files.wordpress.com/2013/01/09012013-10.png" alt="09012013-10" /></a></p>
 
@@ -272,37 +241,27 @@ ada work-around-nya untuk masalah ini om admin?</p></blockquote>
 
 <p>Jadi dengan memanfaatkan fitur ini kita tidak perlu lagi atau minimal mengurangi ketergantungan terhadap objek2x timer dan sejenisnya.</p>
 
-<p>Dan sesuai dengan nama fitur ini yaitu &ldquo;Events&rdquo;, mungkin sudah terlintas dipikiran kita bahwa fitur ini sangat cocok jika digabungkan dengan fitur <a href="http://www.firebirdsql.org/">Firebird</a> lainnya yaitu <a href="/blog/2010/03/15/membuat-store-procedure-trigger-dan-view-di-firebird/">Trigger</a>.</p>
+<p>Dan sesuai dengan nama fitur ini yaitu &ldquo;Events&rdquo;, mungkin sudah terlintas dipikiran kita bahwa fitur ini sangat cocok jika digabungkan dengan fitur <a href="http://www.firebirdsql.org/">Firebird</a> lainnya yaitu <a href="{{%20site.url%20}}/blog/2010/03/15/membuat-store-procedure-trigger-dan-view-di-firebird/">Trigger</a>.</p>
 
 <p><strong>Membuat Event</strong></p>
 
-<p>Untuk demo membuat event ini sy menggunakan tool IBExpert dan sudah pernah sy bahas bagaimana cara penggunaan tool ini di<a href="/blog/2010/01/06/berkenalan-dengan-database-firebird/">sini</a>.</p>
+<p>Untuk demo membuat event ini sy menggunakan tool IBExpert dan sudah pernah sy bahas bagaimana cara penggunaan tool ini di<a href="{{%20site.url%20}}/blog/2010/01/06/berkenalan-dengan-database-firebird/">sini</a>.</p>
 
 <p>Untuk contoh kasus kali ini kita akan menambahkan dua event, masing2x pada tabel CUSTOMER dan SUPPLIER, adapun struktur tabelnya seperti berikut :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="nf">SUPPLIER</span> <span class="p">(</span>
-</span><span class='line'>    <span class="n">ID</span>      <span class="kt">INTEGER</span> <span class="k">NOT</span> <span class="no">NULL</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">NAMA</span>    <span class="kt">VARCHAR</span><span class="p">(</span><span class="mi">30</span><span class="p">),</span>
-</span><span class='line'>    <span class="n">ALAMAT</span>  <span class="kt">VARCHAR</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
-</span><span class='line'><span class="p">);</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="nf">CUSTOMER</span> <span class="p">(</span>
-</span><span class='line'>    <span class="n">ID</span>      <span class="kt">INTEGER</span> <span class="k">NOT</span> <span class="no">NULL</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">NAMA</span>    <span class="kt">VARCHAR</span><span class="p">(</span><span class="mi">30</span><span class="p">),</span>
-</span><span class='line'>    <span class="n">ALAMAT</span>  <span class="kt">VARCHAR</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
-</span><span class='line'><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:mysql %}
+CREATE TABLE SUPPLIER (
+    ID      INTEGER NOT NULL,
+    NAMA    VARCHAR(30),
+    ALAMAT  VARCHAR(30)
+);</p>
+
+<p>CREATE TABLE CUSTOMER (
+    ID      INTEGER NOT NULL,
+    NAMA    VARCHAR(30),
+    ALAMAT  VARCHAR(30)
+);
+{% endcodeblock %}</p>
 
 <p>Event kita tambahkan pada saat pembuatan trigger, berikut langkah-langkahnya :</p>
 
@@ -355,136 +314,77 @@ ada work-around-nya untuk masalah ini om admin?</p></blockquote>
 
 <p>Adapun kode lengkapnya seperti berikut :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">using</span> <span class="nn">FirebirdSql.Data.FirebirdClient</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="n">FbConnection</span> <span class="n">conn</span> <span class="p">=</span> <span class="k">null</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">public</span> <span class="n">Form1</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">InitializeComponent</span><span class="p">();&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="kt">string</span> <span class="n">dbPath</span> <span class="p">=</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">Directory</span><span class="p">.</span><span class="n">GetCurrentDirectory</span><span class="p">()</span> <span class="p">+</span> <span class="s">&quot;\\FBEVENT.FDB&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="kt">string</span> <span class="n">server</span> <span class="p">=</span> <span class="s">&quot;127.0.0.1&quot;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="kt">string</span> <span class="n">strCon</span> <span class="p">=</span> <span class="s">&quot;User ID=SYSDBA;Password=masterkey;Database=&quot;</span> <span class="p">+</span> <span class="n">server</span> <span class="p">+</span> <span class="s">&quot;:&quot;</span> <span class="p">+</span> <span class="n">dbPath</span><span class="p">;</span>
-</span><span class='line'><span class="n">conn</span> <span class="p">=</span> <span class="k">new</span> <span class="n">FbConnection</span><span class="p">(</span><span class="n">strCon</span><span class="p">);</span>
-</span><span class='line'><span class="n">conn</span><span class="p">.</span><span class="n">Open</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// mendaftarkan event yang akan ditangkap</span>
-</span><span class='line'><span class="kt">string</span><span class="p">[]</span> <span class="n">daftarEvent</span> <span class="p">=</span> <span class="p">{</span> <span class="s">&quot;NEW_CUSTOMER&quot;</span><span class="p">,</span> <span class="s">&quot;NEW_SUPPLIER&quot;</span> <span class="p">};</span>
-</span><span class='line'><span class="n">FbRemoteEvent</span> <span class="n">remoteEvent</span> <span class="p">=</span> <span class="k">new</span> <span class="n">FbRemoteEvent</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">daftarEvent</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// proses delegate, untuk mendaftarkan method RemoteEventCounts pada event FbRemoteEventEventHandler</span>
-</span><span class='line'><span class="n">remoteEvent</span><span class="p">.</span><span class="n">RemoteEventCounts</span> <span class="p">+=</span> <span class="k">new</span> <span class="n">FbRemoteEventEventHandler</span><span class="p">(</span><span class="n">RemoteEventCounts</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">remoteEvent</span><span class="p">.</span><span class="n">QueueEvents</span><span class="p">();</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">private</span> <span class="k">void</span> <span class="n">RemoteEventCounts</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">FbRemoteEventEventArgs</span> <span class="n">args</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">args</span><span class="p">.</span><span class="n">Counts</span> <span class="p">==</span> <span class="m">1</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">switch</span> <span class="p">(</span><span class="n">args</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="k">case</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">NEW_CUSTOMER</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;:</span>
-</span><span class='line'>                <span class="n">LoadData</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">customer</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">lstCustomer</span><span class="p">);</span>
-</span><span class='line'>                <span class="k">break</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span>        <span class="k">case</span> <span class="s">&quot;NEW_SUPPLIER&quot;</span><span class="p">:</span>
-</span><span class='line'>            <span class="n">LoadData</span><span class="p">(</span><span class="s">&quot;supplier&quot;</span><span class="p">,</span> <span class="n">lstSupplier</span><span class="p">);</span>
-</span><span class='line'>            <span class="k">break</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+using FirebirdSql.Data.FirebirdClient;
+{% endcodeblock %}
+{% codeblock lang:c# %}
+private FbConnection conn = null;</p>
+
+<p>public Form1()
+{
+    InitializeComponent();</p>
+
+<pre><code>string dbPath = System.IO.Directory.GetCurrentDirectory() + "\\FBEVENT.FDB";
+string server = "127.0.0.1";
+
+string strCon = "User ID=SYSDBA;Password=masterkey;Database=" + server + ":" + dbPath;
+conn = new FbConnection(strCon);
+conn.Open();
+
+// mendaftarkan event yang akan ditangkap
+string[] daftarEvent = { "NEW_CUSTOMER", "NEW_SUPPLIER" };
+FbRemoteEvent remoteEvent = new FbRemoteEvent(conn, daftarEvent);
+
+// proses delegate, untuk mendaftarkan method RemoteEventCounts pada event FbRemoteEventEventHandler
+remoteEvent.RemoteEventCounts += new FbRemoteEventEventHandler(RemoteEventCounts);
+
+remoteEvent.QueueEvents();
+</code></pre>
+
+<p>}</p>
+
+<p>private void RemoteEventCounts(object sender, FbRemoteEventEventArgs args)
+{
+    if (args.Counts == 1)
+    {
+        switch (args.Name)
+        {
+            case &ldquo;NEW_CUSTOMER&rdquo;:
+                LoadData(&ldquo;customer&rdquo;, lstCustomer);
+                break;</p>
+
+<pre><code>        case "NEW_SUPPLIER":
+            LoadData("supplier", lstSupplier);
+            break;
+    }
+}
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p>Yang perlu diperhatikan pada method RemoteEventCounts diatas adalah setiap ada event yang masuk otomatis akan memanggil method LoadData</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">LoadData</span><span class="p">(</span><span class="kt">string</span> <span class="n">tableName</span><span class="p">,</span> <span class="n">ListBox</span> <span class="n">lst</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">string</span> <span class="n">strSql</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">SELECT</span> <span class="n">nama</span><span class="p">,</span> <span class="n">alamat</span> <span class="n">FROM</span> <span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="p">+</span> <span class="n">tableName</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="n">lst</span><span class="p">.</span><span class="n">Items</span><span class="p">.</span><span class="n">Clear</span><span class="p">();</span>
-</span><span class='line'><span class="k">using</span> <span class="p">(</span><span class="n">FbCommand</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">FbCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="n">FbDataReader</span> <span class="n">dtr</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteReader</span><span class="p">())</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">while</span> <span class="p">(</span><span class="n">dtr</span><span class="p">.</span><span class="n">Read</span><span class="p">())</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="n">lst</span><span class="p">.</span><span class="n">Items</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">dtr</span><span class="p">.</span><span class="n">GetString</span><span class="p">(</span><span class="m">0</span><span class="p">)</span> <span class="p">+</span> <span class="s">&quot;, &quot;</span> <span class="p">+</span> <span class="n">dtr</span><span class="p">.</span><span class="n">GetString</span><span class="p">(</span><span class="m">1</span><span class="p">));</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+private void LoadData(string tableName, ListBox lst)
+{
+    string strSql = &ldquo;SELECT nama, alamat FROM &rdquo; + tableName;</p>
+
+<pre><code>lst.Items.Clear();
+using (FbCommand cmd = new FbCommand(strSql, conn))
+{
+    using (FbDataReader dtr = cmd.ExecuteReader())
+    {
+        while (dtr.Read())
+        {
+            lst.Items.Add(dtr.GetString(0) + ", " + dtr.GetString(1));
+        }
+    }
+}
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p>Yuph sampe disini sudah selesai, saatnya kita uji coba aplikasi ini.</p>
 
@@ -509,7 +409,7 @@ ada work-around-nya untuk masalah ini om admin?</p></blockquote>
     <link href="http://coding4ever.net/blog/2012/05/19/berlindung-di-belakang-sysdba/"/>
     <updated>2012-05-19T13:17:43+07:00</updated>
     <id>http://coding4ever.net/blog/2012/05/19/berlindung-di-belakang-sysdba</id>
-    <content type="html"><![CDATA[<p>Beberapa waktu yang lalu sy pernah menulis bagaimana cara <a href="/blog/2011/01/03/menembus-pertahanan-database-firebird-yang-diproteksi/">Menembus pertahanan database Firebird yang diproteksi</a> menggunakan SYSDBA sebagai tamengnya :D, nah biar imbang sekarang kita akan bahas bagaimana langkah-langkah pembuatannya.</p>
+    <content type="html"><![CDATA[<p>Beberapa waktu yang lalu sy pernah menulis bagaimana cara <a href="{{%20site.url%20}}/blog/2011/01/03/menembus-pertahanan-database-firebird-yang-diproteksi/">Menembus pertahanan database Firebird yang diproteksi</a> menggunakan SYSDBA sebagai tamengnya :D, nah biar imbang sekarang kita akan bahas bagaimana langkah-langkah pembuatannya.</p>
 
 <p>Tool yang digunakan juga masih sama yaitu <a href="http://www.4shared.com/file/qA3GI_Z1/ibexpert_personal_edition_v200.html">IBExpert personal edition</a> (free), oke langsung saja kita mulai :).</p>
 
@@ -574,93 +474,51 @@ ada work-around-nya untuk masalah ini om admin?</p></blockquote>
 
 <p>Berikut scriptnya :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="kt">SET</span> <span class="n">TERM</span> <span class="o">^</span> <span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">CREATE</span> <span class="k">OR</span> <span class="k">ALTER</span> <span class="k">PROCEDURE</span> <span class="nf">GRANT_USER</span> <span class="p">(</span>
-</span><span class='line'>    <span class="n">user_name</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
-</span><span class='line'><span class="k">as</span>
-</span><span class='line'><span class="k">declare</span> <span class="n">variable</span> <span class="n">table_name</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">50</span><span class="p">);</span>
-</span><span class='line'><span class="n">BEGIN</span>
-</span><span class='line'>  <span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span> <span class="n">reset</span> <span class="n">hak</span> <span class="n">akses</span>
-</span><span class='line'>  <span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">rdb</span><span class="err">$</span><span class="n">user_privileges</span>
-</span><span class='line'>  <span class="k">WHERE</span> <span class="n">rdb</span><span class="err">$</span><span class="n">user</span> <span class="o">=</span> <span class="p">:</span><span class="n">user_name</span> <span class="k">AND</span> <span class="n">rdb</span><span class="err">$</span><span class="n">privilege</span> <span class="k">IN</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="n">I</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;,</span> <span class="o">&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="n">U</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;,</span> <span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;</span><span class="n">D</span><span class="s1">&#39;, &amp;rsquo;S&#39;</span><span class="p">)</span> <span class="k">AND</span> <span class="n">rdb</span><span class="err">$</span><span class="n">user_type</span> <span class="o">=</span> <span class="mi">8</span> <span class="k">AND</span> <span class="n">rdb</span><span class="err">$</span><span class="n">object_type</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="k">FOR</span> <span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span> <span class="n">ambil</span> <span class="n">informasi</span> <span class="n">nama</span><span class="o">-</span><span class="n">nama</span> <span class="n">tabel</span>
-</span><span class='line'>        <span class="k">SELECT</span> <span class="n">RDB</span><span class="err">$</span><span class="n">RELATION_NAME</span>
-</span><span class='line'>        <span class="k">FROM</span> <span class="n">RDB</span><span class="err">$</span><span class="n">RELATIONS</span>
-</span><span class='line'>        <span class="k">WHERE</span> <span class="n">RDB</span><span class="err">$</span><span class="n">SYSTEM_FLAG</span><span class="o">=</span><span class="mi">0</span> <span class="k">INTO</span> <span class="p">:</span><span class="n">table_name</span>
-</span><span class='line'>    <span class="n">DO</span>
-</span><span class='line'>    <span class="n">BEGIN</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>    <span class="c1">-- INSERT</span>
-</span><span class='line'>    <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">rdb</span><span class="err">$</span><span class="nf">user_privileges</span> <span class="p">(</span><span class="n">rdb</span><span class="err">$</span><span class="n">user</span><span class="p">,</span> <span class="n">rdb</span><span class="err">$</span><span class="n">grantor</span><span class="p">,</span> <span class="n">rdb</span><span class="err">$</span><span class="n">privilege</span><span class="p">,</span> <span class="n">rdb</span><span class="err">$</span><span class="n">grant_option</span><span class="p">,</span> <span class="n">rdb</span><span class="err">$</span><span class="n">relation_name</span><span class="p">,</span> <span class="n">rdb</span><span class="err">$</span><span class="n">user_type</span><span class="p">,</span> <span class="n">rdb</span><span class="err">$</span><span class="n">object_type</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">VALUES</span> <span class="p">(:</span><span class="n">user_name</span><span class="p">,</span> <span class="s1">&#39;SYSDBA&#39;</span><span class="p">,</span> <span class="s1">&#39;I&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:</span><span class="n">table_name</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">-- UPDATE</span>
-</span><span class='line'>    <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">rdb</span><span class="err">$</span><span class="nf">user_privileges</span> <span class="p">(</span><span class="n">rdb</span><span class="err">$</span><span class="n">user</span><span class="p">,</span> <span class="n">rdb</span><span class="err">$</span><span class="n">grantor</span><span class="p">,</span> <span class="n">rdb</span><span class="err">$</span><span class="n">privilege</span><span class="p">,</span> <span class="n">rdb</span><span class="err">$</span><span class="n">grant_option</span><span class="p">,</span> <span class="n">rdb</span><span class="err">$</span><span class="n">relation_name</span><span class="p">,</span> <span class="n">rdb</span><span class="err">$</span><span class="n">user_type</span><span class="p">,</span> <span class="n">rdb</span><span class="err">$</span><span class="n">object_type</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">VALUES</span> <span class="p">(:</span><span class="n">user_name</span><span class="p">,</span> <span class="s1">&#39;SYSDBA&#39;</span><span class="p">,</span> <span class="s1">&#39;U&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:</span><span class="n">table_name</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">-- DELETE</span>
-</span><span class='line'>    <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">rdb</span><span class="err">$</span><span class="nf">user_privileges</span> <span class="p">(</span><span class="n">rdb</span><span class="err">$</span><span class="n">user</span><span class="p">,</span> <span class="n">rdb</span><span class="err">$</span><span class="n">grantor</span><span class="p">,</span> <span class="n">rdb</span><span class="err">$</span><span class="n">privilege</span><span class="p">,</span> <span class="n">rdb</span><span class="err">$</span><span class="n">grant_option</span><span class="p">,</span> <span class="n">rdb</span><span class="err">$</span><span class="n">relation_name</span><span class="p">,</span> <span class="n">rdb</span><span class="err">$</span><span class="n">user_type</span><span class="p">,</span> <span class="n">rdb</span><span class="err">$</span><span class="n">object_type</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">VALUES</span> <span class="p">(:</span><span class="n">user_name</span><span class="p">,</span> <span class="s1">&#39;SYSDBA&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:</span><span class="n">table_name</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">-- SELECT</span>
-</span><span class='line'>    <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">rdb</span><span class="err">$</span><span class="nf">user_privileges</span> <span class="p">(</span><span class="n">rdb</span><span class="err">$</span><span class="n">user</span><span class="p">,</span> <span class="n">rdb</span><span class="err">$</span><span class="n">grantor</span><span class="p">,</span> <span class="n">rdb</span><span class="err">$</span><span class="n">privilege</span><span class="p">,</span> <span class="n">rdb</span><span class="err">$</span><span class="n">grant_option</span><span class="p">,</span> <span class="n">rdb</span><span class="err">$</span><span class="n">relation_name</span><span class="p">,</span> <span class="n">rdb</span><span class="err">$</span><span class="n">user_type</span><span class="p">,</span> <span class="n">rdb</span><span class="err">$</span><span class="n">object_type</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">VALUES</span> <span class="p">(:</span><span class="n">user_name</span><span class="p">,</span> <span class="s1">&#39;SYSDBA&#39;</span><span class="p">,</span> <span class="s1">&#39;S&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:</span><span class="n">table_name</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</span><span class='line'><span class="n">END</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">rdb</span><span class="err">$</span><span class="nf">user_privileges</span> <span class="p">(</span><span class="n">rdb</span><span class="err">$</span><span class="n">user</span><span class="p">,</span> <span class="n">rdb</span><span class="err">$</span><span class="n">grantor</span><span class="p">,</span> <span class="n">rdb</span><span class="err">$</span><span class="n">privilege</span><span class="p">,</span> <span class="n">rdb</span><span class="err">$</span><span class="n">grant_option</span><span class="p">,</span> <span class="n">rdb</span><span class="err">$</span><span class="n">relation_name</span><span class="p">,</span> <span class="n">rdb</span><span class="err">$</span><span class="n">user_type</span><span class="p">,</span> <span class="n">rdb</span><span class="err">$</span><span class="n">object_type</span><span class="p">)</span>
-</span><span class='line'><span class="k">VALUES</span> <span class="p">(:</span><span class="n">user_name</span><span class="p">,</span> <span class="s1">&#39;SYSDBA&#39;</span><span class="p">,</span> <span class="s1">&#39;S&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;RDB$RELATIONS&#39;</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">END</span>
-</span><span class='line'><span class="o">^&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kt">SET</span> <span class="n">TERM</span> <span class="p">;</span> <span class="o">^</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:mysql %}
+SET TERM ^ ;</p>
+
+<p>CREATE OR ALTER PROCEDURE GRANT_USER (
+    user_name varchar(10))
+as
+declare variable table_name varchar(50);
+BEGIN
+  &ndash; reset hak akses
+  DELETE FROM rdb$user_privileges
+  WHERE rdb$user = :user_name AND rdb$privilege IN (&lsquo;I&rsquo;, &lsquo;U&rsquo;, &rsquo;D&#8217;, &rsquo;S&#8217;) AND rdb$user_type = 8 AND rdb$object_type = 0;</p>
+
+<p>  FOR &ndash; ambil informasi nama-nama tabel
+        SELECT RDB$RELATION_NAME
+        FROM RDB$RELATIONS
+        WHERE RDB$SYSTEM_FLAG=0 INTO :table_name
+    DO
+    BEGIN</p>
+
+<pre><code>    -- INSERT
+    INSERT INTO rdb$user_privileges (rdb$user, rdb$grantor, rdb$privilege, rdb$grant_option, rdb$relation_name, rdb$user_type, rdb$object_type)
+    VALUES (:user_name, 'SYSDBA', 'I', 1, :table_name, 8, 0);
+
+    -- UPDATE
+    INSERT INTO rdb$user_privileges (rdb$user, rdb$grantor, rdb$privilege, rdb$grant_option, rdb$relation_name, rdb$user_type, rdb$object_type)
+    VALUES (:user_name, 'SYSDBA', 'U', 1, :table_name, 8, 0);
+
+    -- DELETE
+    INSERT INTO rdb$user_privileges (rdb$user, rdb$grantor, rdb$privilege, rdb$grant_option, rdb$relation_name, rdb$user_type, rdb$object_type)
+    VALUES (:user_name, 'SYSDBA', 'D', 1, :table_name, 8, 0);
+
+    -- SELECT
+    INSERT INTO rdb$user_privileges (rdb$user, rdb$grantor, rdb$privilege, rdb$grant_option, rdb$relation_name, rdb$user_type, rdb$object_type)
+    VALUES (:user_name, 'SYSDBA', 'S', 1, :table_name, 8, 0);
+END
+
+INSERT INTO rdb$user_privileges (rdb$user, rdb$grantor, rdb$privilege, rdb$grant_option, rdb$relation_name, rdb$user_type, rdb$object_type)
+VALUES (:user_name, 'SYSDBA', 'S', 1, 'RDB$RELATIONS', 8, 0);
+</code></pre>
+
+<p>END
+^</p>
+
+<p>SET TERM ; ^
+{% endcodeblock %}</p>
 
 <p>Untuk menjalankan script diatas kita akan menggunakan editor Script Executive (CTRL+F12)</p>
 
@@ -670,19 +528,18 @@ ada work-around-nya untuk masalah ini om admin?</p></blockquote>
 
 <p>Setelah langkah sebelumnya selesai kita tinggal panggil stored procedure grant_user seperti berikut :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="n">EXECUTE</span> <span class="k">PROCEDURE</span> <span class="nf">grant_user</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="n">K4M4R82</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;)</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:mysql %}
+EXECUTE PROCEDURE grant_user(&lsquo;K4M4R82&rsquo;)
+{% endcodeblock %}</p>
 
 <p><strong>5. Menambahkan role &lsquo;SYSDBA&rsquo;</strong></p>
 
 <p>Informasi role tersimpan di dalam tabel sistem yang bernama rdb$roles, sehingga untuk menambahkannya kita bisa menggunakan perintah INSERT yang sudah biasa kita gunakan.</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">rdb</span><span class="err">$</span><span class="nf">roles</span> <span class="p">(</span><span class="n">rdb</span><span class="err">$</span><span class="n">role_name</span><span class="p">,</span> <span class="n">rdb</span><span class="err">$</span><span class="n">owner_name</span><span class="p">,</span> <span class="n">rdb</span><span class="err">$</span><span class="n">system_flag</span><span class="p">)</span>
-</span><span class='line'><span class="k">VALUES</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="n">SYSDBA</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;,</span> <span class="o">&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="n">K4M4R82</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;,</span> <span class="mi">0</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:mysql %}
+INSERT INTO rdb$roles (rdb$role_name, rdb$owner_name, rdb$system_flag)
+VALUES (&lsquo;SYSDBA&rsquo;, &lsquo;K4M4R82&rsquo;, 0)
+{% endcodeblock %}</p>
 
 <p><strong>6. Disconnect dari database sample</strong></p>
 
@@ -730,175 +587,99 @@ ada work-around-nya untuk masalah ini om admin?</p></blockquote>
 
 <p>Bagi yang males membaca referensi (termasuk sy :D) biasa menuliskan kode berikut untuk mengINSERTkan dan mendapatkan nilai ID yang terakhir, kita ambil contoh tabel provinsi.</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">btnInsert_Click</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">sender</span> <span class="ow">As</span> <span class="n">System</span><span class="p">.</span><span class="n">Object</span><span class="p">,</span> <span class="k">ByVal</span> <span class="n">e</span> <span class="ow">As</span> <span class="n">System</span><span class="p">.</span><span class="n">EventArgs</span><span class="p">)</span> <span class="k">Handles</span> <span class="n">btnInsert</span><span class="p">.</span><span class="n">Click</span>
-</span><span class='line'>    <span class="k">Dim</span> <span class="n">lastID</span> <span class="ow">As</span> <span class="kt">Long</span> <span class="o">=</span> <span class="mi">0</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="c">&#39; langkah 1 - menambahkan data</span>
-</span><span class='line'><span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;INSERT INTO provinsi (keterangan) VALUES (@1)&quot;</span>
-</span><span class='line'><span class="k">Using</span> <span class="n">cmd</span> <span class="ow">As</span> <span class="k">New</span> <span class="n">SqlClient</span><span class="p">.</span><span class="n">SqlCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">With</span> <span class="n">cmd</span>
-</span><span class='line'>        <span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">Clear</span><span class="p">()</span>
-</span><span class='line'>        <span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="s">&quot;Riau&quot;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="p">.</span><span class="n">ExecuteNonQuery</span><span class="p">()</span>
-</span><span class='line'>    <span class="k">End</span> <span class="k">With</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Using</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">&#39; langkah 2 - mengambil id terakhir dg memanfaatkan fungsi MAX</span>
-</span><span class='line'><span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;SELECT MAX(id) FROM provinsi&quot;</span>
-</span><span class='line'><span class="k">Using</span> <span class="n">cmd</span> <span class="ow">As</span> <span class="k">New</span> <span class="n">SqlClient</span><span class="p">.</span><span class="n">SqlCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">lastID</span> <span class="o">=</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToInt32</span><span class="p">(</span><span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteScalar</span><span class="p">())</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Using</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">&#39; tampilkan ID terakhir</span>
-</span><span class='line'><span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="s">&quot;Last ID : &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">lastID</span><span class="p">.</span><span class="n">ToString</span><span class="p">())</span>
-</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Sub</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:vbnet %}
+Private Sub btnInsert_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnInsert.Click
+    Dim lastID As Long = 0</p>
+
+<pre><code>' langkah 1 - menambahkan data
+strSql = "INSERT INTO provinsi (keterangan) VALUES (@1)"
+Using cmd As New SqlClient.SqlCommand(strSql, conn)
+    With cmd
+        .Parameters.Clear()
+        .Parameters.AddWithValue("@1", "Riau")
+
+        .ExecuteNonQuery()
+    End With
+End Using
+
+' langkah 2 - mengambil id terakhir dg memanfaatkan fungsi MAX
+strSql = "SELECT MAX(id) FROM provinsi"
+Using cmd As New SqlClient.SqlCommand(strSql, conn)
+    lastID = Convert.ToInt32(cmd.ExecuteScalar())
+End Using
+
+' tampilkan ID terakhir
+MessageBox.Show("Last ID : " &amp; lastID.ToString())
+</code></pre>
+
+<p>End Sub
+{% endcodeblock %}</p>
 
 <p>Sekarang kita lihat bedanya jika memanfaatkan fungsi SELECT SCOPE_IDENTITY().</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">btnInsert_Click</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">sender</span> <span class="ow">As</span> <span class="n">System</span><span class="p">.</span><span class="n">Object</span><span class="p">,</span> <span class="k">ByVal</span> <span class="n">e</span> <span class="ow">As</span> <span class="n">System</span><span class="p">.</span><span class="n">EventArgs</span><span class="p">)</span> <span class="k">Handles</span> <span class="n">btnInsert</span><span class="p">.</span><span class="n">Click</span>
-</span><span class='line'>    <span class="k">Dim</span> <span class="n">lastID</span> <span class="ow">As</span> <span class="kt">Long</span> <span class="o">=</span> <span class="mi">0</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;INSERT INTO provinsi (keterangan) VALUES (@1) SELECT SCOPE_IDENTITY()&quot;</span> <span class="c">&#39; ada tambahan SELECT SCOPE_IDENTITY()</span>
-</span><span class='line'><span class="k">Using</span> <span class="n">cmd</span> <span class="ow">As</span> <span class="k">New</span> <span class="n">SqlClient</span><span class="p">.</span><span class="n">SqlCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">With</span> <span class="n">cmd</span>
-</span><span class='line'>        <span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">Clear</span><span class="p">()</span>
-</span><span class='line'>        <span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="s">&quot;Riau&quot;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">lastID</span> <span class="o">=</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToInt32</span><span class="p">(.</span><span class="n">ExecuteScalar</span><span class="p">())</span>
-</span><span class='line'>    <span class="k">End</span> <span class="k">With</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Using</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span> <span class="p">(</span><span class="s">&quot;Last ID : &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">lastID</span><span class="p">.</span><span class="n">ToString</span><span class="p">())</span>
-</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Sub</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:vbnet %}
+Private Sub btnInsert_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnInsert.Click
+    Dim lastID As Long = 0</p>
+
+<pre><code>strSql = "INSERT INTO provinsi (keterangan) VALUES (@1) SELECT SCOPE_IDENTITY()" ' ada tambahan SELECT SCOPE_IDENTITY()
+Using cmd As New SqlClient.SqlCommand(strSql, conn)
+    With cmd
+        .Parameters.Clear()
+        .Parameters.AddWithValue("@1", "Riau")
+
+        lastID = Convert.ToInt32(.ExecuteScalar())
+    End With
+End Using
+
+MessageBox.Show ("Last ID : " &amp; lastID.ToString())
+</code></pre>
+
+<p>End Sub
+{% endcodeblock %}</p>
 
 <p>Gimana lebih simple kan ? :)</p>
 
 <p>Oke sekarang kita lihat kode untuk MySQL(SELECT LAST_INSERT_ID) dan Firebird (RETURN KOLOM_PK).</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="o">&amp;</span><span class="n">lsquo</span><span class="err">;</span> <span class="n">MySQL</span>
-</span><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">btnInsert_Click</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">sender</span> <span class="ow">As</span> <span class="n">System</span><span class="p">.</span><span class="n">Object</span><span class="p">,</span> <span class="k">ByVal</span> <span class="n">e</span> <span class="ow">As</span> <span class="n">System</span><span class="p">.</span><span class="n">EventArgs</span><span class="p">)</span> <span class="k">Handles</span> <span class="n">btnInsert</span><span class="p">.</span><span class="n">Click</span>
-</span><span class='line'>    <span class="k">Dim</span> <span class="n">lastID</span> <span class="ow">As</span> <span class="kt">Long</span> <span class="o">=</span> <span class="mi">0</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;INSERT INTO provinsi (keterangan) VALUES (@1); SELECT LAST_INSERT_ID()&quot;</span>
-</span><span class='line'><span class="k">Using</span> <span class="n">cmd</span> <span class="ow">As</span> <span class="k">New</span> <span class="n">MySqlClient</span><span class="p">.</span><span class="n">MySqlCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">With</span> <span class="n">cmd</span>
-</span><span class='line'>        <span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">Clear</span><span class="p">()</span>
-</span><span class='line'>        <span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="s">&quot;Riau&quot;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">lastID</span> <span class="o">=</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToInt32</span><span class="p">(.</span><span class="n">ExecuteScalar</span><span class="p">())</span>
-</span><span class='line'>    <span class="k">End</span> <span class="k">With</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Using</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span> <span class="p">(</span><span class="s">&quot;Last ID : &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">lastID</span><span class="p">.</span><span class="n">ToString</span><span class="p">())</span>
-</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Sub</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span><span class="o">&amp;</span><span class="n">lsquo</span><span class="err">;</span> <span class="n">Firebird</span>
-</span><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">btnInsert_Click</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">sender</span> <span class="ow">As</span> <span class="n">System</span><span class="p">.</span><span class="n">Object</span><span class="p">,</span> <span class="k">ByVal</span> <span class="n">e</span> <span class="ow">As</span> <span class="n">System</span><span class="p">.</span><span class="n">EventArgs</span><span class="p">)</span> <span class="k">Handles</span> <span class="n">btnInsert</span><span class="p">.</span><span class="n">Click</span>
-</span><span class='line'>    <span class="k">Dim</span> <span class="n">lastID</span> <span class="ow">As</span> <span class="kt">Long</span> <span class="o">=</span> <span class="mi">0</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;INSERT INTO provinsi (keterangan) VALUES (@1) RETURNING ID&quot;</span> <span class="c">&#39; ID -&amp;gt; kolom primary key</span>
-</span><span class='line'><span class="k">Using</span> <span class="n">cmd</span> <span class="ow">As</span> <span class="k">New</span> <span class="n">FirebirdClient</span><span class="p">.</span><span class="n">FbCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">With</span> <span class="n">cmd</span>
-</span><span class='line'>        <span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">Clear</span><span class="p">()</span>
-</span><span class='line'>        <span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="s">&quot;Riau&quot;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">lastID</span> <span class="o">=</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToInt32</span><span class="p">(.</span><span class="n">ExecuteScalar</span><span class="p">())</span>
-</span><span class='line'>    <span class="k">End</span> <span class="k">With</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Using</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span> <span class="p">(</span><span class="s">&quot;Last ID : &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">lastID</span><span class="p">.</span><span class="n">ToString</span><span class="p">())</span>
-</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Sub</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:vbnet %}
+&lsquo; MySQL
+Private Sub btnInsert_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnInsert.Click
+    Dim lastID As Long = 0</p>
+
+<pre><code>strSql = "INSERT INTO provinsi (keterangan) VALUES (@1); SELECT LAST_INSERT_ID()"
+Using cmd As New MySqlClient.MySqlCommand(strSql, conn)
+    With cmd
+        .Parameters.Clear()
+        .Parameters.AddWithValue("@1", "Riau")
+
+        lastID = Convert.ToInt32(.ExecuteScalar())
+    End With
+End Using
+
+MessageBox.Show ("Last ID : " &amp; lastID.ToString())
+</code></pre>
+
+<p>End Sub</p>
+
+<p>&lsquo; Firebird
+Private Sub btnInsert_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnInsert.Click
+    Dim lastID As Long = 0</p>
+
+<pre><code>strSql = "INSERT INTO provinsi (keterangan) VALUES (@1) RETURNING ID" ' ID -&gt; kolom primary key
+Using cmd As New FirebirdClient.FbCommand(strSql, conn)
+    With cmd
+        .Parameters.Clear()
+        .Parameters.AddWithValue("@1", "Riau")
+
+        lastID = Convert.ToInt32(.ExecuteScalar())
+    End With
+End Using
+
+MessageBox.Show ("Last ID : " &amp; lastID.ToString())
+</code></pre>
+
+<p>End Sub
+{% endcodeblock %}</p>
 
 <p>Untuk bisa mengakses database MySQL dan Firebird di Visual Basic .NET kita harus menginstall <a href="http://dev.mysql.com/downloads/connector/net/">MySQL Connector/Net</a> dan <a href="http://firebirdsql.org/index.php?op=files&amp;id=netprovider">Firebird ADO.NET Data Provider</a>.</p>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Entity Framework | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/entity-framework/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2014-11-06T10:08:33+07:00</updated>
+  <updated>2014-11-06T12:06:50+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -18,42 +18,42 @@
     <link href="http://coding4ever.net/blog/2014/06/08/entity-framework-part-8/"/>
     <updated>2014-06-08T10:21:10+07:00</updated>
     <id>http://coding4ever.net/blog/2014/06/08/entity-framework-part-8</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="http://coding4ever.files.wordpress.com/2014/03/entity_image.png">http://coding4ever.files.wordpress.com/2014/03/entity_image.png</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Melanjutkan kembali pembahasan tentang <a href="/blog/categories/entity-framework/">Entity Framework</a>.</p>
+    <content type="html"><![CDATA[<p>{% img left <a href="http://coding4ever.files.wordpress.com/2014/03/entity_image.png">http://coding4ever.files.wordpress.com/2014/03/entity_image.png</a> 120 100 %}Melanjutkan kembali pembahasan tentang <a href="{{%20site.url%20}}/blog/categories/entity-framework/">Entity Framework</a>.</p>
 
 <p>Misalkan kita mempunyai struktur tabel seperti gambar di bawah ini.</p>
 
 <!-- more -->
 
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2014/06/11.png">https://coding4ever.files.wordpress.com/2014/06/11.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2014/06/11.png">https://coding4ever.files.wordpress.com/2014/06/11.png</a> %}</p>
 
 <p>Jika kita buatkan class entity dari ketiga tabel di atas, class diagramnya akan terlihat seperti berikut :</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2014/06/21.png">https://coding4ever.files.wordpress.com/2014/06/21.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2014/06/21.png">https://coding4ever.files.wordpress.com/2014/06/21.png</a> %}</p>
 
 <p>Dari gambar class diagram di atas, kita bisa melihat bahwa class <code>Siswa</code>, <code>Guru</code> dan <code>Pegawai</code> mempunyai beberapa property yang sama yaitu <code>Jalan</code>, <code>Kota</code>, <code>Provinsi</code> dan <code>KodePos</code>.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2014/06/31.png">https://coding4ever.files.wordpress.com/2014/06/31.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2014/06/31.png">https://coding4ever.files.wordpress.com/2014/06/31.png</a> %}</p>
 
 <p>Untuk alasan desain class entity yang lebih baik sebaiknya kita pisahkan property <code>Jalan</code>, <code>Kota</code>, <code>Provinsi</code> dan <code>KodePos</code> ke dalam class tersendiri, misal dengan nama class <code>Alamat</code>, kemudian masing-masing class entity <code>Siswa</code>, <code>Guru</code> dan <code>Pegawai</code> menambahkan property baru dengan tipe <code>class Alamat</code>, sehingga class diagram kita akan menjadi seperti berikut :</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2014/06/41.png">https://coding4ever.files.wordpress.com/2014/06/41.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2014/06/41.png">https://coding4ever.files.wordpress.com/2014/06/41.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2014/06/10.png">https://coding4ever.files.wordpress.com/2014/06/10.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2014/06/10.png">https://coding4ever.files.wordpress.com/2014/06/10.png</a> %}</p>
 
 <p>Nah class baru (Alamat) inilah yang akan menjadi pembahasan kita pada postingan kali ini yang dikenal dengan istilah <code>Complex Types</code> atau <code>Value Types</code>.</p>
 
-<p>Sejak awal <a href="/blog/categories/entity-framework/">Entity Framework</a> sudah mendukung <code>Complex Types</code> atau yang dikenal juga dengan istilah <code>value types</code>.</p>
+<p>Sejak awal <a href="{{%20site.url%20}}/blog/categories/entity-framework/">Entity Framework</a> sudah mendukung <code>Complex Types</code> atau yang dikenal juga dengan istilah <code>value types</code>.</p>
 
 <p><code>Complex Types</code> atau <code>value types</code> bisa digunakan sebagai tipe data dari sebuah property sehingga ada kemiripan dengan class entity biasa yang sudah kita kenal, yang disebut dengan istilah <code>entity types</code>.</p>
 
 <p>Lalu di mana perbedaannya ?</p>
 
-<p>Di dalam <a href="/blog/categories/entity-framework/">Entity Framework</a> setiap <code>entity types</code> harus mempunyai <code>property key</code> sedangkan <code>complex types</code> tidak.</p>
+<p>Di dalam <a href="{{%20site.url%20}}/blog/categories/entity-framework/">Entity Framework</a> setiap <code>entity types</code> harus mempunyai <code>property key</code> sedangkan <code>complex types</code> tidak.</p>
 
 <p>Contoh :</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2014/06/51.png">https://coding4ever.files.wordpress.com/2014/06/51.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2014/06/51.png">https://coding4ever.files.wordpress.com/2014/06/51.png</a> %}</p>
 
 <h3>Mendefinisikan Complex Types</h3>
 
@@ -71,7 +71,7 @@ instance</code></li>
 
 <p>Contoh :</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2014/06/62.png">https://coding4ever.files.wordpress.com/2014/06/62.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2014/06/62.png">https://coding4ever.files.wordpress.com/2014/06/62.png</a> %}</p>
 
 <h3>Konfigurasi Mapping (pemetaan) Complex Types</h3>
 
@@ -79,15 +79,15 @@ instance</code></li>
 
 <p>Caranya adalah dengan mengedit class Alamat, kemudian menambahkan atribut <a href="http://msdn.microsoft.com/en-us/data/jj591583.aspx">Data Annotations</a></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2014/06/71.png">https://coding4ever.files.wordpress.com/2014/06/71.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2014/06/71.png">https://coding4ever.files.wordpress.com/2014/06/71.png</a> %}</p>
 
 <p>Terakhir kita coba untuk mengakses property dengan tipe <code>complex types</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2014/06/81.png">https://coding4ever.files.wordpress.com/2014/06/81.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2014/06/81.png">https://coding4ever.files.wordpress.com/2014/06/81.png</a> %}</p>
 
 <p>Jika kode di atas dijalankan, akan menghasilkan output seperti berikut :</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2014/06/91.png">https://coding4ever.files.wordpress.com/2014/06/91.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2014/06/91.png">https://coding4ever.files.wordpress.com/2014/06/91.png</a> %}</p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/EntityFramework8">MENCOBA</a> :)</p>
 ]]></content>
@@ -98,9 +98,9 @@ instance</code></li>
     <link href="http://coding4ever.net/blog/2014/04/11/entity-framework-part-7/"/>
     <updated>2014-04-11T10:52:57+07:00</updated>
     <id>http://coding4ever.net/blog/2014/04/11/entity-framework-part-7</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="http://coding4ever.files.wordpress.com/2014/03/entity_image.png">http://coding4ever.files.wordpress.com/2014/03/entity_image.png</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Masih melanjutkan <a href="/blog/2014/04/03/entity-framework-part-6/">postingan</a> sebelumnya, setelah data pembelian berhasil disimpan tentu suatu saat kita ingin menampilkan kembali data tersebut.</p>
+    <content type="html"><![CDATA[<p>{% img left <a href="http://coding4ever.files.wordpress.com/2014/03/entity_image.png">http://coding4ever.files.wordpress.com/2014/03/entity_image.png</a> 120 100 %}Masih melanjutkan <a href="{{%20site.url%20}}/blog/2014/04/03/entity-framework-part-6/">postingan</a> sebelumnya, setelah data pembelian berhasil disimpan tentu suatu saat kita ingin menampilkan kembali data tersebut.</p>
 
-<p>Sedikit berbeda dengan postingan yang di<a href="/blog/2014/04/01/entity-framework-part-5/">sini</a>, saya sudah mendemokan bagaimana <a href="http://msdn.microsoft.com/en-us/data/aa937723">Entity Framework </a>melakukan query dari sebuah tabel.</p>
+<p>Sedikit berbeda dengan postingan yang di<a href="{{%20site.url%20}}/blog/2014/04/01/entity-framework-part-5/">sini</a>, saya sudah mendemokan bagaimana <a href="http://msdn.microsoft.com/en-us/data/aa937723">Entity Framework </a>melakukan query dari sebuah tabel.</p>
 
 <p>Sedangkan pada postingan kali ini, kita akan melihat bagaimana <a href="http://msdn.microsoft.com/en-us/data/aa937723">Entity Framework</a> melakukan query dari beberapa tabel sekaligus yang saling berhubungan.</p>
 
@@ -121,25 +121,21 @@ instance</code></li>
 
 <p>Untuk poin pertama, jika menggunakan query konvensional, perintah SQL SELECTnya seperti berikut :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="k">SELECT</span> <span class="n">Beli</span><span class="p">.</span><span class="n">Nota</span><span class="p">,</span> <span class="n">Beli</span><span class="p">.</span><span class="n">Tanggal</span><span class="p">,</span> <span class="n">Supplier</span><span class="p">.</span><span class="n">SupplierID</span><span class="p">,</span> <span class="n">Supplier</span><span class="p">.</span><span class="n">NamaSupplier</span>
-</span><span class='line'><span class="k">FROM</span> <span class="n">Supplier</span> <span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">Beli</span> <span class="k">ON</span> <span class="n">Supplier</span><span class="p">.</span><span class="n">SupplierID</span> <span class="o">=</span> <span class="n">Beli</span><span class="p">.</span><span class="n">SupplierID</span>
-</span><span class='line'><span class="k">WHERE</span> <span class="n">Beli</span><span class="p">.</span><span class="n">Nota</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="n">N001</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:mysql %}
+SELECT Beli.Nota, Beli.Tanggal, Supplier.SupplierID, Supplier.NamaSupplier
+FROM Supplier INNER JOIN Beli ON Supplier.SupplierID = Beli.SupplierID
+WHERE Beli.Nota = &lsquo;N001&rsquo;
+{% endcodeblock %}</p>
 
 <p><a href="http://coding4ever.files.wordpress.com/2014/04/21.jpg"><img src="http://coding4ever.files.wordpress.com/2014/04/21.jpg" alt="2" /></a></p>
 
 <p>Sedangkan poin kedua perintahnya seperti berikut :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="k">SELECT</span> <span class="n">Barang</span><span class="p">.</span><span class="n">BarangID</span><span class="p">,</span> <span class="n">Barang</span><span class="p">.</span><span class="n">NamaBarang</span><span class="p">,</span> <span class="n">ItemBeli</span><span class="p">.</span><span class="n">Jumlah</span><span class="p">,</span> <span class="n">ItemBeli</span><span class="p">.</span><span class="n">HargaBeli</span><span class="p">,</span> <span class="n">ItemBeli</span><span class="p">.</span><span class="n">HargaJual</span>
-</span><span class='line'><span class="k">FROM</span> <span class="n">Barang</span> <span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">ItemBeli</span> <span class="k">ON</span> <span class="n">Barang</span><span class="p">.</span><span class="n">BarangID</span> <span class="o">=</span> <span class="n">ItemBeli</span><span class="p">.</span><span class="n">BarangID</span>
-</span><span class='line'><span class="k">WHERE</span> <span class="n">ItemBeli</span><span class="p">.</span><span class="n">Nota</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="n">N001</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:mysql %}
+SELECT Barang.BarangID, Barang.NamaBarang, ItemBeli.Jumlah, ItemBeli.HargaBeli, ItemBeli.HargaJual
+FROM Barang INNER JOIN ItemBeli ON Barang.BarangID = ItemBeli.BarangID
+WHERE ItemBeli.Nota = &lsquo;N001&rsquo;
+{% endcodeblock %}</p>
 
 <p><a href="http://coding4ever.files.wordpress.com/2014/04/31.jpg"><img src="http://coding4ever.files.wordpress.com/2014/04/31.jpg" alt="3" /></a></p>
 
@@ -147,227 +143,121 @@ instance</code></li>
 
 <p>Method <code>GetPembelianUsingADONET</code> akan mengeksekusi query pertama sedangkan query kedua akan dieksekusi oleh method <code>GetDetailPembelian</code>.</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="n">Beli</span> <span class="nf">GetPembelianUsingADONET</span><span class="p">(</span><span class="kt">string</span> <span class="n">nota</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">Beli</span> <span class="n">beli</span> <span class="p">=</span> <span class="k">null</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="c1">// ambil data header</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">sql</span> <span class="p">=</span> <span class="s">@&quot;SELECT Beli.Nota, Beli.Tanggal, Supplier.SupplierID, Supplier.NamaSupplier</span>
-</span><span class='line'><span class="s">                FROM Supplier INNER JOIN Beli ON Supplier.SupplierID = Beli.SupplierID</span>
-</span><span class='line'><span class="s">                WHERE Beli.Nota = @1&quot;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SqlCommand</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="n">nota</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">dtr</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteReader</span><span class="p">())</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="n">dtr</span><span class="p">.</span><span class="n">Read</span><span class="p">())</span>
-</span><span class='line'>            <span class="p">{</span>
-</span><span class='line'>                <span class="c1">// mapping record ke objek supplier</span>
-</span><span class='line'>                <span class="kt">var</span> <span class="n">supplier</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Supplier</span>
-</span><span class='line'>                <span class="p">{</span>
-</span><span class='line'>                    <span class="n">SupplierID</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;SupplierID&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="m">0</span> <span class="p">:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;SupplierID&quot;</span><span class="p">],</span>
-</span><span class='line'>                    <span class="n">NamaSupplier</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;NamaSupplier&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;NamaSupplier&quot;</span><span class="p">]</span>
-</span><span class='line'>                <span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'>                <span class="c1">// mapping record ke objek beli</span>
-</span><span class='line'>                <span class="n">beli</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Beli</span><span class="p">();</span>
-</span><span class='line'>                <span class="n">beli</span><span class="p">.</span><span class="n">Nota</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Nota&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Nota&quot;</span><span class="p">];</span>
-</span><span class='line'>                <span class="n">beli</span><span class="p">.</span><span class="n">Tanggal</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Tanggal&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">MinValue</span> <span class="p">:</span> <span class="p">(</span><span class="n">DateTime</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Tanggal&quot;</span><span class="p">];</span>
-</span><span class='line'>                <span class="n">beli</span><span class="p">.</span><span class="n">Supplier</span> <span class="p">=</span> <span class="n">supplier</span><span class="p">;</span> <span class="c1">// hubungkan objek supplier dan beli</span>
-</span><span class='line'>            <span class="p">}</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">beli</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="c1">// ambil data detail</span>
-</span><span class='line'>        <span class="kt">var</span> <span class="n">daftarItemBeli</span> <span class="p">=</span> <span class="n">GetDetailPembelian</span><span class="p">(</span><span class="n">nota</span><span class="p">,</span> <span class="n">conn</span><span class="p">);</span>
-</span><span class='line'>        <span class="n">beli</span><span class="p">.</span><span class="n">ItemBelis</span> <span class="p">=</span> <span class="n">daftarItemBeli</span><span class="p">;</span> <span class="c1">// hubungkan objek beli dg detail beli</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="n">beli</span><span class="p">;</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">private</span> <span class="k">static</span> <span class="n">IList</span><span class="p">&lt;</span><span class="n">ItemBeli</span><span class="p">&gt;</span> <span class="n">GetDetailPembelian</span><span class="p">(</span><span class="kt">string</span> <span class="n">nota</span><span class="p">,</span> <span class="n">SqlConnection</span> <span class="n">conn</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">daftarItemBeli</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">ItemBeli</span><span class="p">&gt;();&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="kt">var</span> <span class="n">sql</span> <span class="p">=</span> <span class="s">@&quot;SELECT Barang.BarangID, Barang.NamaBarang, ItemBeli.Jumlah, ItemBeli.HargaBeli, ItemBeli.HargaJual</span>
-</span><span class='line'><span class="s">            FROM Barang INNER JOIN ItemBeli ON Barang.BarangID = ItemBeli.BarangID</span>
-</span><span class='line'><span class="s">            WHERE ItemBeli.Nota = @1&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SqlCommand</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="n">nota</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">dtr</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteReader</span><span class="p">())</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">while</span> <span class="p">(</span><span class="n">dtr</span><span class="p">.</span><span class="n">Read</span><span class="p">())</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="c1">// mapping record ke objek barang</span>
-</span><span class='line'>            <span class="kt">var</span> <span class="n">barang</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Barang</span>
-</span><span class='line'>            <span class="p">{</span>
-</span><span class='line'>                <span class="n">BarangID</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;BarangID&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;BarangID&quot;</span><span class="p">],</span>
-</span><span class='line'>                <span class="n">NamaBarang</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;NamaBarang&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;NamaBarang&quot;</span><span class="p">]</span>
-</span><span class='line'>            <span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="c1">// mapping record ke objek item beli</span>
-</span><span class='line'>            <span class="kt">var</span> <span class="n">itemBeli</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ItemBeli</span>
-</span><span class='line'>            <span class="p">{</span>
-</span><span class='line'>                <span class="n">Barang</span> <span class="p">=</span> <span class="n">barang</span><span class="p">,</span> <span class="c1">// hubungkan barang dg item beli</span>
-</span><span class='line'>                <span class="n">Jumlah</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Jumlah&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="m">0</span> <span class="p">:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Jumlah&quot;</span><span class="p">],</span>
-</span><span class='line'>                <span class="n">HargaBeli</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;HargaBeli&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="m">0</span> <span class="p">:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;HargaBeli&quot;</span><span class="p">],</span>
-</span><span class='line'>                <span class="n">HargaJual</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;HargaJual&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="m">0</span> <span class="p">:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;HargaJual&quot;</span><span class="p">]</span>
-</span><span class='line'>            <span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="n">daftarItemBeli</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">itemBeli</span><span class="p">);</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="n">daftarItemBeli</span><span class="p">;</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+private static Beli GetPembelianUsingADONET(string nota)
+{
+    Beli beli = null;</p>
+
+<pre><code>using (var conn = GetOpenConnection())
+{
+    // ambil data header
+    var sql = @"SELECT Beli.Nota, Beli.Tanggal, Supplier.SupplierID, Supplier.NamaSupplier
+                FROM Supplier INNER JOIN Beli ON Supplier.SupplierID = Beli.SupplierID
+                WHERE Beli.Nota = @1";
+
+    using (var cmd = new SqlCommand(sql, conn))
+    {
+        cmd.Parameters.AddWithValue("@1", nota);
+
+        using (var dtr = cmd.ExecuteReader())
+        {
+            if (dtr.Read())
+            {
+                // mapping record ke objek supplier
+                var supplier = new Supplier
+                {
+                    SupplierID = dtr["SupplierID"] is DBNull ? 0 : (int)dtr["SupplierID"],
+                    NamaSupplier = dtr["NamaSupplier"] is DBNull ? string.Empty : (string)dtr["NamaSupplier"]
+                };
+
+                // mapping record ke objek beli
+                beli = new Beli();
+                beli.Nota = dtr["Nota"] is DBNull ? string.Empty : (string)dtr["Nota"];
+                beli.Tanggal = dtr["Tanggal"] is DBNull ? DateTime.MinValue : (DateTime)dtr["Tanggal"];
+                beli.Supplier = supplier; // hubungkan objek supplier dan beli
+            }
+        }
+    }
+
+    if (beli != null)
+    {
+        // ambil data detail
+        var daftarItemBeli = GetDetailPembelian(nota, conn);
+        beli.ItemBelis = daftarItemBeli; // hubungkan objek beli dg detail beli
+    }
+}
+
+return beli;
+</code></pre>
+
+<p>}</p>
+
+<p>private static IList<ItemBeli> GetDetailPembelian(string nota, SqlConnection conn)
+{
+    var daftarItemBeli = new List<ItemBeli>();</p>
+
+<pre><code>var sql = @"SELECT Barang.BarangID, Barang.NamaBarang, ItemBeli.Jumlah, ItemBeli.HargaBeli, ItemBeli.HargaJual
+            FROM Barang INNER JOIN ItemBeli ON Barang.BarangID = ItemBeli.BarangID
+            WHERE ItemBeli.Nota = @1";
+using (var cmd = new SqlCommand(sql, conn))
+{
+    cmd.Parameters.AddWithValue("@1", nota);
+
+    using (var dtr = cmd.ExecuteReader())
+    {
+        while (dtr.Read())
+        {
+            // mapping record ke objek barang
+            var barang = new Barang
+            {
+                BarangID = dtr["BarangID"] is DBNull ? string.Empty : (string)dtr["BarangID"],
+                NamaBarang = dtr["NamaBarang"] is DBNull ? string.Empty : (string)dtr["NamaBarang"]
+            };
+
+            // mapping record ke objek item beli
+            var itemBeli = new ItemBeli
+            {
+                Barang = barang, // hubungkan barang dg item beli
+                Jumlah = dtr["Jumlah"] is DBNull ? 0 : (int)dtr["Jumlah"],
+                HargaBeli = dtr["HargaBeli"] is DBNull ? 0 : (int)dtr["HargaBeli"],
+                HargaJual = dtr["HargaJual"] is DBNull ? 0 : (int)dtr["HargaJual"]
+            };
+
+            daftarItemBeli.Add(itemBeli);
+        }
+    }
+}
+
+return daftarItemBeli;
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p>Untuk mencoba kode di atas gunakan kode berikut :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">static</span> <span class="k">void</span> <span class="nf">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">beli</span> <span class="p">=</span> <span class="n">GetPembelianUsingADONET</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">N001</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
-</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Nota</span> <span class="p">:</span> <span class="p">{</span><span class="m">0</span><span class="p">}</span><span class="err">\</span><span class="n">nTanggal</span> <span class="p">:</span> <span class="p">{</span><span class="m">1</span><span class="p">}</span><span class="err">\</span><span class="n">nSupplier</span> <span class="p">:</span> <span class="p">{</span><span class="m">2</span><span class="p">}&amp;</span><span class="n">rdquo</span><span class="p">;,</span>
-</span><span class='line'>                        <span class="n">beli</span><span class="p">.</span><span class="n">Nota</span><span class="p">,</span> <span class="n">beli</span><span class="p">.</span><span class="n">Tanggal</span><span class="p">,</span> <span class="n">beli</span><span class="p">.</span><span class="n">Supplier</span><span class="p">.</span><span class="n">NamaSupplier</span><span class="p">);&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;\nItem Beli :&quot;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// ekstrak item beli</span>
-</span><span class='line'><span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">item</span> <span class="k">in</span> <span class="n">beli</span><span class="p">.</span><span class="n">ItemBelis</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Barang : {0}, Jumlah : {1}, Harga Jual : {2}&quot;</span><span class="p">,</span>
-</span><span class='line'>                        <span class="n">item</span><span class="p">.</span><span class="n">Barang</span><span class="p">.</span><span class="n">NamaBarang</span><span class="p">,</span> <span class="n">item</span><span class="p">.</span><span class="n">Jumlah</span><span class="p">,</span> <span class="n">item</span><span class="p">.</span><span class="n">HargaJual</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;\nPress any key to exit ...&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="n">Console</span><span class="p">.</span><span class="n">ReadKey</span><span class="p">();</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+static void Main(string[] args)
+{
+    var beli = GetPembelianUsingADONET(&ldquo;N001&rdquo;);
+    Console.WriteLine(&ldquo;Nota : {0}\nTanggal : {1}\nSupplier : {2}&rdquo;,
+                        beli.Nota, beli.Tanggal, beli.Supplier.NamaSupplier);</p>
+
+<pre><code>Console.WriteLine("\nItem Beli :");
+
+// ekstrak item beli
+foreach (var item in beli.ItemBelis)
+{
+    Console.WriteLine("Barang : {0}, Jumlah : {1}, Harga Jual : {2}",
+                        item.Barang.NamaBarang, item.Jumlah, item.HargaJual);
+}
+
+Console.WriteLine("\nPress any key to exit ...");
+Console.ReadKey();
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p>Jika kode di atas dijalankan akan menghasilkan output seperti <a href="http://coding4ever.files.wordpress.com/2014/04/16.jpg">gambar pertama</a>.</p>
 
@@ -377,41 +267,25 @@ instance</code></li>
 
 <p>Oke, kita akan tulis ulang kode di atas menggunakan <a href="http://msdn.microsoft.com/en-us/data/aa937723">Entity Framework</a>.</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="n">Beli</span> <span class="nf">GetPembelianUsingEF</span><span class="p">(</span><span class="kt">string</span> <span class="n">nota</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">Beli</span> <span class="n">beli</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">db</span> <span class="p">=</span> <span class="k">new</span> <span class="n">RetailContext</span><span class="p">())</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">beli</span> <span class="p">=</span> <span class="n">db</span><span class="p">.</span><span class="n">Belis</span>
-</span><span class='line'>             <span class="p">.</span><span class="n">Include</span><span class="p">(</span><span class="n">bl</span> <span class="p">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">bl</span><span class="p">.</span><span class="n">Supplier</span><span class="p">)</span>
-</span><span class='line'>             <span class="p">.</span><span class="n">Include</span><span class="p">(</span><span class="n">bl</span> <span class="p">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">bl</span><span class="p">.</span><span class="n">ItemBelis</span><span class="p">.</span><span class="n">Select</span><span class="p">(</span><span class="n">ib</span> <span class="p">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">ib</span><span class="p">.</span><span class="n">Barang</span><span class="p">))</span>
-</span><span class='line'>             <span class="p">.</span><span class="n">Where</span><span class="p">(</span><span class="n">bl</span> <span class="p">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">bl</span><span class="p">.</span><span class="n">Nota</span> <span class="p">==</span> <span class="n">nota</span><span class="p">)</span>
-</span><span class='line'>             <span class="p">.</span><span class="n">SingleOrDefault</span><span class="p">();</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="n">beli</span><span class="p">;</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+private static Beli GetPembelianUsingEF(string nota)
+{
+    Beli beli;</p>
+
+<pre><code>using (var db = new RetailContext())
+{
+    beli = db.Belis
+             .Include(bl =&gt; bl.Supplier)
+             .Include(bl =&gt; bl.ItemBelis.Select(ib =&gt; ib.Barang))
+             .Where(bl =&gt; bl.Nota == nota)
+             .SingleOrDefault();
+}
+
+return beli;
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p>Gimana lebih simple bukan ? :)</p>
 
@@ -428,7 +302,7 @@ instance</code></li>
     <link href="http://coding4ever.net/blog/2014/04/03/entity-framework-part-6/"/>
     <updated>2014-04-03T10:17:31+07:00</updated>
     <id>http://coding4ever.net/blog/2014/04/03/entity-framework-part-6</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="http://coding4ever.files.wordpress.com/2014/03/entity_image.png">http://coding4ever.files.wordpress.com/2014/03/entity_image.png</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Pada <a href="/blog/2014/04/01/entity-framework-part-5/">postingan</a> sebelumnya kita sudah membahas bagaimana <a href="http://msdn.microsoft.com/en-us/data/aa937723">Entity Framework</a> menangani sebuah tabel tunggal. Pada kenyataannya hampir semua aplikasi database menggunakan lebih dari satu tabel dan tentunya diantara tabel ini juga mempunyai hubungan (relasi).</p>
+    <content type="html"><![CDATA[<p>{% img left <a href="http://coding4ever.files.wordpress.com/2014/03/entity_image.png">http://coding4ever.files.wordpress.com/2014/03/entity_image.png</a> 120 100 %}Pada <a href="{{%20site.url%20}}/blog/2014/04/01/entity-framework-part-5/">postingan</a> sebelumnya kita sudah membahas bagaimana <a href="http://msdn.microsoft.com/en-us/data/aa937723">Entity Framework</a> menangani sebuah tabel tunggal. Pada kenyataannya hampir semua aplikasi database menggunakan lebih dari satu tabel dan tentunya diantara tabel ini juga mempunyai hubungan (relasi).</p>
 
 <p>Di postingan kali ini kita akan membahas bagaimana <a href="http://msdn.microsoft.com/en-us/data/aa937723">Entity Framework</a> menangani dua buah tabel yang saling berhubungan yaitu <em>Beli</em> dan <em>ItemBeli.</em></p>
 
@@ -475,7 +349,7 @@ instance</code></li>
 </ul>
 
 
-<p>Seperti <a href="/blog/2014/04/01/entity-framework-part-5/">postingan</a> sebelumnya, saya akan menuliskan 2 versi kode sebagai bahan perbandingan yaitu menggunakan ADO.NET secara langsung dan Entity Framework.</p>
+<p>Seperti <a href="{{%20site.url%20}}/blog/2014/04/01/entity-framework-part-5/">postingan</a> sebelumnya, saya akan menuliskan 2 versi kode sebagai bahan perbandingan yaitu menggunakan ADO.NET secara langsung dan Entity Framework.</p>
 
 <p>Nama method yang akan kita gunakan untuk menambahkan data beli berikut itemnya adalah <em>AddPembelian</em>. Method ini akan menambahkan data di dua tabel sekaligus (Beli dan ItemBeli), sehingga sangat disarankan menggunakan database <em><a href="http://en.wikipedia.org/wiki/Database_transaction">transaction</a>.</em></p>
 
@@ -483,265 +357,144 @@ instance</code></li>
 
 <p><strong>ADO.NET</strong></p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="kt">int</span> <span class="nf">AddPembelianUsingADONET</span><span class="p">(</span><span class="n">Beli</span> <span class="n">beli</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="m">0</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">try</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="c1">// mulai transaksi</span>
-</span><span class='line'>        <span class="kt">var</span> <span class="n">transaction</span> <span class="p">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">BeginTransaction</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="kt">var</span> <span class="n">sql</span> <span class="p">=</span> <span class="s">@&quot;INSERT INTO Beli (Nota, SupplierID, Tanggal, Keterangan)</span>
-</span><span class='line'><span class="s">                    VALUES (@1, @2, @3, @4)&quot;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="c1">// insert ke tabel beli</span>
-</span><span class='line'>        <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SqlCommand</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">transaction</span><span class="p">))</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="n">beli</span><span class="p">.</span><span class="n">Nota</span><span class="p">);</span>
-</span><span class='line'>            <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@2&quot;</span><span class="p">,</span> <span class="n">beli</span><span class="p">.</span><span class="n">SupplierID</span><span class="p">);</span>
-</span><span class='line'>            <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@3&quot;</span><span class="p">,</span> <span class="n">beli</span><span class="p">.</span><span class="n">Tanggal</span><span class="p">);</span>
-</span><span class='line'>            <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@4&quot;</span><span class="p">,</span> <span class="n">beli</span><span class="p">.</span><span class="n">Keterangan</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="n">result</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteNonQuery</span><span class="p">();</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">sql</span> <span class="p">=</span> <span class="s">@&quot;INSERT INTO ItemBeli (Nota, BarangID, Jumlah, HargaBeli, HargaJual)</span>
-</span><span class='line'><span class="s">                VALUES (@1, @2, @3, @4, @5)&quot;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="c1">// insert ke tabel item beli sebanyak n item</span>
-</span><span class='line'>        <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">item</span> <span class="k">in</span> <span class="n">beli</span><span class="p">.</span><span class="n">ItemBelis</span><span class="p">)</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SqlCommand</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">transaction</span><span class="p">))</span>
-</span><span class='line'>            <span class="p">{</span>
-</span><span class='line'>                <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="n">beli</span><span class="p">.</span><span class="n">Nota</span><span class="p">);</span>
-</span><span class='line'>                <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@2&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">.</span><span class="n">BarangID</span><span class="p">);</span>
-</span><span class='line'>                <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@3&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">.</span><span class="n">Jumlah</span><span class="p">);</span>
-</span><span class='line'>                <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@4&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">.</span><span class="n">HargaBeli</span><span class="p">);</span>
-</span><span class='line'>                <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@5&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">.</span><span class="n">HargaJual</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>                <span class="n">result</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteNonQuery</span><span class="p">();</span>
-</span><span class='line'>            <span class="p">}</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="c1">// transaksi selesai</span>
-</span><span class='line'>        <span class="c1">// simpan perubahan secara permanen</span>
-</span><span class='line'>        <span class="n">transaction</span><span class="p">.</span><span class="n">Commit</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">result</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span> <span class="c1">// status transaksi berhasil</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">catch</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="n">result</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="n">result</span><span class="p">;</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+private static int AddPembelianUsingADONET(Beli beli)
+{
+    var result = 0;</p>
+
+<pre><code>using (var conn = GetOpenConnection())
+{
+
+    try
+    {
+        // mulai transaksi
+        var transaction = conn.BeginTransaction();
+
+        var sql = @"INSERT INTO Beli (Nota, SupplierID, Tanggal, Keterangan)
+                    VALUES (@1, @2, @3, @4)";
+
+        // insert ke tabel beli
+        using (var cmd = new SqlCommand(sql, conn, transaction))
+        {
+            cmd.Parameters.AddWithValue("@1", beli.Nota);
+            cmd.Parameters.AddWithValue("@2", beli.SupplierID);
+            cmd.Parameters.AddWithValue("@3", beli.Tanggal);
+            cmd.Parameters.AddWithValue("@4", beli.Keterangan);
+
+            result = cmd.ExecuteNonQuery();
+        }
+
+        sql = @"INSERT INTO ItemBeli (Nota, BarangID, Jumlah, HargaBeli, HargaJual)
+                VALUES (@1, @2, @3, @4, @5)";
+
+        // insert ke tabel item beli sebanyak n item
+        foreach (var item in beli.ItemBelis)
+        {
+            using (var cmd = new SqlCommand(sql, conn, transaction))
+            {
+                cmd.Parameters.AddWithValue("@1", beli.Nota);
+                cmd.Parameters.AddWithValue("@2", item.BarangID);
+                cmd.Parameters.AddWithValue("@3", item.Jumlah);
+                cmd.Parameters.AddWithValue("@4", item.HargaBeli);
+                cmd.Parameters.AddWithValue("@5", item.HargaJual);
+
+                result = cmd.ExecuteNonQuery();
+            }
+        }                    
+
+        // transaksi selesai
+        // simpan perubahan secara permanen
+        transaction.Commit();
+
+        result = 1; // status transaksi berhasil
+    }
+    catch
+    {
+        result = 0;
+    }
+}
+
+return result;
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p><strong>Entity Framework</strong></p>
 
 <p>Menggunakan Entity Framework ternyata sangat mudah, coba lihat kode berikut setara dengan kode ADO.NET di atas :)</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="kt">int</span> <span class="nf">AddPembelianUsingEF</span><span class="p">(</span><span class="n">Beli</span> <span class="n">beli</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="m">0</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">db</span> <span class="p">=</span> <span class="k">new</span> <span class="n">RetailContext</span><span class="p">())</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">try</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="n">db</span><span class="p">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">beli</span><span class="p">).</span><span class="n">State</span> <span class="p">=</span> <span class="n">EntityState</span><span class="p">.</span><span class="n">Added</span><span class="p">;</span>
-</span><span class='line'>        <span class="n">db</span><span class="p">.</span><span class="n">SaveChanges</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">result</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">catch</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="n">result</span><span class="p">;</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+private static int AddPembelianUsingEF(Beli beli)
+{
+    var result = 0;</p>
+
+<pre><code>using (var db = new RetailContext())
+{
+    try
+    {
+        db.Entry(beli).State = EntityState.Added;
+        db.SaveChanges();
+
+        result = 1;
+    }
+    catch
+    {
+    }
+}
+
+return result;
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p>Contoh penggunaan :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="c1">// buat objek item beli (3 objek)</span>
-</span><span class='line'><span class="kt">var</span> <span class="n">item1</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ItemBeli</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">BarangID</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">BB</span><span class="p">-</span><span class="m">7421</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span>
-</span><span class='line'>    <span class="n">Jumlah</span> <span class="p">=</span> <span class="m">5</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">HargaBeli</span> <span class="p">=</span> <span class="m">54</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">HargaJual</span> <span class="p">=</span> <span class="m">60</span>
-</span><span class='line'><span class="p">};&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="kt">var</span> <span class="n">item2</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ItemBeli</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">BarangID</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">BB</span><span class="p">-</span><span class="m">8107</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span>
-</span><span class='line'>    <span class="n">Jumlah</span> <span class="p">=</span> <span class="m">7</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">HargaBeli</span> <span class="p">=</span> <span class="m">101</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">HargaJual</span> <span class="p">=</span> <span class="m">110</span>
-</span><span class='line'><span class="p">};&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="kt">var</span> <span class="n">item3</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ItemBeli</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">BarangID</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">BK</span><span class="p">-</span><span class="n">M18B</span><span class="p">-</span><span class="m">44</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span>
-</span><span class='line'>    <span class="n">Jumlah</span> <span class="p">=</span> <span class="m">10</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">HargaBeli</span> <span class="p">=</span> <span class="m">540</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">HargaJual</span> <span class="p">=</span> <span class="m">693</span>
-</span><span class='line'><span class="p">};&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="c1">// buat objek beli</span>
-</span><span class='line'><span class="kt">var</span> <span class="n">beli</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Beli</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">Nota</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">N001</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span>
-</span><span class='line'>    <span class="n">SupplierID</span> <span class="p">=</span> <span class="m">3</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">Tanggal</span> <span class="p">=</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">Today</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">Keterangan</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Transaksi</span> <span class="n">beli</span> <span class="n">menggunakan</span> <span class="n">Entity</span> <span class="n">Framework</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
-</span><span class='line'><span class="p">};&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="c1">// tambahkan item beli ke objek beli</span>
-</span><span class='line'><span class="n">beli</span><span class="p">.</span><span class="n">ItemBelis</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">item1</span><span class="p">);</span>
-</span><span class='line'><span class="n">beli</span><span class="p">.</span><span class="n">ItemBelis</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">item2</span><span class="p">);</span>
-</span><span class='line'><span class="n">beli</span><span class="p">.</span><span class="n">ItemBelis</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">item3</span><span class="p">);&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="n">AddPembelianUsingEF</span><span class="p">(</span><span class="n">beli</span><span class="p">);&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="err">\</span><span class="n">nStatus</span> <span class="n">transaksi</span> <span class="p">:</span> <span class="p">{</span><span class="m">0</span><span class="p">}&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">result</span> <span class="p">==</span> <span class="m">1</span> <span class="p">?</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Sukses</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="p">:</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Gagal</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+// buat objek item beli (3 objek)
+var item1 = new ItemBeli
+{
+    BarangID = &ldquo;BB-7421&rdquo;,
+    Jumlah = 5,
+    HargaBeli = 54,
+    HargaJual = 60
+};</p>
+
+<p>var item2 = new ItemBeli
+{
+    BarangID = &ldquo;BB-8107&rdquo;,
+    Jumlah = 7,
+    HargaBeli = 101,
+    HargaJual = 110
+};</p>
+
+<p>var item3 = new ItemBeli
+{
+    BarangID = &ldquo;BK-M18B-44&rdquo;,
+    Jumlah = 10,
+    HargaBeli = 540,
+    HargaJual = 693
+};</p>
+
+<p>// buat objek beli
+var beli = new Beli
+{
+    Nota = &ldquo;N001&rdquo;,
+    SupplierID = 3,
+    Tanggal = DateTime.Today,
+    Keterangan = &ldquo;Transaksi beli menggunakan Entity Framework&rdquo;
+};</p>
+
+<p>// tambahkan item beli ke objek beli
+beli.ItemBelis.Add(item1);
+beli.ItemBelis.Add(item2);
+beli.ItemBelis.Add(item3);</p>
+
+<p>var result = AddPembelianUsingEF(beli);</p>
+
+<p>Console.WriteLine(&ldquo;\nStatus transaksi : {0}&rdquo;, result == 1 ? &ldquo;Sukses&rdquo; : &ldquo;Gagal&rdquo;);
+{% endcodeblock %}</p>
 
 <p><a href="http://coding4ever.files.wordpress.com/2014/04/13.jpg"><img src="http://coding4ever.files.wordpress.com/2014/04/13.jpg" alt="1" /></a></p>
 
@@ -760,7 +513,7 @@ instance</code></li>
     <link href="http://coding4ever.net/blog/2014/04/01/entity-framework-part-5/"/>
     <updated>2014-04-01T09:53:25+07:00</updated>
     <id>http://coding4ever.net/blog/2014/04/01/entity-framework-part-5</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="http://coding4ever.files.wordpress.com/2014/03/entity_image.png">http://coding4ever.files.wordpress.com/2014/03/entity_image.png</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Setelah selesai melakukan mapping, baik secara <a href="/blog/2014/03/21/entity-framework-part-2/">manual</a> atau menggunakan tool seperti <a href="/blog/2014/03/26/entity-framework-part-3/">ADO.NET Entity Data Model Designer</a> dan <a href="/blog/2014/03/27/entity-framework-part-4/">Entity Framework Power Tools</a>, kita bisa langsung mencoba method-method dasar aplikasi database yang dikenal dengan istilah method <a href="http://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a> seperti Save, Update, Delete dan Get.</p>
+    <content type="html"><![CDATA[<p>{% img left <a href="http://coding4ever.files.wordpress.com/2014/03/entity_image.png">http://coding4ever.files.wordpress.com/2014/03/entity_image.png</a> 120 100 %}Setelah selesai melakukan mapping, baik secara <a href="{{%20site.url%20}}/blog/2014/03/21/entity-framework-part-2/">manual</a> atau menggunakan tool seperti <a href="{{%20site.url%20}}/blog/2014/03/26/entity-framework-part-3/">ADO.NET Entity Data Model Designer</a> dan <a href="{{%20site.url%20}}/blog/2014/03/27/entity-framework-part-4/">Entity Framework Power Tools</a>, kita bisa langsung mencoba method-method dasar aplikasi database yang dikenal dengan istilah method <a href="http://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a> seperti Save, Update, Delete dan Get.</p>
 
 <p>Ingat tujuan kita menggunakan <a href="http://en.wikipedia.org/wiki/Object-relational_mapping">ORM</a> seperti <a href="http://msdn.microsoft.com/en-us/data/aa937723">Entity Framework</a> dalam pengembangan aplikasi database adalah agar kita tidak  lagi berhubungan secara langsung dengan database berikut objek-objeknya seperti tabel, view dan objek database lainnya, sehingga bisa lebih fokus ke aturan bisnis dari aplikasi yang sedang dikembangkan.</p>
 
@@ -789,340 +542,204 @@ instance</code></li>
 
 <p><strong>ADO.NET</strong></p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="kt">int</span> <span class="nf">SaveUsingADONET</span><span class="p">(</span><span class="n">Supplier</span> <span class="n">supplier</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="m">0</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">sql</span> <span class="p">=</span> <span class="s">@&quot;INSERT INTO Supplier (NamaSupplier, Jalan, Kota)</span>
-</span><span class='line'><span class="s">                VALUES (@1, @2, @3)&quot;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SqlCommand</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="n">supplier</span><span class="p">.</span><span class="n">NamaSupplier</span><span class="p">);</span>
-</span><span class='line'>        <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@2&quot;</span><span class="p">,</span> <span class="n">supplier</span><span class="p">.</span><span class="n">Jalan</span><span class="p">);</span>
-</span><span class='line'>        <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@3&quot;</span><span class="p">,</span> <span class="n">supplier</span><span class="p">.</span><span class="n">Kota</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">result</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteNonQuery</span><span class="p">();</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="n">result</span><span class="p">;</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+private static int SaveUsingADONET(Supplier supplier)
+{
+    var result = 0;</p>
+
+<pre><code>using (var conn = GetOpenConnection())
+{
+    var sql = @"INSERT INTO Supplier (NamaSupplier, Jalan, Kota)
+                VALUES (@1, @2, @3)";
+
+    using (var cmd = new SqlCommand(sql, conn))
+    {
+        cmd.Parameters.AddWithValue("@1", supplier.NamaSupplier);
+        cmd.Parameters.AddWithValue("@2", supplier.Jalan);
+        cmd.Parameters.AddWithValue("@3", supplier.Kota);
+
+        result = cmd.ExecuteNonQuery();
+    }
+}
+
+return result;
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p><strong>Entity Framework (EF)
 </strong></p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="kt">int</span> <span class="nf">SaveUsingEF</span><span class="p">(</span><span class="n">Supplier</span> <span class="n">supplier</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="m">0</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">db</span> <span class="p">=</span> <span class="k">new</span> <span class="n">RetailContext</span><span class="p">())</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">db</span><span class="p">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">supplier</span><span class="p">).</span><span class="n">State</span> <span class="p">=</span> <span class="n">EntityState</span><span class="p">.</span><span class="n">Added</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">db</span><span class="p">.</span><span class="n">SaveChanges</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">result</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="n">result</span><span class="p">;</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+private static int SaveUsingEF(Supplier supplier)
+{
+    var result = 0;</p>
+
+<pre><code>using (var db = new RetailContext())
+{
+    db.Entry(supplier).State = EntityState.Added;
+    db.SaveChanges();
+
+    result = 1;
+}
+
+return result;
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p>Dari dua method di atas, kita bisa melihat bahwa method Save menggunakan Entity Framework (EF) lebih sederhana sehingga mengurangi kesalahan dalam penulisan kode dibandingkan dengan menggunakan ADO.NET secara langsung. Kita tidak lagi menuliskan perintah SQL INSERT yang masih berbasis teks (string).</p>
 
 <p>Contoh penggunaan :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="c1">// buat objek supplier</span>
-</span><span class='line'><span class="kt">var</span> <span class="n">supplier</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Supplier</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">NamaSupplier</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Morgan</span> <span class="n">Bike</span> <span class="n">Accessories</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span>
-</span><span class='line'>    <span class="n">Jalan</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="m">6387</span> <span class="n">Scenic</span> <span class="n">Avenue</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span>
-</span><span class='line'>    <span class="n">Kota</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Bothell</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
-</span><span class='line'><span class="p">};&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="kt">var</span> <span class="n">result1</span> <span class="p">=</span> <span class="n">SaveUsingADONET</span><span class="p">(</span><span class="n">supplier</span><span class="p">);</span>
-</span><span class='line'><span class="kt">var</span> <span class="n">result2</span> <span class="p">=</span> <span class="n">SaveUsingEF</span><span class="p">(</span><span class="n">supplier</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+// buat objek supplier
+var supplier = new Supplier
+{
+    NamaSupplier = &ldquo;Morgan Bike Accessories&rdquo;,
+    Jalan = &ldquo;6387 Scenic Avenue&rdquo;,
+    Kota = &ldquo;Bothell&rdquo;
+};</p>
+
+<p>var result1 = SaveUsingADONET(supplier);
+var result2 = SaveUsingEF(supplier);
+{% endcodeblock %}</p>
 
 <p><strong>2. Update - Untuk mengupdate data
 </strong></p>
 
 <p><strong>ADO.NET</strong></p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="kt">int</span> <span class="nf">UpdateUsingADONET</span><span class="p">(</span><span class="n">Supplier</span> <span class="n">supplier</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="m">0</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">sql</span> <span class="p">=</span> <span class="s">@&quot;UPDATE Supplier SET NamaSupplier = @1, Jalan = @2, Kota = @3</span>
-</span><span class='line'><span class="s">                WHERE SupplierID = @4&quot;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SqlCommand</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="n">supplier</span><span class="p">.</span><span class="n">NamaSupplier</span><span class="p">);</span>
-</span><span class='line'>        <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@2&quot;</span><span class="p">,</span> <span class="n">supplier</span><span class="p">.</span><span class="n">Jalan</span><span class="p">);</span>
-</span><span class='line'>        <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@3&quot;</span><span class="p">,</span> <span class="n">supplier</span><span class="p">.</span><span class="n">Kota</span><span class="p">);</span>
-</span><span class='line'>        <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@4&quot;</span><span class="p">,</span> <span class="n">supplier</span><span class="p">.</span><span class="n">SupplierID</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">result</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteNonQuery</span><span class="p">();</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="n">result</span><span class="p">;</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+private static int UpdateUsingADONET(Supplier supplier)
+{
+    var result = 0;</p>
+
+<pre><code>using (var conn = GetOpenConnection())
+{
+    var sql = @"UPDATE Supplier SET NamaSupplier = @1, Jalan = @2, Kota = @3
+                WHERE SupplierID = @4";
+
+    using (var cmd = new SqlCommand(sql, conn))
+    {
+        cmd.Parameters.AddWithValue("@1", supplier.NamaSupplier);
+        cmd.Parameters.AddWithValue("@2", supplier.Jalan);
+        cmd.Parameters.AddWithValue("@3", supplier.Kota);
+        cmd.Parameters.AddWithValue("@4", supplier.SupplierID);
+
+        result = cmd.ExecuteNonQuery();
+    }
+}
+
+return result;
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p><strong>Entity Framework (EF)
 </strong></p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="kt">int</span> <span class="nf">UpdateUsingEF</span><span class="p">(</span><span class="n">Supplier</span> <span class="n">supplier</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="m">0</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">db</span> <span class="p">=</span> <span class="k">new</span> <span class="n">RetailContext</span><span class="p">())</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">db</span><span class="p">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">supplier</span><span class="p">).</span><span class="n">State</span> <span class="p">=</span> <span class="n">EntityState</span><span class="p">.</span><span class="n">Modified</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">db</span><span class="p">.</span><span class="n">SaveChanges</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">result</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="n">result</span><span class="p">;</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+private static int UpdateUsingEF(Supplier supplier)
+{
+    var result = 0;</p>
+
+<pre><code>using (var db = new RetailContext())
+{
+    db.Entry(supplier).State = EntityState.Modified;
+    db.SaveChanges();
+
+    result = 1;
+}
+
+return result;
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p>Contoh penggunaan :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="c1">// buat objek supplier</span>
-</span><span class='line'><span class="kt">var</span> <span class="n">supplier</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Supplier</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">SupplierID</span> <span class="p">=</span> <span class="m">34</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">NamaSupplier</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Morgan</span> <span class="n">Bike</span> <span class="n">Accessories</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span>
-</span><span class='line'>    <span class="n">Jalan</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="m">6387</span> <span class="n">Scenic</span> <span class="n">Avenue</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span>
-</span><span class='line'>    <span class="n">Kota</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Bothell</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
-</span><span class='line'><span class="p">};&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="kt">var</span> <span class="n">result1</span> <span class="p">=</span> <span class="n">UpdateUsingADONET</span><span class="p">(</span><span class="n">supplier</span><span class="p">);</span>
-</span><span class='line'><span class="kt">var</span> <span class="n">result2</span> <span class="p">=</span> <span class="n">UpdateUsingEF</span><span class="p">(</span><span class="n">supplier</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+// buat objek supplier
+var supplier = new Supplier
+{
+    SupplierID = 34,
+    NamaSupplier = &ldquo;Morgan Bike Accessories&rdquo;,
+    Jalan = &ldquo;6387 Scenic Avenue&rdquo;,
+    Kota = &ldquo;Bothell&rdquo;
+};</p>
+
+<p>var result1 = UpdateUsingADONET(supplier);
+var result2 = UpdateUsingEF(supplier);
+{% endcodeblock %}</p>
 
 <p><strong>3. Delete - Untuk menghapus data
 </strong></p>
 
 <p><strong>ADO.NET</strong></p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="kt">int</span> <span class="nf">DeleteUsingADONET</span><span class="p">(</span><span class="n">Supplier</span> <span class="n">supplier</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="m">0</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">sql</span> <span class="p">=</span> <span class="s">@&quot;DELETE FROM Supplier</span>
-</span><span class='line'><span class="s">                WHERE SupplierID = @1&quot;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SqlCommand</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="n">supplier</span><span class="p">.</span><span class="n">SupplierID</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">result</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteNonQuery</span><span class="p">();</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="n">result</span><span class="p">;</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+private static int DeleteUsingADONET(Supplier supplier)
+{
+    var result = 0;</p>
+
+<pre><code>using (var conn = GetOpenConnection())
+{
+    var sql = @"DELETE FROM Supplier
+                WHERE SupplierID = @1";
+
+    using (var cmd = new SqlCommand(sql, conn))
+    {
+        cmd.Parameters.AddWithValue("@1", supplier.SupplierID);
+
+        result = cmd.ExecuteNonQuery();
+    }
+}
+
+return result;
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p><strong>Entity Framework (EF)
 </strong></p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="kt">int</span> <span class="nf">DeleteUsingEF</span><span class="p">(</span><span class="n">Supplier</span> <span class="n">supplier</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="m">0</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">db</span> <span class="p">=</span> <span class="k">new</span> <span class="n">RetailContext</span><span class="p">())</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">db</span><span class="p">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">supplier</span><span class="p">).</span><span class="n">State</span> <span class="p">=</span> <span class="n">EntityState</span><span class="p">.</span><span class="n">Deleted</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">db</span><span class="p">.</span><span class="n">SaveChanges</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">result</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="n">result</span><span class="p">;</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+private static int DeleteUsingEF(Supplier supplier)
+{
+    var result = 0;</p>
+
+<pre><code>using (var db = new RetailContext())
+{
+    db.Entry(supplier).State = EntityState.Deleted;
+    db.SaveChanges();
+
+    result = 1;
+}
+
+return result;
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p>Contoh penggunaan :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="c1">// buat objek supplier</span>
-</span><span class='line'><span class="kt">var</span> <span class="n">supplier</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Supplier</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">SupplierID</span> <span class="p">=</span> <span class="m">34</span>
-</span><span class='line'><span class="p">};&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="kt">var</span> <span class="n">result1</span> <span class="p">=</span> <span class="n">DeleteUsingADONET</span><span class="p">(</span><span class="n">supplier</span><span class="p">);</span>
-</span><span class='line'><span class="kt">var</span> <span class="n">result2</span> <span class="p">=</span> <span class="n">DeleteUsingEF</span><span class="p">(</span><span class="n">supplier</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+// buat objek supplier
+var supplier = new Supplier
+{
+    SupplierID = 34
+};</p>
+
+<p>var result1 = DeleteUsingADONET(supplier);
+var result2 = DeleteUsingEF(supplier);
+{% endcodeblock %}</p>
 
 <p><strong>4. GetAll - Untuk menampilkan semua data
 </strong></p>
@@ -1133,333 +750,195 @@ instance</code></li>
 
 <p><strong>ADO.NET</strong></p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="n">IList</span><span class="p">&lt;</span><span class="n">Supplier</span><span class="p">&gt;</span> <span class="n">GetAllUsingADONET</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">daftarSupplier</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Supplier</span><span class="p">&gt;();&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">sql</span> <span class="p">=</span> <span class="s">@&quot;SELECT SupplierID, NamaSupplier, Jalan, Kota</span>
-</span><span class='line'><span class="s">                FROM Supplier</span>
-</span><span class='line'><span class="s">                ORDER BY NamaSupplier&quot;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SqlCommand</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">dtr</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteReader</span><span class="p">())</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="k">while</span> <span class="p">(</span><span class="n">dtr</span><span class="p">.</span><span class="n">Read</span><span class="p">())</span>
-</span><span class='line'>            <span class="p">{</span>
-</span><span class='line'>                <span class="kt">var</span> <span class="n">supplier</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Supplier</span>
-</span><span class='line'>                <span class="p">{</span>
-</span><span class='line'>                    <span class="n">SupplierID</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;SupplierID&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="m">0</span> <span class="p">:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;SupplierID&quot;</span><span class="p">],</span>
-</span><span class='line'>                    <span class="n">NamaSupplier</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;NamaSupplier&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;NamaSupplier&quot;</span><span class="p">],</span>
-</span><span class='line'>                    <span class="n">Jalan</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Jalan&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Jalan&quot;</span><span class="p">],</span>
-</span><span class='line'>                    <span class="n">Kota</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Kota&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Kota&quot;</span><span class="p">]</span>
-</span><span class='line'>                <span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'>                <span class="n">daftarSupplier</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">supplier</span><span class="p">);</span>
-</span><span class='line'>            <span class="p">}</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="n">daftarSupplier</span><span class="p">;</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+private static IList<Supplier> GetAllUsingADONET()
+{
+    var daftarSupplier = new List<Supplier>();</p>
+
+<pre><code>using (var conn = GetOpenConnection())
+{
+    var sql = @"SELECT SupplierID, NamaSupplier, Jalan, Kota
+                FROM Supplier
+                ORDER BY NamaSupplier";
+
+    using (var cmd = new SqlCommand(sql, conn))
+    {
+        using (var dtr = cmd.ExecuteReader())
+        {
+            while (dtr.Read())
+            {
+                var supplier = new Supplier
+                {
+                    SupplierID = dtr["SupplierID"] is DBNull ? 0 : (int)dtr["SupplierID"],
+                    NamaSupplier = dtr["NamaSupplier"] is DBNull ? string.Empty : (string)dtr["NamaSupplier"],
+                    Jalan = dtr["Jalan"] is DBNull ? string.Empty : (string)dtr["Jalan"],
+                    Kota = dtr["Kota"] is DBNull ? string.Empty : (string)dtr["Kota"]
+                };
+
+                daftarSupplier.Add(supplier);
+            }
+        }
+    }
+}
+
+return daftarSupplier;
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p>Contoh penggunaan :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="kt">var</span> <span class="n">noUrut</span> <span class="p">=</span> <span class="m">1</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="kt">var</span> <span class="n">daftarSupplier</span> <span class="p">=</span> <span class="n">GetAllUsingADONET</span><span class="p">();</span>
-</span><span class='line'><span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">supplier</span> <span class="k">in</span> <span class="n">daftarSupplier</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;{</span><span class="m">0</span><span class="p">}.</span> <span class="p">{</span><span class="m">1</span><span class="p">}&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">noUrut</span><span class="p">,</span> <span class="n">supplier</span><span class="p">.</span><span class="n">NamaSupplier</span><span class="p">);&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="n">noUrut</span><span class="p">++;</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+var noUrut = 1;</p>
+
+<p>var daftarSupplier = GetAllUsingADONET();
+foreach (var supplier in daftarSupplier)
+{
+    Console.WriteLine(&ldquo;{0}. {1}&rdquo;, noUrut, supplier.NamaSupplier);</p>
+
+<pre><code>noUrut++;
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p><strong>Entity Framework (EF)</strong></p>
 
 <p>Tidak seperti ADO.NET yang masih menggunakan perintah SQL SELECT untuk mengakses data yang ada di dalam database, Entity Framework menggunakan <a href="http://msdn.microsoft.com/en-us/library/bb397926.aspx">LINQ</a>.</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="n">IList</span><span class="p">&lt;</span><span class="n">Supplier</span><span class="p">&gt;</span> <span class="n">GetAllUsingEF</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">daftarSupplier</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Supplier</span><span class="p">&gt;();&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">db</span> <span class="p">=</span> <span class="k">new</span> <span class="n">RetailContext</span><span class="p">())</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">daftarSupplier</span> <span class="p">=</span> <span class="n">db</span><span class="p">.</span><span class="n">Suppliers</span>
-</span><span class='line'>                       <span class="p">.</span><span class="n">OrderBy</span><span class="p">(</span><span class="n">s</span> <span class="p">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">s</span><span class="p">.</span><span class="n">NamaSupplier</span><span class="p">)</span>
-</span><span class='line'>                       <span class="p">.</span><span class="n">ToList</span><span class="p">();</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="n">daftarSupplier</span><span class="p">;</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+private static IList<Supplier> GetAllUsingEF()
+{
+    var daftarSupplier = new List<Supplier>();</p>
+
+<pre><code>using (var db = new RetailContext())
+{
+    daftarSupplier = db.Suppliers
+                       .OrderBy(s =&gt; s.NamaSupplier)
+                       .ToList();
+}
+
+return daftarSupplier;
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p>Contoh penggunaan :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="kt">var</span> <span class="n">noUrut</span> <span class="p">=</span> <span class="m">1</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="kt">var</span> <span class="n">daftarSupplier</span> <span class="p">=</span> <span class="n">GetAllUsingEF</span><span class="p">();</span>
-</span><span class='line'><span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">supplier</span> <span class="k">in</span> <span class="n">daftarSupplier</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;{</span><span class="m">0</span><span class="p">}.</span> <span class="p">{</span><span class="m">1</span><span class="p">}&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">noUrut</span><span class="p">,</span> <span class="n">supplier</span><span class="p">.</span><span class="n">NamaSupplier</span><span class="p">);&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="n">noUrut</span><span class="p">++;</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+var noUrut = 1;</p>
+
+<p>var daftarSupplier = GetAllUsingEF();
+foreach (var supplier in daftarSupplier)
+{
+    Console.WriteLine(&ldquo;{0}. {1}&rdquo;, noUrut, supplier.NamaSupplier);</p>
+
+<pre><code>noUrut++;
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p><strong>5. GetByName - Untuk menampilkan data berdasarkan nama Supplier
 </strong></p>
 
 <p><strong>ADO.NET</strong></p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="n">IList</span><span class="p">&lt;</span><span class="n">Supplier</span><span class="p">&gt;</span> <span class="n">GetByNameUsingADONET</span><span class="p">(</span><span class="kt">string</span> <span class="n">namaSupplier</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">daftarSupplier</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Supplier</span><span class="p">&gt;();&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">sql</span> <span class="p">=</span> <span class="s">@&quot;SELECT SupplierID, NamaSupplier, Jalan, Kota</span>
-</span><span class='line'><span class="s">                FROM Supplier</span>
-</span><span class='line'><span class="s">                WHERE NamaSupplier LIKE @1</span>
-</span><span class='line'><span class="s">                ORDER BY NamaSupplier&quot;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SqlCommand</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="s">&quot;%&quot;</span> <span class="p">+</span> <span class="n">namaSupplier</span> <span class="p">+</span> <span class="s">&quot;%&quot;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">dtr</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteReader</span><span class="p">())</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="k">while</span> <span class="p">(</span><span class="n">dtr</span><span class="p">.</span><span class="n">Read</span><span class="p">())</span>
-</span><span class='line'>            <span class="p">{</span>
-</span><span class='line'>                <span class="kt">var</span> <span class="n">supplier</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Supplier</span>
-</span><span class='line'>                <span class="p">{</span>
-</span><span class='line'>                    <span class="n">SupplierID</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;SupplierID&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="m">0</span> <span class="p">:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;SupplierID&quot;</span><span class="p">],</span>
-</span><span class='line'>                    <span class="n">NamaSupplier</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;NamaSupplier&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;NamaSupplier&quot;</span><span class="p">],</span>
-</span><span class='line'>                    <span class="n">Jalan</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Jalan&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Jalan&quot;</span><span class="p">],</span>
-</span><span class='line'>                    <span class="n">Kota</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Kota&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Kota&quot;</span><span class="p">]</span>
-</span><span class='line'>                <span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'>                <span class="n">daftarSupplier</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">supplier</span><span class="p">);</span>
-</span><span class='line'>            <span class="p">}</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="n">daftarSupplier</span><span class="p">;</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+private static IList<Supplier> GetByNameUsingADONET(string namaSupplier)
+{
+    var daftarSupplier = new List<Supplier>();</p>
+
+<pre><code>using (var conn = GetOpenConnection())
+{
+    var sql = @"SELECT SupplierID, NamaSupplier, Jalan, Kota
+                FROM Supplier
+                WHERE NamaSupplier LIKE @1
+                ORDER BY NamaSupplier";
+
+    using (var cmd = new SqlCommand(sql, conn))
+    {
+        cmd.Parameters.AddWithValue("@1", "%" + namaSupplier + "%");
+
+        using (var dtr = cmd.ExecuteReader())
+        {
+            while (dtr.Read())
+            {
+                var supplier = new Supplier
+                {
+                    SupplierID = dtr["SupplierID"] is DBNull ? 0 : (int)dtr["SupplierID"],
+                    NamaSupplier = dtr["NamaSupplier"] is DBNull ? string.Empty : (string)dtr["NamaSupplier"],
+                    Jalan = dtr["Jalan"] is DBNull ? string.Empty : (string)dtr["Jalan"],
+                    Kota = dtr["Kota"] is DBNull ? string.Empty : (string)dtr["Kota"]
+                };
+
+                daftarSupplier.Add(supplier);
+            }
+        }
+    }
+}
+
+return daftarSupplier;
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p>Contoh penggunaan :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="kt">var</span> <span class="n">noUrut</span> <span class="p">=</span> <span class="m">1</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="kt">var</span> <span class="n">daftarSupplier</span> <span class="p">=</span> <span class="n">GetByNameUsingADONET</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="k">new</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
-</span><span class='line'><span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">supplier</span> <span class="k">in</span> <span class="n">daftarSupplier</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;{</span><span class="m">0</span><span class="p">}.</span> <span class="p">{</span><span class="m">1</span><span class="p">}&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">noUrut</span><span class="p">,</span> <span class="n">supplier</span><span class="p">.</span><span class="n">NamaSupplier</span><span class="p">);&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="n">noUrut</span><span class="p">++;</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+var noUrut = 1;</p>
+
+<p>var daftarSupplier = GetByNameUsingADONET(&ldquo;new&rdquo;);
+foreach (var supplier in daftarSupplier)
+{
+    Console.WriteLine(&ldquo;{0}. {1}&rdquo;, noUrut, supplier.NamaSupplier);</p>
+
+<pre><code>noUrut++;
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p><strong>Entity Framework (EF)
 </strong></p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="n">IList</span><span class="p">&lt;</span><span class="n">Supplier</span><span class="p">&gt;</span> <span class="n">GetByNameUsingEF</span><span class="p">(</span><span class="kt">string</span> <span class="n">namaSupplier</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">daftarSupplier</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Supplier</span><span class="p">&gt;();&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">db</span> <span class="p">=</span> <span class="k">new</span> <span class="n">RetailContext</span><span class="p">())</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">daftarSupplier</span> <span class="p">=</span> <span class="n">db</span><span class="p">.</span><span class="n">Suppliers</span>
-</span><span class='line'>                       <span class="p">.</span><span class="n">Where</span><span class="p">(</span><span class="n">s</span> <span class="p">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">s</span><span class="p">.</span><span class="n">NamaSupplier</span><span class="p">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">namaSupplier</span><span class="p">))</span>
-</span><span class='line'>                       <span class="p">.</span><span class="n">OrderBy</span><span class="p">(</span><span class="n">s</span> <span class="p">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">s</span><span class="p">.</span><span class="n">NamaSupplier</span><span class="p">)</span>
-</span><span class='line'>                       <span class="p">.</span><span class="n">ToList</span><span class="p">();</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="n">daftarSupplier</span><span class="p">;</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+private static IList<Supplier> GetByNameUsingEF(string namaSupplier)
+{
+    var daftarSupplier = new List<Supplier>();</p>
+
+<pre><code>using (var db = new RetailContext())
+{
+    daftarSupplier = db.Suppliers
+                       .Where(s =&gt; s.NamaSupplier.Contains(namaSupplier))
+                       .OrderBy(s =&gt; s.NamaSupplier)
+                       .ToList();
+}
+
+return daftarSupplier;
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p>Contoh penggunaan :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="kt">var</span> <span class="n">noUrut</span> <span class="p">=</span> <span class="m">1</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="kt">var</span> <span class="n">daftarSupplier</span> <span class="p">=</span> <span class="n">GetByNameUsingEF</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="k">new</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
-</span><span class='line'><span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">supplier</span> <span class="k">in</span> <span class="n">daftarSupplier</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;{</span><span class="m">0</span><span class="p">}.</span> <span class="p">{</span><span class="m">1</span><span class="p">}&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">noUrut</span><span class="p">,</span> <span class="n">supplier</span><span class="p">.</span><span class="n">NamaSupplier</span><span class="p">);&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="n">noUrut</span><span class="p">++;</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+var noUrut = 1;</p>
+
+<p>var daftarSupplier = GetByNameUsingEF(&ldquo;new&rdquo;);
+foreach (var supplier in daftarSupplier)
+{
+    Console.WriteLine(&ldquo;{0}. {1}&rdquo;, noUrut, supplier.NamaSupplier);</p>
+
+<pre><code>noUrut++;
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p>Dan method terakhir adalah &hellip;</p>
 
@@ -1470,128 +949,78 @@ instance</code></li>
 
 <p><strong>ADO.NET</strong></p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="n">Supplier</span> <span class="nf">GetByIDUsingADONET</span><span class="p">(</span><span class="kt">int</span> <span class="n">supplierID</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">Supplier</span> <span class="n">supplier</span> <span class="p">=</span> <span class="k">null</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">sql</span> <span class="p">=</span> <span class="s">@&quot;SELECT SupplierID, NamaSupplier, Jalan, Kota</span>
-</span><span class='line'><span class="s">                FROM Supplier</span>
-</span><span class='line'><span class="s">                WHERE SupplierID = @1&quot;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SqlCommand</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="n">supplierID</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">dtr</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteReader</span><span class="p">())</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="n">dtr</span><span class="p">.</span><span class="n">Read</span><span class="p">())</span>
-</span><span class='line'>            <span class="p">{</span>
-</span><span class='line'>                <span class="n">supplier</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Supplier</span><span class="p">();</span>
-</span><span class='line'>                <span class="n">supplier</span><span class="p">.</span><span class="n">SupplierID</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;SupplierID&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="m">0</span> <span class="p">:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;SupplierID&quot;</span><span class="p">];</span>
-</span><span class='line'>                <span class="n">supplier</span><span class="p">.</span><span class="n">NamaSupplier</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;NamaSupplier&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;NamaSupplier&quot;</span><span class="p">];</span>
-</span><span class='line'>                <span class="n">supplier</span><span class="p">.</span><span class="n">Jalan</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Jalan&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Jalan&quot;</span><span class="p">];</span>
-</span><span class='line'>                <span class="n">supplier</span><span class="p">.</span><span class="n">Kota</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Kota&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Kota&quot;</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="p">}</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="n">supplier</span><span class="p">;</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+private static Supplier GetByIDUsingADONET(int supplierID)
+{
+    Supplier supplier = null;</p>
+
+<pre><code>using (var conn = GetOpenConnection())
+{
+    var sql = @"SELECT SupplierID, NamaSupplier, Jalan, Kota
+                FROM Supplier
+                WHERE SupplierID = @1";
+
+    using (var cmd = new SqlCommand(sql, conn))
+    {
+        cmd.Parameters.AddWithValue("@1", supplierID);
+
+        using (var dtr = cmd.ExecuteReader())
+        {
+            if (dtr.Read())
+            {
+                supplier = new Supplier();
+                supplier.SupplierID = dtr["SupplierID"] is DBNull ? 0 : (int)dtr["SupplierID"];
+                supplier.NamaSupplier = dtr["NamaSupplier"] is DBNull ? string.Empty : (string)dtr["NamaSupplier"];
+                supplier.Jalan = dtr["Jalan"] is DBNull ? string.Empty : (string)dtr["Jalan"];
+                supplier.Kota = dtr["Kota"] is DBNull ? string.Empty : (string)dtr["Kota"];
+
+            }
+        }
+    }
+}
+
+return supplier;
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p>Contoh penggunaan :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="kt">var</span> <span class="n">supplier</span> <span class="p">=</span> <span class="n">GetByIDUsingADONET</span><span class="p">(</span><span class="m">19</span><span class="p">);</span>
-</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">supplier</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;{</span><span class="m">0</span><span class="p">}&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">supplier</span><span class="p">.</span><span class="n">NamaSupplier</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+var supplier = GetByIDUsingADONET(19);
+if (supplier != null)
+    Console.WriteLine(&ldquo;{0}&rdquo;, supplier.NamaSupplier);
+{% endcodeblock %}</p>
 
 <p><strong>Entity Framework (EF)
 </strong></p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="n">Supplier</span> <span class="nf">GetByIDUsingEF</span><span class="p">(</span><span class="kt">int</span> <span class="n">supplierID</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">Supplier</span> <span class="n">supplier</span> <span class="p">=</span> <span class="k">null</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">db</span> <span class="p">=</span> <span class="k">new</span> <span class="n">RetailContext</span><span class="p">())</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">supplier</span> <span class="p">=</span> <span class="n">db</span><span class="p">.</span><span class="n">Suppliers</span>
-</span><span class='line'>                 <span class="p">.</span><span class="n">Where</span><span class="p">(</span><span class="n">s</span> <span class="p">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">s</span><span class="p">.</span><span class="n">SupplierID</span> <span class="p">==</span> <span class="n">supplierID</span><span class="p">)</span>
-</span><span class='line'>                 <span class="p">.</span><span class="n">SingleOrDefault</span><span class="p">();</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="n">supplier</span><span class="p">;</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+private static Supplier GetByIDUsingEF(int supplierID)
+{
+    Supplier supplier = null;</p>
+
+<pre><code>using (var db = new RetailContext())
+{
+    supplier = db.Suppliers
+                 .Where(s =&gt; s.SupplierID == supplierID)
+                 .SingleOrDefault();
+}
+
+return supplier;
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p>Contoh penggunaan :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="kt">var</span> <span class="n">supplier</span> <span class="p">=</span> <span class="n">GetByIDUsingEF</span><span class="p">(</span><span class="m">19</span><span class="p">);</span>
-</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">supplier</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;{</span><span class="m">0</span><span class="p">}&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">supplier</span><span class="p">.</span><span class="n">NamaSupplier</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+var supplier = GetByIDUsingEF(19);
+if (supplier != null)
+    Console.WriteLine(&ldquo;{0}&rdquo;, supplier.NamaSupplier);
+{% endcodeblock %}</p>
 
 <p>Semua contoh method di atas masih menggunakan access modifier <em>private static</em> karena saya melakukan testingnya langsung di method Main (static void Main). Idealnya semua method di atas disimpan di dalam sebuah class dengan access modifier <em>public</em>.</p>
 
@@ -1612,7 +1041,7 @@ instance</code></li>
     <link href="http://coding4ever.net/blog/2014/03/27/entity-framework-part-4/"/>
     <updated>2014-03-27T13:27:20+07:00</updated>
     <id>http://coding4ever.net/blog/2014/03/27/entity-framework-part-4</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="http://coding4ever.files.wordpress.com/2014/03/entity_image.png">http://coding4ever.files.wordpress.com/2014/03/entity_image.png</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Melanjutkan <a href="/blog/2014/03/26/entity-framework-part-3/">postingan</a> sebelumnya, tentang tool-tool yang bisa digunakan untuk mengenerate kode mapping secara otomatis. Tool kedua yang akan kita bahas adalah <a href="http://visualstudiogallery.msdn.microsoft.com/72a60b14-1581-4b9b-89f2-846072eff19d">Entity Framework Power Tools</a>.</p>
+    <content type="html"><![CDATA[<p>{% img left <a href="http://coding4ever.files.wordpress.com/2014/03/entity_image.png">http://coding4ever.files.wordpress.com/2014/03/entity_image.png</a> 120 100 %}Melanjutkan <a href="{{%20site.url%20}}/blog/2014/03/26/entity-framework-part-3/">postingan</a> sebelumnya, tentang tool-tool yang bisa digunakan untuk mengenerate kode mapping secara otomatis. Tool kedua yang akan kita bahas adalah <a href="http://visualstudiogallery.msdn.microsoft.com/72a60b14-1581-4b9b-89f2-846072eff19d">Entity Framework Power Tools</a>.</p>
 
 <p>Saya sendiri lebih senang menggunakan <a href="http://visualstudiogallery.msdn.microsoft.com/72a60b14-1581-4b9b-89f2-846072eff19d">Entity Framework Power Tools</a>, dengan alasan kodenya lebih bersih dan transparan.</p>
 
@@ -1637,7 +1066,7 @@ instance</code></li>
 
 <p><strong>Mencoba Entity Framework Power Tools</strong></p>
 
-<p>Setelah proses instalasi selesai kita bisa langsung mencoba <a href="http://visualstudiogallery.msdn.microsoft.com/72a60b14-1581-4b9b-89f2-846072eff19d">Entity Framework Power Tools</a> dan untuk databasenya kita masih menggunakan database <a href="/blog/2014/03/26/entity-framework-part-3/">postingan</a> sebelumnya.</p>
+<p>Setelah proses instalasi selesai kita bisa langsung mencoba <a href="http://visualstudiogallery.msdn.microsoft.com/72a60b14-1581-4b9b-89f2-846072eff19d">Entity Framework Power Tools</a> dan untuk databasenya kita masih menggunakan database <a href="{{%20site.url%20}}/blog/2014/03/26/entity-framework-part-3/">postingan</a> sebelumnya.</p>
 
 <p>Langsung saja berikut langkah-langkahnya :</p>
 
@@ -1666,11 +1095,11 @@ instance</code></li>
 <p>Adapun proses yang terjadi pada saat kita menggunakan <a href="http://visualstudiogallery.msdn.microsoft.com/72a60b14-1581-4b9b-89f2-846072eff19d">Entity Framework Power Tools</a> sebagai berikut :</p>
 
 <ul>
-<li><p>Menginstall paket <a href="http://www.nuget.org/packages/EntityFramework/">Entity Framework</a>, jadi jangan lupa untuk menginstall <a href="/blog/2014/03/11/nuget/">NuGet</a> terlebih dulu.</p></li>
+<li><p>Menginstall paket <a href="http://www.nuget.org/packages/EntityFramework/">Entity Framework</a>, jadi jangan lupa untuk menginstall <a href="{{%20site.url%20}}/blog/2014/03/11/nuget/">NuGet</a> terlebih dulu.</p></li>
 <li><p>Mengenerate class <a href="http://stackoverflow.com/questions/910253/what-does-poco-mean">POCO</a> (entity) untuk masing-masing tabel.</p></li>
 <li><p>Mengenerate class Context yang merupakan turunan dari class DbContext.</p></li>
 <li><p>Secara default untuk konfigurasi mapping (pemetaan) menggunakan <a href="http://msdn.microsoft.com/en-us/data/jj591617.aspx">Code First’s Fluent API</a>.</p></li>
-<li><p>Menggunakan pendekatan <em><a href="/blog/2014/03/21/entity-framework-part-2/">Code first (existing database)</a>.</em></p></li>
+<li><p>Menggunakan pendekatan <em><a href="{{%20site.url%20}}/blog/2014/03/21/entity-framework-part-2/">Code first (existing database)</a>.</em></p></li>
 </ul>
 
 
