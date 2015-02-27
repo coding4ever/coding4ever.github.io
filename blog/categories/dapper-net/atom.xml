@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Dapper .net | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/dapper-net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2014-11-13T19:37:47+07:00</updated>
+  <updated>2015-02-27T08:55:08+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -18,11 +18,11 @@
     <link href="http://coding4ever.net/blog/2013/03/29/dapper-net-micro-orm-part-3/"/>
     <updated>2013-03-29T14:44:04+07:00</updated>
     <id>http://coding4ever.net/blog/2013/03/29/dapper-net-micro-orm-part-3</id>
-    <content type="html"><![CDATA[<p>Pada <a href="{{%20site.url%20}}/blog/2013/02/22/dapper-net-micro-orm-part-2/">postingan</a> sebelumnya, kita sudah mencoba mengimplementasikan salah satu perintah SQL yaitu SELECT dengan menggunakan library Dapper .NET.</p>
+    <content type="html"><![CDATA[<p>Pada <a href="/blog/2013/02/22/dapper-net-micro-orm-part-2/">postingan</a> sebelumnya, kita sudah mencoba mengimplementasikan salah satu perintah SQL yaitu SELECT dengan menggunakan library Dapper .NET.</p>
 
 <p>Dan pada postingan kali ini kita akan mencoba mengimplementasikan perintah-perintah SQL lainnya seperti INSERT, UPDATE dan DELETE.</p>
 
-<p>Langsung saja aktifkan kembali project <a href="{{%20site.url%20}}/blog/2013/02/22/dapper-net-micro-orm-part-2/">postingan</a> sebelumnya.</p>
+<p>Langsung saja aktifkan kembali project <a href="/blog/2013/02/22/dapper-net-micro-orm-part-2/">postingan</a> sebelumnya.</p>
 
 <!-- more -->
 
@@ -33,21 +33,27 @@
 
 <p>Untuk menambahkan data terlebih dulu kita membuat sebuah objek, misal objek siswa.</p>
 
-<p>{% codeblock lang:c# %}
-// membuat object siswa
-var siswa = new Siswa();
-siswa.Nis = &ldquo;9991&rdquo;;
-siswa.Nama = &ldquo;Bagus&rdquo;;
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="c1">// membuat object siswa</span>
+</span><span class='line'><span class="kt">var</span> <span class="n">siswa</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Siswa</span><span class="p">();</span>
+</span><span class='line'><span class="n">siswa</span><span class="p">.</span><span class="n">Nis</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="m">9991</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
+</span><span class='line'><span class="n">siswa</span><span class="p">.</span><span class="n">Nama</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Bagus</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Sejak .NET Framework 3.x ditambahkan fitur baru yg disebut dengan object initializer yang memungkinkan pengesetan nilai property pada saat pembuatan objek.</p>
 
-<p>{% codeblock lang:c# %}
-var siswa = new Siswa
-{
-    Nis = &ldquo;9991&rdquo;, Nama = &ldquo;Bagus&rdquo;
-};
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="kt">var</span> <span class="n">siswa</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Siswa</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">Nis</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="m">9991</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">Nama</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Bagus</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Gimana jadi lebih simple bukan ? :)</p>
 
@@ -55,66 +61,103 @@ var siswa = new Siswa
 
 <p>Berikut kode lengkapnya :</p>
 
-<p>{% codeblock lang:c# %}
-var siswa = new Siswa
-{
-    Nis = &ldquo;9991&rdquo;, Nama = &ldquo;Bagus&rdquo;
-};</p>
-
-<p>using (var conn = GetOpenConnection())
-{
-    strSql = &ldquo;INSERT INTO siswa (nis, nama) VALUES (@Nis, @Nama)&rdquo;;
-    result = conn.Execute(strSql, siswa);
-}
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="kt">var</span> <span class="n">siswa</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Siswa</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">Nis</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="m">9991</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">Nama</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Bagus</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'><span class="p">};&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">strSql</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">siswa</span> <span class="p">(</span><span class="n">nis</span><span class="p">,</span> <span class="n">nama</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="n">@Nis</span><span class="p">,</span> <span class="n">@Nama</span><span class="p">)&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
+</span><span class='line'>    <span class="n">result</span> <span class="p">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">Execute</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">siswa</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Parameter @Nis dan @Nama harus sama dengan property class, jika tidak sama kita bisa menggunakan cara yang kedua. Misal untuk nama parameternya kita set @NomorInduk dan @NamaSiswa.</p>
 
-<p>{% codeblock lang:c# %}
-var siswa = new Siswa
-{
-    Nis = &ldquo;9991&rdquo;, Nama = &ldquo;Bagus&rdquo;
-};</p>
-
-<p>using (var conn = GetOpenConnection())
-{
-    strSql = &ldquo;INSERT INTO siswa (nis, nama) VALUES (@NomorInduk, @NamaSiswa)&rdquo;;
-    result = conn.Execute(strSql, new { NomorInduk = siswa.Nis, NamaSiswa = siswa.Nama });
-}
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="kt">var</span> <span class="n">siswa</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Siswa</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">Nis</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="m">9991</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">Nama</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Bagus</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'><span class="p">};&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">strSql</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">siswa</span> <span class="p">(</span><span class="n">nis</span><span class="p">,</span> <span class="n">nama</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="n">@NomorInduk</span><span class="p">,</span> <span class="n">@NamaSiswa</span><span class="p">)&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
+</span><span class='line'>    <span class="n">result</span> <span class="p">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">Execute</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="k">new</span> <span class="p">{</span> <span class="n">NomorInduk</span> <span class="p">=</span> <span class="n">siswa</span><span class="p">.</span><span class="n">Nis</span><span class="p">,</span> <span class="n">NamaSiswa</span> <span class="p">=</span> <span class="n">siswa</span><span class="p">.</span><span class="n">Nama</span> <span class="p">});</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p><strong>2. UPDATE</strong></p>
 
-<p>{% codeblock lang:c# %}
-var siswa = new Siswa
-{
-    Nis = &ldquo;9991&rdquo;,
-    Nama = &ldquo;Bagus Wicaksono&rdquo;
-};</p>
-
-<p>using (var conn = GetOpenConnection())
-{
-    strSql = &ldquo;UPDATE siswa SET nama = @Nama WHERE nis = @Nis&rdquo;;
-    result = conn.Execute(strSql, siswa);
-}
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="kt">var</span> <span class="n">siswa</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Siswa</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">Nis</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="m">9991</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span>
+</span><span class='line'>    <span class="n">Nama</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Bagus</span> <span class="n">Wicaksono</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'><span class="p">};&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">strSql</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">UPDATE</span> <span class="n">siswa</span> <span class="n">SET</span> <span class="n">nama</span> <span class="p">=</span> <span class="n">@Nama</span> <span class="n">WHERE</span> <span class="n">nis</span> <span class="p">=</span> <span class="n">@Nis</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
+</span><span class='line'>    <span class="n">result</span> <span class="p">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">Execute</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">siswa</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>dan terakhir &hellip;</p>
 
 <p><strong>3. DELETE</strong></p>
 
-<p>{% codeblock lang:c# %}
-var siswa = new Siswa
-{
-    Nis = &ldquo;9991&rdquo;
-};</p>
-
-<p>using (var conn = GetOpenConnection())
-{
-    strSql = &ldquo;DELETE FROM siswa WHERE nis = @Nis&rdquo;;
-    result = conn.Execute(strSql, siswa);
-}
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="kt">var</span> <span class="n">siswa</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Siswa</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">Nis</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="m">9991</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'><span class="p">};&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">strSql</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">DELETE</span> <span class="n">FROM</span> <span class="n">siswa</span> <span class="n">WHERE</span> <span class="n">nis</span> <span class="p">=</span> <span class="n">@Nis</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
+</span><span class='line'>    <span class="n">result</span> <span class="p">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">Execute</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">siswa</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/MicroORMDapperNET3">MENCOBA</a> :)</p>
 ]]></content>
@@ -125,55 +168,82 @@ var siswa = new Siswa
     <link href="http://coding4ever.net/blog/2013/02/22/dapper-net-micro-orm-part-2/"/>
     <updated>2013-02-22T10:38:14+07:00</updated>
     <id>http://coding4ever.net/blog/2013/02/22/dapper-net-micro-orm-part-2</id>
-    <content type="html"><![CDATA[<p>Melanjutkan pembahasan <a href="{{%20site.url%20}}/blog/2013/02/07/dapper-net-micro-orm-part-1/">Dapper .NET</a>, kali ini saya akan mendemokan bagaimana mudahnya melakukan proses mapping record ke object dengan memanfaatkan library <a href="https://code.google.com/p/dapper-dot-net/">Dapper .NET</a>.</p>
+    <content type="html"><![CDATA[<p>Melanjutkan pembahasan <a href="/blog/2013/02/07/dapper-net-micro-orm-part-1/">Dapper .NET</a>, kali ini saya akan mendemokan bagaimana mudahnya melakukan proses mapping record ke object dengan memanfaatkan library <a href="https://code.google.com/p/dapper-dot-net/">Dapper .NET</a>.</p>
 
-<p>Masih menggunakan kasus yang sama dengan <a href="{{%20site.url%20}}/blog/2013/02/07/dapper-net-micro-orm-part-1/">postingan</a> sebelumnya, kita sudah mempunyai tabel siswa berikut class entitynya, biar lebih mudah saya copas aja ke sini.</p>
+<p>Masih menggunakan kasus yang sama dengan <a href="/blog/2013/02/07/dapper-net-micro-orm-part-1/">postingan</a> sebelumnya, kita sudah mempunyai tabel siswa berikut class entitynya, biar lebih mudah saya copas aja ke sini.</p>
 
 <!-- more -->
 
 
 <p><a href="http://coding4ever.files.wordpress.com/2013/02/07022013-2.png"><img src="http://coding4ever.files.wordpress.com/2013/02/07022013-2.png" alt="07022013-2" /></a></p>
 
-<p>{% codeblock lang:c# %}
-public class Siswa
-{
-    public string Nis { get; set; }
-    public string Nama { get; set; }
-}
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">Siswa</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="kt">string</span> <span class="n">Nis</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="k">public</span> <span class="kt">string</span> <span class="n">Nama</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>dan untuk VB.NET coder kodenya terlihat lebih banyak :D</p>
 
-<p>{% codeblock lang:vbnet %}
-Public Class Siswa</p>
-
-<pre><code>Private _nis As String
-Public Property Nis() As String
-    Get
-        Return _nis
-    End Get
-    Set(ByVal value As String)
-        _nis = value
-    End Set
-End Property
-
-Private _nama As String
-Public Property Nama() As String
-    Get
-        Return _nama
-    End Get
-    Set(ByVal value As String)
-        _nama = value
-    End Set
-End Property
-</code></pre>
-
-<p>End Class
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Public</span> <span class="k">Class</span> <span class="nc">Siswa</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">Private</span> <span class="n">_nis</span> <span class="ow">As</span> <span class="kt">String</span>
+</span><span class='line'><span class="k">Public</span> <span class="k">Property</span> <span class="nf">Nis</span><span class="p">()</span> <span class="ow">As</span> <span class="kt">String</span>
+</span><span class='line'>    <span class="k">Get</span>
+</span><span class='line'>        <span class="k">Return</span> <span class="n">_nis</span>
+</span><span class='line'>    <span class="k">End</span> <span class="k">Get</span>
+</span><span class='line'>    <span class="k">Set</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">value</span> <span class="ow">As</span> <span class="kt">String</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">_nis</span> <span class="o">=</span> <span class="n">value</span>
+</span><span class='line'>    <span class="k">End</span> <span class="k">Set</span>
+</span><span class='line'><span class="k">End</span> <span class="k">Property</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">Private</span> <span class="n">_nama</span> <span class="ow">As</span> <span class="kt">String</span>
+</span><span class='line'><span class="k">Public</span> <span class="k">Property</span> <span class="nf">Nama</span><span class="p">()</span> <span class="ow">As</span> <span class="kt">String</span>
+</span><span class='line'>    <span class="k">Get</span>
+</span><span class='line'>        <span class="k">Return</span> <span class="n">_nama</span>
+</span><span class='line'>    <span class="k">End</span> <span class="k">Get</span>
+</span><span class='line'>    <span class="k">Set</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">value</span> <span class="ow">As</span> <span class="kt">String</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">_nama</span> <span class="o">=</span> <span class="n">value</span>
+</span><span class='line'>    <span class="k">End</span> <span class="k">Set</span>
+</span><span class='line'><span class="k">End</span> <span class="k">Property</span>
+</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Class</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Sebelum kita beraksi jangan lupa untuk mendownload terlebih dulu library Dapper .NET di<a href="https://www.box.com/s/cey4lt613heunjcnodqq">sini</a> (dotNetFx35) dan di<a href="https://www.box.com/s/i72nqtpun9c0fah495nl">sini</a> (dotNetFx40). Jadi silahkan download sesuai dengan versi dot NET Framework Anda.</p>
 
-<p>Langkah berikutnya adalah mengaktifkan kembali <a href="https://www.box.com/s/tzeyatmfyoemfdhjdod6">project</a> yang sudah kita bahas pada <a href="{{%20site.url%20}}/blog/2013/02/07/dapper-net-micro-orm-part-1/">postingan</a> sebelumnya.</p>
+<p>Langkah berikutnya adalah mengaktifkan kembali <a href="https://www.box.com/s/tzeyatmfyoemfdhjdod6">project</a> yang sudah kita bahas pada <a href="/blog/2013/02/07/dapper-net-micro-orm-part-1/">postingan</a> sebelumnya.</p>
 
 <p><a href="http://coding4ever.files.wordpress.com/2013/02/21022013-1.png"><img src="http://coding4ever.files.wordpress.com/2013/02/21022013-1.png" alt="21022013-1" /></a></p>
 
@@ -205,15 +275,15 @@ End Property
 
 <p>sekarang coba tambahkan namespace Dapper;</p>
 
-<p>{% codeblock lang:c# %}
-using Dapper;
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">using</span> <span class="nn">Dapper</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>di VB.NET kita menggunakan keyword Imports</p>
 
-<p>{% codeblock lang:vbnet %}
-Imports Dapper
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Imports</span> <span class="nn">Dapper</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>maka secara otomatis objek conn akan mempunyai tambahan beberapa method baru seperti <strong>Execute</strong>, <strong>Query</strong> dan <strong>QueryMultiple</strong>.</p>
 
@@ -231,15 +301,15 @@ Imports Dapper
 
 <p>pada kode di atas kita bisa melihat tanpa melakukan proses mapping sedikit pun, objek daftarSiswa akan terisi dengan kumpulan (collection) dari objek siswa, hanya dengan perintah sederhana berikut:</p>
 
-<p>{% codeblock lang:c# %}
-daftarSiswa = conn.Query(strSql, null).ToList();
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="n">daftarSiswa</span> <span class="p">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">Query</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="k">null</span><span class="p">).</span><span class="n">ToList</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>kode yang sama untuk VB.NET</p>
 
-<p>{% codeblock lang:vbnet %}
-daftarSiswa = conn.Query(Of Siswa)(strSql, Nothing).ToList()
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="n">daftarSiswa</span> <span class="o">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">Query</span><span class="p">(</span><span class="k">Of</span> <span class="n">Siswa</span><span class="p">)(</span><span class="n">strSql</span><span class="p">,</span> <span class="k">Nothing</span><span class="p">).</span><span class="n">ToList</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Tapi ada syaratnya yaitu nama-nama field yang ada di dalam tabel harus sama dengan nama-nama property yang ada di dalam class entity.</p>
 
@@ -259,20 +329,25 @@ daftarSiswa = conn.Query(Of Siswa)(strSql, Nothing).ToList()
 
 <p>Setelah itu tinggal ditampilkan hasilnya :</p>
 
-<p>{% codeblock lang:c# %}
-foreach (var siswa in daftarSiswa)
-{
-    Console.WriteLine(siswa.Nis + &ldquo;\t&rdquo; + siswa.Nama);
-}
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">siswa</span> <span class="k">in</span> <span class="n">daftarSiswa</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">siswa</span><span class="p">.</span><span class="n">Nis</span> <span class="p">+</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="err">\</span><span class="n">t</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="p">+</span> <span class="n">siswa</span><span class="p">.</span><span class="n">Nama</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>sekali lagi di VB.NET</p>
 
-<p>{% codeblock lang:vbnet %}
-For Each siswa In daftarSiswa
-    Console.WriteLine (siswa.Nis &amp; vbTab &amp; siswa.Nama)
-Next
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">For</span> <span class="k">Each</span> <span class="n">siswa</span> <span class="ow">In</span> <span class="n">daftarSiswa</span>
+</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="n">siswa</span><span class="p">.</span><span class="n">Nis</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">vbTab</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">siswa</span><span class="p">.</span><span class="n">Nama</span><span class="p">)</span>
+</span><span class='line'><span class="k">Next</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p><a href="http://coding4ever.files.wordpress.com/2013/02/07022013.png"><img src="http://coding4ever.files.wordpress.com/2013/02/07022013.png" alt="07022013" /></a></p>
 
@@ -304,114 +379,201 @@ Next
 
 <p><a href="http://coding4ever.files.wordpress.com/2013/02/07022013-2.png"><img src="http://coding4ever.files.wordpress.com/2013/02/07022013-2.png" alt="07022013-2" /></a></p>
 
-<p>{% codeblock lang:c# %}
-using System.Data.OleDb;</p>
-
-<p>namespace SiswaDapperNET1
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            using (var conn = GetOpenConnection())
-            {
-                var strSql = &ldquo;SELECT nis, nama FROM siswa&rdquo;;
-                using (var cmd = new OleDbCommand(strSql, conn))
-                {
-                    using (var dtr = cmd.ExecuteReader())
-                    {
-                        Console.WriteLine(&ldquo;NIS\tNAMA&rdquo;);
-                        Console.WriteLine(&ldquo;===================================&rdquo;);
-                        while (dtr.Read())
-                        {
-                            Console.WriteLine(dtr[&ldquo;nis&rdquo;] + &ldquo;\t&rdquo; + dtr[&ldquo;nama&rdquo;].ToString().ToUpper());
-                        }
-                    }
-                }
-            }</p>
-
-<pre><code>        Console.ReadKey();
-    }
-}
-</code></pre>
-
-<p>}
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">using</span> <span class="nn">System.Data.OleDb</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">namespace</span> <span class="nn">SiswaDapperNET1</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">class</span> <span class="nc">Program</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="k">static</span> <span class="k">void</span> <span class="nf">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
+</span><span class='line'>            <span class="p">{</span>
+</span><span class='line'>                <span class="kt">var</span> <span class="n">strSql</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">SELECT</span> <span class="n">nis</span><span class="p">,</span> <span class="n">nama</span> <span class="n">FROM</span> <span class="n">siswa</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
+</span><span class='line'>                <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">OleDbCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
+</span><span class='line'>                <span class="p">{</span>
+</span><span class='line'>                    <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">dtr</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteReader</span><span class="p">())</span>
+</span><span class='line'>                    <span class="p">{</span>
+</span><span class='line'>                        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">NIS</span><span class="err">\</span><span class="n">tNAMA</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+</span><span class='line'>                        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;===================================&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+</span><span class='line'>                        <span class="k">while</span> <span class="p">(</span><span class="n">dtr</span><span class="p">.</span><span class="n">Read</span><span class="p">())</span>
+</span><span class='line'>                        <span class="p">{</span>
+</span><span class='line'>                            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">dtr</span><span class="p">[&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">nis</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;]</span> <span class="p">+</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="err">\</span><span class="n">t</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="p">+</span> <span class="n">dtr</span><span class="p">[&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">nama</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;].</span><span class="n">ToString</span><span class="p">().</span><span class="n">ToUpper</span><span class="p">());</span>
+</span><span class='line'>                        <span class="p">}</span>
+</span><span class='line'>                    <span class="p">}</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span>        <span class="n">Console</span><span class="p">.</span><span class="n">ReadKey</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>atau jika Anda menggunakan VB.NET kodenya akan terlihat seperti berikut :</p>
 
-<p>{% codeblock lang:vbnet %}
-Sub Main()</p>
-
-<pre><code>Using conn As OleDbConnection = GetOpenConnection()
-
-    Dim strSql = "SELECT nis, nama FROM siswa"
-    Using cmd = New OleDbCommand(strSql, conn)
-        Using dtr As OleDbDataReader = cmd.ExecuteReader()
-
-            Console.WriteLine ("NIS" &amp; vbTab &amp; "NAMA")
-            Console.WriteLine ("===================================")
-            While dtr.Read()
-                Console.WriteLine (dtr("nis") &amp; vbTab &amp; dtr("nama"))
-            End While
-
-        End Using
-    End Using
-End Using
-</code></pre>
-
-<p>End Sub
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Sub</span> <span class="nf">Main</span><span class="p">()</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">Using</span> <span class="n">conn</span> <span class="ow">As</span> <span class="n">OleDbConnection</span> <span class="o">=</span> <span class="n">GetOpenConnection</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;SELECT nis, nama FROM siswa&quot;</span>
+</span><span class='line'>    <span class="k">Using</span> <span class="n">cmd</span> <span class="o">=</span> <span class="k">New</span> <span class="n">OleDbCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">Using</span> <span class="n">dtr</span> <span class="ow">As</span> <span class="n">OleDbDataReader</span> <span class="o">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteReader</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">&quot;NIS&quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">vbTab</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="s">&quot;NAMA&quot;</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">&quot;===================================&quot;</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">While</span> <span class="n">dtr</span><span class="p">.</span><span class="n">Read</span><span class="p">()</span>
+</span><span class='line'>                <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="n">dtr</span><span class="p">(</span><span class="s">&quot;nis&quot;</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">vbTab</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">dtr</span><span class="p">(</span><span class="s">&quot;nama&quot;</span><span class="p">))</span>
+</span><span class='line'>            <span class="k">End</span> <span class="k">While</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">End</span> <span class="k">Using</span>
+</span><span class='line'>    <span class="k">End</span> <span class="k">Using</span>
+</span><span class='line'><span class="k">End</span> <span class="k">Using</span>
+</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Sub</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Method Main di atas membutuhkan method GetOpenConnection yang digunakan untuk membuat koneksi ke database Ms Access.</p>
 
-<p>{% codeblock lang:c# %}
-private static OleDbConnection GetOpenConnection()
-{
-    OleDbConnection conn = null;</p>
-
-<pre><code>try
-{
-
-    var appDir = System.IO.Directory.GetCurrentDirectory();
-    var strConn = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + appDir + "\\SISWA.MDB;User Id=admin;Password=;";
-
-    conn = new OleDbConnection(strConn);
-    conn.Open();
-}
-catch (Exception)
-{
-}
-
-return conn;
-</code></pre>
-
-<p>}
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="n">OleDbConnection</span> <span class="nf">GetOpenConnection</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">OleDbConnection</span> <span class="n">conn</span> <span class="p">=</span> <span class="k">null</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">try</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">appDir</span> <span class="p">=</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">Directory</span><span class="p">.</span><span class="n">GetCurrentDirectory</span><span class="p">();</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">strConn</span> <span class="p">=</span> <span class="s">&quot;Provider=Microsoft.Jet.OLEDB.4.0;Data Source=&quot;</span> <span class="p">+</span> <span class="n">appDir</span> <span class="p">+</span> <span class="s">&quot;\\SISWA.MDB;User Id=admin;Password=;&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">conn</span> <span class="p">=</span> <span class="k">new</span> <span class="n">OleDbConnection</span><span class="p">(</span><span class="n">strConn</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">conn</span><span class="p">.</span><span class="n">Open</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">catch</span> <span class="p">(</span><span class="n">Exception</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="n">conn</span><span class="p">;</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>dan untuk programmer VB.NET</p>
 
-<p>{% codeblock lang:vbnet %}
-Private Function GetOpenConnection() As OleDbConnection
-    Dim conn As OleDbConnection = Nothing</p>
-
-<pre><code>Dim appDir As String = System.IO.Directory.GetCurrentDirectory()
-Dim strConn As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + appDir + "\SISWA.MDB;User Id=admin;Password=;"
-
-Try
-
-    conn = New OleDbConnection(strConn)
-    conn.Open()
-
-Catch ex As Exception
-
-End Try
-
-Return conn
-</code></pre>
-
-<p>End Function
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Function</span> <span class="nf">GetOpenConnection</span><span class="p">()</span> <span class="ow">As</span> <span class="n">OleDbConnection</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">conn</span> <span class="ow">As</span> <span class="n">OleDbConnection</span> <span class="o">=</span> <span class="k">Nothing</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">Dim</span> <span class="n">appDir</span> <span class="ow">As</span> <span class="kt">String</span> <span class="o">=</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">Directory</span><span class="p">.</span><span class="n">GetCurrentDirectory</span><span class="p">()</span>
+</span><span class='line'><span class="k">Dim</span> <span class="n">strConn</span> <span class="ow">As</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">&quot;Provider=Microsoft.Jet.OLEDB.4.0;Data Source=&quot;</span> <span class="o">+</span> <span class="n">appDir</span> <span class="o">+</span> <span class="s">&quot;\SISWA.MDB;User Id=admin;Password=;&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">Try</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">conn</span> <span class="o">=</span> <span class="k">New</span> <span class="n">OleDbConnection</span><span class="p">(</span><span class="n">strConn</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">conn</span><span class="p">.</span><span class="n">Open</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">Catch</span> <span class="n">ex</span> <span class="ow">As</span> <span class="n">Exception</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">End</span> <span class="k">Try</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">Return</span> <span class="n">conn</span>
+</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Function</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Selanjutnya kita akan memberikan sedikit sentuhan OOP terhadap kode di atas dengan melakukan mapping/pemetaan baris/row dari tabel menjadi objek.</p>
 
@@ -429,189 +591,333 @@ Return conn
 
 <p>Untuk kode lengkapnya seperti berikut :</p>
 
-<p>{% codeblock lang:c# %}
-public class Siswa
-{
-    public string Nis { get; set; }
-    public string Nama { get; set; }
-}
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">Siswa</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="kt">string</span> <span class="n">Nis</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="k">public</span> <span class="kt">string</span> <span class="n">Nama</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Jika menggunakan VB.NET kodenya terlihat lebih banyak :D</p>
 
-<p>{% codeblock lang:vbnet %}
-Public Class Siswa</p>
-
-<pre><code>Private _nis As String
-Public Property Nis() As String
-    Get
-        Return _nis
-    End Get
-    Set(ByVal value As String)
-        _nis = value
-    End Set
-End Property
-
-Private _nama As String
-Public Property Nama() As String
-    Get
-        Return _nama
-    End Get
-    Set(ByVal value As String)
-        _nama = value
-    End Set
-End Property
-</code></pre>
-
-<p>End Class
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Public</span> <span class="k">Class</span> <span class="nc">Siswa</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">Private</span> <span class="n">_nis</span> <span class="ow">As</span> <span class="kt">String</span>
+</span><span class='line'><span class="k">Public</span> <span class="k">Property</span> <span class="nf">Nis</span><span class="p">()</span> <span class="ow">As</span> <span class="kt">String</span>
+</span><span class='line'>    <span class="k">Get</span>
+</span><span class='line'>        <span class="k">Return</span> <span class="n">_nis</span>
+</span><span class='line'>    <span class="k">End</span> <span class="k">Get</span>
+</span><span class='line'>    <span class="k">Set</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">value</span> <span class="ow">As</span> <span class="kt">String</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">_nis</span> <span class="o">=</span> <span class="n">value</span>
+</span><span class='line'>    <span class="k">End</span> <span class="k">Set</span>
+</span><span class='line'><span class="k">End</span> <span class="k">Property</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">Private</span> <span class="n">_nama</span> <span class="ow">As</span> <span class="kt">String</span>
+</span><span class='line'><span class="k">Public</span> <span class="k">Property</span> <span class="nf">Nama</span><span class="p">()</span> <span class="ow">As</span> <span class="kt">String</span>
+</span><span class='line'>    <span class="k">Get</span>
+</span><span class='line'>        <span class="k">Return</span> <span class="n">_nama</span>
+</span><span class='line'>    <span class="k">End</span> <span class="k">Get</span>
+</span><span class='line'>    <span class="k">Set</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">value</span> <span class="ow">As</span> <span class="kt">String</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">_nama</span> <span class="o">=</span> <span class="n">value</span>
+</span><span class='line'>    <span class="k">End</span> <span class="k">Set</span>
+</span><span class='line'><span class="k">End</span> <span class="k">Property</span>
+</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Class</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Kemudian kita juga akan menambahkan sebuah method baru dengan nama GetDataSiswa, method ini akan mengembalikan kumpulan (collection) dari data siswa.</p>
 
-<p>{% codeblock lang:c# %}
-private static List<Siswa> GetDataSiswa()
-{
-    var daftarSiswa = new List<Siswa>();</p>
-
-<pre><code>using (var conn = GetOpenConnection())
-{
-    var strSql = "SELECT nis, nama FROM siswa";
-    using (var cmd = new OleDbCommand(strSql, conn))
-    {
-        using (var dtr = cmd.ExecuteReader())
-        {
-            while (dtr.Read())
-            {
-                // proses mapping dari row ke object
-                var siswa = new Siswa();
-                siswa.Nis = dtr["nis"] == null ? string.Empty : dtr.GetString(0);
-                siswa.Nama = dtr["nama"] == null ? string.Empty : dtr.GetString(1).ToUpper();
-
-                daftarSiswa.Add(siswa);
-            }
-        }
-    }
-}
-
-return daftarSiswa;
-</code></pre>
-
-<p>}
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Siswa</span><span class="p">&gt;</span> <span class="n">GetDataSiswa</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">daftarSiswa</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Siswa</span><span class="p">&gt;();&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">strSql</span> <span class="p">=</span> <span class="s">&quot;SELECT nis, nama FROM siswa&quot;</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">OleDbCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">dtr</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteReader</span><span class="p">())</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="k">while</span> <span class="p">(</span><span class="n">dtr</span><span class="p">.</span><span class="n">Read</span><span class="p">())</span>
+</span><span class='line'>            <span class="p">{</span>
+</span><span class='line'>                <span class="c1">// proses mapping dari row ke object</span>
+</span><span class='line'>                <span class="kt">var</span> <span class="n">siswa</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Siswa</span><span class="p">();</span>
+</span><span class='line'>                <span class="n">siswa</span><span class="p">.</span><span class="n">Nis</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;nis&quot;</span><span class="p">]</span> <span class="p">==</span> <span class="k">null</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="n">dtr</span><span class="p">.</span><span class="n">GetString</span><span class="p">(</span><span class="m">0</span><span class="p">);</span>
+</span><span class='line'>                <span class="n">siswa</span><span class="p">.</span><span class="n">Nama</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;nama&quot;</span><span class="p">]</span> <span class="p">==</span> <span class="k">null</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="n">dtr</span><span class="p">.</span><span class="n">GetString</span><span class="p">(</span><span class="m">1</span><span class="p">).</span><span class="n">ToUpper</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="n">daftarSiswa</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">siswa</span><span class="p">);</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="n">daftarSiswa</span><span class="p">;</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>sementara di VB.NET akan terlihat seperti berikut :</p>
 
-<p>{% codeblock lang:vbnet %}
-Private Function GetDataSiswa() As List(Of Siswa)</p>
-
-<pre><code>Dim daftarSiswa As New List(Of Siswa)
-
-Using conn As OleDbConnection = GetOpenConnection()
-
-    Dim strSql = "SELECT nis, nama FROM siswa"
-    Using cmd = New OleDbCommand(strSql, conn)
-        Using dtr As OleDbDataReader = cmd.ExecuteReader()
-
-            While dtr.Read()
-                Dim siswa As New Siswa()
-                With siswa
-                    .Nis = IIf(IsDBNull(dtr("nis")), String.Empty, dtr("nis").ToString())
-                    .Nama = IIf(IsDBNull(dtr("nama")), String.Empty, dtr("nama").ToString())
-                End With
-
-                daftarSiswa.Add (siswa)
-            End While
-
-        End Using
-    End Using
-End Using
-
-Return daftarSiswa
-</code></pre>
-
-<p>End Function
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Function</span> <span class="nf">GetDataSiswa</span><span class="p">()</span> <span class="ow">As</span> <span class="n">List</span><span class="p">(</span><span class="k">Of</span> <span class="n">Siswa</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">Dim</span> <span class="n">daftarSiswa</span> <span class="ow">As</span> <span class="k">New</span> <span class="n">List</span><span class="p">(</span><span class="k">Of</span> <span class="n">Siswa</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">Using</span> <span class="n">conn</span> <span class="ow">As</span> <span class="n">OleDbConnection</span> <span class="o">=</span> <span class="n">GetOpenConnection</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;SELECT nis, nama FROM siswa&quot;</span>
+</span><span class='line'>    <span class="k">Using</span> <span class="n">cmd</span> <span class="o">=</span> <span class="k">New</span> <span class="n">OleDbCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">Using</span> <span class="n">dtr</span> <span class="ow">As</span> <span class="n">OleDbDataReader</span> <span class="o">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteReader</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="k">While</span> <span class="n">dtr</span><span class="p">.</span><span class="n">Read</span><span class="p">()</span>
+</span><span class='line'>                <span class="k">Dim</span> <span class="n">siswa</span> <span class="ow">As</span> <span class="k">New</span> <span class="n">Siswa</span><span class="p">()</span>
+</span><span class='line'>                <span class="k">With</span> <span class="n">siswa</span>
+</span><span class='line'>                    <span class="p">.</span><span class="n">Nis</span> <span class="o">=</span> <span class="n">IIf</span><span class="p">(</span><span class="n">IsDBNull</span><span class="p">(</span><span class="n">dtr</span><span class="p">(</span><span class="s">&quot;nis&quot;</span><span class="p">)),</span> <span class="kt">String</span><span class="p">.</span><span class="n">Empty</span><span class="p">,</span> <span class="n">dtr</span><span class="p">(</span><span class="s">&quot;nis&quot;</span><span class="p">).</span><span class="n">ToString</span><span class="p">())</span>
+</span><span class='line'>                    <span class="p">.</span><span class="n">Nama</span> <span class="o">=</span> <span class="n">IIf</span><span class="p">(</span><span class="n">IsDBNull</span><span class="p">(</span><span class="n">dtr</span><span class="p">(</span><span class="s">&quot;nama&quot;</span><span class="p">)),</span> <span class="kt">String</span><span class="p">.</span><span class="n">Empty</span><span class="p">,</span> <span class="n">dtr</span><span class="p">(</span><span class="s">&quot;nama&quot;</span><span class="p">).</span><span class="n">ToString</span><span class="p">())</span>
+</span><span class='line'>                <span class="k">End</span> <span class="k">With</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="n">daftarSiswa</span><span class="p">.</span><span class="n">Add</span> <span class="p">(</span><span class="n">siswa</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">End</span> <span class="k">While</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">End</span> <span class="k">Using</span>
+</span><span class='line'>    <span class="k">End</span> <span class="k">Using</span>
+</span><span class='line'><span class="k">End</span> <span class="k">Using</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">Return</span> <span class="n">daftarSiswa</span>
+</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Function</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Terakhir kita akan melakukan revisi terhadap method Main diatas.</p>
 
-<p>{% codeblock lang:c# %}
-static void Main(string[] args)
-{
-    /<em>
-    using (var conn = GetOpenConnection())
-    {
-        var strSql = &ldquo;SELECT nis, nama FROM siswa&rdquo;;
-        using (var cmd = new OleDbCommand(strSql, conn))
-        {
-            using (var dtr = cmd.ExecuteReader())
-            {
-                Console.WriteLine(&ldquo;NIS\tNAMA&rdquo;);
-                Console.WriteLine(&ldquo;===================================&rdquo;);
-                while (dtr.Read())
-                {
-                    Console.WriteLine(dtr[&ldquo;nis&rdquo;] + &ldquo;\t&rdquo; + dtr[&ldquo;nama&rdquo;].ToString().ToUpper());
-                }
-            }
-        }
-    }
-    </em>/</p>
-
-<pre><code>Console.WriteLine("NIS\tNAMA");
-Console.WriteLine("===================================");
-
-var daftarSiswa = GetDataSiswa();
-foreach (var siswa in daftarSiswa)
-{
-    Console.WriteLine(siswa.Nis + "\t" + siswa.Nama);
-}
-
-Console.ReadKey();
-</code></pre>
-
-<p>}
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">static</span> <span class="k">void</span> <span class="nf">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">/&lt;</span><span class="n">em</span><span class="p">&gt;</span>
+</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="kt">var</span> <span class="n">strSql</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">SELECT</span> <span class="n">nis</span><span class="p">,</span> <span class="n">nama</span> <span class="n">FROM</span> <span class="n">siswa</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
+</span><span class='line'>        <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">OleDbCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">dtr</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteReader</span><span class="p">())</span>
+</span><span class='line'>            <span class="p">{</span>
+</span><span class='line'>                <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">NIS</span><span class="err">\</span><span class="n">tNAMA</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+</span><span class='line'>                <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;===================================&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+</span><span class='line'>                <span class="k">while</span> <span class="p">(</span><span class="n">dtr</span><span class="p">.</span><span class="n">Read</span><span class="p">())</span>
+</span><span class='line'>                <span class="p">{</span>
+</span><span class='line'>                    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">dtr</span><span class="p">[&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">nis</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;]</span> <span class="p">+</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="err">\</span><span class="n">t</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="p">+</span> <span class="n">dtr</span><span class="p">[&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">nama</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;].</span><span class="n">ToString</span><span class="p">().</span><span class="n">ToUpper</span><span class="p">());</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="p">&lt;/</span><span class="n">em</span><span class="p">&gt;/&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;NIS\tNAMA&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;===================================&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">var</span> <span class="n">daftarSiswa</span> <span class="p">=</span> <span class="n">GetDataSiswa</span><span class="p">();</span>
+</span><span class='line'><span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">siswa</span> <span class="k">in</span> <span class="n">daftarSiswa</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">siswa</span><span class="p">.</span><span class="n">Nis</span> <span class="p">+</span> <span class="s">&quot;\t&quot;</span> <span class="p">+</span> <span class="n">siswa</span><span class="p">.</span><span class="n">Nama</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">Console</span><span class="p">.</span><span class="n">ReadKey</span><span class="p">();</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>sekali lagi di VB.NET :</p>
 
-<p>{% codeblock lang:vbnet %}
-Sub Main()</p>
-
-<pre><code>'Using conn As OleDbConnection = GetOpenConnection()
-
-'    Dim strSql = "SELECT nis, nama FROM siswa"
-'    Using cmd = New OleDbCommand(strSql, conn)
-'        Using dtr As OleDbDataReader = cmd.ExecuteReader()
-
-'            Console.WriteLine("NIS" &amp; vbTab &amp; "NAMA")
-'            Console.WriteLine("===================================")
-'            While dtr.Read()
-'                Console.WriteLine(dtr("nis") &amp; vbTab &amp; dtr("nama"))
-'            End While
-
-'        End Using
-'    End Using
-'End Using
-
-Console.WriteLine ("NIS" &amp; vbTab &amp; "NAMA")
-Console.WriteLine ("===================================")
-
-Dim daftarSiswa = GetDataSiswa()
-
-For Each siswa In daftarSiswa
-    Console.WriteLine (siswa.Nis &amp; vbTab &amp; siswa.Nama)
-Next
-
-Console.ReadKey()
-</code></pre>
-
-<p>End Sub
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Sub</span> <span class="nf">Main</span><span class="p">()</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="c">&#39;Using conn As OleDbConnection = GetOpenConnection()</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&#39;    Dim strSql = &quot;SELECT nis, nama FROM siswa&quot;</span>
+</span><span class='line'><span class="c">&#39;    Using cmd = New OleDbCommand(strSql, conn)</span>
+</span><span class='line'><span class="c">&#39;        Using dtr As OleDbDataReader = cmd.ExecuteReader()</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&#39;            Console.WriteLine(&quot;NIS&quot; &amp;amp; vbTab &amp;amp; &quot;NAMA&quot;)</span>
+</span><span class='line'><span class="c">&#39;            Console.WriteLine(&quot;===================================&quot;)</span>
+</span><span class='line'><span class="c">&#39;            While dtr.Read()</span>
+</span><span class='line'><span class="c">&#39;                Console.WriteLine(dtr(&quot;nis&quot;) &amp;amp; vbTab &amp;amp; dtr(&quot;nama&quot;))</span>
+</span><span class='line'><span class="c">&#39;            End While</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&#39;        End Using</span>
+</span><span class='line'><span class="c">&#39;    End Using</span>
+</span><span class='line'><span class="c">&#39;End Using</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">&quot;NIS&quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">vbTab</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="s">&quot;NAMA&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">&quot;===================================&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">Dim</span> <span class="n">daftarSiswa</span> <span class="o">=</span> <span class="n">GetDataSiswa</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">For</span> <span class="k">Each</span> <span class="n">siswa</span> <span class="ow">In</span> <span class="n">daftarSiswa</span>
+</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="n">siswa</span><span class="p">.</span><span class="n">Nis</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">vbTab</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">siswa</span><span class="p">.</span><span class="n">Nama</span><span class="p">)</span>
+</span><span class='line'><span class="k">Next</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">Console</span><span class="p">.</span><span class="n">ReadKey</span><span class="p">()</span>
+</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Sub</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Jika program di atas dijalankan akan menghasilkan output seperti berikut :</p>
 
 <p><a href="http://coding4ever.files.wordpress.com/2013/02/07022013.png"><img src="http://coding4ever.files.wordpress.com/2013/02/07022013.png" alt="07022013" /></a></p>
 
-<p>Untuk penggunaan micro ORM <a href="https://code.google.com/p/dapper-dot-net/">Dapper .NET</a>, insyaAllah akan kita mulai pembahasannya pada <a href="{{%20site.url%20}}/blog/2013/02/22/dapper-net-micro-orm-part-2/">postingan</a> berikutnya :D.</p>
+<p>Untuk penggunaan micro ORM <a href="https://code.google.com/p/dapper-dot-net/">Dapper .NET</a>, insyaAllah akan kita mulai pembahasannya pada <a href="/blog/2013/02/22/dapper-net-micro-orm-part-2/">postingan</a> berikutnya :D.</p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/MicroORMDapperNET1">MENCOBA</a> :)</p>
 ]]></content>
