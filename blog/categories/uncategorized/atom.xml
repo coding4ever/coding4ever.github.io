@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Uncategorized | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/uncategorized/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-02-27T08:55:08+07:00</updated>
+  <updated>2015-04-11T16:50:35+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,15 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Blog Lama Coding4ever Aktif Kembali]]></title>
+    <link href="http://coding4ever.net/blog/2015/04/11/blog-lama-coding4ever-aktif-kembali/"/>
+    <updated>2015-04-11T16:34:41+07:00</updated>
+    <id>http://coding4ever.net/blog/2015/04/11/blog-lama-coding4ever-aktif-kembali</id>
+    <content type="html"><![CDATA[<p>Blog lama coding4ever yang beralamat di <a href="http://coding4ever.wordpress.com/">http://coding4ever.wordpress.com/</a> saya aktifkan lagi dengan mode <strong>Read Only</strong> karena sudah banyak dokumentasi tanya jawabnya, agar pertanyaan yang sama tidak ditanyakan lagi di blog ini.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Repository Coding4ever]]></title>
@@ -180,44 +189,6 @@
 <p>Referensi : <a href="http://en.support.wordpress.com/code/posting-source-code/">Posting Source Code</a></p>
 
 <p>Selamat mencoba :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Hasil Investigasi Google Talk]]></title>
-    <link href="http://coding4ever.net/blog/2011/06/29/hasil-investigasi-google-talk/"/>
-    <updated>2011-06-29T08:51:33+07:00</updated>
-    <id>http://coding4ever.net/blog/2011/06/29/hasil-investigasi-google-talk</id>
-    <content type="html"><![CDATA[<p>Tadi malam iseng-iseng browsing salah satu web distributor pulsa elektrik trus ngeliat daftar perintah transaksi yang disediakan kemudian &hellip;. tuing-tuing :D</p>
-
-<!-- more -->
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/06/29062011-1.png"><img src="http://coding4ever.files.wordpress.com/2011/06/29062011-1.png" alt="" /></a>Eh ternyata ada perintah untuk mendaftarkan user id goolge talk, yang artinya bisa melakukan transaksi via google talk.</p>
-
-<p>Karena penasaran langsung aja saya install Google Talk trus menjalankan program Spy++, dari hasil investigasi sementara didapat gambar-gambar berikut :</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/06/29062011-2.png"><img src="http://coding4ever.files.wordpress.com/2011/06/29062011-2.png?w=300" alt="" /></a></p>
-
-<p>dari gambar diatas kita bisa mendapatkan<strong> User ID Google Talk</strong> dengan mengecek Window aktif yang nama classnya <strong>Chat View</strong></p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/06/29062011-3.png"><img src="http://coding4ever.files.wordpress.com/2011/06/29062011-3.png?w=300" alt="" /></a></p>
-
-<p>kemudian untuk membaca pesan yang masuk urutan class yang harus kita cek adalah :</p>
-
-<p>Chat View -> AtlAxWin71 -> Internet Explorer_Server</p>
-
-<p>klo di win xp mungkin AtlAxWin71 menjadi AtlAxWinXP kali yah &hellip;</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/06/29062011-4.png"><img src="http://coding4ever.files.wordpress.com/2011/06/29062011-4.png?w=300" alt="" /></a>terakhir untuk membalas pesan, urutan class yang harus dilalui adalah :</p>
-
-<p>Chat View -> richEdit20W</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/06/29062011-5.png"><img src="http://coding4ever.files.wordpress.com/2011/06/29062011-5.png" alt="" /></a></p>
-
-<p>Sekarang kita udah punya modal untuk menulis program <strong>Mesin Penjawab Otomatis Google Talk</strong> :D</p>
-
-<p>Ayoooo siapa yang mau coba duluan :)</p>
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-02-27T08:55:08+07:00</updated>
+  <updated>2015-04-11T16:50:35+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,15 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Blog Lama Coding4ever Aktif Kembali]]></title>
+    <link href="http://coding4ever.net/blog/2015/04/11/blog-lama-coding4ever-aktif-kembali/"/>
+    <updated>2015-04-11T16:34:41+07:00</updated>
+    <id>http://coding4ever.net/blog/2015/04/11/blog-lama-coding4ever-aktif-kembali</id>
+    <content type="html"><![CDATA[<p>Blog lama coding4ever yang beralamat di <a href="http://coding4ever.wordpress.com/">http://coding4ever.wordpress.com/</a> saya aktifkan lagi dengan mode <strong>Read Only</strong> karena sudah banyak dokumentasi tanya jawabnya, agar pertanyaan yang sama tidak ditanyakan lagi di blog ini.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[KR Pulsa Elektrik]]></title>
@@ -37,7 +46,7 @@
 
 <p><img class="center" src="https://coding4ever.files.wordpress.com/2014/11/krpulsa23.png"></p>
 
-<p>Berikut cuplikan beberapa screenshoot <a href="https://play.google.com/store/apps/details?id=net.coding4ever.krpulsaelektrik">KR Pulsa Elektrik</a>, untuk cara penggunaannya bisa Anda download di <a href="https://app.box.com/s/2yqjlsidzxkggjjz1vwe">sini</a>.</p>
+<p>Berikut cuplikan beberapa screenshoot <a href="https://play.google.com/store/apps/details?id=net.coding4ever.krpulsaelektrik">KR Pulsa Elektrik</a>, untuk cara penggunaannya bisa Anda download di <a href="http://goo.gl/rV0AHP">sini</a>.</p>
 
 <p><img class="center" src="https://coding4ever.files.wordpress.com/2014/11/12.png"></p>
 
@@ -3612,206 +3621,6 @@ ada work-around-nya untuk masalah ini om admin?</p></blockquote>
 
 
 <p>Selamat <a href="https://github.com/k4m4r82/MicroORMDapperNET3">MENCOBA</a> :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Dapper .NET Micro-ORM Part 2]]></title>
-    <link href="http://coding4ever.net/blog/2013/02/22/dapper-net-micro-orm-part-2/"/>
-    <updated>2013-02-22T10:38:14+07:00</updated>
-    <id>http://coding4ever.net/blog/2013/02/22/dapper-net-micro-orm-part-2</id>
-    <content type="html"><![CDATA[<p>Melanjutkan pembahasan <a href="http://coding4ever.net/blog/2013/02/07/dapper-net-micro-orm-part-1/">Dapper .NET</a>, kali ini saya akan mendemokan bagaimana mudahnya melakukan proses mapping record ke object dengan memanfaatkan library <a href="https://code.google.com/p/dapper-dot-net/">Dapper .NET</a>.</p>
-
-<p>Masih menggunakan kasus yang sama dengan <a href="http://coding4ever.net/blog/2013/02/07/dapper-net-micro-orm-part-1/">postingan</a> sebelumnya, kita sudah mempunyai tabel siswa berikut class entitynya, biar lebih mudah saya copas aja ke sini.</p>
-
-<!-- more -->
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2013/02/07022013-2.png"><img src="http://coding4ever.files.wordpress.com/2013/02/07022013-2.png" alt="07022013-2" /></a></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">Siswa</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">public</span> <span class="kt">string</span> <span class="n">Nis</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'>    <span class="k">public</span> <span class="kt">string</span> <span class="n">Nama</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>dan untuk VB.NET coder kodenya terlihat lebih banyak :D</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Public</span> <span class="k">Class</span> <span class="nc">Siswa</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">Private</span> <span class="n">_nis</span> <span class="ow">As</span> <span class="kt">String</span>
-</span><span class='line'>    <span class="k">Public</span> <span class="k">Property</span> <span class="nf">Nis</span><span class="p">()</span> <span class="ow">As</span> <span class="kt">String</span>
-</span><span class='line'>        <span class="k">Get</span>
-</span><span class='line'>            <span class="k">Return</span> <span class="n">_nis</span>
-</span><span class='line'>        <span class="k">End</span> <span class="k">Get</span>
-</span><span class='line'>        <span class="k">Set</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">value</span> <span class="ow">As</span> <span class="kt">String</span><span class="p">)</span>
-</span><span class='line'>            <span class="n">_nis</span> <span class="o">=</span> <span class="n">value</span>
-</span><span class='line'>        <span class="k">End</span> <span class="k">Set</span>
-</span><span class='line'>    <span class="k">End</span> <span class="k">Property</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">Private</span> <span class="n">_nama</span> <span class="ow">As</span> <span class="kt">String</span>
-</span><span class='line'>    <span class="k">Public</span> <span class="k">Property</span> <span class="nf">Nama</span><span class="p">()</span> <span class="ow">As</span> <span class="kt">String</span>
-</span><span class='line'>        <span class="k">Get</span>
-</span><span class='line'>            <span class="k">Return</span> <span class="n">_nama</span>
-</span><span class='line'>        <span class="k">End</span> <span class="k">Get</span>
-</span><span class='line'>        <span class="k">Set</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">value</span> <span class="ow">As</span> <span class="kt">String</span><span class="p">)</span>
-</span><span class='line'>            <span class="n">_nama</span> <span class="o">=</span> <span class="n">value</span>
-</span><span class='line'>        <span class="k">End</span> <span class="k">Set</span>
-</span><span class='line'>    <span class="k">End</span> <span class="k">Property</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">End</span> <span class="k">Class</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Sebelum kita beraksi jangan lupa untuk mendownload terlebih dulu library Dapper .NET di<a href="https://www.box.com/s/cey4lt613heunjcnodqq">sini</a> (dotNetFx35) dan di<a href="https://www.box.com/s/i72nqtpun9c0fah495nl">sini</a> (dotNetFx40). Jadi silahkan download sesuai dengan versi dot NET Framework Anda.</p>
-
-<p>Langkah berikutnya adalah mengaktifkan kembali <a href="https://www.box.com/s/tzeyatmfyoemfdhjdod6">project</a> yang sudah kita bahas pada <a href="http://coding4ever.net/blog/2013/02/07/dapper-net-micro-orm-part-1/">postingan</a> sebelumnya.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2013/02/21022013-1.png"><img src="http://coding4ever.files.wordpress.com/2013/02/21022013-1.png" alt="21022013-1" /></a></p>
-
-<p>Kemudian tambahkan referensi library Dapper .NET, dengan cara :</p>
-
-<ol>
-<li>Klik kanan node References</li>
-</ol>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2013/02/21022013-2.png"><img src="http://coding4ever.files.wordpress.com/2013/02/21022013-2.png" alt="21022013-2" /></a></p>
-
-<ol>
-<li>Kemudian tentukan lokasi library Dapper .NET yang sudah Anda download</li>
-</ol>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2013/02/21022013-3.png"><img src="http://coding4ever.files.wordpress.com/2013/02/21022013-3.png" alt="21022013-3" /></a></p>
-
-<p>Jika berhasil akan ketambahan sub node baru (Dapper) di bawah node References</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2013/02/21022013-4.png"><img src="http://coding4ever.files.wordpress.com/2013/02/21022013-4.png" alt="21022013-4" /></a></p>
-
-<p>Cara kerja <a href="https://code.google.com/p/dapper-dot-net/">Dapper .NET</a> adalah dengan mengextend interface IDbConnection yang digunakan oleh class-class connection seperti SqlConnection dan OleDbConnection.</p>
-
-<p>Klo masih bingung perhatikan gambar berikut :</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2013/02/21022013-5.png"><img src="http://coding4ever.files.wordpress.com/2013/02/21022013-5.png" alt="21022013-5" /></a></p>
-
-<p>sekarang coba tambahkan namespace Dapper;</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">using</span> <span class="nn">Dapper</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>di VB.NET kita menggunakan keyword Imports</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Imports</span> <span class="nn">Dapper</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>maka secara otomatis objek conn akan mempunyai tambahan beberapa method baru seperti <strong>Execute</strong>, <strong>Query</strong> dan <strong>QueryMultiple</strong>.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2013/02/21022013-6.png"><img src="http://coding4ever.files.wordpress.com/2013/02/21022013-6.png" alt="21022013-6" /></a></p>
-
-<p>Nah method-method itulah yang kita gunakan untuk menjalankan perintah-perintah SQL seperti INSERT, UPDATE, DELETE dan SELECT. Klo istilah krennya sih operasi CRUD.</p>
-
-<p>Oke untuk contoh postingan kali ini kita akan mencoba menjalankan perintah SELECT dengan memanggil method Query di atas.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2013/02/21022013-7.png"><img src="http://coding4ever.files.wordpress.com/2013/02/21022013-7.png" alt="21022013-7" /></a></p>
-
-<p>berikut kode VB.NET yg melakukan hal yang sama</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2013/02/26022013-1.png"><img src="http://coding4ever.files.wordpress.com/2013/02/26022013-1.png" alt="26022013-1" /></a></p>
-
-<p>pada kode di atas kita bisa melihat tanpa melakukan proses mapping sedikit pun, objek daftarSiswa akan terisi dengan kumpulan (collection) dari objek siswa, hanya dengan perintah sederhana berikut:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="n">daftarSiswa</span> <span class="p">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">Query</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="k">null</span><span class="p">).</span><span class="n">ToList</span><span class="p">();</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>kode yang sama untuk VB.NET</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="n">daftarSiswa</span> <span class="o">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">Query</span><span class="p">(</span><span class="k">Of</span> <span class="n">Siswa</span><span class="p">)(</span><span class="n">strSql</span><span class="p">,</span> <span class="k">Nothing</span><span class="p">).</span><span class="n">ToList</span><span class="p">()</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Tapi ada syaratnya yaitu nama-nama field yang ada di dalam tabel harus sama dengan nama-nama property yang ada di dalam class entity.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2013/02/21022013-8.png"><img src="http://coding4ever.files.wordpress.com/2013/02/21022013-8.png" alt="21022013-8" /></a></p>
-
-<p>Trus bagaimana klo nama field dan propertynya berbeda ? Solusinya ya dengan menggunakan ALIAS pada saat melakukan proses query.</p>
-
-<p>Lihat contoh berikut :</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2013/02/21022013-9.png"><img src="http://coding4ever.files.wordpress.com/2013/02/21022013-9.png" alt="21022013-9" /></a></p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2013/02/21022013-10.png"><img src="http://coding4ever.files.wordpress.com/2013/02/21022013-10.png" alt="21022013-10" /></a></p>
-
-<p>atau jika Anda menggunakan VB.NET kodenya akan terlihat seperti berikut :</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2013/02/26022013-2.png"><img src="http://coding4ever.files.wordpress.com/2013/02/26022013-2.png" alt="26022013-2" /></a></p>
-
-<p>Setelah itu tinggal ditampilkan hasilnya :</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">siswa</span> <span class="k">in</span> <span class="n">daftarSiswa</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">siswa</span><span class="p">.</span><span class="n">Nis</span> <span class="p">+</span> <span class="s">&quot;\t&quot;</span> <span class="p">+</span> <span class="n">siswa</span><span class="p">.</span><span class="n">Nama</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>sekali lagi di VB.NET</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">For</span> <span class="k">Each</span> <span class="n">siswa</span> <span class="ow">In</span> <span class="n">daftarSiswa</span>
-</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="n">siswa</span><span class="p">.</span><span class="n">Nis</span> <span class="o">&amp;</span> <span class="n">vbTab</span> <span class="o">&amp;</span> <span class="n">siswa</span><span class="p">.</span><span class="n">Nama</span><span class="p">)</span>
-</span><span class='line'><span class="k">Next</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2013/02/07022013.png"><img src="http://coding4ever.files.wordpress.com/2013/02/07022013.png" alt="07022013" /></a></p>
-
-<p>Yuph saya rasa cukup untuk postingan kali ini, dan pada postingan berikutnya insyaAllah kita akan membahas bagaimana menjalankan perintah-perintah SQL lainnya seperti INSERT, UPDATE dan DELETE menggunakan library Dapper .NET.</p>
-
-<p>Selamat <a href="https://github.com/k4m4r82/MicroORMDapperNET2">MENCOBA</a> :)</p>
 ]]></content>
   </entry>
   
