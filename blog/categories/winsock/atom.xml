@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Winsock | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/winsock/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-04-11T16:50:35+07:00</updated>
+  <updated>2015-04-12T23:56:35+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -18,7 +18,7 @@
     <link href="http://coding4ever.net/blog/2012/02/26/aplikasi-antrian/"/>
     <updated>2012-02-26T10:02:09+07:00</updated>
     <id>http://coding4ever.net/blog/2012/02/26/aplikasi-antrian</id>
-    <content type="html"><![CDATA[<p>Aplikasi ini merupakan pengembangan dari sample aplikasi yg sudah pernah saya bahas pada postingan <a href="/blog/2010/01/30/belajar-winsock-bagian-3-%e2%80%93-multiple-connection/">sebelumnya</a>, aplikasi ini terdiri dari 2 project yaitu :</p>
+    <content type="html"><![CDATA[<p>Aplikasi ini merupakan pengembangan dari sample aplikasi yg sudah pernah saya bahas pada postingan <a href="{{%20site.url%20}}/blog/2010/01/30/belajar-winsock-bagian-3-%e2%80%93-multiple-connection/">sebelumnya</a>, aplikasi ini terdiri dari 2 project yaitu :</p>
 
 <ol>
 <li><p> Aplikasi server memanfaatkan array winsock karena akan menghandle minimal 1 koneksi</p></li>
@@ -41,253 +41,147 @@
 
 <p>Selain itu agar sebuah winsock bisa menerima koneksi yg masuk, maka winsocknya harus dalam mode &ldquo;Listen&rdquo;, untuk keperluan ini kita akan menyiapkan sebuah fungsi misal dengan nama startListening</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Function</span> <span class="nf">startListening</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">localPort</span> <span class="ow">As</span> <span class="kt">Long</span><span class="p">)</span> <span class="ow">As</span> <span class="kt">Boolean</span>
-</span><span class='line'>    <span class="k">On</span> <span class="k">Error</span> <span class="k">GoTo</span> <span class="n">errHandle</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">If</span> <span class="n">localPort</span> <span class="o">&amp;</span><span class="n">gt</span><span class="err">;</span> <span class="mi">0</span> <span class="k">Then</span>
-</span><span class='line'>    <span class="c">&#39;If the socket is already listening, and it&#39;s listening on the same port, don&#39;t bother restarting it.</span>
-</span><span class='line'>    <span class="k">If</span> <span class="p">(</span><span class="n">wckServer</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">State</span> <span class="o">&amp;</span><span class="n">lt</span><span class="err">;</span><span class="o">&amp;</span><span class="n">gt</span><span class="err">;</span> <span class="n">sckListening</span><span class="p">)</span> <span class="ow">Or</span> <span class="p">(</span><span class="n">wckServer</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">localPort</span> <span class="o">&amp;</span><span class="n">lt</span><span class="err">;</span><span class="o">&amp;</span><span class="n">gt</span><span class="err">;</span> <span class="n">localPort</span><span class="p">)</span> <span class="k">Then</span>
-</span><span class='line'>        <span class="k">With</span> <span class="n">wckServer</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-</span><span class='line'>            <span class="k">Call</span> <span class="p">.</span><span class="n">Close</span>
-</span><span class='line'>            <span class="p">.</span><span class="n">localPort</span> <span class="o">=</span> <span class="n">localPort</span>
-</span><span class='line'>            <span class="k">Call</span> <span class="p">.</span><span class="n">Listen</span>
-</span><span class='line'>        <span class="k">End</span> <span class="k">With</span>
-</span><span class='line'>    <span class="k">End</span> <span class="k">If</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c">&#39;Return true, since the server is now listening for clients.</span>
-</span><span class='line'>    <span class="n">startListening</span> <span class="o">=</span> <span class="k">True</span>
-</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span>   <span class="k">End</span> <span class="k">If</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span>   <span class="k">Exit</span> <span class="k">Function</span>
-</span><span class='line'><span class="nf">errHandle</span><span class="p">:</span>
-</span><span class='line'>   <span class="n">startListening</span> <span class="o">=</span> <span class="k">False</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Function</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:vbnet %}
+Private Function startListening(ByVal localPort As Long) As Boolean
+    On Error GoTo errHandle</p>
+
+<pre><code>If localPort &gt; 0 Then
+    'If the socket is already listening, and it's listening on the same port, don't bother restarting it.
+    If (wckServer(0).State &lt;&gt; sckListening) Or (wckServer(0).localPort &lt;&gt; localPort) Then
+        With wckServer(0)
+            Call .Close
+            .localPort = localPort
+            Call .Listen
+        End With
+    End If
+
+    'Return true, since the server is now listening for clients.
+    startListening = True
+</code></pre>
+
+<p>   End If</p>
+
+<p>   Exit Function
+errHandle:
+   startListening = False
+End Function
+{% endcodeblock %}</p>
 
 <p>Selanjutnya tinggal kita panggil pada event Form_Load</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">Form_Load</span><span class="p">()</span>
-</span><span class='line'>    <span class="o">&amp;</span><span class="n">lsquo</span><span class="err">;</span><span class="mi">1234</span> <span class="n">adalah</span> <span class="n">port</span> <span class="n">yg</span> <span class="n">digunakan</span> <span class="n">untuk</span> <span class="n">komunikasi</span>
-</span><span class='line'>    <span class="c">&#39;antara server dan klien, nilainya bisa disesuaikan</span>
-</span><span class='line'>    <span class="k">If</span> <span class="n">startListening</span><span class="p">(</span><span class="mi">1234</span><span class="p">)</span> <span class="k">Then</span>
-</span><span class='line'>        <span class="n">MsgBox</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="err">;</span><span class="n">Status</span> <span class="n">Server</span> <span class="k">ON</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="err">;</span>
-</span><span class='line'>    <span class="k">Else</span>
-</span><span class='line'>        <span class="n">MsgBox</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="err">;</span><span class="n">Status</span> <span class="n">Server</span> <span class="n">OFF&amp;rdquo</span><span class="err">;</span>
-</span><span class='line'>    <span class="k">End</span> <span class="k">If</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Sub</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:vbnet %}
+Private Sub Form_Load()
+    &lsquo;1234 adalah port yg digunakan untuk komunikasi
+    &#8216;antara server dan klien, nilainya bisa disesuaikan
+    If startListening(1234) Then
+        MsgBox &ldquo;Status Server ON&rdquo;
+    Else
+        MsgBox &ldquo;Status Server OFF&rdquo;
+    End If
+End Sub
+{% endcodeblock %}</p>
 
 <p>Selain itu ada beberapa kode yang harus kita lengkapi pada event2x yg dimiliki oleh winsock yaitu event Close, ConnectionRequest, DataArrival dan Error</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">wckServer_Close</span><span class="p">(</span><span class="n">Index</span> <span class="ow">As</span> <span class="kt">Integer</span><span class="p">)</span>
-</span><span class='line'>    <span class="o">&amp;</span><span class="n">lsquo</span><span class="err">;</span> <span class="n">Close</span> <span class="n">the</span> <span class="n">socket</span> <span class="ow">and</span> <span class="n">raise</span> <span class="n">the</span> <span class="k">event</span> <span class="k">to</span> <span class="n">the</span> <span class="n">parent</span><span class="p">.</span>
-</span><span class='line'>    <span class="k">Call</span> <span class="n">wckServer</span><span class="p">(</span><span class="n">Index</span><span class="p">).</span><span class="n">Close</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Sub</span>
-</span></code></pre></td></tr></table></div></figure>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">wckServer_ConnectionRequest</span><span class="p">(</span><span class="n">Index</span> <span class="ow">As</span> <span class="kt">Integer</span><span class="p">,</span> <span class="k">ByVal</span> <span class="n">requestID</span> <span class="ow">As</span> <span class="kt">Long</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">Dim</span> <span class="n">i</span>          <span class="ow">As</span> <span class="kt">Long</span>
-</span><span class='line'>    <span class="k">Dim</span> <span class="n">j</span>          <span class="ow">As</span> <span class="kt">Long</span>
-</span><span class='line'>    <span class="k">Dim</span> <span class="n">blnLoaded</span>  <span class="ow">As</span> <span class="kt">Boolean</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">On</span> <span class="k">Error</span> <span class="k">GoTo</span> <span class="n">errHandle</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">&#39; We shouldn&#39;t get ConnectionRequests on any other socket than the listener</span>
-</span><span class='line'><span class="c">&#39; (index 0), but check anyway. Also check that we&#39;re not going to exceed</span>
-</span><span class='line'><span class="c">&#39; the MaxClients property.</span>
-</span><span class='line'><span class="k">If</span> <span class="p">(</span><span class="n">Index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">Then</span>
-</span><span class='line'>    <span class="c">&#39; Check to see if we&#39;ve got any sockets that are free.</span>
-</span><span class='line'>    <span class="k">For</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">To</span> <span class="n">wckServer</span><span class="p">.</span><span class="n">UBound</span>
-</span><span class='line'>        <span class="k">If</span> <span class="p">(</span><span class="n">wckServer</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">State</span> <span class="o">=</span> <span class="n">sckClosed</span><span class="p">)</span> <span class="k">Then</span>
-</span><span class='line'>            <span class="n">j</span> <span class="o">=</span> <span class="n">i</span>
-</span><span class='line'>            <span class="k">Exit</span> <span class="k">For</span>
-</span><span class='line'>        <span class="k">End</span> <span class="k">If</span>
-</span><span class='line'>    <span class="k">Next</span> <span class="n">i</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c">&#39; If we don&#39;t have any free sockets, load another on the array.</span>
-</span><span class='line'>    <span class="k">If</span> <span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">Then</span>
-</span><span class='line'>        <span class="n">blnLoaded</span> <span class="o">=</span> <span class="k">True</span>
-</span><span class='line'>        <span class="k">Call</span> <span class="n">Load</span><span class="p">(</span><span class="n">wckServer</span><span class="p">(</span><span class="n">wckServer</span><span class="p">.</span><span class="n">UBound</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-</span><span class='line'>        <span class="n">j</span> <span class="o">=</span> <span class="n">wckServer</span><span class="p">.</span><span class="n">Count</span> <span class="o">-</span> <span class="mi">1</span>
-</span><span class='line'>    <span class="k">End</span> <span class="k">If</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c">&#39; With the selected socket, reset it and accept the new connection.</span>
-</span><span class='line'>    <span class="k">With</span> <span class="n">wckServer</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-</span><span class='line'>        <span class="k">Call</span> <span class="p">.</span><span class="n">Close</span>
-</span><span class='line'>        <span class="k">Call</span> <span class="p">.</span><span class="n">Accept</span><span class="p">(</span><span class="n">requestID</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">End</span> <span class="k">With</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">End</span> <span class="k">If</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">Exit</span> <span class="k">Sub</span>
-</span><span class='line'><span class="err">&#39;</span>
-</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span><span class="n">errHandle</span><span class="p">:</span>
-</span><span class='line'>    <span class="o">&amp;</span><span class="n">lsquo</span><span class="err">;</span> <span class="n">Close</span> <span class="n">the</span> <span class="n">Winsock</span> <span class="n">that</span> <span class="n">caused</span> <span class="n">the</span> <span class="k">error</span><span class="p">.</span>
-</span><span class='line'>    <span class="k">Call</span> <span class="n">wckServer</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">Close</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Sub</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:vbnet %}
+Private Sub wckServer_Close(Index As Integer)
+    &lsquo; Close the socket and raise the event to the parent.
+    Call wckServer(Index).Close
+End Sub
+{% endcodeblock %}
+{% codeblock lang:vbnet %}
+Private Sub wckServer_ConnectionRequest(Index As Integer, ByVal requestID As Long)
+    Dim i          As Long
+    Dim j          As Long
+    Dim blnLoaded  As Boolean</p>
+
+<pre><code>On Error GoTo errHandle
+
+' We shouldn't get ConnectionRequests on any other socket than the listener
+' (index 0), but check anyway. Also check that we're not going to exceed
+' the MaxClients property.
+If (Index = 0) Then
+    ' Check to see if we've got any sockets that are free.
+    For i = 1 To wckServer.UBound
+        If (wckServer(i).State = sckClosed) Then
+            j = i
+            Exit For
+        End If
+    Next i
+
+    ' If we don't have any free sockets, load another on the array.
+    If (j = 0) Then
+        blnLoaded = True
+        Call Load(wckServer(wckServer.UBound + 1))
+        j = wckServer.Count - 1
+    End If
+
+    ' With the selected socket, reset it and accept the new connection.
+    With wckServer(j)
+        Call .Close
+        Call .Accept(requestID)
+    End With
+
+End If
+
+Exit Sub
+'
+</code></pre>
+
+<p>errHandle:
+    &lsquo; Close the Winsock that caused the error.
+    Call wckServer(0).Close
+End Sub
+{% endcodeblock %}</p>
 
 <p>Event ConnectionRequest berfungsi untuk memfilter koneksi yg masuk, jika ada koneksi yg masuk akan dilakukan pengecekan terlebih dulu apakah ada winsock yg idle (ngangur) jika ada maka koneksi tersebut akan langsung dihandle oleh winsock yg idle tadi, jika tidak maka akan diload terlebih dulu winsock yg baru kemudian langsung menghandle koneksi yg baru masuk tadi.</p>
 
 <p>Teknik ini merupakah salah satu cara untuk melakukan optimasi program jangan sampai aplikasi server meload secara terus menerus objek winsock yg baru untuk setiap koneksi yg masuk.</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">wckServer_DataArrival</span><span class="p">(</span><span class="n">Index</span> <span class="ow">As</span> <span class="kt">Integer</span><span class="p">,</span> <span class="k">ByVal</span> <span class="n">bytesTotal</span> <span class="ow">As</span> <span class="kt">Long</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">Dim</span> <span class="n">cmd</span>     <span class="ow">As</span> <span class="kt">String</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">On</span> <span class="k">Error</span> <span class="k">GoTo</span> <span class="n">errHandle</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">&#39; Grab the data from the specified Winsock object, and pass it to the parent.</span>
-</span><span class='line'><span class="k">Call</span> <span class="n">wckServer</span><span class="p">(</span><span class="n">Index</span><span class="p">).</span><span class="n">GetData</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">Select</span> <span class="k">Case</span> <span class="n">cmd</span>
-</span><span class='line'>    <span class="k">Case</span> <span class="s">&quot;get_no_antrian&quot;</span>
-</span><span class='line'>        <span class="k">Call</span> <span class="n">send</span><span class="p">(</span><span class="n">Index</span><span class="p">,</span> <span class="k">CStr</span><span class="p">(</span><span class="n">noAntrian</span><span class="p">))</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">lblNoAntrian</span><span class="p">.</span><span class="n">Caption</span> <span class="o">=</span> <span class="n">noAntrian</span>
-</span><span class='line'>        <span class="n">noAntrian</span> <span class="o">=</span> <span class="n">noAntrian</span> <span class="o">+</span> <span class="mi">1</span> <span class="c">&#39; naikkan counter nomor antrian</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">Case</span> <span class="k">Else</span>
-</span><span class='line'>        <span class="k">Call</span> <span class="n">send</span><span class="p">(</span><span class="n">Index</span><span class="p">,</span> <span class="s">&quot;perintah tidak dikenal&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Select</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">Exit</span> <span class="k">Sub</span>
-</span><span class='line'><span class="err">&lt;/</span><span class="nf">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span><span class="n">errHandle</span><span class="p">:</span>
-</span><span class='line'>   <span class="k">Call</span> <span class="n">wckServer</span><span class="p">(</span><span class="n">Index</span><span class="p">).</span><span class="n">Close</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Sub</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:vbnet %}
+Private Sub wckServer_DataArrival(Index As Integer, ByVal bytesTotal As Long)
+    Dim cmd     As String</p>
+
+<pre><code>On Error GoTo errHandle
+
+' Grab the data from the specified Winsock object, and pass it to the parent.
+Call wckServer(Index).GetData(cmd)
+
+Select Case cmd
+    Case "get_no_antrian"
+        Call send(Index, CStr(noAntrian))
+
+        lblNoAntrian.Caption = noAntrian
+        noAntrian = noAntrian + 1 ' naikkan counter nomor antrian
+
+    Case Else
+        Call send(Index, "perintah tidak dikenal")
+End Select
+
+Exit Sub
+</code></pre>
+
+<p>errHandle:
+   Call wckServer(Index).Close
+End Sub
+{% endcodeblock %}</p>
 
 <p>Event DataArrival berfungsi untuk memproses data yg masuk, untuk kasus aplikasi antrian ini data yang paling valid hanya berupa string &ldquo;get_no_antrian&rdquo;, jika datanya valid akan langsung dikirimkan nomor antrian terakhir ke klien yg mengirimkan string &ldquo;get_no_antrian&rdquo; dg memanggil prosedur send.</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">send</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">lngIndex</span> <span class="ow">As</span> <span class="kt">Long</span><span class="p">,</span> <span class="k">ByVal</span> <span class="n">strData</span> <span class="ow">As</span> <span class="kt">String</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">If</span> <span class="p">(</span><span class="n">wckServer</span><span class="p">(</span><span class="n">lngIndex</span><span class="p">).</span><span class="n">State</span> <span class="o">=</span> <span class="n">sckConnected</span><span class="p">)</span> <span class="k">Then</span>
-</span><span class='line'>        <span class="k">Call</span> <span class="n">wckServer</span><span class="p">(</span><span class="n">lngIndex</span><span class="p">).</span><span class="n">SendData</span><span class="p">(</span><span class="n">strData</span><span class="p">):</span> <span class="n">DoEvents</span>
-</span><span class='line'>    <span class="k">Else</span>
-</span><span class='line'>        <span class="k">Exit</span> <span class="k">Sub</span>
-</span><span class='line'>    <span class="nf">End</span> <span class="k">If</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Sub</span>
-</span></code></pre></td></tr></table></div></figure>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">wckServer_Error</span><span class="p">(</span><span class="n">Index</span> <span class="ow">As</span> <span class="kt">Integer</span><span class="p">,</span> <span class="k">ByVal</span> <span class="n">Number</span> <span class="ow">As</span> <span class="kt">Integer</span><span class="p">,</span> <span class="n">Description</span> <span class="ow">As</span> <span class="kt">String</span><span class="p">,</span> <span class="k">ByVal</span> <span class="n">Scode</span> <span class="ow">As</span> <span class="kt">Long</span><span class="p">,</span> <span class="k">ByVal</span> <span class="n">Source</span> <span class="ow">As</span> <span class="kt">String</span><span class="p">,</span> <span class="k">ByVal</span> <span class="n">HelpFile</span> <span class="ow">As</span> <span class="kt">String</span><span class="p">,</span> <span class="k">ByVal</span> <span class="n">HelpContext</span> <span class="ow">As</span> <span class="kt">Long</span><span class="p">,</span> <span class="n">CancelDisplay</span> <span class="ow">As</span> <span class="kt">Boolean</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">Call</span> <span class="n">wckServer</span><span class="p">(</span><span class="n">Index</span><span class="p">).</span><span class="n">Close</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Sub</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:vbnet %}
+Private Sub send(ByVal lngIndex As Long, ByVal strData As String)
+    If (wckServer(lngIndex).State = sckConnected) Then
+        Call wckServer(lngIndex).SendData(strData): DoEvents
+    Else
+        Exit Sub
+    End If
+End Sub
+{% endcodeblock %}
+{% codeblock lang:vbnet %}
+Private Sub wckServer_Error(Index As Integer, ByVal Number As Integer, Description As String, ByVal Scode As Long, ByVal Source As String, ByVal HelpFile As String, ByVal HelpContext As Long, CancelDisplay As Boolean)
+    Call wckServer(Index).Close
+End Sub
+{% endcodeblock %}</p>
 
 <p>Untuk aplikasi server sy rasa sudah cukup akan kita lanjutkan dg aplikasi klien.</p>
 
@@ -295,116 +189,70 @@
 
 <p>Untuk aplikasi klien lebih sederhana lagi, yg kita butuhkan cukup sebuah fungsi untuk melakukan koneksi ke server</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Const</span> <span class="n">conTunggu</span> <span class="ow">As</span> <span class="kt">Long</span> <span class="o">=</span> <span class="mi">100000</span>
-</span></code></pre></td></tr></table></div></figure>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Function</span> <span class="nf">isConnected</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">ipServer</span> <span class="ow">As</span> <span class="kt">String</span><span class="p">,</span> <span class="k">ByVal</span> <span class="n">port</span> <span class="ow">As</span> <span class="kt">Long</span><span class="p">)</span> <span class="ow">As</span> <span class="kt">Boolean</span>
-</span><span class='line'>    <span class="k">Static</span> <span class="n">i</span> <span class="ow">As</span> <span class="kt">Long</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">On</span> <span class="k">Error</span> <span class="k">Resume</span> <span class="k">Next</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">If</span> <span class="n">myClient</span><span class="p">.</span><span class="n">State</span> <span class="o">&amp;</span><span class="n">lt</span><span class="err">;</span><span class="o">&amp;</span><span class="n">gt</span><span class="err">;</span> <span class="n">sckClosed</span> <span class="k">Then</span> <span class="n">myClient</span><span class="p">.</span><span class="n">Close</span> <span class="c">&#39; close existing connection</span>
-</span><span class='line'><span class="n">myClient</span><span class="p">.</span><span class="n">RemoteHost</span> <span class="o">=</span> <span class="n">ipServer</span>
-</span><span class='line'><span class="n">myClient</span><span class="p">.</span><span class="n">RemotePort</span> <span class="o">=</span> <span class="n">port</span>
-</span><span class='line'><span class="n">myClient</span><span class="p">.</span><span class="n">Connect</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">With</span> <span class="n">myClient</span>
-</span><span class='line'>    <span class="k">Do</span> <span class="n">Until</span> <span class="p">.</span><span class="n">State</span> <span class="o">=</span> <span class="n">sckConnected</span>
-</span><span class='line'>        <span class="n">DoEvents</span>
-</span><span class='line'>        <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
-</span><span class='line'>        <span class="k">If</span> <span class="n">i</span> <span class="o">&amp;</span><span class="n">gt</span><span class="err">;</span><span class="o">=</span> <span class="n">conTunggu</span> <span class="k">Then</span>
-</span><span class='line'>            <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class='line'>            <span class="k">Exit</span> <span class="k">Function</span>
-</span><span class='line'>        <span class="nf">End</span> <span class="k">If</span>
-</span><span class='line'>    <span class="k">Loop</span>
-</span><span class='line'><span class="k">End</span> <span class="k">With</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">isConnected</span> <span class="o">=</span> <span class="n">myClient</span><span class="p">.</span><span class="n">State</span> <span class="o">=</span> <span class="n">sckConnected</span>
-</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Function</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:vbnet %}
+Private Const conTunggu As Long = 100000
+{% endcodeblock %}
+{% codeblock lang:vbnet %}
+Private Function isConnected(ByVal ipServer As String, ByVal port As Long) As Boolean
+    Static i As Long</p>
+
+<pre><code>On Error Resume Next
+
+If myClient.State &lt;&gt; sckClosed Then myClient.Close ' close existing connection
+myClient.RemoteHost = ipServer
+myClient.RemotePort = port
+myClient.Connect
+
+With myClient
+    Do Until .State = sckConnected
+        DoEvents
+        i = i + 1
+        If i &gt;= conTunggu Then
+            i = 0
+            Exit Function
+        End If
+    Loop
+End With
+
+isConnected = myClient.State = sckConnected
+</code></pre>
+
+<p>End Function
+{% endcodeblock %}</p>
 
 <p>Contoh pemanggilan fungsi diatas seperti berikut :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">cmdAmbilNoAntrian_Click</span><span class="p">()</span>
-</span><span class='line'>    <span class="k">Dim</span> <span class="n">ipServer</span>    <span class="ow">As</span> <span class="kt">String</span>
-</span><span class='line'>    <span class="k">Dim</span> <span class="n">cmd</span>         <span class="ow">As</span> <span class="kt">String</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">ipServer</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
-</span><span class='line'><span class="n">cmd</span> <span class="o">=</span> <span class="s">&quot;get_no_antrian&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">&#39; 1234 ada port yg menyesuaikan port yg ada di server</span>
-</span><span class='line'><span class="k">If</span> <span class="n">isConnected</span><span class="p">(</span><span class="n">ipServer</span><span class="p">,</span> <span class="mi">1234</span><span class="p">)</span> <span class="k">Then</span>
-</span><span class='line'>    <span class="n">myClient</span><span class="p">.</span><span class="n">SendData</span> <span class="n">cmd</span>
-</span><span class='line'><span class="k">End</span> <span class="k">If</span>
-</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Sub</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:vbnet %}
+Private Sub cmdAmbilNoAntrian_Click()
+    Dim ipServer    As String
+    Dim cmd         As String</p>
+
+<pre><code>ipServer = "127.0.0.1"
+cmd = "get_no_antrian"
+
+' 1234 ada port yg menyesuaikan port yg ada di server
+If isConnected(ipServer, 1234) Then
+    myClient.SendData cmd
+End If
+</code></pre>
+
+<p>End Sub
+{% endcodeblock %}</p>
 
 <p>Untuk mengetahui data yang dikirim balik oleh server kita bisa memanfaatkan event DataArrival yg dimiliki oleh objek winsock</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">myClient_DataArrival</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">bytesTotal</span> <span class="ow">As</span> <span class="kt">Long</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">Dim</span> <span class="n">noAntrian</span> <span class="ow">As</span> <span class="kt">String</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">On</span> <span class="k">Error</span> <span class="k">Resume</span> <span class="k">Next</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">myClient</span><span class="p">.</span><span class="n">GetData</span> <span class="n">noAntrian</span>
-</span><span class='line'><span class="n">lblNoAntrian</span><span class="p">.</span><span class="n">Caption</span> <span class="o">=</span> <span class="n">noAntrian</span>
-</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Sub</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:vbnet %}
+Private Sub myClient_DataArrival(ByVal bytesTotal As Long)
+    Dim noAntrian As String</p>
+
+<pre><code>On Error Resume Next
+
+myClient.GetData noAntrian
+lblNoAntrian.Caption = noAntrian
+</code></pre>
+
+<p>End Sub
+{% endcodeblock %}</p>
 
 <p>Selesai :)</p>
 
@@ -422,10 +270,10 @@
     <content type="html"><![CDATA[<p>Akhirnya rilis juga artikel terakhir dari 5 seri belajar winsock ini, sebelum kita melanjutkan pembahasan ada baiknya kita melakukan sedikit review :</p>
 
 <ol>
-<li><p> <a href="/blog/2010/01/26/belajar-winsock-bagian-1-intro/">Dasar-dasar penggunaan winsock</a> sudah kita pelajari</p></li>
-<li><p> Ini terbukti dengan suksesnya kita membuat <a href="/blog/2010/01/28/belajar-winsock-bagian-2-membuat-aplikasi-chat-sederhana-11/">aplikasi chat sederhana</a></p></li>
-<li><p> Di tambah lagi ada teman kita yang mau nebeng sehingga terciptanya <a href="/blog/2010/01/30/belajar-winsock-bagian-3-%E2%80%93-multiple-connection/">aplikasi chat multiple connection</a></p></li>
-<li><p> <a href="/blog/2010/02/02/belajar-winsock-bagian-4-%e2%80%93-membuat-jaringan-vpn-sendiri/">Jalan tol</a> antara laptop mas Paijo dan komputer server tokonya juga udah selesai dibangun dengan anggaran 0 Rp :D</p></li>
+<li><p> <a href="{{%20site.url%20}}/blog/2010/01/26/belajar-winsock-bagian-1-intro/">Dasar-dasar penggunaan winsock</a> sudah kita pelajari</p></li>
+<li><p> Ini terbukti dengan suksesnya kita membuat <a href="{{%20site.url%20}}/blog/2010/01/28/belajar-winsock-bagian-2-membuat-aplikasi-chat-sederhana-11/">aplikasi chat sederhana</a></p></li>
+<li><p> Di tambah lagi ada teman kita yang mau nebeng sehingga terciptanya <a href="{{%20site.url%20}}/blog/2010/01/30/belajar-winsock-bagian-3-%E2%80%93-multiple-connection/">aplikasi chat multiple connection</a></p></li>
+<li><p> <a href="{{%20site.url%20}}/blog/2010/02/02/belajar-winsock-bagian-4-%e2%80%93-membuat-jaringan-vpn-sendiri/">Jalan tol</a> antara laptop mas Paijo dan komputer server tokonya juga udah selesai dibangun dengan anggaran 0 Rp :D</p></li>
 </ol>
 
 
@@ -445,413 +293,222 @@
 
 <p>Data yang dikirim dari server dibatasi maksimal 1024 karakter dalam sekali kirim, otomatis jika data > 1024 akan dipecah menjadi beberapa paket, berikut cuplikan kodenya (server) :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-<span class='line-number'>91</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Option Explicit&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>Private Const LOCAL_PORT As Long = 1007&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>Private Const REC_SPR As String * 1 = &ldquo;|&rdquo; &lsquo;separator baris
-</span><span class='line'>Private Const FLD_SPR As String * 1 = &ldquo;#&rdquo; 'separator kolom
-</span><span class='line'>Private Const MAX_LIMIT As Long = 1024 '1x kirim dibatasi 1 kb, kalo untuk jaringan lokal masih bisa set 4096&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>Private Function pembulatanKeAtas(ByVal X As Double, Optional ByVal Factor As Double = 1) As Double
-</span><span class='line'>    Dim temp As Double&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>temp = Int(X * Factor)
-</span><span class='line'>pembulatanKeAtas = (temp + IIf(X = temp, 0, 1)) / Factor
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>End Function&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>Private Function getDataBarang(ByVal param As String) As String()
-</span><span class='line'>    Dim rs          As ADODB.Recordset&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>Dim div         As Long
-</span><span class='line'>Dim lengthData  As Long
-</span><span class='line'>Dim n           As Long
-</span><span class='line'>Dim i           As Long
-</span><span class='line'>
-</span><span class='line'>Dim tmp         As String
-</span><span class='line'>Dim arrTmp()    As String
-</span><span class='line'>
-</span><span class='line'>strSql = "SELECT UCASE(nama), harga, stok FROM barang " &amp; param &amp; ""
-</span><span class='line'>Set rs = openRecordset(strSql)
-</span><span class='line'>If Not rs.EOF Then
-</span><span class='line'>    For i = 1 To getRecordCount(rs)
-</span><span class='line'>        tmp = tmp &amp; rs(0).Value &amp; FLD_SPR &amp; rs(1).Value &amp; FLD_SPR &amp; rs(2).Value &amp; REC_SPR
-</span><span class='line'>
-</span><span class='line'>        rs.MoveNext
-</span><span class='line'>    Next i
-</span><span class='line'>    If Len(tmp) &gt; 0 Then tmp = Left(tmp, Len(tmp) - 1)
-</span><span class='line'>
-</span><span class='line'>    'karakter ~ sebagai penanda awal dan akhir data
-</span><span class='line'>    'untuk memudahkan pengecekan di klien bahwa data yg diterima sudah lengkap/belum
-</span><span class='line'>    'ex : ~DATA BARANG + SEPARATOR KOLOM DAN BARIS~
-</span><span class='line'>
-</span><span class='line'>    'contoh format data disini ada 2 :
-</span><span class='line'>    '1. jika data &lt;= 1024 karakter : ~~DATA BARANG + SEPARATOR KOLOM DAN BARIS
-</span><span class='line'>    '2. jika data &gt; 1024 karakter  : ~DATA BARANG + SEPARATOR KOLOM DAN BARIS~
-</span><span class='line'>
-</span><span class='line'>    If Len(tmp) &gt; 0 Then tmp = "~" &amp; Left(tmp, Len(tmp) - 1) &amp; "~"
-</span><span class='line'>    If Not Len(tmp) &gt; MAX_LIMIT Then
-</span><span class='line'>        tmp = Left(tmp, Len(tmp) - 1)
-</span><span class='line'>        tmp = "~" &amp; tmp
-</span><span class='line'>    End If
-</span><span class='line'>
-</span><span class='line'>    lengthData = Len(tmp)
-</span><span class='line'>    If lengthData &gt; 0 Then
-</span><span class='line'>        If lengthData &gt; MAX_LIMIT Then 'data &gt; 1024 karakter
-</span><span class='line'>            'data dibuat menjadi beberapa package
-</span><span class='line'>            'ex : jika jumlah karakter 2345
-</span><span class='line'>            '     package 1 -&gt; 1024
-</span><span class='line'>            '     package 2 -&gt; 1024
-</span><span class='line'>            '     package 3 -&gt; 297
-</span><span class='line'>            '     berarti data yg dikirim ke klien sebanyak 3 x
-</span><span class='line'>
-</span><span class='line'>            div = pembulatanKeAtas(lengthData / MAX_LIMIT)
-</span><span class='line'>            ReDim arrTmp(div)
-</span><span class='line'>
-</span><span class='line'>            n = 1
-</span><span class='line'>            For i = 1 To div
-</span><span class='line'>                arrTmp(i - 1) = Mid(tmp, n, MAX_LIMIT)
-</span><span class='line'>                n = n + MAX_LIMIT
-</span><span class='line'>            Next i
-</span><span class='line'>
-</span><span class='line'>        Else
-</span><span class='line'>            ReDim arrTmp(0)
-</span><span class='line'>            arrTmp(0) = tmp
-</span><span class='line'>        End If
-</span><span class='line'>
-</span><span class='line'>    Else
-</span><span class='line'>        ReDim arrTmp(0)
-</span><span class='line'>        arrTmp(0) = tmp
-</span><span class='line'>    End If
-</span><span class='line'>
-</span><span class='line'>Else
-</span><span class='line'>    ReDim arrTmp(0)
-</span><span class='line'>    arrTmp(0) = "EOF" 'data barang tidak ditemukan
-</span><span class='line'>End If
-</span><span class='line'>Call closeRecordset(rs)
-</span><span class='line'>
-</span><span class='line'>getDataBarang = arrTmp
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>End Function</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+Option Explicit</p>
+
+<p>Private Const LOCAL_PORT As Long = 1007</p>
+
+<p>Private Const REC_SPR As String * 1 = &ldquo;|&rdquo; &lsquo;separator baris
+Private Const FLD_SPR As String * 1 = &ldquo;#&rdquo; &#8216;separator kolom
+Private Const MAX_LIMIT As Long = 1024 &#8216;1x kirim dibatasi 1 kb, kalo untuk jaringan lokal masih bisa set 4096</p>
+
+<p>Private Function pembulatanKeAtas(ByVal X As Double, Optional ByVal Factor As Double = 1) As Double
+    Dim temp As Double</p>
+
+<pre><code>temp = Int(X * Factor)
+pembulatanKeAtas = (temp + IIf(X = temp, 0, 1)) / Factor
+</code></pre>
+
+<p>End Function</p>
+
+<p>Private Function getDataBarang(ByVal param As String) As String()
+    Dim rs          As ADODB.Recordset</p>
+
+<pre><code>Dim div         As Long
+Dim lengthData  As Long
+Dim n           As Long
+Dim i           As Long
+
+Dim tmp         As String
+Dim arrTmp()    As String
+
+strSql = "SELECT UCASE(nama), harga, stok FROM barang " &amp; param &amp; ""
+Set rs = openRecordset(strSql)
+If Not rs.EOF Then
+    For i = 1 To getRecordCount(rs)
+        tmp = tmp &amp; rs(0).Value &amp; FLD_SPR &amp; rs(1).Value &amp; FLD_SPR &amp; rs(2).Value &amp; REC_SPR
+
+        rs.MoveNext
+    Next i
+    If Len(tmp) &gt; 0 Then tmp = Left(tmp, Len(tmp) - 1)
+
+    'karakter ~ sebagai penanda awal dan akhir data
+    'untuk memudahkan pengecekan di klien bahwa data yg diterima sudah lengkap/belum
+    'ex : ~DATA BARANG + SEPARATOR KOLOM DAN BARIS~
+
+    'contoh format data disini ada 2 :
+    '1. jika data &lt;= 1024 karakter : ~~DATA BARANG + SEPARATOR KOLOM DAN BARIS
+    '2. jika data &gt; 1024 karakter  : ~DATA BARANG + SEPARATOR KOLOM DAN BARIS~
+
+    If Len(tmp) &gt; 0 Then tmp = "~" &amp; Left(tmp, Len(tmp) - 1) &amp; "~"
+    If Not Len(tmp) &gt; MAX_LIMIT Then
+        tmp = Left(tmp, Len(tmp) - 1)
+        tmp = "~" &amp; tmp
+    End If
+
+    lengthData = Len(tmp)
+    If lengthData &gt; 0 Then
+        If lengthData &gt; MAX_LIMIT Then 'data &gt; 1024 karakter
+            'data dibuat menjadi beberapa package
+            'ex : jika jumlah karakter 2345
+            '     package 1 -&gt; 1024
+            '     package 2 -&gt; 1024
+            '     package 3 -&gt; 297
+            '     berarti data yg dikirim ke klien sebanyak 3 x
+
+            div = pembulatanKeAtas(lengthData / MAX_LIMIT)
+            ReDim arrTmp(div)
+
+            n = 1
+            For i = 1 To div
+                arrTmp(i - 1) = Mid(tmp, n, MAX_LIMIT)
+                n = n + MAX_LIMIT
+            Next i
+
+        Else
+            ReDim arrTmp(0)
+            arrTmp(0) = tmp
+        End If
+
+    Else
+        ReDim arrTmp(0)
+        arrTmp(0) = tmp
+    End If
+
+Else
+    ReDim arrTmp(0)
+    arrTmp(0) = "EOF" 'data barang tidak ditemukan
+End If
+Call closeRecordset(rs)
+
+getDataBarang = arrTmp
+</code></pre>
+
+<p>End Function
+{% endcodeblock %}</p>
 
 <p>pengiriman data ke klien akan dihandle oleh event DataArrival :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub Socket_DataArrival(Index As Integer, ByVal bytesTotal As Long)
-</span><span class='line'>    Dim i           As Long
-</span><span class='line'>    Dim strData     As String
-</span><span class='line'>    Dim ret         As Boolean&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>Dim arrTmp()    As String
-</span><span class='line'>
-</span><span class='line'>'On Error GoTo errHandle
-</span><span class='line'>
-</span><span class='line'>' Grab the data from the specified Winsock object, and pass it to the parent.
-</span><span class='line'>Call Socket(Index).GetData(strData)
-</span><span class='line'>DoEvents
-</span><span class='line'>
-</span><span class='line'>arrTmp = getDataBarang(strData)
-</span><span class='line'>For i = LBound(arrTmp) To UBound(arrTmp)
-</span><span class='line'>    If Len(arrTmp(i)) &gt; 0 Then ret = send(Index, arrTmp(i))
-</span><span class='line'>Next i
-</span><span class='line'>
-</span><span class='line'>Exit Sub
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>errHandle:
-</span><span class='line'>   Call Socket(Index).Close
-</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+Private Sub Socket_DataArrival(Index As Integer, ByVal bytesTotal As Long)
+    Dim i           As Long
+    Dim strData     As String
+    Dim ret         As Boolean</p>
+
+<pre><code>Dim arrTmp()    As String
+
+'On Error GoTo errHandle
+
+' Grab the data from the specified Winsock object, and pass it to the parent.
+Call Socket(Index).GetData(strData)
+DoEvents
+
+arrTmp = getDataBarang(strData)
+For i = LBound(arrTmp) To UBound(arrTmp)
+    If Len(arrTmp(i)) &gt; 0 Then ret = send(Index, arrTmp(i))
+Next i
+
+Exit Sub
+</code></pre>
+
+<p>errHandle:
+   Call Socket(Index).Close
+End Sub
+{% endcodeblock %}</p>
 
 <p>sedangkan untuk aplikasi klien bagian yg bertugas menerima data masih di event yang sama yaitu DataArrival :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub Socket_DataArrival(ByVal bytesTotal As Long)
-</span><span class='line'>    Dim dataMasuk   As String&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>'On Error Resume Next
-</span><span class='line'>
-</span><span class='line'>Socket.GetData dataMasuk
-</span><span class='line'>
-</span><span class='line'>If Left(dataMasuk, 2) = "~~" Then 'package data &lt;= 1024
-</span><span class='line'>    Call execOutput(dataMasuk)
-</span><span class='line'>
-</span><span class='line'>ElseIf dataMasuk = "EOF" Then 'data tidak ditemukan
-</span><span class='line'>    Call execOutput(dataMasuk)
-</span><span class='line'>
-</span><span class='line'>Else
-</span><span class='line'>    'package data &gt; 1024
-</span><span class='line'>    'berikut kode untuk penggabungan package data
-</span><span class='line'>    tmp = tmp &amp; dataMasuk
-</span><span class='line'>    If InStr(1, dataMasuk, "~") &gt; 0 Then packageHdr = packageHdr &amp; "~"
-</span><span class='line'>
-</span><span class='line'>    If Len(packageHdr) = 2 Then Call execOutput(tmp) 'penggabungan package data selesai
-</span><span class='line'>End If
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>End Sub</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+Private Sub Socket_DataArrival(ByVal bytesTotal As Long)
+    Dim dataMasuk   As String</p>
+
+<pre><code>'On Error Resume Next
+
+Socket.GetData dataMasuk
+
+If Left(dataMasuk, 2) = "~~" Then 'package data &lt;= 1024
+    Call execOutput(dataMasuk)
+
+ElseIf dataMasuk = "EOF" Then 'data tidak ditemukan
+    Call execOutput(dataMasuk)
+
+Else
+    'package data &gt; 1024
+    'berikut kode untuk penggabungan package data
+    tmp = tmp &amp; dataMasuk
+    If InStr(1, dataMasuk, "~") &gt; 0 Then packageHdr = packageHdr &amp; "~"
+
+    If Len(packageHdr) = 2 Then Call execOutput(tmp) 'penggabungan package data selesai
+End If
+</code></pre>
+
+<p>End Sub
+{% endcodeblock %}</p>
 
 <p>dan ini prosedure yang bertanggung jawab untuk memparsing data dan menampilkan ke ListView :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub execOutput(ByVal data As String)
-</span><span class='line'>    Dim rec()   As String
-</span><span class='line'>    Dim fld()   As String&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>Dim x       As Long
-</span><span class='line'>Dim noUrut  As Long
-</span><span class='line'>
-</span><span class='line'>On Error GoTo errHandle
-</span><span class='line'>
-</span><span class='line'>Screen.MousePointer = vbHourglass
-</span><span class='line'>DoEvents
-</span><span class='line'>
-</span><span class='line'>If Left(data, 2) = "~~" Then 'complete
-</span><span class='line'>    data = Replace(data, "~~", "")
-</span><span class='line'>
-</span><span class='line'>ElseIf data = "EOF" Then
-</span><span class='line'>    'do nothing
-</span><span class='line'>
-</span><span class='line'>Else
-</span><span class='line'>    data = Left(data, Len(data) - 1) 'remove ~ left
-</span><span class='line'>    data = Right(data, Len(data) - 1) 'remove ~ right
-</span><span class='line'>End If
-</span><span class='line'>
-</span><span class='line'>lsvBarang.ListItems.Clear
-</span><span class='line'>
-</span><span class='line'>If data = "EOF" Then
-</span><span class='line'>    Screen.MousePointer = vbDefault
-</span><span class='line'>    MsgBox "Data barang dengan keyword '" &amp; txtNamaBarang.Text &amp; "' tidak ditemukan", vbInformation, "Informasi"
-</span><span class='line'>
-</span><span class='line'>Else
-</span><span class='line'>    'contoh data :
-</span><span class='line'>    '~~SUSU KEDELAI ABC 200M#1000#24|SUSU KEDELAI MELILEA 500#1000#0|KOPI SUSU KPL API 3P#1000#0|SUSU KEDELAI ABC 200#1000#2
-</span><span class='line'>    '| -&gt; pemisah baris
-</span><span class='line'>    '# -&gt; pemisah kolom
-</span><span class='line'>
-</span><span class='line'>    rec = Split(data, REC_SPR)
-</span><span class='line'>
-</span><span class='line'>    With lsvBarang
-</span><span class='line'>        noUrut = 1
-</span><span class='line'>        For x = LBound(rec) To UBound(rec)
-</span><span class='line'>            fld = Split(rec(x), FLD_SPR)
-</span><span class='line'>
-</span><span class='line'>            .ListItems.Add , , noUrut
-</span><span class='line'>            .ListItems(noUrut).SubItems(1) = fld(0) 'nama barang
-</span><span class='line'>            .ListItems(noUrut).SubItems(2) = FormatNumber(fld(1), 0) 'harga
-</span><span class='line'>            .ListItems(noUrut).SubItems(3) = fld(2) 'stok
-</span><span class='line'>
-</span><span class='line'>            noUrut = noUrut + 1
-</span><span class='line'>        Next x
-</span><span class='line'>    End With
-</span><span class='line'>End If
-</span><span class='line'>
-</span><span class='line'>Screen.MousePointer = vbDefault
-</span><span class='line'>
-</span><span class='line'>Exit Sub
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>errHandle:
-</span><span class='line'>    Screen.MousePointer = vbDefault
-</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+Private Sub execOutput(ByVal data As String)
+    Dim rec()   As String
+    Dim fld()   As String</p>
+
+<pre><code>Dim x       As Long
+Dim noUrut  As Long
+
+On Error GoTo errHandle
+
+Screen.MousePointer = vbHourglass
+DoEvents
+
+If Left(data, 2) = "~~" Then 'complete
+    data = Replace(data, "~~", "")
+
+ElseIf data = "EOF" Then
+    'do nothing
+
+Else
+    data = Left(data, Len(data) - 1) 'remove ~ left
+    data = Right(data, Len(data) - 1) 'remove ~ right
+End If
+
+lsvBarang.ListItems.Clear
+
+If data = "EOF" Then
+    Screen.MousePointer = vbDefault
+    MsgBox "Data barang dengan keyword '" &amp; txtNamaBarang.Text &amp; "' tidak ditemukan", vbInformation, "Informasi"
+
+Else
+    'contoh data :
+    '~~SUSU KEDELAI ABC 200M#1000#24|SUSU KEDELAI MELILEA 500#1000#0|KOPI SUSU KPL API 3P#1000#0|SUSU KEDELAI ABC 200#1000#2
+    '| -&gt; pemisah baris
+    '# -&gt; pemisah kolom
+
+    rec = Split(data, REC_SPR)
+
+    With lsvBarang
+        noUrut = 1
+        For x = LBound(rec) To UBound(rec)
+            fld = Split(rec(x), FLD_SPR)
+
+            .ListItems.Add , , noUrut
+            .ListItems(noUrut).SubItems(1) = fld(0) 'nama barang
+            .ListItems(noUrut).SubItems(2) = FormatNumber(fld(1), 0) 'harga
+            .ListItems(noUrut).SubItems(3) = fld(2) 'stok
+
+            noUrut = noUrut + 1
+        Next x
+    End With
+End If
+
+Screen.MousePointer = vbDefault
+
+Exit Sub
+</code></pre>
+
+<p>errHandle:
+    Screen.MousePointer = vbDefault
+End Sub
+{% endcodeblock %}</p>
 
 <p>dan ini hasilnya</p>
 
@@ -1000,7 +657,7 @@
 
 <p>Jika hasil ping masih Request timed out coba nonaktifkan windows firewall di komputer server kemudian coba di ping lagi.</p>
 
-<p>Oke sampai disini kita sudah berhasil membuat jaringan VPN sendiri dan memudahkan saya untuk menulis artikel terakhir yang insya Alloh dengan judul <a href="/blog/2010/02/04/belajar-winsock-bagian-akhir-%e2%80%93-contoh-kasus-mengakses-data-stok-barang-dari-luar/">Belajar Winsock bagian akhir – Contoh kasus mengakses data stok barang dari luar</a>.</p>
+<p>Oke sampai disini kita sudah berhasil membuat jaringan VPN sendiri dan memudahkan saya untuk menulis artikel terakhir yang insya Alloh dengan judul <a href="{{%20site.url%20}}/blog/2010/02/04/belajar-winsock-bagian-akhir-%e2%80%93-contoh-kasus-mengakses-data-stok-barang-dari-luar/">Belajar Winsock bagian akhir – Contoh kasus mengakses data stok barang dari luar</a>.</p>
 
 <p>Selamat mencoba :)</p>
 ]]></content>
@@ -1011,7 +668,7 @@
     <link href="http://coding4ever.net/blog/2010/01/30/belajar-winsock-bagian-3-e28093-multiple-connection/"/>
     <updated>2010-01-30T10:52:28+07:00</updated>
     <id>http://coding4ever.net/blog/2010/01/30/belajar-winsock-bagian-3-e28093-multiple-connection</id>
-    <content type="html"><![CDATA[<p>Di <a href="/blog/2010/01/28/belajar-winsock-bagian-2-membuat-aplikasi-chat-sederhana-11/">postingan</a> saya sebelumnya kita sudah mengetahui bagai mana cara membuat aplikasi chat sederhana yang hanya melibatkan saya dan Anda :D, dan bagai mana jika ada teman saya yang lain ikut nimbrung ?</p>
+    <content type="html"><![CDATA[<p>Di <a href="{{%20site.url%20}}/blog/2010/01/28/belajar-winsock-bagian-2-membuat-aplikasi-chat-sederhana-11/">postingan</a> saya sebelumnya kita sudah mengetahui bagai mana cara membuat aplikasi chat sederhana yang hanya melibatkan saya dan Anda :D, dan bagai mana jika ada teman saya yang lain ikut nimbrung ?</p>
 
 <p>Jelas ini tidak bisa karena 1 winsock hanya bisa menangani 1 port, trus bagaimana jika kita ingin teman kita yang lain bisa konek di port yang sama dan hanya menggunakan 1 winsock? Jawabannya sederhana objek winsocknya kita jadikan array.</p>
 
@@ -1020,47 +677,32 @@
 
 <p>Oke, masukkan objek winsock ke form kemudian untuk menjadikannya sebagai objek array kita cukup mengset properties Index=0, jadi winsock dengan index 0 bertugas untuk mengecek permintaan koneksi masuk dan mengalokasikannya kepada yang berhak :) dan tentu saja untuk melakukan hal ini harus dalam mode mendengarkan/Listen</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub Form_Load()
-</span><span class='line'>    With Winsock1(0)
-</span><span class='line'>        .Close
-</span><span class='line'>        .LocalPort = 11111 &lsquo;nilai port ini bisa diganti
-</span><span class='line'>        .Listen
-</span><span class='line'>    End With
-</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+Private Sub Form_Load()
+    With Winsock1(0)
+        .Close
+        .LocalPort = 11111 &lsquo;nilai port ini bisa diganti
+        .Listen
+    End With
+End Sub
+{% endcodeblock %}</p>
 
 <p>Ketika ada permintaan koneksi di port 11111, kita harus menambahkan objek winsock baru untuk menerima permintaan koneksi tersebut dan karena objek winsock yang baru tidak kita set properties LocalPortnya otomatis windows yang akan memberikan nilai Port secara acak.</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub Winsock1_ConnectionRequest(Index As Integer, ByVal requestID As Long)
-</span><span class='line'>    &lsquo;we should only be getting connection requests from
-</span><span class='line'>    'Index 0 because thats the only one that is listening&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>'load a new winsock
-</span><span class='line'>Load Winsock1(Winsock1.UBound + 1)
-</span><span class='line'>
-</span><span class='line'>'accept the incoming connection on our new control
-</span><span class='line'>Winsock1(Winsock1.UBound).Accept requestID
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>End Sub</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+Private Sub Winsock1_ConnectionRequest(Index As Integer, ByVal requestID As Long)
+    &lsquo;we should only be getting connection requests from
+    &#8216;Index 0 because thats the only one that is listening</p>
+
+<pre><code>'load a new winsock
+Load Winsock1(Winsock1.UBound + 1)
+
+'accept the incoming connection on our new control
+Winsock1(Winsock1.UBound).Accept requestID
+</code></pre>
+
+<p>End Sub
+{% endcodeblock %}</p>
 
 <p>Fungsi <strong>UBound</strong> digunakan untuk mendapatkan nilai index terakhir dari objek array, jadi untuk mengetahui berapa jumlah objek arraynya kita cukup memanggil fungsi <strong>UBound + 1</strong>.</p>
 
@@ -1072,82 +714,49 @@
 
 <p>Bagaimana solusinya? Yaph sebenarnya ini juga gampang, jadi jika ada permintaan koneksi dari klien kita cek dulu ada nggak objek winsock yang idle, kalo ada arahkan agar winsock yang idle tadi untuk menerima koneksi tersebut, jika tidak ada baru kita tambahkan objek winsock yang baru untuk menerima koneksi tersebut sehingga kode sebelumnya harus kita revisi menjadi :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub Winsock1_ConnectionRequest(Index As Integer, ByVal requestID As Long)
-</span><span class='line'>    Dim i          As Long
-</span><span class='line'>    Dim j          As Long&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>On Error GoTo errHandle
-</span><span class='line'>
-</span><span class='line'>If Index = 0 Then 'ingat yang bertugas untuk mengecek permintaan koneksi adalah objek winsock dengan index = 0
-</span><span class='line'>    'ini bagian yang bertugas untuk mengecek winsock yang idle
-</span><span class='line'>    For i = 1 To Winsock1.UBound
-</span><span class='line'>        If Winsock1(i).State = sckClosed Or Winsock1(i).State = sckClosing Then
-</span><span class='line'>            j = i   'var j menampung index winsock yang idle
-</span><span class='line'>            Exit For
-</span><span class='line'>        End If
-</span><span class='line'>    Next i
-</span><span class='line'>
-</span><span class='line'>    'jika j = 0 berarti semua winsock kepakai, otomatis kita harus menambahkan winsock yang baru
-</span><span class='line'>    If j = 0 Then
-</span><span class='line'>        Call Load(Winsock1(Winsock1.UBound + 1))
-</span><span class='line'>        j = Winsock1.UBound
-</span><span class='line'>    End If
-</span><span class='line'>
-</span><span class='line'>    'terima koneksi yang baru
-</span><span class='line'>    With Winsock1(j)
-</span><span class='line'>        Call .Close
-</span><span class='line'>        Call .Accept(requestID)
-</span><span class='line'>    End With
-</span><span class='line'>
-</span><span class='line'>End If
-</span><span class='line'>
-</span><span class='line'>Exit Sub
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>errHandle:
-</span><span class='line'>    Call Winsock1(0).Close
-</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+Private Sub Winsock1_ConnectionRequest(Index As Integer, ByVal requestID As Long)
+    Dim i          As Long
+    Dim j          As Long</p>
+
+<pre><code>On Error GoTo errHandle
+
+If Index = 0 Then 'ingat yang bertugas untuk mengecek permintaan koneksi adalah objek winsock dengan index = 0
+    'ini bagian yang bertugas untuk mengecek winsock yang idle
+    For i = 1 To Winsock1.UBound
+        If Winsock1(i).State = sckClosed Or Winsock1(i).State = sckClosing Then
+            j = i   'var j menampung index winsock yang idle
+            Exit For
+        End If
+    Next i
+
+    'jika j = 0 berarti semua winsock kepakai, otomatis kita harus menambahkan winsock yang baru
+    If j = 0 Then
+        Call Load(Winsock1(Winsock1.UBound + 1))
+        j = Winsock1.UBound
+    End If
+
+    'terima koneksi yang baru
+    With Winsock1(j)
+        Call .Close
+        Call .Accept(requestID)
+    End With
+
+End If
+
+Exit Sub
+</code></pre>
+
+<p>errHandle:
+    Call Winsock1(0).Close
+End Sub
+{% endcodeblock %}</p>
 
 <p>Yaph cukup itu saja, contoh programnya bisa didownload di<a href="https://github.com/k4m4r82/AplikasiChat2">sini</a>.</p>
 
-<p>Artikel berikutnya insya Alloh dengan judul <a href="/blog/2010/02/02/belajar-winsock-bagian-4-%E2%80%93-membuat-jaringan-vpn-sendiri/">Belajar Winsock bagian 4 – Membuat jaringan VPN sendiri</a>.</p>
+<p>Artikel berikutnya insya Alloh dengan judul <a href="{{%20site.url%20}}/blog/2010/02/02/belajar-winsock-bagian-4-%E2%80%93-membuat-jaringan-vpn-sendiri/">Belajar Winsock bagian 4 – Membuat jaringan VPN sendiri</a>.</p>
 
-<p>Di artikel tersebut saya sudah tidak membahas penggunaan winsock lagi tetapi artikel tersebut dibutuhkan agar saya bisa menulis artikel terakhir dari 5 seri belajar Winsock ini yang berjudul <a href="/blog/2010/02/04/belajar-winsock-bagian-akhir-%e2%80%93-contoh-kasus-mengakses-data-stok-barang-dari-luar/">Belajar Winsock bagian akhir – Contoh kasus mengakses data stok barang dari luar</a>.</p>
+<p>Di artikel tersebut saya sudah tidak membahas penggunaan winsock lagi tetapi artikel tersebut dibutuhkan agar saya bisa menulis artikel terakhir dari 5 seri belajar Winsock ini yang berjudul <a href="{{%20site.url%20}}/blog/2010/02/04/belajar-winsock-bagian-akhir-%e2%80%93-contoh-kasus-mengakses-data-stok-barang-dari-luar/">Belajar Winsock bagian akhir – Contoh kasus mengakses data stok barang dari luar</a>.</p>
 
 <p>Dan tentunya ini bukan via web (kalo yang ini sudah enggak perlu dibahas lagi) tetapi tetap dengan mengembangkan contoh-contoh program winsock sebelumnya, dan sebagai uji coba untuk komputer server toko yang akan diakses menggunakan speedy sedangkan saya menggunakan starone dan mudah-mudahan saja uji coba ini berhasil :).</p>
 
@@ -1160,7 +769,7 @@
     <link href="http://coding4ever.net/blog/2010/01/28/belajar-winsock-bagian-2-membuat-aplikasi-chat-sederhana-11/"/>
     <updated>2010-01-28T14:26:04+07:00</updated>
     <id>http://coding4ever.net/blog/2010/01/28/belajar-winsock-bagian-2-membuat-aplikasi-chat-sederhana-11</id>
-    <content type="html"><![CDATA[<p>Setelah memahami <a href="/blog/2010/01/26/belajar-winsock-bagian-1/">properties-properties dasar</a> yang harus disetting untuk membuat aplikasi sederhana menggunakan winsock, pada artikel ke 2 dari 5 seri belajar winsock ini kita akan membuat aplikasi chat sederhana dengan pola 1:1 atau dengan istilah lainnya single connection.</p>
+    <content type="html"><![CDATA[<p>Setelah memahami <a href="{{%20site.url%20}}/blog/2010/01/26/belajar-winsock-bagian-1/">properties-properties dasar</a> yang harus disetting untuk membuat aplikasi sederhana menggunakan winsock, pada artikel ke 2 dari 5 seri belajar winsock ini kita akan membuat aplikasi chat sederhana dengan pola 1:1 atau dengan istilah lainnya single connection.</p>
 
 <p>Membuat aplikasi chatting seperti MSN Messenger atau Yahoo Messenger sebenarnya mudah (tapi tidak termasuk saya ya :D) dan kita sudah mempelajari bagaimana membuat koneksi sederhana menggunakan winsock, selanjutnya kita tinggal mengirimkan data menggunakan method <strong>.SendData</strong> dan menghandle data yang diterima melalui event <strong>Winsock_DataArrival</strong>.</p>
 
@@ -1169,18 +778,14 @@
 
 <p>Contoh penggunaan method SendData :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub cmdSend_Click()
-</span><span class='line'>    With Winsock1
-</span><span class='line'>        .SendData &ldquo;Belajar Winsock Bagian 2&rdquo;
-</span><span class='line'>    End With
-</span><span class='line'>    DoEvents
-</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+Private Sub cmdSend_Click()
+    With Winsock1
+        .SendData &ldquo;Belajar Winsock Bagian 2&rdquo;
+    End With
+    DoEvents
+End Sub
+{% endcodeblock %}</p>
 
 <p>Pemanggilan fungsi DoEvents untuk memberikan jeda waktu untuk menyelesaikan pengiriman data.</p>
 
@@ -1188,22 +793,16 @@
 
 <p>Contoh penggunaan method GetData :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub Winsock1_DataArrival(ByVal bytesTotal As Long)
-</span><span class='line'>    Dim strData As String&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>Call Winsock1.GetData(strData)
-</span><span class='line'>MsgBox strData
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>End Sub</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+Private Sub Winsock1_DataArrival(ByVal bytesTotal As Long)
+    Dim strData As String</p>
+
+<pre><code>Call Winsock1.GetData(strData)
+MsgBox strData
+</code></pre>
+
+<p>End Sub
+{% endcodeblock %}</p>
 
 <p>Oke, sampai disini kita sudah mengetahui dasar-dasar untuk membuat aplikasi chat sederhana dan untuk mendemokan ini kita akan membutuhkan 2 program kita sebut saja klien dan server. Adapun persiapan untuk aplikasi server/klien :</p>
 
@@ -1217,169 +816,95 @@
 
 <p>Source code lengkap aplikasi server :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Option Explicit&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>Private Sub cmdSend_Click()
-</span><span class='line'>    Winsock1.SendData txtChat.Text
-</span><span class='line'>    DoEvents&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>txtMain.Text = txtMain.Text &amp; vbCrLf &amp; txtChat.Text
-</span><span class='line'>txtChat.Text = ""
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>End Sub&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>Private Sub Form_Load()
-</span><span class='line'>    Winsock1.LocalPort = 11111
-</span><span class='line'>    Winsock1.Listen
-</span><span class='line'>End Sub&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>Private Sub Winsock1_ConnectionRequest(ByVal requestID As Long)
-</span><span class='line'>    &lsquo;reset the socket, and accept the new connection
-</span><span class='line'>    Winsock1.Close
-</span><span class='line'>    Winsock1.Accept requestID
-</span><span class='line'>End Sub&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>Private Sub Winsock1_DataArrival(ByVal bytesTotal As Long)
-</span><span class='line'>    Dim strData As String&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>'get the data and display it in the textbox
-</span><span class='line'>Winsock1.GetData strData
-</span><span class='line'>txtMain.Text = txtMain.Text &amp; vbCrLf &amp; strData
-</span><span class='line'>txtMain.SelStart = Len(txtMain.Text)
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>End Sub</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+Option Explicit</p>
+
+<p>Private Sub cmdSend_Click()
+    Winsock1.SendData txtChat.Text
+    DoEvents</p>
+
+<pre><code>txtMain.Text = txtMain.Text &amp; vbCrLf &amp; txtChat.Text
+txtChat.Text = ""
+</code></pre>
+
+<p>End Sub</p>
+
+<p>Private Sub Form_Load()
+    Winsock1.LocalPort = 11111
+    Winsock1.Listen
+End Sub</p>
+
+<p>Private Sub Winsock1_ConnectionRequest(ByVal requestID As Long)
+    &lsquo;reset the socket, and accept the new connection
+    Winsock1.Close
+    Winsock1.Accept requestID
+End Sub</p>
+
+<p>Private Sub Winsock1_DataArrival(ByVal bytesTotal As Long)
+    Dim strData As String</p>
+
+<pre><code>'get the data and display it in the textbox
+Winsock1.GetData strData
+txtMain.Text = txtMain.Text &amp; vbCrLf &amp; strData
+txtMain.SelStart = Len(txtMain.Text)
+</code></pre>
+
+<p>End Sub
+{% endcodeblock %}</p>
 
 <p>Aplikasi server tinggal duduk maniz :D dan menunggu koneksi yang masuk.</p>
 
 <p>Source code lengkap aplikasi klien :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Option Explicit&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>Private Sub Form_Load()
-</span><span class='line'>    &lsquo;set up the Winsock1 to connect to the local computer
-</span><span class='line'>    Winsock1.RemoteHost = &ldquo;127.0.0.1&rdquo;
-</span><span class='line'>    Winsock1.RemotePort = 11111
-</span><span class='line'>    Winsock1.Connect
-</span><span class='line'>End Sub&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>Private Sub cmdSend_Click()
-</span><span class='line'>    &lsquo;send the data thats in the text box and
-</span><span class='line'>    'clear it to prepare for the next chat message
-</span><span class='line'>    Winsock1.SendData txtChat.Text
-</span><span class='line'>    DoEvents&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>txtMain.Text = txtMain.Text &amp; vbCrLf &amp; txtChat.Text
-</span><span class='line'>txtChat.Text = ""
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>End Sub&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>Private Sub Winsock1_Connect()
-</span><span class='line'>    &lsquo;we are connected!
-</span><span class='line'>    MsgBox &ldquo;Connected&rdquo;
-</span><span class='line'>End Sub&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>Private Sub Winsock1_DataArrival(ByVal bytesTotal As Long)
-</span><span class='line'>    Dim strData As String&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>' get the data from the socket
-</span><span class='line'>Winsock1.GetData strData
-</span><span class='line'>' display it in the textbox
-</span><span class='line'>txtMain.Text = txtMain.Text &amp; vbCrLf &amp; strData
-</span><span class='line'>' scroll the box down
-</span><span class='line'>txtMain.SelStart = Len(txtMain.Text)
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>End Sub&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>Private Sub Winsock1_Error(ByVal Number As Integer, Description As String, ByVal Scode As Long, ByVal Source As String, ByVal HelpFile As String, ByVal HelpContext As Long, CancelDisplay As Boolean)
-</span><span class='line'>    &lsquo; an error has occured somewhere, so let the user know
-</span><span class='line'>    MsgBox &ldquo;Error: &rdquo; &amp; Description
-</span><span class='line'>    &rsquo; close the socket, ready to go again
-</span><span class='line'>    Winsock1.Close
-</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+Option Explicit</p>
 
-<p>Sample program bisa didownload di<a href="https://github.com/k4m4r82/AplikasiChat1">sini</a> dan artikel berikutnya insya Alloh dengan judul <a href="/blog/2010/01/30/belajar-winsock-bagian-3-%e2%80%93-multiple-connection/">Belajar Winsock bagian 3 – Multiple Connection</a> segera menyusul.</p>
+<p>Private Sub Form_Load()
+    &lsquo;set up the Winsock1 to connect to the local computer
+    Winsock1.RemoteHost = &ldquo;127.0.0.1&rdquo;
+    Winsock1.RemotePort = 11111
+    Winsock1.Connect
+End Sub</p>
+
+<p>Private Sub cmdSend_Click()
+    &lsquo;send the data thats in the text box and
+    &#8216;clear it to prepare for the next chat message
+    Winsock1.SendData txtChat.Text
+    DoEvents</p>
+
+<pre><code>txtMain.Text = txtMain.Text &amp; vbCrLf &amp; txtChat.Text
+txtChat.Text = ""
+</code></pre>
+
+<p>End Sub</p>
+
+<p>Private Sub Winsock1_Connect()
+    &lsquo;we are connected!
+    MsgBox &ldquo;Connected&rdquo;
+End Sub</p>
+
+<p>Private Sub Winsock1_DataArrival(ByVal bytesTotal As Long)
+    Dim strData As String</p>
+
+<pre><code>' get the data from the socket
+Winsock1.GetData strData
+' display it in the textbox
+txtMain.Text = txtMain.Text &amp; vbCrLf &amp; strData
+' scroll the box down
+txtMain.SelStart = Len(txtMain.Text)
+</code></pre>
+
+<p>End Sub</p>
+
+<p>Private Sub Winsock1_Error(ByVal Number As Integer, Description As String, ByVal Scode As Long, ByVal Source As String, ByVal HelpFile As String, ByVal HelpContext As Long, CancelDisplay As Boolean)
+    &lsquo; an error has occured somewhere, so let the user know
+    MsgBox &ldquo;Error: &rdquo; &amp; Description
+    &rsquo; close the socket, ready to go again
+    Winsock1.Close
+End Sub
+{% endcodeblock %}</p>
+
+<p>Sample program bisa didownload di<a href="https://github.com/k4m4r82/AplikasiChat1">sini</a> dan artikel berikutnya insya Alloh dengan judul <a href="{{%20site.url%20}}/blog/2010/01/30/belajar-winsock-bagian-3-%e2%80%93-multiple-connection/">Belajar Winsock bagian 3 – Multiple Connection</a> segera menyusul.</p>
 
 <p>Selamat mencoba :)</p>
 ]]></content>
