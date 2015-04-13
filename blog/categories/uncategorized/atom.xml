@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Uncategorized | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/uncategorized/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-04-13T08:48:38+07:00</updated>
+  <updated>2015-04-13T09:21:58+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,28 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Comment as a Guest]]></title>
+    <link href="http://coding4ever.net/blog/2015/04/13/comment-as-a-guest/"/>
+    <updated>2015-04-13T09:13:52+07:00</updated>
+    <id>http://coding4ever.net/blog/2015/04/13/comment-as-a-guest</id>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/04/disqus_icon.png">https://coding4ever.files.wordpress.com/2015/04/disqus_icon.png</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Blog <a href="http://coding4ever.net/">ini</a> dibangun di atas static blogging framework <a href="http://octopress.org/">Octopress</a> dan untuk berinteraksi dengan pengunjung saya menggunakan layanan <a href="https://disqus.com/">Disqus</a>.</p>
+
+<p>Jika sebelumnya Anda harus menjadi anggota dari <a href="https://disqus.com/">Disqus</a> untuk memberikan komentar, mulai sekarang Anda sudah bisa memberikan komentar tanpa harus mendaftar di <a href="https://disqus.com/">Disqus</a>.</p>
+
+<!-- more -->
+
+
+<p>Caranya adalah pada saat memberikan komentar, Anda aktifkan pilihan <strong><em>I&rsquo;d rather post as gues</em></strong>.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/disqus_comment1.png">https://coding4ever.files.wordpress.com/2015/04/disqus_comment1.png</a>&#8221;></p>
+
+<p>Untuk informasi email, sebaiknya Anda isikan dengan benar jika ingin mendapatkan notifikasi ketika saya me-replay pesan Anda.</p>
+
+<p>Selamat MENCOBA :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Blog Lama Coding4ever Aktif Kembali]]></title>
@@ -87,106 +109,6 @@
 <p>Entah kenapa font jenis ini terlihat begitu indah di mata para programer he he he :D</p>
 
 <p><a href="http://coding4ever.files.wordpress.com/2011/12/20122011-7.png"><img src="http://coding4ever.files.wordpress.com/2011/12/20122011-7.png" alt="" /></a></p>
-
-<p>Selamat mencoba :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Nulis Kode Biar Enak Diliat]]></title>
-    <link href="http://coding4ever.net/blog/2011/11/15/nulis-kode-biar-enak-diliat/"/>
-    <updated>2011-11-15T14:47:13+07:00</updated>
-    <id>http://coding4ever.net/blog/2011/11/15/nulis-kode-biar-enak-diliat</id>
-    <content type="html"><![CDATA[<p>Ini hanya sebagai referensi untuk om2x yang nanya sambil posting kode atau yg lagi baik pengen ngasih sumbangan kode, biar kodenya terlihat lebih &ldquo;keren&rdquo; :D.</p>
-
-<p>Caranya dengan menggunakan tag yang sudah disediakan wordpress, kan sayang udah susah-susah dibuatin tapi enggak dipake :D</p>
-
-<p>Untuk contoh dibawah ini khusus untuk skrip VB Classic, VB .NET, C# dan SQL</p>
-
-<!-- more -->
-
-
-<ol>
-<li>Visual Basic</li>
-</ol>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/11/15112011-1.png"><img src="http://coding4ever.files.wordpress.com/2011/11/15112011-1.png" alt="" /></a>Hasil :</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">Command1_Click</span><span class="p">()</span>
-</span><span class='line'>    <span class="k">Dim</span> <span class="n">i</span> <span class="ow">As</span> <span class="kt">Integer</span>
-</span><span class='line'>    <span class="k">For</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">To</span> <span class="mi">10</span>
-</span><span class='line'>        <span class="n">Debug</span><span class="p">.</span><span class="n">Print</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="err">;</span><span class="n">Iterasi</span> <span class="n">ke#</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="err">;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">i</span>
-</span><span class='line'>    <span class="k">Next</span> <span class="n">i</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Sub</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<ol>
-<li>Visual Basic .NET</li>
-</ol>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/11/151120112.png"><img src="http://coding4ever.files.wordpress.com/2011/11/151120112.png" alt="" /></a>Hasil :</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">Button1_Click</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">sender</span> <span class="ow">As</span> <span class="n">System</span><span class="p">.</span><span class="n">Object</span><span class="p">,</span> <span class="k">ByVal</span> <span class="n">e</span> <span class="ow">As</span> <span class="n">System</span><span class="p">.</span><span class="n">EventArgs</span><span class="p">)</span> <span class="k">Handles</span> <span class="n">Button1</span><span class="p">.</span><span class="n">Click</span>
-</span><span class='line'>    <span class="k">For</span> <span class="n">i</span> <span class="ow">As</span> <span class="kt">Integer</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">To</span> <span class="mi">10</span>
-</span><span class='line'>        <span class="n">Debug</span><span class="p">.</span><span class="n">Print</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="err">;</span><span class="n">Iterasi</span> <span class="n">ke#</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="err">;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">i</span><span class="p">.</span><span class="n">ToString</span><span class="p">())</span>
-</span><span class='line'>    <span class="k">Next</span> <span class="n">i</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Sub</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<ol>
-<li>C#</li>
-</ol>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/11/151120113.png"><img src="http://coding4ever.files.wordpress.com/2011/11/151120113.png" alt="" /></a>Hasil :</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">button1_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">EventArgs</span> <span class="n">e</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span> <span class="n">i</span> <span class="p">&amp;</span><span class="n">lt</span><span class="p">;=</span> <span class="m">10</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="n">System</span><span class="p">.</span><span class="n">Diagnostics</span><span class="p">.</span><span class="n">Debug</span><span class="p">.</span><span class="n">Print</span> <span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Iterasi</span> <span class="n">ke</span><span class="err">#</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="p">+</span> <span class="n">i</span><span class="p">.</span><span class="n">ToString</span><span class="p">());</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<ol>
-<li>SQL</li>
-</ol>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/11/151120114.png"><img src="http://coding4ever.files.wordpress.com/2011/11/151120114.png" alt="" /></a>Hasil :</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="k">SELECT</span> <span class="n">beli</span><span class="p">.</span><span class="n">nota</span><span class="p">,</span> <span class="n">beli</span><span class="p">.</span><span class="n">tanggal</span><span class="p">,</span> <span class="n">barang</span><span class="p">.</span><span class="n">nama</span> <span class="k">AS</span> <span class="n">barang</span><span class="p">,</span> <span class="n">item_beli</span><span class="p">.</span><span class="n">jumlah</span><span class="p">,</span> <span class="n">item_beli</span><span class="p">.</span><span class="n">harga_beli</span><span class="p">,</span>
-</span><span class='line'><span class="n">supplier</span><span class="p">.</span><span class="n">nama</span> <span class="k">AS</span> <span class="n">supplier</span>
-</span><span class='line'><span class="k">FROM</span> <span class="n">beli</span> <span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">item_beli</span> <span class="k">ON</span> <span class="n">beli</span><span class="p">.</span><span class="n">nota</span> <span class="o">=</span> <span class="n">item_beli</span><span class="p">.</span><span class="n">nota</span>
-</span><span class='line'><span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">supplier</span> <span class="k">ON</span> <span class="n">beli</span><span class="p">.</span><span class="n">supplier_id</span> <span class="o">=</span> <span class="n">supplier</span><span class="p">.</span><span class="n">id</span> <span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">barang</span> <span class="k">ON</span> <span class="n">item_beli</span><span class="p">.</span><span class="n">barang_id</span> <span class="o">=</span> <span class="n">barang</span><span class="p">.</span><span class="n">id</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<p>Referensi : <a href="http://en.support.wordpress.com/code/posting-source-code/">Posting Source Code</a></p>
 
 <p>Selamat mencoba :)</p>
 ]]></content>

@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-04-13T08:48:38+07:00</updated>
+  <updated>2015-04-13T09:21:58+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,28 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Comment as a Guest]]></title>
+    <link href="http://coding4ever.net/blog/2015/04/13/comment-as-a-guest/"/>
+    <updated>2015-04-13T09:13:52+07:00</updated>
+    <id>http://coding4ever.net/blog/2015/04/13/comment-as-a-guest</id>
+    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2015/04/disqus_icon.png" width="120" height="100">Blog <a href="http://coding4ever.net/">ini</a> dibangun di atas static blogging framework <a href="http://octopress.org/">Octopress</a> dan untuk berinteraksi dengan pengunjung saya menggunakan layanan <a href="https://disqus.com/">Disqus</a>.</p>
+
+<p>Jika sebelumnya Anda harus menjadi anggota dari <a href="https://disqus.com/">Disqus</a> untuk memberikan komentar, mulai sekarang Anda sudah bisa memberikan komentar tanpa harus mendaftar di <a href="https://disqus.com/">Disqus</a>.</p>
+
+<!-- more -->
+
+
+<p>Caranya adalah pada saat memberikan komentar, Anda aktifkan pilihan <strong><em>I&rsquo;d rather post as gues</em></strong>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/disqus_comment1.png"></p>
+
+<p>Untuk informasi email, sebaiknya Anda isikan dengan benar jika ingin mendapatkan notifikasi ketika saya me-replay pesan Anda.</p>
+
+<p>Selamat MENCOBA :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Membuat Laporan Crystal Reports .NET Dengan Model Data-Push]]></title>
@@ -3554,74 +3576,6 @@ Setelah proses mapping selesai, langkah berikutnya adalah menambahkan sebuah cla
 <p>Jadi saya mohon maaf jika ada pertanyaan yang terlewatkan baik karena memang lagi males ngecek komentar :D atau karena terbatasnya ilmu.</p>
 
 <p><a href="http://coding4ever.files.wordpress.com/2014/03/comment.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/comment.jpg" alt="comment" /></a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Menembus Pertahanan Database Firebird Yang Diproteksi Bagian 2]]></title>
-    <link href="http://coding4ever.net/blog/2013/06/25/menembus-pertahanan-database-firebird-yang-diproteksi-bagian-2/"/>
-    <updated>2013-06-25T11:04:17+07:00</updated>
-    <id>http://coding4ever.net/blog/2013/06/25/menembus-pertahanan-database-firebird-yang-diproteksi-bagian-2</id>
-    <content type="html"><![CDATA[<p>Postingan saya kali ini merupakan jawaban untuk om guys yang sudah berhasil <a href="https://coding4ever.wordpress.com/2011/01/03/menembus-pertahanan-database-firebird-yang-diproteksi/">Menembus pertahanan database Firebird yang diproteksi</a> tetapi masih ada sedikit masalah yang perlu diselesaikan.</p>
-
-<p>Biar lebih lengkap saya tulis ulang saja pertanyaannya.</p>
-
-<blockquote><p>thx beart om admin buat tutor singkatnya, sangat bermanfaat.
-ada sedikit masalah, setelah kita “bongkar” db zahir-nya ternyata ga bisa di pake lagi di aplikasi Zahirnya ya. Harus kita balikin lagi setting FB-nya ke default/original (khususnya user ZAHIRDBA).
-ada work-around-nya untuk masalah ini om admin?</p></blockquote>
-
-<!-- more -->
-
-
-<p>Jadi langkah-langkah berikut ini akan menghapus role &ldquo;SYSDBA&rdquo; sehingga kita bisa login lagi menggunakan user default Firebird yaitu SYSDBA.</p>
-
-<p>Berikut langkah-langkahnya :</p>
-
-<ol>
-<li><p>Sudah berhasil <a href="https://coding4ever.wordpress.com/2011/01/03/menembus-pertahanan-database-firebird-yang-diproteksi/">menembus pertahanan database Firebird yang diproteksi</a></p></li>
-<li><p>Login menggunakan user ZAHIRDBA</p></li>
-</ol>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2013/06/25062013-1.png"><img src="http://coding4ever.files.wordpress.com/2013/06/25062013-1.png" alt="25062013-1" /></a></p>
-
-<ol>
-<li>Hapus role SYSDBA menggunakan perintah</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>DELETE FROM rdb$roles
-</span><span class='line'>WHERE rdb$role_name = 'SYSDBA' AND rdb$owner_name = 'ZAHIRDBA'</span></code></pre></td></tr></table></div></figure>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2013/06/25062013-2.png"><img src="http://coding4ever.files.wordpress.com/2013/06/25062013-2.png" alt="25062013-2" /></a></p>
-
-<p>sampai tahap ini kita sudah bisa menggunakan user sysdba lagi</p>
-
-<ol>
-<li>Login ulang menggunakan user SYSDBA</li>
-</ol>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2013/06/25062013-3.png"><img src="http://coding4ever.files.wordpress.com/2013/06/25062013-3.png" alt="25062013-3" /></a></p>
-
-<ol>
-<li>Hapus user ZAHIRDBA dari menu Tools -> User Manager</li>
-</ol>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2013/06/25062013-4.png"><img src="http://coding4ever.files.wordpress.com/2013/06/25062013-4.png" alt="25062013-4" /></a></p>
-
-<ol>
-<li>Selesai :)</li>
-</ol>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2013/06/25062013-5.png"><img src="http://coding4ever.files.wordpress.com/2013/06/25062013-5.png" alt="25062013-5" /></a></p>
-
-<p>Selamat mencoba :)</p>
 ]]></content>
   </entry>
   

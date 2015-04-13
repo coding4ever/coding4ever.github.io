@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://coding4ever.net/blog/2015/04/13/comment-as-a-guest/</loc>
+    <lastmod>2015-04-13T09:13:52+07:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>http://coding4ever.net/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push/</loc>
     <lastmod>2015-04-12T23:58:08+07:00</lastmod>
     <priority>0.8</priority>
@@ -792,31 +797,31 @@
   </url>
   <url>
     <loc>http://coding4ever.net/blog/archives/</loc>
-    <lastmod>2015-04-13T08:48:38+07:00</lastmod>
+    <lastmod>2015-04-13T09:21:58+07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>http://coding4ever.net/</loc>
-    <lastmod>2015-04-13T08:48:38+07:00</lastmod>
+    <lastmod>2015-04-13T09:21:58+07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://coding4ever.net/gudang-software/</loc>
-    <lastmod>2015-04-13T08:48:38+07:00</lastmod>
+    <lastmod>2015-04-13T09:21:58+07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>http://coding4ever.net/aplikasi-gratis/</loc>
-    <lastmod>2015-04-13T08:48:38+07:00</lastmod>
+    <lastmod>2015-04-13T09:21:58+07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>http://coding4ever.net/source-code/</loc>
-    <lastmod>2015-04-13T08:48:38+07:00</lastmod>
+    <lastmod>2015-04-13T09:21:58+07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
