@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-04-13T08:42:21+07:00</updated>
+  <updated>2015-04-13T08:48:38+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -21,7 +21,7 @@
     <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg" width="120" height="100">Ketika memutuskan untuk menggunakan Crystal Reports‎ sebagai tool untuk membuat laporan, ada dua model yang bisa kita gunakan untuk menampilkan data.</p>
 
 <ol>
-<li>Pull model – kita membuat koneksi ke database, mengirimkan perintah SQL, menentukan filter dan sisanya akan langsung ditangani oleh Crystal Reports. Cara yang pertama ini adalah cara umum yang biasanya digunakan untuk menampilkan data, dan rata-rata tutorial yang beredar juga menggunakan cara ini.</li>
+<li>Pull model – kita mengeset koneksi ke database, mengirimkan perintah SQL, menentukan filter dan sisanya akan langsung ditangani oleh Crystal Reports. Cara yang pertama ini adalah cara umum yang biasanya digunakan untuk menampilkan data, dan rata-rata tutorial yang beredar juga menggunakan cara ini.</li>
 <li>Push model – dengan cara yang kedua ini kita membuat tabel temporary dengan menggunakan objek DataSet kemudian mengirimkan data dengan format DataSet, DataTable, IDataReader atau IEnumerable dan sisanya akan langsung ditangani oleh Crystal Reports.</li>
 </ol>
 
