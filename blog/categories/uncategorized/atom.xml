@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Uncategorized | Coding4ever's Blog]]></title>
+  <link href="http://coding4ever.net/blog/categories/uncategorized/atom.xml" rel="self"/>
+  <link href="http://coding4ever.net/"/>
+  <updated>2015-04-14T14:50:39+07:00</updated>
+  <id>http://coding4ever.net/</id>
+  <author>
+    <name><![CDATA[Admin]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Comment as a Guest]]></title>
+    <link href="http://coding4ever.net/blog/2015/04/13/comment-as-a-guest/"/>
+    <updated>2015-04-13T09:13:52+07:00</updated>
+    <id>http://coding4ever.net/blog/2015/04/13/comment-as-a-guest</id>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/04/disqus_icon.png">https://coding4ever.files.wordpress.com/2015/04/disqus_icon.png</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Blog <a href="http://coding4ever.net/">ini</a> dibangun di atas static blogging framework <a href="http://octopress.org/">Octopress</a> dan untuk berinteraksi dengan pengunjung saya menggunakan layanan <a href="https://disqus.com/">Disqus</a>.</p>
+
+<p>Jika sebelumnya Anda harus menjadi anggota dari <a href="https://disqus.com/">Disqus</a> untuk memberikan komentar, mulai sekarang Anda sudah bisa memberikan komentar tanpa harus mendaftar di <a href="https://disqus.com/">Disqus</a>.</p>
+
+<!-- more -->
+
+
+<p>Caranya adalah pada saat memberikan komentar, Anda aktifkan pilihan <strong><em>I&rsquo;d rather post as gues</em></strong>.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/disqus_comment1.png">https://coding4ever.files.wordpress.com/2015/04/disqus_comment1.png</a>&#8221;></p>
+
+<p>Untuk informasi email, sebaiknya Anda isikan dengan benar jika ingin mendapatkan notifikasi ketika saya me-replay pesan Anda.</p>
+
+<p>Selamat MENCOBA :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Blog Lama Coding4ever Aktif Kembali]]></title>
+    <link href="http://coding4ever.net/blog/2015/04/11/blog-lama-coding4ever-aktif-kembali/"/>
+    <updated>2015-04-11T16:34:41+07:00</updated>
+    <id>http://coding4ever.net/blog/2015/04/11/blog-lama-coding4ever-aktif-kembali</id>
+    <content type="html"><![CDATA[<p>Blog lama coding4ever yang beralamat di <a href="http://coding4ever.wordpress.com/">http://coding4ever.wordpress.com/</a> saya aktifkan lagi dengan mode <strong>Read Only</strong> karena sudah banyak dokumentasi tanya jawabnya, agar pertanyaan yang sama tidak ditanyakan lagi di blog ini.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Repository Coding4ever]]></title>
+    <link href="http://coding4ever.net/blog/2014/03/10/repository-coding4ever/"/>
+    <updated>2014-03-10T14:52:06+07:00</updated>
+    <id>http://coding4ever.net/blog/2014/03/10/repository-coding4ever</id>
+    <content type="html"><![CDATA[<p>Untuk mempermudah mengakses source code coding4ever, beberapa source code terbaru sudah saya push ke repository <a href="https://github.com/">GitHub</a>, dan sisanya menyusul :D</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/03/github1.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/github1.jpg" alt="github" /></a></p>
+
+<p>Link repository : <a href="https://github.com/k4m4r82?tab=repositories">https://github.com/k4m4r82</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Q & A]]></title>
+    <link href="http://coding4ever.net/blog/2014/03/10/q-a/"/>
+    <updated>2014-03-10T12:56:14+07:00</updated>
+    <id>http://coding4ever.net/blog/2014/03/10/q-a</id>
+    <content type="html"><![CDATA[<p>Alhamdulillah &hellip;</p>
+
+<p>Engga terasa komen di blog ini sudah lebih dari 7000 :)</p>
+
+<p>Jadi saya mohon maaf jika ada pertanyaan yang terlewatkan baik karena memang lagi males ngecek komentar :D atau karena terbatasnya ilmu.</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/03/comment.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/comment.jpg" alt="comment" /></a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Visual Studio Color Schemes]]></title>
+    <link href="http://coding4ever.net/blog/2011/12/20/visual-studio-color-schemes/"/>
+    <updated>2011-12-20T16:33:32+07:00</updated>
+    <id>http://coding4ever.net/blog/2011/12/20/visual-studio-color-schemes</id>
+    <content type="html"><![CDATA[<p>Enggak sengaja ketemu link <a href="http://studiostyl.es/">ini</a>, berhubung saya juga udah bosan dengan color scheme bawaan visual studio .net akhirnya ikutan coba deh.</p>
+
+<p>Di link tersebut sudah tersedia ratusan color scheme yang siap pake, saya sendiri baru mencoba color scheme dengan rating tertinggi :D.</p>
+
+<!-- more -->
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/12/20122011-1.png"><img src="http://coding4ever.files.wordpress.com/2011/12/20122011-1.png" alt="" /></a></p>
+
+<p>Untuk downloadnya tinggal klik link <a href="http://studiostyl.es/schemes/son-of-obsidian">ini</a>, sudah tersedia untuk VS 2005, 2008 dan 2010.</p>
+
+<p>Setelah download tinggal impor file schemesnya dari menu Tools -> Import and Export Settings &hellip;, selanjutnya tinggal ikuti wizard yang ada.</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/12/20122011-2.png"><img src="http://coding4ever.files.wordpress.com/2011/12/20122011-2.png" alt="" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/12/20122011-3.png"><img src="http://coding4ever.files.wordpress.com/2011/12/20122011-3.png" alt="" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/12/20122011-4.png"><img src="http://coding4ever.files.wordpress.com/2011/12/20122011-4.png" alt="" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/12/20122011-5.png"><img src="http://coding4ever.files.wordpress.com/2011/12/20122011-5.png" alt="" /></a></p>
+
+<p>Agar semakin manteb editornya, download juga <a href="http://www.microsoft.com/download/en/details.aspx?id=17879">Consolas Font Pack</a> dari situs resminya om Bill Gates.</p>
+
+<p>Kemudian dilanjutkan dengan merubah jenis font editor menjadi Consolas dan size = 10.</p>
+
+<p>Caranya dengan klik menu Tools -> Options</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/12/20122011-6.png"><img src="http://coding4ever.files.wordpress.com/2011/12/20122011-6.png" alt="" /></a></p>
+
+<p>Entah kenapa font jenis ini terlihat begitu indah di mata para programer he he he :D</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/12/20122011-7.png"><img src="http://coding4ever.files.wordpress.com/2011/12/20122011-7.png" alt="" /></a></p>
+
+<p>Selamat mencoba :)</p>
+]]></content>
+  </entry>
+  
+</feed>

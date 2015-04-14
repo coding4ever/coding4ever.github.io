@@ -4,7 +4,7 @@
   <title><![CDATA[Category: crashreporter.net | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/crashreporter-dot-net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-04-14T14:41:53+07:00</updated>
+  <updated>2015-04-14T14:50:39+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -18,7 +18,7 @@
     <link href="http://coding4ever.net/blog/2015/04/14/paket-nuget-yang-wajib-dicoba-bagian-number-1-crashreporter-dot-net/"/>
     <updated>2015-04-14T14:41:34+07:00</updated>
     <id>http://coding4ever.net/blog/2015/04/14/paket-nuget-yang-wajib-dicoba-bagian-number-1-crashreporter-dot-net</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png">http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Apakah Anda percaya jika saya katakan aplikasi saya 100% bebas bug, tentu tidak. Seberapa keraspun kita mencoba pasti aplikasi yang kita buat ada bugnya.</p>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png">http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Apakah Anda percaya jika saya katakan aplikasi saya 100% bebas bug, tentu saja tidak. Seberapa keraspun kita mencoba pasti aplikasi yang kita buat ada bugnya.</p>
 
 <p>Secara teknis kita tidak bisa melakukan pengetesan sebaik yang dilakukan oleh end-user. Mereka bisa melakukan hal-hal luar biasa diluar perkiraan dan skenario kita yang bisa menyebabkan error, dan bisa saja menyebabkan mereka menjadi <code>ilfil</code> menggunakan aplikasi kita he he :-D</p>
 
@@ -45,7 +45,7 @@
 
 <p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-13.png">https://coding4ever.files.wordpress.com/2015/04/140415-13.png</a>&#8221;></p>
 
-<p>Klik tombol Close, kemudian cek node References, seharusnya sudah ada tambahan library <code>CrashReporter.NET</code></p>
+<p>Klik tombol Close, kemudian cek node <code>References</code>, seharusnya sudah ada tambahan library <code>CrashReporter.NET</code></p>
 
 <p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-14.png">https://coding4ever.files.wordpress.com/2015/04/140415-14.png</a>&#8221;></p>
 
@@ -65,7 +65,7 @@
 
 <p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-02.png">https://coding4ever.files.wordpress.com/2015/04/140415-02.png</a>&#8221;></p>
 
-<p>Dua contoh kode di atas menggunakan class ReportCrashConfig yang kita bahas di bagian <em>konfigurasi CrashReporter.NET</em>.</p>
+<p>Dua contoh kode di atas menggunakan class <code>ReportCrashConfig</code> yang kita bahas di bagian <em>konfigurasi CrashReporter.NET</em>.</p>
 
 <h3>Konfigurasi CrashReporter.NET</h3>
 
@@ -77,7 +77,7 @@
 
 <p>Jika kita ingin menggunakan email sendiri untuk mengirim laporan bug, berarti kita harus menyiapkan dua email misal dengan nama <em>pengirim.bug@gmail.com</em> dan <em>penerima.bug@gmail.com</em> yang masing-masing kita set untuk nilai property <em>FromEmail</em>, <em>ToEmail</em> dan  kemudian mengeset nilai property <em>AnalyzeWithDoctorDump = false</em>. Dan jangan lupa set property <em>UserName</em> = <em>FromEmail</em>, untuk <em>Password</em> email menyesuaikan dengan <em>FromEmail</em>.</p>
 
-<p>Agar kode konfigurasi di atas bisa digunakan berkali-kali, mungkin bisa kita jadikan class konfigurasi tersendiri.</p>
+<p>Agar kode konfigurasi di atas bisa digunakan berulang-ulang, mungkin bisa kita <code>bungkus</code> ke dalam sebuah class tersendiri.</p>
 
 <p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-04.png">https://coding4ever.files.wordpress.com/2015/04/140415-04.png</a>&#8221;></p>
 

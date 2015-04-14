@@ -1,0 +1,801 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Pembuatan Aplikasi Client Server Dengan Arsitektur 3-tier Part 4 - Coding4ever&#8217;s Blog</title>
+  <meta name="author" content="Admin">
+
+  
+  <meta name="description" content="Melanjutkan postingan sebelumnya, tetapi kita akan review sedikit beberapa project yang sudah kita buat : SmartLibraryLib SmartLibraryLib dibuat &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://coding4ever.net/blog/2012/04/28/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-4">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Coding4ever's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50866618-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Coding4ever&#8217;s Blog</a></h1>
+  
+    <h2>Just coding&#8230; coding&#8230; and coding&#8230; because coding should be fun :)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:coding4ever.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/gudang-software">Gudang Software</a></li>
+  <li><a href="/source-code">Source Code</a></li>  
+  <li><a href="/aplikasi-gratis">Aplikasi Gratis</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Pembuatan Aplikasi Client Server Dengan Arsitektur 3-tier Part 4</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-04-28T13:48:58+07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>1:48 pm</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Melanjutkan postingan <a href="http://coding4ever.net/blog/2012/03/23/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-3/">sebelumnya</a>, tetapi kita akan review sedikit beberapa project yang sudah kita buat :</p>
+
+<ol>
+<li><a href="http://coding4ever.net/blog/2012/02/01/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-1/">SmartLibraryLib</a></li>
+</ol>
+
+
+<p>SmartLibraryLib dibuat dengan memanfaatkan project bertipe Class Library yang isinya hanya berupa interface IDao dan class Model.</p>
+
+<!-- more -->
+
+
+<p>Hasil compile project ini akan menjadi file dengan ekstensi .dll (SmartLibraryLib.dll), file SmartLibraryLib.dll ini akan dishare atau ditambahkan sebagai referensi untuk aplikasi SmartLibraryServer dan SmartLibraryKlien.</p>
+
+<p>Teknik ini dikenal dengan istilah “Shared Assembly” tujuannya adalah agar aplikasi server dan klien bisa berkomunikasi dengan cara yang sama.</p>
+
+<ol>
+<li><a href="http://coding4ever.net/blog/2012/02/05/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-2/">SmartLibraryServer</a></li>
+</ol>
+
+
+<p>SmartLibraryServer dibuat dengan memanfaatkan project bertipe Console Application, implementasi aslinya biasanya aplikasi server bisa dijadikan sebuah service (Windows Service) atau di hostnya menggunakan web service IIS.</p>
+
+<p>Aplikasi inilah yang akan mengimplementasikan semua method-method abstract dari project SmartLibraryLib.</p>
+
+<p>Adapun project penutup kita adalah SmartLibraryKlien, project ini dibuat  dengan memanfaatkan  project  bertipe  Windows Application  yang  isinya  hanya  berupa  Form  berikut  komponen-komponen pendukungnya (Label, TextBox, Button, ListView dll) :</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2012/04/26042012-13.png"><img src="http://coding4ever.files.wordpress.com/2012/04/26042012-13.png" alt="" /></a></p>
+
+<p>Project  SmartLibraryKlien  tidak  langsung  mengakses  database  untuk  proses CRUDnya  melainnya  hanya  mengakses  objek-objek  dari project SmartLibraryServer secara remote, jadi  project  SmartLibraryServer  inilah  yang  sudah  menghandle  semua  proses CRUDnya.</p>
+
+<p>Oke kita langsung saja mengaktifkan kembali solution SmartLibrarynya dimana didalamnya sudah terdapat project SmartLibraryLib dan SmartLibraryServer.</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2012/04/26042012-2.png"><img src="http://coding4ever.files.wordpress.com/2012/04/26042012-2.png" alt="" /></a></p>
+
+<ol>
+<li>Klik kanan Solution SmartLibrary -> Add -> New Project</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2012/04/26042012-3.png"><img src="http://coding4ever.files.wordpress.com/2012/04/26042012-3.png" alt="" /></a></p>
+
+<ol>
+<li>Pada dialog Add New Project aktifkan pilihan Visual C# kemudian pada pilihan Templates pilih Windows Application</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2012/04/26042012-4.png"><img src="http://coding4ever.files.wordpress.com/2012/04/26042012-4.png" alt="" /></a></p>
+
+<p>Pada isian Name isikan SmartLibraryKlien untuk isian Location dibiarkan saja setelah itu klik Ok.</p>
+
+<p>Jika langkah sebelumnya berhasil maka pada solution SmartLibrary akan ketambahan satu project baru yaitu SmartLibraryKlien.</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2012/04/26042012-5.png"><img src="http://coding4ever.files.wordpress.com/2012/04/26042012-5.png" alt="" /></a></p>
+
+<p>Secara default pada saat pembuatan project dengan tipe Windows Application sudah otomatis disediakan 1 buah form kosong dengan nama Form1, kita akan menambahkan form baru jadi form ini dihapus saja.</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2012/04/26042012-6.png"><img src="http://coding4ever.files.wordpress.com/2012/04/26042012-6.png" alt="" /></a></p>
+
+<p><strong>Menambahkan folder View</strong></p>
+
+<p>Folder disini digunakan untuk mengelompokkan class sesuai dengan fungsinya, contoh kita akan menambahkan folder View yang di dalamnya terdapat class FrmBuku dan FrmAddEditBuku.</p>
+
+<ol>
+<li>Klik kanan project SmartLibraryKlien -> Add -> New Folder</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2012/04/26042012-7.png"><img src="http://coding4ever.files.wordpress.com/2012/04/26042012-7.png" alt="" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2012/04/26042012-8.png"><img src="http://coding4ever.files.wordpress.com/2012/04/26042012-8.png" alt="" /></a></p>
+
+<p><strong>Menambahkan FrmBuku dan FrmAddEditBuku</strong></p>
+
+<ol>
+<li>Klik kanan folder View -> Add -> Windows Form …</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2012/04/26042012-9.png"><img src="http://coding4ever.files.wordpress.com/2012/04/26042012-9.png" alt="" /></a></p>
+
+<ol>
+<li>Pada dialog Add New Item – SmartLibraryKlien, isikan FrmBuku pada isian Name</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2012/04/26042012-10.png"><img src="http://coding4ever.files.wordpress.com/2012/04/26042012-10.png" alt="" /></a></p>
+
+<ol>
+<li>Jika sudah berhasil menambahkan FrmBuku, ulangi langkah sebelumnya untuk menambahkan FrmAddEditBuku</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2012/04/26042012-11.png"><img src="http://coding4ever.files.wordpress.com/2012/04/26042012-11.png" alt="" /></a></p>
+
+<p>Berikut hasil akhir sementara dari langkah-langkah sebelumnya</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2012/04/26042012-12.png"><img src="http://coding4ever.files.wordpress.com/2012/04/26042012-12.png" alt="" /></a></p>
+
+<p>Setelah itu kita desain tampilkan FrmBuku dan FrmAddEditBuku seperti berikut :</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2012/04/26042012-13.png"><img src="http://coding4ever.files.wordpress.com/2012/04/26042012-13.png" alt="" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2012/04/26042012-14.png"><img src="http://coding4ever.files.wordpress.com/2012/04/26042012-14.png" alt="" /></a></p>
+
+<p><strong>Menambahkan Library SmartLibraryLib</strong></p>
+
+<p>Sama seperti aplikasi server (SmartLibraryServer) yang membutuhkan library SmartLibraryLib, aplikasi klien (SmartLibraryKlien) juga membutuhkan library ini, tujuannya adalah agar aplikasi server dan klien bisa berkomunikasi dengan cara yang sama.</p>
+
+<p>Oke berikut langkah-langkahnya :</p>
+
+<ol>
+<li>Klik kanan folder References -> Add Reference…</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2012/04/26042012-15.png"><img src="http://coding4ever.files.wordpress.com/2012/04/26042012-15.png" alt="" /></a></p>
+
+<ol>
+<li>Aktifkan tab Projects kemudian pilih SmartLibraryLib</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2012/04/26042012-16.png"><img src="http://coding4ever.files.wordpress.com/2012/04/26042012-16.png" alt="" /></a></p>
+
+<ol>
+<li>Jika langkah sebelumnya berhasil akan ketambahan 1 buah node dengan nama SmartLibraryLib pada folder References</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2012/04/26042012-17.png"><img src="http://coding4ever.files.wordpress.com/2012/04/26042012-17.png" alt="" /></a></p>
+
+<p>Sampai disini kita tinggal melengkapi kode FrmBuku dan FrmAddEditBuku.</p>
+
+<p>Berikut ringkasan kodenya.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="c1">// namespace utk mengakses interface dao dan class model</span>
+</span><span class='line'><span class="k">using</span> <span class="nn">SmartLibraryLib.IDao</span><span class="p">;</span>
+</span><span class='line'><span class="k">using</span> <span class="nn">SmartLibraryLib.Model</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Kode diatas perlu ditambahkan agar FrmBuku bisa mengakses semua interface dan class model yang ada di dalam library SmartLibraryLib.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="n">IBukuDao</span> <span class="n">bukuDao</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Objek bukuDao merupakan objek dari interface IBukuDao yang berfungsi sebagai proxy dari remote object class BukuDao.</p>
+
+<p>Sebuah method jika dipanggil melalui objek proxy maka akan dieksekusi secara remote.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="c1">// constructor</span>
+</span><span class='line'><span class="k">public</span> <span class="nf">FrmBuku</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">InitializeComponent</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kt">string</span> <span class="n">server</span> <span class="p">=</span> <span class="s">&quot;localhost&quot;</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">string</span> <span class="n">port</span> <span class="p">=</span> <span class="s">&quot;1234&quot;</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">string</span> <span class="n">uri</span> <span class="p">=</span> <span class="s">&quot;SmartLibraryServer.BukuDao&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kt">string</span> <span class="n">url</span> <span class="p">=</span> <span class="s">&quot;tcp://&quot;</span> <span class="p">+</span> <span class="n">server</span> <span class="p">+</span> <span class="s">&quot;:&quot;</span> <span class="p">+</span> <span class="n">port</span> <span class="p">+</span> <span class="s">&quot;/&quot;</span> <span class="p">+</span> <span class="n">uri</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// mendapatkan proxy untuk remote object dari class BukuDao</span>
+</span><span class='line'>    <span class="n">bukuDao</span> <span class="p">=</span> <span class="p">(</span><span class="n">IBukuDao</span><span class="p">)</span><span class="n">Activator</span><span class="p">.</span><span class="n">GetObject</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="n">IBukuDao</span><span class="p">),</span> <span class="n">url</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// tampilkan semua data buku</span>
+</span><span class='line'>    <span class="n">LoadDataBuku</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Kode diatas adalah sebuah constructor dan seharusnya kita sudah tidak asing lagi dengan yang satu ini.</p>
+
+<p>Constructor adalah method khusus yang akan dipanggil pada saat menciptakan objek dari sebuah class.</p>
+
+<p>Penjelasan dari mana datangnya nilai <strong>locahost</strong>, <strong>1234</strong> dan <strong>SmartLibraryServer.BukuDao</strong> pada kode di atas bisa Anda lihat di<a href="http://coding4ever.net/blog/2012/03/23/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-3/">sini</a>.</p>
+
+<p><strong>Menampilkan Data</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="c1">// method untuk menampilkan data buku ke listview</span>
+</span><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">FillToListView</span><span class="p">(</span><span class="kt">bool</span> <span class="n">addData</span><span class="p">,</span> <span class="n">Buku</span> <span class="n">buku</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">addData</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="kt">int</span> <span class="n">noUrut</span> <span class="p">=</span> <span class="n">lvwBuku</span><span class="p">.</span><span class="n">Items</span><span class="p">.</span><span class="n">Count</span> <span class="p">+</span> <span class="m">1</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">ListViewItem</span> <span class="n">item</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ListViewItem</span><span class="p">(</span><span class="n">noUrut</span><span class="p">.</span><span class="n">ToString</span><span class="p">());</span>
+</span><span class='line'>        <span class="n">item</span><span class="p">.</span><span class="n">SubItems</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">buku</span><span class="p">.</span><span class="n">ISBN</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">item</span><span class="p">.</span><span class="n">SubItems</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">buku</span><span class="p">.</span><span class="n">Judul</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">item</span><span class="p">.</span><span class="n">SubItems</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">buku</span><span class="p">.</span><span class="n">Bahasa</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">item</span><span class="p">.</span><span class="n">SubItems</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">buku</span><span class="p">.</span><span class="n">Edisi</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">item</span><span class="p">.</span><span class="n">SubItems</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">buku</span><span class="p">.</span><span class="n">Penerbit</span><span class="p">.</span><span class="n">Nama</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">lvwBuku</span><span class="p">.</span><span class="n">Items</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">item</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="kt">int</span> <span class="n">row</span> <span class="p">=</span> <span class="n">lvwBuku</span><span class="p">.</span><span class="n">SelectedIndices</span><span class="p">[</span><span class="m">0</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">ListViewItem</span> <span class="n">itemRow</span> <span class="p">=</span> <span class="n">lvwBuku</span><span class="p">.</span><span class="n">Items</span><span class="p">[</span><span class="n">row</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">itemRow</span><span class="p">.</span><span class="n">SubItems</span><span class="p">[</span><span class="m">2</span><span class="p">].</span><span class="n">Text</span> <span class="p">=</span> <span class="n">buku</span><span class="p">.</span><span class="n">Judul</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">itemRow</span><span class="p">.</span><span class="n">SubItems</span><span class="p">[</span><span class="m">3</span><span class="p">].</span><span class="n">Text</span> <span class="p">=</span> <span class="n">buku</span><span class="p">.</span><span class="n">Bahasa</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">itemRow</span><span class="p">.</span><span class="n">SubItems</span><span class="p">[</span><span class="m">4</span><span class="p">].</span><span class="n">Text</span> <span class="p">=</span> <span class="n">buku</span><span class="p">.</span><span class="n">Edisi</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">itemRow</span><span class="p">.</span><span class="n">SubItems</span><span class="p">[</span><span class="m">5</span><span class="p">].</span><span class="n">Text</span> <span class="p">=</span> <span class="n">buku</span><span class="p">.</span><span class="n">Penerbit</span><span class="p">.</span><span class="n">Nama</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// method untuk menampilkan semua data buku</span>
+</span><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">LoadDataBuku</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">lvwBuku</span><span class="p">.</span><span class="n">Items</span><span class="p">.</span><span class="n">Clear</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">List</span><span class="p">&lt;</span><span class="n">Buku</span><span class="p">&gt;</span> <span class="n">daftarBuku</span> <span class="p">=</span> <span class="n">bukuDao</span><span class="p">.</span><span class="n">GetAll</span><span class="p">();</span>
+</span><span class='line'>    <span class="k">foreach</span> <span class="p">(</span><span class="n">Buku</span> <span class="n">buku</span> <span class="k">in</span> <span class="n">daftarBuku</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">FillToListView</span><span class="p">(</span><span class="k">true</span><span class="p">,</span> <span class="n">buku</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// method untuk menampilkan semua data buku berdasarkan judul</span>
+</span><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">LoadDataBuku</span><span class="p">(</span><span class="kt">string</span> <span class="n">judul</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">lvwBuku</span><span class="p">.</span><span class="n">Items</span><span class="p">.</span><span class="n">Clear</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">List</span><span class="p">&lt;</span><span class="n">Buku</span><span class="p">&gt;</span> <span class="n">daftarBuku</span> <span class="p">=</span> <span class="n">bukuDao</span><span class="p">.</span><span class="n">GetByName</span><span class="p">(</span><span class="n">judul</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">foreach</span> <span class="p">(</span><span class="n">Buku</span> <span class="n">buku</span> <span class="k">in</span> <span class="n">daftarBuku</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">FillToListView</span><span class="p">(</span><span class="k">true</span><span class="p">,</span> <span class="n">buku</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Menyimpan dan Mengupdate Data</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">btnSimpan_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">EventArgs</span> <span class="n">e</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">result</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">Buku</span> <span class="n">buku</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Buku</span><span class="p">();</span>
+</span><span class='line'>    <span class="n">buku</span><span class="p">.</span><span class="n">ISBN</span> <span class="p">=</span> <span class="n">txtISBN</span><span class="p">.</span><span class="n">Text</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">buku</span><span class="p">.</span><span class="n">Judul</span> <span class="p">=</span> <span class="n">txtJudul</span><span class="p">.</span><span class="n">Text</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">buku</span><span class="p">.</span><span class="n">Bahasa</span> <span class="p">=</span> <span class="n">txtBahasa</span><span class="p">.</span><span class="n">Text</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">buku</span><span class="p">.</span><span class="n">Edisi</span> <span class="p">=</span> <span class="n">txtEdisi</span><span class="p">.</span><span class="n">Text</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">buku</span><span class="p">.</span><span class="n">Penerbit</span><span class="p">.</span><span class="n">PenerbitID</span> <span class="p">=</span> <span class="n">penerbitID</span><span class="p">[</span><span class="n">cmbPenerbit</span><span class="p">.</span><span class="n">SelectedIndex</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="n">addData</span><span class="p">)</span> <span class="c1">// data baru</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">result</span> <span class="p">=</span> <span class="n">bukuDao</span><span class="p">.</span><span class="n">Save</span><span class="p">(</span><span class="n">buku</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="n">ResetInput</span><span class="p">();</span>
+</span><span class='line'>            <span class="n">txtISBN</span><span class="p">.</span><span class="n">Focus</span><span class="p">();</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">else</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="s">&quot;Data buku gagal disimpan&quot;</span><span class="p">,</span> <span class="s">&quot;Peringatan&quot;</span><span class="p">,</span> <span class="n">MessageBoxButtons</span><span class="p">.</span><span class="n">OK</span><span class="p">,</span> <span class="n">MessageBoxIcon</span><span class="p">.</span><span class="n">Exclamation</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">result</span> <span class="p">=</span> <span class="n">bukuDao</span><span class="p">.</span><span class="n">Update</span><span class="p">(</span><span class="n">buku</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="k">this</span><span class="p">.</span><span class="n">Close</span><span class="p">();</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">else</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="s">&quot;Data buku gagal disimpan&quot;</span><span class="p">,</span> <span class="s">&quot;Peringatan&quot;</span><span class="p">,</span> <span class="n">MessageBoxButtons</span><span class="p">.</span><span class="n">OK</span><span class="p">,</span> <span class="n">MessageBoxIcon</span><span class="p">.</span><span class="n">Exclamation</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Menghapus Data</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">btnHapus_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">EventArgs</span> <span class="n">e</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">lvwBuku</span><span class="p">.</span><span class="n">SelectedItems</span><span class="p">.</span><span class="n">Count</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="kt">int</span> <span class="n">row</span> <span class="p">=</span> <span class="n">lvwBuku</span><span class="p">.</span><span class="n">SelectedIndices</span><span class="p">[</span><span class="m">0</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">ListViewItem</span> <span class="n">itemRow</span> <span class="p">=</span> <span class="n">lvwBuku</span><span class="p">.</span><span class="n">Items</span><span class="p">[</span><span class="n">row</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">Buku</span> <span class="n">buku</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Buku</span><span class="p">();</span>
+</span><span class='line'>        <span class="n">buku</span><span class="p">.</span><span class="n">ISBN</span> <span class="p">=</span> <span class="n">itemRow</span><span class="p">.</span><span class="n">SubItems</span><span class="p">[</span><span class="m">1</span><span class="p">].</span><span class="n">Text</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">buku</span><span class="p">.</span><span class="n">Judul</span> <span class="p">=</span> <span class="n">itemRow</span><span class="p">.</span><span class="n">SubItems</span><span class="p">[</span><span class="m">2</span><span class="p">].</span><span class="n">Text</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kt">string</span> <span class="n">msg</span> <span class="p">=</span> <span class="s">&quot;Apakah data buku &#39;&quot;</span> <span class="p">+</span> <span class="n">buku</span><span class="p">.</span><span class="n">Judul</span> <span class="p">+</span> <span class="s">&quot;&#39; ingin dihapus ?&quot;</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="s">&quot;Konfirmasi&quot;</span><span class="p">,</span> <span class="n">MessageBoxButtons</span><span class="p">.</span><span class="n">YesNo</span><span class="p">,</span> <span class="n">MessageBoxIcon</span><span class="p">.</span><span class="n">Exclamation</span><span class="p">)</span> <span class="p">==</span> <span class="n">DialogResult</span><span class="p">.</span><span class="n">Yes</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="kt">int</span> <span class="n">result</span> <span class="p">=</span> <span class="n">bukuDao</span><span class="p">.</span><span class="n">Delete</span><span class="p">(</span><span class="n">buku</span><span class="p">);</span>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span> <span class="c1">// data barang berhasil dihapus</span>
+</span><span class='line'>            <span class="p">{</span>
+</span><span class='line'>                <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="s">&quot;Data buku berhasil dihapus&quot;</span><span class="p">,</span> <span class="s">&quot;Informasi&quot;</span><span class="p">,</span> <span class="n">MessageBoxButtons</span><span class="p">.</span><span class="n">OK</span><span class="p">,</span> <span class="n">MessageBoxIcon</span><span class="p">.</span><span class="n">Information</span><span class="p">);</span>
+</span><span class='line'>                <span class="n">LoadDataBuku</span><span class="p">();</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="k">else</span>
+</span><span class='line'>            <span class="p">{</span>
+</span><span class='line'>                <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="s">&quot;Data buku gagal dihapus&quot;</span><span class="p">,</span> <span class="s">&quot;Warning&quot;</span><span class="p">,</span> <span class="n">MessageBoxButtons</span><span class="p">.</span><span class="n">OK</span><span class="p">,</span> <span class="n">MessageBoxIcon</span><span class="p">.</span><span class="n">Warning</span><span class="p">);</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">else</span> <span class="c1">// data belum dipilih</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="s">&quot;Data belum dipilih&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Menjalankan dua project secara bersamaan</strong></p>
+
+<p>Secara defaut pada saat kita menjalankan program (F5) hanya satu project yang akan dijalankan dalam satu waktu, sedangkan untuk mencoba aplikasi ini kita harus menjalankan project SmartLibraryServer dan SmartLibraryKlin secara bersamaan.</p>
+
+<p>Untuk merubah setting ini berikut langkah-langkahnya :</p>
+
+<ol>
+<li>Klik kanan solution -> Set Startup Projects</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2012/04/26042012-18.png"><img src="http://coding4ever.files.wordpress.com/2012/04/26042012-18.png" alt="" /></a></p>
+
+<ol>
+<li>Pada dialog Solution aktifkan pilihan Multiple startup projects kemudian atur urutan eksekusinya (server dulu kemudian klien)</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2012/04/26042012-19.png"><img src="http://coding4ever.files.wordpress.com/2012/04/26042012-19.png" alt="" /></a></p>
+
+<p>Setelah itu kita bisa langsung menekan tombol F5</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2012/04/26042012-20.png"><img src="http://coding4ever.files.wordpress.com/2012/04/26042012-20.png" alt="" /></a></p>
+
+<p>Pada gambar diatas terlihat setiap kali aplikasi klien mengakses method CRUD, prosesnya akan dijalankan di sisi server, ini dibuktikan dengan muncul pesan &ldquo;Method <nama method> dieksekusi di sisi server&rdquo;.</p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/SmartLibrary2">MENCOBA</a> :)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Admin</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2012-04-28T13:48:58+07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>1:48 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/dot-net-remoting/'>.net remoting</a>, <a class='category' href='/blog/categories/visual-c-number/'>visual c#</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/03/23/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-3/" title="Previous Post: Pembuatan Aplikasi Client Server dengan Arsitektur 3-tier Part 3">&laquo; Pembuatan Aplikasi Client Server dengan Arsitektur 3-tier Part 3</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/05/03/disableenable-windows-task-manager-c-edition/" title="Next Post: Disable/Enable Task Manager Windows 7 C# Edition">Disable/Enable Task Manager Windows 7 C# Edition &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Admin</h1>
+  <p>Software developer yang berasal dari Riau, tapi malah betah tinggal di Yogyakarta :)</p>
+  
+  <p>Pernah mengajar di salah satu perguruan tinggi swasta (PTS) di Yogyakarta.<br>
+     Saat ini bekerja sebagai staf IT di PTS yang sama sebagai senior software developer.</p>
+  
+  <p>Fokus mengembangkan aplikasi di atas platform .NET dan Android. Diwaktu luang insya Alloh akan terus berbagi pengalaman di blog <a href="http://coding4ever.net/" target="_blank">ini</a>.</p>    
+</section><section>
+  <h1>Contacts :</h1>
+    <ul>		
+		<li>			
+			<a href="mailto:coding4ever.net@gmail.com" title="GMail" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/gmail-small2.png" border="0" alt="GMail" /></a>
+		</li>		
+		<li>			
+			<a href="https://github.com/k4m4r82?tab=repositories" title="GitHub" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/github-small2.png" border="0" alt="GitHub" /></a>
+		</li>
+		<li>
+			<a href="http://www.facebook.com/abu.anas.1232" title="Facebook" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/fb-small2.png" border="0" alt="Facebook" /></a>
+		</li>				
+	</ul>
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/04/14/paket-nuget-yang-wajib-dicoba-bagian-number-1-crashreporter-dot-net/">Paket NuGet Yang Wajib Dicoba Bagian #1 - CrashReporter.NET</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/13/comment-as-a-guest/">Comment as a Guest</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push/">Membuat Laporan Crystal Reports .NET Dengan Model Data-Push</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/11/blog-lama-coding4ever-aktif-kembali/">Blog Lama Coding4ever Aktif Kembali</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/11/06/kr-pulsa-elektrik/">KR Pulsa Elektrik</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/08/entity-framework-part-8/">Entity Framework Part 8</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/manajemen-proyek-menggunakan-redmine-bagian-1/">Manajemen Proyek Menggunakan Redmine Bagian 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/21/manajemen-password-menggunakan-keepass/">Manajemen Password Menggunakan KeePass</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/10/sms-gateway-edisi-net-part-1/">SMS Gateway Edisi .NET Part 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/11/entity-framework-part-7/">Entity Framework Part 7</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+    <ul id="category-list"><li><a href='/blog/categories/dot-net-remoting/'>.net remoting (9)</a></li><li><a href='/blog/categories/active-report/'>active report (4)</a></li><li><a href='/blog/categories/android/'>android (1)</a></li><li><a href='/blog/categories/aplikasi/'>aplikasi (4)</a></li><li><a href='/blog/categories/crashreporter-dot-net/'>crashreporter.net (1)</a></li><li><a href='/blog/categories/crystal-reports-net/'>crystal reports .net (1)</a></li><li><a href='/blog/categories/dapper-net/'>dapper .net (3)</a></li><li><a href='/blog/categories/entity-framework/'>entity framework (8)</a></li><li><a href='/blog/categories/firebird/'>firebird (11)</a></li><li><a href='/blog/categories/freeware/'>freeware (7)</a></li><li><a href='/blog/categories/inno-setup/'>inno setup (6)</a></li><li><a href='/blog/categories/jaringan/'>jaringan (1)</a></li><li><a href='/blog/categories/mysql/'>mysql (3)</a></li><li><a href='/blog/categories/nsis/'>nsis (2)</a></li><li><a href='/blog/categories/nuget/'>nuget (4)</a></li><li><a href='/blog/categories/sql-server-2000/'>sql server 2000 (1)</a></li><li><a href='/blog/categories/sqlite/'>sqlite (3)</a></li><li><a href='/blog/categories/tools-installer/'>tools installer (8)</a></li><li><a href='/blog/categories/uncategorized/'>uncategorized (8)</a></li><li><a href='/blog/categories/visual-basic/'>visual basic (73)</a></li><li><a href='/blog/categories/visual-basic-net/'>visual basic .net (11)</a></li><li><a href='/blog/categories/visual-c-number/'>visual c# (34)</a></li><li><a href='/blog/categories/winsock/'>winsock (6)</a></li></ul>
+</section>
+<section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/blog/categories/dot-net-remoting' style='font-size: 107.3972602739726%'>.net remoting(9)</a> <a href='/blog/categories/active-report' style='font-size: 103.28767123287672%'>active report(4)</a> <a href='/blog/categories/android' style='font-size: 100.82191780821918%'>android(1)</a> <a href='/blog/categories/aplikasi' style='font-size: 103.28767123287672%'>aplikasi(4)</a> <a href='/blog/categories/crashreporter-dot-net' style='font-size: 100.82191780821918%'>crashreporter.net(1)</a> <a href='/blog/categories/crystal-reports-net' style='font-size: 100.82191780821918%'>crystal reports .net(1)</a> <a href='/blog/categories/dapper-net' style='font-size: 102.46575342465754%'>dapper .net(3)</a> <a href='/blog/categories/entity-framework' style='font-size: 106.57534246575342%'>entity framework(8)</a> <a href='/blog/categories/firebird' style='font-size: 109.04109589041096%'>firebird(11)</a> <a href='/blog/categories/freeware' style='font-size: 105.75342465753425%'>freeware(7)</a> <a href='/blog/categories/inno-setup' style='font-size: 104.93150684931507%'>inno setup(6)</a> <a href='/blog/categories/jaringan' style='font-size: 100.82191780821918%'>jaringan(1)</a> <a href='/blog/categories/mysql' style='font-size: 102.46575342465754%'>mysql(3)</a> <a href='/blog/categories/nsis' style='font-size: 101.64383561643835%'>nsis(2)</a> <a href='/blog/categories/nuget' style='font-size: 103.28767123287672%'>nuget(4)</a> <a href='/blog/categories/sql-server-2000' style='font-size: 100.82191780821918%'>sql server 2000(1)</a> <a href='/blog/categories/sqlite' style='font-size: 102.46575342465754%'>sqlite(3)</a> <a href='/blog/categories/tools-installer' style='font-size: 106.57534246575342%'>tools installer(8)</a> <a href='/blog/categories/uncategorized' style='font-size: 106.57534246575342%'>uncategorized(8)</a> <a href='/blog/categories/visual-basic' style='font-size: 160.0%'>visual basic(73)</a> <a href='/blog/categories/visual-basic-net' style='font-size: 109.04109589041096%'>visual basic .net(11)</a> <a href='/blog/categories/visual-c-number' style='font-size: 127.94520547945206%'>visual c#(34)</a> <a href='/blog/categories/winsock' style='font-size: 104.93150684931507%'>winsock(6)</a> </span>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'k4m4r82',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2009 - 2015 - Admin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'coding4ever';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://coding4ever.net/blog/2012/04/28/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-4/';
+        var disqus_url = 'http://coding4ever.net/blog/2012/04/28/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-4/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

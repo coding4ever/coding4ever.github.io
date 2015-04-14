@@ -1,0 +1,454 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Belajar Winsock Bagian 3 – Multiple Connection - Coding4ever&#8217;s Blog</title>
+  <meta name="author" content="Admin">
+
+  
+  <meta name="description" content="Di postingan saya sebelumnya kita sudah mengetahui bagai mana cara membuat aplikasi chat sederhana yang hanya melibatkan saya dan Anda :D, dan bagai &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://coding4ever.net/blog/2010/01/30/belajar-winsock-bagian-3-e28093-multiple-connection">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Coding4ever's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50866618-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Coding4ever&#8217;s Blog</a></h1>
+  
+    <h2>Just coding&#8230; coding&#8230; and coding&#8230; because coding should be fun :)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:coding4ever.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/gudang-software">Gudang Software</a></li>
+  <li><a href="/source-code">Source Code</a></li>  
+  <li><a href="/aplikasi-gratis">Aplikasi Gratis</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Belajar Winsock Bagian 3 – Multiple Connection</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2010-01-30T10:52:28+07:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>10:52 am</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Di <a href="http://coding4ever.net/blog/2010/01/28/belajar-winsock-bagian-2-membuat-aplikasi-chat-sederhana-11/">postingan</a> saya sebelumnya kita sudah mengetahui bagai mana cara membuat aplikasi chat sederhana yang hanya melibatkan saya dan Anda :D, dan bagai mana jika ada teman saya yang lain ikut nimbrung ?</p>
+
+<p>Jelas ini tidak bisa karena 1 winsock hanya bisa menangani 1 port, trus bagaimana jika kita ingin teman kita yang lain bisa konek di port yang sama dan hanya menggunakan 1 winsock? Jawabannya sederhana objek winsocknya kita jadikan array.</p>
+
+<!-- more -->
+
+
+<p>Oke, masukkan objek winsock ke form kemudian untuk menjadikannya sebagai objek array kita cukup mengset properties Index=0, jadi winsock dengan index 0 bertugas untuk mengecek permintaan koneksi masuk dan mengalokasikannya kepada yang berhak :) dan tentu saja untuk melakukan hal ini harus dalam mode mendengarkan/Listen</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub Form_Load()
+</span><span class='line'>    With Winsock1(0)
+</span><span class='line'>        .Close
+</span><span class='line'>        .LocalPort = 11111 'nilai port ini bisa diganti
+</span><span class='line'>        .Listen
+</span><span class='line'>    End With
+</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Ketika ada permintaan koneksi di port 11111, kita harus menambahkan objek winsock baru untuk menerima permintaan koneksi tersebut dan karena objek winsock yang baru tidak kita set properties LocalPortnya otomatis windows yang akan memberikan nilai Port secara acak.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub Winsock1_ConnectionRequest(Index As Integer, ByVal requestID As Long)
+</span><span class='line'>    'we should only be getting connection requests from
+</span><span class='line'>    'Index 0 because thats the only one that is listening
+</span><span class='line'>
+</span><span class='line'>    'load a new winsock
+</span><span class='line'>    Load Winsock1(Winsock1.UBound + 1)
+</span><span class='line'>
+</span><span class='line'>    'accept the incoming connection on our new control
+</span><span class='line'>    Winsock1(Winsock1.UBound).Accept requestID
+</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Fungsi <strong>UBound</strong> digunakan untuk mendapatkan nilai index terakhir dari objek array, jadi untuk mengetahui berapa jumlah objek arraynya kita cukup memanggil fungsi <strong>UBound + 1</strong>.</p>
+
+<p>Solusi menggunakan winsock array diatas masih mempunyai sedikit masalah, misalkan kita sudah mempunyai 5 koneksi di port 11111 ini artinya kita sudah mempunyai 6 objek winsock yang aktif, index 0 dalam mode mendengarkan/Listen, dan 1 sampai 5 konek ke klien.</p>
+
+<p>Apa yang terjadi jika 3 klien tidak terkoneksi lagi? Sebenarnya sih enggak terlalu bermasalah, masalahnya adalah jika ada klien lain yang konek ke server otomatis objek winsock baru ditambahkan lagi untuk menerima koneksi yang baru, padahal ada 3 objek winsock yang sedang nganggur/idle.</p>
+
+<p>Bayangkan jika kita diminta untuk membuat aplikasi billing warnet dengan 100 klien, ada 50 klien yang sudah disconnect kemudian ada 50 klien lagi yang baru konek. Ini artinya kita mempunyai 50 objek winsock nganggur/idle yang jelas-jelas merupakan pemborosan memory dan bagai mana jika hal tersebut terulang lagi, lagi dan lagi.</p>
+
+<p>Bagaimana solusinya? Yaph sebenarnya ini juga gampang, jadi jika ada permintaan koneksi dari klien kita cek dulu ada nggak objek winsock yang idle, kalo ada arahkan agar winsock yang idle tadi untuk menerima koneksi tersebut, jika tidak ada baru kita tambahkan objek winsock yang baru untuk menerima koneksi tersebut sehingga kode sebelumnya harus kita revisi menjadi :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub Winsock1_ConnectionRequest(Index As Integer, ByVal requestID As Long)
+</span><span class='line'>    Dim i          As Long
+</span><span class='line'>    Dim j          As Long
+</span><span class='line'>
+</span><span class='line'>    On Error GoTo errHandle
+</span><span class='line'>
+</span><span class='line'>    If Index = 0 Then 'ingat yang bertugas untuk mengecek permintaan koneksi adalah objek winsock dengan index = 0
+</span><span class='line'>        'ini bagian yang bertugas untuk mengecek winsock yang idle
+</span><span class='line'>        For i = 1 To Winsock1.UBound
+</span><span class='line'>            If Winsock1(i).State = sckClosed Or Winsock1(i).State = sckClosing Then
+</span><span class='line'>                j = i   'var j menampung index winsock yang idle
+</span><span class='line'>                Exit For
+</span><span class='line'>            End If
+</span><span class='line'>        Next i
+</span><span class='line'>
+</span><span class='line'>        'jika j = 0 berarti semua winsock kepakai, otomatis kita harus menambahkan winsock yang baru
+</span><span class='line'>        If j = 0 Then
+</span><span class='line'>            Call Load(Winsock1(Winsock1.UBound + 1))
+</span><span class='line'>            j = Winsock1.UBound
+</span><span class='line'>        End If
+</span><span class='line'>
+</span><span class='line'>        'terima koneksi yang baru
+</span><span class='line'>        With Winsock1(j)
+</span><span class='line'>            Call .Close
+</span><span class='line'>            Call .Accept(requestID)
+</span><span class='line'>        End With
+</span><span class='line'>
+</span><span class='line'>    End If
+</span><span class='line'>
+</span><span class='line'>    Exit Sub
+</span><span class='line'>
+</span><span class='line'>errHandle:
+</span><span class='line'>    Call Winsock1(0).Close
+</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Yaph cukup itu saja, contoh programnya bisa didownload di<a href="https://github.com/k4m4r82/AplikasiChat2">sini</a>.</p>
+
+<p>Artikel berikutnya insya Alloh dengan judul <a href="http://coding4ever.net/blog/2010/02/02/belajar-winsock-bagian-4-%E2%80%93-membuat-jaringan-vpn-sendiri/">Belajar Winsock bagian 4 – Membuat jaringan VPN sendiri</a>.</p>
+
+<p>Di artikel tersebut saya sudah tidak membahas penggunaan winsock lagi tetapi artikel tersebut dibutuhkan agar saya bisa menulis artikel terakhir dari 5 seri belajar Winsock ini yang berjudul <a href="http://coding4ever.net/blog/2010/02/04/belajar-winsock-bagian-akhir-%e2%80%93-contoh-kasus-mengakses-data-stok-barang-dari-luar/">Belajar Winsock bagian akhir – Contoh kasus mengakses data stok barang dari luar</a>.</p>
+
+<p>Dan tentunya ini bukan via web (kalo yang ini sudah enggak perlu dibahas lagi) tetapi tetap dengan mengembangkan contoh-contoh program winsock sebelumnya, dan sebagai uji coba untuk komputer server toko yang akan diakses menggunakan speedy sedangkan saya menggunakan starone dan mudah-mudahan saja uji coba ini berhasil :).</p>
+
+<p>Selamat mencoba :)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Admin</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2010-01-30T10:52:28+07:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>10:52 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/visual-basic/'>visual basic</a>, <a class='category' href='/blog/categories/winsock/'>winsock</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2010/01/28/belajar-winsock-bagian-2-membuat-aplikasi-chat-sederhana-11/" title="Previous Post: Belajar Winsock bagian 2 - Membuat aplikasi chat sederhana 1:1">&laquo; Belajar Winsock bagian 2 - Membuat aplikasi chat sederhana 1:1</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2010/02/02/belajar-winsock-bagian-4-e28093-membuat-jaringan-vpn-sendiri/" title="Next Post: Belajar Winsock bagian 4 – Membuat jaringan VPN sendiri">Belajar Winsock bagian 4 – Membuat jaringan VPN sendiri &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Admin</h1>
+  <p>Software developer yang berasal dari Riau, tapi malah betah tinggal di Yogyakarta :)</p>
+  
+  <p>Pernah mengajar di salah satu perguruan tinggi swasta (PTS) di Yogyakarta.<br>
+     Saat ini bekerja sebagai staf IT di PTS yang sama sebagai senior software developer.</p>
+  
+  <p>Fokus mengembangkan aplikasi di atas platform .NET dan Android. Diwaktu luang insya Alloh akan terus berbagi pengalaman di blog <a href="http://coding4ever.net/" target="_blank">ini</a>.</p>    
+</section><section>
+  <h1>Contacts :</h1>
+    <ul>		
+		<li>			
+			<a href="mailto:coding4ever.net@gmail.com" title="GMail" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/gmail-small2.png" border="0" alt="GMail" /></a>
+		</li>		
+		<li>			
+			<a href="https://github.com/k4m4r82?tab=repositories" title="GitHub" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/github-small2.png" border="0" alt="GitHub" /></a>
+		</li>
+		<li>
+			<a href="http://www.facebook.com/abu.anas.1232" title="Facebook" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/fb-small2.png" border="0" alt="Facebook" /></a>
+		</li>				
+	</ul>
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/04/14/paket-nuget-yang-wajib-dicoba-bagian-number-1-crashreporter-dot-net/">Paket NuGet Yang Wajib Dicoba Bagian #1 - CrashReporter.NET</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/13/comment-as-a-guest/">Comment as a Guest</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push/">Membuat Laporan Crystal Reports .NET Dengan Model Data-Push</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/11/blog-lama-coding4ever-aktif-kembali/">Blog Lama Coding4ever Aktif Kembali</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/11/06/kr-pulsa-elektrik/">KR Pulsa Elektrik</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/08/entity-framework-part-8/">Entity Framework Part 8</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/manajemen-proyek-menggunakan-redmine-bagian-1/">Manajemen Proyek Menggunakan Redmine Bagian 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/21/manajemen-password-menggunakan-keepass/">Manajemen Password Menggunakan KeePass</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/10/sms-gateway-edisi-net-part-1/">SMS Gateway Edisi .NET Part 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/11/entity-framework-part-7/">Entity Framework Part 7</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+    <ul id="category-list"><li><a href='/blog/categories/dot-net-remoting/'>.net remoting (9)</a></li><li><a href='/blog/categories/active-report/'>active report (4)</a></li><li><a href='/blog/categories/android/'>android (1)</a></li><li><a href='/blog/categories/aplikasi/'>aplikasi (4)</a></li><li><a href='/blog/categories/crashreporter-dot-net/'>crashreporter.net (1)</a></li><li><a href='/blog/categories/crystal-reports-net/'>crystal reports .net (1)</a></li><li><a href='/blog/categories/dapper-net/'>dapper .net (3)</a></li><li><a href='/blog/categories/entity-framework/'>entity framework (8)</a></li><li><a href='/blog/categories/firebird/'>firebird (11)</a></li><li><a href='/blog/categories/freeware/'>freeware (7)</a></li><li><a href='/blog/categories/inno-setup/'>inno setup (6)</a></li><li><a href='/blog/categories/jaringan/'>jaringan (1)</a></li><li><a href='/blog/categories/mysql/'>mysql (3)</a></li><li><a href='/blog/categories/nsis/'>nsis (2)</a></li><li><a href='/blog/categories/nuget/'>nuget (4)</a></li><li><a href='/blog/categories/sql-server-2000/'>sql server 2000 (1)</a></li><li><a href='/blog/categories/sqlite/'>sqlite (3)</a></li><li><a href='/blog/categories/tools-installer/'>tools installer (8)</a></li><li><a href='/blog/categories/uncategorized/'>uncategorized (8)</a></li><li><a href='/blog/categories/visual-basic/'>visual basic (73)</a></li><li><a href='/blog/categories/visual-basic-net/'>visual basic .net (11)</a></li><li><a href='/blog/categories/visual-c-number/'>visual c# (34)</a></li><li><a href='/blog/categories/winsock/'>winsock (6)</a></li></ul>
+</section>
+<section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/blog/categories/dot-net-remoting' style='font-size: 107.3972602739726%'>.net remoting(9)</a> <a href='/blog/categories/active-report' style='font-size: 103.28767123287672%'>active report(4)</a> <a href='/blog/categories/android' style='font-size: 100.82191780821918%'>android(1)</a> <a href='/blog/categories/aplikasi' style='font-size: 103.28767123287672%'>aplikasi(4)</a> <a href='/blog/categories/crashreporter-dot-net' style='font-size: 100.82191780821918%'>crashreporter.net(1)</a> <a href='/blog/categories/crystal-reports-net' style='font-size: 100.82191780821918%'>crystal reports .net(1)</a> <a href='/blog/categories/dapper-net' style='font-size: 102.46575342465754%'>dapper .net(3)</a> <a href='/blog/categories/entity-framework' style='font-size: 106.57534246575342%'>entity framework(8)</a> <a href='/blog/categories/firebird' style='font-size: 109.04109589041096%'>firebird(11)</a> <a href='/blog/categories/freeware' style='font-size: 105.75342465753425%'>freeware(7)</a> <a href='/blog/categories/inno-setup' style='font-size: 104.93150684931507%'>inno setup(6)</a> <a href='/blog/categories/jaringan' style='font-size: 100.82191780821918%'>jaringan(1)</a> <a href='/blog/categories/mysql' style='font-size: 102.46575342465754%'>mysql(3)</a> <a href='/blog/categories/nsis' style='font-size: 101.64383561643835%'>nsis(2)</a> <a href='/blog/categories/nuget' style='font-size: 103.28767123287672%'>nuget(4)</a> <a href='/blog/categories/sql-server-2000' style='font-size: 100.82191780821918%'>sql server 2000(1)</a> <a href='/blog/categories/sqlite' style='font-size: 102.46575342465754%'>sqlite(3)</a> <a href='/blog/categories/tools-installer' style='font-size: 106.57534246575342%'>tools installer(8)</a> <a href='/blog/categories/uncategorized' style='font-size: 106.57534246575342%'>uncategorized(8)</a> <a href='/blog/categories/visual-basic' style='font-size: 160.0%'>visual basic(73)</a> <a href='/blog/categories/visual-basic-net' style='font-size: 109.04109589041096%'>visual basic .net(11)</a> <a href='/blog/categories/visual-c-number' style='font-size: 127.94520547945206%'>visual c#(34)</a> <a href='/blog/categories/winsock' style='font-size: 104.93150684931507%'>winsock(6)</a> </span>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'k4m4r82',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2009 - 2015 - Admin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'coding4ever';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://coding4ever.net/blog/2010/01/30/belajar-winsock-bagian-3-e28093-multiple-connection/';
+        var disqus_url = 'http://coding4ever.net/blog/2010/01/30/belajar-winsock-bagian-3-e28093-multiple-connection/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

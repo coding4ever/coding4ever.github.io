@@ -1,0 +1,698 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Membuat Rumus Penilaian Dinamis - Coding4ever&#8217;s Blog</title>
+  <meta name="author" content="Admin">
+
+  
+  <meta name="description" content="Setahun yang lalu, sewaktu saya masih aktif mengembangkan aplikasi sekolah di beberapa kabupaten di Riau, masalah yang sering saya hadapi adalah  &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://coding4ever.net/blog/2010/09/02/membuat-rumus-penilaian-dinamis">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Coding4ever's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50866618-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Coding4ever&#8217;s Blog</a></h1>
+  
+    <h2>Just coding&#8230; coding&#8230; and coding&#8230; because coding should be fun :)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:coding4ever.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/gudang-software">Gudang Software</a></li>
+  <li><a href="/source-code">Source Code</a></li>  
+  <li><a href="/aplikasi-gratis">Aplikasi Gratis</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Membuat Rumus Penilaian Dinamis</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2010-09-02T13:34:44+07:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2010</span></span> <span class='time'>1:34 pm</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Setahun yang lalu, sewaktu saya masih aktif mengembangkan aplikasi sekolah di beberapa kabupaten di Riau, masalah yang sering saya hadapi adalah tidak adanya standarisasi rumus dalam menentukan nilai akhir siswa (rapor akhir), tetapi untung saja variabel nilainya masih sama (rata2 tugas, rata2 ulangan, uts dan uas).</p>
+
+<p>Pada awalnya saya hanya menyediakan input prosentasi untuk masing-masing nilai tersebut, dan tentu saja cara ini tidak memberikan solusi yang terbaik mengingat masing-masing guru terkadang mempunyai rumus penilaian yang berbeda.</p>
+
+<p>Jadi alternatif solusi lain yang saya tawarkan adalah dengan memberikan keleluasaan untuk menginputkan sendiri rumus dan untuk melakukan ini kita harus mendefinisikan konstanta untuk mewakili nilai-nilai diatas sebagai berikut :</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/09/02092010-1.jpg"><img src="http://coding4ever.files.wordpress.com/2010/09/02092010-1.jpg" alt="" /></a></p>
+
+<!-- more -->
+
+
+<p>Contoh untuk mendapatkan nilai akhir dengan rumus :</p>
+
+<p>Nilai Akhir = ((Rata2 tugas + Rata2 ulangan + UTS) / 3 x 0.6) + (UAS x 0.4)</p>
+
+<p>Maka rumus yang harus diinputkan adalah sebagai berikut :</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/09/02092010-2.jpg"><img src="http://coding4ever.files.wordpress.com/2010/09/02092010-2.jpg" alt="" /></a></p>
+
+<p>Gimana sampe disini konsepnya sudah jelas bukan, klo iya kita bahas kodenya satu per satu dan untuk menyederhanakan program, nilai dari <strong>rata2x tugas</strong>, <strong>rata2x ulangan</strong>, <strong>uts</strong> dan <strong>uas</strong> langsung diinputkan via textbox.</p>
+
+<p>Pertama kita desain dulu tampilannya seperti berikut :</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/09/02092010-3.jpg"><img src="http://coding4ever.files.wordpress.com/2010/09/02092010-3.jpg?w=300" alt="" /></a></p>
+
+<p>kemudian tambahkan fungsi berikut untuk memvalidasi inputan nilai hanya boleh angka.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Private Function validAngka(KeyAscii As Integer) As Integer
+</span><span class='line'>    Dim strValid As String
+</span><span class='line'>
+</span><span class='line'>    On Error GoTo errHandle
+</span><span class='line'>
+</span><span class='line'>    strValid = "0123456789."
+</span><span class='line'>
+</span><span class='line'>    If InStr(strValid, Chr(KeyAscii)) = 0 And Not (KeyAscii = vbKeyBack) Then
+</span><span class='line'>        validAngka = 0
+</span><span class='line'>    Else
+</span><span class='line'>        validAngka = KeyAscii
+</span><span class='line'>    End If
+</span><span class='line'>
+</span><span class='line'>    Exit Function
+</span><span class='line'>errHandle:
+</span><span class='line'>    validAngka = 0
+</span><span class='line'>End Function</span></code></pre></td></tr></table></div></figure>
+
+
+<p>kemudian tinggal panggil dimasing-masing event keypress inputan nilai</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub txtRata2Tugas_KeyPress(KeyAscii As Integer)
+</span><span class='line'>    KeyAscii = validAngka(KeyAscii)
+</span><span class='line'>End Sub
+</span><span class='line'>
+</span><span class='line'>Private Sub txtRata2Ulangan_KeyPress(KeyAscii As Integer)
+</span><span class='line'>    KeyAscii = validAngka(KeyAscii)
+</span><span class='line'>End Sub
+</span><span class='line'>
+</span><span class='line'>Private Sub txtUAS_KeyPress(KeyAscii As Integer)
+</span><span class='line'>    KeyAscii = validAngka(KeyAscii)
+</span><span class='line'>End Sub
+</span><span class='line'>
+</span><span class='line'>Private Sub txtUTS_KeyPress(KeyAscii As Integer)
+</span><span class='line'>    KeyAscii = validAngka(KeyAscii)
+</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
+
+
+<p>selain memvalidasi inputan nilai kita juga harus memvalidasi inputan <strong>rumus penilaian</strong>, berikut fungsinya.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Private Function validKarakterRumus(KeyAscii As Integer) As Integer
+</span><span class='line'>    Dim strValid As String
+</span><span class='line'>
+</span><span class='line'>    On Error GoTo errHandle
+</span><span class='line'>
+</span><span class='line'>    strValid = "0123456789aArRtTuUsS()&lt;>+*/-. "
+</span><span class='line'>
+</span><span class='line'>    If InStr(strValid, Chr(KeyAscii)) = 0 And Not (KeyAscii = vbKeyBack) Then
+</span><span class='line'>        validKarakterRumus = 0
+</span><span class='line'>    Else
+</span><span class='line'>        validKarakterRumus = KeyAscii
+</span><span class='line'>    End If
+</span><span class='line'>
+</span><span class='line'>    Exit Function
+</span><span class='line'>errHandle:
+</span><span class='line'>    validKarakterRumus = 0
+</span><span class='line'>End Function</span></code></pre></td></tr></table></div></figure>
+
+
+<p>sama seperti sebelumnya tinggal panggil di event keypress inputan rumus</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub txtRumus_KeyPress(KeyAscii As Integer)
+</span><span class='line'>    KeyAscii = Asc(UCase(Chr(KeyAscii))) 'otomatis huruf besar
+</span><span class='line'>    KeyAscii = validKarakterRumus(KeyAscii)
+</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
+
+
+<p>terakhir untuk tombol Proses akan melakukan pengecekan terhadap rumus yang diinputkan jika oke akan langsung menampilkan hasil nya :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Private Function isValidConst(ByVal value As String) As Boolean
+</span><span class='line'>    Dim i           As Integer
+</span><span class='line'>    Dim strNotValid As String
+</span><span class='line'>
+</span><span class='line'>    On Error GoTo errHandle
+</span><span class='line'>
+</span><span class='line'>    strNotValid = "aArRtTuUsS" 'karakter konstanta RT, RU, UTS dan UAS
+</span><span class='line'>
+</span><span class='line'>    isValidConst = True
+</span><span class='line'>    For i = 1 To Len(value)
+</span><span class='line'>        If InStr(1, strNotValid, Mid(value, i, 1)) > 0 Then
+</span><span class='line'>            isValidConst = False
+</span><span class='line'>            Exit For
+</span><span class='line'>        End If
+</span><span class='line'>    Next
+</span><span class='line'>
+</span><span class='line'>    Exit Function
+</span><span class='line'>errHandle:
+</span><span class='line'>    isValidConst = True
+</span><span class='line'>End Function
+</span><span class='line'>
+</span><span class='line'>Private Function isValidRumusPenilaian(ByVal rumus As String) As Boolean
+</span><span class='line'>    Dim script              As Object
+</span><span class='line'>    Dim result              As Long
+</span><span class='line'>
+</span><span class='line'>    Dim strParsing1         As String
+</span><span class='line'>    Dim strParsing2         As String
+</span><span class='line'>    Dim strFinalParsing     As String
+</span><span class='line'>
+</span><span class='line'>    On Error GoTo errHandle
+</span><span class='line'>
+</span><span class='line'>    strParsing1 = Replace(rumus, " ", "") ' menghapus spasi
+</span><span class='line'>
+</span><span class='line'>    strParsing2 = Replace(strParsing1, "&lt;RT>", 0)
+</span><span class='line'>    strParsing2 = Replace(strParsing2, "&lt;RU>", 0)
+</span><span class='line'>    strParsing2 = Replace(strParsing2, "&lt;UTS>", 0)
+</span><span class='line'>    strParsing2 = Replace(strParsing2, "&lt;UAS>", 0)
+</span><span class='line'>
+</span><span class='line'>    strFinalParsing = Replace(strParsing2, "&lt;", "")
+</span><span class='line'>
+</span><span class='line'>    strFinalParsing = Replace(strFinalParsing, ">", "")
+</span><span class='line'>    If Not (Len(strFinalParsing) > 0) Then strFinalParsing = "0"
+</span><span class='line'>
+</span><span class='line'>    'cek klo ada rumus yg tidak sesuai dg konstanta yg sudah didefinisikan, ex : &lt;RT> ditulis &lt;TR>
+</span><span class='line'>    If Not isValidConst(strFinalParsing) Then
+</span><span class='line'>        isValidRumusPenilaian = False
+</span><span class='line'>
+</span><span class='line'>    Else
+</span><span class='line'>        Set script = CreateObject("ScriptControl")
+</span><span class='line'>        script.Language = "VBScript"
+</span><span class='line'>        result = script.Eval(strFinalParsing)
+</span><span class='line'>        Set script = Nothing
+</span><span class='line'>
+</span><span class='line'>        isValidRumusPenilaian = True
+</span><span class='line'>    End If
+</span><span class='line'>
+</span><span class='line'>    Exit Function
+</span><span class='line'>
+</span><span class='line'>errHandle:
+</span><span class='line'>    isValidRumusPenilaian = False
+</span><span class='line'>End Function
+</span><span class='line'>
+</span><span class='line'>Private Function execFormula(ByVal rumus As String) As Single
+</span><span class='line'>    Dim script  As Object
+</span><span class='line'>
+</span><span class='line'>    On Error GoTo errHandle
+</span><span class='line'>
+</span><span class='line'>    Set script = CreateObject("ScriptControl")
+</span><span class='line'>    script.Language = "VBScript"
+</span><span class='line'>    execFormula = script.Eval(rumus)
+</span><span class='line'>    Set script = Nothing
+</span><span class='line'>
+</span><span class='line'>    Exit Function
+</span><span class='line'>errHandle:
+</span><span class='line'>    execFormula = 0
+</span><span class='line'>End Function
+</span><span class='line'>
+</span><span class='line'>Private Function getNilaiAkhirByRumus(ByVal rumus As String, ByVal nilaiRT As Single, ByVal nilaiRU As Single, _
+</span><span class='line'>                                      ByVal nilaiUTS As Single, ByVal nilaiUAS As Single) As Single
+</span><span class='line'>
+</span><span class='line'>    Dim strParsing1         As String
+</span><span class='line'>    Dim strParsing2         As String
+</span><span class='line'>    Dim strFinalParsing     As String
+</span><span class='line'>
+</span><span class='line'>    On Error GoTo errHandle
+</span><span class='line'>
+</span><span class='line'>    strParsing1 = Replace(rumus, " ", "") ' menghapus spasi
+</span><span class='line'>    strParsing2 = Replace(strParsing1, "&lt;RT>", nilaiRT) ' mengganti const &lt;RT> ke nilai nilaiRT
+</span><span class='line'>    strParsing2 = Replace(strParsing2, "&lt;RU>", nilaiRU)  ' mengganti const &lt;RU> ke nilai nilaiRU
+</span><span class='line'>    strParsing2 = Replace(strParsing2, "&lt;UTS>", nilaiUTS)  ' mengganti const &lt;UTS> ke nilaiUTS
+</span><span class='line'>    strParsing2 = Replace(strParsing2, "&lt;UAS>", nilaiUAS)  ' mengganti const &lt;UAS> ke nilaiUAS
+</span><span class='line'>
+</span><span class='line'>    strFinalParsing = Replace(strParsing2, "&lt;", "")
+</span><span class='line'>    strFinalParsing = Replace(strFinalParsing, ">", "")
+</span><span class='line'>
+</span><span class='line'>    If Not (Len(strFinalParsing) > 0) Then strFinalParsing = "0"
+</span><span class='line'>
+</span><span class='line'>    getNilaiAkhirByRumus = FormatNumber(execFormula(strFinalParsing), 0)
+</span><span class='line'>
+</span><span class='line'>    Exit Function
+</span><span class='line'>
+</span><span class='line'>errHandle:
+</span><span class='line'>    getNilaiAkhirByRumus = 0
+</span><span class='line'>End Function
+</span><span class='line'>
+</span><span class='line'>Private Sub cmdProses_Click()
+</span><span class='line'>    If isValidRumusPenilaian(txtRumus.Text) Then
+</span><span class='line'>        txtNilaiAkhir.Text = getNilaiAkhirByRumus(txtRumus.Text, Val(txtRata2Tugas.Text), Val(txtRata2Ulangan.Text), Val(txtUTS.Text), Val(txtUAS.Text))
+</span><span class='line'>
+</span><span class='line'>    Else
+</span><span class='line'>        MsgBox "Rumus yang Anda inputkan tidak valid", vbExclamation, "Peringatan"
+</span><span class='line'>        txtRumus.SetFocus
+</span><span class='line'>    End If
+</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/09/02092010-4.jpg"><img src="http://coding4ever.files.wordpress.com/2010/09/02092010-4.jpg?w=300" alt="" /></a></p>
+
+<p>Selamat <a href="http://www.4shared.com/file/x6Oh7lC5/RumusPenilaian.html">MENCOBA</a> :)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Admin</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2010-09-02T13:34:44+07:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2010</span></span> <span class='time'>1:34 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/visual-basic/'>visual basic</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2010/08/26/membuat-form-input-hari-libur/" title="Previous Post: Membuat form input hari libur">&laquo; Membuat form input hari libur</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2010/09/09/horeeee-lebaran-lagi/" title="Next Post: Horeeee lebaran lagi :)">Horeeee lebaran lagi :) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Admin</h1>
+  <p>Software developer yang berasal dari Riau, tapi malah betah tinggal di Yogyakarta :)</p>
+  
+  <p>Pernah mengajar di salah satu perguruan tinggi swasta (PTS) di Yogyakarta.<br>
+     Saat ini bekerja sebagai staf IT di PTS yang sama sebagai senior software developer.</p>
+  
+  <p>Fokus mengembangkan aplikasi di atas platform .NET dan Android. Diwaktu luang insya Alloh akan terus berbagi pengalaman di blog <a href="http://coding4ever.net/" target="_blank">ini</a>.</p>    
+</section><section>
+  <h1>Contacts :</h1>
+    <ul>		
+		<li>			
+			<a href="mailto:coding4ever.net@gmail.com" title="GMail" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/gmail-small2.png" border="0" alt="GMail" /></a>
+		</li>		
+		<li>			
+			<a href="https://github.com/k4m4r82?tab=repositories" title="GitHub" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/github-small2.png" border="0" alt="GitHub" /></a>
+		</li>
+		<li>
+			<a href="http://www.facebook.com/abu.anas.1232" title="Facebook" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/fb-small2.png" border="0" alt="Facebook" /></a>
+		</li>				
+	</ul>
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/04/14/paket-nuget-yang-wajib-dicoba-bagian-number-1-crashreporter-dot-net/">Paket NuGet Yang Wajib Dicoba Bagian #1 - CrashReporter.NET</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/13/comment-as-a-guest/">Comment as a Guest</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push/">Membuat Laporan Crystal Reports .NET Dengan Model Data-Push</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/11/blog-lama-coding4ever-aktif-kembali/">Blog Lama Coding4ever Aktif Kembali</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/11/06/kr-pulsa-elektrik/">KR Pulsa Elektrik</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/08/entity-framework-part-8/">Entity Framework Part 8</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/manajemen-proyek-menggunakan-redmine-bagian-1/">Manajemen Proyek Menggunakan Redmine Bagian 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/21/manajemen-password-menggunakan-keepass/">Manajemen Password Menggunakan KeePass</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/10/sms-gateway-edisi-net-part-1/">SMS Gateway Edisi .NET Part 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/11/entity-framework-part-7/">Entity Framework Part 7</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+    <ul id="category-list"><li><a href='/blog/categories/dot-net-remoting/'>.net remoting (9)</a></li><li><a href='/blog/categories/active-report/'>active report (4)</a></li><li><a href='/blog/categories/android/'>android (1)</a></li><li><a href='/blog/categories/aplikasi/'>aplikasi (4)</a></li><li><a href='/blog/categories/crashreporter-dot-net/'>crashreporter.net (1)</a></li><li><a href='/blog/categories/crystal-reports-net/'>crystal reports .net (1)</a></li><li><a href='/blog/categories/dapper-net/'>dapper .net (3)</a></li><li><a href='/blog/categories/entity-framework/'>entity framework (8)</a></li><li><a href='/blog/categories/firebird/'>firebird (11)</a></li><li><a href='/blog/categories/freeware/'>freeware (7)</a></li><li><a href='/blog/categories/inno-setup/'>inno setup (6)</a></li><li><a href='/blog/categories/jaringan/'>jaringan (1)</a></li><li><a href='/blog/categories/mysql/'>mysql (3)</a></li><li><a href='/blog/categories/nsis/'>nsis (2)</a></li><li><a href='/blog/categories/nuget/'>nuget (4)</a></li><li><a href='/blog/categories/sql-server-2000/'>sql server 2000 (1)</a></li><li><a href='/blog/categories/sqlite/'>sqlite (3)</a></li><li><a href='/blog/categories/tools-installer/'>tools installer (8)</a></li><li><a href='/blog/categories/uncategorized/'>uncategorized (8)</a></li><li><a href='/blog/categories/visual-basic/'>visual basic (73)</a></li><li><a href='/blog/categories/visual-basic-net/'>visual basic .net (11)</a></li><li><a href='/blog/categories/visual-c-number/'>visual c# (34)</a></li><li><a href='/blog/categories/winsock/'>winsock (6)</a></li></ul>
+</section>
+<section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/blog/categories/dot-net-remoting' style='font-size: 107.3972602739726%'>.net remoting(9)</a> <a href='/blog/categories/active-report' style='font-size: 103.28767123287672%'>active report(4)</a> <a href='/blog/categories/android' style='font-size: 100.82191780821918%'>android(1)</a> <a href='/blog/categories/aplikasi' style='font-size: 103.28767123287672%'>aplikasi(4)</a> <a href='/blog/categories/crashreporter-dot-net' style='font-size: 100.82191780821918%'>crashreporter.net(1)</a> <a href='/blog/categories/crystal-reports-net' style='font-size: 100.82191780821918%'>crystal reports .net(1)</a> <a href='/blog/categories/dapper-net' style='font-size: 102.46575342465754%'>dapper .net(3)</a> <a href='/blog/categories/entity-framework' style='font-size: 106.57534246575342%'>entity framework(8)</a> <a href='/blog/categories/firebird' style='font-size: 109.04109589041096%'>firebird(11)</a> <a href='/blog/categories/freeware' style='font-size: 105.75342465753425%'>freeware(7)</a> <a href='/blog/categories/inno-setup' style='font-size: 104.93150684931507%'>inno setup(6)</a> <a href='/blog/categories/jaringan' style='font-size: 100.82191780821918%'>jaringan(1)</a> <a href='/blog/categories/mysql' style='font-size: 102.46575342465754%'>mysql(3)</a> <a href='/blog/categories/nsis' style='font-size: 101.64383561643835%'>nsis(2)</a> <a href='/blog/categories/nuget' style='font-size: 103.28767123287672%'>nuget(4)</a> <a href='/blog/categories/sql-server-2000' style='font-size: 100.82191780821918%'>sql server 2000(1)</a> <a href='/blog/categories/sqlite' style='font-size: 102.46575342465754%'>sqlite(3)</a> <a href='/blog/categories/tools-installer' style='font-size: 106.57534246575342%'>tools installer(8)</a> <a href='/blog/categories/uncategorized' style='font-size: 106.57534246575342%'>uncategorized(8)</a> <a href='/blog/categories/visual-basic' style='font-size: 160.0%'>visual basic(73)</a> <a href='/blog/categories/visual-basic-net' style='font-size: 109.04109589041096%'>visual basic .net(11)</a> <a href='/blog/categories/visual-c-number' style='font-size: 127.94520547945206%'>visual c#(34)</a> <a href='/blog/categories/winsock' style='font-size: 104.93150684931507%'>winsock(6)</a> </span>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'k4m4r82',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2009 - 2015 - Admin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'coding4ever';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://coding4ever.net/blog/2010/09/02/membuat-rumus-penilaian-dinamis/';
+        var disqus_url = 'http://coding4ever.net/blog/2010/09/02/membuat-rumus-penilaian-dinamis/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,724 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Menggunakan Library .NET Di VB 6 - Coding4ever&#8217;s Blog</title>
+  <meta name="author" content="Admin">
+
+  
+  <meta name="description" content="Ini postingan lama sebenarnya, jawaban sy untuk salah satu pertanyaan member di forum i-bego. Sy posting kembali disini untuk tujuan dokumentasi saja &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://coding4ever.net/blog/2012/06/01/menggunakan-library-net-di-vb-6">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Coding4ever's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50866618-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Coding4ever&#8217;s Blog</a></h1>
+  
+    <h2>Just coding&#8230; coding&#8230; and coding&#8230; because coding should be fun :)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:coding4ever.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/gudang-software">Gudang Software</a></li>
+  <li><a href="/source-code">Source Code</a></li>  
+  <li><a href="/aplikasi-gratis">Aplikasi Gratis</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Menggunakan Library .NET Di VB 6</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-06-01T16:53:49+07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2012</span></span> <span class='time'>4:53 pm</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Ini postingan lama sebenarnya, jawaban sy untuk salah satu pertanyaan member di forum <a href="http://www.i-bego.com/visual-basic-net/cara-buat-file-dll-net-assembly-com-visible-t2377.html">i-bego</a>.</p>
+
+<p>Sy posting kembali disini untuk tujuan dokumentasi saja, mana tau suatu saat sy butuhkan.</p>
+
+<p>Untuk contoh kasusnya adalah kita akan mengambil salah satu project open source yg bernama <a href="http://www.codeproject.com/Articles/20574/Open-Source-QRCode-Library">QRCode Library</a> dibuat menggunakan C#, dan dengan sedikit modifikasi library .NET ini akan bisa kita gunakan untuk VB 6.</p>
+
+<!-- more -->
+
+
+<p>Tapi sebelumnya kita lihat dulu apa itu QR Code ???</p>
+
+<blockquote><p>QR Code (abbreviated from Quick Response Code) is the trademark for a type of matrix barcode (or two-dimensional code) first designed for the automotive industry. More recently, the system has become popular outside the industry due to its fast readability and large storage capacity compared to standard UPC barcodes. The code consists of black modules (square dots) arranged in a square pattern on a white background. The information encoded can be made up of four standardized kinds (&ldquo;modes&rdquo;) of data (numeric, alphanumeric, byte/binary, Kanji), or through supported extensions, virtually any kind of data.</p></blockquote>
+
+<p>Sumber : <a href="http://en.wikipedia.org/wiki/QR_code">http://en.wikipedia.org/wiki/QR_code</a></p>
+
+<p>Contoh QR Code</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2012/06/qrcode.png"><img src="http://coding4ever.files.wordpress.com/2012/06/qrcode.png" alt="" /></a></p>
+
+<p>Oke langsung saja download <a href="http://www.codeproject.com/Articles/20574/Open-Source-QRCode-Library">QRCode Library</a>, untuk contoh disini sy menggunakan C# 2005</p>
+
+<ol>
+<li>Aktifkan terlebih dulu project <a href="http://www.codeproject.com/Articles/20574/Open-Source-QRCode-Library">QRCode Library</a></li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2012/06/qrcode-lib.png"><img src="http://coding4ever.files.wordpress.com/2012/06/qrcode-lib.png" alt="" /></a></p>
+
+<ol>
+<li>klik kanan Project (QRCodeLib) -> Properties, aktifkan tab Application kemudian klik tombol Assembly Information &hellip; kemudian aktifkan pilihan Make assembly COM-Visible</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/09/18092011-1.png"><img src="http://coding4ever.files.wordpress.com/2011/09/18092011-1.png" alt="" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/09/18092011-2.png"><img src="http://coding4ever.files.wordpress.com/2011/09/18092011-2.png" alt="" /></a></p>
+
+<ol>
+<li>Aktifkan tab Build kemudian aktifkan pilihan Register for COM interop</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/09/18092011-3.png"><img src="http://coding4ever.files.wordpress.com/2011/09/18092011-3.png" alt="" /></a></p>
+
+<ol>
+<li>Mendaftarkan file ThoughtWorks.QRCode.dll dan ThoughtWorks.QRCode.tlb menggunakan tool RegAsm.exe yg ada di folder NET Framework</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>C:\Windows\Microsoft.NET\Framework\v2.0.50727</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Contoh saya menggunakan dot NET Framework 2, adapun perintahnya seperti berikut :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>regasm ThoughtWorks.QRCode.dll /tlb: ThoughtWorks.QRCode.tlb /codebase</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Sampai disini QRCode Library sudah bisa diakses dari VB 6</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/09/18092011-4.png"><img src="http://coding4ever.files.wordpress.com/2011/09/18092011-4.png" alt="" /></a></p>
+
+<p>Sekarang kita lihat sample asli dari QRCode Library</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/09/18092011-5.png"><img src="http://coding4ever.files.wordpress.com/2011/09/18092011-5.png" alt="" /></a></p>
+
+<p>Dari sample tersebut kode (C#) untuk melakukan encode sebuah data bertipe string menjadi gambar dengan format <a href="http://id.wikipedia.org/wiki/Kode_QR">QR Code</a> adalah seperti berikut :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">btnEncode_Click_1</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">EventArgs</span> <span class="n">e</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">txtEncodeData</span><span class="p">.</span><span class="n">Text</span><span class="p">.</span><span class="n">Trim</span><span class="p">()</span> <span class="p">==</span> <span class="n">String</span><span class="p">.</span><span class="n">Empty</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="s">&quot;Data must not be empty.&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">return</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">QRCodeEncoder</span> <span class="n">qrCodeEncoder</span> <span class="p">=</span> <span class="k">new</span> <span class="n">QRCodeEncoder</span><span class="p">();</span>
+</span><span class='line'>    <span class="n">String</span> <span class="n">encoding</span> <span class="p">=</span> <span class="n">cboEncoding</span><span class="p">.</span><span class="n">Text</span> <span class="p">;</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">encoding</span> <span class="p">==</span> <span class="s">&quot;Byte&quot;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">qrCodeEncoder</span><span class="p">.</span><span class="n">QRCodeEncodeMode</span> <span class="p">=</span> <span class="n">QRCodeEncoder</span><span class="p">.</span><span class="n">ENCODE_MODE</span><span class="p">.</span><span class="n">BYTE</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">encoding</span> <span class="p">==</span> <span class="s">&quot;AlphaNumeric&quot;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">qrCodeEncoder</span><span class="p">.</span><span class="n">QRCodeEncodeMode</span> <span class="p">=</span> <span class="n">QRCodeEncoder</span><span class="p">.</span><span class="n">ENCODE_MODE</span><span class="p">.</span><span class="n">ALPHA_NUMERIC</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">encoding</span> <span class="p">==</span> <span class="s">&quot;Numeric&quot;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">qrCodeEncoder</span><span class="p">.</span><span class="n">QRCodeEncodeMode</span> <span class="p">=</span> <span class="n">QRCodeEncoder</span><span class="p">.</span><span class="n">ENCODE_MODE</span><span class="p">.</span><span class="n">NUMERIC</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">try</span> <span class="p">{</span>
+</span><span class='line'>        <span class="kt">int</span> <span class="n">scale</span> <span class="p">=</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToInt16</span><span class="p">(</span><span class="n">txtSize</span><span class="p">.</span><span class="n">Text</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">qrCodeEncoder</span><span class="p">.</span><span class="n">QRCodeScale</span> <span class="p">=</span> <span class="n">scale</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">Exception</span> <span class="n">ex</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="s">&quot;Invalid size!&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">return</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">try</span> <span class="p">{</span>
+</span><span class='line'>        <span class="kt">int</span> <span class="n">version</span> <span class="p">=</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToInt16</span><span class="p">(</span><span class="n">cboVersion</span><span class="p">.</span><span class="n">Text</span><span class="p">)</span> <span class="p">;</span>
+</span><span class='line'>        <span class="n">qrCodeEncoder</span><span class="p">.</span><span class="n">QRCodeVersion</span> <span class="p">=</span> <span class="n">version</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">Exception</span> <span class="n">ex</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="s">&quot;Invalid version !&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kt">string</span> <span class="n">errorCorrect</span> <span class="p">=</span> <span class="n">cboCorrectionLevel</span><span class="p">.</span><span class="n">Text</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">errorCorrect</span> <span class="p">==</span> <span class="s">&quot;L&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">qrCodeEncoder</span><span class="p">.</span><span class="n">QRCodeErrorCorrect</span> <span class="p">=</span> <span class="n">QRCodeEncoder</span><span class="p">.</span><span class="n">ERROR_CORRECTION</span><span class="p">.</span><span class="n">L</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">errorCorrect</span> <span class="p">==</span> <span class="s">&quot;M&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">qrCodeEncoder</span><span class="p">.</span><span class="n">QRCodeErrorCorrect</span> <span class="p">=</span> <span class="n">QRCodeEncoder</span><span class="p">.</span><span class="n">ERROR_CORRECTION</span><span class="p">.</span><span class="n">M</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">errorCorrect</span> <span class="p">==</span> <span class="s">&quot;Q&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">qrCodeEncoder</span><span class="p">.</span><span class="n">QRCodeErrorCorrect</span> <span class="p">=</span> <span class="n">QRCodeEncoder</span><span class="p">.</span><span class="n">ERROR_CORRECTION</span><span class="p">.</span><span class="n">Q</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">errorCorrect</span> <span class="p">==</span> <span class="s">&quot;H&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">qrCodeEncoder</span><span class="p">.</span><span class="n">QRCodeErrorCorrect</span> <span class="p">=</span> <span class="n">QRCodeEncoder</span><span class="p">.</span><span class="n">ERROR_CORRECTION</span><span class="p">.</span><span class="n">H</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">Image</span> <span class="n">image</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">String</span> <span class="n">data</span> <span class="p">=</span> <span class="n">txtEncodeData</span><span class="p">.</span><span class="n">Text</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">image</span> <span class="p">=</span> <span class="n">qrCodeEncoder</span><span class="p">.</span><span class="n">Encode</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">picEncode</span><span class="p">.</span><span class="n">Image</span> <span class="p">=</span> <span class="n">image</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Sedangkan untuk versi VB 6nya sy buat sesimple mungkin</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">cmdEncode_Click</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">qrEncoder</span> <span class="ow">As</span> <span class="k">New</span> <span class="n">QRCodeEncoder</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">qrEncoder</span><span class="p">.</span><span class="n">QRCodeEncodeMode</span> <span class="o">=</span> <span class="n">ENCODE_MODE</span><span class="p">.</span><span class="n">ENCODE_MODE_BYTE</span>
+</span><span class='line'>    <span class="n">qrEncoder</span><span class="p">.</span><span class="n">QRCodeScale</span> <span class="o">=</span> <span class="mi">4</span>
+</span><span class='line'>    <span class="n">qrEncoder</span><span class="p">.</span><span class="n">QRCodeVersion</span> <span class="o">=</span> <span class="mi">7</span>
+</span><span class='line'>    <span class="n">qrEncoder</span><span class="p">.</span><span class="n">QRCodeErrorCorrect</span> <span class="o">=</span> <span class="n">ERROR_CORRECTION</span><span class="p">.</span><span class="n">ERROR_CORRECTION_M</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">picEncode</span><span class="p">.</span><span class="n">Picture</span> <span class="o">=</span> <span class="n">qrEncoder</span><span class="p">.</span><span class="n">Encode</span><span class="p">(</span><span class="n">txtEncodeData</span><span class="p">.</span><span class="n">Text</span><span class="p">)</span> <span class="c">&#39; error : Invalid procedure call or argument</span>
+</span><span class='line'><span class="k">End</span> <span class="k">Sub</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>tapi hasilnya malah error &lsquo;Invalid procedure call or argument&rsquo; :(, dan berdasarkan hasil pengamatan sementara, menurut sy penyebab errornya adalah karena method Encode adalah method yg dioverload sedangkan method overload belum disupport oleh VB 6.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">public</span> <span class="k">virtual</span> <span class="n">Bitmap</span> <span class="nf">Encode</span><span class="p">(</span><span class="n">String</span> <span class="n">content</span><span class="p">)</span>
+</span><span class='line'><span class="k">public</span> <span class="k">virtual</span> <span class="n">Bitmap</span> <span class="nf">Encode</span><span class="p">(</span><span class="n">String</span> <span class="n">content</span><span class="p">,</span> <span class="n">Encoding</span> <span class="n">encoding</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Jadi sy putuskan untuk menambahkan method baru dengan nama EncodeVB6, kemudian mengganti perintah</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="n">picEncode</span><span class="p">.</span><span class="n">Picture</span> <span class="o">=</span> <span class="n">qrEncoder</span><span class="p">.</span><span class="n">Encode</span><span class="p">(</span><span class="n">txtEncodeData</span><span class="p">.</span><span class="n">Text</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>menjadi</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="n">picEncode</span><span class="p">.</span><span class="n">Picture</span> <span class="o">=</span> <span class="n">qrEncoder</span><span class="p">.</span><span class="n">EncodeVB6</span><span class="p">(</span><span class="n">txtEncodeData</span><span class="p">.</span><span class="n">Text</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Kode lengkap method EncodeVB6</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">public</span> <span class="k">virtual</span> <span class="n">Bitmap</span> <span class="nf">EncodeVB6</span><span class="p">(</span><span class="n">String</span> <span class="n">content</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">QRCodeUtility</span><span class="p">.</span><span class="n">IsUniCode</span><span class="p">(</span><span class="n">content</span><span class="p">))</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nf">Encode</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">Encoding</span><span class="p">.</span><span class="n">Unicode</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">Else</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nf">Encode</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">Encoding</span><span class="p">.</span><span class="n">ASCII</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Horeeeeee gubrakk, ternyata&hellip;. masih error :( &lsquo;Type mismatch&rsquo;</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="n">picEncode</span><span class="p">.</span><span class="n">Picture</span> <span class="o">=</span> <span class="n">qrEncoder</span><span class="p">.</span><span class="n">EncodeVB6</span><span class="p">(</span><span class="n">txtEncodeData</span><span class="p">.</span><span class="n">Text</span><span class="p">)</span> <span class="c">&#39; error : Type mismatch</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>dari pesan errornya sudah jelas karena properties Picture bertipe StdPicture sedangkan method EncodeVB6 bertipe Bitmap dan di VB 6 enggak ada tipe Bitmap :(, tapi untungnya :) ada method ImageToIPicture yg diambil dari class Support (namespace Microsoft.VisualBasic.Compatibility.VB6) sehingga method EncodeVB6nya kita revisi menjadi :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">public</span> <span class="k">virtual</span> <span class="kt">object</span> <span class="nf">EncodeVB6</span><span class="p">(</span><span class="n">String</span> <span class="n">content</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">QRCodeUtility</span><span class="p">.</span><span class="n">IsUniCode</span><span class="p">(</span><span class="n">content</span><span class="p">))</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">Microsoft</span><span class="p">.</span><span class="n">VisualBasic</span><span class="p">.</span><span class="n">Compatibility</span><span class="p">.</span><span class="n">VB6</span><span class="p">.</span><span class="n">Support</span><span class="p">.</span><span class="n">ImageToIPicture</span><span class="p">(</span><span class="n">Encode</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">Encoding</span><span class="p">.</span><span class="n">Unicode</span><span class="p">));</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">Else</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">Microsoft</span><span class="p">.</span><span class="n">VisualBasic</span><span class="p">.</span><span class="n">Compatibility</span><span class="p">.</span><span class="n">VB6</span><span class="p">.</span><span class="n">Support</span><span class="p">.</span><span class="n">ImageToIPicture</span><span class="p">(</span><span class="n">Encode</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">Encoding</span><span class="p">.</span><span class="n">ASCII</span><span class="p">));</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Sampai disi permasalah method EncodeVB6 sudah selesai :)</p>
+
+<p>Terakhir kita akan melakukan proses decode</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/09/18092011-6.png"><img src="http://coding4ever.files.wordpress.com/2011/09/18092011-6.png" alt="" /></a></p>
+
+<p>dan kita lihat dulu kode aslinya (c#)</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">btnDecode_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">EventArgs</span> <span class="n">e</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">try</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">QRCodeDecoder</span> <span class="n">decoder</span> <span class="p">=</span> <span class="k">new</span> <span class="n">QRCodeDecoder</span><span class="p">();</span>
+</span><span class='line'>        <span class="n">String</span> <span class="n">decodedString</span> <span class="p">=</span> <span class="n">decoder</span><span class="p">.</span><span class="n">decode</span><span class="p">(</span><span class="k">new</span> <span class="n">QRCodeBitmapImage</span><span class="p">(</span><span class="k">new</span> <span class="n">Bitmap</span><span class="p">(</span><span class="n">picDecode</span><span class="p">.</span><span class="n">Image</span><span class="p">)));</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">txtDecodedData</span><span class="p">.</span><span class="n">Text</span> <span class="p">=</span> <span class="n">decodedString</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">catch</span> <span class="p">(</span><span class="n">Exception</span> <span class="n">ex</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="n">ex</span><span class="p">.</span><span class="n">Message</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Dari kode diatas jelas tidak bisa langsung dikonversi ke VB 6 karena VB 6 tidak mendukung pemanggilan constructor class yg mempunyai parameter.</p>
+
+<p>Tapi ada baiknya kita lihat dulu constructor class QRCodeBitmapImage yg ternyata membutuhkan objek Bitmap pada saat dipanggil.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="c1">///</span>
+</span><span class='line'><span class="p">&lt;</span><span class="n">summary</span><span class="p">&gt;</span> <span class="c1">/// Constructor</span>
+</span><span class='line'><span class="c1">/// &lt;/summary&gt;</span>
+</span><span class='line'><span class="c1">///Bitmap image/param&gt;</span>
+</span><span class='line'><span class="k">public</span> <span class="nf">QRCodeBitmapImage</span><span class="p">(</span><span class="n">Bitmap</span> <span class="n">image</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">this</span><span class="p">.</span><span class="n">image</span> <span class="p">=</span> <span class="n">image</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Solusinya kita akan menambahkan costructor default (constructor tanpa parameter)</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="c1">// default constructor</span>
+</span><span class='line'><span class="n">Public</span> <span class="nf">QRCodeBitmapImage</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>trus untuk melewatkan objek Bitmap ke class QRCodeBitmapImage kita akan menambahkan property baru misal dengan nama SetBitmap, adapun kodenya seperti berikut :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">public</span> <span class="k">virtual</span> <span class="n">Bitmap</span> <span class="n">SetBitmap</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">set</span> <span class="p">{</span> <span class="n">image</span> <span class="p">=</span> <span class="k">value</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Properties SetBitmap diatas bertipe Bitmap, tapi sayang di VB 6 belum ada padanan tipe datanya jadi kita akan menggunakan tipe Object, kemudian untuk mengkonversi ke tipe Bitmap kita menggunakan method IPictureToImage yg diambil dari class Support (namespace Microsoft.VisualBasic.Compatibility.VB6)</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">public</span> <span class="k">virtual</span> <span class="kt">object</span> <span class="n">SetBitmap</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">set</span> <span class="p">{</span> <span class="n">image</span> <span class="p">=</span> <span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="n">Drawing</span><span class="p">.</span><span class="n">Bitmap</span><span class="p">)</span><span class="n">Microsoft</span><span class="p">.</span><span class="n">VisualBasic</span><span class="p">.</span><span class="n">Compatibility</span><span class="p">.</span><span class="n">VB6</span><span class="p">.</span><span class="n">Support</span><span class="p">.</span><span class="n">IPictureToImage</span><span class="p">(</span><span class="k">value</span><span class="p">);</span> <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Setelah itu baru kita bisa melakukan konversi dengan aman di VB 6</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">cmdDecode_Click</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">decoder</span> <span class="ow">As</span> <span class="k">New</span> <span class="n">QRCodeDecoder</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">decodedString</span> <span class="ow">As</span> <span class="kt">String</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">qrCodeImage</span> <span class="ow">As</span> <span class="k">New</span> <span class="n">QRCodeBitmapImage</span>
+</span><span class='line'>    <span class="n">qrCodeImage</span><span class="p">.</span><span class="n">SetBitmap</span> <span class="o">=</span> <span class="n">picEncode</span><span class="p">.</span><span class="n">Picture</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">decodedString</span> <span class="o">=</span> <span class="n">decoder</span><span class="p">.</span><span class="n">decodeVB6</span><span class="p">(</span><span class="n">qrCodeImage</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">MsgBox</span> <span class="s">&quot;Hasil decode : &quot;</span> <span class="o">&amp;</span> <span class="n">vbCrLf</span> <span class="o">&amp;</span> <span class="n">decodedString</span><span class="p">,</span> <span class="n">vbInformation</span><span class="p">,</span> <span class="s">&quot;Informasi&quot;</span>
+</span><span class='line'><span class="k">End</span> <span class="k">Sub</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/09/18092011-7.png"><img src="http://coding4ever.files.wordpress.com/2011/09/18092011-7.png" alt="" /></a></p>
+
+<p>Yuph akhirnya selesai juga :)</p>
+
+<p>Selamat <a href="http://www.4shared.com/file/PCRQSJzV/QRCode.html">MENCOBA</a> :)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Admin</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2012-06-01T16:53:49+07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2012</span></span> <span class='time'>4:53 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/visual-basic/'>visual basic</a>, <a class='category' href='/blog/categories/visual-c-number/'>visual c#</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/05/30/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-5/" title="Previous Post: Pembuatan Aplikasi Client Server dengan Arsitektur 3-tier Part 5">&laquo; Pembuatan Aplikasi Client Server dengan Arsitektur 3-tier Part 5</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/07/23/the-power-of-firebird-events/" title="Next Post: The Power of Firebird Events">The Power of Firebird Events &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Admin</h1>
+  <p>Software developer yang berasal dari Riau, tapi malah betah tinggal di Yogyakarta :)</p>
+  
+  <p>Pernah mengajar di salah satu perguruan tinggi swasta (PTS) di Yogyakarta.<br>
+     Saat ini bekerja sebagai staf IT di PTS yang sama sebagai senior software developer.</p>
+  
+  <p>Fokus mengembangkan aplikasi di atas platform .NET dan Android. Diwaktu luang insya Alloh akan terus berbagi pengalaman di blog <a href="http://coding4ever.net/" target="_blank">ini</a>.</p>    
+</section><section>
+  <h1>Contacts :</h1>
+    <ul>		
+		<li>			
+			<a href="mailto:coding4ever.net@gmail.com" title="GMail" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/gmail-small2.png" border="0" alt="GMail" /></a>
+		</li>		
+		<li>			
+			<a href="https://github.com/k4m4r82?tab=repositories" title="GitHub" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/github-small2.png" border="0" alt="GitHub" /></a>
+		</li>
+		<li>
+			<a href="http://www.facebook.com/abu.anas.1232" title="Facebook" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/fb-small2.png" border="0" alt="Facebook" /></a>
+		</li>				
+	</ul>
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/04/14/paket-nuget-yang-wajib-dicoba-bagian-number-1-crashreporter-dot-net/">Paket NuGet Yang Wajib Dicoba Bagian #1 - CrashReporter.NET</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/13/comment-as-a-guest/">Comment as a Guest</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push/">Membuat Laporan Crystal Reports .NET Dengan Model Data-Push</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/11/blog-lama-coding4ever-aktif-kembali/">Blog Lama Coding4ever Aktif Kembali</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/11/06/kr-pulsa-elektrik/">KR Pulsa Elektrik</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/08/entity-framework-part-8/">Entity Framework Part 8</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/manajemen-proyek-menggunakan-redmine-bagian-1/">Manajemen Proyek Menggunakan Redmine Bagian 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/21/manajemen-password-menggunakan-keepass/">Manajemen Password Menggunakan KeePass</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/10/sms-gateway-edisi-net-part-1/">SMS Gateway Edisi .NET Part 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/11/entity-framework-part-7/">Entity Framework Part 7</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+    <ul id="category-list"><li><a href='/blog/categories/dot-net-remoting/'>.net remoting (9)</a></li><li><a href='/blog/categories/active-report/'>active report (4)</a></li><li><a href='/blog/categories/android/'>android (1)</a></li><li><a href='/blog/categories/aplikasi/'>aplikasi (4)</a></li><li><a href='/blog/categories/crashreporter-dot-net/'>crashreporter.net (1)</a></li><li><a href='/blog/categories/crystal-reports-net/'>crystal reports .net (1)</a></li><li><a href='/blog/categories/dapper-net/'>dapper .net (3)</a></li><li><a href='/blog/categories/entity-framework/'>entity framework (8)</a></li><li><a href='/blog/categories/firebird/'>firebird (11)</a></li><li><a href='/blog/categories/freeware/'>freeware (7)</a></li><li><a href='/blog/categories/inno-setup/'>inno setup (6)</a></li><li><a href='/blog/categories/jaringan/'>jaringan (1)</a></li><li><a href='/blog/categories/mysql/'>mysql (3)</a></li><li><a href='/blog/categories/nsis/'>nsis (2)</a></li><li><a href='/blog/categories/nuget/'>nuget (4)</a></li><li><a href='/blog/categories/sql-server-2000/'>sql server 2000 (1)</a></li><li><a href='/blog/categories/sqlite/'>sqlite (3)</a></li><li><a href='/blog/categories/tools-installer/'>tools installer (8)</a></li><li><a href='/blog/categories/uncategorized/'>uncategorized (8)</a></li><li><a href='/blog/categories/visual-basic/'>visual basic (73)</a></li><li><a href='/blog/categories/visual-basic-net/'>visual basic .net (11)</a></li><li><a href='/blog/categories/visual-c-number/'>visual c# (34)</a></li><li><a href='/blog/categories/winsock/'>winsock (6)</a></li></ul>
+</section>
+<section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/blog/categories/dot-net-remoting' style='font-size: 107.3972602739726%'>.net remoting(9)</a> <a href='/blog/categories/active-report' style='font-size: 103.28767123287672%'>active report(4)</a> <a href='/blog/categories/android' style='font-size: 100.82191780821918%'>android(1)</a> <a href='/blog/categories/aplikasi' style='font-size: 103.28767123287672%'>aplikasi(4)</a> <a href='/blog/categories/crashreporter-dot-net' style='font-size: 100.82191780821918%'>crashreporter.net(1)</a> <a href='/blog/categories/crystal-reports-net' style='font-size: 100.82191780821918%'>crystal reports .net(1)</a> <a href='/blog/categories/dapper-net' style='font-size: 102.46575342465754%'>dapper .net(3)</a> <a href='/blog/categories/entity-framework' style='font-size: 106.57534246575342%'>entity framework(8)</a> <a href='/blog/categories/firebird' style='font-size: 109.04109589041096%'>firebird(11)</a> <a href='/blog/categories/freeware' style='font-size: 105.75342465753425%'>freeware(7)</a> <a href='/blog/categories/inno-setup' style='font-size: 104.93150684931507%'>inno setup(6)</a> <a href='/blog/categories/jaringan' style='font-size: 100.82191780821918%'>jaringan(1)</a> <a href='/blog/categories/mysql' style='font-size: 102.46575342465754%'>mysql(3)</a> <a href='/blog/categories/nsis' style='font-size: 101.64383561643835%'>nsis(2)</a> <a href='/blog/categories/nuget' style='font-size: 103.28767123287672%'>nuget(4)</a> <a href='/blog/categories/sql-server-2000' style='font-size: 100.82191780821918%'>sql server 2000(1)</a> <a href='/blog/categories/sqlite' style='font-size: 102.46575342465754%'>sqlite(3)</a> <a href='/blog/categories/tools-installer' style='font-size: 106.57534246575342%'>tools installer(8)</a> <a href='/blog/categories/uncategorized' style='font-size: 106.57534246575342%'>uncategorized(8)</a> <a href='/blog/categories/visual-basic' style='font-size: 160.0%'>visual basic(73)</a> <a href='/blog/categories/visual-basic-net' style='font-size: 109.04109589041096%'>visual basic .net(11)</a> <a href='/blog/categories/visual-c-number' style='font-size: 127.94520547945206%'>visual c#(34)</a> <a href='/blog/categories/winsock' style='font-size: 104.93150684931507%'>winsock(6)</a> </span>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'k4m4r82',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2009 - 2015 - Admin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'coding4ever';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://coding4ever.net/blog/2012/06/01/menggunakan-library-net-di-vb-6/';
+        var disqus_url = 'http://coding4ever.net/blog/2012/06/01/menggunakan-library-net-di-vb-6/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

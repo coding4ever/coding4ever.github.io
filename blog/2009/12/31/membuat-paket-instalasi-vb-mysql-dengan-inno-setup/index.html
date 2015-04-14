@@ -1,0 +1,712 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Membuat Paket Instalasi Vb + Mysql Dengan Inno Setup - Coding4ever&#8217;s Blog</title>
+  <meta name="author" content="Admin">
+
+  
+  <meta name="description" content="Membuat paket instalasi yang mudah untuk aplikasi yang akan kita distribusikan memang gampang-gampang susah, gampang bagi kita untuk membuatnya hanya &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://coding4ever.net/blog/2009/12/31/membuat-paket-instalasi-vb-mysql-dengan-inno-setup">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Coding4ever's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50866618-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Coding4ever&#8217;s Blog</a></h1>
+  
+    <h2>Just coding&#8230; coding&#8230; and coding&#8230; because coding should be fun :)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:coding4ever.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/gudang-software">Gudang Software</a></li>
+  <li><a href="/source-code">Source Code</a></li>  
+  <li><a href="/aplikasi-gratis">Aplikasi Gratis</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Membuat Paket Instalasi Vb + Mysql Dengan Inno Setup</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2009-12-31T07:54:25+07:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2009</span></span> <span class='time'>7:54 am</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Membuat paket instalasi yang mudah untuk aplikasi yang akan kita distribusikan memang gampang-gampang susah, gampang bagi kita untuk membuatnya hanya dengan menggunakan Package &amp; Deployment Wizard.</p>
+
+<p>Package &amp; Deployment Wizard merupakan tool installer bawaan yang sudah disediakan oleh visual basic, tetapi apakah hasilnya akan cukup memudahkan bagi klien apalagi jika aplikasi yang kita buat menggunakan database yang membutuhkan konfigurasi atau setting-setting yang lumayan banyak pada saat instalasi, seperti MySQL atau Firebird (Maaf ya Ms Access enggak termasuk :D).</p>
+
+<!-- more -->
+
+
+<p>Atau kita mencukupkan untuk membuat panduan instalasi yang dibagi menjadi beberapa bagian :</p>
+
+<ol>
+<li><p> Instalasi Program</p></li>
+<li><p> Instalasi Database Server (ex. MySQL/Firebird)  + Konfigurasi</p></li>
+<li><p> Install Driver ODBC</p></li>
+<li><p> Mengcopy database/undump script sql</p></li>
+</ol>
+
+
+<p>Atau kita ingin sedikit memaksakan diri dengan membuat paket instalasi yang mudah yang hanya dengan 6 kali klik bisa menyelesaikan semua masalah diatas. Jika iya kita langsung saja mempersiapkan tool-tool yang dibutuhkan :</p>
+
+<ol>
+<li><p> <a href="http://jrsoftware.org/">Inno Setup</a></p></li>
+<li><p> <a href="http://dev.mysql.com/downloads/mysql/">MySQL versi noninstall</a> disesuaikan dengan versi MySQL yang terinstall di komputer Anda</p></li>
+<li><p> <a href="http://dev.mysql.com/downloads/connector/odbc/">Connector ODBC</a> yang sudah terinstall biasanya ada di C:\Program Files\MySQL\Connector ODBC 5.1</p></li>
+<li><p> Database yang sudah di backup/dump</p></li>
+</ol>
+
+
+<p>Adapun versi yang terinstall di komputer saya :</p>
+
+<ol>
+<li><p> Inno Setup 5.0.8</p></li>
+<li><p> MySQL Server: 5.1.36-community</p></li>
+<li><p> Connector ODBC 5.1</p></li>
+</ol>
+
+
+<p>Lakukan backup/dump database dengan cara :</p>
+
+<ol>
+<li><p> Aktifkan dos console</p></li>
+<li><p> Masuk ke folder instalasi MySQL misal C:\Program Files\MySQL\MySQL Server 5.1\bin</p></li>
+<li><p> kemudian ketikkan perintah: mysqldump -u<strong>nama_user</strong> -p<strong>password_user</strong> &ndash;routines nama_database > c:\nama_database.sql</p></li>
+</ol>
+
+
+<p>Parameter <strong>&ndash;routines</strong> wajib Anda ketikkan jika database Anda mempunyai prosedur/fungsi. Persiapan terakhir untuk struktur folder saya buat seperti berikut :</p>
+
+<p><img class="center" src="http://coding4ever.files.wordpress.com/2009/12/struktur_folder.jpg"></p>
+
+<p>Untuk keterangan lebih lanjut skrip inno setup silahkan baca manualnya. Contoh skrip instalasi lengkap :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+<span class='line-number'>152</span>
+<span class='line-number'>153</span>
+<span class='line-number'>154</span>
+<span class='line-number'>155</span>
+<span class='line-number'>156</span>
+<span class='line-number'>157</span>
+<span class='line-number'>158</span>
+<span class='line-number'>159</span>
+<span class='line-number'>160</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>;Skrip instalasi by k4m4r82
+</span><span class='line'>;http://coding4ever.wordpress.com/
+</span><span class='line'>[Setup]
+</span><span class='line'>AppName=Sistem Pembelian Bahan Baku PT. ALBASI
+</span><span class='line'>AppVerName=Sistem Pembelian Bahan Baku PT. ALBASI Versi 1.0.0.50
+</span><span class='line'>AppPublisher=K4m4r82's Laboratory
+</span><span class='line'>AllowCancelDuringInstall = yes
+</span><span class='line'>DefaultDirName={pf}\PT ALBASI
+</span><span class='line'>DefaultGroupName=PT ALBASI
+</span><span class='line'>Compression = lzma
+</span><span class='line'>SolidCompression = yes
+</span><span class='line'>OutputBaseFilename=SetupAlbasiServer
+</span><span class='line'>AllowNoIcons = yes
+</span><span class='line'>AlwaysRestart = no
+</span><span class='line'>AlwaysShowComponentsList = no
+</span><span class='line'>DisableProgramGroupPage = yes
+</span><span class='line'>AppendDefaultDirName = yes
+</span><span class='line'>CreateUninstallRegKey = yes
+</span><span class='line'>DisableStartupPrompt = yes
+</span><span class='line'>LanguageDetectionMethod=none
+</span><span class='line'>ShowLanguageDialog=no
+</span><span class='line'>Uninstallable = yes
+</span><span class='line'>UninstallFilesDir={app}\uninst
+</span><span class='line'>UninstallDisplayIcon={app}\Albasi.exe,0
+</span><span class='line'>UninstallDisplayName=Sistem Pembelian Bahan Baku PT. ALBASI
+</span><span class='line'>WindowVisible = no
+</span><span class='line'>AppCopyright=Copyright © 2009. K4m4r82's Laboratory
+</span><span class='line'>FlatComponentsList = yes
+</span><span class='line'>PrivilegesRequired = admin
+</span><span class='line'>VersionInfoVersion=1.0.0.50
+</span><span class='line'>SetupIconFile=Setup.ico
+</span><span class='line'>WizardImageFile=SetupModern21.bmp
+</span><span class='line'>WizardSmallImageFile=SetupModernSmall21.bmp
+</span><span class='line'>
+</span><span class='line'>[Languages]
+</span><span class='line'>Name: ina; MessagesFile: compiler:Indonesia.isl
+</span><span class='line'>Name: en; MessagesFile: compiler:Default.isl
+</span><span class='line'>
+</span><span class='line'>[Tasks]
+</span><span class='line'>Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
+</span><span class='line'>Name: quicklaunchicon; Description: {cm:CreateQuickLaunchIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
+</span><span class='line'>Name: installmysql; Description: "Install MySQL"; GroupDescription: "Proses tambahan:"; Flags: checkedonce
+</span><span class='line'>
+</span><span class='line'>[Files]
+</span><span class='line'>;Visual Basic Runtime
+</span><span class='line'>Source: dll&ocx\VB6STKIT.DLL; DestDir: {sys}; Flags: uninsneveruninstall onlyifdoesntexist
+</span><span class='line'>Source: dll&ocx\COMCAT.DLL; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&ocx\stdole2.tlb; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regtypelib
+</span><span class='line'>Source: dll&ocx\asycfilt.dll; DestDir: {sys}; Flags: uninsneveruninstall onlyifdoesntexist
+</span><span class='line'>Source: dll&ocx\olepro32.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&ocx\oleaut32.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&ocx\msvbvm60.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>
+</span><span class='line'>;daftar file MySQL
+</span><span class='line'>Source: mysql-5.1.36-win32\bin\*; DestDir: {app}\mysql\bin; Flags: ignoreversion; Tasks: installmysql
+</span><span class='line'>Source: mysql-5.1.36-win32\Docs\*; DestDir: {app}\mysql\Docs; Flags: ignoreversion; Tasks: installmysql
+</span><span class='line'>Source: mysql-5.1.36-win32\lib\*; DestDir: {app}\mysql\lib; Flags: ignoreversion recursesubdirs; Tasks: installmysql
+</span><span class='line'>Source: mysql-5.1.36-win32\share\*; DestDir: {app}\mysql\share; Flags: ignoreversion recursesubdirs; Tasks: installmysql
+</span><span class='line'>Source: mysql-5.1.36-win32\data\*; DestDir: {app}\mysql\data; Flags: ignoreversion recursesubdirs uninsneveruninstall; Tasks: installmysql
+</span><span class='line'>Source: mysql-5.1.36-win32\*; DestDir: {app}\mysql; Flags: ignoreversion; Tasks: installmysql
+</span><span class='line'>
+</span><span class='line'>;daftar file MySQL ODBC 5.1
+</span><span class='line'>Source: "C:\Program Files\MySQL\Connector ODBC 5.1\myodbc5.dll"; DestDir: {sys}; Flags: onlyifdoesntexist
+</span><span class='line'>Source: "C:\Program Files\MySQL\Connector ODBC 5.1\myodbc5S.dll"; DestDir: {sys}; Flags: onlyifdoesntexist
+</span><span class='line'>Source: "C:\Program Files\MySQL\Connector ODBC 5.1\myodbc5.lib"; DestDir: {sys}; Flags: onlyifdoesntexist
+</span><span class='line'>Source: "C:\Program Files\MySQL\Connector ODBC 5.1\myodbc5S.lib"; DestDir: {sys}; Flags: onlyifdoesntexist
+</span><span class='line'>Source: "C:\Program Files\MySQL\Connector ODBC 5.1\myodbc-installer.exe"; DestDir: {sys}; Flags: onlyifdoesntexist
+</span><span class='line'>
+</span><span class='line'>;My Application Runtime
+</span><span class='line'>Source: main\Albasi.exe.manifest; DestDir: {app}; Flags: ignoreversion
+</span><span class='line'>Source: main\Albasi.exe; DestDir: {app}; Flags: ignoreversion
+</span><span class='line'>Source: main\albasi.sql; DestDir: {app}\mysql\bin; Flags: ignoreversion
+</span><span class='line'>Source: main\exec.cmd; DestDir: {app}\mysql\bin; Flags: ignoreversion
+</span><span class='line'>
+</span><span class='line'>Source: dll&ocx\MSMASK32.OCX; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&ocx\cTreeOpt6.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&ocx\Comdlg32.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&ocx\vbalDTab6.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&ocx\MSCOMCT2.OCX; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&ocx\MyTextBox.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&ocx\LVbuttons.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&ocx\vbalExpBar6.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&ocx\MSCOMCTL.OCX; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&ocx\vbalIml6.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&ocx\cPopMenu6.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&ocx\cNewMenu6.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&ocx\scrrun.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&ocx\vbalMDITabs6.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&ocx\SSubTmr6.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>
+</span><span class='line'>Source: dll&ocx\msado21.tlb; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regtypelib
+</span><span class='line'>
+</span><span class='line'>[Icons]
+</span><span class='line'>Name: {group}\Sistem Pembelian Bahan Baku PT. ALBASI; Filename: {app}\Albasi.exe; WorkingDir: {app}
+</span><span class='line'>Name: {userdesktop}\Sistem Pembelian Bahan Baku PT. ALBASI; Filename: {app}\Albasi.exe; WorkingDir: {app}; Tasks: desktopicon
+</span><span class='line'>Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\Sistem Pembelian Bahan Baku PT. ALBASI; Filename: {app}\Albasi.exe; WorkingDir: {app}; Tasks: quicklaunchicon
+</span><span class='line'>
+</span><span class='line'>[INI]
+</span><span class='line'>Filename: {app}\mysql\my.ini; Section: mysqld; Key: basedir; String: {app}\mysql; Tasks: installmysql
+</span><span class='line'>Filename: {app}\mysql\my.ini; Section: mysqld; Key: datadir; String: {app}\mysql\data; Tasks: installmysql
+</span><span class='line'>
+</span><span class='line'>Filename: {app}\infoProgram.ini; Section: Sistem; Key: serverName; String: "127.0.0.1"
+</span><span class='line'>Filename: {app}\infoProgram.ini; Section: Sistem; Key: dbName; String: "albasi"
+</span><span class='line'>
+</span><span class='line'>[Run]
+</span><span class='line'>;install service MySQL
+</span><span class='line'>Filename: "{app}\mysql\bin\mysqld.exe"; Parameters: "install ""MySQL"""; StatusMsg: "Sedang menginstall service MySQL ..."; Flags: runhidden; MinVersion: 0,5.01.2600sp2; Tasks: installmysql
+</span><span class='line'>
+</span><span class='line'>;jalankan service MySQL
+</span><span class='line'>Filename: {sys}\net.exe; Parameters: "start ""MySQL"""; StatusMsg: "Sedang menjalankan service MySQL ..."; Flags: runhidden; MinVersion: 0.0,4.0.1381; Tasks: installmysql
+</span><span class='line'>
+</span><span class='line'>;mendaftarkan port default mysql (3306) ke firewall
+</span><span class='line'>Filename: "{sys}\netsh.exe"; Parameters: "firewall add portopening TCP 3306 ""Port MySQL"""; StatusMsg: "Sedang mendaftarkan port MySQL ..."; Flags: runhidden; MinVersion: 0,5.01.2600sp2
+</span><span class='line'>Filename: "{sys}\netsh.exe"; Parameters: "firewall set service type = fileandprint mode = enable"; StatusMsg: "Mengaktifkan File and Printer Sharing ..."; Flags: runhidden; MinVersion: 0,5.01.2600sp2
+</span><span class='line'>
+</span><span class='line'>;mengganti password default root (blank). ex : masterkey
+</span><span class='line'>Filename: "{app}\mysql\bin\mysqladmin.exe"; Parameters: "-uroot password masterkey"; StatusMsg: "Mengganti password root"; Flags: runhidden; MinVersion: 0,5.01.2600sp2
+</span><span class='line'>
+</span><span class='line'>;menghapus user default1 (user=blank, password=blank)
+</span><span class='line'>Filename: "{app}\mysql\bin\mysql.exe"; Parameters: "-uroot -pmasterkey -e ""DELETE FROM mysql.user WHERE Host='localhost' AND User=''"""; Flags: runhidden; MinVersion: 0,5.01.2600sp2
+</span><span class='line'>Filename: "{app}\mysql\bin\mysql.exe"; Parameters: "-uroot -pmasterkey -e ""FLUSH PRIVILEGES"""; Flags: runhidden; MinVersion: 0,5.01.2600sp2
+</span><span class='line'>
+</span><span class='line'>;menghapus user default2 (user=root, password=blank)
+</span><span class='line'>Filename: "{app}\mysql\bin\mysql.exe"; Parameters: "-uroot -pmasterkey -e ""DELETE FROM mysql.user WHERE Host='127.0.0.1' AND User='root'"""; Flags: runhidden; MinVersion: 0,5.01.2600sp2
+</span><span class='line'>Filename: "{app}\mysql\bin\mysql.exe"; Parameters: "-uroot -pmasterkey -e ""FLUSH PRIVILEGES"""; Flags: runhidden; MinVersion: 0,5.01.2600sp2
+</span><span class='line'>
+</span><span class='line'>;set agar user root bisa login dari mesin lain (kalo diperlukan)
+</span><span class='line'>Filename: "{app}\mysql\bin\mysql.exe"; Parameters: "-uroot -pmasterkey -e ""GRANT ALL PRIVILEGES ON *.* TO root@'%' IDENTIFIED BY 'masterkey'"""; Flags: runhidden; MinVersion: 0,5.01.2600sp2
+</span><span class='line'>Filename: "{app}\mysql\bin\mysql.exe"; Parameters: "-uroot -pmasterkey -e ""FLUSH PRIVILEGES"""; Flags: runhidden; MinVersion: 0,5.01.2600sp2
+</span><span class='line'>
+</span><span class='line'>;membuat database kosong
+</span><span class='line'>Filename: "{app}\mysql\bin\mysql.exe"; Parameters: "-uroot -pmasterkey -e ""CREATE DATABASE albasi"""; Flags: runhidden; MinVersion: 0,5.01.2600sp2
+</span><span class='line'>
+</span><span class='line'>;menjalankan file batch exec.cmd untuk melakukan proses undump
+</span><span class='line'>Filename: "{app}\mysql\bin\exec.cmd"; Flags: runhidden; MinVersion: 0,5.01.2600sp2
+</span><span class='line'>
+</span><span class='line'>;install driver myodbc
+</span><span class='line'>Filename: "{sys}\myodbc-installer.exe"; Parameters: "-d -a -n ""MySQL ODBC 5.1 Driver"" -t ""DRIVER=myodbc5.dll;SETUP=myodbc5S.dll"""; StatusMsg: "Tunggu sedang mendaftarkan driver MySQL Connector ODBC 5.1.5"; Flags: runhidden
+</span><span class='line'>
+</span><span class='line'>[UninstallRun]
+</span><span class='line'>Filename: {sys}\net.exe; Parameters: "stop ""MySQL"""; StatusMsg: "Menghentikan Service MySQL ..."; Flags: runhidden; MinVersion: 0.0,4.0.1381
+</span><span class='line'>Filename: "{app}\mysql\bin\mysqld.exe"; Parameters: "remove ""MySQL"""; StatusMsg: "Sedang menghapus service MySQL ..."; Flags: runhidden; MinVersion: 0,5.01.2600sp2
+</span><span class='line'>
+</span><span class='line'>Filename: "{sys}\myodbc-installer.exe"; Parameters: "-d -r -n ""MySQL ODBC 5.1 Driver"""; StatusMsg: "Tunggu sedang menghapus driver MySQL Connector ODBC 5.1.5"; Flags: runhidden
+</span><span class='line'>
+</span><span class='line'>[UninstallDelete]
+</span><span class='line'>Type: files; Name: {app}\mysql\bin\*.*
+</span><span class='line'>Type: files; Name: {app}\mysql\Docs\*.*
+</span><span class='line'>Type: files; Name: {app}\mysql\lib\*.*
+</span><span class='line'>Type: files; Name: {app}\mysql\share\*.*
+</span><span class='line'>
+</span><span class='line'>Type: files; Name: {sys}\myodbc5S.dll
+</span><span class='line'>Type: files; Name: {sys}\myodbc5S.lib
+</span><span class='line'>Type: files; Name: {sys}\myodbc5.dll
+</span><span class='line'>Type: files; Name: {sys}\myodbc5.lib
+</span><span class='line'>Type: files; Name: {sys}\myodbc-installer.exe
+</span><span class='line'>
+</span><span class='line'>[Registry]
+</span><span class='line'>;mencatat lokasi instalasi program, ini dibutuhkan jika kita ingin membuat paket instalasi update
+</span><span class='line'>Root: HKCU; Subkey: "Software\PT ALBASI\SPBB"; ValueName: "installDir"; ValueType: String; ValueData: {app}; Flags: uninsdeletevalue</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Di dalam skrip instalasi ada file exec.cmd, isinya adalah :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mysql -uroot -pmasterkey albasi &lt; albasi.sql</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Isi file exec.cmd sebenarnya untuk proses undump, tapi saya masih belum tau kenapa inno setup gagal menjalankannya padahal perintah-perintah yang lainnya sukses.</p>
+
+<p>Contoh hasil instalasi :</p>
+
+<p><img class="center" src="http://coding4ever.files.wordpress.com/2009/12/install-1.jpg"></p>
+
+<p><img class="center" src="http://coding4ever.files.wordpress.com/2009/12/install-2.jpg"></p>
+
+<p><img class="center" src="http://coding4ever.files.wordpress.com/2009/12/install-3.jpg"></p>
+
+<p><img class="center" src="http://coding4ever.files.wordpress.com/2009/12/install-4.jpg"></p>
+
+<p><img class="center" src="http://coding4ever.files.wordpress.com/2009/12/install-5.jpg"></p>
+
+<p><img class="center" src="http://coding4ever.files.wordpress.com/2009/12/install-6.jpg"></p>
+
+<p>Yuph mungkin itu saja, selamat mencoba :)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Admin</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2009-12-31T07:54:25+07:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2009</span></span> <span class='time'>7:54 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/inno-setup/'>inno setup</a>, <a class='category' href='/blog/categories/tools-installer/'>tools installer</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2009/12/30/membuat-laporan-dalam-format-ms-excel/" title="Previous Post: Membuat laporan dalam format Ms Excel">&laquo; Membuat laporan dalam format Ms Excel</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2010/01/01/menganalisa-dan-membuat-mesin-penjawab-otomatis-ym/" title="Next Post: Menganalisa dan membuat mesin penjawab otomatis Y!M">Menganalisa dan membuat mesin penjawab otomatis Y!M &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Admin</h1>
+  <p>Software developer yang berasal dari Riau, tapi malah betah tinggal di Yogyakarta :)</p>
+  
+  <p>Pernah mengajar di salah satu perguruan tinggi swasta (PTS) di Yogyakarta.<br>
+     Saat ini bekerja sebagai staf IT di PTS yang sama sebagai senior software developer.</p>
+  
+  <p>Fokus mengembangkan aplikasi di atas platform .NET dan Android. Diwaktu luang insya Alloh akan terus berbagi pengalaman di blog <a href="http://coding4ever.net/" target="_blank">ini</a>.</p>    
+</section><section>
+  <h1>Contacts :</h1>
+    <ul>		
+		<li>			
+			<a href="mailto:coding4ever.net@gmail.com" title="GMail" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/gmail-small2.png" border="0" alt="GMail" /></a>
+		</li>		
+		<li>			
+			<a href="https://github.com/k4m4r82?tab=repositories" title="GitHub" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/github-small2.png" border="0" alt="GitHub" /></a>
+		</li>
+		<li>
+			<a href="http://www.facebook.com/abu.anas.1232" title="Facebook" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/fb-small2.png" border="0" alt="Facebook" /></a>
+		</li>				
+	</ul>
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/04/14/paket-nuget-yang-wajib-dicoba-bagian-number-1-crashreporter-dot-net/">Paket NuGet Yang Wajib Dicoba Bagian #1 - CrashReporter.NET</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/13/comment-as-a-guest/">Comment as a Guest</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push/">Membuat Laporan Crystal Reports .NET Dengan Model Data-Push</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/11/blog-lama-coding4ever-aktif-kembali/">Blog Lama Coding4ever Aktif Kembali</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/11/06/kr-pulsa-elektrik/">KR Pulsa Elektrik</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/08/entity-framework-part-8/">Entity Framework Part 8</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/manajemen-proyek-menggunakan-redmine-bagian-1/">Manajemen Proyek Menggunakan Redmine Bagian 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/21/manajemen-password-menggunakan-keepass/">Manajemen Password Menggunakan KeePass</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/10/sms-gateway-edisi-net-part-1/">SMS Gateway Edisi .NET Part 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/11/entity-framework-part-7/">Entity Framework Part 7</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+    <ul id="category-list"><li><a href='/blog/categories/dot-net-remoting/'>.net remoting (9)</a></li><li><a href='/blog/categories/active-report/'>active report (4)</a></li><li><a href='/blog/categories/android/'>android (1)</a></li><li><a href='/blog/categories/aplikasi/'>aplikasi (4)</a></li><li><a href='/blog/categories/crashreporter-dot-net/'>crashreporter.net (1)</a></li><li><a href='/blog/categories/crystal-reports-net/'>crystal reports .net (1)</a></li><li><a href='/blog/categories/dapper-net/'>dapper .net (3)</a></li><li><a href='/blog/categories/entity-framework/'>entity framework (8)</a></li><li><a href='/blog/categories/firebird/'>firebird (11)</a></li><li><a href='/blog/categories/freeware/'>freeware (7)</a></li><li><a href='/blog/categories/inno-setup/'>inno setup (6)</a></li><li><a href='/blog/categories/jaringan/'>jaringan (1)</a></li><li><a href='/blog/categories/mysql/'>mysql (3)</a></li><li><a href='/blog/categories/nsis/'>nsis (2)</a></li><li><a href='/blog/categories/nuget/'>nuget (4)</a></li><li><a href='/blog/categories/sql-server-2000/'>sql server 2000 (1)</a></li><li><a href='/blog/categories/sqlite/'>sqlite (3)</a></li><li><a href='/blog/categories/tools-installer/'>tools installer (8)</a></li><li><a href='/blog/categories/uncategorized/'>uncategorized (8)</a></li><li><a href='/blog/categories/visual-basic/'>visual basic (73)</a></li><li><a href='/blog/categories/visual-basic-net/'>visual basic .net (11)</a></li><li><a href='/blog/categories/visual-c-number/'>visual c# (34)</a></li><li><a href='/blog/categories/winsock/'>winsock (6)</a></li></ul>
+</section>
+<section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/blog/categories/dot-net-remoting' style='font-size: 107.3972602739726%'>.net remoting(9)</a> <a href='/blog/categories/active-report' style='font-size: 103.28767123287672%'>active report(4)</a> <a href='/blog/categories/android' style='font-size: 100.82191780821918%'>android(1)</a> <a href='/blog/categories/aplikasi' style='font-size: 103.28767123287672%'>aplikasi(4)</a> <a href='/blog/categories/crashreporter-dot-net' style='font-size: 100.82191780821918%'>crashreporter.net(1)</a> <a href='/blog/categories/crystal-reports-net' style='font-size: 100.82191780821918%'>crystal reports .net(1)</a> <a href='/blog/categories/dapper-net' style='font-size: 102.46575342465754%'>dapper .net(3)</a> <a href='/blog/categories/entity-framework' style='font-size: 106.57534246575342%'>entity framework(8)</a> <a href='/blog/categories/firebird' style='font-size: 109.04109589041096%'>firebird(11)</a> <a href='/blog/categories/freeware' style='font-size: 105.75342465753425%'>freeware(7)</a> <a href='/blog/categories/inno-setup' style='font-size: 104.93150684931507%'>inno setup(6)</a> <a href='/blog/categories/jaringan' style='font-size: 100.82191780821918%'>jaringan(1)</a> <a href='/blog/categories/mysql' style='font-size: 102.46575342465754%'>mysql(3)</a> <a href='/blog/categories/nsis' style='font-size: 101.64383561643835%'>nsis(2)</a> <a href='/blog/categories/nuget' style='font-size: 103.28767123287672%'>nuget(4)</a> <a href='/blog/categories/sql-server-2000' style='font-size: 100.82191780821918%'>sql server 2000(1)</a> <a href='/blog/categories/sqlite' style='font-size: 102.46575342465754%'>sqlite(3)</a> <a href='/blog/categories/tools-installer' style='font-size: 106.57534246575342%'>tools installer(8)</a> <a href='/blog/categories/uncategorized' style='font-size: 106.57534246575342%'>uncategorized(8)</a> <a href='/blog/categories/visual-basic' style='font-size: 160.0%'>visual basic(73)</a> <a href='/blog/categories/visual-basic-net' style='font-size: 109.04109589041096%'>visual basic .net(11)</a> <a href='/blog/categories/visual-c-number' style='font-size: 127.94520547945206%'>visual c#(34)</a> <a href='/blog/categories/winsock' style='font-size: 104.93150684931507%'>winsock(6)</a> </span>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'k4m4r82',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2009 - 2015 - Admin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'coding4ever';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://coding4ever.net/blog/2009/12/31/membuat-paket-instalasi-vb-mysql-dengan-inno-setup/';
+        var disqus_url = 'http://coding4ever.net/blog/2009/12/31/membuat-paket-instalasi-vb-mysql-dengan-inno-setup/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

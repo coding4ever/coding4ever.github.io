@@ -1,0 +1,610 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Bermain-main Dengan Windows Service - Coding4ever&#8217;s Blog</title>
+  <meta name="author" content="Admin">
+
+  
+  <meta name="description" content="SC is a command line program used for communicating with the NT Service Controller and services. Ya dengan memanfaatkan tool ini kita bisa dengan &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://coding4ever.net/blog/2010/03/22/bermain-main-dengan-windows-service">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Coding4ever's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50866618-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Coding4ever&#8217;s Blog</a></h1>
+  
+    <h2>Just coding&#8230; coding&#8230; and coding&#8230; because coding should be fun :)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:coding4ever.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/gudang-software">Gudang Software</a></li>
+  <li><a href="/source-code">Source Code</a></li>  
+  <li><a href="/aplikasi-gratis">Aplikasi Gratis</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Bermain-main Dengan Windows Service</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2010-03-22T07:01:08+07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2010</span></span> <span class='time'>7:01 am</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><blockquote><p><strong>SC</strong> is a command line program used for communicating with the NT Service Controller and services.</p></blockquote>
+
+<p>Ya dengan memanfaatkan tool ini<strong> </strong>kita bisa dengan mudah melakukan hal-hal berikut :</p>
+
+<ol>
+<li><p> Menampilkan daftar service</p></li>
+<li><p> Menghentikan service</p></li>
+<li><p> Menjalan service</p></li>
+<li><p> Menghapus service</p></li>
+</ol>
+
+
+<p>Jika pada artikel <a href="http://coding4ever.net/blog/2010/02/18/cara-mudah-dan-gampang-membuat-aplikasi-service-dengan-vb6/">sebelum</a>nya kita sudah berhasil mendaftarkan aplikasi kita sebagai service, pada artikel ini kita akan membuat program dengan fitur diatas.</p>
+
+<p>Artikel ini sendiri merupakan pengembangan dari artikel <a href="http://coding4ever.net/blog/2010/03/12/menampilkan-daftar-driver-yang-terinstall/">sebelum</a>nya.</p>
+
+<!-- more -->
+
+
+<p>Sebelum kita masuk pada pembahasan inti kita akan bermain-main dulu dengan beberapa perintah SC berikut :</p>
+
+<p><strong>1. Menampilkan daftar service</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sc query state= all</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Contoh output yang dihasilkan</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/03/22032010-1.jpg"><img src="http://coding4ever.files.wordpress.com/2010/03/22032010-1.jpg?w=300" alt="" /></a></p>
+
+<p>Informasi berharga yang kita dapatkan dari output diatas adalah <strong>SERVICE_NAME</strong>, <strong>DISPLAY_NAME</strong> dan <strong>STATE</strong>.</p>
+
+<p>Langkah berikutnya kita akan meyimpan output ini ke file text yang mana akan kita olah via program, misal kita akan simpan dengan nama <strong>services.txt</strong> di lokasi drive c:.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sc query state= all &gt; c:\service.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Contoh output setelah disimpan di file text</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/03/22032010-2.jpg"><img src="http://coding4ever.files.wordpress.com/2010/03/22032010-2.jpg?w=300" alt="" /></a></p>
+
+<p><strong>2. Menghentikan service</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sc stop &lt;SERVICE_NAME&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>3. Menjalan service</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sc start &lt;SERVICE_NAME&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>4. Menghapus service</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sc delete &lt;SERVICE_NAME&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Semua perintah SC yang dibutuhkan sudah kita dapatkan, sekarang kita masuk ke pembahasa inti.</p>
+
+<p>Contoh program yang akan kita buat seperti berikut :</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/03/22032010-3.jpg"><img src="http://coding4ever.files.wordpress.com/2010/03/22032010-3.jpg?w=300" alt="" /></a></p>
+
+<p><strong>1. Prosedur untuk menjalankan command line</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Private Declare Function OpenProcess Lib &quot;kernel32&quot; (ByVal dwDesiredAccess As Long, ByVal bInheritHandle As Long, ByVal dwProcessId As Long) As Long
+</span><span class='line'>Private Declare Function WaitForSingleObject Lib &quot;kernel32&quot; (ByVal hHandle As Long, ByVal dwMilliseconds As Long) As Long
+</span><span class='line'>Private Declare Function CloseHandle Lib &quot;kernel32&quot; (ByVal hObject As Long) As Long
+</span><span class='line'>
+</span><span class='line'>Private Const SYNCHRONIZE       As Long = &amp;H100000
+</span><span class='line'>Private Const INFINITE          As Long = &amp;HFFFF
+</span><span class='line'>
+</span><span class='line'>Private Sub execCommand(ByVal cmd As String)
+</span><span class='line'>    Dim result  As Long
+</span><span class='line'>    Dim lPid    As Long
+</span><span class='line'>    Dim lHnd    As Long
+</span><span class='line'>    Dim lRet    As Long
+</span><span class='line'>
+</span><span class='line'>    cmd = &quot;cmd /c &quot; &amp; cmd
+</span><span class='line'>    result = Shell(cmd, vbHide)
+</span><span class='line'>
+</span><span class='line'>    lPid = result
+</span><span class='line'>    If lPid &lt;&gt; 0 Then
+</span><span class='line'>        lHnd = OpenProcess(SYNCHRONIZE, 0, lPid)
+</span><span class='line'>        If lHnd &lt;&gt; 0 Then
+</span><span class='line'>            lRet = WaitForSingleObject(lHnd, INFINITE)
+</span><span class='line'>            CloseHandle (lHnd)
+</span><span class='line'>        End If
+</span><span class='line'>    End If
+</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Prosedur diatas tidak hanya menggunakan perintah <a href="http://coding4ever.net/blog/2010/01/09/mengoptimalkan-penggunaan-fungsi-shell/">Shell</a> biasa tetapi juga menggunakan <a href="http://coding4ever.net/blog/2010/01/02/sekilas-windows-api/">fungsi API</a> OpenProcess dan WaitForSingleObject untuk mengetahui eksekusi perintah sudah selesai/belum.</p>
+
+<p>Contoh penggunaan prosedur diatas</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub cmdTes_Click()
+</span><span class='line'>    Call execCommand(&quot;sc stop MySQL&quot;) 'menghentingan service mysql
+</span><span class='line'>    Call execCommand(&quot;sc start MySQL&quot;) 'menjalankan service mysql
+</span><span class='line'>    Call execCommand(&quot;sc delete MySQL&quot;) 'menghapus service mysql
+</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>2. Menampilkan service</strong></p>
+
+<p>Objek yang kita gunakan untuk menampilkan daftar service adalah ListView dan untuk iconnya disimpan di komponen ImageList.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Private Const REC_SPR           As String = &quot;|&quot; 'separator baris
+</span><span class='line'>Private Const COL_SPR           As String = &quot;#&quot;  'separator kolom
+</span><span class='line'>Private Const FILE_SERVICE      As String = &quot;c:\services.txt&quot; 'file untuk menampung output perintah SC
+</span><span class='line'>
+</span><span class='line'>Private Sub showService()
+</span><span class='line'>    Dim i               As Long
+</span><span class='line'>    Dim fileHandler     As Integer
+</span><span class='line'>
+</span><span class='line'>    Dim tmp1            As String
+</span><span class='line'>    Dim tmp2            As String
+</span><span class='line'>    Dim arrCol()        As String
+</span><span class='line'>    Dim arrRec()        As String
+</span><span class='line'>
+</span><span class='line'>    Call execCommand(&quot;sc query state= all &gt; &quot; &amp; FILE_SERVICE)
+</span><span class='line'>
+</span><span class='line'>    fileHandler = FreeFile
+</span><span class='line'>
+</span><span class='line'>    Open FILE_SERVICE For Input As fileHandler
+</span><span class='line'>    Do While Not EOF(fileHandler)
+</span><span class='line'>        Input #fileHandler, tmp1
+</span><span class='line'>        If Len(tmp1) &gt; 0 Then
+</span><span class='line'>            'ambil nama service
+</span><span class='line'>            'nama service dibutuhkan untuk proses start, stop dan delete service
+</span><span class='line'>            If Left(tmp1, 12) = &quot;SERVICE_NAME&quot; Then tmp2 = tmp2 &amp; Mid$(tmp1, 15) &amp; COL_SPR
+</span><span class='line'>
+</span><span class='line'>            'ambil informasi lengkap service
+</span><span class='line'>            If Left(tmp1, 12) = &quot;DISPLAY_NAME&quot; Then tmp2 = tmp2 &amp; Mid$(tmp1, 15) &amp; COL_SPR
+</span><span class='line'>
+</span><span class='line'>            'state-&gt; status service: stopped, running dan lain-lain
+</span><span class='line'>            If InStr(1, tmp1, &quot;STATE&quot;) &gt; 0 Then tmp2 = tmp2 &amp; Mid$(tmp1, 25) &amp; REC_SPR
+</span><span class='line'>        End If
+</span><span class='line'>    Loop
+</span><span class='line'>    Close fileHandler
+</span><span class='line'>
+</span><span class='line'>    'contoh hasil perulangan diatas :
+</span><span class='line'>    'postgresql-8.4#postgresql-8.4 - PostgreSQL Server 8.4#RUNNING|MySQL#MySQL#RUNNING
+</span><span class='line'>    'SERVICE_NAME   DISPLAY_NAME                           STATE
+</span><span class='line'>
+</span><span class='line'>    If Len(tmp2) &gt; 0 Then
+</span><span class='line'>        tmp2 = Left(tmp2, Len(tmp2) - 1)
+</span><span class='line'>
+</span><span class='line'>        arrRec = Split(tmp2, REC_SPR) 'pecah var tmp2 menjadi beberapa baris, REC_SPR = |
+</span><span class='line'>        With ListView1
+</span><span class='line'>            .ListItems.Clear
+</span><span class='line'>            For i = 0 To UBound(arrRec)
+</span><span class='line'>                If Len(arrRec(i)) &gt; 0 Then
+</span><span class='line'>                    arrCol = Split(arrRec(i), COL_SPR) 'pecah var arrRec menjadi beberapa kolom, COL_SPR = #
+</span><span class='line'>
+</span><span class='line'>                    'tampilkan ke listview
+</span><span class='line'>                    .ListItems.Add , , arrCol(1), , 1 'DISPLAY_NAME
+</span><span class='line'>                    .ListItems(i + 1).SubItems(1) = StrConv(arrCol(2), vbProperCase) 'STATE
+</span><span class='line'>                    .ListItems(i + 1).SubItems(2) = arrCol(0) 'SERVICE_NAME
+</span><span class='line'>                End If
+</span><span class='line'>            Next i
+</span><span class='line'>        End With
+</span><span class='line'>    End If
+</span><span class='line'>End Sub
+</span><span class='line'>
+</span><span class='line'>Private Sub Form_Load()
+</span><span class='line'>    'inisialisasi listview
+</span><span class='line'>    With ListView1
+</span><span class='line'>        .View = lvwReport
+</span><span class='line'>        .GridLines = True
+</span><span class='line'>        .FullRowSelect = True
+</span><span class='line'>        .SmallIcons = ImageList1 'inisialisasi ImageList
+</span><span class='line'>
+</span><span class='line'>        .ColumnHeaders.Add , , &quot;Service&quot;, 5000
+</span><span class='line'>        .ColumnHeaders.Add , , &quot;Status&quot;, 1500
+</span><span class='line'>
+</span><span class='line'>        'kolom ini dibutuhkan untuk melakukan aksi terhadap service (start/stop service)
+</span><span class='line'>        'widthny diset = 0
+</span><span class='line'>        .ColumnHeaders.Add , , &quot;ServiceName&quot;, 0
+</span><span class='line'>    End With
+</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Selesai sudah pembahasan kita kali ini :), source code lengkap bisa didownload di<a href="https://github.com/k4m4r82/BermainService">sini</a>.</p>
+
+<p>Selamat mencoba :)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Admin</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2010-03-22T07:01:08+07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2010</span></span> <span class='time'>7:01 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/visual-basic/'>visual basic</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2010/03/19/contoh-pemanggilan-store-procedure-dan-view-firebird-dari-aplikasi/" title="Previous Post: Contoh pemanggilan store procedure dan view firebird dari aplikasi">&laquo; Contoh pemanggilan store procedure dan view firebird dari aplikasi</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2010/03/24/info-lowongan-programmer-phpo/" title="Next Post: Info lowongan programmer php">Info lowongan programmer php &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Admin</h1>
+  <p>Software developer yang berasal dari Riau, tapi malah betah tinggal di Yogyakarta :)</p>
+  
+  <p>Pernah mengajar di salah satu perguruan tinggi swasta (PTS) di Yogyakarta.<br>
+     Saat ini bekerja sebagai staf IT di PTS yang sama sebagai senior software developer.</p>
+  
+  <p>Fokus mengembangkan aplikasi di atas platform .NET dan Android. Diwaktu luang insya Alloh akan terus berbagi pengalaman di blog <a href="http://coding4ever.net/" target="_blank">ini</a>.</p>    
+</section><section>
+  <h1>Contacts :</h1>
+    <ul>		
+		<li>			
+			<a href="mailto:coding4ever.net@gmail.com" title="GMail" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/gmail-small2.png" border="0" alt="GMail" /></a>
+		</li>		
+		<li>			
+			<a href="https://github.com/k4m4r82?tab=repositories" title="GitHub" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/github-small2.png" border="0" alt="GitHub" /></a>
+		</li>
+		<li>
+			<a href="http://www.facebook.com/abu.anas.1232" title="Facebook" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/fb-small2.png" border="0" alt="Facebook" /></a>
+		</li>				
+	</ul>
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/04/14/paket-nuget-yang-wajib-dicoba-bagian-number-1-crashreporter-dot-net/">Paket NuGet Yang Wajib Dicoba Bagian #1 - CrashReporter.NET</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/13/comment-as-a-guest/">Comment as a Guest</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push/">Membuat Laporan Crystal Reports .NET Dengan Model Data-Push</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/11/blog-lama-coding4ever-aktif-kembali/">Blog Lama Coding4ever Aktif Kembali</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/11/06/kr-pulsa-elektrik/">KR Pulsa Elektrik</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/08/entity-framework-part-8/">Entity Framework Part 8</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/manajemen-proyek-menggunakan-redmine-bagian-1/">Manajemen Proyek Menggunakan Redmine Bagian 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/21/manajemen-password-menggunakan-keepass/">Manajemen Password Menggunakan KeePass</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/10/sms-gateway-edisi-net-part-1/">SMS Gateway Edisi .NET Part 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/11/entity-framework-part-7/">Entity Framework Part 7</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+    <ul id="category-list"><li><a href='/blog/categories/dot-net-remoting/'>.net remoting (9)</a></li><li><a href='/blog/categories/active-report/'>active report (4)</a></li><li><a href='/blog/categories/android/'>android (1)</a></li><li><a href='/blog/categories/aplikasi/'>aplikasi (4)</a></li><li><a href='/blog/categories/crashreporter-dot-net/'>crashreporter.net (1)</a></li><li><a href='/blog/categories/crystal-reports-net/'>crystal reports .net (1)</a></li><li><a href='/blog/categories/dapper-net/'>dapper .net (3)</a></li><li><a href='/blog/categories/entity-framework/'>entity framework (8)</a></li><li><a href='/blog/categories/firebird/'>firebird (11)</a></li><li><a href='/blog/categories/freeware/'>freeware (7)</a></li><li><a href='/blog/categories/inno-setup/'>inno setup (6)</a></li><li><a href='/blog/categories/jaringan/'>jaringan (1)</a></li><li><a href='/blog/categories/mysql/'>mysql (3)</a></li><li><a href='/blog/categories/nsis/'>nsis (2)</a></li><li><a href='/blog/categories/nuget/'>nuget (4)</a></li><li><a href='/blog/categories/sql-server-2000/'>sql server 2000 (1)</a></li><li><a href='/blog/categories/sqlite/'>sqlite (3)</a></li><li><a href='/blog/categories/tools-installer/'>tools installer (8)</a></li><li><a href='/blog/categories/uncategorized/'>uncategorized (8)</a></li><li><a href='/blog/categories/visual-basic/'>visual basic (73)</a></li><li><a href='/blog/categories/visual-basic-net/'>visual basic .net (11)</a></li><li><a href='/blog/categories/visual-c-number/'>visual c# (34)</a></li><li><a href='/blog/categories/winsock/'>winsock (6)</a></li></ul>
+</section>
+<section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/blog/categories/dot-net-remoting' style='font-size: 107.3972602739726%'>.net remoting(9)</a> <a href='/blog/categories/active-report' style='font-size: 103.28767123287672%'>active report(4)</a> <a href='/blog/categories/android' style='font-size: 100.82191780821918%'>android(1)</a> <a href='/blog/categories/aplikasi' style='font-size: 103.28767123287672%'>aplikasi(4)</a> <a href='/blog/categories/crashreporter-dot-net' style='font-size: 100.82191780821918%'>crashreporter.net(1)</a> <a href='/blog/categories/crystal-reports-net' style='font-size: 100.82191780821918%'>crystal reports .net(1)</a> <a href='/blog/categories/dapper-net' style='font-size: 102.46575342465754%'>dapper .net(3)</a> <a href='/blog/categories/entity-framework' style='font-size: 106.57534246575342%'>entity framework(8)</a> <a href='/blog/categories/firebird' style='font-size: 109.04109589041096%'>firebird(11)</a> <a href='/blog/categories/freeware' style='font-size: 105.75342465753425%'>freeware(7)</a> <a href='/blog/categories/inno-setup' style='font-size: 104.93150684931507%'>inno setup(6)</a> <a href='/blog/categories/jaringan' style='font-size: 100.82191780821918%'>jaringan(1)</a> <a href='/blog/categories/mysql' style='font-size: 102.46575342465754%'>mysql(3)</a> <a href='/blog/categories/nsis' style='font-size: 101.64383561643835%'>nsis(2)</a> <a href='/blog/categories/nuget' style='font-size: 103.28767123287672%'>nuget(4)</a> <a href='/blog/categories/sql-server-2000' style='font-size: 100.82191780821918%'>sql server 2000(1)</a> <a href='/blog/categories/sqlite' style='font-size: 102.46575342465754%'>sqlite(3)</a> <a href='/blog/categories/tools-installer' style='font-size: 106.57534246575342%'>tools installer(8)</a> <a href='/blog/categories/uncategorized' style='font-size: 106.57534246575342%'>uncategorized(8)</a> <a href='/blog/categories/visual-basic' style='font-size: 160.0%'>visual basic(73)</a> <a href='/blog/categories/visual-basic-net' style='font-size: 109.04109589041096%'>visual basic .net(11)</a> <a href='/blog/categories/visual-c-number' style='font-size: 127.94520547945206%'>visual c#(34)</a> <a href='/blog/categories/winsock' style='font-size: 104.93150684931507%'>winsock(6)</a> </span>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'k4m4r82',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2009 - 2015 - Admin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'coding4ever';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://coding4ever.net/blog/2010/03/22/bermain-main-dengan-windows-service/';
+        var disqus_url = 'http://coding4ever.net/blog/2010/03/22/bermain-main-dengan-windows-service/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

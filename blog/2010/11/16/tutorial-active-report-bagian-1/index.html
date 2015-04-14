@@ -1,0 +1,541 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Tutorial Active Report Bagian 1 - Coding4ever&#8217;s Blog</title>
+  <meta name="author" content="Admin">
+
+  
+  <meta name="description" content="Intro Active Report adalah salah satu tool yang digunakan untuk pembuatan report di visual basic, mulai dari report yang sederhana sampai yang &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://coding4ever.net/blog/2010/11/16/tutorial-active-report-bagian-1">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Coding4ever's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50866618-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Coding4ever&#8217;s Blog</a></h1>
+  
+    <h2>Just coding&#8230; coding&#8230; and coding&#8230; because coding should be fun :)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:coding4ever.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/gudang-software">Gudang Software</a></li>
+  <li><a href="/source-code">Source Code</a></li>  
+  <li><a href="/aplikasi-gratis">Aplikasi Gratis</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Tutorial Active Report Bagian 1</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2010-11-16T07:04:36+07:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>7:04 am</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><strong>Intro</strong></p>
+
+<p><a href="http://www.datadynamics.com/">Active Report</a> adalah salah satu tool yang digunakan untuk pembuatan report di visual basic, mulai dari report yang sederhana sampai yang komplek, berikut contoh beberapa report yang bisa dibuat menggunakan active report.</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/11/16112010-19.jpg"><img src="http://coding4ever.files.wordpress.com/2010/11/16112010-19.jpg?w=300" alt="" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/11/16112010-22.jpg"><img src="http://coding4ever.files.wordpress.com/2010/11/16112010-22.jpg?w=300" alt="" /></a></p>
+
+<!-- more -->
+
+
+<p>Selain itu active report juga sudah terintegrasi dengan IDE visual basic sehingga pembuatan report pun menjadi lebih menyenangkan, lalu bagaimana cara meload datanya ? Caranya gampang cukup menggunakan query biasa seperti query-query yang digunakan dalam pembuatan aplikasi.</p>
+
+<p>Untuk contoh pada tutorial pertama ini kita akan menampilkan data siswa dengan struktur tabel seperti berikut :</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/11/siswa.jpg"><img src="http://coding4ever.files.wordpress.com/2010/11/siswa.jpg" alt="" /></a></p>
+
+<p><strong>1. Mendesain report</strong></p>
+
+<p>Mendesain report di Active Report sama mudahnya seperti mendesain tampilan di form, tinggal drag komponennya kemudian ganti nilai properties masing-masing komponennya sesuai kebutuhan.</p>
+
+<p>Oke langsung saja aktifkan project vb Anda kemudian klik kanan di nama project -> Add -> Data Dynamics ActiveReport 2.0</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/11/16112010-1.jpg"><img src="http://coding4ever.files.wordpress.com/2010/11/16112010-1.jpg?w=300" alt="" /></a></p>
+
+<p>jika berhasil pada panel project explorer akan ketambahan node baru dengan nama Designers</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/11/16112010-2.jpg"><img src="http://coding4ever.files.wordpress.com/2010/11/16112010-2.jpg?w=300" alt="" /></a></p>
+
+<p>kita akan mengganti nilai dari properties Name dan Caption seseusai setting berikut :</p>
+
+<p>Nama = arLapSiswa
+Caption = Laporan Data Siswa</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/11/16112010-3.jpg"><img src="http://coding4ever.files.wordpress.com/2010/11/16112010-3.jpg?w=300" alt="" /></a></p>
+
+<p>untuk properties yang lain bisa Anda ganti nilainya sesuai kebutuhan.</p>
+
+<p>Berikutnya kita akan menambahkan judul report, objek yang akan digunakan adalah objek label</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/11/16112010-4.jpg"><img src="http://coding4ever.files.wordpress.com/2010/11/16112010-4.jpg?w=300" alt="" /></a></p>
+
+<p>nilai caption dari labelnya kita abaikan saja, karena akan kita ganti pada saat runtime (program dijalankan).</p>
+
+<p>Setelah selesai menambahkan judul reportnya, kita akan menambahkan judul kolom, objek yang digunakan masih sama yaitu label</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/11/16112010-5.jpg"><img src="http://coding4ever.files.wordpress.com/2010/11/16112010-5.jpg?w=300" alt="" /></a></p>
+
+<p>selanjutnya kita akan menambahkan border untuk judul kolom nya, caranya adalah dengan menyeleksi label &ldquo;No.&rdquo; sampai &ldquo;Tanggal Lahir&rdquo;, kemudian klik kanan pada salah satu label yang diseleksi pilih Format Border</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/11/16112010-6.jpg"><img src="http://coding4ever.files.wordpress.com/2010/11/16112010-6.jpg?w=300" alt="" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/11/16112010-7.jpg"><img src="http://coding4ever.files.wordpress.com/2010/11/16112010-7.jpg?w=300" alt="" /></a></p>
+
+<p>pilih jenis border pada pilihan Line Styles, kemudian pada bagian Preview border yang diaktifkan hanya bagian &ldquo;Atas&rdquo;, &ldquo;Kiri&rdquo; dan &ldquo;Bawah&rdquo;</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/11/16112010-8.jpg"><img src="http://coding4ever.files.wordpress.com/2010/11/16112010-8.jpg?w=300" alt="" /></a></p>
+
+<p>selanjutkan kita akan menambahkan border untuk label ayah</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/11/16112010-9.jpg"><img src="http://coding4ever.files.wordpress.com/2010/11/16112010-9.jpg?w=300" alt="" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/11/16112010-10.jpg"><img src="http://coding4ever.files.wordpress.com/2010/11/16112010-10.jpg?w=300" alt="" /></a></p>
+
+<p>Gimana? jadi terlihatkan perbedaannya kenapa dipisah pembuatan border label &ldquo;Ayah&rdquo; dengan label lainnya.</p>
+
+<p>Hasil akhir penambahan border judul kolom</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/11/16112010-11.jpg"><img src="http://coding4ever.files.wordpress.com/2010/11/16112010-11.jpg?w=300" alt="" /></a></p>
+
+<p>Berikutnya kita akan menambahkan objek TextBox yang akan digunakan untuk menampilkan data</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/11/16112010-12.jpg"><img src="http://coding4ever.files.wordpress.com/2010/11/16112010-12.jpg?w=300" alt="" /></a></p>
+
+<p>Khusus untuk textbox &ldquo;No.&rdquo; (tag merah) properties Textnya diset = 0, untuk textBox lainnya diabaikan saja dan kemudian untuk menambahkan border langkah-langkahnya sama seperti sebelumnya, hanya saja border bagian &ldquo;Atas&rdquo; tidak aktifkan</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/11/16112010-13.jpg"><img src="http://coding4ever.files.wordpress.com/2010/11/16112010-13.jpg?w=300" alt="" /></a></p>
+
+<p>kemudian untuk setting border textbox ayah</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/11/16112010-14.jpg"><img src="http://coding4ever.files.wordpress.com/2010/11/16112010-14.jpg?w=300" alt="" /></a></p>
+
+<p>ada satu komponen lagi yang akan kita tambahkan yaitu komponen ADO Data Control dan saya rasa tidak perlu lagi dijelaskan apa kegunaan komponen ini.</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/11/16112010-15.jpg"><img src="http://coding4ever.files.wordpress.com/2010/11/16112010-15.jpg?w=300" alt="" /></a></p>
+
+<p>Berikut adalah hasil akhir desain report siswanya.</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/11/16112010-16.jpg"><img src="http://coding4ever.files.wordpress.com/2010/11/16112010-16.jpg?w=300" alt="" /></a></p>
+
+<p><strong>2. Kode untuk report</strong></p>
+
+<p>Active Report sama seperti form dan komponen lainnya mempunyai event-event yang bisa kita isikan kode program sesuai kebutuhan, biasanya nama event tersebut diawali oleh nama sectionya, contoh :</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/11/16112010-17.jpg"><img src="http://coding4ever.files.wordpress.com/2010/11/16112010-17.jpg?w=300" alt="" /></a></p>
+
+<p>pada contoh diatas section &ldquo;Detail&rdquo; mempunyai beberapa event yaitu AfterPrint, BeforePrint, Format.</p>
+
+<p>Disini saya hanya akan mencontohkan penggunaan event Format dan BeforePrint.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub Detail_Format()
+</span><span class='line'>    With adoSiswa.Recordset
+</span><span class='line'>        If Not .EOF Then
+</span><span class='line'>            txtNo.Text = Val(txtNo.Text) + 1
+</span><span class='line'>
+</span><span class='line'>            txtNIS.Text = .Fields("nomorinduk").Value
+</span><span class='line'>            txtNama.Text = .Fields("nama").Value
+</span><span class='line'>            txtTempatLahir.Text = "" & .Fields("tempat_lahir").Value ' untuk menghandle nilai null
+</span><span class='line'>
+</span><span class='line'>            If IsDate(.Fields("tgl_lahir").Value) Then
+</span><span class='line'>                txtTglLahir.Text = Format(.Fields("tgl_lahir").Value, "dd/MM/yyyy")
+</span><span class='line'>            Else
+</span><span class='line'>                txtTglLahir.Text = ""
+</span><span class='line'>            End If
+</span><span class='line'>
+</span><span class='line'>            txtAyah.Text = "" & .Fields("ayah").Value ' untuk menghandle nilai null
+</span><span class='line'>        End If
+</span><span class='line'>    End With
+</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Sampai disini report sudah siap digunakan/dipanggil via aplikasi</p>
+
+<p><strong>3. Memanggil report dari aplikasi</strong></p>
+
+<p>Balik ke form visual basic kemudian buat desain form seperti gambar berikut :</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/11/16112010-18.jpg"><img src="http://coding4ever.files.wordpress.com/2010/11/16112010-18.jpg?w=300" alt="" /></a></p>
+
+<p>kemudian untuk menampilkan reportnya ketik kode berikut :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub cmdPreview_Click()
+</span><span class='line'>    Dim strCon  As String
+</span><span class='line'>    Dim strSql  As String
+</span><span class='line'>
+</span><span class='line'>    strCon = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & App.Path & "\sampleDb.mdb"
+</span><span class='line'>    strSql = "SELECT * FROM siswa"
+</span><span class='line'>
+</span><span class='line'>    With arLapSiswa
+</span><span class='line'>        .adoSiswa.ConnectionString = strCon
+</span><span class='line'>        .adoSiswa.Source = strSql
+</span><span class='line'>
+</span><span class='line'>        .lblHeader1.Caption = "SEKOLAH MENGENGAH ..."
+</span><span class='line'>        .lblHeader2.Caption = "Laporan Data Siswa"
+</span><span class='line'>
+</span><span class='line'>        .Show
+</span><span class='line'>    End With
+</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Gimana ? Simple kan :)</p>
+
+<p>jalankan program kemudian klik tombol &ldquo;Tampilkan Report&rdquo;, akan ditampilkan hasil preview data siswanya.</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/11/16112010-19.jpg"><img src="http://coding4ever.files.wordpress.com/2010/11/16112010-19.jpg?w=300" alt="" /></a></p>
+
+<p>waduhh, ternyata setelah pindah ke halaman 2 ada data siswa yang nampil tidak sesuai harapan, lihat gambar berikut :</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/11/16112010-20.jpg"><img src="http://coding4ever.files.wordpress.com/2010/11/16112010-20.jpg?w=300" alt="" /></a></p>
+
+<p>Setelah diusut ternyata penyebabnya adalah nilai dari tempat lahirnya terlalu panjang sehingga tampilan report jadi berantakan, nah bagaimana cara menyelesaikan masalah ini ? Disinilah peran penting dari event Detail_BeforePrint.</p>
+
+<p>Oke kita kembali lagi ke desain report siswanya kemudian tambahkan kode berikut pada event Detail_BeforePrint :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub Detail_BeforePrint()
+</span><span class='line'>    txtNo.Height = Detail.Height
+</span><span class='line'>    txtNIS.Height = Detail.Height
+</span><span class='line'>    txtNama.Height = Detail.Height
+</span><span class='line'>    txtTempatLahir.Height = Detail.Height
+</span><span class='line'>    txtTglLahir.Height = Detail.Height
+</span><span class='line'>    txtAyah.Height = Detail.Height
+</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Klo sudah jalankan lagi programnya dan kita lihat hasil reportnya</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/11/16112010-21.jpg"><img src="http://coding4ever.files.wordpress.com/2010/11/16112010-21.jpg?w=300" alt="" /></a></p>
+
+<p>Case closed :D sampai ketemu lagi di <a href="http://coding4ever.net/blog/2011/07/24/tutorial-active-report-bagian-2-grouping/">seri tutorial active report berikutnya</a>, insya Allah :smile:</p>
+
+<p>Selamat <a href="http://www.4shared.com/file/z6YLwqr_/AR1.html">MENCOBA</a> :)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Admin</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2010-11-16T07:04:36+07:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>7:04 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/active-report/'>active report</a>, <a class='category' href='/blog/categories/visual-basic/'>visual basic</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2010/11/13/cara-mudah-mencetak-kode-barcode/" title="Previous Post: Cara mudah mencetak kode barcode">&laquo; Cara mudah mencetak kode barcode</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2010/12/01/coding4ever-advanced-textbox/" title="Next Post: Coding4Ever Advanced TextBox">Coding4Ever Advanced TextBox &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Admin</h1>
+  <p>Software developer yang berasal dari Riau, tapi malah betah tinggal di Yogyakarta :)</p>
+  
+  <p>Pernah mengajar di salah satu perguruan tinggi swasta (PTS) di Yogyakarta.<br>
+     Saat ini bekerja sebagai staf IT di PTS yang sama sebagai senior software developer.</p>
+  
+  <p>Fokus mengembangkan aplikasi di atas platform .NET dan Android. Diwaktu luang insya Alloh akan terus berbagi pengalaman di blog <a href="http://coding4ever.net/" target="_blank">ini</a>.</p>    
+</section><section>
+  <h1>Contacts :</h1>
+    <ul>		
+		<li>			
+			<a href="mailto:coding4ever.net@gmail.com" title="GMail" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/gmail-small2.png" border="0" alt="GMail" /></a>
+		</li>		
+		<li>			
+			<a href="https://github.com/k4m4r82?tab=repositories" title="GitHub" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/github-small2.png" border="0" alt="GitHub" /></a>
+		</li>
+		<li>
+			<a href="http://www.facebook.com/abu.anas.1232" title="Facebook" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/fb-small2.png" border="0" alt="Facebook" /></a>
+		</li>				
+	</ul>
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/04/14/paket-nuget-yang-wajib-dicoba-bagian-number-1-crashreporter-dot-net/">Paket NuGet Yang Wajib Dicoba Bagian #1 - CrashReporter.NET</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/13/comment-as-a-guest/">Comment as a Guest</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push/">Membuat Laporan Crystal Reports .NET Dengan Model Data-Push</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/11/blog-lama-coding4ever-aktif-kembali/">Blog Lama Coding4ever Aktif Kembali</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/11/06/kr-pulsa-elektrik/">KR Pulsa Elektrik</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/08/entity-framework-part-8/">Entity Framework Part 8</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/manajemen-proyek-menggunakan-redmine-bagian-1/">Manajemen Proyek Menggunakan Redmine Bagian 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/21/manajemen-password-menggunakan-keepass/">Manajemen Password Menggunakan KeePass</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/10/sms-gateway-edisi-net-part-1/">SMS Gateway Edisi .NET Part 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/11/entity-framework-part-7/">Entity Framework Part 7</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+    <ul id="category-list"><li><a href='/blog/categories/dot-net-remoting/'>.net remoting (9)</a></li><li><a href='/blog/categories/active-report/'>active report (4)</a></li><li><a href='/blog/categories/android/'>android (1)</a></li><li><a href='/blog/categories/aplikasi/'>aplikasi (4)</a></li><li><a href='/blog/categories/crashreporter-dot-net/'>crashreporter.net (1)</a></li><li><a href='/blog/categories/crystal-reports-net/'>crystal reports .net (1)</a></li><li><a href='/blog/categories/dapper-net/'>dapper .net (3)</a></li><li><a href='/blog/categories/entity-framework/'>entity framework (8)</a></li><li><a href='/blog/categories/firebird/'>firebird (11)</a></li><li><a href='/blog/categories/freeware/'>freeware (7)</a></li><li><a href='/blog/categories/inno-setup/'>inno setup (6)</a></li><li><a href='/blog/categories/jaringan/'>jaringan (1)</a></li><li><a href='/blog/categories/mysql/'>mysql (3)</a></li><li><a href='/blog/categories/nsis/'>nsis (2)</a></li><li><a href='/blog/categories/nuget/'>nuget (4)</a></li><li><a href='/blog/categories/sql-server-2000/'>sql server 2000 (1)</a></li><li><a href='/blog/categories/sqlite/'>sqlite (3)</a></li><li><a href='/blog/categories/tools-installer/'>tools installer (8)</a></li><li><a href='/blog/categories/uncategorized/'>uncategorized (8)</a></li><li><a href='/blog/categories/visual-basic/'>visual basic (73)</a></li><li><a href='/blog/categories/visual-basic-net/'>visual basic .net (11)</a></li><li><a href='/blog/categories/visual-c-number/'>visual c# (34)</a></li><li><a href='/blog/categories/winsock/'>winsock (6)</a></li></ul>
+</section>
+<section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/blog/categories/dot-net-remoting' style='font-size: 107.3972602739726%'>.net remoting(9)</a> <a href='/blog/categories/active-report' style='font-size: 103.28767123287672%'>active report(4)</a> <a href='/blog/categories/android' style='font-size: 100.82191780821918%'>android(1)</a> <a href='/blog/categories/aplikasi' style='font-size: 103.28767123287672%'>aplikasi(4)</a> <a href='/blog/categories/crashreporter-dot-net' style='font-size: 100.82191780821918%'>crashreporter.net(1)</a> <a href='/blog/categories/crystal-reports-net' style='font-size: 100.82191780821918%'>crystal reports .net(1)</a> <a href='/blog/categories/dapper-net' style='font-size: 102.46575342465754%'>dapper .net(3)</a> <a href='/blog/categories/entity-framework' style='font-size: 106.57534246575342%'>entity framework(8)</a> <a href='/blog/categories/firebird' style='font-size: 109.04109589041096%'>firebird(11)</a> <a href='/blog/categories/freeware' style='font-size: 105.75342465753425%'>freeware(7)</a> <a href='/blog/categories/inno-setup' style='font-size: 104.93150684931507%'>inno setup(6)</a> <a href='/blog/categories/jaringan' style='font-size: 100.82191780821918%'>jaringan(1)</a> <a href='/blog/categories/mysql' style='font-size: 102.46575342465754%'>mysql(3)</a> <a href='/blog/categories/nsis' style='font-size: 101.64383561643835%'>nsis(2)</a> <a href='/blog/categories/nuget' style='font-size: 103.28767123287672%'>nuget(4)</a> <a href='/blog/categories/sql-server-2000' style='font-size: 100.82191780821918%'>sql server 2000(1)</a> <a href='/blog/categories/sqlite' style='font-size: 102.46575342465754%'>sqlite(3)</a> <a href='/blog/categories/tools-installer' style='font-size: 106.57534246575342%'>tools installer(8)</a> <a href='/blog/categories/uncategorized' style='font-size: 106.57534246575342%'>uncategorized(8)</a> <a href='/blog/categories/visual-basic' style='font-size: 160.0%'>visual basic(73)</a> <a href='/blog/categories/visual-basic-net' style='font-size: 109.04109589041096%'>visual basic .net(11)</a> <a href='/blog/categories/visual-c-number' style='font-size: 127.94520547945206%'>visual c#(34)</a> <a href='/blog/categories/winsock' style='font-size: 104.93150684931507%'>winsock(6)</a> </span>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'k4m4r82',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2009 - 2015 - Admin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'coding4ever';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://coding4ever.net/blog/2010/11/16/tutorial-active-report-bagian-1/';
+        var disqus_url = 'http://coding4ever.net/blog/2010/11/16/tutorial-active-report-bagian-1/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,750 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Belajar Winsock Bagian Akhir – Contoh Kasus Mengakses Data Stok Barang Dari Luar - Coding4ever&#8217;s Blog</title>
+  <meta name="author" content="Admin">
+
+  
+  <meta name="description" content="Akhirnya rilis juga artikel terakhir dari 5 seri belajar winsock ini, sebelum kita melanjutkan pembahasan ada baiknya kita melakukan sedikit review &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://coding4ever.net/blog/2010/02/04/belajar-winsock-bagian-akhir-e28093-contoh-kasus-mengakses-data-stok-barang-dari-luar">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Coding4ever's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50866618-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Coding4ever&#8217;s Blog</a></h1>
+  
+    <h2>Just coding&#8230; coding&#8230; and coding&#8230; because coding should be fun :)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:coding4ever.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/gudang-software">Gudang Software</a></li>
+  <li><a href="/source-code">Source Code</a></li>  
+  <li><a href="/aplikasi-gratis">Aplikasi Gratis</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Belajar Winsock Bagian Akhir – Contoh Kasus Mengakses Data Stok Barang Dari Luar</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2010-02-04T16:47:57+07:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>4:47 pm</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Akhirnya rilis juga artikel terakhir dari 5 seri belajar winsock ini, sebelum kita melanjutkan pembahasan ada baiknya kita melakukan sedikit review :</p>
+
+<ol>
+<li><p> <a href="http://coding4ever.net/blog/2010/01/26/belajar-winsock-bagian-1-intro/">Dasar-dasar penggunaan winsock</a> sudah kita pelajari</p></li>
+<li><p> Ini terbukti dengan suksesnya kita membuat <a href="http://coding4ever.net/blog/2010/01/28/belajar-winsock-bagian-2-membuat-aplikasi-chat-sederhana-11/">aplikasi chat sederhana</a></p></li>
+<li><p> Di tambah lagi ada teman kita yang mau nebeng sehingga terciptanya <a href="http://coding4ever.net/blog/2010/01/30/belajar-winsock-bagian-3-%E2%80%93-multiple-connection/">aplikasi chat multiple connection</a></p></li>
+<li><p> <a href="http://coding4ever.net/blog/2010/02/02/belajar-winsock-bagian-4-%e2%80%93-membuat-jaringan-vpn-sendiri/">Jalan tol</a> antara laptop mas Paijo dan komputer server tokonya juga udah selesai dibangun dengan anggaran 0 Rp :D</p></li>
+</ol>
+
+
+<!-- more -->
+
+
+<p>Berarti sekarang waktu yang tepat untuk mencoba ketangguhan mas Win (maksudnya Winsock :D) kalo lari jarak dekat (jaringan LAN) masih bisa diandalkan, bagai mana dengan lari jarak jauh (via internet) apakah juga masih bisa diandalkan ?</p>
+
+<p>Objek-objek yang akan dijadikan korban untuk uji coba kali ini :</p>
+
+<ol>
+<li><p> Database barang dengan format ms access</p></li>
+<li><p> Aplikasi server</p></li>
+<li><p> Aplikasi klien</p></li>
+</ol>
+
+
+<p>Data yang dikirim dari server dibatasi maksimal 1024 karakter dalam sekali kirim, otomatis jika data > 1024 akan dipecah menjadi beberapa paket, berikut cuplikan kodenya (server) :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Option Explicit
+</span><span class='line'>
+</span><span class='line'>Private Const LOCAL_PORT As Long = 1007
+</span><span class='line'>
+</span><span class='line'>Private Const REC_SPR As String * 1 = "|" 'separator baris
+</span><span class='line'>Private Const FLD_SPR As String * 1 = "#" 'separator kolom
+</span><span class='line'>Private Const MAX_LIMIT As Long = 1024 '1x kirim dibatasi 1 kb, kalo untuk jaringan lokal masih bisa set 4096
+</span><span class='line'>
+</span><span class='line'>Private Function pembulatanKeAtas(ByVal X As Double, Optional ByVal Factor As Double = 1) As Double
+</span><span class='line'>    Dim temp As Double
+</span><span class='line'>
+</span><span class='line'>    temp = Int(X * Factor)
+</span><span class='line'>    pembulatanKeAtas = (temp + IIf(X = temp, 0, 1)) / Factor
+</span><span class='line'>End Function
+</span><span class='line'>
+</span><span class='line'>Private Function getDataBarang(ByVal param As String) As String()
+</span><span class='line'>    Dim rs          As ADODB.Recordset
+</span><span class='line'>
+</span><span class='line'>    Dim div         As Long
+</span><span class='line'>    Dim lengthData  As Long
+</span><span class='line'>    Dim n           As Long
+</span><span class='line'>    Dim i           As Long
+</span><span class='line'>
+</span><span class='line'>    Dim tmp         As String
+</span><span class='line'>    Dim arrTmp()    As String
+</span><span class='line'>
+</span><span class='line'>    strSql = "SELECT UCASE(nama), harga, stok FROM barang " & param & ""
+</span><span class='line'>    Set rs = openRecordset(strSql)
+</span><span class='line'>    If Not rs.EOF Then
+</span><span class='line'>        For i = 1 To getRecordCount(rs)
+</span><span class='line'>            tmp = tmp & rs(0).Value & FLD_SPR & rs(1).Value & FLD_SPR & rs(2).Value & REC_SPR
+</span><span class='line'>
+</span><span class='line'>            rs.MoveNext
+</span><span class='line'>        Next i
+</span><span class='line'>        If Len(tmp) > 0 Then tmp = Left(tmp, Len(tmp) - 1)
+</span><span class='line'>
+</span><span class='line'>        'karakter ~ sebagai penanda awal dan akhir data
+</span><span class='line'>        'untuk memudahkan pengecekan di klien bahwa data yg diterima sudah lengkap/belum
+</span><span class='line'>        'ex : ~DATA BARANG + SEPARATOR KOLOM DAN BARIS~
+</span><span class='line'>
+</span><span class='line'>        'contoh format data disini ada 2 :
+</span><span class='line'>        '1. jika data &lt;= 1024 karakter : ~~DATA BARANG + SEPARATOR KOLOM DAN BARIS
+</span><span class='line'>        '2. jika data > 1024 karakter  : ~DATA BARANG + SEPARATOR KOLOM DAN BARIS~
+</span><span class='line'>
+</span><span class='line'>        If Len(tmp) > 0 Then tmp = "~" & Left(tmp, Len(tmp) - 1) & "~"
+</span><span class='line'>        If Not Len(tmp) > MAX_LIMIT Then
+</span><span class='line'>            tmp = Left(tmp, Len(tmp) - 1)
+</span><span class='line'>            tmp = "~" & tmp
+</span><span class='line'>        End If
+</span><span class='line'>
+</span><span class='line'>        lengthData = Len(tmp)
+</span><span class='line'>        If lengthData > 0 Then
+</span><span class='line'>            If lengthData > MAX_LIMIT Then 'data > 1024 karakter
+</span><span class='line'>                'data dibuat menjadi beberapa package
+</span><span class='line'>                'ex : jika jumlah karakter 2345
+</span><span class='line'>                '     package 1 -> 1024
+</span><span class='line'>                '     package 2 -> 1024
+</span><span class='line'>                '     package 3 -> 297
+</span><span class='line'>                '     berarti data yg dikirim ke klien sebanyak 3 x
+</span><span class='line'>
+</span><span class='line'>                div = pembulatanKeAtas(lengthData / MAX_LIMIT)
+</span><span class='line'>                ReDim arrTmp(div)
+</span><span class='line'>
+</span><span class='line'>                n = 1
+</span><span class='line'>                For i = 1 To div
+</span><span class='line'>                    arrTmp(i - 1) = Mid(tmp, n, MAX_LIMIT)
+</span><span class='line'>                    n = n + MAX_LIMIT
+</span><span class='line'>                Next i
+</span><span class='line'>
+</span><span class='line'>            Else
+</span><span class='line'>                ReDim arrTmp(0)
+</span><span class='line'>                arrTmp(0) = tmp
+</span><span class='line'>            End If
+</span><span class='line'>
+</span><span class='line'>        Else
+</span><span class='line'>            ReDim arrTmp(0)
+</span><span class='line'>            arrTmp(0) = tmp
+</span><span class='line'>        End If
+</span><span class='line'>
+</span><span class='line'>    Else
+</span><span class='line'>        ReDim arrTmp(0)
+</span><span class='line'>        arrTmp(0) = "EOF" 'data barang tidak ditemukan
+</span><span class='line'>    End If
+</span><span class='line'>    Call closeRecordset(rs)
+</span><span class='line'>
+</span><span class='line'>    getDataBarang = arrTmp
+</span><span class='line'>End Function</span></code></pre></td></tr></table></div></figure>
+
+
+<p>pengiriman data ke klien akan dihandle oleh event DataArrival :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub Socket_DataArrival(Index As Integer, ByVal bytesTotal As Long)
+</span><span class='line'>    Dim i           As Long
+</span><span class='line'>    Dim strData     As String
+</span><span class='line'>    Dim ret         As Boolean
+</span><span class='line'>
+</span><span class='line'>    Dim arrTmp()    As String
+</span><span class='line'>
+</span><span class='line'>    'On Error GoTo errHandle
+</span><span class='line'>
+</span><span class='line'>    ' Grab the data from the specified Winsock object, and pass it to the parent.
+</span><span class='line'>    Call Socket(Index).GetData(strData)
+</span><span class='line'>    DoEvents
+</span><span class='line'>
+</span><span class='line'>    arrTmp = getDataBarang(strData)
+</span><span class='line'>    For i = LBound(arrTmp) To UBound(arrTmp)
+</span><span class='line'>        If Len(arrTmp(i)) > 0 Then ret = send(Index, arrTmp(i))
+</span><span class='line'>    Next i
+</span><span class='line'>
+</span><span class='line'>    Exit Sub
+</span><span class='line'>errHandle:
+</span><span class='line'>   Call Socket(Index).Close
+</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
+
+
+<p>sedangkan untuk aplikasi klien bagian yg bertugas menerima data masih di event yang sama yaitu DataArrival :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub Socket_DataArrival(ByVal bytesTotal As Long)
+</span><span class='line'>    Dim dataMasuk   As String
+</span><span class='line'>
+</span><span class='line'>    'On Error Resume Next
+</span><span class='line'>
+</span><span class='line'>    Socket.GetData dataMasuk
+</span><span class='line'>
+</span><span class='line'>    If Left(dataMasuk, 2) = "~~" Then 'package data &lt;= 1024
+</span><span class='line'>        Call execOutput(dataMasuk)
+</span><span class='line'>
+</span><span class='line'>    ElseIf dataMasuk = "EOF" Then 'data tidak ditemukan
+</span><span class='line'>        Call execOutput(dataMasuk)
+</span><span class='line'>
+</span><span class='line'>    Else
+</span><span class='line'>        'package data > 1024
+</span><span class='line'>        'berikut kode untuk penggabungan package data
+</span><span class='line'>        tmp = tmp & dataMasuk
+</span><span class='line'>        If InStr(1, dataMasuk, "~") > 0 Then packageHdr = packageHdr & "~"
+</span><span class='line'>
+</span><span class='line'>        If Len(packageHdr) = 2 Then Call execOutput(tmp) 'penggabungan package data selesai
+</span><span class='line'>    End If
+</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
+
+
+<p>dan ini prosedure yang bertanggung jawab untuk memparsing data dan menampilkan ke ListView :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub execOutput(ByVal data As String)
+</span><span class='line'>    Dim rec()   As String
+</span><span class='line'>    Dim fld()   As String
+</span><span class='line'>
+</span><span class='line'>    Dim x       As Long
+</span><span class='line'>    Dim noUrut  As Long
+</span><span class='line'>
+</span><span class='line'>    On Error GoTo errHandle
+</span><span class='line'>
+</span><span class='line'>    Screen.MousePointer = vbHourglass
+</span><span class='line'>    DoEvents
+</span><span class='line'>
+</span><span class='line'>    If Left(data, 2) = "~~" Then 'complete
+</span><span class='line'>        data = Replace(data, "~~", "")
+</span><span class='line'>
+</span><span class='line'>    ElseIf data = "EOF" Then
+</span><span class='line'>        'do nothing
+</span><span class='line'>
+</span><span class='line'>    Else
+</span><span class='line'>        data = Left(data, Len(data) - 1) 'remove ~ left
+</span><span class='line'>        data = Right(data, Len(data) - 1) 'remove ~ right
+</span><span class='line'>    End If
+</span><span class='line'>
+</span><span class='line'>    lsvBarang.ListItems.Clear
+</span><span class='line'>
+</span><span class='line'>    If data = "EOF" Then
+</span><span class='line'>        Screen.MousePointer = vbDefault
+</span><span class='line'>        MsgBox "Data barang dengan keyword '" & txtNamaBarang.Text & "' tidak ditemukan", vbInformation, "Informasi"
+</span><span class='line'>
+</span><span class='line'>    Else
+</span><span class='line'>        'contoh data :
+</span><span class='line'>        '~~SUSU KEDELAI ABC 200M#1000#24|SUSU KEDELAI MELILEA 500#1000#0|KOPI SUSU KPL API 3P#1000#0|SUSU KEDELAI ABC 200#1000#2
+</span><span class='line'>        '| -> pemisah baris
+</span><span class='line'>        '# -> pemisah kolom
+</span><span class='line'>
+</span><span class='line'>        rec = Split(data, REC_SPR)
+</span><span class='line'>
+</span><span class='line'>        With lsvBarang
+</span><span class='line'>            noUrut = 1
+</span><span class='line'>            For x = LBound(rec) To UBound(rec)
+</span><span class='line'>                fld = Split(rec(x), FLD_SPR)
+</span><span class='line'>
+</span><span class='line'>                .ListItems.Add , , noUrut
+</span><span class='line'>                .ListItems(noUrut).SubItems(1) = fld(0) 'nama barang
+</span><span class='line'>                .ListItems(noUrut).SubItems(2) = FormatNumber(fld(1), 0) 'harga
+</span><span class='line'>                .ListItems(noUrut).SubItems(3) = fld(2) 'stok
+</span><span class='line'>
+</span><span class='line'>                noUrut = noUrut + 1
+</span><span class='line'>            Next x
+</span><span class='line'>        End With
+</span><span class='line'>    End If
+</span><span class='line'>
+</span><span class='line'>    Screen.MousePointer = vbDefault
+</span><span class='line'>
+</span><span class='line'>    Exit Sub
+</span><span class='line'>errHandle:
+</span><span class='line'>    Screen.MousePointer = vbDefault
+</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
+
+
+<p>dan ini hasilnya</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/02/04022010-1.jpg"><img src="http://coding4ever.files.wordpress.com/2010/02/04022010-1.jpg?w=300" alt="" /></a></p>
+
+<p>mas Paijo mengetikan keyword <strong>mie</strong> kemudian mengirimkannya ke server dan akan diproses dengan hasil rincian sbb :</p>
+
+<ol>
+<li><p> Jumlah record yang ditemukan sebanyak 181 record</p></li>
+<li><p> Jumlah karakter nama barang + harga + stok + seperator = 5084 karakter dan dikirim menjadi beberapa paket</p></li>
+<li><p> Hasil akhir klien juga menampilkan sebanyak 181 record, yang berarti bahwa uji coba kita berhasil :D</p></li>
+</ol>
+
+
+<p>Dan yang terpenting dari pembahasan ini, sample programnya bisa didownload di<a href="https://github.com/k4m4r82/AplikasiChat3">sini</a> :)</p>
+
+<p>Selamat mencoba :)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Admin</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2010-02-04T16:47:57+07:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>4:47 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/visual-basic/'>visual basic</a>, <a class='category' href='/blog/categories/winsock/'>winsock</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2010/02/02/belajar-winsock-bagian-4-e28093-membuat-jaringan-vpn-sendiri/" title="Previous Post: Belajar Winsock bagian 4 – Membuat jaringan VPN sendiri">&laquo; Belajar Winsock bagian 4 – Membuat jaringan VPN sendiri</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2010/02/08/membuat-aktivasi-dongle-bagian-1-simple-think/" title="Next Post: Membuat aktivasi dongle bagian 1 - Simple think">Membuat aktivasi dongle bagian 1 - Simple think &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Admin</h1>
+  <p>Software developer yang berasal dari Riau, tapi malah betah tinggal di Yogyakarta :)</p>
+  
+  <p>Pernah mengajar di salah satu perguruan tinggi swasta (PTS) di Yogyakarta.<br>
+     Saat ini bekerja sebagai staf IT di PTS yang sama sebagai senior software developer.</p>
+  
+  <p>Fokus mengembangkan aplikasi di atas platform .NET dan Android. Diwaktu luang insya Alloh akan terus berbagi pengalaman di blog <a href="http://coding4ever.net/" target="_blank">ini</a>.</p>    
+</section><section>
+  <h1>Contacts :</h1>
+    <ul>		
+		<li>			
+			<a href="mailto:coding4ever.net@gmail.com" title="GMail" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/gmail-small2.png" border="0" alt="GMail" /></a>
+		</li>		
+		<li>			
+			<a href="https://github.com/k4m4r82?tab=repositories" title="GitHub" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/github-small2.png" border="0" alt="GitHub" /></a>
+		</li>
+		<li>
+			<a href="http://www.facebook.com/abu.anas.1232" title="Facebook" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/fb-small2.png" border="0" alt="Facebook" /></a>
+		</li>				
+	</ul>
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/04/14/paket-nuget-yang-wajib-dicoba-bagian-number-1-crashreporter-dot-net/">Paket NuGet Yang Wajib Dicoba Bagian #1 - CrashReporter.NET</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/13/comment-as-a-guest/">Comment as a Guest</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push/">Membuat Laporan Crystal Reports .NET Dengan Model Data-Push</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/11/blog-lama-coding4ever-aktif-kembali/">Blog Lama Coding4ever Aktif Kembali</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/11/06/kr-pulsa-elektrik/">KR Pulsa Elektrik</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/08/entity-framework-part-8/">Entity Framework Part 8</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/manajemen-proyek-menggunakan-redmine-bagian-1/">Manajemen Proyek Menggunakan Redmine Bagian 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/21/manajemen-password-menggunakan-keepass/">Manajemen Password Menggunakan KeePass</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/10/sms-gateway-edisi-net-part-1/">SMS Gateway Edisi .NET Part 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/11/entity-framework-part-7/">Entity Framework Part 7</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+    <ul id="category-list"><li><a href='/blog/categories/dot-net-remoting/'>.net remoting (9)</a></li><li><a href='/blog/categories/active-report/'>active report (4)</a></li><li><a href='/blog/categories/android/'>android (1)</a></li><li><a href='/blog/categories/aplikasi/'>aplikasi (4)</a></li><li><a href='/blog/categories/crashreporter-dot-net/'>crashreporter.net (1)</a></li><li><a href='/blog/categories/crystal-reports-net/'>crystal reports .net (1)</a></li><li><a href='/blog/categories/dapper-net/'>dapper .net (3)</a></li><li><a href='/blog/categories/entity-framework/'>entity framework (8)</a></li><li><a href='/blog/categories/firebird/'>firebird (11)</a></li><li><a href='/blog/categories/freeware/'>freeware (7)</a></li><li><a href='/blog/categories/inno-setup/'>inno setup (6)</a></li><li><a href='/blog/categories/jaringan/'>jaringan (1)</a></li><li><a href='/blog/categories/mysql/'>mysql (3)</a></li><li><a href='/blog/categories/nsis/'>nsis (2)</a></li><li><a href='/blog/categories/nuget/'>nuget (4)</a></li><li><a href='/blog/categories/sql-server-2000/'>sql server 2000 (1)</a></li><li><a href='/blog/categories/sqlite/'>sqlite (3)</a></li><li><a href='/blog/categories/tools-installer/'>tools installer (8)</a></li><li><a href='/blog/categories/uncategorized/'>uncategorized (8)</a></li><li><a href='/blog/categories/visual-basic/'>visual basic (73)</a></li><li><a href='/blog/categories/visual-basic-net/'>visual basic .net (11)</a></li><li><a href='/blog/categories/visual-c-number/'>visual c# (34)</a></li><li><a href='/blog/categories/winsock/'>winsock (6)</a></li></ul>
+</section>
+<section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/blog/categories/dot-net-remoting' style='font-size: 107.3972602739726%'>.net remoting(9)</a> <a href='/blog/categories/active-report' style='font-size: 103.28767123287672%'>active report(4)</a> <a href='/blog/categories/android' style='font-size: 100.82191780821918%'>android(1)</a> <a href='/blog/categories/aplikasi' style='font-size: 103.28767123287672%'>aplikasi(4)</a> <a href='/blog/categories/crashreporter-dot-net' style='font-size: 100.82191780821918%'>crashreporter.net(1)</a> <a href='/blog/categories/crystal-reports-net' style='font-size: 100.82191780821918%'>crystal reports .net(1)</a> <a href='/blog/categories/dapper-net' style='font-size: 102.46575342465754%'>dapper .net(3)</a> <a href='/blog/categories/entity-framework' style='font-size: 106.57534246575342%'>entity framework(8)</a> <a href='/blog/categories/firebird' style='font-size: 109.04109589041096%'>firebird(11)</a> <a href='/blog/categories/freeware' style='font-size: 105.75342465753425%'>freeware(7)</a> <a href='/blog/categories/inno-setup' style='font-size: 104.93150684931507%'>inno setup(6)</a> <a href='/blog/categories/jaringan' style='font-size: 100.82191780821918%'>jaringan(1)</a> <a href='/blog/categories/mysql' style='font-size: 102.46575342465754%'>mysql(3)</a> <a href='/blog/categories/nsis' style='font-size: 101.64383561643835%'>nsis(2)</a> <a href='/blog/categories/nuget' style='font-size: 103.28767123287672%'>nuget(4)</a> <a href='/blog/categories/sql-server-2000' style='font-size: 100.82191780821918%'>sql server 2000(1)</a> <a href='/blog/categories/sqlite' style='font-size: 102.46575342465754%'>sqlite(3)</a> <a href='/blog/categories/tools-installer' style='font-size: 106.57534246575342%'>tools installer(8)</a> <a href='/blog/categories/uncategorized' style='font-size: 106.57534246575342%'>uncategorized(8)</a> <a href='/blog/categories/visual-basic' style='font-size: 160.0%'>visual basic(73)</a> <a href='/blog/categories/visual-basic-net' style='font-size: 109.04109589041096%'>visual basic .net(11)</a> <a href='/blog/categories/visual-c-number' style='font-size: 127.94520547945206%'>visual c#(34)</a> <a href='/blog/categories/winsock' style='font-size: 104.93150684931507%'>winsock(6)</a> </span>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'k4m4r82',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2009 - 2015 - Admin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'coding4ever';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://coding4ever.net/blog/2010/02/04/belajar-winsock-bagian-akhir-e28093-contoh-kasus-mengakses-data-stok-barang-dari-luar/';
+        var disqus_url = 'http://coding4ever.net/blog/2010/02/04/belajar-winsock-bagian-akhir-e28093-contoh-kasus-mengakses-data-stok-barang-dari-luar/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

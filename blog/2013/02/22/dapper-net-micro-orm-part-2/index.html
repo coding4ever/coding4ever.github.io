@@ -1,0 +1,508 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Dapper .NET Micro-ORM Part 2 - Coding4ever&#8217;s Blog</title>
+  <meta name="author" content="Admin">
+
+  
+  <meta name="description" content="Melanjutkan pembahasan Dapper .NET, kali ini saya akan mendemokan bagaimana mudahnya melakukan proses mapping record ke object dengan memanfaatkan &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://coding4ever.net/blog/2013/02/22/dapper-net-micro-orm-part-2">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Coding4ever's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50866618-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Coding4ever&#8217;s Blog</a></h1>
+  
+    <h2>Just coding&#8230; coding&#8230; and coding&#8230; because coding should be fun :)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:coding4ever.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/gudang-software">Gudang Software</a></li>
+  <li><a href="/source-code">Source Code</a></li>  
+  <li><a href="/aplikasi-gratis">Aplikasi Gratis</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Dapper .NET Micro-ORM Part 2</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-02-22T10:38:14+07:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2013</span></span> <span class='time'>10:38 am</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Melanjutkan pembahasan <a href="http://coding4ever.net/blog/2013/02/07/dapper-net-micro-orm-part-1/">Dapper .NET</a>, kali ini saya akan mendemokan bagaimana mudahnya melakukan proses mapping record ke object dengan memanfaatkan library <a href="https://code.google.com/p/dapper-dot-net/">Dapper .NET</a>.</p>
+
+<p>Masih menggunakan kasus yang sama dengan <a href="http://coding4ever.net/blog/2013/02/07/dapper-net-micro-orm-part-1/">postingan</a> sebelumnya, kita sudah mempunyai tabel siswa berikut class entitynya, biar lebih mudah saya copas aja ke sini.</p>
+
+<!-- more -->
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2013/02/07022013-2.png"><img src="http://coding4ever.files.wordpress.com/2013/02/07022013-2.png" alt="07022013-2" /></a></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">Siswa</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="kt">string</span> <span class="n">Nis</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="k">public</span> <span class="kt">string</span> <span class="n">Nama</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>dan untuk VB.NET coder kodenya terlihat lebih banyak :D</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Public</span> <span class="k">Class</span> <span class="nc">Siswa</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">Private</span> <span class="n">_nis</span> <span class="ow">As</span> <span class="kt">String</span>
+</span><span class='line'>    <span class="k">Public</span> <span class="k">Property</span> <span class="nf">Nis</span><span class="p">()</span> <span class="ow">As</span> <span class="kt">String</span>
+</span><span class='line'>        <span class="k">Get</span>
+</span><span class='line'>            <span class="k">Return</span> <span class="n">_nis</span>
+</span><span class='line'>        <span class="k">End</span> <span class="k">Get</span>
+</span><span class='line'>        <span class="k">Set</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">value</span> <span class="ow">As</span> <span class="kt">String</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">_nis</span> <span class="o">=</span> <span class="n">value</span>
+</span><span class='line'>        <span class="k">End</span> <span class="k">Set</span>
+</span><span class='line'>    <span class="k">End</span> <span class="k">Property</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">Private</span> <span class="n">_nama</span> <span class="ow">As</span> <span class="kt">String</span>
+</span><span class='line'>    <span class="k">Public</span> <span class="k">Property</span> <span class="nf">Nama</span><span class="p">()</span> <span class="ow">As</span> <span class="kt">String</span>
+</span><span class='line'>        <span class="k">Get</span>
+</span><span class='line'>            <span class="k">Return</span> <span class="n">_nama</span>
+</span><span class='line'>        <span class="k">End</span> <span class="k">Get</span>
+</span><span class='line'>        <span class="k">Set</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">value</span> <span class="ow">As</span> <span class="kt">String</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">_nama</span> <span class="o">=</span> <span class="n">value</span>
+</span><span class='line'>        <span class="k">End</span> <span class="k">Set</span>
+</span><span class='line'>    <span class="k">End</span> <span class="k">Property</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">End</span> <span class="k">Class</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Sebelum kita beraksi jangan lupa untuk mendownload terlebih dulu library Dapper .NET di<a href="https://www.box.com/s/cey4lt613heunjcnodqq">sini</a> (dotNetFx35) dan di<a href="https://www.box.com/s/i72nqtpun9c0fah495nl">sini</a> (dotNetFx40). Jadi silahkan download sesuai dengan versi dot NET Framework Anda.</p>
+
+<p>Langkah berikutnya adalah mengaktifkan kembali <a href="https://www.box.com/s/tzeyatmfyoemfdhjdod6">project</a> yang sudah kita bahas pada <a href="http://coding4ever.net/blog/2013/02/07/dapper-net-micro-orm-part-1/">postingan</a> sebelumnya.</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2013/02/21022013-1.png"><img src="http://coding4ever.files.wordpress.com/2013/02/21022013-1.png" alt="21022013-1" /></a></p>
+
+<p>Kemudian tambahkan referensi library Dapper .NET, dengan cara :</p>
+
+<ol>
+<li>Klik kanan node References</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2013/02/21022013-2.png"><img src="http://coding4ever.files.wordpress.com/2013/02/21022013-2.png" alt="21022013-2" /></a></p>
+
+<ol>
+<li>Kemudian tentukan lokasi library Dapper .NET yang sudah Anda download</li>
+</ol>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2013/02/21022013-3.png"><img src="http://coding4ever.files.wordpress.com/2013/02/21022013-3.png" alt="21022013-3" /></a></p>
+
+<p>Jika berhasil akan ketambahan sub node baru (Dapper) di bawah node References</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2013/02/21022013-4.png"><img src="http://coding4ever.files.wordpress.com/2013/02/21022013-4.png" alt="21022013-4" /></a></p>
+
+<p>Cara kerja <a href="https://code.google.com/p/dapper-dot-net/">Dapper .NET</a> adalah dengan mengextend interface IDbConnection yang digunakan oleh class-class connection seperti SqlConnection dan OleDbConnection.</p>
+
+<p>Klo masih bingung perhatikan gambar berikut :</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2013/02/21022013-5.png"><img src="http://coding4ever.files.wordpress.com/2013/02/21022013-5.png" alt="21022013-5" /></a></p>
+
+<p>sekarang coba tambahkan namespace Dapper;</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">using</span> <span class="nn">Dapper</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>di VB.NET kita menggunakan keyword Imports</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Imports</span> <span class="nn">Dapper</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>maka secara otomatis objek conn akan mempunyai tambahan beberapa method baru seperti <strong>Execute</strong>, <strong>Query</strong> dan <strong>QueryMultiple</strong>.</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2013/02/21022013-6.png"><img src="http://coding4ever.files.wordpress.com/2013/02/21022013-6.png" alt="21022013-6" /></a></p>
+
+<p>Nah method-method itulah yang kita gunakan untuk menjalankan perintah-perintah SQL seperti INSERT, UPDATE, DELETE dan SELECT. Klo istilah krennya sih operasi CRUD.</p>
+
+<p>Oke untuk contoh postingan kali ini kita akan mencoba menjalankan perintah SELECT dengan memanggil method Query di atas.</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2013/02/21022013-7.png"><img src="http://coding4ever.files.wordpress.com/2013/02/21022013-7.png" alt="21022013-7" /></a></p>
+
+<p>berikut kode VB.NET yg melakukan hal yang sama</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2013/02/26022013-1.png"><img src="http://coding4ever.files.wordpress.com/2013/02/26022013-1.png" alt="26022013-1" /></a></p>
+
+<p>pada kode di atas kita bisa melihat tanpa melakukan proses mapping sedikit pun, objek daftarSiswa akan terisi dengan kumpulan (collection) dari objek siswa, hanya dengan perintah sederhana berikut:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="n">daftarSiswa</span> <span class="p">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">Query</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="k">null</span><span class="p">).</span><span class="n">ToList</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>kode yang sama untuk VB.NET</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="n">daftarSiswa</span> <span class="o">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">Query</span><span class="p">(</span><span class="k">Of</span> <span class="n">Siswa</span><span class="p">)(</span><span class="n">strSql</span><span class="p">,</span> <span class="k">Nothing</span><span class="p">).</span><span class="n">ToList</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Tapi ada syaratnya yaitu nama-nama field yang ada di dalam tabel harus sama dengan nama-nama property yang ada di dalam class entity.</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2013/02/21022013-8.png"><img src="http://coding4ever.files.wordpress.com/2013/02/21022013-8.png" alt="21022013-8" /></a></p>
+
+<p>Trus bagaimana klo nama field dan propertynya berbeda ? Solusinya ya dengan menggunakan ALIAS pada saat melakukan proses query.</p>
+
+<p>Lihat contoh berikut :</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2013/02/21022013-9.png"><img src="http://coding4ever.files.wordpress.com/2013/02/21022013-9.png" alt="21022013-9" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2013/02/21022013-10.png"><img src="http://coding4ever.files.wordpress.com/2013/02/21022013-10.png" alt="21022013-10" /></a></p>
+
+<p>atau jika Anda menggunakan VB.NET kodenya akan terlihat seperti berikut :</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2013/02/26022013-2.png"><img src="http://coding4ever.files.wordpress.com/2013/02/26022013-2.png" alt="26022013-2" /></a></p>
+
+<p>Setelah itu tinggal ditampilkan hasilnya :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">siswa</span> <span class="k">in</span> <span class="n">daftarSiswa</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">siswa</span><span class="p">.</span><span class="n">Nis</span> <span class="p">+</span> <span class="s">&quot;\t&quot;</span> <span class="p">+</span> <span class="n">siswa</span><span class="p">.</span><span class="n">Nama</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>sekali lagi di VB.NET</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">For</span> <span class="k">Each</span> <span class="n">siswa</span> <span class="ow">In</span> <span class="n">daftarSiswa</span>
+</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="n">siswa</span><span class="p">.</span><span class="n">Nis</span> <span class="o">&amp;</span> <span class="n">vbTab</span> <span class="o">&amp;</span> <span class="n">siswa</span><span class="p">.</span><span class="n">Nama</span><span class="p">)</span>
+</span><span class='line'><span class="k">Next</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2013/02/07022013.png"><img src="http://coding4ever.files.wordpress.com/2013/02/07022013.png" alt="07022013" /></a></p>
+
+<p>Yuph saya rasa cukup untuk postingan kali ini, dan pada postingan berikutnya insyaAllah kita akan membahas bagaimana menjalankan perintah-perintah SQL lainnya seperti INSERT, UPDATE dan DELETE menggunakan library Dapper .NET.</p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/MicroORMDapperNET2">MENCOBA</a> :)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Admin</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2013-02-22T10:38:14+07:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2013</span></span> <span class='time'>10:38 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/dapper-net/'>dapper .net</a>, <a class='category' href='/blog/categories/visual-basic-net/'>visual basic .net</a>, <a class='category' href='/blog/categories/visual-c-number/'>visual c#</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/02/07/dapper-net-micro-orm-part-1/" title="Previous Post: Dapper .NET Micro-ORM Part 1">&laquo; Dapper .NET Micro-ORM Part 1</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/03/29/dapper-net-micro-orm-part-3/" title="Next Post: Dapper .NET Micro-ORM Part 3">Dapper .NET Micro-ORM Part 3 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Admin</h1>
+  <p>Software developer yang berasal dari Riau, tapi malah betah tinggal di Yogyakarta :)</p>
+  
+  <p>Pernah mengajar di salah satu perguruan tinggi swasta (PTS) di Yogyakarta.<br>
+     Saat ini bekerja sebagai staf IT di PTS yang sama sebagai senior software developer.</p>
+  
+  <p>Fokus mengembangkan aplikasi di atas platform .NET dan Android. Diwaktu luang insya Alloh akan terus berbagi pengalaman di blog <a href="http://coding4ever.net/" target="_blank">ini</a>.</p>    
+</section><section>
+  <h1>Contacts :</h1>
+    <ul>		
+		<li>			
+			<a href="mailto:coding4ever.net@gmail.com" title="GMail" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/gmail-small2.png" border="0" alt="GMail" /></a>
+		</li>		
+		<li>			
+			<a href="https://github.com/k4m4r82?tab=repositories" title="GitHub" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/github-small2.png" border="0" alt="GitHub" /></a>
+		</li>
+		<li>
+			<a href="http://www.facebook.com/abu.anas.1232" title="Facebook" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/fb-small2.png" border="0" alt="Facebook" /></a>
+		</li>				
+	</ul>
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/04/14/paket-nuget-yang-wajib-dicoba-bagian-number-1-crashreporter-dot-net/">Paket NuGet Yang Wajib Dicoba Bagian #1 - CrashReporter.NET</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/13/comment-as-a-guest/">Comment as a Guest</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push/">Membuat Laporan Crystal Reports .NET Dengan Model Data-Push</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/11/blog-lama-coding4ever-aktif-kembali/">Blog Lama Coding4ever Aktif Kembali</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/11/06/kr-pulsa-elektrik/">KR Pulsa Elektrik</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/08/entity-framework-part-8/">Entity Framework Part 8</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/manajemen-proyek-menggunakan-redmine-bagian-1/">Manajemen Proyek Menggunakan Redmine Bagian 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/21/manajemen-password-menggunakan-keepass/">Manajemen Password Menggunakan KeePass</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/10/sms-gateway-edisi-net-part-1/">SMS Gateway Edisi .NET Part 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/11/entity-framework-part-7/">Entity Framework Part 7</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+    <ul id="category-list"><li><a href='/blog/categories/dot-net-remoting/'>.net remoting (9)</a></li><li><a href='/blog/categories/active-report/'>active report (4)</a></li><li><a href='/blog/categories/android/'>android (1)</a></li><li><a href='/blog/categories/aplikasi/'>aplikasi (4)</a></li><li><a href='/blog/categories/crashreporter-dot-net/'>crashreporter.net (1)</a></li><li><a href='/blog/categories/crystal-reports-net/'>crystal reports .net (1)</a></li><li><a href='/blog/categories/dapper-net/'>dapper .net (3)</a></li><li><a href='/blog/categories/entity-framework/'>entity framework (8)</a></li><li><a href='/blog/categories/firebird/'>firebird (11)</a></li><li><a href='/blog/categories/freeware/'>freeware (7)</a></li><li><a href='/blog/categories/inno-setup/'>inno setup (6)</a></li><li><a href='/blog/categories/jaringan/'>jaringan (1)</a></li><li><a href='/blog/categories/mysql/'>mysql (3)</a></li><li><a href='/blog/categories/nsis/'>nsis (2)</a></li><li><a href='/blog/categories/nuget/'>nuget (4)</a></li><li><a href='/blog/categories/sql-server-2000/'>sql server 2000 (1)</a></li><li><a href='/blog/categories/sqlite/'>sqlite (3)</a></li><li><a href='/blog/categories/tools-installer/'>tools installer (8)</a></li><li><a href='/blog/categories/uncategorized/'>uncategorized (8)</a></li><li><a href='/blog/categories/visual-basic/'>visual basic (73)</a></li><li><a href='/blog/categories/visual-basic-net/'>visual basic .net (11)</a></li><li><a href='/blog/categories/visual-c-number/'>visual c# (34)</a></li><li><a href='/blog/categories/winsock/'>winsock (6)</a></li></ul>
+</section>
+<section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/blog/categories/dot-net-remoting' style='font-size: 107.3972602739726%'>.net remoting(9)</a> <a href='/blog/categories/active-report' style='font-size: 103.28767123287672%'>active report(4)</a> <a href='/blog/categories/android' style='font-size: 100.82191780821918%'>android(1)</a> <a href='/blog/categories/aplikasi' style='font-size: 103.28767123287672%'>aplikasi(4)</a> <a href='/blog/categories/crashreporter-dot-net' style='font-size: 100.82191780821918%'>crashreporter.net(1)</a> <a href='/blog/categories/crystal-reports-net' style='font-size: 100.82191780821918%'>crystal reports .net(1)</a> <a href='/blog/categories/dapper-net' style='font-size: 102.46575342465754%'>dapper .net(3)</a> <a href='/blog/categories/entity-framework' style='font-size: 106.57534246575342%'>entity framework(8)</a> <a href='/blog/categories/firebird' style='font-size: 109.04109589041096%'>firebird(11)</a> <a href='/blog/categories/freeware' style='font-size: 105.75342465753425%'>freeware(7)</a> <a href='/blog/categories/inno-setup' style='font-size: 104.93150684931507%'>inno setup(6)</a> <a href='/blog/categories/jaringan' style='font-size: 100.82191780821918%'>jaringan(1)</a> <a href='/blog/categories/mysql' style='font-size: 102.46575342465754%'>mysql(3)</a> <a href='/blog/categories/nsis' style='font-size: 101.64383561643835%'>nsis(2)</a> <a href='/blog/categories/nuget' style='font-size: 103.28767123287672%'>nuget(4)</a> <a href='/blog/categories/sql-server-2000' style='font-size: 100.82191780821918%'>sql server 2000(1)</a> <a href='/blog/categories/sqlite' style='font-size: 102.46575342465754%'>sqlite(3)</a> <a href='/blog/categories/tools-installer' style='font-size: 106.57534246575342%'>tools installer(8)</a> <a href='/blog/categories/uncategorized' style='font-size: 106.57534246575342%'>uncategorized(8)</a> <a href='/blog/categories/visual-basic' style='font-size: 160.0%'>visual basic(73)</a> <a href='/blog/categories/visual-basic-net' style='font-size: 109.04109589041096%'>visual basic .net(11)</a> <a href='/blog/categories/visual-c-number' style='font-size: 127.94520547945206%'>visual c#(34)</a> <a href='/blog/categories/winsock' style='font-size: 104.93150684931507%'>winsock(6)</a> </span>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'k4m4r82',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2009 - 2015 - Admin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'coding4ever';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://coding4ever.net/blog/2013/02/22/dapper-net-micro-orm-part-2/';
+        var disqus_url = 'http://coding4ever.net/blog/2013/02/22/dapper-net-micro-orm-part-2/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

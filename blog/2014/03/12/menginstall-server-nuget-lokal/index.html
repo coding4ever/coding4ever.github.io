@@ -1,0 +1,496 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Menginstall Server NuGet Lokal - Coding4ever&#8217;s Blog</title>
+  <meta name="author" content="Admin">
+
+  
+  <meta name="description" content="Pada postingan sebelumnya kita sudah membahas apa itu NuGet, cara instalasi berikut contoh penggunaannya. Sesuai judul postingan kali ini, kita akan &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://coding4ever.net/blog/2014/03/12/menginstall-server-nuget-lokal">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Coding4ever's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50866618-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Coding4ever&#8217;s Blog</a></h1>
+  
+    <h2>Just coding&#8230; coding&#8230; and coding&#8230; because coding should be fun :)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:coding4ever.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/gudang-software">Gudang Software</a></li>
+  <li><a href="/source-code">Source Code</a></li>  
+  <li><a href="/aplikasi-gratis">Aplikasi Gratis</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Menginstall Server NuGet Lokal</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-03-12T15:18:16+07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>3:18 pm</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img style="float: left; margin:0 10px 10px 0;width:200px;height:70px" src="http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png" />Pada <a href="http://coding4ever.net/blog/2014/03/11/nuget/">postingan</a> sebelumnya kita sudah membahas apa itu <a href="http://www.nuget.org/">NuGet</a>, cara instalasi berikut contoh penggunaannya.</p>
+
+<p>Sesuai judul postingan kali ini, kita akan menginstall sendiri server <a href="http://www.nuget.org/">NuGet</a> untuk keperluan internal.</p>
+
+<p>Ada beberapa alasan kenapa harus menginstall server <a href="http://www.nuget.org/">NuGet</a> sendiri :</p>
+
+<!-- more -->
+
+
+<p><strong>1. Untuk menghemat bandwidth internet</strong></p>
+
+<p>Contoh beberapa library yang sering saya gunakan untuk pembuatan aplikasi (sesuai kebutuhan) :</p>
+
+<ul>
+<li><p><a href="http://www.nuget.org/packages/ClosedXML/">ClosedXML</a>, ClosedXML makes it easier for developers to create Excel 2007/2010 files. It provides a nice object oriented way to manipulate the files (similar to VBA) without dealing with the hassles of XML Docume</p></li>
+<li><p><a href="http://www.nuget.org/packages/Dapper/">Dapper</a>, A high performance Micro-ORM</p></li>
+<li><p><a href="http://www.nuget.org/packages/DockPanelSuite/2.9.0">DockPanelSuite</a>, The docking library for .Net Windows Forms development which mimics Visual Studio .Net.</p></li>
+<li><p><a href="http://www.nuget.org/packages/EntityFramework/6.0.2">EntityFramework</a>, Entity Framework is Microsoft&rsquo;s recommended data access technology for new applications.</p></li>
+<li><p><a href="http://www.nuget.org/packages/FirebirdSql.Data.FirebirdClient/">FirebirdSql.Data.FirebirdClient</a></p></li>
+<li><p><a href="http://www.nuget.org/packages/FirebirdSql.Data.FirebirdClient-EF6/">FirebirdSql.Data.FirebirdClient-EF6</a></p></li>
+<li><p><a href="http://www.nuget.org/packages/GSMComm/">GSMComm</a>, SMS libraries for GSM phones</p></li>
+<li><p><a href="http://www.nuget.org/packages/Newtonsoft.Json/">Json .NET</a>, Json.NET is a popular high-performance JSON framework for .NET</p></li>
+<li><p><a href="http://www.nuget.org/packages/RestSharp/">RestSharp</a>, Simple REST and HTTP API Client</p></li>
+</ul>
+
+
+<p>Lumayan banyak bukan ? Jika setiap ingin menambahkan library di atas kita harus mendownload dari <a href="http://www.nuget.org/">NuGet Gallery</a> tentu sedikit banyaknya akan menghabiskan bandwith internet, belum lagi kalo koneksi internetnya mati.</p>
+
+<p><strong>2. Sebagai media sharing library</strong></p>
+
+<p>Misal kita ingin membuat library yang akan digunakan oleh beberapa programmer, kemudian seiring dengan waktu tentunya library ini akan ada perbaikan atau penambahan fitur-fitur terbaru.</p>
+
+<p>Jika setiap ada perubahan tentunya kurang efektif jika library tersebut dicopy via flash disk, share folder atau media lainnya, belum lagi harus menghapus library versi yang lama, mendaftarkan library yang terbaru, tentunya ini pekerjaan yang membosankan, sehingga server NuGet lokal bisa menjadi salah satu alternatif terbaik untuk mempermudah sharing library.</p>
+
+<p>Dengan dua alasan di atas saya rasa sudah cukup untuk memotivasi kita untuk membuat server NuGet sendiri.</p>
+
+<p>Oke langsung saja, sudah cukup untuk intronya, untuk langkah-langkah berikut, saya menggunakan Windows 7.</p>
+
+<p><strong>1. Menginstall IIS (Internet Information Services)</strong></p>
+
+<p>Langkah-langkahnya bisa dicek di<a href="http://www.codeproject.com/Tips/365704/Install-IIS-on-Windows">sini</a>.</p>
+
+<p><strong>2. Membuat Project ASP .NET</strong></p>
+
+<p>Berikut langkah-langkahnya :</p>
+
+<ul>
+<li><p>Aktifkan Visual Studio .NET, untuk contoh di sini saya menggunakan Visual Studio 2010</p></li>
+<li><p>Buat project baru dengan tipe ASP.NET Empty Web Application</p></li>
+</ul>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/03/11.png"><img src="http://coding4ever.files.wordpress.com/2014/03/11.png" alt="1" /></a></p>
+
+<ul>
+<li>Tambahkan paket NuGet.Server dengan cara klik kanan References -> Manage NuGet Packages</li>
+</ul>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/03/21.png"><img src="http://coding4ever.files.wordpress.com/2014/03/21.png" alt="2" /></a>Pada kota pencarian ketik <strong>Nuget.server</strong>, kemudian klik tombol Install</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/03/311.png"><img src="http://coding4ever.files.wordpress.com/2014/03/311.png" alt="31" /></a></p>
+
+<p>tunggu sampai proses download selesai</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/03/41.png"><img src="http://coding4ever.files.wordpress.com/2014/03/41.png" alt="4" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/03/51.png"><img src="http://coding4ever.files.wordpress.com/2014/03/51.png" alt="5" /></a></p>
+
+<p>Pilih I Accept, kemudian tunggu sampai proses instalasi selesai</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/03/61.png"><img src="http://coding4ever.files.wordpress.com/2014/03/61.png" alt="6" /></a></p>
+
+<ul>
+<li>Setelah berhasil menambahkan paket NuGet.Server, langkah berikutnya adalah menentukan lokasi paket NuGet, dengan cara mengedit file Web.Config</li>
+</ul>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/03/71.png"><img src="http://coding4ever.files.wordpress.com/2014/03/71.png" alt="7" /></a>kemudian edit nilai dari packagesPath, misal : D:\ServerNuGetLocal\Packages</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/03/81.png"><img src="http://coding4ever.files.wordpress.com/2014/03/81.png" alt="8" /></a></p>
+
+<ul>
+<li>Setelah menentukan lokasi paket NuGet, langkah berikutnya adalah mempublish (deploy) project ASP.NET yang baru kita buat, dengan cara klik kanan project -> Publish&hellip;</li>
+</ul>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/03/91.png"><img src="http://coding4ever.files.wordpress.com/2014/03/91.png" alt="9" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/03/10.png"><img src="http://coding4ever.files.wordpress.com/2014/03/10.png" alt="10" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/03/111.png"><img src="http://coding4ever.files.wordpress.com/2014/03/111.png" alt="11" /></a></p>
+
+<p><strong>3. Mendaftarkan Project ASP .NET ke IIS</strong></p>
+
+<p>Project ASP.NET yang sudah kita buat sebelumnya membutuhkan web server IIS untuk bisa dijalankan, sehingga langkah berikutnya adalah mendaftarkannya ke IIS.</p>
+
+<p>Adapun langkah-langkahnya seperti berikut :</p>
+
+<ul>
+<li><p>Aktifkan IIS (Internet Information Services)</p></li>
+<li><p>Klik kanan node Default Web Site -> Add Application</p></li>
+</ul>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/03/12.png"><img src="http://coding4ever.files.wordpress.com/2014/03/12.png" alt="12" /></a></p>
+
+<p>Tentukan nilai Alias, Application pool dan Physical path, khusus untuk nilai physical path mengacu pada langkah-langkah sebelumnya.</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/03/13.png"><img src="http://coding4ever.files.wordpress.com/2014/03/13.png" alt="13" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/03/14.png"><img src="http://coding4ever.files.wordpress.com/2014/03/14.png" alt="14" /></a></p>
+
+<ul>
+<li>Setelah berhasil menambahkan node NuGet ke IIS, coba ketik url : <a href="http://localhost/NuGet/">http://localhost/NuGet/</a> di browser Anda</li>
+</ul>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/03/15.png"><img src="http://coding4ever.files.wordpress.com/2014/03/15.png" alt="15" /></a></p>
+
+<p>Jika tampil seperti gambar di atas, berarti proses registrasi server NuGet lokal berhasil, dan jika ingin melihat paket apa saja yang sudah tersedia klik link <strong>here</strong>.</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/03/16.png"><img src="http://coding4ever.files.wordpress.com/2014/03/16.png" alt="16" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/03/17.png"><img src="http://coding4ever.files.wordpress.com/2014/03/17.png" alt="17" /></a></p>
+
+<p>Terlihat pada gambar di atas paket di server NuGet lokal kita masih kosong.</p>
+
+<p><strong>4. Mendownload paket yang sering digunakan</strong></p>
+
+<p>Untuk mendownload paket NuGet yang sudah tersedia di <a href="http://www.nuget.org/">NuGet Gallery</a>, gunakan url dengan format : <a href="https://www.nuget.org/api/v2/package/{packageID}/{packageVersion}">https://www.nuget.org/api/v2/package/{packageID}/{packageVersion}</a>, contoh :</p>
+
+<ul>
+<li><p><a href="https://www.nuget.org/api/v2/package/ClosedXML/0.69.2">https://www.nuget.org/api/v2/package/ClosedXML/0.69.2</a></p></li>
+<li><p><a href="https://www.nuget.org/api/v2/package/Dapper/1.13.0">https://www.nuget.org/api/v2/package/Dapper/1.13.0</a></p></li>
+<li><p><a href="https://www.nuget.org/api/v2/package/DockPanelSuite/2.9.0">https://www.nuget.org/api/v2/package/DockPanelSuite/2.9.0</a></p></li>
+<li><p><a href="https://www.nuget.org/api/v2/package/EntityFramework/6.0.2">https://www.nuget.org/api/v2/package/EntityFramework/6.0.2</a></p></li>
+<li><p><a href="https://www.nuget.org/api/v2/package/FirebirdSql.Data.FirebirdClient/4.0.0">https://www.nuget.org/api/v2/package/FirebirdSql.Data.FirebirdClient/4.0.0</a>
+<a href="https://www.nuget.org/api/v2/package/FirebirdSql.Data.FirebirdClient-EF6/4.0.0">https://www.nuget.org/api/v2/package/FirebirdSql.Data.FirebirdClient-EF6/4.0.0</a> (support Entity Framework)</p></li>
+<li><p><a href="https://www.nuget.org/api/v2/package/GSMComm/1.21.0">https://www.nuget.org/api/v2/package/GSMComm/1.21.0</a></p></li>
+<li><p><a href="https://www.nuget.org/api/v2/package/Newtonsoft.Json/5.0.8">https://www.nuget.org/api/v2/package/Newtonsoft.Json/5.0.8</a></p></li>
+<li><p><a href="https://www.nuget.org/api/v2/package/RestSharp/104.4.0">https://www.nuget.org/api/v2/package/RestSharp/104.4.0</a></p></li>
+</ul>
+
+
+<p>Jangan lupa hasil downloadnya disimpan di folder package.</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/03/18.png"><img src="http://coding4ever.files.wordpress.com/2014/03/18.png" alt="18" /></a></p>
+
+<p>Setelah itu kita cek lagi paket di server NuGet lokal.</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/03/19.png"><img src="http://coding4ever.files.wordpress.com/2014/03/19.png" alt="19" /></a></p>
+
+<p>Sippp, paket di server NuGet lokal kita sudah tersedia :)</p>
+
+<p><strong>5. Menambahkan url server NuGet lokal ke package sources</strong></p>
+
+<p>Saatnya mendaftarkan server NuGet kita ke Visual Studio, langkah-langkahnya seperti berikut :</p>
+
+<ul>
+<li><p>Jalankan Visual Studio .NET (saya menggunakan versi 2010)</p></li>
+<li><p>Klik menu Tools -> NuGet Package Manager -> Package Manager Settings</p></li>
+<li><p>Aktifkan node Package Source, klik tombol Add/Tambah</p></li>
+</ul>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/03/20.png"><img src="http://coding4ever.files.wordpress.com/2014/03/20.png" alt="20" /></a></p>
+
+<ul>
+<li>Isikan Name dan Source, klik Update akhiri dengan Ok.</li>
+</ul>
+
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/03/211.png"><img src="http://coding4ever.files.wordpress.com/2014/03/211.png" alt="21" /></a></p>
+
+<p>Terakhir coba aktifkan dialog NuGet Package Manager, kemudian cek pilihan &ldquo;Server Nuget Local&rdquo;.</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2014/03/22.png"><img src="http://coding4ever.files.wordpress.com/2014/03/22.png" alt="22" /></a></p>
+
+<p>Selamat mencoba :)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Admin</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2014-03-12T15:18:16+07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>3:18 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/nuget/'>nuget</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/03/11/nuget/" title="Previous Post: NuGet">&laquo; NuGet</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/03/13/membuat-paket-nuget/" title="Next Post: Membuat Paket NuGet">Membuat Paket NuGet &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Admin</h1>
+  <p>Software developer yang berasal dari Riau, tapi malah betah tinggal di Yogyakarta :)</p>
+  
+  <p>Pernah mengajar di salah satu perguruan tinggi swasta (PTS) di Yogyakarta.<br>
+     Saat ini bekerja sebagai staf IT di PTS yang sama sebagai senior software developer.</p>
+  
+  <p>Fokus mengembangkan aplikasi di atas platform .NET dan Android. Diwaktu luang insya Alloh akan terus berbagi pengalaman di blog <a href="http://coding4ever.net/" target="_blank">ini</a>.</p>    
+</section><section>
+  <h1>Contacts :</h1>
+    <ul>		
+		<li>			
+			<a href="mailto:coding4ever.net@gmail.com" title="GMail" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/gmail-small2.png" border="0" alt="GMail" /></a>
+		</li>		
+		<li>			
+			<a href="https://github.com/k4m4r82?tab=repositories" title="GitHub" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/github-small2.png" border="0" alt="GitHub" /></a>
+		</li>
+		<li>
+			<a href="http://www.facebook.com/abu.anas.1232" title="Facebook" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/fb-small2.png" border="0" alt="Facebook" /></a>
+		</li>				
+	</ul>
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/04/14/paket-nuget-yang-wajib-dicoba-bagian-number-1-crashreporter-dot-net/">Paket NuGet Yang Wajib Dicoba Bagian #1 - CrashReporter.NET</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/13/comment-as-a-guest/">Comment as a Guest</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push/">Membuat Laporan Crystal Reports .NET Dengan Model Data-Push</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/11/blog-lama-coding4ever-aktif-kembali/">Blog Lama Coding4ever Aktif Kembali</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/11/06/kr-pulsa-elektrik/">KR Pulsa Elektrik</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/08/entity-framework-part-8/">Entity Framework Part 8</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/manajemen-proyek-menggunakan-redmine-bagian-1/">Manajemen Proyek Menggunakan Redmine Bagian 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/21/manajemen-password-menggunakan-keepass/">Manajemen Password Menggunakan KeePass</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/10/sms-gateway-edisi-net-part-1/">SMS Gateway Edisi .NET Part 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/11/entity-framework-part-7/">Entity Framework Part 7</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+    <ul id="category-list"><li><a href='/blog/categories/dot-net-remoting/'>.net remoting (9)</a></li><li><a href='/blog/categories/active-report/'>active report (4)</a></li><li><a href='/blog/categories/android/'>android (1)</a></li><li><a href='/blog/categories/aplikasi/'>aplikasi (4)</a></li><li><a href='/blog/categories/crashreporter-dot-net/'>crashreporter.net (1)</a></li><li><a href='/blog/categories/crystal-reports-net/'>crystal reports .net (1)</a></li><li><a href='/blog/categories/dapper-net/'>dapper .net (3)</a></li><li><a href='/blog/categories/entity-framework/'>entity framework (8)</a></li><li><a href='/blog/categories/firebird/'>firebird (11)</a></li><li><a href='/blog/categories/freeware/'>freeware (7)</a></li><li><a href='/blog/categories/inno-setup/'>inno setup (6)</a></li><li><a href='/blog/categories/jaringan/'>jaringan (1)</a></li><li><a href='/blog/categories/mysql/'>mysql (3)</a></li><li><a href='/blog/categories/nsis/'>nsis (2)</a></li><li><a href='/blog/categories/nuget/'>nuget (4)</a></li><li><a href='/blog/categories/sql-server-2000/'>sql server 2000 (1)</a></li><li><a href='/blog/categories/sqlite/'>sqlite (3)</a></li><li><a href='/blog/categories/tools-installer/'>tools installer (8)</a></li><li><a href='/blog/categories/uncategorized/'>uncategorized (8)</a></li><li><a href='/blog/categories/visual-basic/'>visual basic (73)</a></li><li><a href='/blog/categories/visual-basic-net/'>visual basic .net (11)</a></li><li><a href='/blog/categories/visual-c-number/'>visual c# (34)</a></li><li><a href='/blog/categories/winsock/'>winsock (6)</a></li></ul>
+</section>
+<section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/blog/categories/dot-net-remoting' style='font-size: 107.3972602739726%'>.net remoting(9)</a> <a href='/blog/categories/active-report' style='font-size: 103.28767123287672%'>active report(4)</a> <a href='/blog/categories/android' style='font-size: 100.82191780821918%'>android(1)</a> <a href='/blog/categories/aplikasi' style='font-size: 103.28767123287672%'>aplikasi(4)</a> <a href='/blog/categories/crashreporter-dot-net' style='font-size: 100.82191780821918%'>crashreporter.net(1)</a> <a href='/blog/categories/crystal-reports-net' style='font-size: 100.82191780821918%'>crystal reports .net(1)</a> <a href='/blog/categories/dapper-net' style='font-size: 102.46575342465754%'>dapper .net(3)</a> <a href='/blog/categories/entity-framework' style='font-size: 106.57534246575342%'>entity framework(8)</a> <a href='/blog/categories/firebird' style='font-size: 109.04109589041096%'>firebird(11)</a> <a href='/blog/categories/freeware' style='font-size: 105.75342465753425%'>freeware(7)</a> <a href='/blog/categories/inno-setup' style='font-size: 104.93150684931507%'>inno setup(6)</a> <a href='/blog/categories/jaringan' style='font-size: 100.82191780821918%'>jaringan(1)</a> <a href='/blog/categories/mysql' style='font-size: 102.46575342465754%'>mysql(3)</a> <a href='/blog/categories/nsis' style='font-size: 101.64383561643835%'>nsis(2)</a> <a href='/blog/categories/nuget' style='font-size: 103.28767123287672%'>nuget(4)</a> <a href='/blog/categories/sql-server-2000' style='font-size: 100.82191780821918%'>sql server 2000(1)</a> <a href='/blog/categories/sqlite' style='font-size: 102.46575342465754%'>sqlite(3)</a> <a href='/blog/categories/tools-installer' style='font-size: 106.57534246575342%'>tools installer(8)</a> <a href='/blog/categories/uncategorized' style='font-size: 106.57534246575342%'>uncategorized(8)</a> <a href='/blog/categories/visual-basic' style='font-size: 160.0%'>visual basic(73)</a> <a href='/blog/categories/visual-basic-net' style='font-size: 109.04109589041096%'>visual basic .net(11)</a> <a href='/blog/categories/visual-c-number' style='font-size: 127.94520547945206%'>visual c#(34)</a> <a href='/blog/categories/winsock' style='font-size: 104.93150684931507%'>winsock(6)</a> </span>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'k4m4r82',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2009 - 2015 - Admin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'coding4ever';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://coding4ever.net/blog/2014/03/12/menginstall-server-nuget-lokal/';
+        var disqus_url = 'http://coding4ever.net/blog/2014/03/12/menginstall-server-nuget-lokal/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

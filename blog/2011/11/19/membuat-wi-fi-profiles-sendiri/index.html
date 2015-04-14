@@ -1,0 +1,742 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Membuat Wi-Fi Profiles Sendiri - Coding4ever&#8217;s Blog</title>
+  <meta name="author" content="Admin">
+
+  
+  <meta name="description" content="Ada hal rutin yang saya lakukan setiap pagi dan sore, ketika ngantor saya harus mengeset ip statis menyesuaikan ip kantor sedangkan ketika di kos &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://coding4ever.net/blog/2011/11/19/membuat-wi-fi-profiles-sendiri">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Coding4ever's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50866618-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Coding4ever&#8217;s Blog</a></h1>
+  
+    <h2>Just coding&#8230; coding&#8230; and coding&#8230; because coding should be fun :)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:coding4ever.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/gudang-software">Gudang Software</a></li>
+  <li><a href="/source-code">Source Code</a></li>  
+  <li><a href="/aplikasi-gratis">Aplikasi Gratis</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Membuat Wi-Fi Profiles Sendiri</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2011-11-19T11:45:12+07:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2011</span></span> <span class='time'>11:45 am</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Ada hal rutin yang saya lakukan setiap pagi dan sore, ketika ngantor saya harus mengeset ip statis menyesuaikan ip kantor sedangkan ketika di kos saya harus mengeset ip menjadi dinamis.</p>
+
+<p>Masalah sepele memang tapi lumayan memakan waktu dan membosankan dan saya belum tau (setidaknya untuk saat ini) apakah OS (win 7) yang sy pake menyediakan solusi untuk masalah ini.</p>
+
+<p>Dari <a href="http://dosen.amikom.ac.id/index.php/profil/Arif%20Dwi%20Laksito%20S.Kom">teman</a> kantor saya sudah dapat file batch untuk masalah ini, skripnya lebih kurang seperti berikut :</p>
+
+<!-- more -->
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@ECHO OFF
+</span><span class='line'>Set varan=Wireless Network Connection
+</span><span class='line'>Set varip=172.xx.xx.xx
+</span><span class='line'>Set varnm=255.255.0.0
+</span><span class='line'>Set vargw=172.xx.xx.xxx
+</span><span class='line'>Set vardns1=202.xx.x.x
+</span><span class='line'>Set vardns2=202.xx.x.x
+</span><span class='line'>
+</span><span class='line'>ECHO Auto Setting IP (arif.laksito@gmail.com)
+</span><span class='line'>ECHO for: "%varan%"
+</span><span class='line'>ECHO ---------------------------------------------
+</span><span class='line'>
+</span><span class='line'>ECHO Setting "IP Address", "Subnet Mask" and "Gateway"
+</span><span class='line'>netsh interface ipv4 set address name="%varan%" source=static address=%varip% mask=%varnm% gateway=%vargw%
+</span><span class='line'>
+</span><span class='line'>ECHO Setting "Primary DNS"
+</span><span class='line'>netsh interface ipv4 add dnsserver name="%varan%" address=%vardns1% index=1
+</span><span class='line'>
+</span><span class='line'>ECHO Setting "Secondary DNS"
+</span><span class='line'>netsh interface ipv4 add dnsserver name="%varan%" address=%vardns2% index=2</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Sedangkan untuk mengeset ke ip dinamis skripnya lebih sederhana lagi</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@ECHO OFF
+</span><span class='line'>Set varan=Wireless Network Connection
+</span><span class='line'>ECHO Auto Setting IP to DHCP (arif.laksito@gmail.com)
+</span><span class='line'>ECHO ---------------------------------------------
+</span><span class='line'>
+</span><span class='line'>ECHO Setting "IP Address", "Subnet Mask" and "Gateway" to DHCP
+</span><span class='line'>netsh interface ipv4 set address name="%varan%" source=dhcp
+</span><span class='line'>
+</span><span class='line'>ECHO Setting "DNS" to DHCP
+</span><span class='line'>Netsh interface ipv4 set dnsserver "%varan%" dhcp</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Kedua skrip diatas sebenarnya sudah menyelesaikan permasalahan, tapi&hellip; ada yang kurang sebagai seorang proGAMMER et&hellip; sory maksudnya programmer :D tentunya kita akan sedikit penasaran bagaimana mengeksekusi skrip diatas via program.</p>
+
+<p>Untuk VB 6 sudah saya bahas tuntas dibeberapa postingan saya, tapi untuk kali ini kita menggunakan bahasa C#, yuph inilah bahasa yang sedang sy gandrungi saat ini :), semua project sy terutama yang baru, saya <strong>paksain</strong> menggunakan bahasa ini, karena pelan2x tapi pasti VB 6 akan segera ditingalkan :cry:</p>
+
+<p>Yuph intronya kita cukupkan sampai disini, untuk desain GUI aplikasinya seperti berikut :</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/11/19112011-11.png"><img src="http://coding4ever.files.wordpress.com/2011/11/19112011-11.png" alt="" /></a></p>
+
+<p>Beberapa method penting yang digunakan oleh aplikasi ini sebagai berikut :</p>
+
+<p><strong>1. Mendapatkan daftar Network Connection</strong>
+Untuk mendapatkan daftar network saya menggunakan perintah</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>netsh int ip show config</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Untuk menjalankan perintah diatas saya menggunakan method ExecuteCommand, kemampuan lain dari method ini adalah menampung output dari perintah yang dijalankan.</p>
+
+<p>Untuk contoh disini outputnya saya tampung ke dalam variabel output.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">ExecuteCommand</span><span class="p">(</span><span class="kt">string</span> <span class="n">cmd</span><span class="p">,</span> <span class="kt">string</span> <span class="n">parameter</span><span class="p">,</span> <span class="kt">int</span> <span class="n">timeout</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">redirectStandardOutput</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">Process</span> <span class="n">p</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Process</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">p</span><span class="p">.</span><span class="n">StartInfo</span><span class="p">.</span><span class="n">FileName</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">p</span><span class="p">.</span><span class="n">StartInfo</span><span class="p">.</span><span class="n">Arguments</span> <span class="p">=</span> <span class="n">parameter</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">p</span><span class="p">.</span><span class="n">StartInfo</span><span class="p">.</span><span class="n">UseShellExecute</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">p</span><span class="p">.</span><span class="n">StartInfo</span><span class="p">.</span><span class="n">CreateNoWindow</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">p</span><span class="p">.</span><span class="n">StartInfo</span><span class="p">.</span><span class="n">RedirectStandardOutput</span> <span class="p">=</span> <span class="n">redirectStandardOutput</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">try</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">p</span><span class="p">.</span><span class="n">Start</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">redirectStandardOutput</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="n">p</span><span class="p">.</span><span class="n">BeginOutputReadLine</span><span class="p">();</span>
+</span><span class='line'>            <span class="n">p</span><span class="p">.</span><span class="n">OutputDataReceived</span> <span class="p">+=</span> <span class="k">new</span> <span class="n">DataReceivedEventHandler</span><span class="p">(</span><span class="n">p_OutputDataReceived</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">p</span><span class="p">.</span><span class="n">WaitForExit</span><span class="p">(</span><span class="n">timeout</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">catch</span> <span class="p">(</span><span class="n">Exception</span> <span class="n">ex</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="n">ex</span><span class="p">.</span><span class="n">Message</span><span class="p">,</span> <span class="s">&quot;Warning&quot;</span><span class="p">,</span> <span class="n">MessageBoxButtons</span><span class="p">.</span><span class="n">OK</span><span class="p">,</span> <span class="n">MessageBoxIcon</span><span class="p">.</span><span class="n">Exclamation</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">finally</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">p</span><span class="p">.</span><span class="n">Close</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Untuk selanjutnya variabel output saya olah di method GetNetworkConnections</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="kt">string</span><span class="p">[]</span> <span class="nf">GetNetworkConnections</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">string</span><span class="p">[]</span> <span class="n">arrNetwork</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">output</span><span class="p">.</span><span class="n">Count</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">arrNetwork</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">string</span><span class="p">[</span><span class="n">output</span><span class="p">.</span><span class="n">Count</span><span class="p">];</span>
+</span><span class='line'>        <span class="kt">int</span> <span class="n">index</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">foreach</span> <span class="p">(</span><span class="kt">string</span> <span class="kt">var</span> <span class="k">in</span> <span class="n">output</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="kt">string</span><span class="p">[]</span> <span class="n">networkConnection</span> <span class="p">=</span> <span class="kt">var</span><span class="p">.</span><span class="n">Split</span><span class="p">(</span><span class="sc">&#39;\&quot;&#39;</span><span class="p">);</span>
+</span><span class='line'>            <span class="n">arrNetwork</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="p">=</span> <span class="n">networkConnection</span><span class="p">[</span><span class="m">1</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">index</span><span class="p">++;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="n">arrNetwork</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>2. Akses registry</strong>
+Untuk meningkatkan kemampuan program ini saya juga menambahkan method untuk menulis dan membaca registry, sehingga perubahan terakhir bisa tersimpan dan diload kembali pada saat program dijalankan.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="c1">// method untuk membaca registry</span>
+</span><span class='line'><span class="k">private</span> <span class="kt">string</span> <span class="nf">GetValue</span><span class="p">(</span><span class="kt">string</span> <span class="n">key</span><span class="p">,</span> <span class="kt">string</span> <span class="k">value</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">Registry</span><span class="p">.</span><span class="n">CurrentUser</span><span class="p">.</span><span class="n">OpenSubKey</span><span class="p">(</span><span class="n">key</span><span class="p">).</span><span class="n">GetValue</span><span class="p">(</span><span class="k">value</span><span class="p">).</span><span class="n">ToString</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// method untuk menulis registry</span>
+</span><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">WriteValue</span><span class="p">(</span><span class="kt">string</span> <span class="n">key</span><span class="p">,</span> <span class="kt">string</span> <span class="n">valueName</span><span class="p">,</span> <span class="kt">string</span> <span class="k">value</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">Registry</span><span class="p">.</span><span class="n">CurrentUser</span><span class="p">.</span><span class="n">CreateSubKey</span><span class="p">(</span><span class="n">key</span><span class="p">).</span><span class="n">SetValue</span><span class="p">(</span><span class="n">valueName</span><span class="p">,</span> <span class="k">value</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// method untuk membaca setting program terakhir</span>
+</span><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">GetSetting</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">output</span><span class="p">.</span><span class="n">Clear</span><span class="p">();</span>
+</span><span class='line'>    <span class="n">ExecuteCommand</span><span class="p">(</span><span class="s">&quot;netsh&quot;</span><span class="p">,</span> <span class="s">&quot;int ip show config&quot;</span><span class="p">,</span> <span class="n">timeout</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">cmbNetworkConnection</span><span class="p">.</span><span class="n">Items</span><span class="p">.</span><span class="n">AddRange</span><span class="p">(</span><span class="n">GetNetworkConnections</span><span class="p">());</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kt">string</span> <span class="n">defaultNetwork</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">RegistryKey</span> <span class="n">registryKey</span> <span class="p">=</span> <span class="n">Registry</span><span class="p">.</span><span class="n">CurrentUser</span><span class="p">.</span><span class="n">OpenSubKey</span><span class="p">(</span><span class="n">key</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">registryKey</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">defaultNetwork</span> <span class="p">=</span> <span class="n">GetValue</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s">&quot;DefaultNetwork&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">txtIPAddress</span><span class="p">.</span><span class="n">Text</span> <span class="p">=</span> <span class="n">GetValue</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s">&quot;IPAddress&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">txtSubnetMask</span><span class="p">.</span><span class="n">Text</span> <span class="p">=</span> <span class="n">GetValue</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s">&quot;SubnetMask&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">txtDefaultGateway</span><span class="p">.</span><span class="n">Text</span> <span class="p">=</span> <span class="n">GetValue</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s">&quot;DefaultGateway&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">txtDnsServer1</span><span class="p">.</span><span class="n">Text</span> <span class="p">=</span> <span class="n">GetValue</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s">&quot;DnsServer1&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">txtDnsServer2</span><span class="p">.</span><span class="n">Text</span> <span class="p">=</span> <span class="n">GetValue</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s">&quot;DnsServer2&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">switch</span> <span class="p">(</span><span class="n">GetValue</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s">&quot;IPAktif&quot;</span><span class="p">))</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="k">case</span> <span class="s">&quot;1&quot;</span><span class="p">:</span> <span class="c1">// dinamis</span>
+</span><span class='line'>                <span class="n">rdoIPDinamis</span><span class="p">.</span><span class="n">Checked</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+</span><span class='line'>                <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="k">case</span> <span class="s">&quot;2&quot;</span><span class="p">:</span> <span class="c1">// statis</span>
+</span><span class='line'>                <span class="n">rdoIPStatis</span><span class="p">.</span><span class="n">Checked</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+</span><span class='line'>                <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="k">default</span><span class="p">:</span>
+</span><span class='line'>                <span class="n">rdoIPDinamis</span><span class="p">.</span><span class="n">Checked</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+</span><span class='line'>                <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">groupBox1</span><span class="p">.</span><span class="n">Enabled</span> <span class="p">=</span> <span class="n">rdoIPStatis</span><span class="p">.</span><span class="n">Checked</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// do nothing</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">defaultNetwork</span><span class="p">.</span><span class="n">Length</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">cmbNetworkConnection</span><span class="p">.</span><span class="n">Items</span><span class="p">.</span><span class="n">Count</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span> <span class="n">cmbNetworkConnection</span><span class="p">.</span><span class="n">Text</span> <span class="p">=</span> <span class="n">defaultNetwork</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">cmbNetworkConnection</span><span class="p">.</span><span class="n">Items</span><span class="p">.</span><span class="n">Count</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span> <span class="n">cmbNetworkConnection</span><span class="p">.</span><span class="n">SelectedIndex</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Sebagai penutup berikut adalah kode pada saat menekan tombol Ok.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">btnOk_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">EventArgs</span> <span class="n">e</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">string</span> <span class="n">parameter</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="s">&quot;Apakah proses ingin dilanjutkan ?&quot;</span><span class="p">,</span> <span class="s">&quot;Konfirmasi&quot;</span><span class="p">,</span> <span class="n">MessageBoxButtons</span><span class="p">.</span><span class="n">YesNo</span><span class="p">,</span> <span class="n">MessageBoxIcon</span><span class="p">.</span><span class="n">Exclamation</span><span class="p">)</span> <span class="p">==</span> <span class="n">DialogResult</span><span class="p">.</span><span class="n">Yes</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">Cursor</span><span class="p">.</span><span class="n">Current</span> <span class="p">=</span> <span class="n">Cursors</span><span class="p">.</span><span class="n">WaitCursor</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">btnOk</span><span class="p">.</span><span class="n">Enabled</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">rdoIPDinamis</span><span class="p">.</span><span class="n">Checked</span><span class="p">)</span> <span class="c1">// ip dinamis</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="n">parameter</span> <span class="p">=</span> <span class="s">&quot;interface ipv4 set address name=\&quot;&quot;</span> <span class="p">+</span> <span class="n">cmbNetworkConnection</span><span class="p">.</span><span class="n">Text</span> <span class="p">+</span> <span class="s">&quot;\&quot; source=dhcp&quot;</span><span class="p">;</span>
+</span><span class='line'>            <span class="n">ExecuteCommand</span><span class="p">(</span><span class="s">&quot;netsh&quot;</span><span class="p">,</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">timeout</span><span class="p">,</span> <span class="k">false</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">parameter</span> <span class="p">=</span> <span class="s">&quot;interface ipv4 set dnsserver \&quot;&quot;</span> <span class="p">+</span> <span class="n">cmbNetworkConnection</span><span class="p">.</span><span class="n">Text</span> <span class="p">+</span> <span class="s">&quot;\&quot; dhcp&quot;</span><span class="p">;</span>
+</span><span class='line'>            <span class="n">ExecuteCommand</span><span class="p">(</span><span class="s">&quot;netsh&quot;</span><span class="p">,</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">timeout</span><span class="p">,</span> <span class="k">false</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">else</span> <span class="c1">// ip statis</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="n">parameter</span> <span class="p">=</span> <span class="s">&quot;interface ipv4 set address name=\&quot;&quot;</span> <span class="p">+</span> <span class="n">cmbNetworkConnection</span><span class="p">.</span><span class="n">Text</span> <span class="p">+</span> <span class="s">&quot;\&quot; source=static address=&quot;</span> <span class="p">+</span> <span class="n">txtIPAddress</span><span class="p">.</span><span class="n">Text</span> <span class="p">+</span> <span class="s">&quot; mask=&quot;</span> <span class="p">+</span> <span class="n">txtSubnetMask</span><span class="p">.</span><span class="n">Text</span> <span class="p">+</span> <span class="s">&quot; gateway=&quot;</span> <span class="p">+</span> <span class="n">txtDefaultGateway</span><span class="p">.</span><span class="n">Text</span><span class="p">;</span>
+</span><span class='line'>            <span class="n">ExecuteCommand</span><span class="p">(</span><span class="s">&quot;netsh&quot;</span><span class="p">,</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">timeout</span><span class="p">,</span> <span class="k">false</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">parameter</span> <span class="p">=</span> <span class="s">&quot;interface ipv4 add dnsserver name=\&quot;&quot;</span> <span class="p">+</span> <span class="n">cmbNetworkConnection</span><span class="p">.</span><span class="n">Text</span> <span class="p">+</span> <span class="s">&quot;\&quot; address=&quot;</span> <span class="p">+</span> <span class="n">txtDnsServer1</span><span class="p">.</span><span class="n">Text</span> <span class="p">+</span> <span class="s">&quot; index=1&quot;</span><span class="p">;</span>
+</span><span class='line'>            <span class="n">ExecuteCommand</span><span class="p">(</span><span class="s">&quot;netsh&quot;</span><span class="p">,</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">timeout</span><span class="p">,</span> <span class="k">false</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">parameter</span> <span class="p">=</span> <span class="s">&quot;interface ipv4 add dnsserver name=\&quot;&quot;</span> <span class="p">+</span> <span class="n">cmbNetworkConnection</span><span class="p">.</span><span class="n">Text</span> <span class="p">+</span> <span class="s">&quot;\&quot; address=&quot;</span> <span class="p">+</span> <span class="n">txtDnsServer2</span><span class="p">.</span><span class="n">Text</span> <span class="p">+</span> <span class="s">&quot; index=2&quot;</span><span class="p">;</span>
+</span><span class='line'>            <span class="n">ExecuteCommand</span><span class="p">(</span><span class="s">&quot;netsh&quot;</span><span class="p">,</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">timeout</span><span class="p">,</span> <span class="k">false</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">WriteValue</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s">&quot;IPAddress&quot;</span><span class="p">,</span> <span class="n">txtIPAddress</span><span class="p">.</span><span class="n">Text</span><span class="p">);</span>
+</span><span class='line'>            <span class="n">WriteValue</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s">&quot;SubnetMask&quot;</span><span class="p">,</span> <span class="n">txtSubnetMask</span><span class="p">.</span><span class="n">Text</span><span class="p">);</span>
+</span><span class='line'>            <span class="n">WriteValue</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s">&quot;DefaultGateway&quot;</span><span class="p">,</span> <span class="n">txtDefaultGateway</span><span class="p">.</span><span class="n">Text</span><span class="p">);</span>
+</span><span class='line'>            <span class="n">WriteValue</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s">&quot;DnsServer1&quot;</span><span class="p">,</span> <span class="n">txtDnsServer1</span><span class="p">.</span><span class="n">Text</span><span class="p">);</span>
+</span><span class='line'>            <span class="n">WriteValue</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s">&quot;DnsServer2&quot;</span><span class="p">,</span> <span class="n">txtDnsServer2</span><span class="p">.</span><span class="n">Text</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">WriteValue</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s">&quot;DefaultNetwork&quot;</span><span class="p">,</span> <span class="n">cmbNetworkConnection</span><span class="p">.</span><span class="n">Text</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">WriteValue</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s">&quot;IPAktif&quot;</span><span class="p">,</span> <span class="n">rdoIPDinamis</span><span class="p">.</span><span class="n">Checked</span> <span class="p">?</span> <span class="s">&quot;1&quot;</span> <span class="p">:</span> <span class="s">&quot;2&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">btnOk</span><span class="p">.</span><span class="n">Enabled</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">Cursor</span><span class="p">.</span><span class="n">Current</span> <span class="p">=</span> <span class="n">Cursors</span><span class="p">.</span><span class="n">Default</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Selamat <a href="https://github.com/k4m4r82/Wifi-Profiles">MENCOBA</a> :)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Admin</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2011-11-19T11:45:12+07:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2011</span></span> <span class='time'>11:45 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/visual-c-number/'>visual c#</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/11/15/nulis-kode-biar-enak-diliat/" title="Previous Post: Nulis kode biar enak diliat">&laquo; Nulis kode biar enak diliat</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/11/22/beberapa-fungsi-sederhana-yang-sering-digunakan/" title="Next Post: Beberapa fungsi sederhana yang sering digunakan">Beberapa fungsi sederhana yang sering digunakan &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Admin</h1>
+  <p>Software developer yang berasal dari Riau, tapi malah betah tinggal di Yogyakarta :)</p>
+  
+  <p>Pernah mengajar di salah satu perguruan tinggi swasta (PTS) di Yogyakarta.<br>
+     Saat ini bekerja sebagai staf IT di PTS yang sama sebagai senior software developer.</p>
+  
+  <p>Fokus mengembangkan aplikasi di atas platform .NET dan Android. Diwaktu luang insya Alloh akan terus berbagi pengalaman di blog <a href="http://coding4ever.net/" target="_blank">ini</a>.</p>    
+</section><section>
+  <h1>Contacts :</h1>
+    <ul>		
+		<li>			
+			<a href="mailto:coding4ever.net@gmail.com" title="GMail" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/gmail-small2.png" border="0" alt="GMail" /></a>
+		</li>		
+		<li>			
+			<a href="https://github.com/k4m4r82?tab=repositories" title="GitHub" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/github-small2.png" border="0" alt="GitHub" /></a>
+		</li>
+		<li>
+			<a href="http://www.facebook.com/abu.anas.1232" title="Facebook" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/fb-small2.png" border="0" alt="Facebook" /></a>
+		</li>				
+	</ul>
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/04/14/paket-nuget-yang-wajib-dicoba-bagian-number-1-crashreporter-dot-net/">Paket NuGet Yang Wajib Dicoba Bagian #1 - CrashReporter.NET</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/13/comment-as-a-guest/">Comment as a Guest</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push/">Membuat Laporan Crystal Reports .NET Dengan Model Data-Push</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/11/blog-lama-coding4ever-aktif-kembali/">Blog Lama Coding4ever Aktif Kembali</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/11/06/kr-pulsa-elektrik/">KR Pulsa Elektrik</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/08/entity-framework-part-8/">Entity Framework Part 8</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/manajemen-proyek-menggunakan-redmine-bagian-1/">Manajemen Proyek Menggunakan Redmine Bagian 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/21/manajemen-password-menggunakan-keepass/">Manajemen Password Menggunakan KeePass</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/10/sms-gateway-edisi-net-part-1/">SMS Gateway Edisi .NET Part 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/11/entity-framework-part-7/">Entity Framework Part 7</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+    <ul id="category-list"><li><a href='/blog/categories/dot-net-remoting/'>.net remoting (9)</a></li><li><a href='/blog/categories/active-report/'>active report (4)</a></li><li><a href='/blog/categories/android/'>android (1)</a></li><li><a href='/blog/categories/aplikasi/'>aplikasi (4)</a></li><li><a href='/blog/categories/crashreporter-dot-net/'>crashreporter.net (1)</a></li><li><a href='/blog/categories/crystal-reports-net/'>crystal reports .net (1)</a></li><li><a href='/blog/categories/dapper-net/'>dapper .net (3)</a></li><li><a href='/blog/categories/entity-framework/'>entity framework (8)</a></li><li><a href='/blog/categories/firebird/'>firebird (11)</a></li><li><a href='/blog/categories/freeware/'>freeware (7)</a></li><li><a href='/blog/categories/inno-setup/'>inno setup (6)</a></li><li><a href='/blog/categories/jaringan/'>jaringan (1)</a></li><li><a href='/blog/categories/mysql/'>mysql (3)</a></li><li><a href='/blog/categories/nsis/'>nsis (2)</a></li><li><a href='/blog/categories/nuget/'>nuget (4)</a></li><li><a href='/blog/categories/sql-server-2000/'>sql server 2000 (1)</a></li><li><a href='/blog/categories/sqlite/'>sqlite (3)</a></li><li><a href='/blog/categories/tools-installer/'>tools installer (8)</a></li><li><a href='/blog/categories/uncategorized/'>uncategorized (8)</a></li><li><a href='/blog/categories/visual-basic/'>visual basic (73)</a></li><li><a href='/blog/categories/visual-basic-net/'>visual basic .net (11)</a></li><li><a href='/blog/categories/visual-c-number/'>visual c# (34)</a></li><li><a href='/blog/categories/winsock/'>winsock (6)</a></li></ul>
+</section>
+<section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/blog/categories/dot-net-remoting' style='font-size: 107.3972602739726%'>.net remoting(9)</a> <a href='/blog/categories/active-report' style='font-size: 103.28767123287672%'>active report(4)</a> <a href='/blog/categories/android' style='font-size: 100.82191780821918%'>android(1)</a> <a href='/blog/categories/aplikasi' style='font-size: 103.28767123287672%'>aplikasi(4)</a> <a href='/blog/categories/crashreporter-dot-net' style='font-size: 100.82191780821918%'>crashreporter.net(1)</a> <a href='/blog/categories/crystal-reports-net' style='font-size: 100.82191780821918%'>crystal reports .net(1)</a> <a href='/blog/categories/dapper-net' style='font-size: 102.46575342465754%'>dapper .net(3)</a> <a href='/blog/categories/entity-framework' style='font-size: 106.57534246575342%'>entity framework(8)</a> <a href='/blog/categories/firebird' style='font-size: 109.04109589041096%'>firebird(11)</a> <a href='/blog/categories/freeware' style='font-size: 105.75342465753425%'>freeware(7)</a> <a href='/blog/categories/inno-setup' style='font-size: 104.93150684931507%'>inno setup(6)</a> <a href='/blog/categories/jaringan' style='font-size: 100.82191780821918%'>jaringan(1)</a> <a href='/blog/categories/mysql' style='font-size: 102.46575342465754%'>mysql(3)</a> <a href='/blog/categories/nsis' style='font-size: 101.64383561643835%'>nsis(2)</a> <a href='/blog/categories/nuget' style='font-size: 103.28767123287672%'>nuget(4)</a> <a href='/blog/categories/sql-server-2000' style='font-size: 100.82191780821918%'>sql server 2000(1)</a> <a href='/blog/categories/sqlite' style='font-size: 102.46575342465754%'>sqlite(3)</a> <a href='/blog/categories/tools-installer' style='font-size: 106.57534246575342%'>tools installer(8)</a> <a href='/blog/categories/uncategorized' style='font-size: 106.57534246575342%'>uncategorized(8)</a> <a href='/blog/categories/visual-basic' style='font-size: 160.0%'>visual basic(73)</a> <a href='/blog/categories/visual-basic-net' style='font-size: 109.04109589041096%'>visual basic .net(11)</a> <a href='/blog/categories/visual-c-number' style='font-size: 127.94520547945206%'>visual c#(34)</a> <a href='/blog/categories/winsock' style='font-size: 104.93150684931507%'>winsock(6)</a> </span>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'k4m4r82',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2009 - 2015 - Admin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'coding4ever';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://coding4ever.net/blog/2011/11/19/membuat-wi-fi-profiles-sendiri/';
+        var disqus_url = 'http://coding4ever.net/blog/2011/11/19/membuat-wi-fi-profiles-sendiri/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>
