@@ -113,11 +113,11 @@
 
 <p>Ketika kita diminta untuk membuat aplikasi real time yang akan selalu merefresh data yang ditampilkan, pilihan kita biasanya selalu menggunakan objek timer, thread atau yang sejenisnya untuk selalu mengecek apa ada data baru yang ditambahkan/diperbaiki/dihapus.</p>
 
-<p>Penggunaan objek2x ini sedikit banyaknya akan memakan resource yg lumayan apalagi untuk aplikasi2x yang masa aktifnya lama seperti aplikasi sms gateway.</p>
+<p>Penggunaan objek-objek ini sedikit banyaknya akan memakan resource yg lumayan apalagi untuk aplikasi yang masa aktifnya lama seperti aplikasi sms gateway.</p>
 
-<p>Contoh lain misalnya kita ingin membuat aplikasi sms yg otomatis mengirimkan sms notifikasi ke nomor2x tertentu setiap ada data pembelian yang diinputkan.</p>
+<p>Contoh lain misalnya kita ingin membuat aplikasi sms yg otomatis mengirimkan sms notifikasi ke nomor-nomor tertentu setiap ada data pembelian yang diinputkan.</p>
 
-<p>Jadi dengan memanfaatkan fitur ini kita tidak perlu lagi atau minimal mengurangi ketergantungan terhadap objek2x timer dan sejenisnya.</p>
+<p>Jadi dengan memanfaatkan fitur ini kita tidak perlu lagi atau minimal mengurangi ketergantungan terhadap objek-objek timer dan sejenisnya.</p>
 
 <p>Dan sesuai dengan nama fitur ini yaitu &ldquo;Events&rdquo;, mungkin sudah terlintas dipikiran kita bahwa fitur ini sangat cocok jika digabungkan dengan fitur <a href="http://www.firebirdsql.org/">Firebird</a> lainnya yaitu <a href="http://coding4ever.net/blog/2010/03/15/membuat-store-procedure-trigger-dan-view-di-firebird/">Trigger</a>.</p>
 
@@ -125,7 +125,7 @@
 
 <p>Untuk demo membuat event ini sy menggunakan tool IBExpert dan sudah pernah sy bahas bagaimana cara penggunaan tool ini di<a href="http://coding4ever.net/blog/2010/01/06/berkenalan-dengan-database-firebird/">sini</a>.</p>
 
-<p>Untuk contoh kasus kali ini kita akan menambahkan dua event, masing2x pada tabel CUSTOMER dan SUPPLIER, adapun struktur tabelnya seperti berikut :</p>
+<p>Untuk contoh kasus kali ini kita akan menambahkan dua event, masing-masing pada tabel CUSTOMER dan SUPPLIER, adapun struktur tabelnya seperti berikut :</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -155,25 +155,17 @@
 <p>Event kita tambahkan pada saat pembuatan trigger, berikut langkah-langkahnya :</p>
 
 <ol>
-<li>Aktifkan salah satu tabel misal Customer, kemudian pilih tab trigger</li>
+<li><p>Aktifkan salah satu tabel misal Customer, kemudian pilih tab trigger</p>
+
+<p> <a href="http://coding4ever.files.wordpress.com/2012/07/23072012-1.png"><img src="http://coding4ever.files.wordpress.com/2012/07/23072012-1.png" alt="" /></a></p></li>
+<li><p>Klik kanan pada item After Insert</p>
+
+<p> <a href="http://coding4ever.files.wordpress.com/2012/07/23072012-2.png"><img src="http://coding4ever.files.wordpress.com/2012/07/23072012-2.png" alt="" /></a></p></li>
+<li><p>Kemudian lengkapi kode triggernya seperti gambar berikut :</p>
+
+<p> <a href="http://coding4ever.files.wordpress.com/2012/07/23072012-3.png"><img src="http://coding4ever.files.wordpress.com/2012/07/23072012-3.png" alt="" /></a></p></li>
 </ol>
 
-
-<p><a href="http://coding4ever.files.wordpress.com/2012/07/23072012-1.png"><img src="http://coding4ever.files.wordpress.com/2012/07/23072012-1.png" alt="" /></a></p>
-
-<ol>
-<li>Klik kanan pada item After Insert</li>
-</ol>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2012/07/23072012-2.png"><img src="http://coding4ever.files.wordpress.com/2012/07/23072012-2.png" alt="" /></a></p>
-
-<ol>
-<li>Kemudian lengkapi kode triggernya seperti gambar berikut :</li>
-</ol>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2012/07/23072012-3.png"><img src="http://coding4ever.files.wordpress.com/2012/07/23072012-3.png" alt="" /></a></p>
 
 <p>Pada contoh di atas kita menambahkan sebuah event dengan nama NEW_CUSTOMER yang otomatis akan dieksekusi pada saat terjadi proses INSERT pada tabel Customer.</p>
 
@@ -188,18 +180,14 @@
 <p>Berikut langkah-langkah untuk menambahkan library FirebirdClient - ADO.NET Data Provider</p>
 
 <ol>
-<li>Klik kanan node References -> Add Reference..</li>
+<li><p>Klik kanan node References -> Add Reference..</p>
+
+<p> <a href="http://coding4ever.files.wordpress.com/2012/07/23072012-4.png"><img src="http://coding4ever.files.wordpress.com/2012/07/23072012-4.png" alt="" /></a></p></li>
+<li><p>Pilih library FirebirdClient - ADO.NET Data Provider yang sudah didownload kemudian klik Ok</p>
+
+<p> <a href="http://coding4ever.files.wordpress.com/2012/07/23072012-5.png"><img src="http://coding4ever.files.wordpress.com/2012/07/23072012-5.png" alt="" /></a></p></li>
 </ol>
 
-
-<p><a href="http://coding4ever.files.wordpress.com/2012/07/23072012-4.png"><img src="http://coding4ever.files.wordpress.com/2012/07/23072012-4.png" alt="" /></a></p>
-
-<ol>
-<li>Pilih library FirebirdClient - ADO.NET Data Provider yang sudah didownload kemudian klik Ok</li>
-</ol>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2012/07/23072012-5.png"><img src="http://coding4ever.files.wordpress.com/2012/07/23072012-5.png" alt="" /></a></p>
 
 <p>Adapun kode lengkapnya seperti berikut :</p>
 
