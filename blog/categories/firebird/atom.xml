@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Firebird | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/firebird/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-04-14T21:11:16+07:00</updated>
+  <updated>2015-04-15T13:24:49+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -257,18 +257,18 @@ ada work-around-nya untuk masalah ini om admin?</p></blockquote>
     <id>http://coding4ever.net/blog/2012/07/23/the-power-of-firebird-events</id>
     <content type="html"><![CDATA[<p><strong>Intro</strong></p>
 
-<p>Judul postingan kali ini sy ambil dari dokumentasi resmi website <a href="http://www.firebirdsql.org">Firebird</a> dengan sub dokumen <a href="http://www.firebirdsql.org/en/white-papers-presentations/">White Papers &amp; Presentations</a>.</p>
+<p>Judul postingan kali ini saya ambil dari dokumentasi resmi website <a href="http://www.firebirdsql.org">Firebird</a> dengan sub dokumen <a href="http://www.firebirdsql.org/en/white-papers-presentations/">White Papers &amp; Presentations</a>.</p>
 
-<p>Sudah lama sy mengetahui adanya fitur keren ini, hanya saja karna waktu itu masih aktif ngoding menggunakan VB 6 jadi sy kurang tertarik untuk mencobanya (habis mau gimana lagi vb6 memang belum mendukung fitur ini kok :D) CMIIW.</p>
+<p>Sudah lama saya mengetahui adanya fitur keren ini, hanya saja karna waktu itu masih aktif ngoding menggunakan VB 6 jadi saya kurang tertarik untuk mencobanya (habis mau gimana lagi vb6 memang belum mendukung fitur ini kok :D) CMIIW.</p>
 
 <!-- more -->
 
 
 <p>Ketika kita diminta untuk membuat aplikasi real time yang akan selalu merefresh data yang ditampilkan, pilihan kita biasanya selalu menggunakan objek timer, thread atau yang sejenisnya untuk selalu mengecek apa ada data baru yang ditambahkan/diperbaiki/dihapus.</p>
 
-<p>Penggunaan objek-objek ini sedikit banyaknya akan memakan resource yg lumayan apalagi untuk aplikasi yang masa aktifnya lama seperti aplikasi sms gateway.</p>
+<p>Penggunaan objek-objek ini sedikit banyaknya akan memakan resource yang lumayan apalagi untuk aplikasi yang masa aktifnya lama seperti aplikasi sms gateway.</p>
 
-<p>Contoh lain misalnya kita ingin membuat aplikasi sms yg otomatis mengirimkan sms notifikasi ke nomor-nomor tertentu setiap ada data pembelian yang diinputkan.</p>
+<p>Contoh lain misalnya kita ingin membuat aplikasi sms yang otomatis mengirimkan sms notifikasi ke nomor-nomor tertentu setiap ada data pembelian yang diinputkan.</p>
 
 <p>Jadi dengan memanfaatkan fitur ini kita tidak perlu lagi atau minimal mengurangi ketergantungan terhadap objek-objek timer dan sejenisnya.</p>
 
@@ -276,7 +276,7 @@ ada work-around-nya untuk masalah ini om admin?</p></blockquote>
 
 <p><strong>Membuat Event</strong></p>
 
-<p>Untuk demo membuat event ini sy menggunakan tool IBExpert dan sudah pernah sy bahas bagaimana cara penggunaan tool ini di<a href="/blog/2010/01/06/berkenalan-dengan-database-firebird/">sini</a>.</p>
+<p>Untuk demo membuat event ini saya menggunakan tool IBExpert dan sudah pernah saya bahas bagaimana cara penggunaan tool ini di<a href="/blog/2010/01/06/berkenalan-dengan-database-firebird/">sini</a>.</p>
 
 <p>Untuk contoh kasus kali ini kita akan menambahkan dua event, masing-masing pada tabel CUSTOMER dan SUPPLIER, adapun struktur tabelnya seperti berikut :</p>
 
@@ -325,7 +325,7 @@ ada work-around-nya untuk masalah ini om admin?</p></blockquote>
 
 <p><strong>Menangkap Event dari Aplikasi</strong></p>
 
-<p>Untuk mendemokan bagaimana menangkap event firebird dari aplikasi, sy menggunakan C# dengan tipe project Windows Application.</p>
+<p>Untuk mendemokan bagaimana menangkap event firebird dari aplikasi, saya menggunakan C# dengan tipe project Windows Application.</p>
 
 <p>C# sendiri tidak otomatis bisa mengakses database firebird tetapi harus menambahkan library FirebirdClient - ADO.NET Data Provider yang bisa didownload di<a href="http://www.firebirdsql.org/en/net-provider/">sini</a>.</p>
 
@@ -478,13 +478,13 @@ ada work-around-nya untuk masalah ini om admin?</p></blockquote>
 
 <p><strong>Demo Menangkap Event</strong></p>
 
-<p>Untuk membuktikan bahwa fitur event ini berfungsi dengan baik, sy akan menambahkan data secara langsung menggunakan tool IBExpert.</p>
+<p>Untuk membuktikan bahwa fitur event ini berfungsi dengan baik, saya akan menambahkan data secara langsung menggunakan tool IBExpert.</p>
 
 <p>Perhatikan gambar awal sebelum perintah INSERT dijalankan.</p>
 
 <p><a href="http://coding4ever.files.wordpress.com/2012/07/23072012-6.png"><img src="http://coding4ever.files.wordpress.com/2012/07/23072012-6.png" alt="" /></a></p>
 
-<p>Setelah sy menjalankan printah INSERT diatas, aplikasi yg sy buat menggunakan C# secara otomatis menampilkan data yg sy inputkan melalui tool IBExpert.</p>
+<p>Setelah saya menjalankan printah INSERT diatas, aplikasi yang saya buat menggunakan C# secara otomatis menampilkan data yang saya inputkan melalui tool IBExpert.</p>
 
 <p><a href="http://coding4ever.files.wordpress.com/2012/07/23072012-7.png"><img src="http://coding4ever.files.wordpress.com/2012/07/23072012-7.png" alt="" /></a></p>
 
