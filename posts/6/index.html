@@ -9,7 +9,7 @@
   <meta name="author" content="Admin">
 
   
-  <meta name="description" content="Walaupun sedikit telat janji akan tetap saya penuhi untuk membahas ulang kasus pada postingan sebelumnya menggunakan sub report. Untuk refreshing &hellip;">
+  <meta name="description" content="Yuph kali ini kita akan membahas fungsi menarik (SELECT SCOPE_IDENTITY(), SELECT LAST_INSERT_ID() dan RETURNING PK) yang dimiliki oleh database2x &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -86,7 +86,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2011/09/05/tutorial-active-report-bagian-3-sub-report/">Tutorial Active Report Bagian 3 - Sub Report</a></h1>
+      <h1 class="entry-title"><a href="/blog/2011/02/27/select-scope_identity-select-last_insert_id-dan-returning-pk/">SELECT SCOPE_IDENTITY(), SELECT LAST_INSERT_ID() Dan RETURNING PK</a></h1>
     
     
       <p class="meta">
@@ -95,25 +95,31 @@
 
 
 
-<time class='entry-date' datetime='2011-09-05T11:24:53+07:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2011</span></span> <span class='time'>11:24 am</span></time>
+<time class='entry-date' datetime='2011-02-27T13:51:22+07:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2011</span></span> <span class='time'>1:51 pm</span></time>
         
-           | <a href="/blog/2011/09/05/tutorial-active-report-bagian-3-sub-report/#disqus_thread"
-             data-disqus-identifier="http://coding4ever.net/blog/2011/09/05/tutorial-active-report-bagian-3-sub-report/">Comments</a>
+           | <a href="/blog/2011/02/27/select-scope_identity-select-last_insert_id-dan-returning-pk/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2011/02/27/select-scope_identity-select-last_insert_id-dan-returning-pk/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Walaupun sedikit telat janji akan tetap saya penuhi untuk membahas ulang kasus pada <a href="http://coding4ever.net/blog/2011/07/24/tutorial-active-report-bagian-2-grouping/">postingan</a> sebelumnya menggunakan sub report.</p>
+  <div class="entry-content"><p>Yuph kali ini kita akan membahas fungsi menarik (SELECT SCOPE_IDENTITY(), SELECT LAST_INSERT_ID() dan RETURNING PK) yang dimiliki oleh database2x terkenal seperti SQL Server, MySQL dan Firebird.</p>
 
-<p>Untuk refreshing dibawah ini merupakan format laporan yang akan kita buat menggunakan sub report.</p>
+<p>Dari nama fungsinya kita bisa menebak kegunaan dari fungsi diatas yaitu untuk mendapatkan nilai ID terakhir (biasanya bertipe angka) yang diinputkan.</p>
+
+<p>Saya dan mungkin Anda biasanya dalam merancang tabel untuk selalu menambahkan field ID dengan attribut IDENTITY/AUTONUMBER dan sekaligus dijadikan sebagai PRIMARY KEY.</p>
+
+<p>Tentunya hal ini kita lakukan untuk mempermudah dalam proses manipulasi data (edit dan delete).</p>
+
+<p>Contoh beberapa tabel yang biasanya menggunakan field ID untuk PRIMARY KEY dan sekaligus diset dengan attribut IDENTITY/AUTONUMBER</p>
 
 </div>
   
   
     <footer>
-      <a rel="full-article" href="/blog/2011/09/05/tutorial-active-report-bagian-3-sub-report/">Read on &rarr;</a>
+      <a rel="full-article" href="/blog/2011/02/27/select-scope_identity-select-last_insert_id-dan-returning-pk/">Read on &rarr;</a>
     </footer>
   
 
@@ -125,7 +131,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2011/08/09/melewatkan-data-antar-form/">Melewatkan Data Antar Form</a></h1>
+      <h1 class="entry-title"><a href="/blog/2011/02/13/membaca-file-excel-dan-menampilkan-datanya/">Membaca File Excel Dan Menampilkan Datanya</a></h1>
     
     
       <p class="meta">
@@ -134,66 +140,29 @@
 
 
 
-<time class='entry-date' datetime='2011-08-09T12:55:45+07:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2011</span></span> <span class='time'>12:55 pm</span></time>
+<time class='entry-date' datetime='2011-02-13T16:55:45+07:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2011</span></span> <span class='time'>4:55 pm</span></time>
         
-           | <a href="/blog/2011/08/09/melewatkan-data-antar-form/#disqus_thread"
-             data-disqus-identifier="http://coding4ever.net/blog/2011/08/09/melewatkan-data-antar-form/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Melakukan hal ini mungkin merupakan hal yang sepele bagi programmer Visual Basic 6 seperti saya dan Anda :D, kita ambil contoh gambar berikut :</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/08/09082011-11.png"><img src="http://coding4ever.files.wordpress.com/2011/08/09082011-11.png?w=300" alt="" /></a></div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2011/08/09/melewatkan-data-antar-form/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/07/29/mengakses-multi-database-dengan-satu-namespace/">Mengakses Multi Database Dengan Satu Namespace</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2011-07-29T14:34:26+07:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2011</span></span> <span class='time'>2:34 pm</span></time>
-        
-           | <a href="/blog/2011/07/29/mengakses-multi-database-dengan-satu-namespace/#disqus_thread"
-             data-disqus-identifier="http://coding4ever.net/blog/2011/07/29/mengakses-multi-database-dengan-satu-namespace/">Comments</a>
+           | <a href="/blog/2011/02/13/membaca-file-excel-dan-menampilkan-datanya/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2011/02/13/membaca-file-excel-dan-menampilkan-datanya/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Bagi Anda yang suka gonta <del></del> ganti <del>pasangan</del> database mungkin bisa mencoba namespace yang satu <a href="http://msdn.microsoft.com/en-us/library/system.data.common.aspx">ini</a>.</p>
+  <div class="entry-content"><p>Ceritanya kali ini kita akan membuka file excel dan menampilkan datanya, dimana pengembangan artikel ini bisa digunakan untuk membuat program impor atau konversi data sederhana, yang mana hal ini sering kita lakukan pada saat implementasi sistem.</p>
 
-<p><a href="http://msdn.microsoft.com/en-us/library/system.data.common.aspx">System.Data.Common</a> yuph itulah nama namespacenya, namespace super yang di dalamnya terdapat class-class generic untuk mengakses database.</p>
+<p>Karena biasanya permintaan dari klien data-data manual mereka yang biasa menggunakan format excel dikonversi ke sistem baru yang kita buat.</p>
 
-<p>Dengan memanfaatkan class-class generic tersebut jika terjadi perubahan database kita cukup merubah beberapa baris kode.</p>
+<p>Nah untuk memudahkan pembacaan file excel, biasanya formatnya kita buat sesederhana mungkin. Contoh :</p>
 
-<p>Sebelumnya kita lihat dulu bagaimana cara mengakses database tanpa menggunakan namespace ini.</p>
+<p><a href="http://coding4ever.files.wordpress.com/2011/02/13012011-1.jpg"><img src="http://coding4ever.files.wordpress.com/2011/02/13012011-1.jpg?w=300" alt="" /></a></p>
 
 </div>
   
   
     <footer>
-      <a rel="full-article" href="/blog/2011/07/29/mengakses-multi-database-dengan-satu-namespace/">Read on &rarr;</a>
+      <a rel="full-article" href="/blog/2011/02/13/membaca-file-excel-dan-menampilkan-datanya/">Read on &rarr;</a>
     </footer>
   
 
@@ -205,7 +174,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2011/07/24/tutorial-active-report-bagian-2-grouping/">Tutorial Active Report Bagian 2 - Grouping</a></h1>
+      <h1 class="entry-title"><a href="/blog/2011/01/24/kajian-penggalangan-dana-merapi-menggapai-bahagia-dengan-sedekah/">Kajian Penggalangan Dana Merapi &#8220;Menggapai Bahagia Dengan Sedekah&#8221;</a></h1>
     
     
       <p class="meta">
@@ -214,27 +183,30 @@
 
 
 
-<time class='entry-date' datetime='2011-07-24T07:09:23+07:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2011</span></span> <span class='time'>7:09 am</span></time>
+<time class='entry-date' datetime='2011-01-24T20:14:04+07:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2011</span></span> <span class='time'>8:14 pm</span></time>
         
-           | <a href="/blog/2011/07/24/tutorial-active-report-bagian-2-grouping/#disqus_thread"
-             data-disqus-identifier="http://coding4ever.net/blog/2011/07/24/tutorial-active-report-bagian-2-grouping/">Comments</a>
+           | <a href="/blog/2011/01/24/kajian-penggalangan-dana-merapi-menggapai-bahagia-dengan-sedekah/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2011/01/24/kajian-penggalangan-dana-merapi-menggapai-bahagia-dengan-sedekah/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Setelah cukup lama tertunda akhirnya tutorial kedua dari yang <a href="http://coding4ever.net/blog/2010/11/16/tutorial-active-report-bagian-1/">pertama</a> ini rilis juga.</p>
+  <div class="entry-content"><p><a href="http://coding4ever.files.wordpress.com/2011/01/bahagia-dengan-sedekah1.jpg"><img src="http://coding4ever.files.wordpress.com/2011/01/bahagia-dengan-sedekah1.jpg" alt="" /></a>
+Hadirilah Pengajian Umum Penggalangan Dana Rehabilitasi Wilayah Bencana Merapi dengan tema <strong>“MENGGAPAI BAHAGIA DENGAN SEDEKAH”</strong></p>
 
-<p>Fokus pada tutorial kali ini adalah pembuatan format laporan yang sering digunakan yaitu grouping.</p>
+<p><strong>Pemateri:</strong>
+Ustadz Abu Ahmad Zaenal Abidin, Lc.</p>
 
-<p>Contoh laporan yang akan kita buat adalah seperti berikut :</p>
+<p><strong>Sambutan:</strong>
+Drs. H. Sri Purnomo, M.Si. (Bupati Sleman Periode 2010-2015)</p>
 
 </div>
   
   
     <footer>
-      <a rel="full-article" href="/blog/2011/07/24/tutorial-active-report-bagian-2-grouping/">Read on &rarr;</a>
+      <a rel="full-article" href="/blog/2011/01/24/kajian-penggalangan-dana-merapi-menggapai-bahagia-dengan-sedekah/">Read on &rarr;</a>
     </footer>
   
 
@@ -246,7 +218,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2011/06/30/beberapa-alternatif-mengosongkan-textbox/">Beberapa Alternatif Mengosongkan TextBox</a></h1>
+      <h1 class="entry-title"><a href="/blog/2011/01/23/memadukan-komponen-menustrip-dan-explorerbar-control-for-net/">Memadukan Komponen MenuStrip Dan ExplorerBar Control for .NET</a></h1>
     
     
       <p class="meta">
@@ -255,62 +227,31 @@
 
 
 
-<time class='entry-date' datetime='2011-06-30T22:04:21+07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2011</span></span> <span class='time'>10:04 pm</span></time>
+<time class='entry-date' datetime='2011-01-23T09:24:43+07:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2011</span></span> <span class='time'>9:24 am</span></time>
         
-           | <a href="/blog/2011/06/30/beberapa-alternatif-mengosongkan-textbox/#disqus_thread"
-             data-disqus-identifier="http://coding4ever.net/blog/2011/06/30/beberapa-alternatif-mengosongkan-textbox/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><strong>Pertanyaan 1 :</strong></p>
-
-<p>Berdasarkan contoh form berikut buatkan perintah untuk mengosongkan semua inputan.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/06/30062011-1.png"><img src="http://coding4ever.files.wordpress.com/2011/06/30062011-1.png?w=300" alt="" /></a></div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2011/06/30/beberapa-alternatif-mengosongkan-textbox/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/06/29/hasil-investigasi-google-talk/">Hasil Investigasi Google Talk</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2011-06-29T08:51:33+07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2011</span></span> <span class='time'>8:51 am</span></time>
-        
-           | <a href="/blog/2011/06/29/hasil-investigasi-google-talk/#disqus_thread"
-             data-disqus-identifier="http://coding4ever.net/blog/2011/06/29/hasil-investigasi-google-talk/">Comments</a>
+           | <a href="/blog/2011/01/23/memadukan-komponen-menustrip-dan-explorerbar-control-for-net/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2011/01/23/memadukan-komponen-menustrip-dan-explorerbar-control-for-net/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Tadi malam iseng-iseng browsing salah satu web distributor pulsa elektrik trus ngeliat daftar perintah transaksi yang disediakan kemudian &hellip;. tuing-tuing :D</p>
+  <div class="entry-content"><p>2 komponen ini merupakan komponen favorit saya untuk kelengkapan setiap aplikasi yang saya buat, dimana komponen MenuStrip digunakan untuk menampilkan menu bergaya klasik.</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/01/23012011-1.jpg"><img src="http://coding4ever.files.wordpress.com/2011/01/23012011-1.jpg?w=300" alt="" /></a></p>
+
+<p>dan komponen ExplorerBar Control for .NET menampilkan menu dengan ciri khas  menu yg ada di Windows Explorernya XP</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2011/01/23012011-2.jpg"><img src="http://coding4ever.files.wordpress.com/2011/01/23012011-2.jpg?w=167" alt="" /></a></p>
+
+<p>jadi dengan asumsi bahwa Anda sudah pernah membuat menu dengan MenuStrip dan <a href="http://coding4ever.net/blog/2010/12/24/explorerbar-control-for-net/">ExplorerBar Control for .NET</a>, maka fokus kita kali ini adalah pada poin-poin berikut :</p>
 
 </div>
   
   
     <footer>
-      <a rel="full-article" href="/blog/2011/06/29/hasil-investigasi-google-talk/">Read on &rarr;</a>
+      <a rel="full-article" href="/blog/2011/01/23/memadukan-komponen-menustrip-dan-explorerbar-control-for-net/">Read on &rarr;</a>
     </footer>
   
 
@@ -322,7 +263,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2011/06/26/mengakses-database-mysql-menggunakan-c-bagian-2/">Mengakses Database MySQL Menggunakan C# Bagian 2</a></h1>
+      <h1 class="entry-title"><a href="/blog/2011/01/18/cara-mudah-memvalidasi-input-textbox/">Cara Mudah Memvalidasi Input Textbox</a></h1>
     
     
       <p class="meta">
@@ -331,31 +272,37 @@
 
 
 
-<time class='entry-date' datetime='2011-06-26T11:04:42+07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2011</span></span> <span class='time'>11:04 am</span></time>
+<time class='entry-date' datetime='2011-01-18T14:00:08+07:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2011</span></span> <span class='time'>2:00 pm</span></time>
         
-           | <a href="/blog/2011/06/26/mengakses-database-mysql-menggunakan-c-bagian-2/#disqus_thread"
-             data-disqus-identifier="http://coding4ever.net/blog/2011/06/26/mengakses-database-mysql-menggunakan-c-bagian-2/">Comments</a>
+           | <a href="/blog/2011/01/18/cara-mudah-memvalidasi-input-textbox/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2011/01/18/cara-mudah-memvalidasi-input-textbox/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Seperti yang sudah saya janjikan pada <a href="http://coding4ever.net/blog/2011/06/25/mengakses-database-mysql-menggunakan-c-bagian-1/">postingan</a> sebelumnya, kali ini kita akan membahas bagaimana cara memanfaatkan class Mahasiswa dan MahasiswaDao pada Presentation layer</p>
+  <div class="entry-content"><p>Beberapa waktu lalu saya sudah pernah memposting beberapa kode untuk validasi input seperti validasi angka dan validasi huruf  dan kali ini kita akan bahas cara mudah untuk memvalidasi isian TextBox <strong>yang wajib diisini</strong>, tentunya fungsi disini baru terasa manfaatnya klo objek TextBox yang divalidasi lumayan banyak.</p>
 
-<p>Sudah merupakan rahasia umum :D untuk melakukan koneksi ke database MySQL kita membutuhkan string koneksi berikut :</p>
+<p>Oke kita lihat dulu gambar berikut :</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>SERVER=nama_server;DATABASE=nama_database;UID=user_database;PASSWORD=user_password</span></code></pre></td></tr></table></div></figure>
+<p><a href="http://coding4ever.files.wordpress.com/2011/01/18012011.jpg"><img src="http://coding4ever.files.wordpress.com/2011/01/18012011.jpg?w=300" alt="" /></a></p>
 
+<p>Pada gambar diatas terlihat inputan yang berwarna merah yang akan kita validasi, klo dirinci lagi nama objeknya seperti berikut :</p>
 
+<ol>
+<li><p> Nomor Mahasiswa (txtNoMhs)</p></li>
+<li><p> Nama (txtNama)</p></li>
+<li><p> Alamat (txtAlamat)</p></li>
+<li><p> Ayah (txtAyah)</p></li>
+</ol>
 
 
 </div>
   
   
     <footer>
-      <a rel="full-article" href="/blog/2011/06/26/mengakses-database-mysql-menggunakan-c-bagian-2/">Read on &rarr;</a>
+      <a rel="full-article" href="/blog/2011/01/18/cara-mudah-memvalidasi-input-textbox/">Read on &rarr;</a>
     </footer>
   
 
@@ -367,7 +314,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2011/06/25/mengakses-database-mysql-menggunakan-c-bagian-1/">Mengakses Database MySQL Menggunakan C# Bagian 1</a></h1>
+      <h1 class="entry-title"><a href="/blog/2011/01/03/menembus-pertahanan-database-firebird-yang-diproteksi/">Menembus Pertahanan Database Firebird Yang Diproteksi</a></h1>
     
     
       <p class="meta">
@@ -376,29 +323,27 @@
 
 
 
-<time class='entry-date' datetime='2011-06-25T20:28:26+07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2011</span></span> <span class='time'>8:28 pm</span></time>
+<time class='entry-date' datetime='2011-01-03T10:31:30+07:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2011</span></span> <span class='time'>10:31 am</span></time>
         
-           | <a href="/blog/2011/06/25/mengakses-database-mysql-menggunakan-c-bagian-1/#disqus_thread"
-             data-disqus-identifier="http://coding4ever.net/blog/2011/06/25/mengakses-database-mysql-menggunakan-c-bagian-1/">Comments</a>
+           | <a href="/blog/2011/01/03/menembus-pertahanan-database-firebird-yang-diproteksi/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2011/01/03/menembus-pertahanan-database-firebird-yang-diproteksi/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Berhubung sudah mulai bosan bermain-main dengan Visual Basic 6 dan Visual Basic .NET kali ini kita akan menggunakan C# untuk mencoba membuat aplikasi sederhana mengakses database.</p>
+  <div class="entry-content"><blockquote><p>Sebelumnya saya mohon maaf jika ada pihak yang tidak berkenan atau merasa dirugikan dengan postingan kali ini, dan jika memang ada silahkan menghubungi Admin dan postingan ini akan dihapus.</p></blockquote>
 
-<p>Database yang akan kita gunakan adalah MySQL versi 5.x dan untuk C# nya saya menggunakan versi .NET 2008.</p>
+<p>Salah seorang pengunjung bertanya &ldquo;<a href="http://coding4ever.net/blog/2010/12/09/backup-dan-restore-database-firebird/#comment-1335">bagaimana cara mengekspor data-data yang ada di database Zahir Accounting ke Ms Excel</a>&rdquo;.</p>
 
-<p>Untuk menyederhanan postingan kali ini saya cukupkan dulu untuk mengakses 1 tabel yaitu tabel mahasiswa.</p>
+<p>Untuk bisa mengekspornya tentu saja kita harus tau dulu isi databasenya seperti apa terutama tabelnya, nah untuk demo Zahir Accounting sendiri bisa di download di<a href="http://www.zahir.info/index.php?_m=downloads&amp;_a=view&amp;parentcategoryid=5&amp;pcid=0&amp;nav=0">sini</a>.</p>
 
-<p>Adapun struktur tabelnya seperti berikut :</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/06/25062011-0.png"><img src="http://coding4ever.files.wordpress.com/2011/06/25062011-0.png" alt="" /></a></div>
+</div>
   
   
     <footer>
-      <a rel="full-article" href="/blog/2011/06/25/mengakses-database-mysql-menggunakan-c-bagian-1/">Read on &rarr;</a>
+      <a rel="full-article" href="/blog/2011/01/03/menembus-pertahanan-database-firebird-yang-diproteksi/">Read on &rarr;</a>
     </footer>
   
 
@@ -410,7 +355,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2011/03/20/backup-dan-restore-database-mysql-dari-aplikasi/">Backup Dan Restore Database MySQL Dari Aplikasi</a></h1>
+      <h1 class="entry-title"><a href="/blog/2010/12/30/menyembunyikan-tulisan-merah-di-activereports-for-net-2-sp-2/">Menyembunyikan Tulisan MERAH Di ActiveReports for .NET 2 SP 2</a></h1>
     
     
       <p class="meta">
@@ -419,32 +364,190 @@
 
 
 
-<time class='entry-date' datetime='2011-03-20T13:19:18+07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2011</span></span> <span class='time'>1:19 pm</span></time>
+<time class='entry-date' datetime='2010-12-30T19:13:56+07:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>7:13 pm</span></time>
         
-           | <a href="/blog/2011/03/20/backup-dan-restore-database-mysql-dari-aplikasi/#disqus_thread"
-             data-disqus-identifier="http://coding4ever.net/blog/2011/03/20/backup-dan-restore-database-mysql-dari-aplikasi/">Comments</a>
+           | <a href="/blog/2010/12/30/menyembunyikan-tulisan-merah-di-activereports-for-net-2-sp-2/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2010/12/30/menyembunyikan-tulisan-merah-di-activereports-for-net-2-sp-2/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Artikel kali ini hanya posting ulang dari jawaban saya yang ada di artikel <a href="https://coding4ever.wordpress.com/2010/01/16/membuat-paket-instalasi-vb-mysql-dengan-nsis/">Membuat paket instalasi vb + mysql dengan NSIS</a>, karena masih ada beberapa pengunjung yang bertanya tentang masalah ini.</p>
+  <div class="entry-content"><p><a href="http://www.datadynamics.com/">Active Report</a> adalah salah satu tool keren untuk membuat report dan sebagai pengguna setia Active Report di VB 6, di VB .NET pun saya tetap setia menggunakan tool ini.</p>
 
-<p>Untuk proses backup kita cukup menggunakan tool bawaan MySQL yaitu <strong>mysqldump</strong> dan untuk restorenya menggunakan <strong>mysql</strong>.</p>
+<p>Setelah mencoba membuat report sederhana dan menampilkannya ada yang sedikit mengecewakan dari Active Report for .NET ini, mau tau ? lihat gambar berikut :</p>
 
-<p>Adapun perintah dasar untuk melakukan backup dan restore adalah sebagai berikut :</p>
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2010/12/30/menyembunyikan-tulisan-merah-di-activereports-for-net-2-sp-2/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/12/24/seri-kajian-motivasi-yogyakarta/">Seri Kajian Motivasi (Yogyakarta)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2010-12-24T20:12:45+07:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>8:12 pm</span></time>
+        
+           | <a href="/blog/2010/12/24/seri-kajian-motivasi-yogyakarta/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2010/12/24/seri-kajian-motivasi-yogyakarta/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://coding4ever.files.wordpress.com/2010/12/kajian.jpg"><img src="http://coding4ever.files.wordpress.com/2010/12/kajian.jpg" alt="" /></a></p>
+
+<blockquote><p>Perumpamaan orang-orang yang menafkahkan hartanya di jalan Allah adalah serupa dengan sebutir benih yang menumbuhkan 7 bulir, pada tiap-tiap bulir seratus biji.</p></blockquote>
+
+<p>Allah melipatgandakan bagi siapa yang Dia kehendaki dan Allah Maha Luas lagi Maha Mengetahui.</p>
+
+<p><em><strong>(Al Baqarah : 261)</strong></em></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/12/24/explorerbar-control-for-net/">ExplorerBar Control for .NET</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2010-12-24T07:07:40+07:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>7:07 am</span></time>
+        
+           | <a href="/blog/2010/12/24/explorerbar-control-for-net/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2010/12/24/explorerbar-control-for-net/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Ketika memutuskan untuk beralih ke VB .NET salah satu komponen yang saya buru adalah <a href="http://www.vbaccelerator.com/home/NET/Code/Controls/Explorer_Bar/article.asp">ExplorerBar</a> dan kabar baiknya <a href="http://www.vbaccelerator.com">vbaccelerator</a> juga sudah menyediakan komponen ini, tapi kabar buruknya sample source codenya menggunakan C# .NET :(.</p>
+
+<p>Tapi tenang aja, dulu saya juga pernah iseng2x belajar bahasa ini, jadi proses konversi dari C# .NET ke VB .NET pun berjalan lancar :).</p>
+
+<p>Oke, klo sudah enggak sabaran langsung aja download librarynya di<a href="http://www.vbaccelerator.com/home/NET/Code/Controls/Explorer_Bar/ExplorerBar_Control_Binary.asp">sini</a> dan untuk sample aslinya (bahasa C# .NET) bisa didownload di<a href="http://www.vbaccelerator.com/home/NET/Code/Controls/Explorer_Bar/ExplorerBar_Control_Demonstration.asp">sini</a>.</p>
+
+<p>Sama seperti postingan saya <a href="http://coding4ever.net/blog/2010/01/22/membuat-menu-samping-dengan-komponen-vbaccelerator-vb6-explorer-bar/">sebelumnya</a>, untuk menambahkan Bar Menu (menu induk) dan Item Menu (menu anak) saya pisah menjadi 2 fungsi yaitu :</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2010/12/24/explorerbar-control-for-net/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/12/18/property-builder/">Property Builder</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2010-12-18T14:15:10+07:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>2:15 pm</span></time>
+        
+           | <a href="/blog/2010/12/18/property-builder/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2010/12/18/property-builder/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Apapun bahasanya klo lagi ngoding di dot NET, biasanya enggak bakalan jauh-jauh dari aktivitas pembuatan kelas.</p>
+
+<p>Kita ambil contoh pembuatan kelas sederhana yang hanya mempunyai 2 property (id dan keterangan), hasil kodenya (Visual Basic .NET) akan terlihat seperti berikut :</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>' backup
-</span><span class='line'>mysqldump -uUSER_NAME -pUSER_PASSWORD --routines NAMA_DATABASE > LOKASI_FILE_BACKUP.SQL
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Public Class Pekerjaan
 </span><span class='line'>
-</span><span class='line'>' restore
-</span><span class='line'>mysql -uUSER_NAME -pUSER_PASSWORD NAMA_DATABASE &lt; LOKASI_FILE_BACKUP.SQL</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>    Private mPekerjaanID As Short ' deklarasi instance variable
+</span><span class='line'>    Public Property PekerjaanID() As Short
+</span><span class='line'>        Get
+</span><span class='line'>            Return mPekerjaanID ' mengembalikan id pekerjaan
+</span><span class='line'>        End Get
+</span><span class='line'>
+</span><span class='line'>        Set(ByVal value As Short)
+</span><span class='line'>            mPekerjaanID = value ' mengeset id pekerjaan
+</span><span class='line'>        End Set
+</span><span class='line'>    End Property
+</span><span class='line'>
+</span><span class='line'>    Private mKeterangan As String ' deklarasi instace variabel
+</span><span class='line'>    Public Property Keterangan() As String
+</span><span class='line'>        Get
+</span><span class='line'>            Return mKeterangan ' mengembalikan nama pekerjaan
+</span><span class='line'>        End Get
+</span><span class='line'>
+</span><span class='line'>        Set(ByVal value As String)
+</span><span class='line'>            mKeterangan = value ' mengeset nilai pekerjaan
+</span><span class='line'>        End Set
+</span><span class='line'>    End Property
+</span><span class='line'>
+</span><span class='line'>End Class</span></code></pre></td></tr></table></div></figure>
 
 
 
@@ -453,7 +556,7 @@
   
   
     <footer>
-      <a rel="full-article" href="/blog/2011/03/20/backup-dan-restore-database-mysql-dari-aplikasi/">Read on &rarr;</a>
+      <a rel="full-article" href="/blog/2010/12/18/property-builder/">Read on &rarr;</a>
     </footer>
   
 
@@ -465,7 +568,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2011/03/15/menyimpan-dan-menampilkan-gambar-di-mysql/">Menyimpan Dan Menampilkan Gambar Di MySQL</a></h1>
+      <h1 class="entry-title"><a href="/blog/2010/12/12/menambahkan-form-input-pada-saat-instalasi-inno-setup/">Menambahkan Form Input Pada Saat Instalasi (Inno Setup)</a></h1>
     
     
       <p class="meta">
@@ -474,43 +577,70 @@
 
 
 
-<time class='entry-date' datetime='2011-03-15T20:15:34+07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2011</span></span> <span class='time'>8:15 pm</span></time>
+<time class='entry-date' datetime='2010-12-12T00:01:03+07:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>12:01 am</span></time>
         
-           | <a href="/blog/2011/03/15/menyimpan-dan-menampilkan-gambar-di-mysql/#disqus_thread"
-             data-disqus-identifier="http://coding4ever.net/blog/2011/03/15/menyimpan-dan-menampilkan-gambar-di-mysql/">Comments</a>
+           | <a href="/blog/2010/12/12/menambahkan-form-input-pada-saat-instalasi-inno-setup/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2010/12/12/menambahkan-form-input-pada-saat-instalasi-inno-setup/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Ternyata masih ada sebagian om2x :D yang masih kesulitan untuk melakukan hal ini, tapi oke lah berhubung udah lama enggax posting kayaxnya enggak salah juga membahas permasalahan yang satu ini.</p>
+  <div class="entry-content"><p>Adakalanya kita ingin menyederhanan proses konfigurasi aplikasi, sehingga sebagian konfigurasi kita pindah pada saat instalasi.</p>
 
-<p>Dengan asumsi MySQL dan Visual Basic .NET sudah terinstall dengan baik hal selanjutnya yang perlu disiapkan adalah <a href="http://dev.mysql.com/downloads/connector/net/6.2.html#downloads">MySQL Connector/Net</a>, disini saya menggunakan versi 6.2.4</p>
+<p>Misal kita akan menambahkan input profil klien seperti nama, telepon, alamat dan kota.</p>
 
-<p>Jadi silahkan download kemudian lakukan instalasi.</p>
+<p><a href="http://coding4ever.files.wordpress.com/2010/12/12122010-3.jpg"><img src="http://coding4ever.files.wordpress.com/2010/12/12122010-3.jpg?w=300" alt="" /></a></p>
 
-<p>Selanjutnya kita akan menyiapkan sebuah tabel, misal dengan nama mahasiswa dengan struktur seperti berikut :</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>CREATE TABLE mahasiswa (
-</span><span class='line'>    npm VARCHAR(10),
-</span><span class='line'>    nama VARCHAR(50),
-</span><span class='line'>    foto MEDIUMBLOB
-</span><span class='line'>)</span></code></pre></td></tr></table></div></figure>
-
-
-
+<p>Jadi dengan menggunakan <a href="http://jrsoftware.org/">Inno Setup</a> kita bisa dengan mudah melakukan hal ini, dan untuk lokasi penyimpanannya sendiri ada 2 pilihan yaitu disimpan dalam format file <a href="http://coding4ever.net/blog/2010/04/23/contoh-sederhana-memanipulasi-ini-file-untuk-menyimpan-informasi/">INI</a> atau langsung ke registry windows.</p>
 
 </div>
   
   
     <footer>
-      <a rel="full-article" href="/blog/2011/03/15/menyimpan-dan-menampilkan-gambar-di-mysql/">Read on &rarr;</a>
+      <a rel="full-article" href="/blog/2010/12/12/menambahkan-form-input-pada-saat-instalasi-inno-setup/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/12/09/backup-dan-restore-database-firebird/">Backup Dan Restore Database Firebird</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2010-12-09T10:19:00+07:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>10:19 am</span></time>
+        
+           | <a href="/blog/2010/12/09/backup-dan-restore-database-firebird/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2010/12/09/backup-dan-restore-database-firebird/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Dalam pembuatan aplikasi biasanya kita (terutama saya :D) selalu menyepelekan fitur yang satu ini, biasanya klo ditanya tentang fitur yang satu ini jawaban kita lebih kurang &ldquo;udah copas aja databasenya trus dicompress, gampangkan&rdquo; :D.</p>
+
+<p>Tapi.. akhirnya saya kena batunya juga :D, beberapa waktu lalu saya dapat klien yang ngotot banget untuk dibuatkan fitur ini dan untungnya <a href="http://coding4ever.wordpress.com/category/database/firebird-database/">firebird</a> sudah menyediakan tool untuk menghandle masalah ini yaitu dengan menggunakan tool <a href="http://www.destructor.de/firebird/gbak.htm">gbak</a>.</p>
+
+<p>Pada artikel pertama ini kita akan bahas dulu penggunaan tool ini via command prompt, dan pada artikel berikutnya (insya Allah klo saya sempat :D) kita akan bahas penggunaannya langsung dari aplikasi.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2010/12/09/backup-dan-restore-database-firebird/">Read on &rarr;</a>
     </footer>
   
 

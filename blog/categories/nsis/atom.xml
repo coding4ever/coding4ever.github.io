@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Nsis | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/nsis/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-04-20T10:43:05+07:00</updated>
+  <updated>2015-04-20T10:49:17+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -18,7 +18,7 @@
     <link href="http://coding4ever.net/blog/2010/01/16/membuat-paket-instalasi-vb-mysql-dengan-nsis/"/>
     <updated>2010-01-16T09:43:35+07:00</updated>
     <id>http://coding4ever.net/blog/2010/01/16/membuat-paket-instalasi-vb-mysql-dengan-nsis</id>
-    <content type="html"><![CDATA[<p>Melengkapi tulisan saya <a href="{{%20site.url%20}}/blog/2009/12/31/membuat-paket-instalasi-vb-mysql-dengan-inno-setup/">Membuat paket instalasi vb + mysql dengan inno setup</a> kali ini kita akan membuatnya menggunakan <a href="http://nsis.sourceforge.net">NSIS</a>. <a href="http://nsis.sourceforge.net"></a></p>
+    <content type="html"><![CDATA[<p>Melengkapi tulisan saya <a href="/blog/2009/12/31/membuat-paket-instalasi-vb-mysql-dengan-inno-setup/">Membuat paket instalasi vb + mysql dengan inno setup</a> kali ini kita akan membuatnya menggunakan <a href="http://nsis.sourceforge.net">NSIS</a>. <a href="http://nsis.sourceforge.net"></a></p>
 
 <p><a href="http://nsis.sourceforge.net">NSIS</a> adalah salah satu tool gratis dan open source untuk membuat paket instalasi. Oke sebelum kita melangkah lebih jauh, berikut adalah hal-hal yang perlu kita persiapkan :</p>
 
@@ -44,39 +44,59 @@
 
 <p>Nah disini akan terlihat jelas perbedaan skrip Inno Setup dan NSIS dimana untuk melakukan ini inno setup cukup menambahkan flag MinVersion, misal :</p>
 
-<p>{% codeblock %}
-[Run]
-;mysqld &ndash;install MySQL
-Filename: &ldquo;{app}\mysql\bin\mysqld.exe&rdquo;; Parameters: &ldquo;install &rdquo;&ldquo;MySQL&rdquo;&ldquo;&rdquo;; StatusMsg: &ldquo;Sedang menginstall service MySQL &hellip;&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2; Tasks: installmysql
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[Run]
+</span><span class='line'>;mysqld &ndash;install MySQL
+</span><span class='line'>Filename: &ldquo;{app}\mysql\bin\mysqld.exe&rdquo;; Parameters: &ldquo;install &rdquo;&ldquo;MySQL&rdquo;&ldquo;&rdquo;; StatusMsg: &ldquo;Sedang menginstall service MySQL &hellip;&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2; Tasks: installmysql</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Sedangkan untuk NSIS kita perlu mendownload <a href="http://nsis.sourceforge.net/mediawiki/images/4/4e/NSIS_version_plugin_02.zip">Version plug-in</a> terlebih dulu dan mengekstraknya kemudiakan mengcopykan file version.dll ke folder instalasi NSIS\Plugins, walaupun sebenarnya kita bisa membuat fungsi sendiri di NSIS untuk mengecek versi windows yang terinstall.</p>
 
 <p>Contoh skrip NSIS untuk mengecek versi windows dan menginstall service MySQL :</p>
 
-<p>{% codeblock %}
-Section &ldquo;Install MySQL 5&rdquo;
-    Version::IsWindowsXP</p>
-
-<pre><code>Pop $0 ;nilai var $0 akan bersisi 1 jika windows XP selain itu 0
-StrCmp $0 "1" ItIsWindowsXP ItIsNotWindowsXP ;StrCmp sama seperti fungsi IIF di VB
-
-ItIsWindowsXP:
-Goto installservice
-
-ItIsNotWindowsXP:
-Goto done
-
-installservice:
-    DetailPrint "Sedang menginstall service MySQL ..."
-    ExecWait '"$MYSQL_DIR\bin\mysqld.exe" install "MySQL"'
-
-done:
-    ;do nothing
-</code></pre>
-
-<p>SectionEnd
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Section &ldquo;Install MySQL 5&rdquo;
+</span><span class='line'>    Version::IsWindowsXP&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>Pop $0 ;nilai var $0 akan bersisi 1 jika windows XP selain itu 0
+</span><span class='line'>StrCmp $0 "1" ItIsWindowsXP ItIsNotWindowsXP ;StrCmp sama seperti fungsi IIF di VB
+</span><span class='line'>
+</span><span class='line'>ItIsWindowsXP:
+</span><span class='line'>Goto installservice
+</span><span class='line'>
+</span><span class='line'>ItIsNotWindowsXP:
+</span><span class='line'>Goto done
+</span><span class='line'>
+</span><span class='line'>installservice:
+</span><span class='line'>    DetailPrint "Sedang menginstall service MySQL ..."
+</span><span class='line'>    ExecWait '"$MYSQL_DIR\bin\mysqld.exe" install "MySQL"'
+</span><span class='line'>
+</span><span class='line'>done:
+</span><span class='line'>    ;do nothing
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>SectionEnd</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Gimana lumayan beda kan? :)</p>
 
@@ -92,361 +112,705 @@ done:
 
 <p>Berikut contoh skrip instalasi lengkap menggunakan NSIS :</p>
 
-<p>{% codeblock %}
-;Skrip instalasi by k4m4r82
-;<a href="http://coding4ever.wordpress.com">http://coding4ever.wordpress.com</a></p>
-
-<p>!include VB6RunTime.nsh</p>
-
-<p>;deklarasi konstanta
-;format pemanggilan ${NAMA_KONSTANTA}
-!define APP_NAME &ldquo;Sistem Pembelian Bahan Baku PT. ALBASI&rdquo;
-!define APP_PUBLISHER &ldquo;K4m4r82&rsquo;s Laboratory&rdquo;
-!define APP_VERSION &ldquo;2.0.50&rdquo;</p>
-
-<p>BrandingText /TRIMCENTER &ldquo;&ndash; ${APP_PUBLISHER} &ndash;&rdquo;
-Name &ldquo;${APP_NAME} ${APP_VERSION}&rdquo;
-Caption &ldquo;${APP_NAME} ${APP_VERSION}&rdquo;</p>
-
-<p>CompletedText &ldquo;Instalasi sudah selesai&rdquo;</p>
-
-<p>Icon &ldquo;setup.ico&rdquo;
-LoadLanguageFile &ldquo;${NSISDIR}\Contrib\Language files\Indonesian.nlf&rdquo;
-OutFile &ldquo;output\DemoSetupNSIS.exe&rdquo;
-ShowInstDetails show
-ShowUninstDetails show
-WindowIcon on
-XPStyle on</p>
-
-<p>;informasi default folder instalasi
-InstallDir &ldquo;$PROGRAMFILES\SPBB&rdquo;</p>
-
-<p>;informasi folder instalasi disimpan disini
-;informasi ini akan memudahkan kita untuk membuat program update
-InstallDirRegKey HKCU &ldquo;Software\PT ALBASI\SPBB&rdquo; &ldquo;InstallDir&rdquo;</p>
-
-<p>VIAddVersionKey /LANG=${LANG_INDONESIAN} &ldquo;ProductName&rdquo; &ldquo;${APP_NAME}&rdquo;
-VIAddVersionKey /LANG=${LANG_INDONESIAN} &ldquo;Comments&rdquo; &ldquo;&rdquo;
-VIAddVersionKey /LANG=${LANG_INDONESIAN} &ldquo;CompanyName&rdquo; &ldquo;${APP_PUBLISHER}&rdquo;
-VIAddVersionKey /LANG=${LANG_INDONESIAN} &ldquo;LegalTrademarks&rdquo; &ldquo;${APP_NAME} is a trademark of ${APP_PUBLISHER}&rdquo;
-VIAddVersionKey /LANG=${LANG_INDONESIAN} &ldquo;LegalCopyright&rdquo; &ldquo;Copyright © 2009. ${APP_PUBLISHER}&rdquo;
-VIAddVersionKey /LANG=${LANG_INDONESIAN} &ldquo;FileDescription&rdquo; &ldquo;${APP_NAME}&rdquo;
-VIAddVersionKey /LANG=${LANG_INDONESIAN} &ldquo;FileVersion&rdquo; &ldquo;2.0.0.50&rdquo;
-VIProductVersion &ldquo;2.0.0.50&rdquo;</p>
-
-<p>RequestExecutionLevel admin</p>
-
-<p>AddBrandingImage left 150|234
-Page custom BrandingImage
-Page components
-Page directory
-Page instfiles</p>
-
-<p>UninstPage custom un.BrandingImage
-UninstPage uninstConfirm
-UninstPage instfiles</p>
-
-<p>;deklarsi variabel
-;format pemanggilan $NAMA_VARIABEL ingat ada sedikit perbedaan dg konstanta
-Var MainDir
-Var MySQLDir
-Var AlreadyInstalled</p>
-
-<p>;section yang diawali karakter -, pilihannya tidak ditampilkan
-Section &ldquo;-Inisialisasi Variabel&rdquo;
-    StrCpy $MainDir $INSTDIR
-    StrCpy $MySQLDir $MainDir\mysql
-SectionEnd</p>
-
-<p>Section &ldquo;-Visual Basic Runtime&rdquo;
-    ;download file Visual Basic Runtime di: <a href="http://nsis.sourceforge.net/vb6runtime.zip">http://nsis.sourceforge.net/vb6runtime.zip</a>
-    IfFileExists &ldquo;$MainDir\Albasi.exe&rdquo; 0 new_installation
-        StrCpy $AlreadyInstalled 1</p>
-
-<pre><code>new_installation:
-    !insertmacro VB6RunTimeInstall "dll&amp;ocx\vb6runtime" $AlreadyInstalled
-</code></pre>
-
-<p>SectionEnd</p>
-
-<p>Section &ldquo;-My Application Runtime&rdquo;
-    SetOutPath $MainDir
-        File &ldquo;main\Albasi.exe.manifest&rdquo;
-    File &ldquo;main\Albasi.exe&rdquo;</p>
-
-<pre><code>SetOutPath $SYSDIR
-
-File "dll&amp;ocx\LVbuttons.OCX"
-RegDLL "$SYSDIR\LVbuttons.ocx"
-
-File "dll&amp;ocx\MSMASK32.OCX"
-RegDLL "$SYSDIR\MSMASK32.ocx"
-
-File "dll&amp;ocx\cTreeOpt6.ocx"
-RegDLL "$SYSDIR\cTreeOpt6.ocx"
-
-File "dll&amp;ocx\Comdlg32.ocx"
-RegDLL "$SYSDIR\Comdlg32.ocx"
-
-File "dll&amp;ocx\vbalDTab6.ocx"
-RegDLL "$SYSDIR\vbalDTab6.ocx"
-
-File "dll&amp;ocx\vbalExpBar6.ocx"
-RegDLL "$SYSDIR\vbalExpBar6.ocx"
-
-File "dll&amp;ocx\MSCOMCTL.OCX"
-RegDLL "$SYSDIR\MSCOMCTL.ocx"
-
-File "dll&amp;ocx\vbalIml6.ocx"
-RegDLL "$SYSDIR\vbalIml6.ocx"
-
-File "dll&amp;ocx\cPopMenu6.ocx"
-RegDLL "$SYSDIR\cPopMenu6.ocx"
-
-File "dll&amp;ocx\cNewMenu6.dll"
-RegDLL "$SYSDIR\cNewMenu6.DLL"
-
-File "dll&amp;ocx\scrrun.dll"
-RegDLL "$SYSDIR\scrrun.DLL"
-
-File "dll&amp;ocx\vbalMDITabs6.dll"
-RegDLL "$SYSDIR\vbalMDITabs6.DLL"
-
-File "dll&amp;ocx\SSubTmr6.dll"
-RegDLL "$SYSDIR\SSubTmr6.DLL"
-
-File "dll&amp;ocx\msado21.tlb"
-RegDLL "$SYSDIR\msado21.tlb"
-</code></pre>
-
-<p>SectionEnd</p>
-
-<p>; param /e -> expand
-SectionGroup /e &ldquo;Komponen Server&rdquo;
-    Section &ldquo;Install MySQL 5&rdquo;
-        ; param /r -> recursive
-        SetOutPath $MySQLDir\bin
-        File /r &ldquo;mysql-5.1.36-win32\bin*.*&rdquo;</p>
-
-<pre><code>    SetOutPath $MySQLDir\Docs
-    File /r "mysql-5.1.36-win32\Docs\*.*"
-
-    SetOutPath $MySQLDir\lib
-    File /r "mysql-5.1.36-win32\lib\*.*"
-
-    SetOutPath $MySQLDir\share
-    File /r "mysql-5.1.36-win32\share\*.*"
-
-    SetOutPath $MySQLDir\data
-    File /r "mysql-5.1.36-win32\data\*.*"
-
-    SetOutPath $MySQLDir
-    File "mysql-5.1.36-win32\*.*"
-
-    ;informasi lokasi instalasi mysql
-    WriteINIStr $MySQLDir\my.ini "mysqld" "basedir" $MySQLDir
-    WriteINIStr $MySQLDir\my.ini "mysqld" "datadir" $MySQLDir\data
-
-    ;proses membuat dan menjalankan service mysql, cek versi windows terlebih dulu
-    ;untuk contoh disini baru di tes untuk windows xp sp2
-    Version::IsWindowsXP
-
-    Pop $0 ;nilai var $0 akan bersisi 1 jika windows XP selain itu 0
-    StrCmp $0 "1" ItIsWindowsXP ItIsNotWindowsXP ;StrCmp sama seperti fungsi IIF di VB
-
-    ItIsWindowsXP:
-    Goto installservice
-
-    ItIsNotWindowsXP:
-    Goto done
-
-    installservice:
-        DetailPrint "Sedang menginstall service MySQL ..."
-        ExecWait '"$MySQLDir\bin\mysqld.exe" install "MySQL"'
-
-        ;jalankan service MySQL
-        DetailPrint "Sedang menjalankan service MySQL ..."
-        ExecWait '"$SYSDIR\net.exe" start "MySQL"'
-
-        ;mendaftarkan port default mysql (3306) ke firewall
-        DetailPrint "Sedang mendaftarkan port MySQL ..."
-        ExecWait '"$SYSDIR\netsh.exe" firewall add portopening TCP 3306 "Port MySQL"'
-
-        ;mengganti password default root (blank). ex : masterkey
-        DetailPrint "Mengganti password root"
-        ExecWait '"$MySQLDir\bin\mysqladmin.exe" -uroot password masterkey'
-
-        ;menghapus user default1 (user=blank, password=blank)
-        ExecWait '"$MySQLDir\bin\mysql.exe" -uroot -pmasterkey -e "DELETE FROM mysql.user WHERE Host=$\'localhost$\' AND User=$\'$\'"'
-        ExecWait '"$MySQLDir\bin\mysql.exe" -uroot -pmasterkey -e "FLUSH PRIVILEGES"'
-
-        ;menghapus user default2 (user=root, password=blank)
-        ExecWait '"$MySQLDir\bin\mysql.exe" -uroot -pmasterkey -e "DELETE FROM mysql.user WHERE Host=$\'127.0.0.1$\' AND User=$\'root$\'"'
-        ExecWait '"$MySQLDir\bin\mysql.exe" -uroot -pmasterkey -e "FLUSH PRIVILEGES"'
-
-        ;set agar user root bisa login dari mesin lain (kalo diperlukan)
-        ExecWait '"$MySQLDir\bin\mysql.exe" -uroot -pmasterkey -e "GRANT ALL PRIVILEGES ON *.* TO root@$\'%$\' IDENTIFIED BY $\'masterkey$\'"'
-        ExecWait '"$MySQLDir\bin\mysql.exe" -uroot -pmasterkey -e "FLUSH PRIVILEGES"'
-
-    done:
-        ;do nothing
-SectionEnd
-
-Section "Install MySQL Connector ODBC"
-    SetOutPath $SYSDIR
-
-    ;dll mysql odbc tidak perlu diregistrasikan
-    ;jadi otomatis tidak perlu memanggil fungsi RegDLL
-    File "C:\Program Files\MySQL\Connector ODBC 5.1\myodbc5.dll"
-    File "C:\Program Files\MySQL\Connector ODBC 5.1\myodbc5S.dll"
-    File "C:\Program Files\MySQL\Connector ODBC 5.1\myodbc5.lib"
-    File "C:\Program Files\MySQL\Connector ODBC 5.1\myodbc5S.lib"
-    File "C:\Program Files\MySQL\Connector ODBC 5.1\myodbc-installer.exe"
-
-    Version::IsWindowsXP
-
-    Pop $0
-    StrCmp $0 "1" ItIsWindowsXP ItIsNotWindowsXP
-
-    ItIsWindowsXP:
-    Goto installdriverodbc
-
-    ItIsNotWindowsXP:
-    Goto done
-
-    installdriverodbc:
-        ;install driver myodbc
-        DetailPrint "Tunggu sedang mendaftarkan driver MySQL Connector ODBC 5.1.5"
-        ExecWait '"$SYSDIR\myodbc-installer.exe" -d -a -n "MySQL ODBC 5.1 Driver" -t "DRIVER=myodbc5.dll;SETUP=myodbc5S.dll"'
-
-    done:
-        ;do nothing
-SectionEnd
-
-Section "Install Database"
-    SetOutPath $MySQLDir\bin
-
-    File "main\albasi.sql"
-    File "main\exec.cmd"
-
-    Version::IsWindowsXP
-
-    Pop $0
-    StrCmp $0 "1" ItIsWindowsXP ItIsNotWindowsXP
-
-    ItIsWindowsXP:
-    Goto installdatabase
-
-    ItIsNotWindowsXP:
-    Goto done
-
-    installdatabase:
-        ;membuat database kosong
-        ExecWait '"$MySQLDir\bin\mysql.exe" -uroot -pmasterkey -e "CREATE DATABASE albasi"'
-
-        ;menjalankan file batch exec.cmd untuk melakukan proses undump
-        ExecWait '"$MySQLDir\bin\exec.cmd"'
-
-    done:
-        ;do nothing
-SectionEnd
-</code></pre>
-
-<p>SectionGroupEnd</p>
-
-<p>SectionGroup /e &ldquo;Buat Shortcut&rdquo;
-    Section &ldquo;Start Programs&rdquo;
-        SectionIn RO ;RO -> Read Only</p>
-
-<pre><code>    CreateDirectory "$SMPROGRAMS\PT. ALBASI"
-    CreateShortCut "$SMPROGRAMS\PT. ALBASI\${APP_NAME}.lnk" "$MainDir\Albasi.exe" "" "$MainDir\Albasi.exe" 0
-SectionEnd
-
-Section "Desktop"
-    ;CreateDirectory "$DESKTOP\SPBB"
-    CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$MainDir\Albasi.exe" "" "$MainDir\Albasi.exe" 0
-SectionEnd
-
-Section "Quick Launch"
-    ;CreateDirectory "$QUICKLAUNCH\SPBB"
-    CreateShortCut "$QUICKLAUNCH\${APP_NAME}.lnk" "$MainDir\Albasi.exe" "" "$MainDir\Albasi.exe" 0
-SectionEnd
-</code></pre>
-
-<p>SectionGroupEnd</p>
-
-<p>Section &ldquo;-Registry Windows&rdquo;
-    ;informasi uninstall
-    WriteRegStr HKLM &ldquo;Software\Microsoft\Windows\CurrentVersion\Uninstall\SPBB&rdquo; &ldquo;DisplayName&rdquo; &ldquo;${APP_NAME}&rdquo;
-    WriteRegStr HKLM &ldquo;Software\Microsoft\Windows\CurrentVersion\Uninstall\SPBB&rdquo; &ldquo;UninstallString&rdquo; &lsquo;&ldquo;$MainDir\uninstaller.exe&rdquo;&rsquo;
-    WriteRegStr HKLM &ldquo;Software\Microsoft\Windows\CurrentVersion\Uninstall\SPBB&rdquo; &ldquo;DisplayIcon&rdquo; &lsquo;&ldquo;$MainDir\uninstaller.exe&rdquo;&rsquo;</p>
-
-<pre><code>WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\SPBB" "NoModify" 1
-WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\SPBB" "NoRepair" 1
-
-WriteUninstaller $MainDir\uninstaller.exe
-</code></pre>
-
-<p>SectionEnd</p>
-
-<p>Section &ldquo;-File Konfigurasi Program&rdquo;
-    WriteINIStr $MainDir\infoprogram.ini &ldquo;Sistem&rdquo; &ldquo;serverName&rdquo; &ldquo;127.0.0.1&rdquo;
-    WriteINIStr $MainDir\infoprogram.ini &ldquo;Sistem&rdquo; &ldquo;dbName&rdquo; &ldquo;albasi&rdquo;
-SectionEnd</p>
-
-<p>Section &ldquo;Uninstall&rdquo;
-    ;stop service MySQL
-    DetailPrint &ldquo;Menghentikan Service MySQL &hellip;&rdquo;
-    ExecWait &lsquo;&ldquo;$SYSDIR\net.exe&rdquo; stop &ldquo;MySQL&rdquo;&rsquo;</p>
-
-<pre><code>;hapus service MySQL
-DetailPrint "Sedang menghapus service MySQL ..."
-ExecWait '"$MySQLDir\bin\mysqld.exe" remove "MySQL"'
-
-;driver MySQL Connector ODBC 5.1
-DetailPrint "Tunggu sedang menghapus driver MySQL Connector ODBC 5.1"
-ExecWait '"$SYSDIR\myodbc-installer.exe" -d -r -n "MySQL ODBC 5.1 Driver"'
-
-; Remove registry keys
-DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\SPBB"
-
-; Remove files and uninstaller
-Delete $MainDir\*.*
-RMDir $MainDir
-
-; Remove shortcuts
-Delete "$SMPROGRAMS\PT. ALBASI\*.*"
-RMDir "$SMPROGRAMS\PT. ALBASI"
-
-Delete "$DESKTOP\${APP_NAME}.lnk"
-Delete "$QUICKLAUNCH\${APP_NAME}.lnk"
-</code></pre>
-
-<p>SectionEnd</p>
-
-<p>;fungsi untuk menampilkan gambar/banner pada saat instalasi
-;untuk contoh disini posisi gambar di sebelah kiri
-Function BrandingImage
-    SetOutPath &ldquo;$TEMP&rdquo;</p>
-
-<pre><code>SetFileAttributes SetupModern21.bmp temporary
-File SetupModern21.bmp
-SetBrandingImage "$TEMP\SetupModern21.bmp" /resizetofit
-</code></pre>
-
-<p>FunctionEnd</p>
-
-<p>;fungsi untuk menampilkan gambar/banner pada saat uninstall
-Function un.BrandingImage
-    SetBrandingImage &ldquo;$TEMP\SetupModern21.bmp&rdquo; /resizetofit
-FunctionEnd
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+<span class='line-number'>152</span>
+<span class='line-number'>153</span>
+<span class='line-number'>154</span>
+<span class='line-number'>155</span>
+<span class='line-number'>156</span>
+<span class='line-number'>157</span>
+<span class='line-number'>158</span>
+<span class='line-number'>159</span>
+<span class='line-number'>160</span>
+<span class='line-number'>161</span>
+<span class='line-number'>162</span>
+<span class='line-number'>163</span>
+<span class='line-number'>164</span>
+<span class='line-number'>165</span>
+<span class='line-number'>166</span>
+<span class='line-number'>167</span>
+<span class='line-number'>168</span>
+<span class='line-number'>169</span>
+<span class='line-number'>170</span>
+<span class='line-number'>171</span>
+<span class='line-number'>172</span>
+<span class='line-number'>173</span>
+<span class='line-number'>174</span>
+<span class='line-number'>175</span>
+<span class='line-number'>176</span>
+<span class='line-number'>177</span>
+<span class='line-number'>178</span>
+<span class='line-number'>179</span>
+<span class='line-number'>180</span>
+<span class='line-number'>181</span>
+<span class='line-number'>182</span>
+<span class='line-number'>183</span>
+<span class='line-number'>184</span>
+<span class='line-number'>185</span>
+<span class='line-number'>186</span>
+<span class='line-number'>187</span>
+<span class='line-number'>188</span>
+<span class='line-number'>189</span>
+<span class='line-number'>190</span>
+<span class='line-number'>191</span>
+<span class='line-number'>192</span>
+<span class='line-number'>193</span>
+<span class='line-number'>194</span>
+<span class='line-number'>195</span>
+<span class='line-number'>196</span>
+<span class='line-number'>197</span>
+<span class='line-number'>198</span>
+<span class='line-number'>199</span>
+<span class='line-number'>200</span>
+<span class='line-number'>201</span>
+<span class='line-number'>202</span>
+<span class='line-number'>203</span>
+<span class='line-number'>204</span>
+<span class='line-number'>205</span>
+<span class='line-number'>206</span>
+<span class='line-number'>207</span>
+<span class='line-number'>208</span>
+<span class='line-number'>209</span>
+<span class='line-number'>210</span>
+<span class='line-number'>211</span>
+<span class='line-number'>212</span>
+<span class='line-number'>213</span>
+<span class='line-number'>214</span>
+<span class='line-number'>215</span>
+<span class='line-number'>216</span>
+<span class='line-number'>217</span>
+<span class='line-number'>218</span>
+<span class='line-number'>219</span>
+<span class='line-number'>220</span>
+<span class='line-number'>221</span>
+<span class='line-number'>222</span>
+<span class='line-number'>223</span>
+<span class='line-number'>224</span>
+<span class='line-number'>225</span>
+<span class='line-number'>226</span>
+<span class='line-number'>227</span>
+<span class='line-number'>228</span>
+<span class='line-number'>229</span>
+<span class='line-number'>230</span>
+<span class='line-number'>231</span>
+<span class='line-number'>232</span>
+<span class='line-number'>233</span>
+<span class='line-number'>234</span>
+<span class='line-number'>235</span>
+<span class='line-number'>236</span>
+<span class='line-number'>237</span>
+<span class='line-number'>238</span>
+<span class='line-number'>239</span>
+<span class='line-number'>240</span>
+<span class='line-number'>241</span>
+<span class='line-number'>242</span>
+<span class='line-number'>243</span>
+<span class='line-number'>244</span>
+<span class='line-number'>245</span>
+<span class='line-number'>246</span>
+<span class='line-number'>247</span>
+<span class='line-number'>248</span>
+<span class='line-number'>249</span>
+<span class='line-number'>250</span>
+<span class='line-number'>251</span>
+<span class='line-number'>252</span>
+<span class='line-number'>253</span>
+<span class='line-number'>254</span>
+<span class='line-number'>255</span>
+<span class='line-number'>256</span>
+<span class='line-number'>257</span>
+<span class='line-number'>258</span>
+<span class='line-number'>259</span>
+<span class='line-number'>260</span>
+<span class='line-number'>261</span>
+<span class='line-number'>262</span>
+<span class='line-number'>263</span>
+<span class='line-number'>264</span>
+<span class='line-number'>265</span>
+<span class='line-number'>266</span>
+<span class='line-number'>267</span>
+<span class='line-number'>268</span>
+<span class='line-number'>269</span>
+<span class='line-number'>270</span>
+<span class='line-number'>271</span>
+<span class='line-number'>272</span>
+<span class='line-number'>273</span>
+<span class='line-number'>274</span>
+<span class='line-number'>275</span>
+<span class='line-number'>276</span>
+<span class='line-number'>277</span>
+<span class='line-number'>278</span>
+<span class='line-number'>279</span>
+<span class='line-number'>280</span>
+<span class='line-number'>281</span>
+<span class='line-number'>282</span>
+<span class='line-number'>283</span>
+<span class='line-number'>284</span>
+<span class='line-number'>285</span>
+<span class='line-number'>286</span>
+<span class='line-number'>287</span>
+<span class='line-number'>288</span>
+<span class='line-number'>289</span>
+<span class='line-number'>290</span>
+<span class='line-number'>291</span>
+<span class='line-number'>292</span>
+<span class='line-number'>293</span>
+<span class='line-number'>294</span>
+<span class='line-number'>295</span>
+<span class='line-number'>296</span>
+<span class='line-number'>297</span>
+<span class='line-number'>298</span>
+<span class='line-number'>299</span>
+<span class='line-number'>300</span>
+<span class='line-number'>301</span>
+<span class='line-number'>302</span>
+<span class='line-number'>303</span>
+<span class='line-number'>304</span>
+<span class='line-number'>305</span>
+<span class='line-number'>306</span>
+<span class='line-number'>307</span>
+<span class='line-number'>308</span>
+<span class='line-number'>309</span>
+<span class='line-number'>310</span>
+<span class='line-number'>311</span>
+<span class='line-number'>312</span>
+<span class='line-number'>313</span>
+<span class='line-number'>314</span>
+<span class='line-number'>315</span>
+<span class='line-number'>316</span>
+<span class='line-number'>317</span>
+<span class='line-number'>318</span>
+<span class='line-number'>319</span>
+<span class='line-number'>320</span>
+<span class='line-number'>321</span>
+<span class='line-number'>322</span>
+<span class='line-number'>323</span>
+<span class='line-number'>324</span>
+<span class='line-number'>325</span>
+<span class='line-number'>326</span>
+<span class='line-number'>327</span>
+<span class='line-number'>328</span>
+<span class='line-number'>329</span>
+<span class='line-number'>330</span>
+<span class='line-number'>331</span>
+<span class='line-number'>332</span>
+<span class='line-number'>333</span>
+<span class='line-number'>334</span>
+<span class='line-number'>335</span>
+<span class='line-number'>336</span>
+<span class='line-number'>337</span>
+<span class='line-number'>338</span>
+<span class='line-number'>339</span>
+<span class='line-number'>340</span>
+<span class='line-number'>341</span>
+<span class='line-number'>342</span>
+<span class='line-number'>343</span>
+<span class='line-number'>344</span>
+<span class='line-number'>345</span>
+<span class='line-number'>346</span>
+<span class='line-number'>347</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>;Skrip instalasi by k4m4r82
+</span><span class='line'>;&lt;a href="http://coding4ever.wordpress.com">http://coding4ever.wordpress.com&lt;/a>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>!include VB6RunTime.nsh&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>;deklarasi konstanta
+</span><span class='line'>;format pemanggilan ${NAMA_KONSTANTA}
+</span><span class='line'>!define APP_NAME &ldquo;Sistem Pembelian Bahan Baku PT. ALBASI&rdquo;
+</span><span class='line'>!define APP_PUBLISHER &ldquo;K4m4r82&rsquo;s Laboratory&rdquo;
+</span><span class='line'>!define APP_VERSION &ldquo;2.0.50&rdquo;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>BrandingText /TRIMCENTER &ldquo;&ndash; ${APP_PUBLISHER} &ndash;&rdquo;
+</span><span class='line'>Name &ldquo;${APP_NAME} ${APP_VERSION}&rdquo;
+</span><span class='line'>Caption &ldquo;${APP_NAME} ${APP_VERSION}&rdquo;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>CompletedText &ldquo;Instalasi sudah selesai&rdquo;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Icon &ldquo;setup.ico&rdquo;
+</span><span class='line'>LoadLanguageFile &ldquo;${NSISDIR}\Contrib\Language files\Indonesian.nlf&rdquo;
+</span><span class='line'>OutFile &ldquo;output\DemoSetupNSIS.exe&rdquo;
+</span><span class='line'>ShowInstDetails show
+</span><span class='line'>ShowUninstDetails show
+</span><span class='line'>WindowIcon on
+</span><span class='line'>XPStyle on&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>;informasi default folder instalasi
+</span><span class='line'>InstallDir &ldquo;$PROGRAMFILES\SPBB&rdquo;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>;informasi folder instalasi disimpan disini
+</span><span class='line'>;informasi ini akan memudahkan kita untuk membuat program update
+</span><span class='line'>InstallDirRegKey HKCU &ldquo;Software\PT ALBASI\SPBB&rdquo; &ldquo;InstallDir&rdquo;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>VIAddVersionKey /LANG=${LANG_INDONESIAN} &ldquo;ProductName&rdquo; &ldquo;${APP_NAME}&rdquo;
+</span><span class='line'>VIAddVersionKey /LANG=${LANG_INDONESIAN} &ldquo;Comments&rdquo; &ldquo;&rdquo;
+</span><span class='line'>VIAddVersionKey /LANG=${LANG_INDONESIAN} &ldquo;CompanyName&rdquo; &ldquo;${APP_PUBLISHER}&rdquo;
+</span><span class='line'>VIAddVersionKey /LANG=${LANG_INDONESIAN} &ldquo;LegalTrademarks&rdquo; &ldquo;${APP_NAME} is a trademark of ${APP_PUBLISHER}&rdquo;
+</span><span class='line'>VIAddVersionKey /LANG=${LANG_INDONESIAN} &ldquo;LegalCopyright&rdquo; &ldquo;Copyright © 2009. ${APP_PUBLISHER}&rdquo;
+</span><span class='line'>VIAddVersionKey /LANG=${LANG_INDONESIAN} &ldquo;FileDescription&rdquo; &ldquo;${APP_NAME}&rdquo;
+</span><span class='line'>VIAddVersionKey /LANG=${LANG_INDONESIAN} &ldquo;FileVersion&rdquo; &ldquo;2.0.0.50&rdquo;
+</span><span class='line'>VIProductVersion &ldquo;2.0.0.50&rdquo;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>RequestExecutionLevel admin&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>AddBrandingImage left 150|234
+</span><span class='line'>Page custom BrandingImage
+</span><span class='line'>Page components
+</span><span class='line'>Page directory
+</span><span class='line'>Page instfiles&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>UninstPage custom un.BrandingImage
+</span><span class='line'>UninstPage uninstConfirm
+</span><span class='line'>UninstPage instfiles&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>;deklarsi variabel
+</span><span class='line'>;format pemanggilan $NAMA_VARIABEL ingat ada sedikit perbedaan dg konstanta
+</span><span class='line'>Var MainDir
+</span><span class='line'>Var MySQLDir
+</span><span class='line'>Var AlreadyInstalled&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>;section yang diawali karakter -, pilihannya tidak ditampilkan
+</span><span class='line'>Section &ldquo;-Inisialisasi Variabel&rdquo;
+</span><span class='line'>    StrCpy $MainDir $INSTDIR
+</span><span class='line'>    StrCpy $MySQLDir $MainDir\mysql
+</span><span class='line'>SectionEnd&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Section &ldquo;-Visual Basic Runtime&rdquo;
+</span><span class='line'>    ;download file Visual Basic Runtime di: &lt;a href="http://nsis.sourceforge.net/vb6runtime.zip">http://nsis.sourceforge.net/vb6runtime.zip&lt;/a>
+</span><span class='line'>    IfFileExists &ldquo;$MainDir\Albasi.exe&rdquo; 0 new_installation
+</span><span class='line'>        StrCpy $AlreadyInstalled 1&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>new_installation:
+</span><span class='line'>    !insertmacro VB6RunTimeInstall "dll&amp;ocx\vb6runtime" $AlreadyInstalled
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>SectionEnd&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Section &ldquo;-My Application Runtime&rdquo;
+</span><span class='line'>    SetOutPath $MainDir
+</span><span class='line'>        File &ldquo;main\Albasi.exe.manifest&rdquo;
+</span><span class='line'>    File &ldquo;main\Albasi.exe&rdquo;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>SetOutPath $SYSDIR
+</span><span class='line'>
+</span><span class='line'>File "dll&amp;ocx\LVbuttons.OCX"
+</span><span class='line'>RegDLL "$SYSDIR\LVbuttons.ocx"
+</span><span class='line'>
+</span><span class='line'>File "dll&amp;ocx\MSMASK32.OCX"
+</span><span class='line'>RegDLL "$SYSDIR\MSMASK32.ocx"
+</span><span class='line'>
+</span><span class='line'>File "dll&amp;ocx\cTreeOpt6.ocx"
+</span><span class='line'>RegDLL "$SYSDIR\cTreeOpt6.ocx"
+</span><span class='line'>
+</span><span class='line'>File "dll&amp;ocx\Comdlg32.ocx"
+</span><span class='line'>RegDLL "$SYSDIR\Comdlg32.ocx"
+</span><span class='line'>
+</span><span class='line'>File "dll&amp;ocx\vbalDTab6.ocx"
+</span><span class='line'>RegDLL "$SYSDIR\vbalDTab6.ocx"
+</span><span class='line'>
+</span><span class='line'>File "dll&amp;ocx\vbalExpBar6.ocx"
+</span><span class='line'>RegDLL "$SYSDIR\vbalExpBar6.ocx"
+</span><span class='line'>
+</span><span class='line'>File "dll&amp;ocx\MSCOMCTL.OCX"
+</span><span class='line'>RegDLL "$SYSDIR\MSCOMCTL.ocx"
+</span><span class='line'>
+</span><span class='line'>File "dll&amp;ocx\vbalIml6.ocx"
+</span><span class='line'>RegDLL "$SYSDIR\vbalIml6.ocx"
+</span><span class='line'>
+</span><span class='line'>File "dll&amp;ocx\cPopMenu6.ocx"
+</span><span class='line'>RegDLL "$SYSDIR\cPopMenu6.ocx"
+</span><span class='line'>
+</span><span class='line'>File "dll&amp;ocx\cNewMenu6.dll"
+</span><span class='line'>RegDLL "$SYSDIR\cNewMenu6.DLL"
+</span><span class='line'>
+</span><span class='line'>File "dll&amp;ocx\scrrun.dll"
+</span><span class='line'>RegDLL "$SYSDIR\scrrun.DLL"
+</span><span class='line'>
+</span><span class='line'>File "dll&amp;ocx\vbalMDITabs6.dll"
+</span><span class='line'>RegDLL "$SYSDIR\vbalMDITabs6.DLL"
+</span><span class='line'>
+</span><span class='line'>File "dll&amp;ocx\SSubTmr6.dll"
+</span><span class='line'>RegDLL "$SYSDIR\SSubTmr6.DLL"
+</span><span class='line'>
+</span><span class='line'>File "dll&amp;ocx\msado21.tlb"
+</span><span class='line'>RegDLL "$SYSDIR\msado21.tlb"
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>SectionEnd&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>; param /e -> expand
+</span><span class='line'>SectionGroup /e &ldquo;Komponen Server&rdquo;
+</span><span class='line'>    Section &ldquo;Install MySQL 5&rdquo;
+</span><span class='line'>        ; param /r -> recursive
+</span><span class='line'>        SetOutPath $MySQLDir\bin
+</span><span class='line'>        File /r &ldquo;mysql-5.1.36-win32\bin*.*&rdquo;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>    SetOutPath $MySQLDir\Docs
+</span><span class='line'>    File /r "mysql-5.1.36-win32\Docs\*.*"
+</span><span class='line'>
+</span><span class='line'>    SetOutPath $MySQLDir\lib
+</span><span class='line'>    File /r "mysql-5.1.36-win32\lib\*.*"
+</span><span class='line'>
+</span><span class='line'>    SetOutPath $MySQLDir\share
+</span><span class='line'>    File /r "mysql-5.1.36-win32\share\*.*"
+</span><span class='line'>
+</span><span class='line'>    SetOutPath $MySQLDir\data
+</span><span class='line'>    File /r "mysql-5.1.36-win32\data\*.*"
+</span><span class='line'>
+</span><span class='line'>    SetOutPath $MySQLDir
+</span><span class='line'>    File "mysql-5.1.36-win32\*.*"
+</span><span class='line'>
+</span><span class='line'>    ;informasi lokasi instalasi mysql
+</span><span class='line'>    WriteINIStr $MySQLDir\my.ini "mysqld" "basedir" $MySQLDir
+</span><span class='line'>    WriteINIStr $MySQLDir\my.ini "mysqld" "datadir" $MySQLDir\data
+</span><span class='line'>
+</span><span class='line'>    ;proses membuat dan menjalankan service mysql, cek versi windows terlebih dulu
+</span><span class='line'>    ;untuk contoh disini baru di tes untuk windows xp sp2
+</span><span class='line'>    Version::IsWindowsXP
+</span><span class='line'>
+</span><span class='line'>    Pop $0 ;nilai var $0 akan bersisi 1 jika windows XP selain itu 0
+</span><span class='line'>    StrCmp $0 "1" ItIsWindowsXP ItIsNotWindowsXP ;StrCmp sama seperti fungsi IIF di VB
+</span><span class='line'>
+</span><span class='line'>    ItIsWindowsXP:
+</span><span class='line'>    Goto installservice
+</span><span class='line'>
+</span><span class='line'>    ItIsNotWindowsXP:
+</span><span class='line'>    Goto done
+</span><span class='line'>
+</span><span class='line'>    installservice:
+</span><span class='line'>        DetailPrint "Sedang menginstall service MySQL ..."
+</span><span class='line'>        ExecWait '"$MySQLDir\bin\mysqld.exe" install "MySQL"'
+</span><span class='line'>
+</span><span class='line'>        ;jalankan service MySQL
+</span><span class='line'>        DetailPrint "Sedang menjalankan service MySQL ..."
+</span><span class='line'>        ExecWait '"$SYSDIR\net.exe" start "MySQL"'
+</span><span class='line'>
+</span><span class='line'>        ;mendaftarkan port default mysql (3306) ke firewall
+</span><span class='line'>        DetailPrint "Sedang mendaftarkan port MySQL ..."
+</span><span class='line'>        ExecWait '"$SYSDIR\netsh.exe" firewall add portopening TCP 3306 "Port MySQL"'
+</span><span class='line'>
+</span><span class='line'>        ;mengganti password default root (blank). ex : masterkey
+</span><span class='line'>        DetailPrint "Mengganti password root"
+</span><span class='line'>        ExecWait '"$MySQLDir\bin\mysqladmin.exe" -uroot password masterkey'
+</span><span class='line'>
+</span><span class='line'>        ;menghapus user default1 (user=blank, password=blank)
+</span><span class='line'>        ExecWait '"$MySQLDir\bin\mysql.exe" -uroot -pmasterkey -e "DELETE FROM mysql.user WHERE Host=$\'localhost$\' AND User=$\'$\'"'
+</span><span class='line'>        ExecWait '"$MySQLDir\bin\mysql.exe" -uroot -pmasterkey -e "FLUSH PRIVILEGES"'
+</span><span class='line'>
+</span><span class='line'>        ;menghapus user default2 (user=root, password=blank)
+</span><span class='line'>        ExecWait '"$MySQLDir\bin\mysql.exe" -uroot -pmasterkey -e "DELETE FROM mysql.user WHERE Host=$\'127.0.0.1$\' AND User=$\'root$\'"'
+</span><span class='line'>        ExecWait '"$MySQLDir\bin\mysql.exe" -uroot -pmasterkey -e "FLUSH PRIVILEGES"'
+</span><span class='line'>
+</span><span class='line'>        ;set agar user root bisa login dari mesin lain (kalo diperlukan)
+</span><span class='line'>        ExecWait '"$MySQLDir\bin\mysql.exe" -uroot -pmasterkey -e "GRANT ALL PRIVILEGES ON *.* TO root@$\'%$\' IDENTIFIED BY $\'masterkey$\'"'
+</span><span class='line'>        ExecWait '"$MySQLDir\bin\mysql.exe" -uroot -pmasterkey -e "FLUSH PRIVILEGES"'
+</span><span class='line'>
+</span><span class='line'>    done:
+</span><span class='line'>        ;do nothing
+</span><span class='line'>SectionEnd
+</span><span class='line'>
+</span><span class='line'>Section "Install MySQL Connector ODBC"
+</span><span class='line'>    SetOutPath $SYSDIR
+</span><span class='line'>
+</span><span class='line'>    ;dll mysql odbc tidak perlu diregistrasikan
+</span><span class='line'>    ;jadi otomatis tidak perlu memanggil fungsi RegDLL
+</span><span class='line'>    File "C:\Program Files\MySQL\Connector ODBC 5.1\myodbc5.dll"
+</span><span class='line'>    File "C:\Program Files\MySQL\Connector ODBC 5.1\myodbc5S.dll"
+</span><span class='line'>    File "C:\Program Files\MySQL\Connector ODBC 5.1\myodbc5.lib"
+</span><span class='line'>    File "C:\Program Files\MySQL\Connector ODBC 5.1\myodbc5S.lib"
+</span><span class='line'>    File "C:\Program Files\MySQL\Connector ODBC 5.1\myodbc-installer.exe"
+</span><span class='line'>
+</span><span class='line'>    Version::IsWindowsXP
+</span><span class='line'>
+</span><span class='line'>    Pop $0
+</span><span class='line'>    StrCmp $0 "1" ItIsWindowsXP ItIsNotWindowsXP
+</span><span class='line'>
+</span><span class='line'>    ItIsWindowsXP:
+</span><span class='line'>    Goto installdriverodbc
+</span><span class='line'>
+</span><span class='line'>    ItIsNotWindowsXP:
+</span><span class='line'>    Goto done
+</span><span class='line'>
+</span><span class='line'>    installdriverodbc:
+</span><span class='line'>        ;install driver myodbc
+</span><span class='line'>        DetailPrint "Tunggu sedang mendaftarkan driver MySQL Connector ODBC 5.1.5"
+</span><span class='line'>        ExecWait '"$SYSDIR\myodbc-installer.exe" -d -a -n "MySQL ODBC 5.1 Driver" -t "DRIVER=myodbc5.dll;SETUP=myodbc5S.dll"'
+</span><span class='line'>
+</span><span class='line'>    done:
+</span><span class='line'>        ;do nothing
+</span><span class='line'>SectionEnd
+</span><span class='line'>
+</span><span class='line'>Section "Install Database"
+</span><span class='line'>    SetOutPath $MySQLDir\bin
+</span><span class='line'>
+</span><span class='line'>    File "main\albasi.sql"
+</span><span class='line'>    File "main\exec.cmd"
+</span><span class='line'>
+</span><span class='line'>    Version::IsWindowsXP
+</span><span class='line'>
+</span><span class='line'>    Pop $0
+</span><span class='line'>    StrCmp $0 "1" ItIsWindowsXP ItIsNotWindowsXP
+</span><span class='line'>
+</span><span class='line'>    ItIsWindowsXP:
+</span><span class='line'>    Goto installdatabase
+</span><span class='line'>
+</span><span class='line'>    ItIsNotWindowsXP:
+</span><span class='line'>    Goto done
+</span><span class='line'>
+</span><span class='line'>    installdatabase:
+</span><span class='line'>        ;membuat database kosong
+</span><span class='line'>        ExecWait '"$MySQLDir\bin\mysql.exe" -uroot -pmasterkey -e "CREATE DATABASE albasi"'
+</span><span class='line'>
+</span><span class='line'>        ;menjalankan file batch exec.cmd untuk melakukan proses undump
+</span><span class='line'>        ExecWait '"$MySQLDir\bin\exec.cmd"'
+</span><span class='line'>
+</span><span class='line'>    done:
+</span><span class='line'>        ;do nothing
+</span><span class='line'>SectionEnd
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>SectionGroupEnd&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>SectionGroup /e &ldquo;Buat Shortcut&rdquo;
+</span><span class='line'>    Section &ldquo;Start Programs&rdquo;
+</span><span class='line'>        SectionIn RO ;RO -> Read Only&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>    CreateDirectory "$SMPROGRAMS\PT. ALBASI"
+</span><span class='line'>    CreateShortCut "$SMPROGRAMS\PT. ALBASI\${APP_NAME}.lnk" "$MainDir\Albasi.exe" "" "$MainDir\Albasi.exe" 0
+</span><span class='line'>SectionEnd
+</span><span class='line'>
+</span><span class='line'>Section "Desktop"
+</span><span class='line'>    ;CreateDirectory "$DESKTOP\SPBB"
+</span><span class='line'>    CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$MainDir\Albasi.exe" "" "$MainDir\Albasi.exe" 0
+</span><span class='line'>SectionEnd
+</span><span class='line'>
+</span><span class='line'>Section "Quick Launch"
+</span><span class='line'>    ;CreateDirectory "$QUICKLAUNCH\SPBB"
+</span><span class='line'>    CreateShortCut "$QUICKLAUNCH\${APP_NAME}.lnk" "$MainDir\Albasi.exe" "" "$MainDir\Albasi.exe" 0
+</span><span class='line'>SectionEnd
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>SectionGroupEnd&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Section &ldquo;-Registry Windows&rdquo;
+</span><span class='line'>    ;informasi uninstall
+</span><span class='line'>    WriteRegStr HKLM &ldquo;Software\Microsoft\Windows\CurrentVersion\Uninstall\SPBB&rdquo; &ldquo;DisplayName&rdquo; &ldquo;${APP_NAME}&rdquo;
+</span><span class='line'>    WriteRegStr HKLM &ldquo;Software\Microsoft\Windows\CurrentVersion\Uninstall\SPBB&rdquo; &ldquo;UninstallString&rdquo; &lsquo;&ldquo;$MainDir\uninstaller.exe&rdquo;&rsquo;
+</span><span class='line'>    WriteRegStr HKLM &ldquo;Software\Microsoft\Windows\CurrentVersion\Uninstall\SPBB&rdquo; &ldquo;DisplayIcon&rdquo; &lsquo;&ldquo;$MainDir\uninstaller.exe&rdquo;&rsquo;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\SPBB" "NoModify" 1
+</span><span class='line'>WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\SPBB" "NoRepair" 1
+</span><span class='line'>
+</span><span class='line'>WriteUninstaller $MainDir\uninstaller.exe
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>SectionEnd&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Section &ldquo;-File Konfigurasi Program&rdquo;
+</span><span class='line'>    WriteINIStr $MainDir\infoprogram.ini &ldquo;Sistem&rdquo; &ldquo;serverName&rdquo; &ldquo;127.0.0.1&rdquo;
+</span><span class='line'>    WriteINIStr $MainDir\infoprogram.ini &ldquo;Sistem&rdquo; &ldquo;dbName&rdquo; &ldquo;albasi&rdquo;
+</span><span class='line'>SectionEnd&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Section &ldquo;Uninstall&rdquo;
+</span><span class='line'>    ;stop service MySQL
+</span><span class='line'>    DetailPrint &ldquo;Menghentikan Service MySQL &hellip;&rdquo;
+</span><span class='line'>    ExecWait &lsquo;&ldquo;$SYSDIR\net.exe&rdquo; stop &ldquo;MySQL&rdquo;&rsquo;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>;hapus service MySQL
+</span><span class='line'>DetailPrint "Sedang menghapus service MySQL ..."
+</span><span class='line'>ExecWait '"$MySQLDir\bin\mysqld.exe" remove "MySQL"'
+</span><span class='line'>
+</span><span class='line'>;driver MySQL Connector ODBC 5.1
+</span><span class='line'>DetailPrint "Tunggu sedang menghapus driver MySQL Connector ODBC 5.1"
+</span><span class='line'>ExecWait '"$SYSDIR\myodbc-installer.exe" -d -r -n "MySQL ODBC 5.1 Driver"'
+</span><span class='line'>
+</span><span class='line'>; Remove registry keys
+</span><span class='line'>DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\SPBB"
+</span><span class='line'>
+</span><span class='line'>; Remove files and uninstaller
+</span><span class='line'>Delete $MainDir\*.*
+</span><span class='line'>RMDir $MainDir
+</span><span class='line'>
+</span><span class='line'>; Remove shortcuts
+</span><span class='line'>Delete "$SMPROGRAMS\PT. ALBASI\*.*"
+</span><span class='line'>RMDir "$SMPROGRAMS\PT. ALBASI"
+</span><span class='line'>
+</span><span class='line'>Delete "$DESKTOP\${APP_NAME}.lnk"
+</span><span class='line'>Delete "$QUICKLAUNCH\${APP_NAME}.lnk"
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>SectionEnd&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>;fungsi untuk menampilkan gambar/banner pada saat instalasi
+</span><span class='line'>;untuk contoh disini posisi gambar di sebelah kiri
+</span><span class='line'>Function BrandingImage
+</span><span class='line'>    SetOutPath &ldquo;$TEMP&rdquo;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>SetFileAttributes SetupModern21.bmp temporary
+</span><span class='line'>File SetupModern21.bmp
+</span><span class='line'>SetBrandingImage "$TEMP\SetupModern21.bmp" /resizetofit
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>FunctionEnd&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>;fungsi untuk menampilkan gambar/banner pada saat uninstall
+</span><span class='line'>Function un.BrandingImage
+</span><span class='line'>    SetBrandingImage &ldquo;$TEMP\SetupModern21.bmp&rdquo; /resizetofit
+</span><span class='line'>FunctionEnd</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Di dalam skrip instalasi ada file exec.cmd, isinya adalah :</p>
 
-<p>{% codeblock %}
-mysql -uroot -pmasterkey albasi &lt; albasi.sql
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mysql -uroot -pmasterkey albasi &lt; albasi.sql</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Isi file exec.cmd sebenarnya untuk proses undump dan ternyata Inno Setup dan NSIS gagal menjalankan perintah tersebut, padahal perintah-perintah yang lainnya sukses.</p>
 
@@ -493,71 +857,117 @@ mysql -uroot -pmasterkey albasi &lt; albasi.sql
 <p>Ada banyak cara untuk melakukan hal ini :
 <strong> 1. Mencatat lokasi program pada saat instalasi</strong></p>
 
-<p>{% codeblock %}
-InstallDirRegKey HKCU &ldquo;Software\PT ALBASI\SPBB&rdquo; &ldquo;installDir&rdquo;
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>InstallDirRegKey HKCU &ldquo;Software\PT ALBASI\SPBB&rdquo; &ldquo;installDir&rdquo;</span></code></pre></td></tr></table></div></figure></p>
 
 <p><strong>2. Mencatat lokasi program pada saat start up</strong>
 contoh menggunakan vb</p>
 
-<p>{% codeblock %}
-Public Sub Main()
-   Call saveString(HKEY_CURRENT_USER, &ldquo;Software\PT ALBASI\SPBB&rdquo;, &ldquo;installDir&rdquo;, App.Path)
-End Sub
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Public Sub Main()
+</span><span class='line'>   Call saveString(HKEY_CURRENT_USER, &ldquo;Software\PT ALBASI\SPBB&rdquo;, &ldquo;installDir&rdquo;, App.Path)
+</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Contoh skrip sederhana untuk membuat paket instalasi update :</p>
 
-<p>{% codeblock %}
-!define APP_NAME &ldquo;SPBB PT ALBASI&rdquo;</p>
-
-<p>Name &ldquo;${APP_NAME}&rdquo;
-OutFile &ldquo;output\updateAlbasi.exe&rdquo;
-Icon &ldquo;setup.ico&rdquo;
-ShowInstDetails nevershow
-XPStyle on
-RequestExecutionLevel admin</p>
-
-<p>Var INSTALL_DIR</p>
-
-<p>Function .onInit
-    MessageBox MB_YESNO|MB_ICONQUESTION &ldquo;Apakah proses update ${APP_NAME} ingin dilanjutkan ?&rdquo; /SD IDYES IDYES yes IDNO no</p>
-
-<pre><code>yes:
-SetSilent silent
-Goto done
-
-no:
-Abort
-
-done:
-;ambil informasi lokasi instalasi
-ReadRegStr $INSTALL_DIR HKCU "Software\PT ALBASI\SPBB" "installDir"
-
-IfFileExists $INSTALL_DIR\Albasi.exe lanjut batal
-batal:
-    MessageBox MB_ICONSTOP|MB_OK "Lokasi instalasi ${APP_NAME} tidak ditemukan. Proses update batal"
-    Abort
-
-lanjut:
-
-FindWindow $0 "" "${APP_NAME}"
-StrCmp $0 0 lanjut2
-    MessageBox MB_ICONSTOP|MB_OK "Program SPBB Albasi sedang dijalankan.$\nSilakan tutup aplikasi tersebut terlebih dahulu."
-    Abort
-
-lanjut2:
-SetOutPath "$INSTALL_DIR"
-File "core\exe\Albasi.exe" ;file program utama
-
-MessageBox MB_ICONINFORMATION|MB_OK "Proses update ${APP_NAME} selesai"
-</code></pre>
-
-<p>FunctionEnd</p>
-
-<p>Section &ldquo;&rdquo;
-SectionEnd
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>!define APP_NAME &ldquo;SPBB PT ALBASI&rdquo;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Name &ldquo;${APP_NAME}&rdquo;
+</span><span class='line'>OutFile &ldquo;output\updateAlbasi.exe&rdquo;
+</span><span class='line'>Icon &ldquo;setup.ico&rdquo;
+</span><span class='line'>ShowInstDetails nevershow
+</span><span class='line'>XPStyle on
+</span><span class='line'>RequestExecutionLevel admin&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Var INSTALL_DIR&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Function .onInit
+</span><span class='line'>    MessageBox MB_YESNO|MB_ICONQUESTION &ldquo;Apakah proses update ${APP_NAME} ingin dilanjutkan ?&rdquo; /SD IDYES IDYES yes IDNO no&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>yes:
+</span><span class='line'>SetSilent silent
+</span><span class='line'>Goto done
+</span><span class='line'>
+</span><span class='line'>no:
+</span><span class='line'>Abort
+</span><span class='line'>
+</span><span class='line'>done:
+</span><span class='line'>;ambil informasi lokasi instalasi
+</span><span class='line'>ReadRegStr $INSTALL_DIR HKCU "Software\PT ALBASI\SPBB" "installDir"
+</span><span class='line'>
+</span><span class='line'>IfFileExists $INSTALL_DIR\Albasi.exe lanjut batal
+</span><span class='line'>batal:
+</span><span class='line'>    MessageBox MB_ICONSTOP|MB_OK "Lokasi instalasi ${APP_NAME} tidak ditemukan. Proses update batal"
+</span><span class='line'>    Abort
+</span><span class='line'>
+</span><span class='line'>lanjut:
+</span><span class='line'>
+</span><span class='line'>FindWindow $0 "" "${APP_NAME}"
+</span><span class='line'>StrCmp $0 0 lanjut2
+</span><span class='line'>    MessageBox MB_ICONSTOP|MB_OK "Program SPBB Albasi sedang dijalankan.$\nSilakan tutup aplikasi tersebut terlebih dahulu."
+</span><span class='line'>    Abort
+</span><span class='line'>
+</span><span class='line'>lanjut2:
+</span><span class='line'>SetOutPath "$INSTALL_DIR"
+</span><span class='line'>File "core\exe\Albasi.exe" ;file program utama
+</span><span class='line'>
+</span><span class='line'>MessageBox MB_ICONINFORMATION|MB_OK "Proses update ${APP_NAME} selesai"
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>FunctionEnd&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Section &ldquo;&rdquo;
+</span><span class='line'>SectionEnd</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Untuk memperkecil ukuran file update Anda bisa menggunakan plugin <a href="http://www.tibed.net/vpatch">VPatch</a> (sudah include pada saat instalasi NSIS) dengan menggunakan VPatch yang dicatat hanya perbedaan versi sebelumnya dengan yang terakhir sehingga bisa memperkecil ukuran file update.</p>
 

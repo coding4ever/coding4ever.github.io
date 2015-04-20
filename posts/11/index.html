@@ -9,7 +9,7 @@
   <meta name="author" content="Admin">
 
   
-  <meta name="description" content="Ada banyak cara untuk menyimpan informasi yang dibutuhkan oleh aplikasi, kita bisa menyimpannya di registry windows, database atau cukup dengan &hellip;">
+  <meta name="description" content="Membuat service dengan vb6 memang sangat tidak dianjutkan, makanya jangan heran setelah kita mendownload beberapa source code yang mengklaim bisa &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -86,7 +86,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2010/04/23/contoh-sederhana-memanipulasi-ini-file-untuk-menyimpan-informasi/">Contoh Sederhana Memanipulasi INI File Untuk Menyimpan Informasi</a></h1>
+      <h1 class="entry-title"><a href="/blog/2010/02/18/cara-mudah-dan-gampang-membuat-aplikasi-service-dengan-vb6/">Cara Mudah Dan Gampang Membuat Aplikasi Service Dengan VB6</a></h1>
     
     
       <p class="meta">
@@ -95,30 +95,25 @@
 
 
 
-<time class='entry-date' datetime='2010-04-23T07:01:27+07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2010</span></span> <span class='time'>7:01 am</span></time>
+<time class='entry-date' datetime='2010-02-18T11:58:20+07:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>11:58 am</span></time>
         
-           | <a href="/blog/2010/04/23/contoh-sederhana-memanipulasi-ini-file-untuk-menyimpan-informasi/#disqus_thread"
-             data-disqus-identifier="http://coding4ever.net/blog/2010/04/23/contoh-sederhana-memanipulasi-ini-file-untuk-menyimpan-informasi/">Comments</a>
+           | <a href="/blog/2010/02/18/cara-mudah-dan-gampang-membuat-aplikasi-service-dengan-vb6/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2010/02/18/cara-mudah-dan-gampang-membuat-aplikasi-service-dengan-vb6/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Ada banyak cara untuk menyimpan informasi yang dibutuhkan oleh aplikasi, kita bisa menyimpannya di registry windows, database atau cukup dengan memanfaatkan file teks biasa dengan format <a href="http://en.wikipedia.org/wiki/INI_file">INI file</a>.</p>
+  <div class="entry-content"><p>Membuat service dengan <a href="http://support.microsoft.com/kb/175948">vb6 memang sangat tidak dianjutkan</a>, makanya jangan heran setelah kita mendownload beberapa source code yang mengklaim bisa membuat service di vb6 dan mencobanya yang ada hanya error pada saat dijalankan atau berhasil sampai mendaftarkan ke service tetapi gagal pada saat ingin running/start.</p>
 
-<p>Contoh kita akan menyimpan beberapa informasi berikut :
-serverName=informasi ip address server
-dbPath=lokasi database server
-Nama=Nama sekolah
-Alamat=Alamat sekolah
-Kota=Kota Sekolah</p>
+<p>Tetapi jangan kuatir setelah Anda membaca artikel ini, Anda akan dengan mudah membuat service di windows.</p>
 
 </div>
   
   
     <footer>
-      <a rel="full-article" href="/blog/2010/04/23/contoh-sederhana-memanipulasi-ini-file-untuk-menyimpan-informasi/">Read on &rarr;</a>
+      <a rel="full-article" href="/blog/2010/02/18/cara-mudah-dan-gampang-membuat-aplikasi-service-dengan-vb6/">Read on &rarr;</a>
     </footer>
   
 
@@ -130,7 +125,7 @@ Kota=Kota Sekolah</p>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2010/04/19/smart-library-school-beta-2/">Smart Library School (Beta 2)</a></h1>
+      <h1 class="entry-title"><a href="/blog/2010/02/14/mengakses-tabel-via-kelas/">Mengakses Tabel via Kelas</a></h1>
     
     
       <p class="meta">
@@ -139,25 +134,181 @@ Kota=Kota Sekolah</p>
 
 
 
-<time class='entry-date' datetime='2010-04-19T07:01:00+07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>7:01 am</span></time>
+<time class='entry-date' datetime='2010-02-14T09:51:37+07:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>9:51 am</span></time>
         
-           | <a href="/blog/2010/04/19/smart-library-school-beta-2/#disqus_thread"
-             data-disqus-identifier="http://coding4ever.net/blog/2010/04/19/smart-library-school-beta-2/">Comments</a>
+           | <a href="/blog/2010/02/14/mengakses-tabel-via-kelas/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2010/02/14/mengakses-tabel-via-kelas/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Smart Library School (SLS) beta 2 sudah rilis dengan perbaikan bug dan beberapa tambahan fitur baru :</p>
+  <div class="entry-content"><p>Artikel kita kali ini khusus bagi Anda yang sudah terbiasa membuat aplikasi database menggunakan Visual Basic 6 tetapi untuk mengeksekusi perintah-perintah DML (Insert, Update, Delete dan Select) masih di lakukan di Form/Modul.</p>
+
+<p>Dan diartikel ini juga kita akan sedikit mencoba memasuki daerah suram bagi kebanyakan programmer prosedural seperti Saya dan Anda :D yang biasa disebut <a href="http://en.wikipedia.org/wiki/Object-oriented_programming">OOP</a>.</p>
+
+<p>Kenapa menggunakan kelas dan teori-teori seputar kelas bisa anda baca referensi-referensi yang berhubungan dengan <a href="http://en.wikibooks.org/wiki/Visual_Basic/Object_Oriented_Programming">OOP</a> di Visual Basic 6, walaupun Visual Basic 6 sendiri belum bisa dikatakan bahasa pemrograman yang full OOP. Setidaknya itu yang saya baca dari referensi-referensi yang ada, kalo salah mohon dikoreksi :).</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2010/02/14/mengakses-tabel-via-kelas/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/02/12/menonaktifkan-tombol-minimize-maximize-dan-close-mdi-form/">Menonaktifkan Tombol Minimize, Maximize Dan Close MDI Form</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2010-02-12T07:01:56+07:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>7:01 am</span></time>
+        
+           | <a href="/blog/2010/02/12/menonaktifkan-tombol-minimize-maximize-dan-close-mdi-form/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2010/02/12/menonaktifkan-tombol-minimize-maximize-dan-close-mdi-form/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Pada <a href="http://coding4ever.net/blog/2010/01/15/menonaktifkan-tombol-minimize-maximize-dan-close/">postingan</a> saya yang sebelumnya kita sudah mengetahui bagaimana cara menonaktifkan tombol Minimize, Maximize dan Close pada <a href="http://en.wikipedia.org/wiki/Single_document_interface">SDI Form</a>.</p>
+
+<p>Sesuai judul postingan kali ini yang akan kita nonaktifkan adalah tombol Minimize, Maximize dan Close pada <a href="http://en.wikipedia.org/wiki/Multiple_document_interface">MDI Form</a>. Jika pada SDI Form untuk menonaktifkan tombol Minimize dan Maximize masih bisa dilakukan secara manual (via properties) untuk MDI Form tidak bisa, semuanya full coding.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2010/02/12/menonaktifkan-tombol-minimize-maximize-dan-close-mdi-form/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/02/10/membuat-aktivasi-dongle-bagian-akhir-e28093-1-dongle-untuk-semua/">Membuat Aktivasi Dongle Bagian Akhir – 1 Dongle Untuk Semua</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2010-02-10T23:18:18+07:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>11:18 pm</span></time>
+        
+           | <a href="/blog/2010/02/10/membuat-aktivasi-dongle-bagian-akhir-e28093-1-dongle-untuk-semua/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2010/02/10/membuat-aktivasi-dongle-bagian-akhir-e28093-1-dongle-untuk-semua/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Oke akhirnya kita sudah memutuskan untuk membuat proteksi software dengan menggunakan <a href="http://coding4ever.net/blog/2010/02/08/membuat-aktivasi-dongle-bagian-1-simple-think/">dongle</a>, tetapi kita masih punya 1 masalah lagi yang harus kita selesaikan yaitu kemudahan dalam mengimplementasikan jenis aktivasi ini.</p>
+
+<p>Rencananya software yang kita buat akan diinstall dibeberapa komputer misal 1 server dengan 10 klien, yang jadi pertanyaan dimanakah donglenya akan dipasang ? Di komputer server ? Komputer klien ? Ganti-gantian ? Atau semua komputer akan dipasang dongle :lol:</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2010/02/10/membuat-aktivasi-dongle-bagian-akhir-e28093-1-dongle-untuk-semua/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/02/08/membuat-aktivasi-dongle-bagian-1-simple-think/">Membuat Aktivasi Dongle Bagian 1 - Simple Think</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2010-02-08T07:13:00+07:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>7:13 am</span></time>
+        
+           | <a href="/blog/2010/02/08/membuat-aktivasi-dongle-bagian-1-simple-think/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2010/02/08/membuat-aktivasi-dongle-bagian-1-simple-think/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Apa yang ada dipikiran Anda ketika diminta untuk membuat aktivasi menggunakan <a href="http://en.wikipedia.org/wiki/Dongle">dongle</a> ? Wahhh susah, wahhh dongle alat apaan tuh, wahhh perlu pesan khusus ke pabrik G, wahhhh harus riset lagi nih, dan wahhhh2x lainnya.</p>
+
+<p>Tapi sebenarnya kalo kita cermati lagi aktivasi dengan dongle lebih sederhana bila dibandingkan dengan aktivasi klasik seperti memasukkan serial number, yaaa minimal menghemat 1 form :D dan selain itu kelihatan juga lebih wahhhh :cool:.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2010/02/08/membuat-aktivasi-dongle-bagian-1-simple-think/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/02/04/belajar-winsock-bagian-akhir-e28093-contoh-kasus-mengakses-data-stok-barang-dari-luar/">Belajar Winsock Bagian Akhir – Contoh Kasus Mengakses Data Stok Barang Dari Luar</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2010-02-04T16:47:57+07:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>4:47 pm</span></time>
+        
+           | <a href="/blog/2010/02/04/belajar-winsock-bagian-akhir-e28093-contoh-kasus-mengakses-data-stok-barang-dari-luar/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2010/02/04/belajar-winsock-bagian-akhir-e28093-contoh-kasus-mengakses-data-stok-barang-dari-luar/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Akhirnya rilis juga artikel terakhir dari 5 seri belajar winsock ini, sebelum kita melanjutkan pembahasan ada baiknya kita melakukan sedikit review :</p>
 
 <ol>
-<li><p>Bug beta 1 bisa dilihat di<a href="http://www.i-bego.com/viewtopic.php?f=20&amp;t=400&amp;start=10">SINI</a></p></li>
-<li><p>Fitur baru</p></li>
-<li><p>Cetak kartu anggota (Guru, Pegawai dan Siswa)</p></li>
-<li><p>Cetak barcode kode inventaris</p></li>
-<li><p>Cetak surat keterangan bebas perpustakaan</p></li>
-<li><p>Validasi kesalahan login maksimal 3 x</p></li>
+<li><p> <a href="http://coding4ever.net/blog/2010/01/26/belajar-winsock-bagian-1-intro/">Dasar-dasar penggunaan winsock</a> sudah kita pelajari</p></li>
+<li><p> Ini terbukti dengan suksesnya kita membuat <a href="http://coding4ever.net/blog/2010/01/28/belajar-winsock-bagian-2-membuat-aplikasi-chat-sederhana-11/">aplikasi chat sederhana</a></p></li>
+<li><p> Di tambah lagi ada teman kita yang mau nebeng sehingga terciptanya <a href="http://coding4ever.net/blog/2010/01/30/belajar-winsock-bagian-3-%E2%80%93-multiple-connection/">aplikasi chat multiple connection</a></p></li>
+<li><p> <a href="http://coding4ever.net/blog/2010/02/02/belajar-winsock-bagian-4-%e2%80%93-membuat-jaringan-vpn-sendiri/">Jalan tol</a> antara laptop mas Paijo dan komputer server tokonya juga udah selesai dibangun dengan anggaran 0 Rp :D</p></li>
 </ol>
 
 
@@ -165,7 +316,7 @@ Kota=Kota Sekolah</p>
   
   
     <footer>
-      <a rel="full-article" href="/blog/2010/04/19/smart-library-school-beta-2/">Read on &rarr;</a>
+      <a rel="full-article" href="/blog/2010/02/04/belajar-winsock-bagian-akhir-e28093-contoh-kasus-mengakses-data-stok-barang-dari-luar/">Read on &rarr;</a>
     </footer>
   
 
@@ -177,7 +328,7 @@ Kota=Kota Sekolah</p>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2010/04/13/membuat-kalender-nasional-sendiri/">Membuat Kalender Nasional Sendiri</a></h1>
+      <h1 class="entry-title"><a href="/blog/2010/02/02/belajar-winsock-bagian-4-e28093-membuat-jaringan-vpn-sendiri/">Belajar Winsock Bagian 4 – Membuat Jaringan VPN Sendiri</a></h1>
     
     
       <p class="meta">
@@ -186,25 +337,25 @@ Kota=Kota Sekolah</p>
 
 
 
-<time class='entry-date' datetime='2010-04-13T13:48:01+07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>1:48 pm</span></time>
+<time class='entry-date' datetime='2010-02-02T03:19:07+07:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2010</span></span> <span class='time'>3:19 am</span></time>
         
-           | <a href="/blog/2010/04/13/membuat-kalender-nasional-sendiri/#disqus_thread"
-             data-disqus-identifier="http://coding4ever.net/blog/2010/04/13/membuat-kalender-nasional-sendiri/">Comments</a>
+           | <a href="/blog/2010/02/02/belajar-winsock-bagian-4-e28093-membuat-jaringan-vpn-sendiri/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2010/02/02/belajar-winsock-bagian-4-e28093-membuat-jaringan-vpn-sendiri/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Kali kita akan membuat program untuk mengenerate kalender ke format Ms Excel sesuai tahun yang dipilih, kan lumayan enggax perlu download<sup>2</sup> lagi di internet.</p>
+  <div class="entry-content"><p>Pada artikel kali ini kita stop dulu untuk mengetikan baris-baris kode yang indah itu :D dan kita akan mencoba untuk membuat jaringan <a href="http://id.wikipedia.org/wiki/VPN">VPN</a> sendiri yang tentunya dengan investasi yang murah meriah :D dan nyaris dengan biaya 0 rupiah. G percaya ? Oke kita ikuti saja pembahasan berikut.</p>
 
-<p>Sample program sederhana ini sudah bisa mendeteksi hari minggu dan tahun kabisat, untuk hari libur lainnya seperti hari libur nasional harus dientri secara manual (via database :D), berhubung source codenya lumayan buanyakk akan sangat membosannya klo kita bahas.</p>
+<p>Misalkan kita punya klien sebutnya saja namanya mas Paijo yang sudah menggunakan program retail kita selama beberapa tahun. Mas Paijo ini sering berbelanja untuk keperluan tokonya ke luar kota dan masalah yang dihadapinya adalah kesulitan untuk mengecek jumlah stok barang di toko (selama ini untuk menanyakan jumlah stok masih telp2xan :D), dan baru-baru ini mas Paijo menghubungi kita untuk minta dibuatkan program kecil yang hanya sekedar untuk mengecek stok barang.</p>
 
 </div>
   
   
     <footer>
-      <a rel="full-article" href="/blog/2010/04/13/membuat-kalender-nasional-sendiri/">Read on &rarr;</a>
+      <a rel="full-article" href="/blog/2010/02/02/belajar-winsock-bagian-4-e28093-membuat-jaringan-vpn-sendiri/">Read on &rarr;</a>
     </footer>
   
 
@@ -216,7 +367,7 @@ Kota=Kota Sekolah</p>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2010/04/10/smart-library-school-beta/">Smart Library School (Beta)</a></h1>
+      <h1 class="entry-title"><a href="/blog/2010/01/30/belajar-winsock-bagian-3-e28093-multiple-connection/">Belajar Winsock Bagian 3 – Multiple Connection</a></h1>
     
     
       <p class="meta">
@@ -225,33 +376,25 @@ Kota=Kota Sekolah</p>
 
 
 
-<time class='entry-date' datetime='2010-04-10T15:11:07+07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>3:11 pm</span></time>
+<time class='entry-date' datetime='2010-01-30T10:52:28+07:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>10:52 am</span></time>
         
-           | <a href="/blog/2010/04/10/smart-library-school-beta/#disqus_thread"
-             data-disqus-identifier="http://coding4ever.net/blog/2010/04/10/smart-library-school-beta/">Comments</a>
+           | <a href="/blog/2010/01/30/belajar-winsock-bagian-3-e28093-multiple-connection/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2010/01/30/belajar-winsock-bagian-3-e28093-multiple-connection/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p><strong>What is Smart Library School ?</strong></p>
+  <div class="entry-content"><p>Di <a href="http://coding4ever.net/blog/2010/01/28/belajar-winsock-bagian-2-membuat-aplikasi-chat-sederhana-11/">postingan</a> saya sebelumnya kita sudah mengetahui bagai mana cara membuat aplikasi chat sederhana yang hanya melibatkan saya dan Anda :D, dan bagai mana jika ada teman saya yang lain ikut nimbrung ?</p>
 
-<p>Smart Library School (SLS) adalah sistem informasi perpustakaan sekolah yang dibuat dan kembangkan menggunakan bahasa pemrograman Visual Basic 6 dan database <a href="http://firebirdsql.org/">Firebird</a>, sifatnya freeware (tetapi bukan produk open source).</p>
-
-<p>Saat ini masih versi beta 1 dan insya Alloh dalam waktu dekat versi beta 2 menyusul karena masih ada beberapa fitur yg belum sempat saya kerjakan.</p>
-
-<p><strong>Modul</strong></p>
-
-<p>Smart Library School mempunyai modul yang sangat lengkap dengan tampilan yang user friendly sehingga tidak kalah bersaing dengan software-software perpustakaan sekolah yang komersial.</p>
-
-<p>Adapun modul-modulnya sebagai berikut :</p>
+<p>Jelas ini tidak bisa karena 1 winsock hanya bisa menangani 1 port, trus bagaimana jika kita ingin teman kita yang lain bisa konek di port yang sama dan hanya menggunakan 1 winsock? Jawabannya sederhana objek winsocknya kita jadikan array.</p>
 
 </div>
   
   
     <footer>
-      <a rel="full-article" href="/blog/2010/04/10/smart-library-school-beta/">Read on &rarr;</a>
+      <a rel="full-article" href="/blog/2010/01/30/belajar-winsock-bagian-3-e28093-multiple-connection/">Read on &rarr;</a>
     </footer>
   
 
@@ -263,7 +406,7 @@ Kota=Kota Sekolah</p>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2010/04/09/tips-mengatur-posisi-caption-objek-commandbutton/">Tips Mengatur Posisi Caption Objek CommandButton</a></h1>
+      <h1 class="entry-title"><a href="/blog/2010/01/28/belajar-winsock-bagian-2-membuat-aplikasi-chat-sederhana-11/">Belajar Winsock Bagian 2 - Membuat Aplikasi Chat Sederhana 1:1</a></h1>
     
     
       <p class="meta">
@@ -272,25 +415,25 @@ Kota=Kota Sekolah</p>
 
 
 
-<time class='entry-date' datetime='2010-04-09T06:04:12+07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>6:04 am</span></time>
+<time class='entry-date' datetime='2010-01-28T14:26:04+07:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>2:26 pm</span></time>
         
-           | <a href="/blog/2010/04/09/tips-mengatur-posisi-caption-objek-commandbutton/#disqus_thread"
-             data-disqus-identifier="http://coding4ever.net/blog/2010/04/09/tips-mengatur-posisi-caption-objek-commandbutton/">Comments</a>
+           | <a href="/blog/2010/01/28/belajar-winsock-bagian-2-membuat-aplikasi-chat-sederhana-11/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2010/01/28/belajar-winsock-bagian-2-membuat-aplikasi-chat-sederhana-11/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Salah satu objek standar VB 6 yang kurang beruntung adalah CommandButton :D, sejak lahirnya memang tidak mewarisi  properties Alignment seperti saudaranya yg lainnya (ex. TextBox, Label, de el  el) untungnya bisa memilih teman yg tepat dan bisa diandalkan :D siapa lagi kalo bukan <a href="http://coding4ever.net/blog/2010/01/02/sekilas-windows-api/">fungsi API</a>,  sehingga kekurangan ini pun akhirinya bisa ditutupi.</p>
+  <div class="entry-content"><p>Setelah memahami <a href="http://coding4ever.net/blog/2010/01/26/belajar-winsock-bagian-1/">properties-properties dasar</a> yang harus disetting untuk membuat aplikasi sederhana menggunakan winsock, pada artikel ke 2 dari 5 seri belajar winsock ini kita akan membuat aplikasi chat sederhana dengan pola 1:1 atau dengan istilah lainnya single connection.</p>
 
-<p>Oke, tambahkan sebuah modul di project Anda, kemudian copy paste kode berikut  :</p>
+<p>Membuat aplikasi chatting seperti MSN Messenger atau Yahoo Messenger sebenarnya mudah (tapi tidak termasuk saya ya :D) dan kita sudah mempelajari bagaimana membuat koneksi sederhana menggunakan winsock, selanjutnya kita tinggal mengirimkan data menggunakan method <strong>.SendData</strong> dan menghandle data yang diterima melalui event <strong>Winsock_DataArrival</strong>.</p>
 
 </div>
   
   
     <footer>
-      <a rel="full-article" href="/blog/2010/04/09/tips-mengatur-posisi-caption-objek-commandbutton/">Read on &rarr;</a>
+      <a rel="full-article" href="/blog/2010/01/28/belajar-winsock-bagian-2-membuat-aplikasi-chat-sederhana-11/">Read on &rarr;</a>
     </footer>
   
 
@@ -302,7 +445,7 @@ Kota=Kota Sekolah</p>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2010/04/05/menambahkan-serial-number-pada-paket-instalasi-inno-setup/">Menambahkan Serial Number Pada Paket Instalasi (Inno Setup)</a></h1>
+      <h1 class="entry-title"><a href="/blog/2010/01/26/belajar-winsock-bagian-1-intro/">Belajar Winsock Bagian 1 - Intro</a></h1>
     
     
       <p class="meta">
@@ -311,27 +454,27 @@ Kota=Kota Sekolah</p>
 
 
 
-<time class='entry-date' datetime='2010-04-05T00:01:04+07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>12:01 am</span></time>
+<time class='entry-date' datetime='2010-01-26T01:00:30+07:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>1:00 am</span></time>
         
-           | <a href="/blog/2010/04/05/menambahkan-serial-number-pada-paket-instalasi-inno-setup/#disqus_thread"
-             data-disqus-identifier="http://coding4ever.net/blog/2010/04/05/menambahkan-serial-number-pada-paket-instalasi-inno-setup/">Comments</a>
+           | <a href="/blog/2010/01/26/belajar-winsock-bagian-1-intro/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2010/01/26/belajar-winsock-bagian-1-intro/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Melengkapi koleksi artikel saya tentang pembuatan <a href="http://coding4ever.wordpress.com/category/tools-installer/">paket instalasi</a>, kali ini kita akan menambahkan serial number pada <a href="http://coding4ever.wordpress.com/category/tools-installer/">paket instalasi</a> yang kita buat menggunakan <a href="http://jrsoftware.org/">Inno Setup</a>.</p>
+  <div class="entry-content"><p><strong>1. Sekilas tentang Winsock</strong></p>
 
-<p><a href="http://www.mjfreelancing.com/IKG.htm">IKG</a> (Inno Key Generator) adalah <a href="http://en.wikipedia.org/wiki/Third_party">Third-Party</a> files yang akan kita gunakan pada artikel ini dan <a href="http://jrsoftware.org/">Inno Setup</a> yang saya gunakan adalah versi 5.0.8.</p>
+<p>Kita telah mengetahui bahwa komputer membutuhkan sistem operasi agar bisa bekerja. Sistem operasi itu sendiri adalah software. Untuk mengetik, cetak, gambar, semua tugas komputasi membutuhkan software, termasuk juga berkomunikasi dengan komputer lain.</p>
 
-<p>Silahkan Anda download <a href="http://www.mjfreelancing.com/IKG.htm">IKG</a> dari situs resminya atau bisa juga download di<a href="http://dc196.4shared.com/download/257069716/702b80a7">sini</a> tetapi saya lebih menyarankan Anda untuk  mendownload dari link ke <a href="http://dc196.4shared.com/download/257069716/702b80a7">dua</a> saja :D karena sudah saya seleksi file-file apa saja yang dibutuhkan.</p>
+<p>Windows memiliki API (Application Programming Interface) untuk berkomunikasi melalui TCP/IP yang terkenal dengan nama Winsock API. Namun penggunaan API itu sendiri sudah cukup sulit. Microsoft mengerti kebutuhkan para programer dan membuat komponen ActiveX control yang bernama Winsock Control.</p>
 
 </div>
   
   
     <footer>
-      <a rel="full-article" href="/blog/2010/04/05/menambahkan-serial-number-pada-paket-instalasi-inno-setup/">Read on &rarr;</a>
+      <a rel="full-article" href="/blog/2010/01/26/belajar-winsock-bagian-1-intro/">Read on &rarr;</a>
     </footer>
   
 
@@ -343,7 +486,7 @@ Kota=Kota Sekolah</p>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2010/03/31/menambahkan-skin-pada-paket-instalasi-inno-setup/">Menambahkan Skin Pada Paket Instalasi (Inno Setup)</a></h1>
+      <h1 class="entry-title"><a href="/blog/2010/01/22/membuat-menu-samping-dengan-komponen-vbaccelerator-vb6-explorer-bar/">Membuat Menu Samping Dengan Komponen vbAccelerator VB6 Explorer Bar</a></h1>
     
     
       <p class="meta">
@@ -352,29 +495,27 @@ Kota=Kota Sekolah</p>
 
 
 
-<time class='entry-date' datetime='2010-03-31T02:59:21+07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2010</span></span> <span class='time'>2:59 am</span></time>
+<time class='entry-date' datetime='2010-01-22T22:19:38+07:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2010</span></span> <span class='time'>10:19 pm</span></time>
         
-           | <a href="/blog/2010/03/31/menambahkan-skin-pada-paket-instalasi-inno-setup/#disqus_thread"
-             data-disqus-identifier="http://coding4ever.net/blog/2010/03/31/menambahkan-skin-pada-paket-instalasi-inno-setup/">Comments</a>
+           | <a href="/blog/2010/01/22/membuat-menu-samping-dengan-komponen-vbaccelerator-vb6-explorer-bar/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2010/01/22/membuat-menu-samping-dengan-komponen-vbaccelerator-vb6-explorer-bar/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Inilah krennya <a href="http://jrsoftware.org/">inno setup</a> selain gratis dan open source juga banyak tersedia Third-Party Files, salah satunya ISSkin dari <a href="http://isskin.codejock.com/">codejock</a>.</p>
+  <div class="entry-content"><p>Masih pembahasan tentang pembuatan menu alternatif selain menggunakan tool standar vb (menu editor), kali ini kita akan menggunakan komponen <a href="http://www.vbaccelerator.com/home/vb/Code/Controls/Explorer_Bar_Control/article.asp">vbAccelerator VB6 Explorer Bar</a>.</p>
 
-<p>Sebelum kita menambahkan skin, kita lihat dulu tampilan standar paket instalasi yang dibuat menggunakan inno setup.</p>
+<p><a href="http://www.vbaccelerator.com/home/vb/Code/Controls/Explorer_Bar_Control/article.asp">vbAccelerator VB6 Explorer Bar</a> adalah salah satu komponen keren dan gratis yang tersedia di situs <a href="www.vbaccelerator.com">www.vbaccelerator.com</a>.</p>
 
-<p><a href="http://coding4ever.files.wordpress.com/2010/03/31032010-1.jpg"><img src="http://coding4ever.files.wordpress.com/2010/03/31032010-1.jpg?w=300" alt="" /></a></p>
-
-<p>Dan kita lihat setelah menambahkan skin</p>
+<p>Dan masih menggunakan resource yang sama dengan <a href="http://coding4ever.net/blog/2010/01/18/objek-treeview-sebagai-alternatif-membuat-menu/">postingan</a> saya sebelumnya, kita akan membuat menu dengan tampilan seperti berikut :</p>
 
 </div>
   
   
     <footer>
-      <a rel="full-article" href="/blog/2010/03/31/menambahkan-skin-pada-paket-instalasi-inno-setup/">Read on &rarr;</a>
+      <a rel="full-article" href="/blog/2010/01/22/membuat-menu-samping-dengan-komponen-vbaccelerator-vb6-explorer-bar/">Read on &rarr;</a>
     </footer>
   
 
@@ -386,7 +527,7 @@ Kota=Kota Sekolah</p>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2010/03/29/beberapa-komponen-tab-yang-wajib-dilirik/">Beberapa Komponen Tab Yang Wajib Dilirik</a></h1>
+      <h1 class="entry-title"><a href="/blog/2010/01/19/custom-msgbox-function/">Custom MsgBox Function</a></h1>
     
     
       <p class="meta">
@@ -395,132 +536,25 @@ Kota=Kota Sekolah</p>
 
 
 
-<time class='entry-date' datetime='2010-03-29T06:35:27+07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>6:35 am</span></time>
+<time class='entry-date' datetime='2010-01-19T20:39:54+07:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>8:39 pm</span></time>
         
-           | <a href="/blog/2010/03/29/beberapa-komponen-tab-yang-wajib-dilirik/#disqus_thread"
-             data-disqus-identifier="http://coding4ever.net/blog/2010/03/29/beberapa-komponen-tab-yang-wajib-dilirik/">Comments</a>
+           | <a href="/blog/2010/01/19/custom-msgbox-function/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2010/01/19/custom-msgbox-function/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><ol>
-<li><a href="http://www.vbaccelerator.com/home/VB/code/Controls/Tab_Controls/MDI_Tabs/VB6_MDITabs_Binary.zip">vbAccelerator VB6 MDI Tab Component</a></li>
-</ol>
+  <div class="entry-content"><p>Fungsi MsgBox digunakan untuk menampilkan pesan/informasi kepada user dan fungsi MsgBox sendiri mempunyai beberapa style yang mana style ini berpengaruh terhadap pilihan tombol yang ditampilkan.</p>
 
-
-<p>Komponen ini digunakan untuk mengelompokan MDIChild form kedalam tab-tab. Contoh :</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2010/03/29032010-1.jpg"><img src="http://coding4ever.files.wordpress.com/2010/03/29032010-1.jpg?w=300" alt="" /></a></p>
-
-<p>Contoh sourcecode penggunakan komponen ini diketik di MDIParent</p>
+<p>Kita ambil contoh beberapa style yang sering digunakan, lihat gambar :</p>
 
 </div>
   
   
     <footer>
-      <a rel="full-article" href="/blog/2010/03/29/beberapa-komponen-tab-yang-wajib-dilirik/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2010/03/24/info-lowongan-programmer-phpo/">Info Lowongan Programmer Php</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2010-03-24T09:45:03+07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>9:45 am</span></time>
-        
-           | <a href="/blog/2010/03/24/info-lowongan-programmer-phpo/#disqus_thread"
-             data-disqus-identifier="http://coding4ever.net/blog/2010/03/24/info-lowongan-programmer-phpo/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Dear All,</p>
-
-<p>Dengan ini kami kirimkan spesifikasi posisi  Programmer PHP di PT. Citrathirza Astarijaya (<a href="http://www.citrathirza.co.id/">www.citrathirza.co.id</a>)  yang dibutuhkan :</p>
-
-<ol>
-<li><p> Mengenal  framework (menguasai Symfony merupakan nilai lebih)</p></li>
-<li><p> Menguasai web design (css dan template)</p></li>
-<li><p> Mampu membuat query atau stored procedure dalam  MySQL/PostgreSQL</p></li>
-<li><p> Mengenal dan mampu memahami dokumentasi teknis (DAD, flowchart, mockups)</p></li>
-<li><p> Bersedia bekerja di client (Jakarta)</p></li>
-</ol>
-
-
-<p>Bagi yang  berminat silahkan kirimkan lamaran dan CV ke <a href="&#x6d;&#97;&#x69;&#108;&#116;&#x6f;&#x3a;&#x64;&#x65;&#x6e;&#100;&#x69;&#x40;&#x63;&#x69;&#116;&#114;&#97;&#116;&#x68;&#105;&#114;&#122;&#x61;&#46;&#99;&#x6f;&#46;&#105;&#x64;">&#x64;&#x65;&#110;&#100;&#105;&#x40;&#99;&#105;&#x74;&#114;&#97;&#x74;&#x68;&#x69;&#114;&#x7a;&#x61;&#46;&#x63;&#111;&#46;&#x69;&#x64;</a></p>
-
-<p>Terimakasih</p>
-
-<p>Dendi  R</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2010/03/22/bermain-main-dengan-windows-service/">Bermain-main Dengan Windows Service</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2010-03-22T07:01:08+07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2010</span></span> <span class='time'>7:01 am</span></time>
-        
-           | <a href="/blog/2010/03/22/bermain-main-dengan-windows-service/#disqus_thread"
-             data-disqus-identifier="http://coding4ever.net/blog/2010/03/22/bermain-main-dengan-windows-service/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p><strong>SC</strong> is a command line program used for communicating with the NT Service Controller and services.</p></blockquote>
-
-<p>Ya dengan memanfaatkan tool ini<strong> </strong>kita bisa dengan mudah melakukan hal-hal berikut :</p>
-
-<ol>
-<li><p> Menampilkan daftar service</p></li>
-<li><p> Menghentikan service</p></li>
-<li><p> Menjalan service</p></li>
-<li><p> Menghapus service</p></li>
-</ol>
-
-
-<p>Jika pada artikel <a href="http://coding4ever.net/blog/2010/02/18/cara-mudah-dan-gampang-membuat-aplikasi-service-dengan-vb6/">sebelum</a>nya kita sudah berhasil mendaftarkan aplikasi kita sebagai service, pada artikel ini kita akan membuat program dengan fitur diatas.</p>
-
-<p>Artikel ini sendiri merupakan pengembangan dari artikel <a href="http://coding4ever.net/blog/2010/03/12/menampilkan-daftar-driver-yang-terinstall/">sebelum</a>nya.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2010/03/22/bermain-main-dengan-windows-service/">Read on &rarr;</a>
+      <a rel="full-article" href="/blog/2010/01/19/custom-msgbox-function/">Read on &rarr;</a>
     </footer>
   
 
