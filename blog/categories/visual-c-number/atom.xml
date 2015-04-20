@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Visual C# | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/visual-c-number/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-04-20T10:58:45+07:00</updated>
+  <updated>2015-04-20T12:40:49+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -18,7 +18,7 @@
     <link href="http://coding4ever.net/blog/2015/04/14/paket-nuget-yang-wajib-dicoba-bagian-number-1-crashreporter-dot-net/"/>
     <updated>2015-04-14T14:41:34+07:00</updated>
     <id>http://coding4ever.net/blog/2015/04/14/paket-nuget-yang-wajib-dicoba-bagian-number-1-crashreporter-dot-net</id>
-    <content type="html"><![CDATA[<p>{% img left <a href="http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png">http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png</a> 120 100 %}Apakah Anda percaya jika saya katakan aplikasi saya 100% bebas bug, tentu saja tidak. Seberapa keraspun kita mencoba pasti aplikasi yang kita buat ada bugnya.</p>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png">http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Apakah Anda percaya jika saya katakan aplikasi saya 100% bebas bug, tentu saja tidak. Seberapa keraspun kita mencoba pasti aplikasi yang kita buat ada bugnya.</p>
 
 <p>Secara teknis kita tidak bisa melakukan pengetesan sebaik yang dilakukan oleh end-user. Mereka bisa melakukan hal-hal luar biasa diluar perkiraan dan skenario kita yang bisa menyebabkan error, dan bisa saja menyebabkan mereka menjadi <code>ilfil</code> menggunakan aplikasi kita he he :-D</p>
 
@@ -31,23 +31,23 @@
 
 <h3>Menambahkan Library CrashReporter.NET</h3>
 
-<p>Untuk menambahkan library <a href="http://www.nuget.org/packages/CrashReporterdotNet/">CrashReporter.NET</a> bisa kita lakukan via <a href="{{%20site.url%20}}/blog/categories/nuget/">NuGet Package Manager</a>. Adapun caranya seperti berikut :</p>
+<p>Untuk menambahkan library <a href="http://www.nuget.org/packages/CrashReporterdotNet/">CrashReporter.NET</a> bisa kita lakukan via <a href="/blog/categories/nuget/">NuGet Package Manager</a>. Adapun caranya seperti berikut :</p>
 
 <h4>Langkah – 1</h4>
 
 <p>Klik kanan node <code>References</code> -> <code>Manage NuGet Packages...</code></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-12.png">https://coding4ever.files.wordpress.com/2015/04/140415-12.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-12.png">https://coding4ever.files.wordpress.com/2015/04/140415-12.png</a>&#8221;></p>
 
 <h4>Langkah – 2</h4>
 
 <p>Cari <code>CrashReporter.NET</code> dan klik tombol Install</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-13.png">https://coding4ever.files.wordpress.com/2015/04/140415-13.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-13.png">https://coding4ever.files.wordpress.com/2015/04/140415-13.png</a>&#8221;></p>
 
 <p>Klik tombol Close, kemudian cek node <code>References</code>, seharusnya sudah ada tambahan library <code>CrashReporter.NET</code></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-14.png">https://coding4ever.files.wordpress.com/2015/04/140415-14.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-14.png">https://coding4ever.files.wordpress.com/2015/04/140415-14.png</a>&#8221;></p>
 
 <h3>Cara Penggunaan Library CrashReporter.NET</h3>
 
@@ -57,13 +57,13 @@
 
 <p>Jika kita ingin semua exception dihandle oleh <a href="http://www.nuget.org/packages/CrashReporterdotNet/">CrashReporter.NET</a>, gunakan opsi ini. Caranya adalah dengan menambahkan kode konfigurasi di Main Method (Entry point dari program yang akan dijalankan pertama  kali).</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-01.png">https://coding4ever.files.wordpress.com/2015/04/140415-01.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-01.png">https://coding4ever.files.wordpress.com/2015/04/140415-01.png</a>&#8221;></p>
 
 <p><code>2. Individual Exception</code></p>
 
 <p>Untuk opsi yang kedua ini berarti kita menambahkan kode konfigurasi hanya pada method-method tertentu saja yang kita anggap berpotensi menimbulkan <code>error</code>.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-02.png">https://coding4ever.files.wordpress.com/2015/04/140415-02.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-02.png">https://coding4ever.files.wordpress.com/2015/04/140415-02.png</a>&#8221;></p>
 
 <p>Dua contoh kode di atas menggunakan class <code>ReportCrashConfig</code> yang kita bahas di bagian <em>konfigurasi CrashReporter.NET</em>.</p>
 
@@ -71,7 +71,7 @@
 
 <p>Untuk melakukan konfigurasi <a href="http://www.nuget.org/packages/CrashReporterdotNet/">CrashReporter.NET</a>, cukup membuat objek dari class ReportCrash dan mengeset beberapa nilai property seperti <em>FromEmail, ToEmail</em>, dan property penting lainnya.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-03.png">https://coding4ever.files.wordpress.com/2015/04/140415-03.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-03.png">https://coding4ever.files.wordpress.com/2015/04/140415-03.png</a>&#8221;></p>
 
 <p>Secara default <a href="http://www.nuget.org/packages/CrashReporterdotNet/">CrashReporter.NET</a>  menggunakan service <a href="https://drdump.com/crash-reporting-system">Doctor Dump</a>, untuk mengirimkan email laporan bug ke email yang sudah kita tentukan melalui property <em>ToEmail</em>.</p>
 
@@ -79,31 +79,31 @@
 
 <p>Agar kode konfigurasi di atas bisa digunakan berulang-ulang, mungkin bisa kita <code>bungkus</code> ke dalam sebuah class tersendiri.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-04.png">https://coding4ever.files.wordpress.com/2015/04/140415-04.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-04.png">https://coding4ever.files.wordpress.com/2015/04/140415-04.png</a>&#8221;></p>
 
 <p>Sehingga ketika diperlukan kita cukup memanggilnya dengan perintah <code>new ReportCrashConfig(object exception)</code></p>
 
 <h3>Demo CrashReporter.NET</h3>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-05.png">https://coding4ever.files.wordpress.com/2015/04/140415-05.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-05.png">https://coding4ever.files.wordpress.com/2015/04/140415-05.png</a>&#8221;></p>
 
 <p>Untuk demo disini kita akan memanfaatkan dua jenis error yaitu <em>DivideByZeroException</em> dan <em>FileNotFoundException</em>.</p>
 
 <h4>DivideByZeroException</h4>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-06.png">https://coding4ever.files.wordpress.com/2015/04/140415-06.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-06.png">https://coding4ever.files.wordpress.com/2015/04/140415-06.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-07.png">https://coding4ever.files.wordpress.com/2015/04/140415-07.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-07.png">https://coding4ever.files.wordpress.com/2015/04/140415-07.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-08.png">https://coding4ever.files.wordpress.com/2015/04/140415-08.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-08.png">https://coding4ever.files.wordpress.com/2015/04/140415-08.png</a>&#8221;></p>
 
 <h4>FileNotFoundException</h4>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-09.png">https://coding4ever.files.wordpress.com/2015/04/140415-09.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-09.png">https://coding4ever.files.wordpress.com/2015/04/140415-09.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-10.png">https://coding4ever.files.wordpress.com/2015/04/140415-10.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-10.png">https://coding4ever.files.wordpress.com/2015/04/140415-10.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-11.png">https://coding4ever.files.wordpress.com/2015/04/140415-11.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-11.png">https://coding4ever.files.wordpress.com/2015/04/140415-11.png</a>&#8221;></p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/DemoCrashReporterDotNET">MENCOBA</a> :-)</p>
 ]]></content>
@@ -114,7 +114,7 @@
     <link href="http://coding4ever.net/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push/"/>
     <updated>2015-04-12T23:58:08+07:00</updated>
     <id>http://coding4ever.net/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push</id>
-    <content type="html"><![CDATA[<p>{% img left <a href="https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg">https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg</a> 120 100 %}Ketika memutuskan untuk menggunakan Crystal Reports‎ sebagai tool untuk membuat laporan, ada dua model yang bisa kita gunakan untuk menampilkan data.</p>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg">https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Ketika memutuskan untuk menggunakan Crystal Reports‎ sebagai tool untuk membuat laporan, ada dua model yang bisa kita gunakan untuk menampilkan data.</p>
 
 <ol>
 <li>Pull model – kita mengeset koneksi ke database, mengirimkan perintah SQL, menentukan filter dan sisanya akan langsung ditangani oleh Crystal Reports. Cara yang pertama ini adalah cara umum yang biasanya digunakan untuk menampilkan data, dan rata-rata tutorial yang beredar juga menggunakan cara ini.</li>
@@ -131,7 +131,7 @@
 
 <ol>
 <li><a href="http://www.visualstudio.com/en-us/downloads/download-visual-studio-vs#d-community">Visual Studio Community 2013</a>, Anda bisa saja menggunakan Visual Studio .NET versi sebelumnya (2010, 2012)</li>
-<li><a href="{{%20site.url%20}}/blog/categories/nuget/">NuGet</a>, untuk memudahkan dalam menambahkan library pihak ketiga. Adapun library pihak ketiga yang digunakan dalam sample ini adalah <a href="{{%20site.url%20}}/blog/categories/dapper-net/">Dapper .NET</a> dan <a href="http://www.nuget.org/packages/System.Data.SQLite.Core/">System.Data.SQLite Core</a></li>
+<li><a href="/blog/categories/nuget/">NuGet</a>, untuk memudahkan dalam menambahkan library pihak ketiga. Adapun library pihak ketiga yang digunakan dalam sample ini adalah <a href="/blog/categories/dapper-net/">Dapper .NET</a> dan <a href="http://www.nuget.org/packages/System.Data.SQLite.Core/">System.Data.SQLite Core</a></li>
 <li><a href="http://scn.sap.com/docs/DOC-7824">Crystal Reports SP 13</a></li>
 <li>Database <a href="http://www.sqlite.org/">SQLite</a></li>
 <li>Tipe project WinForm</li>
@@ -140,7 +140,7 @@
 
 <p>Untuk contoh postingan kali ini, kita hanya menggunakan satu buah tabel dengan struktur seperti berikut :</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-01.png">https://coding4ever.files.wordpress.com/2015/04/120415-01.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-01.png">https://coding4ever.files.wordpress.com/2015/04/120415-01.png</a>&#8221;></p>
 
 <p>Setelah semua tool yang dibutuhkan tersedia kita lanjutkan dengan pembuatan project :</p>
 
@@ -149,16 +149,16 @@
 </ul>
 
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-02.png">https://coding4ever.files.wordpress.com/2015/04/120415-02.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-02.png">https://coding4ever.files.wordpress.com/2015/04/120415-02.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-03.png">https://coding4ever.files.wordpress.com/2015/04/120415-03.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-03.png">https://coding4ever.files.wordpress.com/2015/04/120415-03.png</a>&#8221;></p>
 
 <ul>
 <li>Tambahkan empat folder baru masing-masing dengan nama DataSet, Model, Dao dan Report</li>
 </ul>
 
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-04.png">https://coding4ever.files.wordpress.com/2015/04/120415-04.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-04.png">https://coding4ever.files.wordpress.com/2015/04/120415-04.png</a>&#8221;></p>
 
 <p>Folder DataSet digunakan untuk mengelompokkan item-item DataSet yang berfungsi sebagai tabel temporary, folder Model untuk mengelompokkan class-class model atau entity, folder Dao untuk mengelompokkan class-class akses database (Data Acces Object) dan terakhir folder Report untuk mengelompokkan item-item Crystal Reports.</p>
 
@@ -166,33 +166,33 @@
 
 <p>Untuk menerapkan konsep OOP (Object-oriented programming) dalam pemrograman database kita perlu membuat sebuah class yang disebut dengan istilah class Model atau Entity. Class ini merupakan representasi dari tabel-tabel yang ada di dalam database. Tujuan dari membuat class ini adalah agar kita bisa melakukan mapping (pemetaan) baris/row dari tabel menjadi kumpulan objek (object collection).</p>
 
-<p>Pemetaan bisa dilakukan secara manual atau bisa juga secara otomatis dengan menggunakan tool-tool ORM dari pihak ketiga seperti <a href="{{%20site.url%20}}/blog/categories/dapper-net/">Dapper .NET</a> dan <a href="{{%20site.url%20}}/blog/categories/entity-framework/">Entity Framework</a>. Untuk contoh kali ini kita menggunakan <a href="{{%20site.url%20}}/blog/categories/dapper-net/">Dapper .NET</a>.</p>
+<p>Pemetaan bisa dilakukan secara manual atau bisa juga secara otomatis dengan menggunakan tool-tool ORM dari pihak ketiga seperti <a href="/blog/categories/dapper-net/">Dapper .NET</a> dan <a href="/blog/categories/entity-framework/">Entity Framework</a>. Untuk contoh kali ini kita menggunakan <a href="/blog/categories/dapper-net/">Dapper .NET</a>.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-05.png">https://coding4ever.files.wordpress.com/2015/04/120415-05.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-05.png">https://coding4ever.files.wordpress.com/2015/04/120415-05.png</a>&#8221;></p>
 
 <p>Setelah memahami apa itu class model dan bagaimana proses pemetaan record ke objek terjadi, langkah berikutnya adalah menambahkan class model Siswa yang mempunyai struktur sama persis dengan rancangan tabel di awal.</p>
 
 <p>Untuk menambahkan class Model, klik kanan Project -> Add -> New Item…</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-06.png">https://coding4ever.files.wordpress.com/2015/04/120415-06.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-06.png">https://coding4ever.files.wordpress.com/2015/04/120415-06.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-07.png">https://coding4ever.files.wordpress.com/2015/04/120415-07.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-07.png">https://coding4ever.files.wordpress.com/2015/04/120415-07.png</a>&#8221;></p>
 
 <p>Kemudian lengkapi kode class Siswa, seperti gambar berikut :</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-08.png">https://coding4ever.files.wordpress.com/2015/04/120415-08.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-08.png">https://coding4ever.files.wordpress.com/2015/04/120415-08.png</a>&#8221;></p>
 
 <h3>Class DAO (Data Access Object)</h3>
 
 <p>Class DAO adalah class yang bertugas untuk menangani operasi database yang dikenal dengan istilah operasi CRUD (Create, Read, Update dan Delete). Di dalam class inilah kita menuliskan perintah-perintah INSERT, UPDATE, DELETE dan SELECT. Sebagai contoh kode dibawah ini akan melakukan mapping (pemetaan) baris/row tabel menjadi kumpulan objek (object collection) secara otomatis.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-09.png">https://coding4ever.files.wordpress.com/2015/04/120415-09.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-09.png">https://coding4ever.files.wordpress.com/2015/04/120415-09.png</a>&#8221;></p>
 
 <p>Contoh pemanggilannya juga gampang :</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-10.png">https://coding4ever.files.wordpress.com/2015/04/120415-10.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-10.png">https://coding4ever.files.wordpress.com/2015/04/120415-10.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-11.png">https://coding4ever.files.wordpress.com/2015/04/120415-11.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-11.png">https://coding4ever.files.wordpress.com/2015/04/120415-11.png</a>&#8221;></p>
 
 <h3>DataSet</h3>
 
@@ -200,49 +200,49 @@
 
 <p>Untuk menambahkan item DataSet, klik kanan Project -> Add -> New Item…</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-12.png">https://coding4ever.files.wordpress.com/2015/04/120415-12.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-12.png">https://coding4ever.files.wordpress.com/2015/04/120415-12.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-13.png">https://coding4ever.files.wordpress.com/2015/04/120415-13.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-13.png">https://coding4ever.files.wordpress.com/2015/04/120415-13.png</a>&#8221;></p>
 
 <p>Setelah menambahkan item DataSet (DsSiswa), langkah berikutnya adalah menambahkan item DataTable</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-14.png">https://coding4ever.files.wordpress.com/2015/04/120415-14.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-14.png">https://coding4ever.files.wordpress.com/2015/04/120415-14.png</a>&#8221;></p>
 
 <p>Kemudian input informasi DataTablenya seperti gambar berikut :</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-15.png">https://coding4ever.files.wordpress.com/2015/04/120415-15.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-15.png">https://coding4ever.files.wordpress.com/2015/04/120415-15.png</a>&#8221;></p>
 
 <p>Khusus untuk nama field dan tipe data dari DataTable yang kita buat, harus disesuaikan dengan nama field dan tipe data tabel.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-01.png">https://coding4ever.files.wordpress.com/2015/04/120415-01.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-01.png">https://coding4ever.files.wordpress.com/2015/04/120415-01.png</a>&#8221;></p>
 
 <h3>Crystal Reports</h3>
 
 <p>Crystal Reports adalah tool yang kita gunakan untuk membuat laporan. Untuk menambahkan item Crystal Report, klik kanan Project -> Add -> New Item…</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-16.png">https://coding4ever.files.wordpress.com/2015/04/120415-16.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-16.png">https://coding4ever.files.wordpress.com/2015/04/120415-16.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-17.png">https://coding4ever.files.wordpress.com/2015/04/120415-17.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-17.png">https://coding4ever.files.wordpress.com/2015/04/120415-17.png</a>&#8221;></p>
 
 <p>Pilih &ldquo;As a Blank Report&rdquo; karena kita akan mendesain report secara manual.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-18.png">https://coding4ever.files.wordpress.com/2015/04/120415-18.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-18.png">https://coding4ever.files.wordpress.com/2015/04/120415-18.png</a>&#8221;></p>
 
 <p>Langkah berikutnya adalah menentukan sumber data yang kita arahkan ke item DataSet yang sudah kita buat pada langkah sebelumnya</p>
 
 <p>Klik kanan Database Fields -> Database Expert …</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-19.png">https://coding4ever.files.wordpress.com/2015/04/120415-19.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-19.png">https://coding4ever.files.wordpress.com/2015/04/120415-19.png</a>&#8221;></p>
 
 <p>Pilih ADO.NET DataSet Siswa</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-20.png">https://coding4ever.files.wordpress.com/2015/04/120415-20.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-20.png">https://coding4ever.files.wordpress.com/2015/04/120415-20.png</a>&#8221;></p>
 
 <p>Drag satu-satu field siswa (nis, nama dan alamat) ke section detail, kemudian dirapikan.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-21.png">https://coding4ever.files.wordpress.com/2015/04/120415-21.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-21.png">https://coding4ever.files.wordpress.com/2015/04/120415-21.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-22.png">https://coding4ever.files.wordpress.com/2015/04/120415-22.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-22.png">https://coding4ever.files.wordpress.com/2015/04/120415-22.png</a>&#8221;></p>
 
 <h3>Crystal Report Viewer</h3>
 
@@ -250,17 +250,17 @@
 
 <p>Aktifkan form kemudian tambahkan Crystal Report Viewer</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-23.png">https://coding4ever.files.wordpress.com/2015/04/120415-23.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-23.png">https://coding4ever.files.wordpress.com/2015/04/120415-23.png</a>&#8221;></p>
 
 <p>Kemudian tambahkan kode berikut :</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-24.png">https://coding4ever.files.wordpress.com/2015/04/120415-24.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-24.png">https://coding4ever.files.wordpress.com/2015/04/120415-24.png</a>&#8221;></p>
 
-<p>Dari kode di atas kita bisa melihat tidak ada lagi kode untuk mengeset koneksi database dan perintah SQL yang akan dikirimkan. Cara ini sangat cocok digunakan ketika kita akan membangun sistem dengan arsitektur <a href="{{%20site.url%20}}/blog/2012/02/01/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-1/">N-Tier</a>, di mana aplikasi klien sudah tidak terkoneksi lagi secara langsung ke database.</p>
+<p>Dari kode di atas kita bisa melihat tidak ada lagi kode untuk mengeset koneksi database dan perintah SQL yang akan dikirimkan. Cara ini sangat cocok digunakan ketika kita akan membangun sistem dengan arsitektur <a href="/blog/2012/02/01/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-1/">N-Tier</a>, di mana aplikasi klien sudah tidak terkoneksi lagi secara langsung ke database.</p>
 
 <p>Jika kode di atas dijalankan, akan menghasilkan output seperti gambar di bawah ini.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-25.png">https://coding4ever.files.wordpress.com/2015/04/120415-25.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-25.png">https://coding4ever.files.wordpress.com/2015/04/120415-25.png</a>&#8221;></p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/DemoCRPushModel">MENCOBA</a> :)</p>
 ]]></content>
@@ -271,42 +271,42 @@
     <link href="http://coding4ever.net/blog/2014/06/08/entity-framework-part-8/"/>
     <updated>2014-06-08T10:21:10+07:00</updated>
     <id>http://coding4ever.net/blog/2014/06/08/entity-framework-part-8</id>
-    <content type="html"><![CDATA[<p>{% img left <a href="http://coding4ever.files.wordpress.com/2014/03/entity_image.png">http://coding4ever.files.wordpress.com/2014/03/entity_image.png</a> 120 100 %}Melanjutkan kembali pembahasan tentang <a href="{{%20site.url%20}}/blog/categories/entity-framework/">Entity Framework</a>.</p>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="http://coding4ever.files.wordpress.com/2014/03/entity_image.png">http://coding4ever.files.wordpress.com/2014/03/entity_image.png</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Melanjutkan kembali pembahasan tentang <a href="/blog/categories/entity-framework/">Entity Framework</a>.</p>
 
 <p>Misalkan kita mempunyai struktur tabel seperti gambar di bawah ini.</p>
 
 <!-- more -->
 
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2014/06/11.png">https://coding4ever.files.wordpress.com/2014/06/11.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2014/06/11.png">https://coding4ever.files.wordpress.com/2014/06/11.png</a>&#8221;></p>
 
 <p>Jika kita buatkan class entity dari ketiga tabel di atas, class diagramnya akan terlihat seperti berikut :</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2014/06/21.png">https://coding4ever.files.wordpress.com/2014/06/21.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2014/06/21.png">https://coding4ever.files.wordpress.com/2014/06/21.png</a>&#8221;></p>
 
 <p>Dari gambar class diagram di atas, kita bisa melihat bahwa class <code>Siswa</code>, <code>Guru</code> dan <code>Pegawai</code> mempunyai beberapa property yang sama yaitu <code>Jalan</code>, <code>Kota</code>, <code>Provinsi</code> dan <code>KodePos</code>.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2014/06/31.png">https://coding4ever.files.wordpress.com/2014/06/31.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2014/06/31.png">https://coding4ever.files.wordpress.com/2014/06/31.png</a>&#8221;></p>
 
 <p>Untuk alasan desain class entity yang lebih baik sebaiknya kita pisahkan property <code>Jalan</code>, <code>Kota</code>, <code>Provinsi</code> dan <code>KodePos</code> ke dalam class tersendiri, misal dengan nama class <code>Alamat</code>, kemudian masing-masing class entity <code>Siswa</code>, <code>Guru</code> dan <code>Pegawai</code> menambahkan property baru dengan tipe <code>class Alamat</code>, sehingga class diagram kita akan menjadi seperti berikut :</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2014/06/41.png">https://coding4ever.files.wordpress.com/2014/06/41.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2014/06/41.png">https://coding4ever.files.wordpress.com/2014/06/41.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2014/06/10.png">https://coding4ever.files.wordpress.com/2014/06/10.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2014/06/10.png">https://coding4ever.files.wordpress.com/2014/06/10.png</a>&#8221;></p>
 
 <p>Nah class baru (Alamat) inilah yang akan menjadi pembahasan kita pada postingan kali ini yang dikenal dengan istilah <code>Complex Types</code> atau <code>Value Types</code>.</p>
 
-<p>Sejak awal <a href="{{%20site.url%20}}/blog/categories/entity-framework/">Entity Framework</a> sudah mendukung <code>Complex Types</code> atau yang dikenal juga dengan istilah <code>value types</code>.</p>
+<p>Sejak awal <a href="/blog/categories/entity-framework/">Entity Framework</a> sudah mendukung <code>Complex Types</code> atau yang dikenal juga dengan istilah <code>value types</code>.</p>
 
 <p><code>Complex Types</code> atau <code>value types</code> bisa digunakan sebagai tipe data dari sebuah property sehingga ada kemiripan dengan class entity biasa yang sudah kita kenal, yang disebut dengan istilah <code>entity types</code>.</p>
 
 <p>Lalu di mana perbedaannya ?</p>
 
-<p>Di dalam <a href="{{%20site.url%20}}/blog/categories/entity-framework/">Entity Framework</a> setiap <code>entity types</code> harus mempunyai <code>property key</code> sedangkan <code>complex types</code> tidak.</p>
+<p>Di dalam <a href="/blog/categories/entity-framework/">Entity Framework</a> setiap <code>entity types</code> harus mempunyai <code>property key</code> sedangkan <code>complex types</code> tidak.</p>
 
 <p>Contoh :</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2014/06/51.png">https://coding4ever.files.wordpress.com/2014/06/51.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2014/06/51.png">https://coding4ever.files.wordpress.com/2014/06/51.png</a>&#8221;></p>
 
 <h3>Mendefinisikan Complex Types</h3>
 
@@ -324,7 +324,7 @@ instance</code></li>
 
 <p>Contoh :</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2014/06/62.png">https://coding4ever.files.wordpress.com/2014/06/62.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2014/06/62.png">https://coding4ever.files.wordpress.com/2014/06/62.png</a>&#8221;></p>
 
 <h3>Konfigurasi Mapping (pemetaan) Complex Types</h3>
 
@@ -332,15 +332,15 @@ instance</code></li>
 
 <p>Caranya adalah dengan mengedit class Alamat, kemudian menambahkan atribut <a href="http://msdn.microsoft.com/en-us/data/jj591583.aspx">Data Annotations</a></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2014/06/71.png">https://coding4ever.files.wordpress.com/2014/06/71.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2014/06/71.png">https://coding4ever.files.wordpress.com/2014/06/71.png</a>&#8221;></p>
 
 <p>Terakhir kita coba untuk mengakses property dengan tipe <code>complex types</code></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2014/06/81.png">https://coding4ever.files.wordpress.com/2014/06/81.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2014/06/81.png">https://coding4ever.files.wordpress.com/2014/06/81.png</a>&#8221;></p>
 
 <p>Jika kode di atas dijalankan, akan menghasilkan output seperti berikut :</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2014/06/91.png">https://coding4ever.files.wordpress.com/2014/06/91.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2014/06/91.png">https://coding4ever.files.wordpress.com/2014/06/91.png</a>&#8221;></p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/EntityFramework8">MENCOBA</a> :)</p>
 ]]></content>
@@ -351,14 +351,14 @@ instance</code></li>
     <link href="http://coding4ever.net/blog/2014/05/10/sms-gateway-edisi-net-part-1/"/>
     <updated>2014-05-10T10:11:25+07:00</updated>
     <id>http://coding4ever.net/blog/2014/05/10/sms-gateway-edisi-net-part-1</id>
-    <content type="html"><![CDATA[<p>{% img left <a href="http://coding4ever.files.wordpress.com/2014/05/sms_gateway.png">http://coding4ever.files.wordpress.com/2014/05/sms_gateway.png</a> %}Postingan pertama di <a href="{{%20site.url%20}}">domain</a> yang baru :), saya ingin membahas lagi tentang pembuatan aplikasi SMS Gateway. Alasannya sederhana karna salah satu artikel yang paling banyak dibaca di blog ini adalah artikel <a href="{{%20site.url%20}}/blog/2010/07/12/membuat-sms-gateway-itu-gampang-jangan-dipersulit/">Membuat Sms Gateway Itu Gampang, Jangan Dipersulit !!!</a>.</p>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="http://coding4ever.files.wordpress.com/2014/05/sms_gateway.png">http://coding4ever.files.wordpress.com/2014/05/sms_gateway.png</a>&#8220;>Postingan pertama di <a href="">domain</a> yang baru :), saya ingin membahas lagi tentang pembuatan aplikasi SMS Gateway. Alasannya sederhana karna salah satu artikel yang paling banyak dibaca di blog ini adalah artikel <a href="/blog/2010/07/12/membuat-sms-gateway-itu-gampang-jangan-dipersulit/">Membuat Sms Gateway Itu Gampang, Jangan Dipersulit !!!</a>.</p>
 
-<p>Jika pada artikel <a href="{{%20site.url%20}}/blog/2010/07/12/membuat-sms-gateway-itu-gampang-jangan-dipersulit/">Membuat Sms Gateway Itu Gampang, Jangan Dipersulit !!!</a>, kita menggunakan bahasa pemrograman VB 6, untuk postingan kali ini kita akan menggunakan bahasa pemrograman C#.</p>
+<p>Jika pada artikel <a href="/blog/2010/07/12/membuat-sms-gateway-itu-gampang-jangan-dipersulit/">Membuat Sms Gateway Itu Gampang, Jangan Dipersulit !!!</a>, kita menggunakan bahasa pemrograman VB 6, untuk postingan kali ini kita akan menggunakan bahasa pemrograman C#.</p>
 
 <!-- more -->
 
 
-<p>Untuk membaca dan mengirim sms kita akan menggunakan library <a href="http://www.nuget.org/packages/GSMComm/">GSMComm</a>, yang bisa diinstall via <a href="{{%20site.url%20}}/blog/categories/nuget/">NuGet</a>.</p>
+<p>Untuk membaca dan mengirim sms kita akan menggunakan library <a href="http://www.nuget.org/packages/GSMComm/">GSMComm</a>, yang bisa diinstall via <a href="/blog/categories/nuget/">NuGet</a>.</p>
 
 <p>Sebelum lanjut kita lihat dulu fitur dari library <a href="http://www.nuget.org/packages/GSMComm/">GSMComm</a> :</p>
 
@@ -387,31 +387,31 @@ instance</code></li>
 
 <p>Project yang kita gunakan adalah project berbasis Windows Form.</p>
 
-<p>{% img center <a href="http://coding4ever.files.wordpress.com/2014/05/1.png">http://coding4ever.files.wordpress.com/2014/05/1.png</a> %}</p>
+<p><img class="center <a" src="href="http://coding4ever.files.wordpress.com/2014/05/1.png">http://coding4ever.files.wordpress.com/2014/05/1.png</a>&#8221;></p>
 
-<h3>Menambahkan Library <a href="http://www.nuget.org/packages/GSMComm/">GSMComm</a> via <a href="{{%20site.url%20}}/blog/categories/nuget/">NuGet</a></h3>
+<h3>Menambahkan Library <a href="http://www.nuget.org/packages/GSMComm/">GSMComm</a> via <a href="/blog/categories/nuget/">NuGet</a></h3>
 
 <ul>
 <li><p>Klik kanan node References -> Manage NuGet Packages &hellip;</p>
 
-<p>{% img center <a href="http://coding4ever.files.wordpress.com/2014/05/21.png">http://coding4ever.files.wordpress.com/2014/05/21.png</a> %}</p></li>
+<p><img class="center <a" src="href="http://coding4ever.files.wordpress.com/2014/05/21.png">http://coding4ever.files.wordpress.com/2014/05/21.png</a>&#8221;></p></li>
 <li><p>Pada tab Online pilih nuget.org, pada kotak pencarian ketik <code>gsm</code>, kemudian klik tombol <code>Install</code>.</p>
 
-<p>{% img center <a href="http://coding4ever.files.wordpress.com/2014/05/3.png">http://coding4ever.files.wordpress.com/2014/05/3.png</a> %}</p></li>
+<p><img class="center <a" src="href="http://coding4ever.files.wordpress.com/2014/05/3.png">http://coding4ever.files.wordpress.com/2014/05/3.png</a>&#8221;></p></li>
 </ul>
 
 
 <p>kemudian tunggu sampai proses instalasi selesai.</p>
 
-<p>{% img center <a href="http://coding4ever.files.wordpress.com/2014/05/4.png">http://coding4ever.files.wordpress.com/2014/05/4.png</a> %}</p>
+<p><img class="center <a" src="href="http://coding4ever.files.wordpress.com/2014/05/4.png">http://coding4ever.files.wordpress.com/2014/05/4.png</a>&#8221;></p>
 
 <p>Tutup dialog NuGet package, Kemudian cek node references, seharusnya ada empat library baru yang sudah ditambahkan yaitu <code>GSMCommServer</code>, <code>GSMCommShared</code>, <code>GSMCommunication</code> dan <code>PDUConverter</code>.</p>
 
-<p>{% img center <a href="http://coding4ever.files.wordpress.com/2014/05/5.png">http://coding4ever.files.wordpress.com/2014/05/5.png</a> %}</p>
+<p><img class="center <a" src="href="http://coding4ever.files.wordpress.com/2014/05/5.png">http://coding4ever.files.wordpress.com/2014/05/5.png</a>&#8221;></p>
 
 <p>Library <code>PDUConverter</code> bertanggung jawaban untuk melakukan proses <code>decoding</code> pesan sms, sedangkan yang bertugas untuk melakukan komunikasi ke modem atau hp adalah library <code>GSMCommunication</code>.</p>
 
-<p>Untuk library <code>GSMCommServer</code> dan <code>GSMCommShared</code> hanya digunakan jika kita ingin mengaktifkan fitur <a href="{{%20site.url%20}}/blog/categories/dot-net-remoting/">.NET Remoting</a> untuk mengirim sms.</p>
+<p>Untuk library <code>GSMCommServer</code> dan <code>GSMCommShared</code> hanya digunakan jika kita ingin mengaktifkan fitur <a href="/blog/categories/dot-net-remoting/">.NET Remoting</a> untuk mengirim sms.</p>
 
 <p>Setelah semua persiapan selesai, kita bisa langsung mencoba perintah-perintah dasar yang diperlukan untuk pembuatan aplikasi sms gateway.</p>
 
@@ -430,13 +430,17 @@ instance</code></li>
 
 <p>Misal kita akan membuat sebuah objek dari class GsmCommMain dengan nama <code>comm</code>, maka perintahnya yang digunakan adalah :</p>
 
-<p>{% codeblock lang:c# %}
-var port = &ldquo;COM1&rdquo;; // port yang digunakan menyesuaikan
-var baudRate = 9600;
-var timeout = 150;</p>
-
-<p>var comm = new GsmCommMain(port, baudRate, timeout);
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="kt">var</span> <span class="n">port</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">COM1</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;</span> <span class="c1">// port yang digunakan menyesuaikan</span>
+</span><span class='line'><span class="kt">var</span> <span class="n">baudRate</span> <span class="p">=</span> <span class="m">9600</span><span class="p">;</span>
+</span><span class='line'><span class="kt">var</span> <span class="n">timeout</span> <span class="p">=</span> <span class="m">150</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="kt">var</span> <span class="n">comm</span> <span class="p">=</span> <span class="k">new</span> <span class="n">GsmCommMain</span><span class="p">(</span><span class="n">port</span><span class="p">,</span> <span class="n">baudRate</span><span class="p">,</span> <span class="n">timeout</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p><strong>Mendaftarkan method ke event <code>MessageReceived</code> yang dikenal dengan istilah <a href="http://www.codeproject.com/Articles/11657/Understanding-Delegates-in-C">delegate</a>    method</strong></p>
 
@@ -446,39 +450,63 @@ var timeout = 150;</p>
 
 <p>Contoh kita membuat sebuah method dengan nama <code>comm_MessageReceived</code>, method ini hanya akan menampilkan notifikasi sms masuk. Untuk selanjutnya method ini bisa kita kembangkan lagi, misal ketika ada sms masuk datanya langsung kita simpan ke database.</p>
 
-<p>{% codeblock lang:c# %}
-private void comm_MessageReceived(object sender, MessageReceivedEventArgs e)
-{
-    var obj = e.IndicationObject;</p>
-
-<pre><code>if (obj is MemoryLocation)
-{
-    var loc = (MemoryLocation)obj;
-
-    var msg = string.Format("New message received in storage \"{0}\", index {1}.",
-                            loc.Storage, loc.Index);
-    MessageBox.Show(msg);
-
-    return;
-}
-
-if (obj is ShortMessage)
-{
-    var msg = (ShortMessage)obj;
-    var pdu = comm.DecodeReceivedMessage(msg);
-
-    MessageBox.Show("New message received");
-}
-</code></pre>
-
-<p>}
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">comm_MessageReceived</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">MessageReceivedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">obj</span> <span class="p">=</span> <span class="n">e</span><span class="p">.</span><span class="n">IndicationObject</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">if</span> <span class="p">(</span><span class="n">obj</span> <span class="k">is</span> <span class="n">MemoryLocation</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">loc</span> <span class="p">=</span> <span class="p">(</span><span class="n">MemoryLocation</span><span class="p">)</span><span class="n">obj</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">msg</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;New message received in storage \&quot;{0}\&quot;, index {1}.&quot;</span><span class="p">,</span>
+</span><span class='line'>                            <span class="n">loc</span><span class="p">.</span><span class="n">Storage</span><span class="p">,</span> <span class="n">loc</span><span class="p">.</span><span class="n">Index</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">obj</span> <span class="k">is</span> <span class="n">ShortMessage</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">msg</span> <span class="p">=</span> <span class="p">(</span><span class="n">ShortMessage</span><span class="p">)</span><span class="n">obj</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">pdu</span> <span class="p">=</span> <span class="n">comm</span><span class="p">.</span><span class="n">DecodeReceivedMessage</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="s">&quot;New message received&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Kemudian kita daftarkan ke event <code>MessageReceived</code> dengan perintah :</p>
 
-<p>{% codeblock lang:c# %}
-comm.MessageReceived += new MessageReceivedEventHandler(comm_MessageReceived);
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="n">comm</span><span class="p">.</span><span class="n">MessageReceived</span> <span class="p">+=</span> <span class="k">new</span> <span class="n">MessageReceivedEventHandler</span><span class="p">(</span><span class="n">comm_MessageReceived</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>sehingga ketika ada sms yang masuk method <code>comm_MessageReceived</code> akan otomatis dipanggil.</p>
 
@@ -486,28 +514,47 @@ comm.MessageReceived += new MessageReceivedEventHandler(comm_MessageReceived);
 
 <p>Setelah langkah pertama dan kedua selesai dikerjakan kita bisa langsung memanggil method <code>Open</code> untuk melakukan koneksi ke modem atau hp.</p>
 
-<p>{% codeblock lang:c# %}
-comm.Open();</p>
-
-<p>while (!comm.IsConnected())
-{
-    var msgResult = MessageBox.Show(this, &ldquo;No phone connected.&rdquo;, &ldquo;Connection setup&rdquo;,
-                                        MessageBoxButtons.RetryCancel, MessageBoxIcon.Exclamation);</p>
-
-<pre><code>if (msgResult == DialogResult.Cancel)
-{
-    comm.Close();
-    return;
-}
-else
-{
-    comm.Close();
-    comm.Open();
-}
-</code></pre>
-
-<p>}
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="n">comm</span><span class="p">.</span><span class="n">Open</span><span class="p">();&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">while</span> <span class="p">(!</span><span class="n">comm</span><span class="p">.</span><span class="n">IsConnected</span><span class="p">())</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">msgResult</span> <span class="p">=</span> <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">No</span> <span class="n">phone</span> <span class="n">connected</span><span class="p">.&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Connection</span> <span class="n">setup</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span>
+</span><span class='line'>                                        <span class="n">MessageBoxButtons</span><span class="p">.</span><span class="n">RetryCancel</span><span class="p">,</span> <span class="n">MessageBoxIcon</span><span class="p">.</span><span class="n">Exclamation</span><span class="p">);&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">if</span> <span class="p">(</span><span class="n">msgResult</span> <span class="p">==</span> <span class="n">DialogResult</span><span class="p">.</span><span class="n">Cancel</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">comm</span><span class="p">.</span><span class="n">Close</span><span class="p">();</span>
+</span><span class='line'>    <span class="k">return</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">comm</span><span class="p">.</span><span class="n">Close</span><span class="p">();</span>
+</span><span class='line'>    <span class="n">comm</span><span class="p">.</span><span class="n">Open</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <h3>2. Membaca SMS Masuk</h3>
 
@@ -515,110 +562,189 @@ else
 
 <p>Untuk <code>PhoneMessageStatus</code> pilihannya adalah : <code>ReceivedUnread</code>, <code>ReceivedRead</code>, <code>StoredUnsent</code>, <code>StoredSent</code> dan <code>All</code>. Sedangkan <code>Storage</code> pilihannya hanya dua yaitu : <code>SM</code> dan <code>ME</code>.</p>
 
-<p>{% codeblock lang:c# %}  <br/>
-private void btnBacaSMS_Click(object sender, EventArgs e)
-{
-    var messages = comm.ReadMessages(PhoneMessageStatus.All, PhoneStorageType.Sim);
-    foreach (var message in messages)
-    {
-        var data = (SmsDeliverPdu)message.Data;</p>
-
-<pre><code>    var phoneNumber = data.OriginatingAddress;
-    var msg = data.UserDataText;
-    var tanggal = string.Format("{0:yyyy/MM/dd}", data.SCTimestamp.ToDateTime());
-    var jam = string.Format("{0:HH:mm:ss}", data.SCTimestamp.ToDateTime());
-
-    lstDaftarSMS.Items.Add(string.Format("{0}, {1}, {2}, {3}", tanggal, jam, phoneNumber, msg));
-}
-</code></pre>
-
-<p>}
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'>  <span class="p">&lt;</span><span class="n">br</span><span class="p">/&gt;</span>
+</span><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">btnBacaSMS_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">EventArgs</span> <span class="n">e</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">messages</span> <span class="p">=</span> <span class="n">comm</span><span class="p">.</span><span class="n">ReadMessages</span><span class="p">(</span><span class="n">PhoneMessageStatus</span><span class="p">.</span><span class="n">All</span><span class="p">,</span> <span class="n">PhoneStorageType</span><span class="p">.</span><span class="n">Sim</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">message</span> <span class="k">in</span> <span class="n">messages</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="kt">var</span> <span class="n">data</span> <span class="p">=</span> <span class="p">(</span><span class="n">SmsDeliverPdu</span><span class="p">)</span><span class="n">message</span><span class="p">.</span><span class="n">Data</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span>    <span class="kt">var</span> <span class="n">phoneNumber</span> <span class="p">=</span> <span class="n">data</span><span class="p">.</span><span class="n">OriginatingAddress</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">msg</span> <span class="p">=</span> <span class="n">data</span><span class="p">.</span><span class="n">UserDataText</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">tanggal</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;{0:yyyy/MM/dd}&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">.</span><span class="n">SCTimestamp</span><span class="p">.</span><span class="n">ToDateTime</span><span class="p">());</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">jam</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;{0:HH:mm:ss}&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">.</span><span class="n">SCTimestamp</span><span class="p">.</span><span class="n">ToDateTime</span><span class="p">());</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">lstDaftarSMS</span><span class="p">.</span><span class="n">Items</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;{0}, {1}, {2}, {3}&quot;</span><span class="p">,</span> <span class="n">tanggal</span><span class="p">,</span> <span class="n">jam</span><span class="p">,</span> <span class="n">phoneNumber</span><span class="p">,</span> <span class="n">msg</span><span class="p">));</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <h3>3. Mengirim SMS</h3>
 
 <p>Untuk mengirim sms kita menggunakan method <code>SendMessage</code> yang membutuhkan objek <a href="http://en.wikipedia.org/wiki/Protocol_data_unit">pdu</a>.</p>
 
-<p>{% codeblock lang:c# %}
-private void btnKirimSMS_Click(object sender, EventArgs e)
-{
-    var msg = txtPesan.Text;
-    var phoneNumber = txtNoHp.Text;</p>
-
-<pre><code>var pdu = new SmsSubmitPdu(msg, phoneNumber, string.Empty);
-comm.SendMessage(pdu);
-</code></pre>
-
-<p>}
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">btnKirimSMS_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">EventArgs</span> <span class="n">e</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">msg</span> <span class="p">=</span> <span class="n">txtPesan</span><span class="p">.</span><span class="n">Text</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">phoneNumber</span> <span class="p">=</span> <span class="n">txtNoHp</span><span class="p">.</span><span class="n">Text</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="kt">var</span> <span class="n">pdu</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SmsSubmitPdu</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">phoneNumber</span><span class="p">,</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span><span class="p">);</span>
+</span><span class='line'><span class="n">comm</span><span class="p">.</span><span class="n">SendMessage</span><span class="p">(</span><span class="n">pdu</span><span class="p">);</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Kode di atas hanya bisa mengirim sms dengan jumlah karakter maksimal 160 karakter, jika ingin lebih kita harus merevisi kode di atas dengan menambahkan beberapa method baru yaitu <code>CreateConcatMessage</code> dan <code>SendMultiple</code>.</p>
 
-<p>{% codeblock lang:c# %}
-private OutgoingSmsPdu[] CreateConcatMessage(string message, string number)
-{
-    OutgoingSmsPdu[] pdus = null;</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="n">OutgoingSmsPdu</span><span class="p">[]</span> <span class="nf">CreateConcatMessage</span><span class="p">(</span><span class="kt">string</span> <span class="n">message</span><span class="p">,</span> <span class="kt">string</span> <span class="n">number</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">OutgoingSmsPdu</span><span class="p">[]</span> <span class="n">pdus</span> <span class="p">=</span> <span class="k">null</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">try</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">pdus</span> <span class="p">=</span> <span class="n">SmartMessageFactory</span><span class="p">.</span><span class="n">CreateConcatTextMessage</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">number</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">catch</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="k">null</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="n">pdus</span><span class="p">;</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
-<pre><code>try
-{
-    pdus = SmartMessageFactory.CreateConcatTextMessage(message, number);
-}
-catch
-{
-    return null;
-}
-
-return pdus;
-</code></pre>
-
-<p>}
-{% endcodeblock %}</p>
-
-<p>{% codeblock lang:c# %}
-private void SendMultiple(OutgoingSmsPdu[] pdus)
-{
-    var num = pdus.Length;</p>
-
-<pre><code>try
-{
-    // Send the created messages
-    comm.EnableTemporarySmsBatchMode();
-
-    foreach (OutgoingSmsPdu pdu in pdus)
-    {
-        comm.SendMessage(pdu);
-    }
-}
-catch
-{
-}
-</code></pre>
-
-<p>}
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">SendMultiple</span><span class="p">(</span><span class="n">OutgoingSmsPdu</span><span class="p">[]</span> <span class="n">pdus</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">num</span> <span class="p">=</span> <span class="n">pdus</span><span class="p">.</span><span class="n">Length</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">try</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="c1">// Send the created messages</span>
+</span><span class='line'>    <span class="n">comm</span><span class="p">.</span><span class="n">EnableTemporarySmsBatchMode</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">foreach</span> <span class="p">(</span><span class="n">OutgoingSmsPdu</span> <span class="n">pdu</span> <span class="k">in</span> <span class="n">pdus</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">comm</span><span class="p">.</span><span class="n">SendMessage</span><span class="p">(</span><span class="n">pdu</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">catch</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Terakhir kode yang ada di method <code>btnKirimSMS_Click</code> juga harus di revisi :</p>
 
-<p>{% codeblock lang:c# %}
-private void btnKirimSMS_Click(object sender, EventArgs e)
-{
-    var msg = txtPesan.Text;
-    var phoneNumber = txtNoHp.Text;</p>
-
-<pre><code>if (msg.Length &gt; 160)
-{
-    var pdus = CreateConcatMessage(msg, phoneNumber);
-    if (pdus != null) SendMultiple(pdus);
-}
-else
-{
-    var pdu = new SmsSubmitPdu(msg, phoneNumber, string.Empty);
-    comm.SendMessage(pdu);
-}
-</code></pre>
-
-<p>}
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">btnKirimSMS_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">EventArgs</span> <span class="n">e</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">msg</span> <span class="p">=</span> <span class="n">txtPesan</span><span class="p">.</span><span class="n">Text</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">phoneNumber</span> <span class="p">=</span> <span class="n">txtNoHp</span><span class="p">.</span><span class="n">Text</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">if</span> <span class="p">(</span><span class="n">msg</span><span class="p">.</span><span class="n">Length</span> <span class="p">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="m">160</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">pdus</span> <span class="p">=</span> <span class="n">CreateConcatMessage</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">phoneNumber</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">pdus</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span> <span class="n">SendMultiple</span><span class="p">(</span><span class="n">pdus</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">pdu</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SmsSubmitPdu</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">phoneNumber</span><span class="p">,</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">comm</span><span class="p">.</span><span class="n">SendMessage</span><span class="p">(</span><span class="n">pdu</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Yuph akhirnya selesai juga.</p>
 
@@ -631,9 +757,9 @@ else
     <link href="http://coding4ever.net/blog/2014/04/11/entity-framework-part-7/"/>
     <updated>2014-04-11T10:52:57+07:00</updated>
     <id>http://coding4ever.net/blog/2014/04/11/entity-framework-part-7</id>
-    <content type="html"><![CDATA[<p>{% img left <a href="http://coding4ever.files.wordpress.com/2014/03/entity_image.png">http://coding4ever.files.wordpress.com/2014/03/entity_image.png</a> 120 100 %}Masih melanjutkan <a href="{{%20site.url%20}}/blog/2014/04/03/entity-framework-part-6/">postingan</a> sebelumnya, setelah data pembelian berhasil disimpan tentu suatu saat kita ingin menampilkan kembali data tersebut.</p>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="http://coding4ever.files.wordpress.com/2014/03/entity_image.png">http://coding4ever.files.wordpress.com/2014/03/entity_image.png</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Masih melanjutkan <a href="/blog/2014/04/03/entity-framework-part-6/">postingan</a> sebelumnya, setelah data pembelian berhasil disimpan tentu suatu saat kita ingin menampilkan kembali data tersebut.</p>
 
-<p>Sedikit berbeda dengan postingan yang di<a href="{{%20site.url%20}}/blog/2014/04/01/entity-framework-part-5/">sini</a>, saya sudah mendemokan bagaimana <a href="http://msdn.microsoft.com/en-us/data/aa937723">Entity Framework </a>melakukan query dari sebuah tabel.</p>
+<p>Sedikit berbeda dengan postingan yang di<a href="/blog/2014/04/01/entity-framework-part-5/">sini</a>, saya sudah mendemokan bagaimana <a href="http://msdn.microsoft.com/en-us/data/aa937723">Entity Framework </a>melakukan query dari sebuah tabel.</p>
 
 <p>Sedangkan pada postingan kali ini, kita akan melihat bagaimana <a href="http://msdn.microsoft.com/en-us/data/aa937723">Entity Framework</a> melakukan query dari beberapa tabel sekaligus yang saling berhubungan.</p>
 
@@ -654,21 +780,25 @@ else
 
 <p>Untuk poin pertama, jika menggunakan query konvensional, perintah SQL SELECTnya seperti berikut :</p>
 
-<p>{% codeblock lang:mysql %}
-SELECT Beli.Nota, Beli.Tanggal, Supplier.SupplierID, Supplier.NamaSupplier
-FROM Supplier INNER JOIN Beli ON Supplier.SupplierID = Beli.SupplierID
-WHERE Beli.Nota = &lsquo;N001&rsquo;
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="k">SELECT</span> <span class="n">Beli</span><span class="p">.</span><span class="n">Nota</span><span class="p">,</span> <span class="n">Beli</span><span class="p">.</span><span class="n">Tanggal</span><span class="p">,</span> <span class="n">Supplier</span><span class="p">.</span><span class="n">SupplierID</span><span class="p">,</span> <span class="n">Supplier</span><span class="p">.</span><span class="n">NamaSupplier</span>
+</span><span class='line'><span class="k">FROM</span> <span class="n">Supplier</span> <span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">Beli</span> <span class="k">ON</span> <span class="n">Supplier</span><span class="p">.</span><span class="n">SupplierID</span> <span class="o">=</span> <span class="n">Beli</span><span class="p">.</span><span class="n">SupplierID</span>
+</span><span class='line'><span class="k">WHERE</span> <span class="n">Beli</span><span class="p">.</span><span class="n">Nota</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="n">N001</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p><a href="http://coding4ever.files.wordpress.com/2014/04/21.jpg"><img src="http://coding4ever.files.wordpress.com/2014/04/21.jpg" alt="2" /></a></p>
 
 <p>Sedangkan poin kedua perintahnya seperti berikut :</p>
 
-<p>{% codeblock lang:mysql %}
-SELECT Barang.BarangID, Barang.NamaBarang, ItemBeli.Jumlah, ItemBeli.HargaBeli, ItemBeli.HargaJual
-FROM Barang INNER JOIN ItemBeli ON Barang.BarangID = ItemBeli.BarangID
-WHERE ItemBeli.Nota = &lsquo;N001&rsquo;
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="k">SELECT</span> <span class="n">Barang</span><span class="p">.</span><span class="n">BarangID</span><span class="p">,</span> <span class="n">Barang</span><span class="p">.</span><span class="n">NamaBarang</span><span class="p">,</span> <span class="n">ItemBeli</span><span class="p">.</span><span class="n">Jumlah</span><span class="p">,</span> <span class="n">ItemBeli</span><span class="p">.</span><span class="n">HargaBeli</span><span class="p">,</span> <span class="n">ItemBeli</span><span class="p">.</span><span class="n">HargaJual</span>
+</span><span class='line'><span class="k">FROM</span> <span class="n">Barang</span> <span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">ItemBeli</span> <span class="k">ON</span> <span class="n">Barang</span><span class="p">.</span><span class="n">BarangID</span> <span class="o">=</span> <span class="n">ItemBeli</span><span class="p">.</span><span class="n">BarangID</span>
+</span><span class='line'><span class="k">WHERE</span> <span class="n">ItemBeli</span><span class="p">.</span><span class="n">Nota</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="n">N001</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p><a href="http://coding4ever.files.wordpress.com/2014/04/31.jpg"><img src="http://coding4ever.files.wordpress.com/2014/04/31.jpg" alt="3" /></a></p>
 
@@ -676,121 +806,227 @@ WHERE ItemBeli.Nota = &lsquo;N001&rsquo;
 
 <p>Method <code>GetPembelianUsingADONET</code> akan mengeksekusi query pertama sedangkan query kedua akan dieksekusi oleh method <code>GetDetailPembelian</code>.</p>
 
-<p>{% codeblock lang:c# %}
-private static Beli GetPembelianUsingADONET(string nota)
-{
-    Beli beli = null;</p>
-
-<pre><code>using (var conn = GetOpenConnection())
-{
-    // ambil data header
-    var sql = @"SELECT Beli.Nota, Beli.Tanggal, Supplier.SupplierID, Supplier.NamaSupplier
-                FROM Supplier INNER JOIN Beli ON Supplier.SupplierID = Beli.SupplierID
-                WHERE Beli.Nota = @1";
-
-    using (var cmd = new SqlCommand(sql, conn))
-    {
-        cmd.Parameters.AddWithValue("@1", nota);
-
-        using (var dtr = cmd.ExecuteReader())
-        {
-            if (dtr.Read())
-            {
-                // mapping record ke objek supplier
-                var supplier = new Supplier
-                {
-                    SupplierID = dtr["SupplierID"] is DBNull ? 0 : (int)dtr["SupplierID"],
-                    NamaSupplier = dtr["NamaSupplier"] is DBNull ? string.Empty : (string)dtr["NamaSupplier"]
-                };
-
-                // mapping record ke objek beli
-                beli = new Beli();
-                beli.Nota = dtr["Nota"] is DBNull ? string.Empty : (string)dtr["Nota"];
-                beli.Tanggal = dtr["Tanggal"] is DBNull ? DateTime.MinValue : (DateTime)dtr["Tanggal"];
-                beli.Supplier = supplier; // hubungkan objek supplier dan beli
-            }
-        }
-    }
-
-    if (beli != null)
-    {
-        // ambil data detail
-        var daftarItemBeli = GetDetailPembelian(nota, conn);
-        beli.ItemBelis = daftarItemBeli; // hubungkan objek beli dg detail beli
-    }
-}
-
-return beli;
-</code></pre>
-
-<p>}</p>
-
-<p>private static IList<ItemBeli> GetDetailPembelian(string nota, SqlConnection conn)
-{
-    var daftarItemBeli = new List<ItemBeli>();</p>
-
-<pre><code>var sql = @"SELECT Barang.BarangID, Barang.NamaBarang, ItemBeli.Jumlah, ItemBeli.HargaBeli, ItemBeli.HargaJual
-            FROM Barang INNER JOIN ItemBeli ON Barang.BarangID = ItemBeli.BarangID
-            WHERE ItemBeli.Nota = @1";
-using (var cmd = new SqlCommand(sql, conn))
-{
-    cmd.Parameters.AddWithValue("@1", nota);
-
-    using (var dtr = cmd.ExecuteReader())
-    {
-        while (dtr.Read())
-        {
-            // mapping record ke objek barang
-            var barang = new Barang
-            {
-                BarangID = dtr["BarangID"] is DBNull ? string.Empty : (string)dtr["BarangID"],
-                NamaBarang = dtr["NamaBarang"] is DBNull ? string.Empty : (string)dtr["NamaBarang"]
-            };
-
-            // mapping record ke objek item beli
-            var itemBeli = new ItemBeli
-            {
-                Barang = barang, // hubungkan barang dg item beli
-                Jumlah = dtr["Jumlah"] is DBNull ? 0 : (int)dtr["Jumlah"],
-                HargaBeli = dtr["HargaBeli"] is DBNull ? 0 : (int)dtr["HargaBeli"],
-                HargaJual = dtr["HargaJual"] is DBNull ? 0 : (int)dtr["HargaJual"]
-            };
-
-            daftarItemBeli.Add(itemBeli);
-        }
-    }
-}
-
-return daftarItemBeli;
-</code></pre>
-
-<p>}
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="n">Beli</span> <span class="nf">GetPembelianUsingADONET</span><span class="p">(</span><span class="kt">string</span> <span class="n">nota</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">Beli</span> <span class="n">beli</span> <span class="p">=</span> <span class="k">null</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="c1">// ambil data header</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">sql</span> <span class="p">=</span> <span class="s">@&quot;SELECT Beli.Nota, Beli.Tanggal, Supplier.SupplierID, Supplier.NamaSupplier</span>
+</span><span class='line'><span class="s">                FROM Supplier INNER JOIN Beli ON Supplier.SupplierID = Beli.SupplierID</span>
+</span><span class='line'><span class="s">                WHERE Beli.Nota = @1&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SqlCommand</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="n">nota</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">dtr</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteReader</span><span class="p">())</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="n">dtr</span><span class="p">.</span><span class="n">Read</span><span class="p">())</span>
+</span><span class='line'>            <span class="p">{</span>
+</span><span class='line'>                <span class="c1">// mapping record ke objek supplier</span>
+</span><span class='line'>                <span class="kt">var</span> <span class="n">supplier</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Supplier</span>
+</span><span class='line'>                <span class="p">{</span>
+</span><span class='line'>                    <span class="n">SupplierID</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;SupplierID&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="m">0</span> <span class="p">:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;SupplierID&quot;</span><span class="p">],</span>
+</span><span class='line'>                    <span class="n">NamaSupplier</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;NamaSupplier&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;NamaSupplier&quot;</span><span class="p">]</span>
+</span><span class='line'>                <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">// mapping record ke objek beli</span>
+</span><span class='line'>                <span class="n">beli</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Beli</span><span class="p">();</span>
+</span><span class='line'>                <span class="n">beli</span><span class="p">.</span><span class="n">Nota</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Nota&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Nota&quot;</span><span class="p">];</span>
+</span><span class='line'>                <span class="n">beli</span><span class="p">.</span><span class="n">Tanggal</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Tanggal&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">MinValue</span> <span class="p">:</span> <span class="p">(</span><span class="n">DateTime</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Tanggal&quot;</span><span class="p">];</span>
+</span><span class='line'>                <span class="n">beli</span><span class="p">.</span><span class="n">Supplier</span> <span class="p">=</span> <span class="n">supplier</span><span class="p">;</span> <span class="c1">// hubungkan objek supplier dan beli</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">beli</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// ambil data detail</span>
+</span><span class='line'>        <span class="kt">var</span> <span class="n">daftarItemBeli</span> <span class="p">=</span> <span class="n">GetDetailPembelian</span><span class="p">(</span><span class="n">nota</span><span class="p">,</span> <span class="n">conn</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">beli</span><span class="p">.</span><span class="n">ItemBelis</span> <span class="p">=</span> <span class="n">daftarItemBeli</span><span class="p">;</span> <span class="c1">// hubungkan objek beli dg detail beli</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="n">beli</span><span class="p">;</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">private</span> <span class="k">static</span> <span class="n">IList</span><span class="p">&lt;</span><span class="n">ItemBeli</span><span class="p">&gt;</span> <span class="n">GetDetailPembelian</span><span class="p">(</span><span class="kt">string</span> <span class="n">nota</span><span class="p">,</span> <span class="n">SqlConnection</span> <span class="n">conn</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">daftarItemBeli</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">ItemBeli</span><span class="p">&gt;();&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="kt">var</span> <span class="n">sql</span> <span class="p">=</span> <span class="s">@&quot;SELECT Barang.BarangID, Barang.NamaBarang, ItemBeli.Jumlah, ItemBeli.HargaBeli, ItemBeli.HargaJual</span>
+</span><span class='line'><span class="s">            FROM Barang INNER JOIN ItemBeli ON Barang.BarangID = ItemBeli.BarangID</span>
+</span><span class='line'><span class="s">            WHERE ItemBeli.Nota = @1&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SqlCommand</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="n">nota</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">dtr</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteReader</span><span class="p">())</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="k">while</span> <span class="p">(</span><span class="n">dtr</span><span class="p">.</span><span class="n">Read</span><span class="p">())</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="c1">// mapping record ke objek barang</span>
+</span><span class='line'>            <span class="kt">var</span> <span class="n">barang</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Barang</span>
+</span><span class='line'>            <span class="p">{</span>
+</span><span class='line'>                <span class="n">BarangID</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;BarangID&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;BarangID&quot;</span><span class="p">],</span>
+</span><span class='line'>                <span class="n">NamaBarang</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;NamaBarang&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;NamaBarang&quot;</span><span class="p">]</span>
+</span><span class='line'>            <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="c1">// mapping record ke objek item beli</span>
+</span><span class='line'>            <span class="kt">var</span> <span class="n">itemBeli</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ItemBeli</span>
+</span><span class='line'>            <span class="p">{</span>
+</span><span class='line'>                <span class="n">Barang</span> <span class="p">=</span> <span class="n">barang</span><span class="p">,</span> <span class="c1">// hubungkan barang dg item beli</span>
+</span><span class='line'>                <span class="n">Jumlah</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Jumlah&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="m">0</span> <span class="p">:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;Jumlah&quot;</span><span class="p">],</span>
+</span><span class='line'>                <span class="n">HargaBeli</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;HargaBeli&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="m">0</span> <span class="p">:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;HargaBeli&quot;</span><span class="p">],</span>
+</span><span class='line'>                <span class="n">HargaJual</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;HargaJual&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="m">0</span> <span class="p">:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">dtr</span><span class="p">[</span><span class="s">&quot;HargaJual&quot;</span><span class="p">]</span>
+</span><span class='line'>            <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">daftarItemBeli</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">itemBeli</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="n">daftarItemBeli</span><span class="p">;</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Untuk mencoba kode di atas gunakan kode berikut :</p>
 
-<p>{% codeblock lang:c# %}
-static void Main(string[] args)
-{
-    var beli = GetPembelianUsingADONET(&ldquo;N001&rdquo;);
-    Console.WriteLine(&ldquo;Nota : {0}\nTanggal : {1}\nSupplier : {2}&rdquo;,
-                        beli.Nota, beli.Tanggal, beli.Supplier.NamaSupplier);</p>
-
-<pre><code>Console.WriteLine("\nItem Beli :");
-
-// ekstrak item beli
-foreach (var item in beli.ItemBelis)
-{
-    Console.WriteLine("Barang : {0}, Jumlah : {1}, Harga Jual : {2}",
-                        item.Barang.NamaBarang, item.Jumlah, item.HargaJual);
-}
-
-Console.WriteLine("\nPress any key to exit ...");
-Console.ReadKey();
-</code></pre>
-
-<p>}
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">static</span> <span class="k">void</span> <span class="nf">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">beli</span> <span class="p">=</span> <span class="n">GetPembelianUsingADONET</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">N001</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Nota</span> <span class="p">:</span> <span class="p">{</span><span class="m">0</span><span class="p">}</span><span class="err">\</span><span class="n">nTanggal</span> <span class="p">:</span> <span class="p">{</span><span class="m">1</span><span class="p">}</span><span class="err">\</span><span class="n">nSupplier</span> <span class="p">:</span> <span class="p">{</span><span class="m">2</span><span class="p">}&amp;</span><span class="n">rdquo</span><span class="p">;,</span>
+</span><span class='line'>                        <span class="n">beli</span><span class="p">.</span><span class="n">Nota</span><span class="p">,</span> <span class="n">beli</span><span class="p">.</span><span class="n">Tanggal</span><span class="p">,</span> <span class="n">beli</span><span class="p">.</span><span class="n">Supplier</span><span class="p">.</span><span class="n">NamaSupplier</span><span class="p">);&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;\nItem Beli :&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// ekstrak item beli</span>
+</span><span class='line'><span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">item</span> <span class="k">in</span> <span class="n">beli</span><span class="p">.</span><span class="n">ItemBelis</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Barang : {0}, Jumlah : {1}, Harga Jual : {2}&quot;</span><span class="p">,</span>
+</span><span class='line'>                        <span class="n">item</span><span class="p">.</span><span class="n">Barang</span><span class="p">.</span><span class="n">NamaBarang</span><span class="p">,</span> <span class="n">item</span><span class="p">.</span><span class="n">Jumlah</span><span class="p">,</span> <span class="n">item</span><span class="p">.</span><span class="n">HargaJual</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;\nPress any key to exit ...&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="n">Console</span><span class="p">.</span><span class="n">ReadKey</span><span class="p">();</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Jika kode di atas dijalankan akan menghasilkan output seperti <a href="http://coding4ever.files.wordpress.com/2014/04/16.jpg">gambar pertama</a>.</p>
 
@@ -800,25 +1036,41 @@ Console.ReadKey();
 
 <p>Oke, kita akan tulis ulang kode di atas menggunakan <a href="http://msdn.microsoft.com/en-us/data/aa937723">Entity Framework</a>.</p>
 
-<p>{% codeblock lang:c# %}
-private static Beli GetPembelianUsingEF(string nota)
-{
-    Beli beli;</p>
-
-<pre><code>using (var db = new RetailContext())
-{
-    beli = db.Belis
-             .Include(bl =&gt; bl.Supplier)
-             .Include(bl =&gt; bl.ItemBelis.Select(ib =&gt; ib.Barang))
-             .Where(bl =&gt; bl.Nota == nota)
-             .SingleOrDefault();
-}
-
-return beli;
-</code></pre>
-
-<p>}
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="n">Beli</span> <span class="nf">GetPembelianUsingEF</span><span class="p">(</span><span class="kt">string</span> <span class="n">nota</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">Beli</span> <span class="n">beli</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">db</span> <span class="p">=</span> <span class="k">new</span> <span class="n">RetailContext</span><span class="p">())</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">beli</span> <span class="p">=</span> <span class="n">db</span><span class="p">.</span><span class="n">Belis</span>
+</span><span class='line'>             <span class="p">.</span><span class="n">Include</span><span class="p">(</span><span class="n">bl</span> <span class="p">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">bl</span><span class="p">.</span><span class="n">Supplier</span><span class="p">)</span>
+</span><span class='line'>             <span class="p">.</span><span class="n">Include</span><span class="p">(</span><span class="n">bl</span> <span class="p">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">bl</span><span class="p">.</span><span class="n">ItemBelis</span><span class="p">.</span><span class="n">Select</span><span class="p">(</span><span class="n">ib</span> <span class="p">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">ib</span><span class="p">.</span><span class="n">Barang</span><span class="p">))</span>
+</span><span class='line'>             <span class="p">.</span><span class="n">Where</span><span class="p">(</span><span class="n">bl</span> <span class="p">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">bl</span><span class="p">.</span><span class="n">Nota</span> <span class="p">==</span> <span class="n">nota</span><span class="p">)</span>
+</span><span class='line'>             <span class="p">.</span><span class="n">SingleOrDefault</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="n">beli</span><span class="p">;</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Gimana lebih simple bukan ? :)</p>
 
