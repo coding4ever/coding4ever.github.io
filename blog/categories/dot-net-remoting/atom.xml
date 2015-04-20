@@ -4,7 +4,7 @@
   <title><![CDATA[Category: .net Remoting | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/dot-net-remoting/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-04-15T13:27:27+07:00</updated>
+  <updated>2015-04-20T10:31:03+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -98,10 +98,10 @@
     <link href="http://coding4ever.net/blog/2012/04/28/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-4/"/>
     <updated>2012-04-28T13:48:58+07:00</updated>
     <id>http://coding4ever.net/blog/2012/04/28/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-4</id>
-    <content type="html"><![CDATA[<p>Melanjutkan postingan <a href="/blog/2012/03/23/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-3/">sebelumnya</a>, tetapi kita akan review sedikit beberapa project yang sudah kita buat :</p>
+    <content type="html"><![CDATA[<p>Melanjutkan postingan <a href="{{%20site.url%20}}/blog/2012/03/23/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-3/">sebelumnya</a>, tetapi kita akan review sedikit beberapa project yang sudah kita buat :</p>
 
 <ol>
-<li><a href="/blog/2012/02/01/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-1/">SmartLibraryLib</a></li>
+<li><a href="{{%20site.url%20}}/blog/2012/02/01/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-1/">SmartLibraryLib</a></li>
 </ol>
 
 
@@ -115,7 +115,7 @@
 <p>Teknik ini dikenal dengan istilah “Shared Assembly” tujuannya adalah agar aplikasi server dan klien bisa berkomunikasi dengan cara yang sama.</p>
 
 <ol>
-<li><a href="/blog/2012/02/05/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-2/">SmartLibraryServer</a></li>
+<li><a href="{{%20site.url%20}}/blog/2012/02/05/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-2/">SmartLibraryServer</a></li>
 </ol>
 
 
@@ -234,343 +234,195 @@
 
 <p>Berikut ringkasan kodenya.</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="c1">// namespace utk mengakses interface dao dan class model</span>
-</span><span class='line'><span class="k">using</span> <span class="nn">SmartLibraryLib.IDao</span><span class="p">;</span>
-</span><span class='line'><span class="k">using</span> <span class="nn">SmartLibraryLib.Model</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+// namespace utk mengakses interface dao dan class model
+using SmartLibraryLib.IDao;
+using SmartLibraryLib.Model;
+{% endcodeblock %}</p>
 
 <p>Kode diatas perlu ditambahkan agar FrmBuku bisa mengakses semua interface dan class model yang ada di dalam library SmartLibraryLib.</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="n">IBukuDao</span> <span class="n">bukuDao</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+private IBukuDao bukuDao = null;
+{% endcodeblock %}</p>
 
 <p>Objek bukuDao merupakan objek dari interface IBukuDao yang berfungsi sebagai proxy dari remote object class BukuDao.</p>
 
 <p>Sebuah method jika dipanggil melalui objek proxy maka akan dieksekusi secara remote.</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="c1">// constructor</span>
-</span><span class='line'><span class="k">public</span> <span class="nf">FrmBuku</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">InitializeComponent</span><span class="p">();&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="kt">string</span> <span class="n">server</span> <span class="p">=</span> <span class="s">&quot;localhost&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="kt">string</span> <span class="n">port</span> <span class="p">=</span> <span class="s">&quot;1234&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="kt">string</span> <span class="n">uri</span> <span class="p">=</span> <span class="s">&quot;SmartLibraryServer.BukuDao&quot;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="kt">string</span> <span class="n">url</span> <span class="p">=</span> <span class="s">&quot;tcp://&quot;</span> <span class="p">+</span> <span class="n">server</span> <span class="p">+</span> <span class="s">&quot;:&quot;</span> <span class="p">+</span> <span class="n">port</span> <span class="p">+</span> <span class="s">&quot;/&quot;</span> <span class="p">+</span> <span class="n">uri</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// mendapatkan proxy untuk remote object dari class BukuDao</span>
-</span><span class='line'><span class="n">bukuDao</span> <span class="p">=</span> <span class="p">(</span><span class="n">IBukuDao</span><span class="p">)</span><span class="n">Activator</span><span class="p">.</span><span class="n">GetObject</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="n">IBukuDao</span><span class="p">),</span> <span class="n">url</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// tampilkan semua data buku</span>
-</span><span class='line'><span class="n">LoadDataBuku</span><span class="p">();</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+// constructor
+public FrmBuku()
+{
+    InitializeComponent();</p>
+
+<pre><code>string server = "localhost";
+string port = "1234";
+string uri = "SmartLibraryServer.BukuDao";
+
+string url = "tcp://" + server + ":" + port + "/" + uri;
+
+// mendapatkan proxy untuk remote object dari class BukuDao
+bukuDao = (IBukuDao)Activator.GetObject(typeof(IBukuDao), url);
+
+// tampilkan semua data buku
+LoadDataBuku();
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p>Kode diatas adalah sebuah constructor dan seharusnya kita sudah tidak asing lagi dengan yang satu ini.</p>
 
 <p>Constructor adalah method khusus yang akan dipanggil pada saat menciptakan objek dari sebuah class.</p>
 
-<p>Penjelasan dari mana datangnya nilai <strong>locahost</strong>, <strong>1234</strong> dan <strong>SmartLibraryServer.BukuDao</strong> pada kode di atas bisa Anda lihat di<a href="/blog/2012/03/23/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-3/">sini</a>.</p>
+<p>Penjelasan dari mana datangnya nilai <strong>locahost</strong>, <strong>1234</strong> dan <strong>SmartLibraryServer.BukuDao</strong> pada kode di atas bisa Anda lihat di<a href="{{%20site.url%20}}/blog/2012/03/23/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-3/">sini</a>.</p>
 
 <p><strong>Menampilkan Data</strong></p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="c1">// method untuk menampilkan data buku ke listview</span>
-</span><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">FillToListView</span><span class="p">(</span><span class="kt">bool</span> <span class="n">addData</span><span class="p">,</span> <span class="n">Buku</span> <span class="n">buku</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">addData</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="kt">int</span> <span class="n">noUrut</span> <span class="p">=</span> <span class="n">lvwBuku</span><span class="p">.</span><span class="n">Items</span><span class="p">.</span><span class="n">Count</span> <span class="p">+</span> <span class="m">1</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span>    <span class="n">ListViewItem</span> <span class="n">item</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ListViewItem</span><span class="p">(</span><span class="n">noUrut</span><span class="p">.</span><span class="n">ToString</span><span class="p">());</span>
-</span><span class='line'>    <span class="n">item</span><span class="p">.</span><span class="n">SubItems</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">buku</span><span class="p">.</span><span class="n">ISBN</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">item</span><span class="p">.</span><span class="n">SubItems</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">buku</span><span class="p">.</span><span class="n">Judul</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">item</span><span class="p">.</span><span class="n">SubItems</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">buku</span><span class="p">.</span><span class="n">Bahasa</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">item</span><span class="p">.</span><span class="n">SubItems</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">buku</span><span class="p">.</span><span class="n">Edisi</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">item</span><span class="p">.</span><span class="n">SubItems</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">buku</span><span class="p">.</span><span class="n">Penerbit</span><span class="p">.</span><span class="n">Nama</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">lvwBuku</span><span class="p">.</span><span class="n">Items</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">item</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">else</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">int</span> <span class="n">row</span> <span class="p">=</span> <span class="n">lvwBuku</span><span class="p">.</span><span class="n">SelectedIndices</span><span class="p">[</span><span class="m">0</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">ListViewItem</span> <span class="n">itemRow</span> <span class="p">=</span> <span class="n">lvwBuku</span><span class="p">.</span><span class="n">Items</span><span class="p">[</span><span class="n">row</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">itemRow</span><span class="p">.</span><span class="n">SubItems</span><span class="p">[</span><span class="m">2</span><span class="p">].</span><span class="n">Text</span> <span class="p">=</span> <span class="n">buku</span><span class="p">.</span><span class="n">Judul</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">itemRow</span><span class="p">.</span><span class="n">SubItems</span><span class="p">[</span><span class="m">3</span><span class="p">].</span><span class="n">Text</span> <span class="p">=</span> <span class="n">buku</span><span class="p">.</span><span class="n">Bahasa</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">itemRow</span><span class="p">.</span><span class="n">SubItems</span><span class="p">[</span><span class="m">4</span><span class="p">].</span><span class="n">Text</span> <span class="p">=</span> <span class="n">buku</span><span class="p">.</span><span class="n">Edisi</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">itemRow</span><span class="p">.</span><span class="n">SubItems</span><span class="p">[</span><span class="m">5</span><span class="p">].</span><span class="n">Text</span> <span class="p">=</span> <span class="n">buku</span><span class="p">.</span><span class="n">Penerbit</span><span class="p">.</span><span class="n">Nama</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="c1">// method untuk menampilkan semua data buku</span>
-</span><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">LoadDataBuku</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">lvwBuku</span><span class="p">.</span><span class="n">Items</span><span class="p">.</span><span class="n">Clear</span><span class="p">();&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="n">List</span><span class="p">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">Buku</span><span class="p">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">daftarBuku</span> <span class="p">=</span> <span class="n">bukuDao</span><span class="p">.</span><span class="n">GetAll</span><span class="p">();</span>
-</span><span class='line'><span class="k">foreach</span> <span class="p">(</span><span class="n">Buku</span> <span class="n">buku</span> <span class="k">in</span> <span class="n">daftarBuku</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">FillToListView</span><span class="p">(</span><span class="k">true</span><span class="p">,</span> <span class="n">buku</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="c1">// method untuk menampilkan semua data buku berdasarkan judul</span>
-</span><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">LoadDataBuku</span><span class="p">(</span><span class="kt">string</span> <span class="n">judul</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">lvwBuku</span><span class="p">.</span><span class="n">Items</span><span class="p">.</span><span class="n">Clear</span><span class="p">();&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="n">List</span><span class="p">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">Buku</span><span class="p">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">daftarBuku</span> <span class="p">=</span> <span class="n">bukuDao</span><span class="p">.</span><span class="n">GetByName</span><span class="p">(</span><span class="n">judul</span><span class="p">);</span>
-</span><span class='line'><span class="k">foreach</span> <span class="p">(</span><span class="n">Buku</span> <span class="n">buku</span> <span class="k">in</span> <span class="n">daftarBuku</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">FillToListView</span><span class="p">(</span><span class="k">true</span><span class="p">,</span> <span class="n">buku</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+// method untuk menampilkan data buku ke listview
+private void FillToListView(bool addData, Buku buku)
+{
+    if (addData)
+    {
+        int noUrut = lvwBuku.Items.Count + 1;</p>
+
+<pre><code>    ListViewItem item = new ListViewItem(noUrut.ToString());
+    item.SubItems.Add(buku.ISBN);
+    item.SubItems.Add(buku.Judul);
+    item.SubItems.Add(buku.Bahasa);
+    item.SubItems.Add(buku.Edisi);
+    item.SubItems.Add(buku.Penerbit.Nama);
+
+    lvwBuku.Items.Add(item);
+}
+else
+{
+    int row = lvwBuku.SelectedIndices[0];
+
+    ListViewItem itemRow = lvwBuku.Items[row];
+    itemRow.SubItems[2].Text = buku.Judul;
+    itemRow.SubItems[3].Text = buku.Bahasa;
+    itemRow.SubItems[4].Text = buku.Edisi;
+    itemRow.SubItems[5].Text = buku.Penerbit.Nama;
+}
+</code></pre>
+
+<p>}</p>
+
+<p>// method untuk menampilkan semua data buku
+private void LoadDataBuku()
+{
+    lvwBuku.Items.Clear();</p>
+
+<pre><code>List&lt;Buku&gt; daftarBuku = bukuDao.GetAll();
+foreach (Buku buku in daftarBuku)
+{
+    FillToListView(true, buku);
+}
+</code></pre>
+
+<p>}</p>
+
+<p>// method untuk menampilkan semua data buku berdasarkan judul
+private void LoadDataBuku(string judul)
+{
+    lvwBuku.Items.Clear();</p>
+
+<pre><code>List&lt;Buku&gt; daftarBuku = bukuDao.GetByName(judul);
+foreach (Buku buku in daftarBuku)
+{
+    FillToListView(true, buku);
+}
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p><strong>Menyimpan dan Mengupdate Data</strong></p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">btnSimpan_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">EventArgs</span> <span class="n">e</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">int</span> <span class="n">result</span> <span class="p">=</span> <span class="m">0</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="n">Buku</span> <span class="n">buku</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Buku</span><span class="p">();</span>
-</span><span class='line'><span class="n">buku</span><span class="p">.</span><span class="n">ISBN</span> <span class="p">=</span> <span class="n">txtISBN</span><span class="p">.</span><span class="n">Text</span><span class="p">;</span>
-</span><span class='line'><span class="n">buku</span><span class="p">.</span><span class="n">Judul</span> <span class="p">=</span> <span class="n">txtJudul</span><span class="p">.</span><span class="n">Text</span><span class="p">;</span>
-</span><span class='line'><span class="n">buku</span><span class="p">.</span><span class="n">Bahasa</span> <span class="p">=</span> <span class="n">txtBahasa</span><span class="p">.</span><span class="n">Text</span><span class="p">;</span>
-</span><span class='line'><span class="n">buku</span><span class="p">.</span><span class="n">Edisi</span> <span class="p">=</span> <span class="n">txtEdisi</span><span class="p">.</span><span class="n">Text</span><span class="p">;</span>
-</span><span class='line'><span class="n">buku</span><span class="p">.</span><span class="n">Penerbit</span><span class="p">.</span><span class="n">PenerbitID</span> <span class="p">=</span> <span class="n">penerbitID</span><span class="p">[</span><span class="n">cmbPenerbit</span><span class="p">.</span><span class="n">SelectedIndex</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="n">addData</span><span class="p">)</span> <span class="c1">// data baru</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">result</span> <span class="p">=</span> <span class="n">bukuDao</span><span class="p">.</span><span class="n">Save</span><span class="p">(</span><span class="n">buku</span><span class="p">);</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="p">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="m">0</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="n">ResetInput</span><span class="p">();</span>
-</span><span class='line'>        <span class="n">txtISBN</span><span class="p">.</span><span class="n">Focus</span><span class="p">();</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">else</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="s">&quot;Data buku gagal disimpan&quot;</span><span class="p">,</span> <span class="s">&quot;Peringatan&quot;</span><span class="p">,</span> <span class="n">MessageBoxButtons</span><span class="p">.</span><span class="n">OK</span><span class="p">,</span> <span class="n">MessageBoxIcon</span><span class="p">.</span><span class="n">Exclamation</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">else</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">result</span> <span class="p">=</span> <span class="n">bukuDao</span><span class="p">.</span><span class="n">Update</span><span class="p">(</span><span class="n">buku</span><span class="p">);</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="p">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="m">0</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">this</span><span class="p">.</span><span class="n">Close</span><span class="p">();</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">else</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="s">&quot;Data buku gagal disimpan&quot;</span><span class="p">,</span> <span class="s">&quot;Peringatan&quot;</span><span class="p">,</span> <span class="n">MessageBoxButtons</span><span class="p">.</span><span class="n">OK</span><span class="p">,</span> <span class="n">MessageBoxIcon</span><span class="p">.</span><span class="n">Exclamation</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+private void btnSimpan_Click(object sender, EventArgs e)
+{
+    int result = 0;</p>
+
+<pre><code>Buku buku = new Buku();
+buku.ISBN = txtISBN.Text;
+buku.Judul = txtJudul.Text;
+buku.Bahasa = txtBahasa.Text;
+buku.Edisi = txtEdisi.Text;
+buku.Penerbit.PenerbitID = penerbitID[cmbPenerbit.SelectedIndex];
+
+if (this.addData) // data baru
+{
+    result = bukuDao.Save(buku);
+    if (result &gt; 0)
+    {
+        ResetInput();
+        txtISBN.Focus();
+    }
+    else
+    {
+        MessageBox.Show("Data buku gagal disimpan", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+    }
+}
+else
+{
+    result = bukuDao.Update(buku);
+    if (result &gt; 0)
+    {
+        this.Close();
+    }
+    else
+    {
+        MessageBox.Show("Data buku gagal disimpan", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+    }
+}
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p><strong>Menghapus Data</strong></p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">btnHapus_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">EventArgs</span> <span class="n">e</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">lvwBuku</span><span class="p">.</span><span class="n">SelectedItems</span><span class="p">.</span><span class="n">Count</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="kt">int</span> <span class="n">row</span> <span class="p">=</span> <span class="n">lvwBuku</span><span class="p">.</span><span class="n">SelectedIndices</span><span class="p">[</span><span class="m">0</span><span class="p">];&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span>    <span class="n">ListViewItem</span> <span class="n">itemRow</span> <span class="p">=</span> <span class="n">lvwBuku</span><span class="p">.</span><span class="n">Items</span><span class="p">[</span><span class="n">row</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">Buku</span> <span class="n">buku</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Buku</span><span class="p">();</span>
-</span><span class='line'>    <span class="n">buku</span><span class="p">.</span><span class="n">ISBN</span> <span class="p">=</span> <span class="n">itemRow</span><span class="p">.</span><span class="n">SubItems</span><span class="p">[</span><span class="m">1</span><span class="p">].</span><span class="n">Text</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">buku</span><span class="p">.</span><span class="n">Judul</span> <span class="p">=</span> <span class="n">itemRow</span><span class="p">.</span><span class="n">SubItems</span><span class="p">[</span><span class="m">2</span><span class="p">].</span><span class="n">Text</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kt">string</span> <span class="n">msg</span> <span class="p">=</span> <span class="s">&quot;Apakah data buku &#39;&quot;</span> <span class="p">+</span> <span class="n">buku</span><span class="p">.</span><span class="n">Judul</span> <span class="p">+</span> <span class="s">&quot;&#39; ingin dihapus ?&quot;</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="s">&quot;Konfirmasi&quot;</span><span class="p">,</span> <span class="n">MessageBoxButtons</span><span class="p">.</span><span class="n">YesNo</span><span class="p">,</span> <span class="n">MessageBoxIcon</span><span class="p">.</span><span class="n">Exclamation</span><span class="p">)</span> <span class="p">==</span> <span class="n">DialogResult</span><span class="p">.</span><span class="n">Yes</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="kt">int</span> <span class="n">result</span> <span class="p">=</span> <span class="n">bukuDao</span><span class="p">.</span><span class="n">Delete</span><span class="p">(</span><span class="n">buku</span><span class="p">);</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="p">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="m">0</span><span class="p">)</span> <span class="c1">// data barang berhasil dihapus</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="s">&quot;Data buku berhasil dihapus&quot;</span><span class="p">,</span> <span class="s">&quot;Informasi&quot;</span><span class="p">,</span> <span class="n">MessageBoxButtons</span><span class="p">.</span><span class="n">OK</span><span class="p">,</span> <span class="n">MessageBoxIcon</span><span class="p">.</span><span class="n">Information</span><span class="p">);</span>
-</span><span class='line'>            <span class="n">LoadDataBuku</span><span class="p">();</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="k">else</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="s">&quot;Data buku gagal dihapus&quot;</span><span class="p">,</span> <span class="s">&quot;Warning&quot;</span><span class="p">,</span> <span class="n">MessageBoxButtons</span><span class="p">.</span><span class="n">OK</span><span class="p">,</span> <span class="n">MessageBoxIcon</span><span class="p">.</span><span class="n">Warning</span><span class="p">);</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">else</span> <span class="c1">// data belum dipilih</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="s">&quot;Data belum dipilih&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+private void btnHapus_Click(object sender, EventArgs e)
+{
+    if (lvwBuku.SelectedItems.Count > 0)
+    {
+        int row = lvwBuku.SelectedIndices[0];</p>
+
+<pre><code>    ListViewItem itemRow = lvwBuku.Items[row];
+
+    Buku buku = new Buku();
+    buku.ISBN = itemRow.SubItems[1].Text;
+    buku.Judul = itemRow.SubItems[2].Text;
+
+    string msg = "Apakah data buku '" + buku.Judul + "' ingin dihapus ?";
+    if (MessageBox.Show(msg, "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+    {
+        int result = bukuDao.Delete(buku);
+        if (result &gt; 0) // data barang berhasil dihapus
+        {
+            MessageBox.Show("Data buku berhasil dihapus", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            LoadDataBuku();
+        }
+        else
+        {
+            MessageBox.Show("Data buku gagal dihapus", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+    }
+
+}
+else // data belum dipilih
+{
+    MessageBox.Show("Data belum dipilih");
+}
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p><strong>Menjalankan dua project secara bersamaan</strong></p>
 
@@ -607,30 +459,23 @@
     <link href="http://coding4ever.net/blog/2012/03/23/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-3/"/>
     <updated>2012-03-23T07:29:45+07:00</updated>
     <id>http://coding4ever.net/blog/2012/03/23/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-3</id>
-    <content type="html"><![CDATA[<p>Melanjutkan <a href="/blog/2012/02/05/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-2/">postingan</a> sebelumnya, kita langsung saja menambahkan kode untuk membuat koneksi ke database dalam hal ini sy menggunakan database Ms Access.</p>
+    <content type="html"><![CDATA[<p>Melanjutkan <a href="{{%20site.url%20}}/blog/2012/02/05/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-2/">postingan</a> sebelumnya, kita langsung saja menambahkan kode untuk membuat koneksi ke database dalam hal ini sy menggunakan database Ms Access.</p>
 
 <p>Aktifkan class BukuDao setelah itu tambahkan kode berikut dibagian constructor default (constructor tanpa parameter).</p>
 
 <!-- more -->
 
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="c1">// constructor</span>
-</span><span class='line'><span class="k">public</span> <span class="nf">BukuDao</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">string</span> <span class="n">appDir</span> <span class="p">=</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">Directory</span><span class="p">.</span><span class="n">GetCurrentDirectory</span><span class="p">();</span>
-</span><span class='line'>    <span class="kt">string</span> <span class="n">strConn</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Provider</span><span class="p">=</span><span class="n">Microsoft</span><span class="p">.</span><span class="n">Jet</span><span class="p">.</span><span class="n">OLEDB</span><span class="p">.</span><span class="m">4.0</span><span class="p">;</span><span class="n">Data</span> <span class="n">Source</span><span class="p">=&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="p">+</span> <span class="n">appDir</span> <span class="p">+</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="err">\</span><span class="n">DbPerpus</span><span class="p">.</span><span class="n">mdb</span><span class="p">;</span><span class="n">User</span> <span class="n">Id</span><span class="p">=</span><span class="n">admin</span><span class="p">;</span><span class="n">Password</span><span class="p">=;&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
-</span><span class='line'>    <span class="n">conn</span> <span class="p">=</span> <span class="k">new</span> <span class="n">OleDbConnection</span><span class="p">(</span><span class="n">strConn</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">conn</span><span class="p">.</span><span class="n">Open</span><span class="p">();</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+// constructor
+public BukuDao()
+{
+    string appDir = System.IO.Directory.GetCurrentDirectory();
+    string strConn = &ldquo;Provider=Microsoft.Jet.OLEDB.4.0;Data Source=&rdquo; + appDir + &ldquo;\DbPerpus.mdb;User Id=admin;Password=;&rdquo;;
+    conn = new OleDbConnection(strConn);
+    conn.Open();
+}
+{% endcodeblock %}</p>
 
 <p>Alasan sy menggunakan constructor default untuk membuat koneksi ke database adalah karena remote object dari class BukuDao akan diaktifkan menggunakan mode SingleCall, dengan kata lain mode SingleCall hanya bisa memanggil constructor default.</p>
 
@@ -648,147 +493,92 @@
 
 <p>Aktifkan class Program, setelah itu kita akan melakukan testing satu persatu semua method yang dimiliki oleh class BukuDao, berikut kode lengkapnya.</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">using</span> <span class="nn">SmartLibraryLib.Model</span><span class="p">;</span>
-</span><span class='line'><span class="k">using</span> <span class="nn">SmartLibraryServer.Dao</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+using SmartLibraryLib.Model;
+using SmartLibraryServer.Dao;
+{% endcodeblock %}</p>
 
 <p><strong>Menambahkan data buku</strong></p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="kt">int</span> <span class="n">result</span> <span class="p">=</span> <span class="m">0</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="c1">// buat objek buku</span>
-</span><span class='line'><span class="n">Buku</span> <span class="n">buku</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Buku</span><span class="p">();</span>
-</span><span class='line'><span class="n">buku</span><span class="p">.</span><span class="n">ISBN</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="m">12345</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
-</span><span class='line'><span class="n">buku</span><span class="p">.</span><span class="n">Judul</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Bahasa</span> <span class="n">Indonesia</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
-</span><span class='line'><span class="n">buku</span><span class="p">.</span><span class="n">Edisi</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">I</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
-</span><span class='line'><span class="n">buku</span><span class="p">.</span><span class="n">Bahasa</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Indonesia</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
-</span><span class='line'><span class="n">buku</span><span class="p">.</span><span class="n">Penerbit</span><span class="p">.</span><span class="n">PenerbitID</span> <span class="p">=</span> <span class="m">1</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="n">BukuDao</span> <span class="n">bukuDao</span> <span class="p">=</span> <span class="k">new</span> <span class="n">BukuDao</span><span class="p">();</span>
-</span><span class='line'><span class="n">result</span> <span class="p">=</span> <span class="n">bukuDao</span><span class="p">.</span><span class="n">Save</span><span class="p">(</span><span class="n">buku</span><span class="p">);</span>
-</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Data</span> <span class="n">buku</span> <span class="n">berhasil</span> <span class="n">ditambahkan</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">else</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Data</span> <span class="n">buku</span> <span class="n">gagal</span> <span class="n">ditambahkan</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+int result = 0;</p>
+
+<p>// buat objek buku
+Buku buku = new Buku();
+buku.ISBN = &ldquo;12345&rdquo;;
+buku.Judul = &ldquo;Bahasa Indonesia&rdquo;;
+buku.Edisi = &ldquo;I&rdquo;;
+buku.Bahasa = &ldquo;Indonesia&rdquo;;
+buku.Penerbit.PenerbitID = 1;</p>
+
+<p>BukuDao bukuDao = new BukuDao();
+result = bukuDao.Save(buku);
+if (result > 0)
+{
+    Console.WriteLine(&ldquo;Data buku berhasil ditambahkan&rdquo;);
+}
+else
+{
+    Console.WriteLine(&ldquo;Data buku gagal ditambahkan&rdquo;);
+}
+{% endcodeblock %}</p>
 
 <p><strong>Mengedit data buku</strong></p>
 
 <p>Untuk mengedit data buku sama seperti menambahkan buku baru, hanya saja yang dipanggil adalah method Update</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="c1">// buat objek buku</span>
-</span><span class='line'><span class="n">Buku</span> <span class="n">buku</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Buku</span><span class="p">();</span>
-</span><span class='line'><span class="n">buku</span><span class="p">.</span><span class="n">ISBN</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="m">12345</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
-</span><span class='line'><span class="n">buku</span><span class="p">.</span><span class="n">Judul</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Bahasa</span> <span class="n">Indonesia</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
-</span><span class='line'><span class="n">buku</span><span class="p">.</span><span class="n">Edisi</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">I</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
-</span><span class='line'><span class="n">buku</span><span class="p">.</span><span class="n">Bahasa</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Indonesia</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
-</span><span class='line'><span class="n">buku</span><span class="p">.</span><span class="n">Penerbit</span><span class="p">.</span><span class="n">PenerbitID</span> <span class="p">=</span> <span class="m">1</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="n">BukuDao</span> <span class="n">bukuDao</span> <span class="p">=</span> <span class="k">new</span> <span class="n">BukuDao</span><span class="p">();</span>
-</span><span class='line'><span class="n">result</span> <span class="p">=</span> <span class="n">bukuDao</span><span class="p">.</span><span class="n">Update</span><span class="p">(</span><span class="n">buku</span><span class="p">);</span> <span class="c1">// bedanya cuma disini</span>
-</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Data</span> <span class="n">buku</span> <span class="n">berhasil</span> <span class="n">diupdate</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">else</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Data</span> <span class="n">buku</span> <span class="n">gagal</span> <span class="n">diupdate</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+// buat objek buku
+Buku buku = new Buku();
+buku.ISBN = &ldquo;12345&rdquo;;
+buku.Judul = &ldquo;Bahasa Indonesia&rdquo;;
+buku.Edisi = &ldquo;I&rdquo;;
+buku.Bahasa = &ldquo;Indonesia&rdquo;;
+buku.Penerbit.PenerbitID = 1;</p>
+
+<p>BukuDao bukuDao = new BukuDao();
+result = bukuDao.Update(buku); // bedanya cuma disini
+if (result > 0)
+{
+    Console.WriteLine(&ldquo;Data buku berhasil diupdate&rdquo;);
+}
+else
+{
+    Console.WriteLine(&ldquo;Data buku gagal diupdate&rdquo;);
+}
+{% endcodeblock %}</p>
 
 <p><strong>Menghapus data buku</strong></p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="c1">// buat objek buku</span>
-</span><span class='line'><span class="n">Buku</span> <span class="n">buku</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Buku</span><span class="p">();</span>
-</span><span class='line'><span class="n">buku</span><span class="p">.</span><span class="n">ISBN</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="m">12345</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="n">BukuDao</span> <span class="n">bukuDao</span> <span class="p">=</span> <span class="k">new</span> <span class="n">BukuDao</span><span class="p">();</span>
-</span><span class='line'><span class="n">result</span> <span class="p">=</span> <span class="n">bukuDao</span><span class="p">.</span><span class="n">Delete</span><span class="p">(</span><span class="n">buku</span><span class="p">);</span>
-</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Data</span> <span class="n">buku</span> <span class="n">berhasil</span> <span class="n">dihapus</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">else</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Data</span> <span class="n">buku</span> <span class="n">gagal</span> <span class="n">dihapus</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+// buat objek buku
+Buku buku = new Buku();
+buku.ISBN = &ldquo;12345&rdquo;;</p>
+
+<p>BukuDao bukuDao = new BukuDao();
+result = bukuDao.Delete(buku);
+if (result > 0)
+{
+    Console.WriteLine(&ldquo;Data buku berhasil dihapus&rdquo;);
+}
+else
+{
+    Console.WriteLine(&ldquo;Data buku gagal dihapus&rdquo;);
+}
+{% endcodeblock %}</p>
 
 <p><strong>Menampilkan data buku</strong></p>
 
 <p>Sedikit beda dengan method Save, Update dan Delete untuk menampilkan data buku kita membutuhkan class Collection menampung kumpulan objek buku.</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="n">BukuDao</span> <span class="n">bukuDao</span> <span class="p">=</span> <span class="k">new</span> <span class="n">BukuDao</span><span class="p">();</span>
-</span><span class='line'><span class="n">List</span><span class="p">&lt;</span><span class="n">Buku</span><span class="p">&gt;</span> <span class="n">daftarBuku</span> <span class="p">=</span> <span class="n">bukuDao</span><span class="p">.</span><span class="n">GetAll</span><span class="p">();</span>
-</span><span class='line'><span class="k">foreach</span> <span class="p">(</span><span class="n">Buku</span> <span class="n">buku</span> <span class="k">in</span> <span class="n">daftarBuku</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">buku</span><span class="p">.</span><span class="n">ISBN</span> <span class="p">+</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;,</span> <span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="p">+</span> <span class="n">buku</span><span class="p">.</span><span class="n">Judul</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+BukuDao bukuDao = new BukuDao();
+List<Buku> daftarBuku = bukuDao.GetAll();
+foreach (Buku buku in daftarBuku)
+{
+    Console.WriteLine(buku.ISBN + &ldquo;, &rdquo; + buku.Judul);
+}
+{% endcodeblock %}</p>
 
 <p>Semua kode diatas diketik pada method Main dari class Program</p>
 
@@ -862,7 +652,7 @@
     <link href="http://coding4ever.net/blog/2012/02/05/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-2/"/>
     <updated>2012-02-05T11:14:05+07:00</updated>
     <id>http://coding4ever.net/blog/2012/02/05/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-2</id>
-    <content type="html"><![CDATA[<p>Setelah selesai dengan project <a href="/blog/2012/02/01/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-1/">SmartLibraryLib</a> akan kita lanjutkan dengan pembuatan project SmartLibraryServer.</p>
+    <content type="html"><![CDATA[<p>Setelah selesai dengan project <a href="{{%20site.url%20}}/blog/2012/02/01/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-1/">SmartLibraryLib</a> akan kita lanjutkan dengan pembuatan project SmartLibraryServer.</p>
 
 <p>Untuk menyederhanakan pembahasan, project SmartLibraryServer ini dibuat dengan memanfaatkan project bertipe Console Application (implementasi aslinya bisa kita jadikan sebuah service).</p>
 
@@ -942,7 +732,7 @@
 
 <p>Jangan lupa untuk menambahkan access modifier <strong>public</strong>.</p>
 
-<p>Sebelum kita bisa melengkapi kode dari class BukuDao terlebih dulu kita harus menambahkan referensi SmartLibraryLib.dll yang sudah kita bahas pada <a href="/blog/2012/02/01/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-1/">postingan</a> sebelumnya, tujuannya adalah agar class BukuDao bisa mengakses class model Buku dan interface IBukuDao untuk kemudian mengimplementasikan semua method abstractnya.</p>
+<p>Sebelum kita bisa melengkapi kode dari class BukuDao terlebih dulu kita harus menambahkan referensi SmartLibraryLib.dll yang sudah kita bahas pada <a href="{{%20site.url%20}}/blog/2012/02/01/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-1/">postingan</a> sebelumnya, tujuannya adalah agar class BukuDao bisa mengakses class model Buku dan interface IBukuDao untuk kemudian mengimplementasikan semua method abstractnya.</p>
 
 <ol>
 <li>Klik kanan folder References -> Add Reference…</li>
@@ -987,387 +777,213 @@
 
 <p>Kemudian secara otomatis semua method abstract dari interface IBukuDao akan ditambahkan.</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">public</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Buku</span><span class="p">&gt;</span> <span class="n">GetByName</span><span class="p">(</span><span class="kt">string</span> <span class="n">judul</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">throw</span> <span class="k">new</span> <span class="nf">Exception</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">The</span> <span class="n">method</span> <span class="n">or</span> <span class="n">operation</span> <span class="k">is</span> <span class="n">not</span> <span class="n">implemented</span><span class="p">.&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
-</span><span class='line'><span class="p">}&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">public</span> <span class="n">Buku</span> <span class="n">GetByID</span><span class="p">(</span><span class="kt">string</span> <span class="n">bukuID</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">throw</span> <span class="k">new</span> <span class="nf">Exception</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">The</span> <span class="n">method</span> <span class="n">or</span> <span class="n">operation</span> <span class="k">is</span> <span class="n">not</span> <span class="n">implemented</span><span class="p">.&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
-</span><span class='line'><span class="p">}&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">public</span> <span class="n">DataSet</span> <span class="n">GetReportByName</span><span class="p">(</span><span class="kt">string</span> <span class="n">judul</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">throw</span> <span class="k">new</span> <span class="nf">Exception</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">The</span> <span class="n">method</span> <span class="n">or</span> <span class="n">operation</span> <span class="k">is</span> <span class="n">not</span> <span class="n">implemented</span><span class="p">.&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
-</span><span class='line'><span class="p">}&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">public</span> <span class="kt">int</span> <span class="n">Save</span><span class="p">(</span><span class="n">Buku</span> <span class="n">buku</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">throw</span> <span class="k">new</span> <span class="nf">Exception</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">The</span> <span class="n">method</span> <span class="n">or</span> <span class="n">operation</span> <span class="k">is</span> <span class="n">not</span> <span class="n">implemented</span><span class="p">.&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
-</span><span class='line'><span class="p">}&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">public</span> <span class="kt">int</span> <span class="n">Update</span><span class="p">(</span><span class="n">Buku</span> <span class="n">buku</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">throw</span> <span class="k">new</span> <span class="nf">Exception</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">The</span> <span class="n">method</span> <span class="n">or</span> <span class="n">operation</span> <span class="k">is</span> <span class="n">not</span> <span class="n">implemented</span><span class="p">.&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
-</span><span class='line'><span class="p">}&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">public</span> <span class="kt">int</span> <span class="n">Delete</span><span class="p">(</span><span class="n">Buku</span> <span class="n">buku</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">throw</span> <span class="k">new</span> <span class="nf">Exception</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">The</span> <span class="n">method</span> <span class="n">or</span> <span class="n">operation</span> <span class="k">is</span> <span class="n">not</span> <span class="n">implemented</span><span class="p">.&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
-</span><span class='line'><span class="p">}&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">public</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Buku</span><span class="p">&gt;</span> <span class="n">GetAll</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">throw</span> <span class="k">new</span> <span class="nf">Exception</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">The</span> <span class="n">method</span> <span class="n">or</span> <span class="n">operation</span> <span class="k">is</span> <span class="n">not</span> <span class="n">implemented</span><span class="p">.&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
-</span><span class='line'><span class="p">}&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">public</span> <span class="n">DataSet</span> <span class="n">GetReportAll</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">throw</span> <span class="k">new</span> <span class="nf">Exception</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">The</span> <span class="n">method</span> <span class="n">or</span> <span class="n">operation</span> <span class="k">is</span> <span class="n">not</span> <span class="n">implemented</span><span class="p">.&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+public List<Buku> GetByName(string judul)
+{
+    throw new Exception(&ldquo;The method or operation is not implemented.&rdquo;);
+}</p>
+
+<p>public Buku GetByID(string bukuID)
+{
+    throw new Exception(&ldquo;The method or operation is not implemented.&rdquo;);
+}</p>
+
+<p>public DataSet GetReportByName(string judul)
+{
+    throw new Exception(&ldquo;The method or operation is not implemented.&rdquo;);
+}</p>
+
+<p>public int Save(Buku buku)
+{
+    throw new Exception(&ldquo;The method or operation is not implemented.&rdquo;);
+}</p>
+
+<p>public int Update(Buku buku)
+{
+    throw new Exception(&ldquo;The method or operation is not implemented.&rdquo;);
+}</p>
+
+<p>public int Delete(Buku buku)
+{
+    throw new Exception(&ldquo;The method or operation is not implemented.&rdquo;);
+}</p>
+
+<p>public List<Buku> GetAll()
+{
+    throw new Exception(&ldquo;The method or operation is not implemented.&rdquo;);
+}</p>
+
+<p>public DataSet GetReportAll()
+{
+    throw new Exception(&ldquo;The method or operation is not implemented.&rdquo;);
+}
+{% endcodeblock %}</p>
 
 <p>Selanjutnya kita tinggal melengkapi masing-masing method diatas.</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">public</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Buku</span><span class="p">&gt;</span> <span class="n">GetByName</span><span class="p">(</span><span class="kt">string</span> <span class="n">judul</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">List</span><span class="p">&lt;</span><span class="n">Buku</span><span class="p">&gt;</span> <span class="n">daftarBuku</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Buku</span><span class="p">&gt;();&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="n">strSql</span> <span class="p">=</span> <span class="s">&quot;SELECT isbn, judul, edisi, bahasa &quot;</span> <span class="p">+</span>
-</span><span class='line'>         <span class="s">&quot;FROM buku &quot;</span> <span class="p">+</span>
-</span><span class='line'>         <span class="s">&quot;WHERE judul LIKE @1 &quot;</span> <span class="p">+</span>
-</span><span class='line'>         <span class="s">&quot;ORDER BY judul&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="k">using</span> <span class="p">(</span><span class="n">OleDbCommand</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">OleDbCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="s">&quot;%&quot;</span> <span class="p">+</span> <span class="n">judul</span> <span class="p">+</span> <span class="s">&quot;%&quot;</span><span class="p">);</span>
-</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="n">OleDbDataReader</span> <span class="n">dtr</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteReader</span><span class="p">())</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">while</span> <span class="p">(</span><span class="n">dtr</span><span class="p">.</span><span class="n">Read</span><span class="p">())</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="n">Buku</span> <span class="n">Buku</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Buku</span><span class="p">();</span>
-</span><span class='line'>            <span class="n">Buku</span><span class="p">.</span><span class="n">ISBN</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="m">0</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="n">dtr</span><span class="p">.</span><span class="n">GetString</span><span class="p">(</span><span class="m">0</span><span class="p">);</span>
-</span><span class='line'>            <span class="n">Buku</span><span class="p">.</span><span class="n">Judul</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="n">dtr</span><span class="p">.</span><span class="n">GetString</span><span class="p">(</span><span class="m">1</span><span class="p">);</span>
-</span><span class='line'>            <span class="n">Buku</span><span class="p">.</span><span class="n">Edisi</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="m">2</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="n">dtr</span><span class="p">.</span><span class="n">GetString</span><span class="p">(</span><span class="m">2</span><span class="p">);</span>
-</span><span class='line'>            <span class="n">Buku</span><span class="p">.</span><span class="n">Bahasa</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="m">3</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="n">dtr</span><span class="p">.</span><span class="n">GetString</span><span class="p">(</span><span class="m">3</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="n">daftarBuku</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">Buku</span><span class="p">);</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">return</span> <span class="n">daftarBuku</span><span class="p">;</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+public List<Buku> GetByName(string judul)
+{
+    List<Buku> daftarBuku = new List<Buku>();</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">public</span> <span class="n">Buku</span> <span class="nf">GetByID</span><span class="p">(</span><span class="kt">string</span> <span class="n">bukuID</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">Buku</span> <span class="n">buku</span> <span class="p">=</span> <span class="k">null</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="n">strSql</span> <span class="p">=</span> <span class="s">&quot;SELECT isbn, judul, edisi, bahasa &quot;</span> <span class="p">+</span>
-</span><span class='line'>         <span class="s">&quot;FROM buku &quot;</span> <span class="p">+</span>
-</span><span class='line'>         <span class="s">&quot;WHERE isbn = @1&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="k">using</span> <span class="p">(</span><span class="n">OleDbCommand</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">OleDbCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="n">bukuID</span><span class="p">);</span>
-</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="n">OleDbDataReader</span> <span class="n">dtr</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteReader</span><span class="p">())</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">dtr</span><span class="p">.</span><span class="n">Read</span><span class="p">())</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="n">buku</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Buku</span><span class="p">();</span>
-</span><span class='line'>            <span class="n">buku</span><span class="p">.</span><span class="n">ISBN</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="m">0</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="n">dtr</span><span class="p">.</span><span class="n">GetString</span><span class="p">(</span><span class="m">0</span><span class="p">);</span>
-</span><span class='line'>            <span class="n">buku</span><span class="p">.</span><span class="n">Judul</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="n">dtr</span><span class="p">.</span><span class="n">GetString</span><span class="p">(</span><span class="m">1</span><span class="p">);</span>
-</span><span class='line'>            <span class="n">buku</span><span class="p">.</span><span class="n">Edisi</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="m">2</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="n">dtr</span><span class="p">.</span><span class="n">GetString</span><span class="p">(</span><span class="m">2</span><span class="p">);</span>
-</span><span class='line'>            <span class="n">buku</span><span class="p">.</span><span class="n">Bahasa</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="m">3</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="n">dtr</span><span class="p">.</span><span class="n">GetString</span><span class="p">(</span><span class="m">3</span><span class="p">);</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">return</span> <span class="n">buku</span><span class="p">;</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<pre><code>strSql = "SELECT isbn, judul, edisi, bahasa " +
+         "FROM buku " +
+         "WHERE judul LIKE @1 " +
+         "ORDER BY judul";
+using (OleDbCommand cmd = new OleDbCommand(strSql, conn))
+{
+    cmd.Parameters.AddWithValue("@1", "%" + judul + "%");
+    using (OleDbDataReader dtr = cmd.ExecuteReader())
+    {
+        while (dtr.Read())
+        {
+            Buku Buku = new Buku();
+            Buku.ISBN = dtr[0] is DBNull ? string.Empty : dtr.GetString(0);
+            Buku.Judul = dtr[1] is DBNull ? string.Empty : dtr.GetString(1);
+            Buku.Edisi = dtr[2] is DBNull ? string.Empty : dtr.GetString(2);
+            Buku.Bahasa = dtr[3] is DBNull ? string.Empty : dtr.GetString(3);
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">public</span> <span class="kt">int</span> <span class="nf">Save</span><span class="p">(</span><span class="n">Buku</span> <span class="n">buku</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">strSql</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">buku</span> <span class="p">(</span><span class="n">isbn</span><span class="p">,</span> <span class="n">judul</span><span class="p">,</span> <span class="n">edisi</span><span class="p">,</span> <span class="n">bahasa</span><span class="p">,</span> <span class="n">penerbit_id</span><span class="p">)</span> <span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="p">+</span>
-</span><span class='line'>             <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">VALUES</span> <span class="p">(</span><span class="err">@</span><span class="m">1</span><span class="p">,</span> <span class="err">@</span><span class="m">2</span><span class="p">,</span> <span class="err">@</span><span class="m">3</span><span class="p">,</span> <span class="err">@</span><span class="m">4</span><span class="p">,</span> <span class="err">@</span><span class="m">5</span><span class="p">)&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
-</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="n">OleDbCommand</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">OleDbCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="err">@</span><span class="m">1</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">buku</span><span class="p">.</span><span class="n">ISBN</span><span class="p">);</span>
-</span><span class='line'>        <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="err">@</span><span class="m">2</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">buku</span><span class="p">.</span><span class="n">Judul</span><span class="p">);</span>
-</span><span class='line'>        <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="err">@</span><span class="m">3</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">buku</span><span class="p">.</span><span class="n">Edisi</span><span class="p">);</span>
-</span><span class='line'>        <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="err">@</span><span class="m">4</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">buku</span><span class="p">.</span><span class="n">Bahasa</span><span class="p">);</span>
-</span><span class='line'>        <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="err">@</span><span class="m">5</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">buku</span><span class="p">.</span><span class="n">Penerbit</span><span class="p">.</span><span class="n">PenerbitID</span><span class="p">);&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span>    <span class="k">return</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteNonQuery</span><span class="p">();</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+            daftarBuku.Add(Buku);
+        }
+    }
+}
+return daftarBuku;
+</code></pre>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">public</span> <span class="kt">int</span> <span class="nf">Update</span><span class="p">(</span><span class="n">Buku</span> <span class="n">buku</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">strSql</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">UPDATE</span> <span class="n">buku</span> <span class="n">SET</span> <span class="n">judul</span> <span class="p">=</span> <span class="err">@</span><span class="m">1</span><span class="p">,</span> <span class="n">edisi</span> <span class="p">=</span> <span class="err">@</span><span class="m">2</span><span class="p">,</span> <span class="n">bahasa</span> <span class="p">=</span> <span class="err">@</span><span class="m">3</span><span class="p">,</span> <span class="n">penerbit_id</span> <span class="p">=</span> <span class="err">@</span><span class="m">4</span> <span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="p">+</span>
-</span><span class='line'>             <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">WHERE</span> <span class="n">isbn</span> <span class="p">=</span> <span class="err">@</span><span class="m">5</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
-</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="n">OleDbCommand</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">OleDbCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="err">@</span><span class="m">1</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">buku</span><span class="p">.</span><span class="n">Judul</span><span class="p">);</span>
-</span><span class='line'>        <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="err">@</span><span class="m">2</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">buku</span><span class="p">.</span><span class="n">Edisi</span><span class="p">);</span>
-</span><span class='line'>        <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="err">@</span><span class="m">3</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">buku</span><span class="p">.</span><span class="n">Bahasa</span><span class="p">);</span>
-</span><span class='line'>        <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="err">@</span><span class="m">4</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">buku</span><span class="p">.</span><span class="n">Penerbit</span><span class="p">.</span><span class="n">PenerbitID</span><span class="p">);</span>
-</span><span class='line'>        <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="err">@</span><span class="m">5</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">buku</span><span class="p">.</span><span class="n">ISBN</span><span class="p">);&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span>    <span class="k">return</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteNonQuery</span><span class="p">();</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>}
+{% endcodeblock %}</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">public</span> <span class="kt">int</span> <span class="nf">Delete</span><span class="p">(</span><span class="n">Buku</span> <span class="n">buku</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">strSql</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">DELETE</span> <span class="n">FROM</span> <span class="n">buku</span> <span class="n">WHERE</span> <span class="n">isbn</span> <span class="p">=</span> <span class="err">@</span><span class="m">1</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
-</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="n">OleDbCommand</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">OleDbCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="err">@</span><span class="m">1</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">buku</span><span class="p">.</span><span class="n">ISBN</span><span class="p">);&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span>    <span class="k">return</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteNonQuery</span><span class="p">();</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+public Buku GetByID(string bukuID)
+{
+    Buku buku = null;</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">public</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Buku</span><span class="p">&gt;</span> <span class="n">GetAll</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">List</span><span class="p">&lt;</span><span class="n">Buku</span><span class="p">&gt;</span> <span class="n">daftarBuku</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Buku</span><span class="p">&gt;();&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="n">strSql</span> <span class="p">=</span> <span class="s">&quot;SELECT isbn, judul, edisi, bahasa &quot;</span> <span class="p">+</span>
-</span><span class='line'>         <span class="s">&quot;FROM buku &quot;</span> <span class="p">+</span>
-</span><span class='line'>         <span class="s">&quot;ORDER BY judul&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="k">using</span> <span class="p">(</span><span class="n">OleDbCommand</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">OleDbCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="n">OleDbDataReader</span> <span class="n">dtr</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteReader</span><span class="p">())</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">while</span> <span class="p">(</span><span class="n">dtr</span><span class="p">.</span><span class="n">Read</span><span class="p">())</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="n">Buku</span> <span class="n">buku</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Buku</span><span class="p">();</span>
-</span><span class='line'>            <span class="n">buku</span><span class="p">.</span><span class="n">ISBN</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="m">0</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="n">dtr</span><span class="p">.</span><span class="n">GetString</span><span class="p">(</span><span class="m">0</span><span class="p">);</span>
-</span><span class='line'>            <span class="n">buku</span><span class="p">.</span><span class="n">Judul</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="n">dtr</span><span class="p">.</span><span class="n">GetString</span><span class="p">(</span><span class="m">1</span><span class="p">);</span>
-</span><span class='line'>            <span class="n">buku</span><span class="p">.</span><span class="n">Edisi</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="m">2</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="n">dtr</span><span class="p">.</span><span class="n">GetString</span><span class="p">(</span><span class="m">2</span><span class="p">);</span>
-</span><span class='line'>            <span class="n">buku</span><span class="p">.</span><span class="n">Bahasa</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="m">3</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="n">dtr</span><span class="p">.</span><span class="n">GetString</span><span class="p">(</span><span class="m">3</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="n">daftarBuku</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">buku</span><span class="p">);</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">return</span> <span class="n">daftarBuku</span><span class="p">;</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<pre><code>strSql = "SELECT isbn, judul, edisi, bahasa " +
+         "FROM buku " +
+         "WHERE isbn = @1";
+using (OleDbCommand cmd = new OleDbCommand(strSql, conn))
+{
+    cmd.Parameters.AddWithValue("@1", bukuID);
+    using (OleDbDataReader dtr = cmd.ExecuteReader())
+    {
+        if (dtr.Read())
+        {
+            buku = new Buku();
+            buku.ISBN = dtr[0] is DBNull ? string.Empty : dtr.GetString(0);
+            buku.Judul = dtr[1] is DBNull ? string.Empty : dtr.GetString(1);
+            buku.Edisi = dtr[2] is DBNull ? string.Empty : dtr.GetString(2);
+            buku.Bahasa = dtr[3] is DBNull ? string.Empty : dtr.GetString(3);
+        }
+    }
+}
+return buku;
+</code></pre>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">public</span> <span class="n">DataSet</span> <span class="nf">GetReportAll</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">strSql</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">SELECT</span> <span class="n">isbn</span><span class="p">,</span> <span class="n">judul</span><span class="p">,</span> <span class="n">edisi</span><span class="p">,</span> <span class="n">bahasa</span> <span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="p">+</span>
-</span><span class='line'>             <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">FROM</span> <span class="n">buku</span> <span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="p">+</span>
-</span><span class='line'>             <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">ORDER</span> <span class="n">BY</span> <span class="n">judul</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
-</span><span class='line'>    <span class="n">OleDbDataAdapter</span> <span class="n">da</span> <span class="p">=</span> <span class="k">new</span> <span class="n">OleDbDataAdapter</span><span class="p">();</span>
-</span><span class='line'>    <span class="n">da</span><span class="p">.</span><span class="n">SelectCommand</span> <span class="p">=</span> <span class="k">new</span> <span class="n">OleDbCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">);&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="n">DataSet</span> <span class="n">ds</span> <span class="p">=</span> <span class="k">new</span> <span class="n">DataSet</span><span class="p">();</span>
-</span><span class='line'><span class="n">da</span><span class="p">.</span><span class="n">Fill</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s">&quot;buku&quot;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="n">ds</span><span class="p">;</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>}
+{% endcodeblock %}</p>
+
+<p>{% codeblock lang:c# %}
+public int Save(Buku buku)
+{
+    strSql = &ldquo;INSERT INTO buku (isbn, judul, edisi, bahasa, penerbit_id) &rdquo; +
+             &ldquo;VALUES (@1, @2, @3, @4, @5)&rdquo;;
+    using (OleDbCommand cmd = new OleDbCommand(strSql, conn))
+    {
+        cmd.Parameters.AddWithValue(&ldquo;@1&rdquo;, buku.ISBN);
+        cmd.Parameters.AddWithValue(&ldquo;@2&rdquo;, buku.Judul);
+        cmd.Parameters.AddWithValue(&ldquo;@3&rdquo;, buku.Edisi);
+        cmd.Parameters.AddWithValue(&ldquo;@4&rdquo;, buku.Bahasa);
+        cmd.Parameters.AddWithValue(&ldquo;@5&rdquo;, buku.Penerbit.PenerbitID);</p>
+
+<pre><code>    return cmd.ExecuteNonQuery();
+}
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
+
+<p>{% codeblock lang:c# %}
+public int Update(Buku buku)
+{
+    strSql = &ldquo;UPDATE buku SET judul = @1, edisi = @2, bahasa = @3, penerbit_id = @4 &rdquo; +
+             &ldquo;WHERE isbn = @5&rdquo;;
+    using (OleDbCommand cmd = new OleDbCommand(strSql, conn))
+    {
+        cmd.Parameters.AddWithValue(&ldquo;@1&rdquo;, buku.Judul);
+        cmd.Parameters.AddWithValue(&ldquo;@2&rdquo;, buku.Edisi);
+        cmd.Parameters.AddWithValue(&ldquo;@3&rdquo;, buku.Bahasa);
+        cmd.Parameters.AddWithValue(&ldquo;@4&rdquo;, buku.Penerbit.PenerbitID);
+        cmd.Parameters.AddWithValue(&ldquo;@5&rdquo;, buku.ISBN);</p>
+
+<pre><code>    return cmd.ExecuteNonQuery();
+}
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
+
+<p>{% codeblock lang:c# %}
+public int Delete(Buku buku)
+{
+    strSql = &ldquo;DELETE FROM buku WHERE isbn = @1&rdquo;;
+    using (OleDbCommand cmd = new OleDbCommand(strSql, conn))
+    {
+        cmd.Parameters.AddWithValue(&ldquo;@1&rdquo;, buku.ISBN);</p>
+
+<pre><code>    return cmd.ExecuteNonQuery();
+}
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
+
+<p>{% codeblock lang:c# %}
+public List<Buku> GetAll()
+{
+    List<Buku> daftarBuku = new List<Buku>();</p>
+
+<pre><code>strSql = "SELECT isbn, judul, edisi, bahasa " +
+         "FROM buku " +
+         "ORDER BY judul";
+using (OleDbCommand cmd = new OleDbCommand(strSql, conn))
+{
+    using (OleDbDataReader dtr = cmd.ExecuteReader())
+    {
+        while (dtr.Read())
+        {
+            Buku buku = new Buku();
+            buku.ISBN = dtr[0] is DBNull ? string.Empty : dtr.GetString(0);
+            buku.Judul = dtr[1] is DBNull ? string.Empty : dtr.GetString(1);
+            buku.Edisi = dtr[2] is DBNull ? string.Empty : dtr.GetString(2);
+            buku.Bahasa = dtr[3] is DBNull ? string.Empty : dtr.GetString(3);
+
+            daftarBuku.Add(buku);
+        }
+    }
+}
+return daftarBuku;
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
+
+<p>{% codeblock lang:c# %}
+public DataSet GetReportAll()
+{
+    strSql = &ldquo;SELECT isbn, judul, edisi, bahasa &rdquo; +
+             &ldquo;FROM buku &rdquo; +
+             &ldquo;ORDER BY judul&rdquo;;
+    OleDbDataAdapter da = new OleDbDataAdapter();
+    da.SelectCommand = new OleDbCommand(strSql, conn);</p>
+
+<pre><code>DataSet ds = new DataSet();
+da.Fill(ds, "buku");
+
+return ds;
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p>Jika kita perhatikan pada kode diatas, ada beberapa baris kode yang sama tersebar dibeberapa method (GetAll, GetByID, dan GetByName) yaitu kode untuk proses mapping dari hasil SELECT yg tersimpan di dalam object DataReader ke objek buku</p>
 
@@ -1410,7 +1026,7 @@
     <link href="http://coding4ever.net/blog/2012/02/01/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-1/"/>
     <updated>2012-02-01T06:49:35+07:00</updated>
     <id>http://coding4ever.net/blog/2012/02/01/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-1</id>
-    <content type="html"><![CDATA[<p>Masih melanjutkan <a href="/blog/2011/12/26/tutorial-net-remoting-part-1-intro/">postingan</a> sebelumnya yaitu tentang .NET Remoting, tetapi kali ini kita akan mengimplementasikan .NET Remoting pada pembuatan aplikasi database, tapi sebelumnya kita lihat dulu kenapa kok report2x menggunakan .NET Remoting untuk pembuatan aplikasi database karena katanya &ldquo;<strong>orang yang tidak tau itu cendrung memusuhi</strong>&rdquo; halah :D.</p>
+    <content type="html"><![CDATA[<p>Masih melanjutkan <a href="{{%20site.url%20}}/blog/2011/12/26/tutorial-net-remoting-part-1-intro/">postingan</a> sebelumnya yaitu tentang .NET Remoting, tetapi kali ini kita akan mengimplementasikan .NET Remoting pada pembuatan aplikasi database, tapi sebelumnya kita lihat dulu kenapa kok report2x menggunakan .NET Remoting untuk pembuatan aplikasi database karena katanya &ldquo;<strong>orang yang tidak tau itu cendrung memusuhi</strong>&rdquo; halah :D.</p>
 
 <!-- more -->
 
@@ -1459,7 +1075,7 @@
 
 <p><a href="http://coding4ever.files.wordpress.com/2012/01/112012-3.png"><img src="http://coding4ever.files.wordpress.com/2012/01/112012-3.png" alt="" /></a></p>
 
-<p>Project diatas sangat mirip dengan project Calculator yang sudah saya bahas pada <a href="/blog/2011/12/31/tutorial-net-remoting-part-2-project-calculator-lib/">postingan</a> sebelumnya.</p>
+<p>Project diatas sangat mirip dengan project Calculator yang sudah saya bahas pada <a href="{{%20site.url%20}}/blog/2011/12/31/tutorial-net-remoting-part-2-project-calculator-lib/">postingan</a> sebelumnya.</p>
 
 <p>Sesuai urutan kita akan membuat project SmartLibraryLib terlebih dulu dan sebagai gambaran apa saja yang ada didalam project SmartLibraryLib ini bisa kita lihat dari class diagram berikut :</p>
 
@@ -1541,93 +1157,51 @@
 
 <p>Berikut kode lengkap untuk class Buku.</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">namespace</span> <span class="nn">SmartLibraryLib.Model</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'><span class="na">    [Serializable]</span>
-</span><span class='line'>    <span class="k">public</span> <span class="k">class</span> <span class="nc">Buku</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">private</span> <span class="kt">string</span> <span class="p">&lt;</span><span class="n">em</span><span class="p">&gt;</span><span class="n">iSBN</span><span class="p">;</span>
-</span><span class='line'>        <span class="k">public</span> <span class="kt">string</span> <span class="n">ISBN</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="k">get</span> <span class="p">{</span> <span class="k">return</span> <span class="p">&lt;/</span><span class="n">em</span><span class="p">&gt;</span><span class="n">iSBN</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'>            <span class="k">set</span> <span class="p">{</span> <span class="n">_iSBN</span> <span class="p">=</span> <span class="k">value</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'>        <span class="p">}&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span>    <span class="k">private</span> <span class="kt">string</span> <span class="n">_judul</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">public</span> <span class="kt">string</span> <span class="n">Judul</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">get</span> <span class="p">{</span> <span class="k">return</span> <span class="n">_judul</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'>        <span class="k">set</span> <span class="p">{</span> <span class="n">_judul</span> <span class="p">=</span> <span class="k">value</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">private</span> <span class="kt">string</span> <span class="n">_edisi</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">public</span> <span class="kt">string</span> <span class="n">Edisi</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">get</span> <span class="p">{</span> <span class="k">return</span> <span class="n">_edisi</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'>        <span class="k">set</span> <span class="p">{</span> <span class="n">_edisi</span> <span class="p">=</span> <span class="k">value</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">private</span> <span class="kt">string</span> <span class="n">_bahasa</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">public</span> <span class="kt">string</span> <span class="n">Bahasa</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">get</span> <span class="p">{</span> <span class="k">return</span> <span class="n">_bahasa</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'>        <span class="k">set</span> <span class="p">{</span> <span class="n">_bahasa</span> <span class="p">=</span> <span class="k">value</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">private</span> <span class="n">Penerbit</span> <span class="n">_penerbit</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">public</span> <span class="n">Penerbit</span> <span class="n">Penerbit</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">get</span> <span class="p">{</span> <span class="k">return</span> <span class="n">_penerbit</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'>        <span class="k">set</span> <span class="p">{</span> <span class="n">_penerbit</span> <span class="p">=</span> <span class="k">value</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+namespace SmartLibraryLib.Model
+{
+    [Serializable]
+    public class Buku
+    {
+        private string <em>iSBN;
+        public string ISBN
+        {
+            get { return </em>iSBN; }
+            set { _iSBN = value; }
+        }</p>
+
+<pre><code>    private string _judul;
+    public string Judul
+    {
+        get { return _judul; }
+        set { _judul = value; }
+    }
+
+    private string _edisi;
+    public string Edisi
+    {
+        get { return _edisi; }
+        set { _edisi = value; }
+    }
+
+    private string _bahasa;
+    public string Bahasa
+    {
+        get { return _bahasa; }
+        set { _bahasa = value; }
+    }
+
+    private Penerbit _penerbit;
+    public Penerbit Penerbit
+    {
+        get { return _penerbit; }
+        set { _penerbit = value; }
+    }
+}
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p>Satu hal yang penting disini adalah objek/instance dari class Buku akan di<a href="http://www.diranieh.com/NETSerialization/BinarySerialization.htm">serialisasi</a>kan dari server ke klien atau sebaliknya sehingga harus ditambahkan atribut <strong>[Serializable]</strong>.</p>
 
@@ -1635,51 +1209,30 @@
 
 <p>Ulangi langkah diatas untuk menambahkan class Penerbit. Berikut kode lengkap class Penerbit</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">namespace</span> <span class="nn">SmartLibraryLib.Model</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'><span class="na">    [Serializable]</span>
-</span><span class='line'>    <span class="k">public</span> <span class="k">class</span> <span class="nc">Penerbit</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">private</span> <span class="kt">int</span> <span class="p">&lt;</span><span class="n">em</span><span class="p">&gt;</span><span class="n">penerbitID</span><span class="p">;</span>
-</span><span class='line'>        <span class="k">public</span> <span class="kt">int</span> <span class="n">PenerbitID</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="k">get</span> <span class="p">{</span> <span class="k">return</span> <span class="p">&lt;/</span><span class="n">em</span><span class="p">&gt;</span><span class="n">penerbitID</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'>            <span class="k">set</span> <span class="p">{</span> <span class="n">_penerbitID</span> <span class="p">=</span> <span class="k">value</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'>        <span class="p">}&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span>    <span class="k">private</span> <span class="kt">string</span> <span class="n">_nama</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">public</span> <span class="kt">string</span> <span class="n">Nama</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">get</span> <span class="p">{</span> <span class="k">return</span> <span class="n">_nama</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'>        <span class="k">set</span> <span class="p">{</span> <span class="n">_nama</span> <span class="p">=</span> <span class="k">value</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+namespace SmartLibraryLib.Model
+{
+    [Serializable]
+    public class Penerbit
+    {
+        private int <em>penerbitID;
+        public int PenerbitID
+        {
+            get { return </em>penerbitID; }
+            set { _penerbitID = value; }
+        }</p>
+
+<pre><code>    private string _nama;
+    public string Nama
+    {
+        get { return _nama; }
+        set { _nama = value; }
+    }
+}
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p>hasil sementara</p>
 
