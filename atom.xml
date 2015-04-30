@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-04-30T12:15:44+07:00</updated>
+  <updated>2015-04-30T15:44:40+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,120 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Membuat Jadwal Backup Database Otomatis]]></title>
+    <link href="http://coding4ever.net/blog/2015/04/30/membuat-jadwal-backup-database-otomatis/"/>
+    <updated>2015-04-30T15:33:59+07:00</updated>
+    <id>http://coding4ever.net/blog/2015/04/30/membuat-jadwal-backup-database-otomatis</id>
+    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2015/04/300415-14.png" width="100" height="100">Backup database merupakan salah satu hal penting, apalagi jika kita bekerja sebagai database administrator.</p>
+
+<p>Semakin banyaknya data-data yang tersimpan seperti data keuangan, akademik dan data penting lainnya mengharuskan kita untuk meluangkan waktu khusus untuk melakukan backup database.</p>
+
+<p>Backup secara manual tentu saja tidak disarankan, apalagi jika datanya sudah banyak, tentu saja sedikit banyaknya akan menyita waktu kita untuk melakukan hal penting lainnya.</p>
+
+<!-- more -->
+
+
+<p>Salah satu keuntungan menggunakan backup otomatis adalah, kita bisa mengset jadwal backup diluar jam-jam kantor. Misal jam 5 sore, jam 12 malam atau jam lainnya sesuai dengan kebutuhan.</p>
+
+<h3>Database MySQL</h3>
+
+<p>Adapun database yang kita gunakan untuk simulasi backup otomatis ini adalah database MySQL. Untuk membackup database MySQL kita bisa gunakan tool bawaan MySQL yaitu <code>mysqldump</code>.</p>
+
+<p>Adapun perintahnya seperti berikut :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>' backup
+</span><span class='line'>mysqldump -uUSER_NAME -pUSER_PASSWORD --routines NAMA_DATABASE > LOKASI_FILE_BACKUP.SQL</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Parameter <code>–routines</code> ditambahkan jika database mempunyai fungsi/trigger.</p>
+
+<p>Karena data backupnya yang disimpan lebih dari satu, untuk nama database akan kita buat unik dengan format : <code>nama_database-tahun-bulan-hari_jam_menit</code>. Contoh :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-01.png"></p>
+
+<p>Untuk mendapatkan informasi tahun, bulan, hari dan jam, kita bisa memanfaatkan batch command dengan perintah seperti berikut :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>for /f "tokens=2-4 delims=/ " %%a in ('date /T') do set year=%%c
+</span><span class='line'>for /f "tokens=2-4 delims=/ " %%a in ('date /T') do set month=%%a
+</span><span class='line'>for /f "tokens=2-4 delims=/ " %%a in ('date /T') do set day=%%b
+</span><span class='line'> 
+</span><span class='line'>for /f "tokens=1 delims=: " %%h in ('time /T') do set hour=%%h
+</span><span class='line'>for /f "tokens=2 delims=: " %%m in ('time /T') do set minutes=%%m
+</span><span class='line'>for /f "tokens=3 delims=: " %%a in ('time /T') do set ampm=%%a
+</span><span class='line'> 
+</span><span class='line'>rem membuat file backup database dengan format nama_database-tahun-bulan-hari_jam_menit
+</span><span class='line'>set FILE_BACKUP=D:\backup\Chinook-%year%-%month%-%day%_%hour%-%minutes%-%ampm%
+</span><span class='line'> 
+</span><span class='line'>rem USER_NAME, USER_PASSWORD dan NAMA_DATABASE menyesuaikan
+</span><span class='line'>mysqldump -uroot -prahasia --routines Chinook > %FILE_BACKUP%.sql</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Setelah itu kode di atas kita simpan di folder <code>Instalasi MySQL\bin</code>, misal dengan nama <code>backup.cmd</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-02.png"></p>
+
+<h3>Windows Task Scheduler</h3>
+
+<p>Agar file <code>backup.cmd</code> ini bisa dijalankan secara berulang-ulang dan otomatis, kita bisa memanfaatkan tool yang sudah tersedia di Windows yaitu <code>Windows Task Scheduler</code>.</p>
+
+<p>Untuk mengakses tool ini bisa dilakukan melalui menu Start -> Accessories -> System Tools -> Task Scheduler</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-03.png"></p>
+
+<p>Berikut langkah-langkah untuk menambahkan task baru.</p>
+
+<ol>
+<li><p>Klik <code>Create Basic Task</code> di panel Actions
+<img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-04.png">
+Kemudian isikan informasi <code>Name</code> dan <code>Description</code> kemudian klik tombol Next</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-05.png"></p></li>
+<li><p>Di dialog berikutnya kita akan menentukan kapan task ini akan di eksekusi. Contoh jika task ini akan dieksekusi setiap hari kita pilih <code>Daily</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-06.png"></p></li>
+<li><p>Berikutnya kita akan menentukan jam berapa task ini akan dieksekusi</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-07.png">
+Pada gambar di atas, task ini akan dieksekusi setiap jam 5 sore.</p></li>
+<li><p>Berikutnya kita akan menentukan apa yang akan dilakukan task ini, ketika dieksekusi. Sebagai contoh task ini akan menjalankan file <code>backup.cmd</code> yang tersimpan di folder bin MySQL</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-08.png">
+<img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-09.png">
+Di bagian <code>Program/script</code> kita tentukan nama file <code>backup.cmd</code>, sedangkan untuk <code>Start in</code> kita tentukan lokasi/folder file <code>backup.cmd</code></p></li>
+<li>Terakhir klik tombol Finish</li>
+</ol>
+
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-10.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-11.png"></p>
+
+<p>Untuk mencoba apakah backup berjalan dengan baik, klik kanan nama task <code>Backup Database Chinook</code> -> Run</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-12.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-13.png"></p>
+
+<p>Selamat MENCOBA :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Paket NuGet Yang Wajib Dicoba Bagian #1 - CrashReporter.NET]]></title>
@@ -3644,19 +3758,6 @@ Setelah proses mapping selesai, langkah berikutnya adalah menambahkan sebuah cla
 <p><a href="http://coding4ever.files.wordpress.com/2014/03/9.png"><img src="http://coding4ever.files.wordpress.com/2014/03/9.png" alt="9" /></a></p>
 
 <p>Selamat mencoba :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Repository Coding4ever]]></title>
-    <link href="http://coding4ever.net/blog/2014/03/10/repository-coding4ever/"/>
-    <updated>2014-03-10T14:52:06+07:00</updated>
-    <id>http://coding4ever.net/blog/2014/03/10/repository-coding4ever</id>
-    <content type="html"><![CDATA[<p>Untuk mempermudah mengakses source code coding4ever, beberapa source code terbaru sudah saya push ke repository <a href="https://github.com/">GitHub</a>, dan sisanya menyusul :D</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/github1.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/github1.jpg" alt="github" /></a></p>
-
-<p>Link repository : <a href="https://github.com/k4m4r82?tab=repositories">https://github.com/k4m4r82</a></p>
 ]]></content>
   </entry>
   
