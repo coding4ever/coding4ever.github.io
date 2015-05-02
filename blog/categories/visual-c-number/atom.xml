@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Visual C# | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/visual-c-number/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-05-02T11:52:43+07:00</updated>
+  <updated>2015-05-02T12:14:43+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -112,7 +112,9 @@
 
 <p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-11.png">https://coding4ever.files.wordpress.com/2015/05/020515-11.png</a>&#8221;></p>
 
-<p>Jika kita perhatikan kode di atas, ada tambahan attribute <code>ServiceContract</code> dan <code>OperationContract</code>. <code>ServiceContract</code> memberikan informasi operasi apa saja yang tersedia untuk diakses sedangkan <code>OperationContract</code>  digunakan untuk memberikan tanda bahwa method tersebut merupakan operasi atau bagian dari <code>ServiceContract</code>.</p>
+<p>Jika kita perhatikan kode di atas, ada tambahan attribute <code>ServiceContract</code> dan <code>OperationContract</code> pada nama interface dan method abstractnya.</p>
+
+<p><code>ServiceContract</code> memberikan informasi operasi apa saja yang tersedia untuk bisa diakses sedangkan <code>OperationContract</code>  digunakan untuk memberikan tanda bahwa method tersebut merupakan operasi atau bagian dari <code>ServiceContract</code>.</p>
 
 <p>Bagaimana jika kita lupa menambahkan attribut <code>ServiceContract</code> dan <code>OperationContract</code> ? Ya otomatis interface ICalculator berikut method tidak bisa diakses oleh client.</p>
 
