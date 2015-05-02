@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-04-30T15:44:40+07:00</updated>
+  <updated>2015-05-02T11:09:12+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,140 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Tutorial WCF Service Bagian #1]]></title>
+    <link href="http://coding4ever.net/blog/2015/05/02/tutorial-wcf-service-bagian-number-1/"/>
+    <updated>2015-05-02T10:15:26+07:00</updated>
+    <id>http://coding4ever.net/blog/2015/05/02/tutorial-wcf-service-bagian-number-1</id>
+    <content type="html"><![CDATA[<h3>Apa itu WCF</h3>
+
+<p><img class="left" src="https://coding4ever.files.wordpress.com/2015/05/020515-16.png" width="100" height="100">WCF singkatan dari Windows Communication Foundation merupakan salah satu teknologi Microsoft untuk membangun aplikasi berbasis layanan (service-oriented applications). Dengan kata lain WCF itu merupakan salah satu alternatif untuk membangun <a href="http://www.techopedia.com/definition/1622/web-service-net">web service</a> dan <a href="http://en.wikipedia.org/wiki/Distributed_computing">sistem terdistribusi</a> lainnya menggunakan teknologi Microsoft .NET.</p>
+
+<blockquote><p>Dalam tutorial ini kita akan lebih banyak membahas hal-hal teknis untuk membuat web service menggunakan WCF. Untuk referensi lebih lanjut mengenai WCF bisa langsung Anda cari menggunakan layanan search engine favorit Anda :-)</p></blockquote>
+
+<!-- more -->
+
+
+<p>WCF merupakan gabungan dari beberapa teknologi <a href="http://en.wikipedia.org/wiki/Remote_procedure_call">RPC</a> lainnya seperti Web Service, <a href="http://coding4ever.net/blog/categories/dot-net-remoting/">.NET Remoting</a>, MSMQ dan COM+</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/020515-01.png"></p>
+
+<p style="text-align:center">Sumber - <a href="http://wcftutorial.net/Introduction-to-WCF.aspx" target="_blank">WCF Tutorial</a></p>
+
+
+<p>Sebagai langkah awal kita akan membuat aplikasi sederhana yang akan menerapkan teknologi WCF. Aplikasi yang akan kita buat yaitu Calculator, walaupun sederhana tetapi aplikasi ini membutuhkan 3 project untuk membuatnya.</p>
+
+<ol>
+<li><p><code>CalculatorLib</code> – Project CalculatorLib dibuat dengan memanfaatkan project bertipe Class Library yang isinya hanya berupa interface ICalculator dengan 4 buah method abstract yaitu : <code>Penambahan</code>, <code>Pengurangan</code>, <code>Perkalian</code> dan <code>Pembagian</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/020515-02.png"></p>
+
+<p>Project ini nantinya akan dicompile menjadi file dengan ekstensi .dll (CalculatorLib.dll), file CalculatorLib.dll ini akan dishare atau ditambahkan sebagai referensi untuk aplikasi CalculatorServer dan CalculatorClient.</p>
+
+<p>Teknik ini dikenal dengan istilah <code>Shared Assembly</code> tujuannya adalah agar aplikasi server dan klien bisa berkomunikasi dengan cara yang sama.</p></li>
+<li><p><code>CalculatorServer</code> – Project CalculatorServer dibuat dengan memanfaatkan project bertipe Class Library. Project ini akan dicompile menjadi file dengan ekstensi .dll (CalculatorServer.dll).</p>
+
+<p>Project ini nantinya akan mengimplementasikan semua method-method abstract dari project CalculatorLib.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/020515-03.png"></p>
+
+<p>Agar class ini (CalculatorServer.dll) bisa dikenali sebagai WCF service, kita perlu meng-host-kannya terlebih dulu dengan beberapa cara yaitu :</p>
+
+<ul>
+<li>Hosting in Internet Information Services(IIS)</li>
+<li>Hosting in Windows Activation Services(WAS)</li>
+<li>Hosting in a Console or Desktop application(Self hosting)</li>
+<li>Hosting in a Windows Service <br/>
+<br></li>
+</ul>
+</li>
+<li><p><code>CalculatorClient</code> – Project CalculatorClient dibuat dengan memanfaatkan project bertipe Windows Application, aplikasi ini hanya memanggil method-method abstract dari project CalculatorLib dengan memanfaatkan objek proxy sehingga method tersebut akan dieksekusi secara remote (dijalankan di sisi server).</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/020515-04.png"></p>
+
+<p><p style="text-align:center">Sumber - <a href="http://www.topwcftutorials.net/2014/06/3-ways-generate-proxy-wcf-service.html" target="_blank">Top WCF Tutorial</a></p></p>
+
+<p>Berikut gambaran lengkap project yang akan kita buat</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/020515-05.png"></p></li>
+</ol>
+
+
+<p>Oke kita sudahi dulu obrolannya dan kita langsung saja mulai dengan pembuatan project CalculatorLib, jangan lupa untuk mengaktifkan terlebih dulu Visual Studio .NET Anda.</p>
+
+<h3>Membuat Project CalculatorLib</h3>
+
+<ol>
+<li><p>Klik menu File ->New -> Project …</p></li>
+<li><p>Pada dialog New Project aktifkan pilihan Visual C# kemudian pada pilihan Templates pilih Class Library</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/020515-06.png"></p>
+
+<p>Pada isian Name isikan CalculatorLib, setelah itu klik tombol Ok.</p>
+
+<p>Secara default pada saat pembuatan project sudah otomatis disediakan 1 buah class kosong dengan nama Class1, karena kita akan menambahkan class baru jadi class ini dihapus saja.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/020515-07.png"></p></li>
+</ol>
+
+
+<h3>Menambahkan Interface ICalculator</h3>
+
+<ol>
+<li><p>Klik kanan project CalculatorLib -> Add -> New Item…</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/020515-08.png"></p></li>
+<li><p>Pada dialog add new item, pilih Interface dan untuk isian Name diisi ICalculator</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/020515-09.png"></p>
+
+<p>Setelah itu akan tampil editor code interface ICalculator</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/020515-10.png"></p>
+
+<p>Jangan lupa untuk menambahkan access modifier <code>public</code>.</p>
+
+<p>Selanjutnya kita tinggal menambahkan 4 method abstractnya yaitu <code>Penambahan</code>, <code>Pengurangan</code>, <code>Perkalian</code> dan <code>Pembagian</code>.</p>
+
+<p>Berikut kode lengkapnya :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/020515-11.png"></p>
+
+<p>Jika kita perhatikan kode di atas, ada tambahan attribute <code>ServiceContract</code> dan <code>OperationContract</code>. <code>ServiceContract</code> memberikan informasi operasi apa saja yang tersedia untuk diakses sedangkan <code>OperationContract</code>  digunakan untuk memberikan tanda bahwa method tersebut merupakan operasi atau bagian dari <code>ServiceContract</code>.</p>
+
+<p>Bagaimana jika kita lupa menambahkan attribut <code>ServiceContract</code> dan <code>OperationContract</code> ? Ya otomatis interface ICalculator berikut method tidak bisa diakses oleh client.</p>
+
+<p>Untuk menambahkan attribut <code>ServiceContract</code> dan <code>OperationContract</code> kita perlu menambahkan namespace <code>System.ServiceModel</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/020515-12.png"></p>
+
+<p>Kemudian mendaftarkannya di bagian using</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/020515-13.png"></p></li>
+</ol>
+
+
+<h3>Mengcompile project CalculatorLib</h3>
+
+<p>Tujuannya adalah agar project CalculatorLib ini bisa digunakan sebagai referensi oleh aplikasi CalculatorServer dan CalculatorClient</p>
+
+<ol>
+<li><p>Klik kanan project CalculatorLib -> Build</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/020515-14.png"></p>
+
+<p>Setelah itu akan tampil hasil output dari proses Build</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/020515-15.png"></p></li>
+</ol>
+
+
+<p>Yuph cukup sampai disini, insya Alloh akan kita lanjut pada kesempatan berikutnya.</p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/Calculator">MENCOBA</a> :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Membuat Jadwal Backup Database Otomatis]]></title>
@@ -3665,97 +3799,6 @@ Setelah proses mapping selesai, langkah berikutnya adalah menambahkan sebuah cla
 <p>Terakhir coba aktifkan dialog NuGet Package Manager, kemudian cek pilihan &ldquo;Server Nuget Local&rdquo;.</p>
 
 <p><a href="http://coding4ever.files.wordpress.com/2014/03/22.png"><img src="http://coding4ever.files.wordpress.com/2014/03/22.png" alt="22" /></a></p>
-
-<p>Selamat mencoba :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet]]></title>
-    <link href="http://coding4ever.net/blog/2014/03/11/nuget/"/>
-    <updated>2014-03-11T12:48:22+07:00</updated>
-    <id>http://coding4ever.net/blog/2014/03/11/nuget</id>
-    <content type="html"><![CDATA[<p><img style="float: left; margin:0 10px 10px 0;width:200px;height:70px" src="http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png" /><strong>NuGet adalah &hellip;</strong></p>
-
-<p><em>NuGet is the package manager for the Microsoft development platform including .NET. The NuGet client tools provide the ability to produce and consume packages. The <a href="http://www.nuget.org/">NuGet Gallery</a> is the central package repository used by all package authors and consumers</em>.</p>
-
-<p>Jadi dengan memanfaatkan NuGet package manager, kita bisa dengan mudah menginstall library-library tambahan dari pihak ketiga (3rd party libraries), seperti <a href="http://www.nuget.org/packages/Dapper/">Dapper .NET</a>, <a href="http://www.nuget.org/packages/EntityFramework/6.0.2">Entity Framework</a>, <a href="http://www.nuget.org/packages/Newtonsoft.Json/">Json .NET</a>, <a href="http://www.nuget.org/packages/FirebirdSql.Data.FirebirdClient/">Firebird ADO.NET Data provider</a> dan lainnya.</p>
-
-<!-- more -->
-
-
-<p>Sayangnya NuGet hanya support untuk Visual Studio 2010, 2012 dan tentunya Visual Studio dengan versi terbaru.</p>
-
-<p><strong>Cara Instalasi</strong></p>
-
-<p>Ada beberapa cara untuk menginstall NuGet, salah satunya adalah dengan menggunakan Visual Studio Extension Manager.</p>
-
-<p>Berikut langkah-langkahnya :</p>
-
-<ol>
-<li><p>Aktifkan Visual Studio .NET, untuk contoh disini saya menggunakan Visual Studio 2010</p></li>
-<li><p>Klik menu Tools -> Extension Manager. Aktifkan pilihan Online Gallery, cari NuGet Package Manager kemudian klik tombol Download.</p></li>
-</ol>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/1.png"><img src="http://coding4ever.files.wordpress.com/2014/03/1.png" alt="1" /></a></p>
-
-<p>Tunggu sampai proses download selesai.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/2.png"><img src="http://coding4ever.files.wordpress.com/2014/03/2.png" alt="2" /></a></p>
-
-<ol>
-<li>Kemudian akan nampil dialog Installer, klik tombol Install</li>
-</ol>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/3.png"><img src="http://coding4ever.files.wordpress.com/2014/03/3.png" alt="3" /></a></p>
-
-<ol>
-<li>Setelah proses instalasi selesai restart Visual Studio Anda.</li>
-</ol>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/4.png"><img src="http://coding4ever.files.wordpress.com/2014/03/4.png" alt="4" /></a></p>
-
-<p>Dan NuGet package manager siap digunakan :)</p>
-
-<p><strong>Cara Penggunaan</strong></p>
-
-<p>Cara penggunaan NuGet package manager sangat mudah, sebagai contoh kita akan menambahkan library <a href="http://coding4ever.wordpress.com/category/visual-c/dapper-net-visual-c-net/">Dapper .NET</a>.</p>
-
-<ol>
-<li>Buat project baru, misal dengan tipe Console Application</li>
-</ol>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/5.png"><img src="http://coding4ever.files.wordpress.com/2014/03/5.png" alt="5" /></a></p>
-
-<ol>
-<li>Klik kanan References -> Manage NuGet Packages</li>
-</ol>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/6.png"><img src="http://coding4ever.files.wordpress.com/2014/03/6.png" alt="6" /></a></p>
-
-<ol>
-<li>Pada kota pencarian ketik Dapper, kemudian klik tombol Install</li>
-</ol>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/7.png"><img src="http://coding4ever.files.wordpress.com/2014/03/7.png" alt="7" /></a></p>
-
-<p>kemudian tunggu sampai proses instalasi selesai.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/8.png"><img src="http://coding4ever.files.wordpress.com/2014/03/8.png" alt="8" /></a></p>
-
-<ol>
-<li><p>Tutup dialog NuGet package</p></li>
-<li><p>Kemudian cek node references, seharusnya library Dapper .NET sudah terinstall.</p></li>
-</ol>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/9.png"><img src="http://coding4ever.files.wordpress.com/2014/03/9.png" alt="9" /></a></p>
 
 <p>Selamat mencoba :)</p>
 ]]></content>
