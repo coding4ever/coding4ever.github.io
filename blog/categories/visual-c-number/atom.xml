@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Visual C# | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/visual-c-number/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-05-02T11:09:12+07:00</updated>
+  <updated>2015-05-02T11:25:56+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -20,7 +20,7 @@
     <id>http://coding4ever.net/blog/2015/05/02/tutorial-wcf-service-bagian-number-1</id>
     <content type="html"><![CDATA[<h3>Apa itu WCF</h3>
 
-<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-16.png">https://coding4ever.files.wordpress.com/2015/05/020515-16.png</a>&#8221; width=&#8221;100&#8221; height=&#8221;100&#8221;>WCF singkatan dari Windows Communication Foundation merupakan salah satu teknologi Microsoft untuk membangun aplikasi berbasis layanan (service-oriented applications). Dengan kata lain WCF itu merupakan salah satu alternatif untuk membangun <a href="http://www.techopedia.com/definition/1622/web-service-net">web service</a> dan <a href="http://en.wikipedia.org/wiki/Distributed_computing">sistem terdistribusi</a> lainnya menggunakan teknologi Microsoft .NET.</p>
+<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-16.png">https://coding4ever.files.wordpress.com/2015/05/020515-16.png</a>&#8221; width=&#8221;100&#8221; height=&#8221;100&#8221;>WCF singkatan dari Windows Communication Foundation, merupakan salah satu teknologi Microsoft untuk membangun aplikasi berbasis layanan (service-oriented applications). Dengan kata lain WCF itu merupakan salah satu alternatif untuk membangun <a href="http://www.techopedia.com/definition/1622/web-service-net">web service</a> dan <a href="http://en.wikipedia.org/wiki/Distributed_computing">sistem terdistribusi</a> lainnya menggunakan teknologi Microsoft .NET.</p>
 
 <blockquote><p>Dalam tutorial ini kita akan lebih banyak membahas hal-hal teknis untuk membuat web service menggunakan WCF. Untuk referensi lebih lanjut mengenai WCF bisa langsung Anda cari menggunakan layanan search engine favorit Anda :-)</p></blockquote>
 
@@ -141,7 +141,7 @@
 </ol>
 
 
-<p>Yuph cukup sampai disini, insya Alloh akan kita lanjut pada kesempatan berikutnya.</p>
+<p>Yuph cukup sampai disini, insya Alloh akan kita lanjutkan pada kesempatan berikutnya.</p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/Calculator">MENCOBA</a> :)</p>
 ]]></content>
