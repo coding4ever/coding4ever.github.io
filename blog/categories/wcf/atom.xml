@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Wcf | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/wcf/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-05-03T05:14:10+07:00</updated>
+  <updated>2015-05-06T18:30:58+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -20,16 +20,16 @@
     <id>http://coding4ever.net/blog/2015/05/02/tutorial-wcf-service-bagian-number-1</id>
     <content type="html"><![CDATA[<h3>Apa itu WCF</h3>
 
-<p>{% img left <a href="https://coding4ever.files.wordpress.com/2015/05/020515-16.png">https://coding4ever.files.wordpress.com/2015/05/020515-16.png</a> 100 100 %}WCF singkatan dari Windows Communication Foundation, merupakan salah satu teknologi Microsoft untuk membangun aplikasi berbasis layanan (service-oriented applications). Dengan kata lain WCF itu merupakan salah satu alternatif untuk membangun <a href="http://www.techopedia.com/definition/1622/web-service-net">web service</a> dan <a href="http://en.wikipedia.org/wiki/Distributed_computing">sistem terdistribusi</a> lainnya menggunakan teknologi Microsoft .NET.</p>
+<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-16.png">https://coding4ever.files.wordpress.com/2015/05/020515-16.png</a>&#8221; width=&#8221;100&#8221; height=&#8221;100&#8221;>WCF singkatan dari Windows Communication Foundation, merupakan salah satu teknologi Microsoft untuk membangun aplikasi berbasis layanan (service-oriented applications). Dengan kata lain WCF itu merupakan salah satu alternatif untuk membangun <a href="http://www.techopedia.com/definition/1622/web-service-net">web service</a> dan <a href="http://en.wikipedia.org/wiki/Distributed_computing">sistem terdistribusi</a> lainnya menggunakan teknologi Microsoft .NET.</p>
 
 <blockquote><p>Dalam tutorial ini kita akan lebih banyak membahas hal-hal teknis untuk membuat web service menggunakan WCF. Untuk referensi lebih lanjut mengenai WCF bisa langsung Anda cari menggunakan layanan search engine favorit Anda :-)</p></blockquote>
 
 <!-- more -->
 
 
-<p>WCF merupakan gabungan dari beberapa teknologi <a href="http://en.wikipedia.org/wiki/Remote_procedure_call">RPC</a> lainnya seperti Web Service, <a href="{{%20site.url%20}}/blog/categories/dot-net-remoting/">.NET Remoting</a>, MSMQ dan COM+</p>
+<p>WCF merupakan gabungan dari beberapa teknologi <a href="http://en.wikipedia.org/wiki/Remote_procedure_call">RPC</a> lainnya seperti Web Service, <a href="/blog/categories/dot-net-remoting/">.NET Remoting</a>, MSMQ dan COM+</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-01.png">https://coding4ever.files.wordpress.com/2015/05/020515-01.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-01.png">https://coding4ever.files.wordpress.com/2015/05/020515-01.png</a>&#8221;></p>
 
 <p style="text-align:center">Sumber - <a href="http://wcftutorial.net/Introduction-to-WCF.aspx" target="_blank">WCF Tutorial</a></p>
 
@@ -39,7 +39,7 @@
 <ol>
 <li><p><code>CalculatorLib</code> – Project CalculatorLib dibuat dengan memanfaatkan project bertipe Class Library yang isinya hanya berupa interface ICalculator dengan 4 buah method abstract yaitu : <code>Penambahan</code>, <code>Pengurangan</code>, <code>Perkalian</code> dan <code>Pembagian</code>.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-02.png">https://coding4ever.files.wordpress.com/2015/05/020515-02.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-02.png">https://coding4ever.files.wordpress.com/2015/05/020515-02.png</a>&#8221;></p>
 
 <p>Project ini nantinya akan dicompile menjadi file dengan ekstensi .dll (CalculatorLib.dll), file CalculatorLib.dll ini akan dishare atau ditambahkan sebagai referensi untuk aplikasi CalculatorServer dan CalculatorClient.</p>
 
@@ -48,7 +48,7 @@
 
 <p>Project ini nantinya akan mengimplementasikan semua method-method abstract dari project CalculatorLib.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-03.png">https://coding4ever.files.wordpress.com/2015/05/020515-03.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-03.png">https://coding4ever.files.wordpress.com/2015/05/020515-03.png</a>&#8221;></p>
 
 <p>Agar class ini (CalculatorServer.dll) bisa dikenali sebagai WCF service, kita perlu meng-host-kannya terlebih dulu dengan beberapa cara yaitu :</p>
 
@@ -62,13 +62,13 @@
 </li>
 <li><p><code>CalculatorClient</code> – Project CalculatorClient dibuat dengan memanfaatkan project bertipe Windows Application, aplikasi ini hanya memanggil method-method abstract dari project CalculatorLib dengan memanfaatkan objek proxy sehingga method tersebut akan dieksekusi secara remote (dijalankan di sisi server).</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-04.png">https://coding4ever.files.wordpress.com/2015/05/020515-04.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-04.png">https://coding4ever.files.wordpress.com/2015/05/020515-04.png</a>&#8221;></p>
 
 <p><p style="text-align:center">Sumber - <a href="http://www.topwcftutorials.net/2014/06/3-ways-generate-proxy-wcf-service.html" target="_blank">Top WCF Tutorial</a></p></p>
 
 <p>Berikut gambaran lengkap project yang akan kita buat</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-05.png">https://coding4ever.files.wordpress.com/2015/05/020515-05.png</a> %}</p></li>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-05.png">https://coding4ever.files.wordpress.com/2015/05/020515-05.png</a>&#8221;></p></li>
 </ol>
 
 
@@ -80,13 +80,13 @@
 <li><p>Klik menu File ->New -> Project …</p></li>
 <li><p>Pada dialog New Project aktifkan pilihan Visual C# kemudian pada pilihan Templates pilih Class Library</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-06.png">https://coding4ever.files.wordpress.com/2015/05/020515-06.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-06.png">https://coding4ever.files.wordpress.com/2015/05/020515-06.png</a>&#8221;></p>
 
 <p>Pada isian Name isikan CalculatorLib, setelah itu klik tombol Ok.</p>
 
 <p>Secara default pada saat pembuatan project sudah otomatis disediakan 1 buah class kosong dengan nama Class1, karena kita akan menambahkan class baru jadi class ini dihapus saja.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-07.png">https://coding4ever.files.wordpress.com/2015/05/020515-07.png</a> %}</p></li>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-07.png">https://coding4ever.files.wordpress.com/2015/05/020515-07.png</a>&#8221;></p></li>
 </ol>
 
 
@@ -95,14 +95,14 @@
 <ol>
 <li><p>Klik kanan project CalculatorLib -> Add -> New Item…</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-08.png">https://coding4ever.files.wordpress.com/2015/05/020515-08.png</a> %}</p></li>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-08.png">https://coding4ever.files.wordpress.com/2015/05/020515-08.png</a>&#8221;></p></li>
 <li><p>Pada dialog add new item, pilih Interface dan untuk isian Name diisi ICalculator</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-09.png">https://coding4ever.files.wordpress.com/2015/05/020515-09.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-09.png">https://coding4ever.files.wordpress.com/2015/05/020515-09.png</a>&#8221;></p>
 
 <p>Setelah itu akan tampil editor code interface ICalculator</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-10.png">https://coding4ever.files.wordpress.com/2015/05/020515-10.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-10.png">https://coding4ever.files.wordpress.com/2015/05/020515-10.png</a>&#8221;></p>
 
 <p>Jangan lupa untuk menambahkan access modifier <code>public</code>.</p>
 
@@ -110,7 +110,7 @@
 
 <p>Berikut kode lengkapnya :</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-11.png">https://coding4ever.files.wordpress.com/2015/05/020515-11.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-11.png">https://coding4ever.files.wordpress.com/2015/05/020515-11.png</a>&#8221;></p>
 
 <p>Jika kita perhatikan kode di atas, ada tambahan attribute <code>ServiceContract</code> dan <code>OperationContract</code> pada nama interface dan method abstractnya.</p>
 
@@ -120,11 +120,11 @@
 
 <p>Untuk menambahkan attribut <code>ServiceContract</code> dan <code>OperationContract</code> kita perlu menambahkan namespace <code>System.ServiceModel</code>.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-12.png">https://coding4ever.files.wordpress.com/2015/05/020515-12.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-12.png">https://coding4ever.files.wordpress.com/2015/05/020515-12.png</a>&#8221;></p>
 
 <p>Kemudian mendaftarkannya di bagian using</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-13.png">https://coding4ever.files.wordpress.com/2015/05/020515-13.png</a> %}</p></li>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-13.png">https://coding4ever.files.wordpress.com/2015/05/020515-13.png</a>&#8221;></p></li>
 </ol>
 
 
@@ -135,11 +135,11 @@
 <ol>
 <li><p>Klik kanan project CalculatorLib -> Build</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-14.png">https://coding4ever.files.wordpress.com/2015/05/020515-14.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-14.png">https://coding4ever.files.wordpress.com/2015/05/020515-14.png</a>&#8221;></p>
 
 <p>Setelah itu akan tampil hasil output dari proses Build</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-15.png">https://coding4ever.files.wordpress.com/2015/05/020515-15.png</a> %}</p></li>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-15.png">https://coding4ever.files.wordpress.com/2015/05/020515-15.png</a>&#8221;></p></li>
 </ol>
 
 
