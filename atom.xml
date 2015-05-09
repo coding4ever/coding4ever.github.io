@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-05-06T18:34:28+07:00</updated>
+  <updated>2015-05-09T09:35:05+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,152 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Tutorial WCF Service Bagian #2]]></title>
+    <link href="http://coding4ever.net/blog/2015/05/09/tutorial-wcf-service-bagian-number-2/"/>
+    <updated>2015-05-09T09:34:34+07:00</updated>
+    <id>http://coding4ever.net/blog/2015/05/09/tutorial-wcf-service-bagian-number-2</id>
+    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2015/05/020515-16.png" width="100" height="100">Melanjutkan pembahasan <a href="http://coding4ever.net/blog/2015/05/02/tutorial-wcf-service-bagian-number-1/">postingan</a> sebelumnya yaitu tentang pembuatan web service menggunakan teknologi <a href="http://coding4ever.net/blog/categories/wcf/">WCF</a>.</p>
+
+<p>Kita sudah menyelesaikan project pertama yaitu pembuatan project <a href="http://coding4ever.net/blog/2015/05/02/tutorial-wcf-service-bagian-number-1/">CalculatorLib</a> dan kita lanjutkan dengan pembuatan project CalculatorServer.</p>
+
+<!-- more -->
+
+
+<p>Sebagai review CalculatorServer adalah project yang akan mengimplementasikan semua method abstract yang ada pada interface ICalculator (project <a href="https://github.com/k4m4r82/Calculator">CalculatorLib</a> selain itu project CalculatorServer juga akan kita <code>hostkan</code> sehingga bisa menjadi web service. Apa yang dimaksud dengan <code>host</code> disini, silahkan baca postingan <a href="http://coding4ever.net/blog/2015/05/02/tutorial-wcf-service-bagian-number-1/">Tutorial WCF Service Bagian #1</a>.</p>
+
+<p>Aktifkan kembali solution <a href="https://github.com/k4m4r82/Calculator">Calculator</a> yang di dalamnya sudah ada project CalculatorLib.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/020515-02.png"></p>
+
+<p>Kita akan menambahkan project CalculatorServer masih di solution yang sama</p>
+
+<h3>Menambahkan Project CalculatorServer</h3>
+
+<ol>
+<li><p>Klik kanan Solution Calculator -> Add -> New Project</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-01.png"></p></li>
+<li><p>Pada dialog Add New Project aktifkan pilihan Visual C# kemudian pilih Templates Class Library</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-02.png"></p>
+
+<p>Pada isian Name isikan CalculatorServer untuk isian Location dibiarkan saja setelah itu klik Ok. Jika langkah sebelumnya berhasil maka pada solution Calculator akan ketambahan 1 project baru yaitu CalculatorServer.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-03.png"></p>
+
+<p>Kemudian hapus class <code>Class1</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-04.png"></p></li>
+</ol>
+
+
+<h3>Menambahkan Class Calculator</h3>
+
+<p>Class Calculator adalah class yang akan mengimplementasikan semua method abstract dari interface ICalculator yang sudah kita buat pada project sebelumnya (<a href="http://coding4ever.net/blog/2015/05/02/tutorial-wcf-service-bagian-number-1/">CalculatorLib</a>).</p>
+
+<ol>
+<li><p>Klik kanan project CalculatorServer -> Add -> Class…</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-05.png"></p>
+
+<p>Pada isian Name diisi <code>Calculator</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-06.png"></p>
+
+<p>Setelah itu akan tampil editor code class Calculator</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-07.png"></p>
+
+<p>Jangan lupa untuk menambahkan access modifier <code>public</code>.</p>
+
+<p>Sebelum kita melengkapi kode class Calculator di atas, terlebih dulu kita harus menambahkan referensi <a href="https://github.com/k4m4r82/Calculator">CalculatorLib</a> yang sudah kita buat pada project sebelumnya, tujuannya adalah agar class Calculator bisa mengakses interface ICalculator dan mengimplementasikan semua method abstractnya.</p></li>
+<li><p>Klik kanan node References -> Add Reference…</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-08.png"></p></li>
+<li><p>Aktifkan panel Solution kemudian pilih project CalculatorLib</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-09.png"></p>
+
+<p>Jika langkah sebelumnya berhasil akan ketambahan 1 buah node dengan nama CalculatorLib pada node References</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-10.png"></p>
+
+<p>Selanjutnya kita lengkapi kode class Calculator di atas, seperti di bawah ini.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-11.png"></p>
+
+<p>Sampai disini kita sudah bisa mencoba untuk meng-compile project CalculatorServer dengan cara klik kanan project <code>CalculatorServer</code> -> <code>Build</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-12.png"></p>
+
+<p>Apa yang terjadi ??? Masih error bukan ?</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-13.png"></p>
+
+<p>Error ini terjadi karena class Calculator mengimplementasikan interface ICalculator sedangkan method-method abstractnya (Penambahan, Pengurangan, Perkalian dan Pembagian) belum kita definisikan ulang / override di class Calculator.</p></li>
+</ol>
+
+
+<h3>Mengimplementasikan Method Abastract Interface ICalculator secara Otomatis</h3>
+
+<p>Untuk mengatasi error pada langkah sebelumnya kita tinggal klik kanan pada tulisan interface ICalculator ->Implement Interface -> Implement Interface</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-14.png"></p>
+
+<p>Kemudian secara otomatis semua implementasi method abstract dari interface ICalculator akan ditambahkan.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-15.png"></p>
+
+<p>Setelah itu kita tinggal melengkapi kode untuk masing-masing method diatas.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-16.png"></p>
+
+<p>Sekarang kita coba lagi untuk meng-compile ulang project CalculatorServer dengan cara klik kanan project <code>CalculatorServer</code> -> <code>Build</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-12.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-17.png"></p>
+
+<h3>WCF Service Behavior</h3>
+
+<p>WCF service behavior digunakan untuk mengatur behavior atau prilaku WCF service ketika menangani request atau permintaan dari klien.</p>
+
+<p>Jika kita mempunyai behavior atau tingkah laku yang baik, otomatis kita juga bisa menjadi orang yang lebih baik, benar atau tidak ? :-D</p>
+
+<p>Begitu juga dengan WCF Service Behavior, dengan attribut ini kita bisa mengatur hal-hal yang berhubungan dengan :</p>
+
+<ul>
+<li>Concurrency</li>
+<li>Throttling</li>
+<li>Transaction</li>
+<li>Instance Context/Session Management</li>
+<li>Thread Behavior</li>
+</ul>
+
+
+<p>Untuk informasi yang lebih lengkap tentang WCF Service Behavior, silahkan baca artikel <a href="http://www.codeproject.com/Articles/443576/Implementing-WCF-Service-Behaviors">Implementing WCF Service Behaviors</a> dan <a href="http://www.codeproject.com/Articles/89858/WCF-Concurrency-Single-Multiple-and-Reentrant-and">WCF Concurrency (Single, Multiple, and Reentrant) and Throttling</a>.</p>
+
+<p>Sebagi contoh kita akan mengeset behavior untuk <code>Concurrency</code> dan <code>Instance Context</code> dengan model Concurrency = Single dan Instance Context = Per Call via attribute WCF service behavior.</p>
+
+<p>Untuk menggunakan attribute WCF service behavior, tambahkan terlebih dulu referensi <code>System.ServiceModel</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-18.png"></p>
+
+<p>Kemudian tambahkan juga di bagian <code>using</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-19.png"></p>
+
+<p>Setelah itu revisi class Calculator menjadi seperti berikut :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-20.png"></p>
+
+<p>Yuph sampai disini saja untuk postingan kali ini, insyaAlloh akan kita lanjutkan pada kesempatan berikutnya.</p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/Calculator">MENCOBA</a> :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Tutorial WCF Service Bagian #1]]></title>
@@ -118,7 +264,7 @@
 
 <p>Bagaimana jika kita lupa menambahkan attribut <code>ServiceContract</code> dan <code>OperationContract</code> ? Ya otomatis interface ICalculator berikut method tidak bisa diakses oleh client.</p>
 
-<p>Untuk menambahkan attribut <code>ServiceContract</code> dan <code>OperationContract</code> kita perlu menambahkan namespace <code>System.ServiceModel</code>.</p>
+<p>Untuk menambahkan attribut <code>ServiceContract</code> dan <code>OperationContract</code> kita perlu menambahkan referensi <code>System.ServiceModel</code>.</p>
 
 <p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/020515-12.png"></p>
 
@@ -3613,194 +3759,6 @@ Setelah proses mapping selesai, langkah berikutnya adalah menambahkan sebuah cla
 <p>Yuph ternyata sudah ada, langsung saja di update kemudian kita cek lagi source code CalculatorApp, apa sudah ada tambahan dua method lagi ?</p>
 
 <p><a href="http://coding4ever.files.wordpress.com/2014/03/131.png"><img src="http://coding4ever.files.wordpress.com/2014/03/131.png" alt="13" /></a></p>
-
-<p>Selamat mencoba :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Menginstall Server NuGet Lokal]]></title>
-    <link href="http://coding4ever.net/blog/2014/03/12/menginstall-server-nuget-lokal/"/>
-    <updated>2014-03-12T15:18:16+07:00</updated>
-    <id>http://coding4ever.net/blog/2014/03/12/menginstall-server-nuget-lokal</id>
-    <content type="html"><![CDATA[<p><img style="float: left; margin:0 10px 10px 0;width:200px;height:70px" src="http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png" />Pada <a href="http://coding4ever.net/blog/2014/03/11/nuget/">postingan</a> sebelumnya kita sudah membahas apa itu <a href="http://www.nuget.org/">NuGet</a>, cara instalasi berikut contoh penggunaannya.</p>
-
-<p>Sesuai judul postingan kali ini, kita akan menginstall sendiri server <a href="http://www.nuget.org/">NuGet</a> untuk keperluan internal.</p>
-
-<p>Ada beberapa alasan kenapa harus menginstall server <a href="http://www.nuget.org/">NuGet</a> sendiri :</p>
-
-<!-- more -->
-
-
-<p><strong>1. Untuk menghemat bandwidth internet</strong></p>
-
-<p>Contoh beberapa library yang sering saya gunakan untuk pembuatan aplikasi (sesuai kebutuhan) :</p>
-
-<ul>
-<li><p><a href="http://www.nuget.org/packages/ClosedXML/">ClosedXML</a>, ClosedXML makes it easier for developers to create Excel 2007/2010 files. It provides a nice object oriented way to manipulate the files (similar to VBA) without dealing with the hassles of XML Docume</p></li>
-<li><p><a href="http://www.nuget.org/packages/Dapper/">Dapper</a>, A high performance Micro-ORM</p></li>
-<li><p><a href="http://www.nuget.org/packages/DockPanelSuite/2.9.0">DockPanelSuite</a>, The docking library for .Net Windows Forms development which mimics Visual Studio .Net.</p></li>
-<li><p><a href="http://www.nuget.org/packages/EntityFramework/6.0.2">EntityFramework</a>, Entity Framework is Microsoft&rsquo;s recommended data access technology for new applications.</p></li>
-<li><p><a href="http://www.nuget.org/packages/FirebirdSql.Data.FirebirdClient/">FirebirdSql.Data.FirebirdClient</a></p></li>
-<li><p><a href="http://www.nuget.org/packages/FirebirdSql.Data.FirebirdClient-EF6/">FirebirdSql.Data.FirebirdClient-EF6</a></p></li>
-<li><p><a href="http://www.nuget.org/packages/GSMComm/">GSMComm</a>, SMS libraries for GSM phones</p></li>
-<li><p><a href="http://www.nuget.org/packages/Newtonsoft.Json/">Json .NET</a>, Json.NET is a popular high-performance JSON framework for .NET</p></li>
-<li><p><a href="http://www.nuget.org/packages/RestSharp/">RestSharp</a>, Simple REST and HTTP API Client</p></li>
-</ul>
-
-
-<p>Lumayan banyak bukan ? Jika setiap ingin menambahkan library di atas kita harus mendownload dari <a href="http://www.nuget.org/">NuGet Gallery</a> tentu sedikit banyaknya akan menghabiskan bandwith internet, belum lagi kalo koneksi internetnya mati.</p>
-
-<p><strong>2. Sebagai media sharing library</strong></p>
-
-<p>Misal kita ingin membuat library yang akan digunakan oleh beberapa programmer, kemudian seiring dengan waktu tentunya library ini akan ada perbaikan atau penambahan fitur-fitur terbaru.</p>
-
-<p>Jika setiap ada perubahan tentunya kurang efektif jika library tersebut dicopy via flash disk, share folder atau media lainnya, belum lagi harus menghapus library versi yang lama, mendaftarkan library yang terbaru, tentunya ini pekerjaan yang membosankan, sehingga server NuGet lokal bisa menjadi salah satu alternatif terbaik untuk mempermudah sharing library.</p>
-
-<p>Dengan dua alasan di atas saya rasa sudah cukup untuk memotivasi kita untuk membuat server NuGet sendiri.</p>
-
-<p>Oke langsung saja, sudah cukup untuk intronya, untuk langkah-langkah berikut, saya menggunakan Windows 7.</p>
-
-<p><strong>1. Menginstall IIS (Internet Information Services)</strong></p>
-
-<p>Langkah-langkahnya bisa dicek di<a href="http://www.codeproject.com/Tips/365704/Install-IIS-on-Windows">sini</a>.</p>
-
-<p><strong>2. Membuat Project ASP .NET</strong></p>
-
-<p>Berikut langkah-langkahnya :</p>
-
-<ul>
-<li><p>Aktifkan Visual Studio .NET, untuk contoh di sini saya menggunakan Visual Studio 2010</p></li>
-<li><p>Buat project baru dengan tipe ASP.NET Empty Web Application</p></li>
-</ul>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/11.png"><img src="http://coding4ever.files.wordpress.com/2014/03/11.png" alt="1" /></a></p>
-
-<ul>
-<li>Tambahkan paket NuGet.Server dengan cara klik kanan References -> Manage NuGet Packages</li>
-</ul>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/21.png"><img src="http://coding4ever.files.wordpress.com/2014/03/21.png" alt="2" /></a>Pada kota pencarian ketik <strong>Nuget.server</strong>, kemudian klik tombol Install</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/311.png"><img src="http://coding4ever.files.wordpress.com/2014/03/311.png" alt="31" /></a></p>
-
-<p>tunggu sampai proses download selesai</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/41.png"><img src="http://coding4ever.files.wordpress.com/2014/03/41.png" alt="4" /></a></p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/51.png"><img src="http://coding4ever.files.wordpress.com/2014/03/51.png" alt="5" /></a></p>
-
-<p>Pilih I Accept, kemudian tunggu sampai proses instalasi selesai</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/61.png"><img src="http://coding4ever.files.wordpress.com/2014/03/61.png" alt="6" /></a></p>
-
-<ul>
-<li>Setelah berhasil menambahkan paket NuGet.Server, langkah berikutnya adalah menentukan lokasi paket NuGet, dengan cara mengedit file Web.Config</li>
-</ul>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/71.png"><img src="http://coding4ever.files.wordpress.com/2014/03/71.png" alt="7" /></a>kemudian edit nilai dari packagesPath, misal : D:\ServerNuGetLocal\Packages</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/81.png"><img src="http://coding4ever.files.wordpress.com/2014/03/81.png" alt="8" /></a></p>
-
-<ul>
-<li>Setelah menentukan lokasi paket NuGet, langkah berikutnya adalah mempublish (deploy) project ASP.NET yang baru kita buat, dengan cara klik kanan project -> Publish&hellip;</li>
-</ul>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/91.png"><img src="http://coding4ever.files.wordpress.com/2014/03/91.png" alt="9" /></a></p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/10.png"><img src="http://coding4ever.files.wordpress.com/2014/03/10.png" alt="10" /></a></p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/111.png"><img src="http://coding4ever.files.wordpress.com/2014/03/111.png" alt="11" /></a></p>
-
-<p><strong>3. Mendaftarkan Project ASP .NET ke IIS</strong></p>
-
-<p>Project ASP.NET yang sudah kita buat sebelumnya membutuhkan web server IIS untuk bisa dijalankan, sehingga langkah berikutnya adalah mendaftarkannya ke IIS.</p>
-
-<p>Adapun langkah-langkahnya seperti berikut :</p>
-
-<ul>
-<li><p>Aktifkan IIS (Internet Information Services)</p></li>
-<li><p>Klik kanan node Default Web Site -> Add Application</p></li>
-</ul>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/12.png"><img src="http://coding4ever.files.wordpress.com/2014/03/12.png" alt="12" /></a></p>
-
-<p>Tentukan nilai Alias, Application pool dan Physical path, khusus untuk nilai physical path mengacu pada langkah-langkah sebelumnya.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/13.png"><img src="http://coding4ever.files.wordpress.com/2014/03/13.png" alt="13" /></a></p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/14.png"><img src="http://coding4ever.files.wordpress.com/2014/03/14.png" alt="14" /></a></p>
-
-<ul>
-<li>Setelah berhasil menambahkan node NuGet ke IIS, coba ketik url : <a href="http://localhost/NuGet/">http://localhost/NuGet/</a> di browser Anda</li>
-</ul>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/15.png"><img src="http://coding4ever.files.wordpress.com/2014/03/15.png" alt="15" /></a></p>
-
-<p>Jika tampil seperti gambar di atas, berarti proses registrasi server NuGet lokal berhasil, dan jika ingin melihat paket apa saja yang sudah tersedia klik link <strong>here</strong>.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/16.png"><img src="http://coding4ever.files.wordpress.com/2014/03/16.png" alt="16" /></a></p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/17.png"><img src="http://coding4ever.files.wordpress.com/2014/03/17.png" alt="17" /></a></p>
-
-<p>Terlihat pada gambar di atas paket di server NuGet lokal kita masih kosong.</p>
-
-<p><strong>4. Mendownload paket yang sering digunakan</strong></p>
-
-<p>Untuk mendownload paket NuGet yang sudah tersedia di <a href="http://www.nuget.org/">NuGet Gallery</a>, gunakan url dengan format : <a href="https://www.nuget.org/api/v2/package/{packageID}/{packageVersion}">https://www.nuget.org/api/v2/package/{packageID}/{packageVersion}</a>, contoh :</p>
-
-<ul>
-<li><p><a href="https://www.nuget.org/api/v2/package/ClosedXML/0.69.2">https://www.nuget.org/api/v2/package/ClosedXML/0.69.2</a></p></li>
-<li><p><a href="https://www.nuget.org/api/v2/package/Dapper/1.13.0">https://www.nuget.org/api/v2/package/Dapper/1.13.0</a></p></li>
-<li><p><a href="https://www.nuget.org/api/v2/package/DockPanelSuite/2.9.0">https://www.nuget.org/api/v2/package/DockPanelSuite/2.9.0</a></p></li>
-<li><p><a href="https://www.nuget.org/api/v2/package/EntityFramework/6.0.2">https://www.nuget.org/api/v2/package/EntityFramework/6.0.2</a></p></li>
-<li><p><a href="https://www.nuget.org/api/v2/package/FirebirdSql.Data.FirebirdClient/4.0.0">https://www.nuget.org/api/v2/package/FirebirdSql.Data.FirebirdClient/4.0.0</a>
-<a href="https://www.nuget.org/api/v2/package/FirebirdSql.Data.FirebirdClient-EF6/4.0.0">https://www.nuget.org/api/v2/package/FirebirdSql.Data.FirebirdClient-EF6/4.0.0</a> (support Entity Framework)</p></li>
-<li><p><a href="https://www.nuget.org/api/v2/package/GSMComm/1.21.0">https://www.nuget.org/api/v2/package/GSMComm/1.21.0</a></p></li>
-<li><p><a href="https://www.nuget.org/api/v2/package/Newtonsoft.Json/5.0.8">https://www.nuget.org/api/v2/package/Newtonsoft.Json/5.0.8</a></p></li>
-<li><p><a href="https://www.nuget.org/api/v2/package/RestSharp/104.4.0">https://www.nuget.org/api/v2/package/RestSharp/104.4.0</a></p></li>
-</ul>
-
-
-<p>Jangan lupa hasil downloadnya disimpan di folder package.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/18.png"><img src="http://coding4ever.files.wordpress.com/2014/03/18.png" alt="18" /></a></p>
-
-<p>Setelah itu kita cek lagi paket di server NuGet lokal.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/19.png"><img src="http://coding4ever.files.wordpress.com/2014/03/19.png" alt="19" /></a></p>
-
-<p>Sippp, paket di server NuGet lokal kita sudah tersedia :)</p>
-
-<p><strong>5. Menambahkan url server NuGet lokal ke package sources</strong></p>
-
-<p>Saatnya mendaftarkan server NuGet kita ke Visual Studio, langkah-langkahnya seperti berikut :</p>
-
-<ul>
-<li><p>Jalankan Visual Studio .NET (saya menggunakan versi 2010)</p></li>
-<li><p>Klik menu Tools -> NuGet Package Manager -> Package Manager Settings</p></li>
-<li><p>Aktifkan node Package Source, klik tombol Add/Tambah</p></li>
-</ul>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/20.png"><img src="http://coding4ever.files.wordpress.com/2014/03/20.png" alt="20" /></a></p>
-
-<ul>
-<li>Isikan Name dan Source, klik Update akhiri dengan Ok.</li>
-</ul>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/211.png"><img src="http://coding4ever.files.wordpress.com/2014/03/211.png" alt="21" /></a></p>
-
-<p>Terakhir coba aktifkan dialog NuGet Package Manager, kemudian cek pilihan &ldquo;Server Nuget Local&rdquo;.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/22.png"><img src="http://coding4ever.files.wordpress.com/2014/03/22.png" alt="22" /></a></p>
 
 <p>Selamat mencoba :)</p>
 ]]></content>
