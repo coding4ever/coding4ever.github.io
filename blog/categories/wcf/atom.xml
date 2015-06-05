@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Wcf | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/wcf/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-06-05T13:20:52+07:00</updated>
+  <updated>2015-06-05T13:38:39+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -172,6 +172,8 @@
 
 
 <p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-11.png">https://coding4ever.files.wordpress.com/2015/06/050615-11.png</a>&#8221;></p>
+
+<p>Di dalam WCF, bagian ini dikenal dengan istilah <a href="http://wcftutorial.net/EndPoint.aspx">EndPoint</a>, dan berhubung di postingan ini tidak membahas masalah <a href="http://wcftutorial.net/EndPoint.aspx">EndPoint</a>, sebagai referensi bisa Anda baca di<a href="http://wcftutorial.net/EndPoint.aspx">sini</a>.</p>
 
 <p><strong>6. Mendaftarkan Service Calculator ke IIS</strong></p>
 
