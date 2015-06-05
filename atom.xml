@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-05-10T20:26:39+07:00</updated>
+  <updated>2015-06-05T13:14:21+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,210 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Tutorial WCF Service Bagian #3]]></title>
+    <link href="http://coding4ever.net/blog/2015/06/05/tutorial-wcf-service-bagian-number-3/"/>
+    <updated>2015-06-05T13:14:33+07:00</updated>
+    <id>http://coding4ever.net/blog/2015/06/05/tutorial-wcf-service-bagian-number-3</id>
+    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2015/05/020515-16.png" width="100" height="100">Web service itu seperti parasit, tidak bisa hidup mandiri sehingga membutuhkan sebuah wadah (host) untuk kelangsungan hidupnya. Begitu juga dengan web service yang dibuat menggunakan WCF tetap membutuhkan sebuah wadah (host).</p>
+
+<!-- more -->
+
+
+<p>Ada beberapa cara yang bisa digunakan untuk menempatkan web service ke dalam wadahnya (host) yaitu :</p>
+
+<ul>
+<li>Hosting in Internet Information Services (IIS)</li>
+<li>Hosting in Windows Activation Services (WAS)</li>
+<li>Hosting in a Console or Desktop application (Self hosting)</li>
+<li>Hosting in a Windows Service</li>
+</ul>
+
+
+<p>Kita akan menggunakan cara yang pertama yaitu, <code>hosting WCF service di IIS</code>, berikut langkah-langkahnya :</p>
+
+<p><strong>1. Install IIS</strong></p>
+
+<p>Untuk langkah-langkahnya bisa Anda ikuti di<a href="http://www.codeproject.com/Tips/365704/Install-IIS-on-Windows">sini</a></p>
+
+<p><strong>2. Membuat Folder Baru di wwwroot</strong></p>
+
+<p>Tambahkan folder baru di <code>C:\ C:\inetpub\wwwroot</code>, dengan nama <code>Calculator</code>, kemudian tambahkan juga folder <code>bin</code> di dalamnya</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-011.png"></p>
+
+<p>Folder <code>wwwroot</code> sama seperti folder <code>htdocs</code>-nya Apache.</p>
+
+<p><strong>3. Build Project CalculatorServer</strong></p>
+
+<p>Aktifkan kembali project <a href="https://github.com/k4m4r82/Calculator">Calculator</a>, kemudian lakukan proses <code>Build</code> project <code>CalculatorServer</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-02.png"></p>
+
+<p>Cek hasil build di bagian <code>Output</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-03.png"></p>
+
+<p>Kemudian buka folder hasil build</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-04.png"></p>
+
+<p>Di dalamnya ada dua file dengan tipe DLL yaitu <code>CalculatorLib.dll</code> dan <code>CalculatorServer.dll</code>. File <code>CalculatorLib.dll</code> di hasilkan dari project <code>CalculatorLib</code> sedangkan file <code>CalculatorServer.dll</code> dihasilkan dari project <code>CalculatorServer</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-05.png"></p>
+
+<p>Dua file ini akan kita copykan ke folder <code>C:\inetpub\wwwroot\Calculator\bin</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-06.png"></p>
+
+<p><strong>4. Membuat File Text dengan Format .svc</strong></p>
+
+<p>File .svc merupakan file text biasa yang mirip dengan file .asmx (ASP.NET web service). Dengan kata lain WCF service yang di-host-kan ke dalam IIS direpresentasikan oleh sebuah file khusus dengan format .svc.</p>
+
+<p>File ini berisi informasi agar WCF service bisa berjalan dengan sukses. Adapun informasinya terdiri dari :</p>
+
+<ul>
+<li>Pilihan bahasa (C# atau VB)</li>
+<li>Nama service (namaspace + class)</li>
+<li>Lokasi kode service</li>
+</ul>
+
+
+<p>Contoh isi file .svc</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%@ ServiceHost Language="C#" Service="CalculatorServer.Calculator" %></span></code></pre></td></tr></table></div></figure>
+
+
+<p>Setelah mengetahui fungsi dari file .svc, berikutnya kita akan membuat file .svc dengan nama <code>ServiceCalculator.svc</code> di folder <code>C:\inetpub\wwwroot\Calculator</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-07.png"></p>
+
+<p>Kemudian copas skrip berikut :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%@ ServiceHost Language="C#" Service="CalculatorServer.Calculator" %></span></code></pre></td></tr></table></div></figure>
+
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-08.png"></p>
+
+<p>Dari skrip di atas, coba perhatikan bagian <code>Service="CalculatorServer.Calculator"</code></p>
+
+<p>CalculatorServer adalah nama namespace, sedangkan Calculator adalah nama class servicenya. Informasi ini kita dapatkan dari struktur project <code>CalculatorServer</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-09.png"></p>
+
+<p><strong>5. Membuat File web.config</strong></p>
+
+<p>File web.config adalah file xml yang berisi konfigurasi dari aplikasi web berbasis ASP.NET. Karena WCF service ini akan kita host-kan ke dalam IIS, jadi kita juga perlu membuat file web.config untuk menyimpan konfigurasi dari web service.</p>
+
+<p>File web.config  ini akan kita buat di folder <code>C:\inetpub\wwwroot\Calculator</code>, satu folder dengan file <code>ServiceCalculator.svc</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-10.png"></p>
+
+<p>Kemudian copas skrip berikut</p>
+
+<div><script src='https://gist.github.com/f62303ed21a209b24de5.js'></script>
+<noscript><pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+
+&lt;configuration&gt;
+    
+    &lt;system.web&gt;
+        &lt;compilation debug=&quot;false&quot; targetFramework=&quot;4.0&quot; /&gt;
+    &lt;/system.web&gt;    
+    
+  &lt;system.serviceModel&gt;
+    
+    &lt;services&gt;      
+      &lt;service name=&quot;CalculatorServer.Calculator&quot; behaviorConfiguration=&quot;DefaultBehavior&quot;&gt;                        
+        &lt;endpoint binding=&quot;basicHttpBinding&quot; bindingConfiguration=&quot;BasicHttpBindingConfig&quot; contract=&quot;CalculatorLib.ICalculator&quot; /&gt;
+      &lt;/service&gt;                            
+    &lt;/services&gt;        
+        
+    &lt;bindings&gt;
+      &lt;basicHttpBinding&gt;
+        &lt;binding name=&quot;BasicHttpBindingConfig&quot;&gt;
+          &lt;security mode=&quot;None&quot; /&gt;
+        &lt;/binding&gt;
+      &lt;/basicHttpBinding&gt;
+    &lt;/bindings&gt;
+    
+    &lt;behaviors&gt;
+      &lt;serviceBehaviors&gt;
+        &lt;behavior name=&quot;DefaultBehavior&quot;&gt;
+          &lt;serviceMetadata httpGetEnabled=&quot;true&quot; /&gt;
+          &lt;serviceDebug includeExceptionDetailInFaults=&quot;false&quot; /&gt;
+        &lt;/behavior&gt;
+      &lt;/serviceBehaviors&gt;
+    &lt;/behaviors&gt;
+    
+  &lt;/system.serviceModel&gt;
+  
+&lt;/configuration&gt;</code></pre></noscript></div>
+
+
+<p>Dari skrip di atas, coba perhatikan bagian <code>&lt;services&gt;</code></p>
+
+<div><script src='https://gist.github.com/3e306818c5096e2a860b.js'></script>
+<noscript><pre><code>&lt;services&gt;      
+  &lt;service name=&quot;CalculatorServer.Calculator&quot; behaviorConfiguration=&quot;DefaultBehavior&quot;&gt;                        
+    &lt;endpoint binding=&quot;basicHttpBinding&quot; bindingConfiguration=&quot;BasicHttpBindingConfig&quot; contract=&quot;CalculatorLib.ICalculator&quot; /&gt;
+  &lt;/service&gt;                            
+&lt;/services&gt;</code></pre></noscript></div>
+
+
+<p>Di bagian ini kita mendaftarkan service apa saja yang bisa diakses oleh aplikasi klien.</p>
+
+<ul>
+<li>Service name = diisi dengan nama service</li>
+<li>Contract = diisi dengan interface dari nama service</li>
+</ul>
+
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-11.png"></p>
+
+<p><strong>6. Mendaftarkan Service Calculator ke IIS</strong></p>
+
+<p>Sebagai langkah terakhir, kita aktifkan Internet Information Services(IIS), kemudian expand node Sites -> Default Web Site</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-12.png"></p>
+
+<p>Kemudian klik kanan <code>Calculator</code> -> Convert to Application</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-13.png"></p>
+
+<p>Setelah itu akan tampil window <code>Add Application</code> kemudian klik tombol <code>Select</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-14.png"></p>
+
+<p>Pilih ASP.NET v4.0</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-15.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-16.png"></p>
+
+<p>Jika berhasil icon folder Calculator akan berganti menjadi <img src="https://coding4ever.files.wordpress.com/2015/06/050615-20.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-17.png"></p>
+
+<p><strong>7. Testing Web Service Calculator</strong></p>
+
+<p>Untuk mengetes apakah service Calculator ini berjalan dengan sukses, silahkan akses alamat : <a href="http://localhost/Calculator/ServiceCalculator.svc">http://localhost/Calculator/ServiceCalculator.svc</a></p>
+
+<p>Seharusnya anda mendapatkan tampilan seperti berikut yang menandakan konfigurasi WCF service berhasil.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-18.png"></p>
+
+<p>Tampilan jika diakses dari <code>WCF Test Client</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-19.png"></p>
+
+<p>Yuph sampai disini saja untuk postingan kali ini, insyaAlloh akan kita lanjutkan pada kesempatan berikutnya.</p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/Calculator">MENCOBA</a> :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Tutorial WCF Service Bagian #2]]></title>
@@ -3588,179 +3792,6 @@ Setelah proses mapping selesai, langkah berikutnya adalah menambahkan sebuah cla
 <li><p> <a href="http://geeks.netindonesia.net/files/folders/ebook/entry63274.aspx">NET Enterprise Application Programming</a></p></li>
 </ol>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Membuat Paket NuGet]]></title>
-    <link href="http://coding4ever.net/blog/2014/03/13/membuat-paket-nuget/"/>
-    <updated>2014-03-13T15:22:02+07:00</updated>
-    <id>http://coding4ever.net/blog/2014/03/13/membuat-paket-nuget</id>
-    <content type="html"><![CDATA[<p><img style="float: left; margin:0 10px 10px 0;width:200px;height:70px" src="http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png" />Sedikit lagi tentang <a href="http://www.nuget.org/">NuGet</a>, pada <a href="http://coding4ever.net/blog/2014/03/12/menginstall-server-nuget-lokal/">postingan</a> sebelumnya kita sudah berhasil menginstall server NuGet lokal baik untuk keperluan pribadi atau internal kantor.</p>
-
-<p>Ada beberapa alasan kenapa kita sebaiknya mempunyai server <a href="http://coding4ever.net/blog/2014/03/12/menginstall-server-nuget-lokal/">NuGet</a> sendiri, dua diantaranya :</p>
-
-<ol>
-<li><p> Untuk menghemat bandwidth internet</p></li>
-<li><p> Sebagai media sharing library</p></li>
-</ol>
-
-
-<!-- more -->
-
-
-<p>Nah pada postingan kali saya akan memberikan contoh untuk alasan nomor 2.</p>
-
-<p>Misalkan kita bekerja di dalam sebuah tim, kemudian kita ditugaskan untuk membuat sebuah library dengan nama CalculatorLib, yang mana library ini akan digunakan oleh beberapa orang programmer.</p>
-
-<p>Untuk versi awal (1.0.0) hanya mempunyai dua buah method yaitu :</p>
-
-<ul>
-<li><p>Penjumlahan</p></li>
-<li><p>Pengurangan</p></li>
-</ul>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/1.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/1.jpg" alt="1" /></a></p>
-
-<p>Setelah selesai kita pun segera merilisnya agar bisa digunakan.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/24.png"><img src="http://coding4ever.files.wordpress.com/2014/03/24.png" alt="2" /></a></p>
-
-<p>Ada beberapa media yang bisa kita gunakan untuk mendistribusikannya :</p>
-
-<ol>
-<li><p> Flash disk</p></li>
-<li><p> Share folder</p></li>
-<li><p> <a href="http://coding4ever.net/blog/2014/03/12/menginstall-server-nuget-lokal/">Server NuGet Lokal</a></p></li>
-<li><p> Media lainnya</p></li>
-</ol>
-
-
-<p>Terserah Anda mau menggunakan cara yang mana, kalo saya untuk saat ini jelas memilih media yang nomor 3.</p>
-
-<p><strong>Membuat paket NuGet</strong></p>
-
-<p>Agar library yang baru kita buat (CalculatorLib.dll), bisa dibaca oleh server NuGet, tentunya tidak bisa langsung dicopy ke folder package NuGet Server tetapi ada tahapan yang harus kita kerjakan.</p>
-
-<ol>
-<li><p> Download <a href="http://nuget.codeplex.com/releases/view/58939">NuGet.exe</a></p></li>
-<li><p> Membuat skrip XML kemudian simpan dengan ekstensi <a href="http://docs.nuget.org/docs/reference/nuspec-reference">.nuspec</a>, jangan lupa untuk menyimpannya di folder yang sama dengan file NuGet.exe</p></li>
-<li><p> Meng-compile skrip <a href="http://docs.nuget.org/docs/reference/nuspec-reference">.nuspec</a> untuk menghasilkan file .nupkg, nah file .nupkg ini lah yang akan kita copykan ke folder package NuGet Server</p></li>
-</ol>
-
-
-<p>Contoh isi file <a href="http://docs.nuget.org/docs/reference/nuspec-reference">.nuspec</a></p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/102.png"><img src="http://coding4ever.files.wordpress.com/2014/03/102.png" alt="10" /></a></p>
-
-<p>Untuk informasi lebih lengkap tentang file nuspec bisa langsung meluncur ke<a href="http://docs.nuget.org/docs/reference/nuspec-reference">sini</a>.</p>
-
-<p>Untuk meng-compile skrip <a href="http://docs.nuget.org/docs/reference/nuspec-reference">.nuspec</a> gunakan perintah berikut :</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NuGet pack "nama_file_nuspec.nuspec" -o "folder_output"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Contoh :</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NuGet pack "CalculatorLib.nuspec" -o "D:\ServerNuGetLocal\Packages"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Jika berhasil akan dibuatkan file baru dengan nama CalculatorLib.1.0.0.nupkg.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/32.png"><img src="http://coding4ever.files.wordpress.com/2014/03/32.png" alt="3" /></a></p>
-
-<p>Sampai tahap ini kita sudah berhasil membuat file paket NuGet.</p>
-
-<p>Jika kita mempunyai banyak file <a href="http://docs.nuget.org/docs/reference/nuspec-reference">.nuspec</a>, dan untuk mempermudah meng-compile skrip <a href="http://docs.nuget.org/docs/reference/nuspec-reference">.nuspec</a>, kita bisa memanfaatkan registry windows untuk menambahkan context menu &ldquo;Build NuGet Package&rdquo; setiap mengklik kanan file dengan ekstensi <a href="http://docs.nuget.org/docs/reference/nuspec-reference">.nuspec</a>.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Windows Registry Editor Version 5.00
-</span><span class='line'>
-</span><span class='line'>[HKEY_CLASSES_ROOT\.nuspec]
-</span><span class='line'>
-</span><span class='line'>[HKEY_CLASSES_ROOT\.nuspec\Shell]
-</span><span class='line'>
-</span><span class='line'>[HKEY_CLASSES_ROOT\.nuspec\Shell\BuildNuGet]
-</span><span class='line'>@="Build NuGet Package"
-</span><span class='line'>
-</span><span class='line'>[HKEY_CLASSES_ROOT\.nuspec\Shell\BuildNuGet\Command]
-</span><span class='line'>@="E:\\Master\\Developer Tools\\nuget package\\build\\NuGet.exe pack \"%1\" -o \"E:\\Master\\Developer Tools\\nuget package\\build\\package\""</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Pada skrip di atas tinggal sesuaikan lokasi file NuGet.exe dan folder target.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/141.png"><img src="http://coding4ever.files.wordpress.com/2014/03/141.png" alt="14" /></a></p>
-
-<p><strong>Mengakses paket CalculatorLib dari NuGet Package Manager
-</strong></p>
-
-<p>Untuk mendemokan ini, saya akan membuat project baru dengan nama CalculatorApp, kemudian menambahkan library CalculatorLib via NuGet Package Manager.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/33.png"><img src="http://coding4ever.files.wordpress.com/2014/03/33.png" alt="3" /></a></p>
-
-<p>pada dialog NuGet Package Manager pilih paket CalculatorLib kemudian Install.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/42.png"><img src="http://coding4ever.files.wordpress.com/2014/03/42.png" alt="4" /></a></p>
-
-<p>jika berhasil pada node References sudah ditambahkan library CalculatorLib.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/52.png"><img src="http://coding4ever.files.wordpress.com/2014/03/52.png" alt="5" /></a></p>
-
-<p>Sekarang kita coba untuk membuat objek dari class Calculator.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/62.png"><img src="http://coding4ever.files.wordpress.com/2014/03/62.png" alt="6" /></a></p>
-
-<p>Sipp method yang nampil sesuai dengan yang sudah kita definisikan di dalam library CalculatorLib versi awal (1.0.0)</p>
-
-<p><strong>CalculatorLib Versi 1.1.0
-</strong></p>
-
-<p>Library CalculatorLib yang sudah kita buat (versi 1.0.0), baru mempunyai dua method yaitu : Penjumlahan dan Pengurangan.</p>
-
-<p>Kita akan menambahkan dua method lagi yaitu Perkalian dan Pembagian.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/72.png"><img src="http://coding4ever.files.wordpress.com/2014/03/72.png" alt="7" /></a></p>
-
-<p>Sebelum merilis ulang (build) library ini, naikkan dulu nilai versinya menjadi 1.1.0</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/82.png"><img src="http://coding4ever.files.wordpress.com/2014/03/82.png" alt="8" /></a></p>
-
-<p>kemudian edit juga file nuspecnya, dengan mengganti nilai versionnya menjadi 1.1.0</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/94.png"><img src="http://coding4ever.files.wordpress.com/2014/03/94.png" alt="9" /></a></p>
-
-<p>Compile ulang skrip <a href="http://docs.nuget.org/docs/reference/nuspec-reference">.nuspec</a> gunakan perintah berikut :</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NuGet pack "CalculatorLib.nuspec" -o "D:\ServerNuGetLocal\Packages"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>jika berhasil kita akan mempunyai file paket CalculatorLib terbaru dengan versi 1.1.0</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/112.png"><img src="http://coding4ever.files.wordpress.com/2014/03/112.png" alt="11" /></a></p>
-
-<p>Sekarang kita aktifkan lagi project CalculatorAppnya, kemudian cek NuGet Package Manager, apakah sudah ada updatean untuk paket CalculatorLibnya.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/121.png"><img src="http://coding4ever.files.wordpress.com/2014/03/121.png" alt="12" /></a></p>
-
-<p>Yuph ternyata sudah ada, langsung saja di update kemudian kita cek lagi source code CalculatorApp, apa sudah ada tambahan dua method lagi ?</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/131.png"><img src="http://coding4ever.files.wordpress.com/2014/03/131.png" alt="13" /></a></p>
-
-<p>Selamat mencoba :)</p>
 ]]></content>
   </entry>
   

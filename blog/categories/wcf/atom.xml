@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Wcf | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/wcf/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-05-10T20:26:39+07:00</updated>
+  <updated>2015-06-05T13:14:21+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,208 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Tutorial WCF Service Bagian #3]]></title>
+    <link href="http://coding4ever.net/blog/2015/06/05/tutorial-wcf-service-bagian-number-3/"/>
+    <updated>2015-06-05T13:14:33+07:00</updated>
+    <id>http://coding4ever.net/blog/2015/06/05/tutorial-wcf-service-bagian-number-3</id>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-16.png">https://coding4ever.files.wordpress.com/2015/05/020515-16.png</a>&#8221; width=&#8221;100&#8221; height=&#8221;100&#8221;>Web service itu seperti parasit, tidak bisa hidup mandiri sehingga membutuhkan sebuah wadah (host) untuk kelangsungan hidupnya. Begitu juga dengan web service yang dibuat menggunakan WCF tetap membutuhkan sebuah wadah (host).</p>
+
+<!-- more -->
+
+
+<p>Ada beberapa cara yang bisa digunakan untuk menempatkan web service ke dalam wadahnya (host) yaitu :</p>
+
+<ul>
+<li>Hosting in Internet Information Services (IIS)</li>
+<li>Hosting in Windows Activation Services (WAS)</li>
+<li>Hosting in a Console or Desktop application (Self hosting)</li>
+<li>Hosting in a Windows Service</li>
+</ul>
+
+
+<p>Kita akan menggunakan cara yang pertama yaitu, <code>hosting WCF service di IIS</code>, berikut langkah-langkahnya :</p>
+
+<p><strong>1. Install IIS</strong></p>
+
+<p>Untuk langkah-langkahnya bisa Anda ikuti di<a href="http://www.codeproject.com/Tips/365704/Install-IIS-on-Windows">sini</a></p>
+
+<p><strong>2. Membuat Folder Baru di wwwroot</strong></p>
+
+<p>Tambahkan folder baru di <code>C:\ C:\inetpub\wwwroot</code>, dengan nama <code>Calculator</code>, kemudian tambahkan juga folder <code>bin</code> di dalamnya</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-011.png">https://coding4ever.files.wordpress.com/2015/06/050615-011.png</a>&#8221;></p>
+
+<p>Folder <code>wwwroot</code> sama seperti folder <code>htdocs</code>-nya Apache.</p>
+
+<p><strong>3. Build Project CalculatorServer</strong></p>
+
+<p>Aktifkan kembali project <a href="https://github.com/k4m4r82/Calculator">Calculator</a>, kemudian lakukan proses <code>Build</code> project <code>CalculatorServer</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-02.png">https://coding4ever.files.wordpress.com/2015/06/050615-02.png</a>&#8221;></p>
+
+<p>Cek hasil build di bagian <code>Output</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-03.png">https://coding4ever.files.wordpress.com/2015/06/050615-03.png</a>&#8221;></p>
+
+<p>Kemudian buka folder hasil build</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-04.png">https://coding4ever.files.wordpress.com/2015/06/050615-04.png</a>&#8221;></p>
+
+<p>Di dalamnya ada dua file dengan tipe DLL yaitu <code>CalculatorLib.dll</code> dan <code>CalculatorServer.dll</code>. File <code>CalculatorLib.dll</code> di hasilkan dari project <code>CalculatorLib</code> sedangkan file <code>CalculatorServer.dll</code> dihasilkan dari project <code>CalculatorServer</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-05.png">https://coding4ever.files.wordpress.com/2015/06/050615-05.png</a>&#8221;></p>
+
+<p>Dua file ini akan kita copykan ke folder <code>C:\inetpub\wwwroot\Calculator\bin</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-06.png">https://coding4ever.files.wordpress.com/2015/06/050615-06.png</a>&#8221;></p>
+
+<p><strong>4. Membuat File Text dengan Format .svc</strong></p>
+
+<p>File .svc merupakan file text biasa yang mirip dengan file .asmx (ASP.NET web service). Dengan kata lain WCF service yang di-host-kan ke dalam IIS direpresentasikan oleh sebuah file khusus dengan format .svc.</p>
+
+<p>File ini berisi informasi agar WCF service bisa berjalan dengan sukses. Adapun informasinya terdiri dari :</p>
+
+<ul>
+<li>Pilihan bahasa (C# atau VB)</li>
+<li>Nama service (namaspace + class)</li>
+<li>Lokasi kode service</li>
+</ul>
+
+
+<p>Contoh isi file .svc</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%@ ServiceHost Language=&ldquo;C#&rdquo; Service=&ldquo;CalculatorServer.Calculator&rdquo; %></span></code></pre></td></tr></table></div></figure></p>
+
+<p>Setelah mengetahui fungsi dari file .svc, berikutnya kita akan membuat file .svc dengan nama <code>ServiceCalculator.svc</code> di folder <code>C:\inetpub\wwwroot\Calculator</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-07.png">https://coding4ever.files.wordpress.com/2015/06/050615-07.png</a>&#8221;></p>
+
+<p>Kemudian copas skrip berikut :</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%@ ServiceHost Language=&ldquo;C#&rdquo; Service=&ldquo;CalculatorServer.Calculator&rdquo; %></span></code></pre></td></tr></table></div></figure></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-08.png">https://coding4ever.files.wordpress.com/2015/06/050615-08.png</a>&#8221;></p>
+
+<p>Dari skrip di atas, coba perhatikan bagian <code>Service="CalculatorServer.Calculator"</code></p>
+
+<p>CalculatorServer adalah nama namespace, sedangkan Calculator adalah nama class servicenya. Informasi ini kita dapatkan dari struktur project <code>CalculatorServer</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-09.png">https://coding4ever.files.wordpress.com/2015/06/050615-09.png</a>&#8221;></p>
+
+<p><strong>5. Membuat File web.config</strong></p>
+
+<p>File web.config adalah file xml yang berisi konfigurasi dari aplikasi web berbasis ASP.NET. Karena WCF service ini akan kita host-kan ke dalam IIS, jadi kita juga perlu membuat file web.config untuk menyimpan konfigurasi dari web service.</p>
+
+<p>File web.config  ini akan kita buat di folder <code>C:\inetpub\wwwroot\Calculator</code>, satu folder dengan file <code>ServiceCalculator.svc</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-10.png">https://coding4ever.files.wordpress.com/2015/06/050615-10.png</a>&#8221;></p>
+
+<p>Kemudian copas skrip berikut</p>
+
+<p><div><script src='https://gist.github.com/f62303ed21a209b24de5.js'></script>
+<noscript><pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+
+&lt;configuration&gt;
+    
+    &lt;system.web&gt;
+        &lt;compilation debug=&quot;false&quot; targetFramework=&quot;4.0&quot; /&gt;
+    &lt;/system.web&gt;    
+    
+  &lt;system.serviceModel&gt;
+    
+    &lt;services&gt;      
+      &lt;service name=&quot;CalculatorServer.Calculator&quot; behaviorConfiguration=&quot;DefaultBehavior&quot;&gt;                        
+        &lt;endpoint binding=&quot;basicHttpBinding&quot; bindingConfiguration=&quot;BasicHttpBindingConfig&quot; contract=&quot;CalculatorLib.ICalculator&quot; /&gt;
+      &lt;/service&gt;                        	  
+    &lt;/services&gt;        
+        
+    &lt;bindings&gt;
+      &lt;basicHttpBinding&gt;
+        &lt;binding name=&quot;BasicHttpBindingConfig&quot;&gt;
+          &lt;security mode=&quot;None&quot; /&gt;
+        &lt;/binding&gt;
+      &lt;/basicHttpBinding&gt;
+    &lt;/bindings&gt;
+    
+    &lt;behaviors&gt;
+      &lt;serviceBehaviors&gt;
+        &lt;behavior name=&quot;DefaultBehavior&quot;&gt;
+          &lt;serviceMetadata httpGetEnabled=&quot;true&quot; /&gt;
+          &lt;serviceDebug includeExceptionDetailInFaults=&quot;false&quot; /&gt;
+        &lt;/behavior&gt;
+      &lt;/serviceBehaviors&gt;
+    &lt;/behaviors&gt;
+    
+  &lt;/system.serviceModel&gt;
+  
+&lt;/configuration&gt;</code></pre></noscript></div>
+</p>
+
+<p>Dari skrip di atas, coba perhatikan bagian <code>&lt;services&gt;</code></p>
+
+<p><div><script src='https://gist.github.com/3e306818c5096e2a860b.js'></script>
+<noscript><pre><code>&lt;services&gt;      
+  &lt;service name=&quot;CalculatorServer.Calculator&quot; behaviorConfiguration=&quot;DefaultBehavior&quot;&gt;                        
+	&lt;endpoint binding=&quot;basicHttpBinding&quot; bindingConfiguration=&quot;BasicHttpBindingConfig&quot; contract=&quot;CalculatorLib.ICalculator&quot; /&gt;
+  &lt;/service&gt;                        	  
+&lt;/services&gt;</code></pre></noscript></div>
+</p>
+
+<p>Di bagian ini kita mendaftarkan service apa saja yang bisa diakses oleh aplikasi klien.</p>
+
+<ul>
+<li>Service name = diisi dengan nama service</li>
+<li>Contract = diisi dengan interface dari nama service</li>
+</ul>
+
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-11.png">https://coding4ever.files.wordpress.com/2015/06/050615-11.png</a>&#8221;></p>
+
+<p><strong>6. Mendaftarkan Service Calculator ke IIS</strong></p>
+
+<p>Sebagai langkah terakhir, kita aktifkan Internet Information Services(IIS), kemudian expand node Sites -> Default Web Site</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-12.png">https://coding4ever.files.wordpress.com/2015/06/050615-12.png</a>&#8221;></p>
+
+<p>Kemudian klik kanan <code>Calculator</code> -> Convert to Application</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-13.png">https://coding4ever.files.wordpress.com/2015/06/050615-13.png</a>&#8221;></p>
+
+<p>Setelah itu akan tampil window <code>Add Application</code> kemudian klik tombol <code>Select</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-14.png">https://coding4ever.files.wordpress.com/2015/06/050615-14.png</a>&#8221;></p>
+
+<p>Pilih ASP.NET v4.0</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-15.png">https://coding4ever.files.wordpress.com/2015/06/050615-15.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-16.png">https://coding4ever.files.wordpress.com/2015/06/050615-16.png</a>&#8221;></p>
+
+<p>Jika berhasil icon folder Calculator akan berganti menjadi <img class="<a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-20.png">https://coding4ever.files.wordpress.com/2015/06/050615-20.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-17.png">https://coding4ever.files.wordpress.com/2015/06/050615-17.png</a>&#8221;></p>
+
+<p><strong>7. Testing Web Service Calculator</strong></p>
+
+<p>Untuk mengetes apakah service Calculator ini berjalan dengan sukses, silahkan akses alamat : <a href="http://localhost/Calculator/ServiceCalculator.svc">http://localhost/Calculator/ServiceCalculator.svc</a></p>
+
+<p>Seharusnya anda mendapatkan tampilan seperti berikut yang menandakan konfigurasi WCF service berhasil.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-18.png">https://coding4ever.files.wordpress.com/2015/06/050615-18.png</a>&#8221;></p>
+
+<p>Tampilan jika diakses dari <code>WCF Test Client</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-19.png">https://coding4ever.files.wordpress.com/2015/06/050615-19.png</a>&#8221;></p>
+
+<p>Yuph sampai disini saja untuk postingan kali ini, insyaAlloh akan kita lanjutkan pada kesempatan berikutnya.</p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/Calculator">MENCOBA</a> :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Tutorial WCF Service Bagian #2]]></title>

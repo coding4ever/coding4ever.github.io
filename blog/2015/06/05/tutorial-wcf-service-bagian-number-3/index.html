@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Dapper .NET Micro-ORM Part 3 - Coding4ever&#8217;s Blog</title>
+  <title>Tutorial WCF Service Bagian #3 - Coding4ever&#8217;s Blog</title>
   <meta name="author" content="Admin">
 
   
-  <meta name="description" content="Pada postingan sebelumnya, kita sudah mencoba mengimplementasikan salah satu perintah SQL yaitu SELECT dengan menggunakan library Dapper .NET. Dan &hellip;">
+  <meta name="description" content="Web service itu seperti parasit, tidak bisa hidup mandiri sehingga membutuhkan sebuah wadah (host) untuk kelangsungan hidupnya. Begitu juga dengan &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://coding4ever.net/blog/2013/03/29/dapper-net-micro-orm-part-3">
+  <link rel="canonical" href="http://coding4ever.net/blog/2015/06/05/tutorial-wcf-service-bagian-number-3">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Coding4ever's Blog" type="application/atom+xml">
@@ -83,7 +83,7 @@
   
   <header>
     
-      <h1 class="entry-title">Dapper .NET Micro-ORM Part 3</h1>
+      <h1 class="entry-title">Tutorial WCF Service Bagian #3</h1>
     
     
       <p class="meta">
@@ -92,7 +92,7 @@
 
 
 
-<time class='entry-date' datetime='2013-03-29T14:44:04+07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>2:44 pm</span></time>
+<time class='entry-date' datetime='2015-06-05T13:14:33+07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:14 pm</span></time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://coding4ever.net">Comments</a>
@@ -102,154 +102,202 @@
   </header>
 
 
-<div class="entry-content"><p>Pada <a href="http://coding4ever.net/blog/2013/02/22/dapper-net-micro-orm-part-2/">postingan</a> sebelumnya, kita sudah mencoba mengimplementasikan salah satu perintah SQL yaitu SELECT dengan menggunakan library Dapper .NET.</p>
-
-<p>Dan pada postingan kali ini kita akan mencoba mengimplementasikan perintah-perintah SQL lainnya seperti INSERT, UPDATE dan DELETE.</p>
-
-<p>Langsung saja aktifkan kembali project <a href="http://coding4ever.net/blog/2013/02/22/dapper-net-micro-orm-part-2/">postingan</a> sebelumnya.</p>
+<div class="entry-content"><p><img class="left" src="https://coding4ever.files.wordpress.com/2015/05/020515-16.png" width="100" height="100">Web service itu seperti parasit, tidak bisa hidup mandiri sehingga membutuhkan sebuah wadah (host) untuk kelangsungan hidupnya. Begitu juga dengan web service yang dibuat menggunakan WCF tetap membutuhkan sebuah wadah (host).</p>
 
 <!-- more -->
 
 
-<p><a href="http://coding4ever.files.wordpress.com/2013/02/21022013-1.png"><img src="http://coding4ever.files.wordpress.com/2013/02/21022013-1.png" alt="21022013-1" /></a></p>
+<p>Ada beberapa cara yang bisa digunakan untuk menempatkan web service ke dalam wadahnya (host) yaitu :</p>
 
-<p><strong>1. INSERT</strong></p>
-
-<p>Untuk menambahkan data terlebih dulu kita membuat sebuah objek, misal objek siswa.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="c1">// membuat object siswa</span>
-</span><span class='line'><span class="kt">var</span> <span class="n">siswa</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Siswa</span><span class="p">();</span>
-</span><span class='line'><span class="n">siswa</span><span class="p">.</span><span class="n">Nis</span> <span class="p">=</span> <span class="s">&quot;9991&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="n">siswa</span><span class="p">.</span><span class="n">Nama</span> <span class="p">=</span> <span class="s">&quot;Bagus&quot;</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
+<ul>
+<li>Hosting in Internet Information Services (IIS)</li>
+<li>Hosting in Windows Activation Services (WAS)</li>
+<li>Hosting in a Console or Desktop application (Self hosting)</li>
+<li>Hosting in a Windows Service</li>
+</ul>
 
 
-<p>Sejak .NET Framework 3.x ditambahkan fitur baru yg disebut dengan object initializer yang memungkinkan pengesetan nilai property pada saat pembuatan objek.</p>
+<p>Kita akan menggunakan cara yang pertama yaitu, <code>hosting WCF service di IIS</code>, berikut langkah-langkahnya :</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="kt">var</span> <span class="n">siswa</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Siswa</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">Nis</span> <span class="p">=</span> <span class="s">&quot;9991&quot;</span><span class="p">,</span> <span class="n">Nama</span> <span class="p">=</span> <span class="s">&quot;Bagus&quot;</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
+<p><strong>1. Install IIS</strong></p>
 
+<p>Untuk langkah-langkahnya bisa Anda ikuti di<a href="http://www.codeproject.com/Tips/365704/Install-IIS-on-Windows">sini</a></p>
 
-<p>Gimana jadi lebih simple bukan ? :)</p>
+<p><strong>2. Membuat Folder Baru di wwwroot</strong></p>
 
-<p>Setelah objek siswa dibuat, kita langsung memanggil method Execute dari object conn untuk melakukan penyimpanan.</p>
+<p>Tambahkan folder baru di <code>C:\ C:\inetpub\wwwroot</code>, dengan nama <code>Calculator</code>, kemudian tambahkan juga folder <code>bin</code> di dalamnya</p>
 
-<p>Berikut kode lengkapnya :</p>
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-011.png"></p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="kt">var</span> <span class="n">siswa</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Siswa</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">Nis</span> <span class="p">=</span> <span class="s">&quot;9991&quot;</span><span class="p">,</span> <span class="n">Nama</span> <span class="p">=</span> <span class="s">&quot;Bagus&quot;</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">strSql</span> <span class="p">=</span> <span class="s">&quot;INSERT INTO siswa (nis, nama) VALUES (@Nis, @Nama)&quot;</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">result</span> <span class="p">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">Execute</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">siswa</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>Folder <code>wwwroot</code> sama seperti folder <code>htdocs</code>-nya Apache.</p>
 
+<p><strong>3. Build Project CalculatorServer</strong></p>
 
-<p>Parameter @Nis dan @Nama harus sama dengan property class, jika tidak sama kita bisa menggunakan cara yang kedua. Misal untuk nama parameternya kita set @NomorInduk dan @NamaSiswa.</p>
+<p>Aktifkan kembali project <a href="https://github.com/k4m4r82/Calculator">Calculator</a>, kemudian lakukan proses <code>Build</code> project <code>CalculatorServer</code></p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="kt">var</span> <span class="n">siswa</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Siswa</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">Nis</span> <span class="p">=</span> <span class="s">&quot;9991&quot;</span><span class="p">,</span> <span class="n">Nama</span> <span class="p">=</span> <span class="s">&quot;Bagus&quot;</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">strSql</span> <span class="p">=</span> <span class="s">&quot;INSERT INTO siswa (nis, nama) VALUES (@NomorInduk, @NamaSiswa)&quot;</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">result</span> <span class="p">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">Execute</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="k">new</span> <span class="p">{</span> <span class="n">NomorInduk</span> <span class="p">=</span> <span class="n">siswa</span><span class="p">.</span><span class="n">Nis</span><span class="p">,</span> <span class="n">NamaSiswa</span> <span class="p">=</span> <span class="n">siswa</span><span class="p">.</span><span class="n">Nama</span> <span class="p">});</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-02.png"></p>
+
+<p>Cek hasil build di bagian <code>Output</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-03.png"></p>
+
+<p>Kemudian buka folder hasil build</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-04.png"></p>
+
+<p>Di dalamnya ada dua file dengan tipe DLL yaitu <code>CalculatorLib.dll</code> dan <code>CalculatorServer.dll</code>. File <code>CalculatorLib.dll</code> di hasilkan dari project <code>CalculatorLib</code> sedangkan file <code>CalculatorServer.dll</code> dihasilkan dari project <code>CalculatorServer</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-05.png"></p>
+
+<p>Dua file ini akan kita copykan ke folder <code>C:\inetpub\wwwroot\Calculator\bin</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-06.png"></p>
+
+<p><strong>4. Membuat File Text dengan Format .svc</strong></p>
+
+<p>File .svc merupakan file text biasa yang mirip dengan file .asmx (ASP.NET web service). Dengan kata lain WCF service yang di-host-kan ke dalam IIS direpresentasikan oleh sebuah file khusus dengan format .svc.</p>
+
+<p>File ini berisi informasi agar WCF service bisa berjalan dengan sukses. Adapun informasinya terdiri dari :</p>
+
+<ul>
+<li>Pilihan bahasa (C# atau VB)</li>
+<li>Nama service (namaspace + class)</li>
+<li>Lokasi kode service</li>
+</ul>
 
 
-<p><strong>2. UPDATE</strong></p>
+<p>Contoh isi file .svc</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="kt">var</span> <span class="n">siswa</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Siswa</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">Nis</span> <span class="p">=</span> <span class="s">&quot;9991&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">Nama</span> <span class="p">=</span> <span class="s">&quot;Bagus Wicaksono&quot;</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">strSql</span> <span class="p">=</span> <span class="s">&quot;UPDATE siswa SET nama = @Nama WHERE nis = @Nis&quot;</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">result</span> <span class="p">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">Execute</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">siswa</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%@ ServiceHost Language="C#" Service="CalculatorServer.Calculator" %></span></code></pre></td></tr></table></div></figure>
 
 
-<p>dan terakhir &hellip;</p>
+<p>Setelah mengetahui fungsi dari file .svc, berikutnya kita akan membuat file .svc dengan nama <code>ServiceCalculator.svc</code> di folder <code>C:\inetpub\wwwroot\Calculator</code></p>
 
-<p><strong>3. DELETE</strong></p>
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-07.png"></p>
+
+<p>Kemudian copas skrip berikut :</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="kt">var</span> <span class="n">siswa</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Siswa</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">Nis</span> <span class="p">=</span> <span class="s">&quot;9991&quot;</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">strSql</span> <span class="p">=</span> <span class="s">&quot;DELETE FROM siswa WHERE nis = @Nis&quot;</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">result</span> <span class="p">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">Execute</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">siswa</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%@ ServiceHost Language="C#" Service="CalculatorServer.Calculator" %></span></code></pre></td></tr></table></div></figure>
 
 
-<p>Selamat <a href="https://github.com/k4m4r82/MicroORMDapperNET3">MENCOBA</a> :)</p>
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-08.png"></p>
+
+<p>Dari skrip di atas, coba perhatikan bagian <code>Service="CalculatorServer.Calculator"</code></p>
+
+<p>CalculatorServer adalah nama namespace, sedangkan Calculator adalah nama class servicenya. Informasi ini kita dapatkan dari struktur project <code>CalculatorServer</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-09.png"></p>
+
+<p><strong>5. Membuat File web.config</strong></p>
+
+<p>File web.config adalah file xml yang berisi konfigurasi dari aplikasi web berbasis ASP.NET. Karena WCF service ini akan kita host-kan ke dalam IIS, jadi kita juga perlu membuat file web.config untuk menyimpan konfigurasi dari web service.</p>
+
+<p>File web.config  ini akan kita buat di folder <code>C:\inetpub\wwwroot\Calculator</code>, satu folder dengan file <code>ServiceCalculator.svc</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-10.png"></p>
+
+<p>Kemudian copas skrip berikut</p>
+
+<div><script src='https://gist.github.com/f62303ed21a209b24de5.js'></script>
+<noscript><pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+
+&lt;configuration&gt;
+    
+    &lt;system.web&gt;
+        &lt;compilation debug=&quot;false&quot; targetFramework=&quot;4.0&quot; /&gt;
+    &lt;/system.web&gt;    
+    
+  &lt;system.serviceModel&gt;
+    
+    &lt;services&gt;      
+      &lt;service name=&quot;CalculatorServer.Calculator&quot; behaviorConfiguration=&quot;DefaultBehavior&quot;&gt;                        
+        &lt;endpoint binding=&quot;basicHttpBinding&quot; bindingConfiguration=&quot;BasicHttpBindingConfig&quot; contract=&quot;CalculatorLib.ICalculator&quot; /&gt;
+      &lt;/service&gt;                            
+    &lt;/services&gt;        
+        
+    &lt;bindings&gt;
+      &lt;basicHttpBinding&gt;
+        &lt;binding name=&quot;BasicHttpBindingConfig&quot;&gt;
+          &lt;security mode=&quot;None&quot; /&gt;
+        &lt;/binding&gt;
+      &lt;/basicHttpBinding&gt;
+    &lt;/bindings&gt;
+    
+    &lt;behaviors&gt;
+      &lt;serviceBehaviors&gt;
+        &lt;behavior name=&quot;DefaultBehavior&quot;&gt;
+          &lt;serviceMetadata httpGetEnabled=&quot;true&quot; /&gt;
+          &lt;serviceDebug includeExceptionDetailInFaults=&quot;false&quot; /&gt;
+        &lt;/behavior&gt;
+      &lt;/serviceBehaviors&gt;
+    &lt;/behaviors&gt;
+    
+  &lt;/system.serviceModel&gt;
+  
+&lt;/configuration&gt;</code></pre></noscript></div>
+
+
+<p>Dari skrip di atas, coba perhatikan bagian <code>&lt;services&gt;</code></p>
+
+<div><script src='https://gist.github.com/3e306818c5096e2a860b.js'></script>
+<noscript><pre><code>&lt;services&gt;      
+  &lt;service name=&quot;CalculatorServer.Calculator&quot; behaviorConfiguration=&quot;DefaultBehavior&quot;&gt;                        
+    &lt;endpoint binding=&quot;basicHttpBinding&quot; bindingConfiguration=&quot;BasicHttpBindingConfig&quot; contract=&quot;CalculatorLib.ICalculator&quot; /&gt;
+  &lt;/service&gt;                            
+&lt;/services&gt;</code></pre></noscript></div>
+
+
+<p>Di bagian ini kita mendaftarkan service apa saja yang bisa diakses oleh aplikasi klien.</p>
+
+<ul>
+<li>Service name = diisi dengan nama service</li>
+<li>Contract = diisi dengan interface dari nama service</li>
+</ul>
+
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-11.png"></p>
+
+<p><strong>6. Mendaftarkan Service Calculator ke IIS</strong></p>
+
+<p>Sebagai langkah terakhir, kita aktifkan Internet Information Services(IIS), kemudian expand node Sites -> Default Web Site</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-12.png"></p>
+
+<p>Kemudian klik kanan <code>Calculator</code> -> Convert to Application</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-13.png"></p>
+
+<p>Setelah itu akan tampil window <code>Add Application</code> kemudian klik tombol <code>Select</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-14.png"></p>
+
+<p>Pilih ASP.NET v4.0</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-15.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-16.png"></p>
+
+<p>Jika berhasil icon folder Calculator akan berganti menjadi <img src="https://coding4ever.files.wordpress.com/2015/06/050615-20.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-17.png"></p>
+
+<p><strong>7. Testing Web Service Calculator</strong></p>
+
+<p>Untuk mengetes apakah service Calculator ini berjalan dengan sukses, silahkan akses alamat : <a href="http://localhost/Calculator/ServiceCalculator.svc">http://localhost/Calculator/ServiceCalculator.svc</a></p>
+
+<p>Seharusnya anda mendapatkan tampilan seperti berikut yang menandakan konfigurasi WCF service berhasil.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-18.png"></p>
+
+<p>Tampilan jika diakses dari <code>WCF Test Client</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-19.png"></p>
+
+<p>Yuph sampai disini saja untuk postingan kali ini, insyaAlloh akan kita lanjutkan pada kesempatan berikutnya.</p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/Calculator">MENCOBA</a> :)</p>
 </div>
 
 
@@ -265,12 +313,12 @@
 
 
 
-<time class='entry-date' datetime='2013-03-29T14:44:04+07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>2:44 pm</span></time>
+<time class='entry-date' datetime='2015-06-05T13:14:33+07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:14 pm</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/dapper-net/'>dapper .net</a>, <a class='category' href='/blog/categories/visual-c-number/'>visual c#</a>
+    <a class='category' href='/blog/categories/visual-c-number/'>visual c#</a>, <a class='category' href='/blog/categories/wcf/'>wcf</a>
   
 </span>
 
@@ -288,10 +336,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/02/22/dapper-net-micro-orm-part-2/" title="Previous Post: Dapper .NET Micro-ORM Part 2">&laquo; Dapper .NET Micro-ORM Part 2</a>
+        <a class="basic-alignment left" href="/blog/2015/05/09/tutorial-wcf-service-bagian-number-2/" title="Previous Post: Tutorial WCF Service Bagian #2">&laquo; Tutorial WCF Service Bagian #2</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2013/06/25/menembus-pertahanan-database-firebird-yang-diproteksi-bagian-2/" title="Next Post: Menembus pertahanan database Firebird yang diproteksi bagian 2">Menembus pertahanan database Firebird yang diproteksi bagian 2 &raquo;</a>
       
     </p>
   </footer>
@@ -433,8 +479,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://coding4ever.net/blog/2013/03/29/dapper-net-micro-orm-part-3/';
-        var disqus_url = 'http://coding4ever.net/blog/2013/03/29/dapper-net-micro-orm-part-3/';
+        var disqus_identifier = 'http://coding4ever.net/blog/2015/06/05/tutorial-wcf-service-bagian-number-3/';
+        var disqus_url = 'http://coding4ever.net/blog/2015/06/05/tutorial-wcf-service-bagian-number-3/';
         var disqus_script = 'embed.js';
       
     (function () {
