@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Visual C# | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/visual-c-number/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-06-07T21:03:29+07:00</updated>
+  <updated>2015-06-20T13:14:20+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,147 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Tutorial WCF Service Bagian #4]]></title>
+    <link href="http://coding4ever.net/blog/2015/06/20/tutorial-wcf-service-bagian-number-4/"/>
+    <updated>2015-06-20T12:38:46+07:00</updated>
+    <id>http://coding4ever.net/blog/2015/06/20/tutorial-wcf-service-bagian-number-4</id>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-16.png">https://coding4ever.files.wordpress.com/2015/05/020515-16.png</a>&#8221; width=&#8221;100&#8221; height=&#8221;100&#8221;>Postingan kali ini masih melanjutkan pembahasan tentang pembuatan web service menggunakan <a href="/blog/categories/wcf/">WCF</a>, tapi sebelum kita melanjutkan pembahasan ada baiknya kita melakukan sedikit review.</p>
+
+<!-- more -->
+
+
+<ol>
+<li>Pembahasan secara umum apa itu WCF, dan project apa saja yang harus kita persiapkan untuk mengimplementasikannya sudah kita bahas di <a href="/blog/2015/05/02/tutorial-wcf-service-bagian-number-1/">bagian #1</a></li>
+<li>Di <a href="/blog/2015/05/09/tutorial-wcf-service-bagian-number-2/">bagian #2</a> kita membuat project server yang mengimplementasikan service-service apa saja yang tersedia untuk bisa diakses oleh aplikasi klien</li>
+<li>Agar semua service ini bisa diakses oleh klien, kita perlu sebuah wadah/host untuk menjalankan web service, ini juga sudah kita bahas di <a href="/blog/2015/06/05/tutorial-wcf-service-bagian-number-3/">bagian #3</a></li>
+</ol>
+
+
+<p>Berarti sekarang waktu yang tepat untuk mengetes apakah web service yang sudah kita buat berfungsi dengan baik atau belum.</p>
+
+<p>Ada banyak cara untuk mengetes web service yang dibuat menggunakan WCF, kita akan bahas dua di antaranya yaitu :</p>
+
+<ol>
+<li>Tes Menggunakan Aplikasi WCF Test Client</li>
+<li>Tes Menggunakan Aplikasi Buatan Sendiri</li>
+</ol>
+
+
+<p><strong>1. Tes Menggunakan Aplikasi WCF Test Client</strong></p>
+
+<p>Secara default pada saat kita menginstall Visual Studio .NET, installer tidak membuat shortcut untuk aplikasi <code>WCF Test Client</code>, sehingga kita perlu menjalankannya secara manual di lokasi berikut :</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\WcfTestClient.exe</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Lokasi di atas harus disesuaikan dengan versi Visual Studio .NET Anda.</p>
+
+<p>Berikut adalah tampilan aplikasi <code>WCF Test Client</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-01.png">https://coding4ever.files.wordpress.com/2015/06/200615-01.png</a>&#8221;></p>
+
+<p>Untuk menambahkan url/link web service, klik menu File -> Add Service …, setelah itu inputkan link web service</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-02.png">https://coding4ever.files.wordpress.com/2015/06/200615-02.png</a>&#8221;></p>
+
+<p>Contoh link di atas kita dapatkan dari <a href="/blog/2015/06/05/tutorial-wcf-service-bagian-number-3/">postingan</a> sebelumnya.</p>
+
+<p>Jika berhasil akan tampil di panel sebelah kiri daftar service dari ServiceCalculator.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-03.png">https://coding4ever.files.wordpress.com/2015/06/200615-03.png</a>&#8221;></p>
+
+<p>Dari mana datangnya nama-nama service di atas seperti Penambahan dan Pengurangan ? Nama-nama service di atas di generate berdasarkan nama-nama method abstract yang ada di project <a href="https://github.com/k4m4r82/Calculator">CalculatorLib</a></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-04.png">https://coding4ever.files.wordpress.com/2015/06/200615-04.png</a>&#8221;></p>
+
+<p>Berikutnya kita akan tes salah satu service, misal service Penambahan. Caranya adalah dengan mengklik ganda nama service Penambahan.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-05.png">https://coding4ever.files.wordpress.com/2015/06/200615-05.png</a>&#8221;></p>
+
+<p>Setelah itu di panel sebelah kanan akan tampil form yang inputannya sesuai dengan parameter dari service Penambahan.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-06.png">https://coding4ever.files.wordpress.com/2015/06/200615-06.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-07.png">https://coding4ever.files.wordpress.com/2015/06/200615-07.png</a>&#8221;></p>
+
+<p>Langsung saja kita masukan nilai a dan b-nya, kemudian klik tombol Invoke</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-08.png">https://coding4ever.files.wordpress.com/2015/06/200615-08.png</a>&#8221;></p>
+
+<p>Dari hasil tes di atas kita bisa lihat bahwa service Penambahan berfungsi dengan benar karena penambahan nilai <code>5 + 2</code> menghasilkan <code>7</code>.</p>
+
+<p><strong>2. Tes Menggunakan Aplikasi Buatan Sendiri</strong></p>
+
+<p>Setelah tes menggunakan aplikasi WCF Test Client berhasil, kita akan mencoba membuat aplikasi sendiri untuk mengakses WCF web service dan untuk menyederhanakan contoh program, kita hanya akan membuat aplikasi berbasis console. Tapi sebelumnya aktifkan kembali solution <a href="https://github.com/k4m4r82/Calculator">Calculator</a> yang di dalamnya sudah ada project CalculatorLib dan CalculatorServer.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-09.png">https://coding4ever.files.wordpress.com/2015/06/200615-09.png</a>&#8221;></p>
+
+<p>Kita akan menambahkan project CalculatorClient masih di solution yang sama</p>
+
+<h4>Menambahkan project CalculatorClient</h4>
+
+<ol>
+<li><p>Klik kanan Solution Calculator -> Add -> New Project</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-10.png">https://coding4ever.files.wordpress.com/2015/06/200615-10.png</a>&#8221;></p></li>
+<li><p>Pada dialog Add New Project aktifkan pilihan Visual C# kemudian pilih Templates Class Library</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-11.png">https://coding4ever.files.wordpress.com/2015/06/200615-11.png</a>&#8221;></p>
+
+<p>Pada isian Name isikan CalculatorClient untuk isian Location dibiarkan saja setelah itu klik Ok. Jika langkah sebelumnya berhasil maka pada solution Calculator akan ketambahan 1 project baru yaitu CalculatorClient.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-12.png">https://coding4ever.files.wordpress.com/2015/06/200615-12.png</a>&#8221;></p></li>
+</ol>
+
+
+<p>Kemudian klik ganda class Program, setelah itu akan tampil editor code class Program</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-13.png">https://coding4ever.files.wordpress.com/2015/06/200615-13.png</a>&#8221;></p>
+
+<p>Sampai di sini kita akan menambahkan sebuah method dengan nama <code>GetHttpProxy</code>. Sesuai namanya method <code>GetHttpProxy</code> berfungsi untuk mengenerate <code>objek proxy</code>.</p>
+
+<p>Apa itu <code>objek proxy</code> ? Objek proxy merupakan representasi dari <code>service contract</code> sehingga objek proxy mempunyai operasi yang sama dengan <code>service contract</code>. Selain itu semua method yang dipanggil melalui objek proxy akan dieksekusi secara remote (dijalankan di sisi server)</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-14.png">https://coding4ever.files.wordpress.com/2015/06/200615-14.png</a>&#8221;></p>
+
+<p style="text-align:center">Sumber - <a href="http://www.topwcftutorials.net/2014/06/3-ways-generate-proxy-wcf-service.html" target="_blank">Top WCF Tutorial</a></p>
+
+
+<p>Berikut adalah kode dari method <code>GetHttpProxy</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-15.png">https://coding4ever.files.wordpress.com/2015/06/200615-15.png</a>&#8221;></p>
+
+<p>Agar method <code>GetHttpProxy</code> di atas berfungsi dengan baik, kita juga harus menambahkan referensi <code>System.ServiceModel</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-16.png">https://coding4ever.files.wordpress.com/2015/06/200615-16.png</a>&#8221;></p>
+
+<p>Kemudian mendaftarkannya di bagian using</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-17.png">https://coding4ever.files.wordpress.com/2015/06/200615-17.png</a>&#8221;></p>
+
+<p>Selain itu kita juga perlu  menambahkan referensi ‘CalculatorLib`</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-18.png">https://coding4ever.files.wordpress.com/2015/06/200615-18.png</a>&#8221;></p>
+
+<p>Dan mendaftarkannya dibagian using</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-19.png">https://coding4ever.files.wordpress.com/2015/06/200615-19.png</a>&#8221;></p>
+
+<p>Kenapa perlu menambahkan referensi <code>CalculatorLib</code>, karena kita akan mengakses interface <code>ICalculator</code> dan method-method abstractnya melalui method <code>GetHttpProxy</code></p>
+
+<p>Setelah semua persiapan kode selesai, kita tinggal melengkapi method Main yang di dalamnya kita memanggil url/link web service melalui method <code>GetHttpProxy</code>.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-20.png">https://coding4ever.files.wordpress.com/2015/06/200615-20.png</a>&#8221;></p>
+
+<p>Jika kode di atas dijalankan akan menghasilkan output seperti berikut</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-21.png">https://coding4ever.files.wordpress.com/2015/06/200615-21.png</a>&#8221;></p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/Calculator">MENCOBA</a> :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Tutorial WCF Service Bagian #3]]></title>
@@ -592,163 +733,6 @@
 <p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-11.png">https://coding4ever.files.wordpress.com/2015/04/140415-11.png</a>&#8221;></p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/DemoCrashReporterDotNET">MENCOBA</a> :-)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Membuat Laporan Crystal Reports .NET Dengan Model Data-Push]]></title>
-    <link href="http://coding4ever.net/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push/"/>
-    <updated>2015-04-12T23:58:08+07:00</updated>
-    <id>http://coding4ever.net/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg">https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Ketika memutuskan untuk menggunakan Crystal Reports‎ sebagai tool untuk membuat laporan, ada dua model yang bisa kita gunakan untuk menampilkan data.</p>
-
-<ol>
-<li>Pull model – kita mengeset koneksi ke database, mengirimkan perintah SQL, menentukan filter dan sisanya akan langsung ditangani oleh Crystal Reports. Cara yang pertama ini adalah cara umum yang biasanya digunakan untuk menampilkan data, dan rata-rata tutorial yang beredar juga menggunakan cara ini.</li>
-<li>Push model – dengan cara yang kedua ini kita membuat tabel temporary dengan menggunakan objek DataSet kemudian mengirimkan data dengan format DataSet, DataTable, IDataReader atau IEnumerable dan sisanya akan langsung ditangani oleh Crystal Reports.</li>
-</ol>
-
-
-<!-- more -->
-
-
-<p>Nah pada postingan kali ini kita akan menggunakan cara yang kedua yaitu Push Model dengan sumber datanya berupa object collection (IEnumerable).</p>
-
-<p>Persiapan tool-tool yang akan digunakan :</p>
-
-<ol>
-<li><a href="http://www.visualstudio.com/en-us/downloads/download-visual-studio-vs#d-community">Visual Studio Community 2013</a>, Anda bisa saja menggunakan Visual Studio .NET versi sebelumnya (2010, 2012)</li>
-<li><a href="/blog/categories/nuget/">NuGet</a>, untuk memudahkan dalam menambahkan library pihak ketiga. Adapun library pihak ketiga yang digunakan dalam sample ini adalah <a href="/blog/categories/dapper-net/">Dapper .NET</a> dan <a href="http://www.nuget.org/packages/System.Data.SQLite.Core/">System.Data.SQLite Core</a></li>
-<li><a href="http://scn.sap.com/docs/DOC-7824">Crystal Reports SP 13</a></li>
-<li>Database <a href="http://www.sqlite.org/">SQLite</a></li>
-<li>Tipe project WinForm</li>
-</ol>
-
-
-<p>Untuk contoh postingan kali ini, kita hanya menggunakan satu buah tabel dengan struktur seperti berikut :</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-01.png">https://coding4ever.files.wordpress.com/2015/04/120415-01.png</a>&#8221;></p>
-
-<p>Setelah semua tool yang dibutuhkan tersedia kita lanjutkan dengan pembuatan project :</p>
-
-<ul>
-<li>Buat project baru dengan type WinForm</li>
-</ul>
-
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-02.png">https://coding4ever.files.wordpress.com/2015/04/120415-02.png</a>&#8221;></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-03.png">https://coding4ever.files.wordpress.com/2015/04/120415-03.png</a>&#8221;></p>
-
-<ul>
-<li>Tambahkan empat folder baru masing-masing dengan nama DataSet, Model, Dao dan Report</li>
-</ul>
-
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-04.png">https://coding4ever.files.wordpress.com/2015/04/120415-04.png</a>&#8221;></p>
-
-<p>Folder DataSet digunakan untuk mengelompokkan item-item DataSet yang berfungsi sebagai tabel temporary, folder Model untuk mengelompokkan class-class model atau entity, folder Dao untuk mengelompokkan class-class akses database (Data Acces Object) dan terakhir folder Report untuk mengelompokkan item-item Crystal Reports.</p>
-
-<h3>Class Model/Entity</h3>
-
-<p>Untuk menerapkan konsep OOP (Object-oriented programming) dalam pemrograman database kita perlu membuat sebuah class yang disebut dengan istilah class Model atau Entity. Class ini merupakan representasi dari tabel-tabel yang ada di dalam database. Tujuan dari membuat class ini adalah agar kita bisa melakukan mapping (pemetaan) baris/row dari tabel menjadi kumpulan objek (object collection).</p>
-
-<p>Pemetaan bisa dilakukan secara manual atau bisa juga secara otomatis dengan menggunakan tool-tool ORM dari pihak ketiga seperti <a href="/blog/categories/dapper-net/">Dapper .NET</a> dan <a href="/blog/categories/entity-framework/">Entity Framework</a>. Untuk contoh kali ini kita menggunakan <a href="/blog/categories/dapper-net/">Dapper .NET</a>.</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-05.png">https://coding4ever.files.wordpress.com/2015/04/120415-05.png</a>&#8221;></p>
-
-<p>Setelah memahami apa itu class model dan bagaimana proses pemetaan record ke objek terjadi, langkah berikutnya adalah menambahkan class model Siswa yang mempunyai struktur sama persis dengan rancangan tabel di awal.</p>
-
-<p>Untuk menambahkan class Model, klik kanan Project -> Add -> New Item…</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-06.png">https://coding4ever.files.wordpress.com/2015/04/120415-06.png</a>&#8221;></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-07.png">https://coding4ever.files.wordpress.com/2015/04/120415-07.png</a>&#8221;></p>
-
-<p>Kemudian lengkapi kode class Siswa, seperti gambar berikut :</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-08.png">https://coding4ever.files.wordpress.com/2015/04/120415-08.png</a>&#8221;></p>
-
-<h3>Class DAO (Data Access Object)</h3>
-
-<p>Class DAO adalah class yang bertugas untuk menangani operasi database yang dikenal dengan istilah operasi CRUD (Create, Read, Update dan Delete). Di dalam class inilah kita menuliskan perintah-perintah INSERT, UPDATE, DELETE dan SELECT. Sebagai contoh kode dibawah ini akan melakukan mapping (pemetaan) baris/row tabel menjadi kumpulan objek (object collection) secara otomatis.</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-09.png">https://coding4ever.files.wordpress.com/2015/04/120415-09.png</a>&#8221;></p>
-
-<p>Contoh pemanggilannya juga gampang :</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-10.png">https://coding4ever.files.wordpress.com/2015/04/120415-10.png</a>&#8221;></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-11.png">https://coding4ever.files.wordpress.com/2015/04/120415-11.png</a>&#8221;></p>
-
-<h3>DataSet</h3>
-
-<p>Dengan model data Push kita tidak langsung menghubungkan antara Crystal Reports dengan database, jadi sebagai solusinya kita menggunakan DataSet yang berfungsi sebagai tabel temporary dan menjadi sumber data bagi Crystal Reports.</p>
-
-<p>Untuk menambahkan item DataSet, klik kanan Project -> Add -> New Item…</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-12.png">https://coding4ever.files.wordpress.com/2015/04/120415-12.png</a>&#8221;></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-13.png">https://coding4ever.files.wordpress.com/2015/04/120415-13.png</a>&#8221;></p>
-
-<p>Setelah menambahkan item DataSet (DsSiswa), langkah berikutnya adalah menambahkan item DataTable</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-14.png">https://coding4ever.files.wordpress.com/2015/04/120415-14.png</a>&#8221;></p>
-
-<p>Kemudian input informasi DataTablenya seperti gambar berikut :</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-15.png">https://coding4ever.files.wordpress.com/2015/04/120415-15.png</a>&#8221;></p>
-
-<p>Khusus untuk nama field dan tipe data dari DataTable yang kita buat, harus disesuaikan dengan nama field dan tipe data tabel.</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-01.png">https://coding4ever.files.wordpress.com/2015/04/120415-01.png</a>&#8221;></p>
-
-<h3>Crystal Reports</h3>
-
-<p>Crystal Reports adalah tool yang kita gunakan untuk membuat laporan. Untuk menambahkan item Crystal Report, klik kanan Project -> Add -> New Item…</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-16.png">https://coding4ever.files.wordpress.com/2015/04/120415-16.png</a>&#8221;></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-17.png">https://coding4ever.files.wordpress.com/2015/04/120415-17.png</a>&#8221;></p>
-
-<p>Pilih &ldquo;As a Blank Report&rdquo; karena kita akan mendesain report secara manual.</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-18.png">https://coding4ever.files.wordpress.com/2015/04/120415-18.png</a>&#8221;></p>
-
-<p>Langkah berikutnya adalah menentukan sumber data yang kita arahkan ke item DataSet yang sudah kita buat pada langkah sebelumnya</p>
-
-<p>Klik kanan Database Fields -> Database Expert …</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-19.png">https://coding4ever.files.wordpress.com/2015/04/120415-19.png</a>&#8221;></p>
-
-<p>Pilih ADO.NET DataSet Siswa</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-20.png">https://coding4ever.files.wordpress.com/2015/04/120415-20.png</a>&#8221;></p>
-
-<p>Drag satu-satu field siswa (nis, nama dan alamat) ke section detail, kemudian dirapikan.</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-21.png">https://coding4ever.files.wordpress.com/2015/04/120415-21.png</a>&#8221;></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-22.png">https://coding4ever.files.wordpress.com/2015/04/120415-22.png</a>&#8221;></p>
-
-<h3>Crystal Report Viewer</h3>
-
-<p>Setelah semua persiapan selesai, langkah berikutnya adalah menambahkan Crystal Report Viewer yang berfungsi sebagai container untuk untuk menampilkan report.</p>
-
-<p>Aktifkan form kemudian tambahkan Crystal Report Viewer</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-23.png">https://coding4ever.files.wordpress.com/2015/04/120415-23.png</a>&#8221;></p>
-
-<p>Kemudian tambahkan kode berikut :</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-24.png">https://coding4ever.files.wordpress.com/2015/04/120415-24.png</a>&#8221;></p>
-
-<p>Dari kode di atas kita bisa melihat tidak ada lagi kode untuk mengeset koneksi database dan perintah SQL yang akan dikirimkan. Cara ini sangat cocok digunakan ketika kita akan membangun sistem dengan arsitektur <a href="/blog/2012/02/01/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-1/">N-Tier</a>, di mana aplikasi klien sudah tidak terkoneksi lagi secara langsung ke database.</p>
-
-<p>Jika kode di atas dijalankan, akan menghasilkan output seperti gambar di bawah ini.</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-25.png">https://coding4ever.files.wordpress.com/2015/04/120415-25.png</a>&#8221;></p>
-
-<p>Selamat <a href="https://github.com/k4m4r82/DemoCRPushModel">MENCOBA</a> :)</p>
 ]]></content>
   </entry>
   

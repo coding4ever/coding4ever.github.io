@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-06-07T21:03:29+07:00</updated>
+  <updated>2015-06-20T13:14:20+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,148 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Tutorial WCF Service Bagian #4]]></title>
+    <link href="http://coding4ever.net/blog/2015/06/20/tutorial-wcf-service-bagian-number-4/"/>
+    <updated>2015-06-20T12:38:46+07:00</updated>
+    <id>http://coding4ever.net/blog/2015/06/20/tutorial-wcf-service-bagian-number-4</id>
+    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2015/05/020515-16.png" width="100" height="100">Postingan kali ini masih melanjutkan pembahasan tentang pembuatan web service menggunakan <a href="http://coding4ever.net/blog/categories/wcf/">WCF</a>, tapi sebelum kita melanjutkan pembahasan ada baiknya kita melakukan sedikit review.</p>
+
+<!-- more -->
+
+
+<ol>
+<li>Pembahasan secara umum apa itu WCF, dan project apa saja yang harus kita persiapkan untuk mengimplementasikannya sudah kita bahas di <a href="http://coding4ever.net/blog/2015/05/02/tutorial-wcf-service-bagian-number-1/">bagian #1</a></li>
+<li>Di <a href="http://coding4ever.net/blog/2015/05/09/tutorial-wcf-service-bagian-number-2/">bagian #2</a> kita membuat project server yang mengimplementasikan service-service apa saja yang tersedia untuk bisa diakses oleh aplikasi klien</li>
+<li>Agar semua service ini bisa diakses oleh klien, kita perlu sebuah wadah/host untuk menjalankan web service, ini juga sudah kita bahas di <a href="http://coding4ever.net/blog/2015/06/05/tutorial-wcf-service-bagian-number-3/">bagian #3</a></li>
+</ol>
+
+
+<p>Berarti sekarang waktu yang tepat untuk mengetes apakah web service yang sudah kita buat berfungsi dengan baik atau belum.</p>
+
+<p>Ada banyak cara untuk mengetes web service yang dibuat menggunakan WCF, kita akan bahas dua di antaranya yaitu :</p>
+
+<ol>
+<li>Tes Menggunakan Aplikasi WCF Test Client</li>
+<li>Tes Menggunakan Aplikasi Buatan Sendiri</li>
+</ol>
+
+
+<p><strong>1. Tes Menggunakan Aplikasi WCF Test Client</strong></p>
+
+<p>Secara default pada saat kita menginstall Visual Studio .NET, installer tidak membuat shortcut untuk aplikasi <code>WCF Test Client</code>, sehingga kita perlu menjalankannya secara manual di lokasi berikut :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\WcfTestClient.exe</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Lokasi di atas harus disesuaikan dengan versi Visual Studio .NET Anda.</p>
+
+<p>Berikut adalah tampilan aplikasi <code>WCF Test Client</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/200615-01.png"></p>
+
+<p>Untuk menambahkan url/link web service, klik menu File -> Add Service …, setelah itu inputkan link web service</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/200615-02.png"></p>
+
+<p>Contoh link di atas kita dapatkan dari <a href="http://coding4ever.net/blog/2015/06/05/tutorial-wcf-service-bagian-number-3/">postingan</a> sebelumnya.</p>
+
+<p>Jika berhasil akan tampil di panel sebelah kiri daftar service dari ServiceCalculator.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/200615-03.png"></p>
+
+<p>Dari mana datangnya nama-nama service di atas seperti Penambahan dan Pengurangan ? Nama-nama service di atas di generate berdasarkan nama-nama method abstract yang ada di project <a href="https://github.com/k4m4r82/Calculator">CalculatorLib</a></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/200615-04.png"></p>
+
+<p>Berikutnya kita akan tes salah satu service, misal service Penambahan. Caranya adalah dengan mengklik ganda nama service Penambahan.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/200615-05.png"></p>
+
+<p>Setelah itu di panel sebelah kanan akan tampil form yang inputannya sesuai dengan parameter dari service Penambahan.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/200615-06.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/200615-07.png"></p>
+
+<p>Langsung saja kita masukan nilai a dan b-nya, kemudian klik tombol Invoke</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/200615-08.png"></p>
+
+<p>Dari hasil tes di atas kita bisa lihat bahwa service Penambahan berfungsi dengan benar karena penambahan nilai <code>5 + 2</code> menghasilkan <code>7</code>.</p>
+
+<p><strong>2. Tes Menggunakan Aplikasi Buatan Sendiri</strong></p>
+
+<p>Setelah tes menggunakan aplikasi WCF Test Client berhasil, kita akan mencoba membuat aplikasi sendiri untuk mengakses WCF web service dan untuk menyederhanakan contoh program, kita hanya akan membuat aplikasi berbasis console. Tapi sebelumnya aktifkan kembali solution <a href="https://github.com/k4m4r82/Calculator">Calculator</a> yang di dalamnya sudah ada project CalculatorLib dan CalculatorServer.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/200615-09.png"></p>
+
+<p>Kita akan menambahkan project CalculatorClient masih di solution yang sama</p>
+
+<h4>Menambahkan project CalculatorClient</h4>
+
+<ol>
+<li><p>Klik kanan Solution Calculator -> Add -> New Project</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/200615-10.png"></p></li>
+<li><p>Pada dialog Add New Project aktifkan pilihan Visual C# kemudian pilih Templates Class Library</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/200615-11.png"></p>
+
+<p>Pada isian Name isikan CalculatorClient untuk isian Location dibiarkan saja setelah itu klik Ok. Jika langkah sebelumnya berhasil maka pada solution Calculator akan ketambahan 1 project baru yaitu CalculatorClient.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/200615-12.png"></p></li>
+</ol>
+
+
+<p>Kemudian klik ganda class Program, setelah itu akan tampil editor code class Program</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/200615-13.png"></p>
+
+<p>Sampai di sini kita akan menambahkan sebuah method dengan nama <code>GetHttpProxy</code>. Sesuai namanya method <code>GetHttpProxy</code> berfungsi untuk mengenerate <code>objek proxy</code>.</p>
+
+<p>Apa itu <code>objek proxy</code> ? Objek proxy merupakan representasi dari <code>service contract</code> sehingga objek proxy mempunyai operasi yang sama dengan <code>service contract</code>. Selain itu semua method yang dipanggil melalui objek proxy akan dieksekusi secara remote (dijalankan di sisi server)</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/200615-14.png"></p>
+
+<p style="text-align:center">Sumber - <a href="http://www.topwcftutorials.net/2014/06/3-ways-generate-proxy-wcf-service.html" target="_blank">Top WCF Tutorial</a></p>
+
+
+<p>Berikut adalah kode dari method <code>GetHttpProxy</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/200615-15.png"></p>
+
+<p>Agar method <code>GetHttpProxy</code> di atas berfungsi dengan baik, kita juga harus menambahkan referensi <code>System.ServiceModel</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/200615-16.png"></p>
+
+<p>Kemudian mendaftarkannya di bagian using</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/200615-17.png"></p>
+
+<p>Selain itu kita juga perlu  menambahkan referensi ‘CalculatorLib`</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/200615-18.png"></p>
+
+<p>Dan mendaftarkannya dibagian using</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/200615-19.png"></p>
+
+<p>Kenapa perlu menambahkan referensi <code>CalculatorLib</code>, karena kita akan mengakses interface <code>ICalculator</code> dan method-method abstractnya melalui method <code>GetHttpProxy</code></p>
+
+<p>Setelah semua persiapan kode selesai, kita tinggal melengkapi method Main yang di dalamnya kita memanggil url/link web service melalui method <code>GetHttpProxy</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/200615-20.png"></p>
+
+<p>Jika kode di atas dijalankan akan menghasilkan output seperti berikut</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/200615-21.png"></p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/Calculator">MENCOBA</a> :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Tutorial WCF Service Bagian #3]]></title>
@@ -3626,174 +3768,6 @@ Setelah proses mapping selesai, langkah berikutnya adalah menambahkan sebuah cla
 <p><a href="http://coding4ever.files.wordpress.com/2014/03/15.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/15.jpg" alt="15" /></a></p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/EntityFramework2">MENCOBA</a> :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Entity Framework Part 1]]></title>
-    <link href="http://coding4ever.net/blog/2014/03/18/entity-framework-part-1/"/>
-    <updated>2014-03-18T10:05:13+07:00</updated>
-    <id>http://coding4ever.net/blog/2014/03/18/entity-framework-part-1</id>
-    <content type="html"><![CDATA[<p><img class="left" src="http://coding4ever.files.wordpress.com/2014/03/entity_image.png" width="120" height="100"></p>
-
-<p><strong>Intro ORM</strong></p>
-
-<p>Sebelum kita membahas apa itu <a href="http://msdn.microsoft.com/en-us/data/aa937723">Entity Framework</a>, kita akan singgung sedikit mengenai <a href="http://en.wikipedia.org/wiki/Object-relational_mapping">ORM</a> (Object Relational Mapping).</p>
-
-<p>ORM  adalah  framework  yang  memetakan  tabel  pada  database  relasional ke objek  dengan menggunakan  informasi  pada metadata.  Metadata  dapat  berupa  file  XML  atau custom atribute pada  entity class.</p>
-
-<p>Saat ini sudah banyak pilihan ORM yang dapat meningkatkan  produktivitas kita sebagai seorang developer. Ketika kita membangun sebuah aplikasi database  dengan menggunakan OOP,  maka harus  dibuatkan  sebuah  persisten  objek  yang memodelkan objek dari database seperti tabel,  view , relationship dan objek database lainnya.</p>
-
-<!-- more -->
-
-
-<p><strong>Persisten  objek (Object Persistence)</strong></p>
-
-<p>Hampir semua aplikasi membutuhkan persistensi data.  Jika tidak, ketika aliran listrik dimatikan maka data tersebut akan hilang.</p>
-
-<p>Ketika akan menyimpan data secara permanen, database relasional adalah pilihan terbaik, sedangkan ketika harus bekerja dengan data yang ada di memori, objek adalah cara yang terbaik.</p>
-
-<p>Fitur seperti pewarisan, enkapsulasi dan fitur OOP lainnya memungkinkan penulisan kode yang lebih baik dan menyederhankan pengembangan aplikasi.</p>
-
-<p>Ketika  memodelkan  persisten  objek,  makin besar aplikasi yang  kita buat, maka makin rumit pemodelan yang dilakukan. Pemodelan dengan &ldquo;tangan  kosong&rdquo;  bukanlah  ide  yang  baik. Selain  banyak  waktu  yang  terbuang  karena  banyak perkerjaan yang di lakukan berulang-ulang, bisa jadi banyak kesalahan yang tidak bisa dihindari.</p>
-
-<p>Salah satu solusi yang digunakan untuk mengatasi pemodelan dengan &ldquo;tangan  kosong&rdquo;  ini adalah dengan menggunakan ORM.</p>
-
-<p>ORM mempunyai kemampuan untuk mengenerate secara otomatis persisten  objek berdasarkan schema dari database, konfigurasi file  XML  atau  custom atribute pada  entity class.</p>
-
-<p>Pendekatan ORM  bisa jadi lebih efektif dan produktif, tetapi tetap saja ada kekurangannya yaitu eksekusi  program  cenderung lebih  lambat  daripada  tanpa  menggunakan  ORM. Hal ini disebabkan adanya  proses  mapping  terlebih dahulu  terhadap  tabel di  database. Proses  ini mengubah  &#8221;record/tupel&#8221; menjadi  objek  atau  objek  collection. Namun  dengan perkembangan kecepatan processor dan kapasitas memory saat ini kekurangan ini dapat diatasi.</p>
-
-<p>Berikut beberapa alasan mengapa menggunakan ORM :</p>
-
-<ol>
-<li><p> Productivity : Mempermudah penulisan kode pengaksesan data (DAO/Access Object)</p></li>
-<li><p> Maintainability  :  Kode  lebih  mudah  di  maintenance,  karena  tidak  perlu  lagi  menulis perintah SQL bersama-sama dengan kode utama, bahkan tidak perlu menuliskan SQL sekali.</p></li>
-<li><p> Performance : Kode lebih efesien sehingga bisa dioptimasi lebih lanjut</p></li>
-<li><p> Vendor Independence  :  Tidak tergantung penyedia DBMS. Jika terjadi perubahan data cukup diubah konfigurasi koneksi saja</p></li>
-<li><p> Mengatasi  Paradigm  “impedance mismatch”  :  Penyimpanan  data  dalam  RDBMS  dan  objek  sama  sekali berbeda. ORM menjadi layer perantara RDBMS dengan pemrograman berbasis objek.</p></li>
-</ol>
-
-
-<p><strong>Entity Framework</strong></p>
-
-<p><a href="http://msdn.microsoft.com/en-us/data/aa937723">Entity Framework</a> adalah salah satu ORM yang dibuat dan direkomendasikan Microsoft dalam pengembangan aplikasi.</p>
-
-<p>Kita akan membahas lebih lanjut tentang <a href="http://msdn.microsoft.com/en-us/data/aa937723">Entity Framewor</a>k pada postingan berikutnya, insyaAlloh :)</p>
-
-<p>Dan sebagai penutup postingan kali ini, saya akan menampilkan cuplikan source code untuk mengakses database baik menggunakan library ADO.NET secara langsung dan menggunakan ORM Entity Framework.</p>
-
-<p>Untuk database saya menggunakan SQL Server Express 2008 R2.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/11.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/11.jpg" alt="1" /></a></p>
-
-<p><strong>1. Menggunakan library ADO.NET secara langsung</strong></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="kt">var</span> <span class="n">strConn</span> <span class="p">=</span> <span class="s">@&quot;Data Source=.\sqlexpress2008;Initial Catalog=Retail;Integrated Security=True&quot;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SqlConnection</span><span class="p">(</span><span class="n">strConn</span><span class="p">))</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">conn</span><span class="p">.</span><span class="n">Open</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">sql</span> <span class="p">=</span> <span class="s">@&quot;SELECT NamaSupplier, Jalan</span>
-</span><span class='line'><span class="s">                FROM Supplier&quot;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SqlCommand</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">dtr</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteReader</span><span class="p">())</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="kt">var</span> <span class="n">noUrut</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="k">while</span> <span class="p">(</span><span class="n">dtr</span><span class="p">.</span><span class="n">Read</span><span class="p">())</span>
-</span><span class='line'>            <span class="p">{</span>
-</span><span class='line'>                <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;{0}. {1}, {2}&quot;</span><span class="p">,</span> <span class="n">noUrut</span><span class="p">,</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;NamaSupplier&quot;</span><span class="p">],</span> <span class="n">dtr</span><span class="p">.</span><span class="n">GetString</span><span class="p">(</span><span class="m">1</span><span class="p">));</span>
-</span><span class='line'>
-</span><span class='line'>                <span class="n">noUrut</span><span class="p">++;</span>
-</span><span class='line'>            <span class="p">}</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Penulisan kode seperti di atas, dengan menggunakan objek DataReader untuk menampung hasil SELECT, mirip dengan programmer VB classic yang menggunakan objek Recordset untuk menampung data, di mana kita masih berhubungan dengan baris dan kolom.</p>
-
-<p>Makanya ketika kita ingin menampilkan nama supplier kita harus menyebutkan fieldnya yaitu &ldquo;NamaSupplier&rdquo; atau dengan menyebutkan indexnya.</p>
-
-<p>Penulisan nama field &ldquo;NamaSupplier&rdquo;, masih berbasis teks sehingga IDE Visual Studio yang canggih pun tidak bisa berbuat banyak untuk membantu kita mengingat nama field apa saja yang tersedia untuk tabel Supplier berikut tipe datanya.</p>
-
-<p><strong>2. Menggunakan ORM Entity Framework</strong></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">db</span> <span class="p">=</span> <span class="k">new</span> <span class="n">RetailContext</span><span class="p">())</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">noUrut</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">daftarSupplier</span> <span class="p">=</span> <span class="n">db</span><span class="p">.</span><span class="n">Suppliers</span><span class="p">.</span><span class="n">ToList</span><span class="p">();</span>
-</span><span class='line'>    <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">supplier</span> <span class="k">in</span> <span class="n">daftarSupplier</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;{0}. {1}, {2}&quot;</span><span class="p">,</span> <span class="n">noUrut</span><span class="p">,</span> <span class="n">supplier</span><span class="p">.</span><span class="n">NamaSupplier</span><span class="p">,</span> <span class="n">supplier</span><span class="p">.</span><span class="n">Jalan</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">noUrut</span><span class="p">++;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Pendekatan yang kedua ini kita sudah tidak lagi berhubungan dengan baris dan kolom tetapi langsung berhubungan dengan objek dari masing-masing class entity/model. Sehingga ketika kita menuliskan objek supplier kemudian diikuti dengan karakter titik (.), IDE Visual Studio bisa membantu kita dengan fasilitas IntelliSensenya untuk menampilkan daftar property apa saja yang tersedia.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/113.png"><img src="http://coding4ever.files.wordpress.com/2014/03/113.png" alt="1" /></a></p>
-
-<p>Sehingga aktivitas mengingat nama field berikut tipe datanya sudah tidak ada lagi disini :D , bahkan kita tidak perlu menuliskan secara manual perintah SQL yang digunakan untuk menampilkan data Supplier, semuanya semua pekerjaan ini sudah diambil alih oleh Entity Framework.</p>
-
-<p>Dari sisi kecepatan, jelas menggunakan library ADO.NET secara langsung adalah pemenangnya, tetapi dari sisi kemudahan penulisan kode dan pengembangan aplikasi, Anda dan Saya pasti sepakat bahwa menggunakan ORM adalah pemenangnya :)</p>
-
-<p>Selamat <a href="https://github.com/k4m4r82/EntityFramework1">MENCOBA</a> :)</p>
-
-<p>Referensi :</p>
-
-<ol>
-<li><p> <a href="http://it-ebooks.info/book/613/">Programming Entity Framework, 2nd Edition</a></p></li>
-<li><p> <a href="http://it-ebooks.info/book/424/">Programming Entity Framework: Code First</a></p></li>
-<li><p> <a href="http://it-ebooks.info/book/667/">Programming Entity Framework: DbContext</a></p></li>
-<li><p> <a href="http://it-ebooks.info/book/1619/">Entity Framework 4 in Action</a></p></li>
-<li><p> <a href="http://geeks.netindonesia.net/files/folders/ebook/entry63274.aspx">NET Enterprise Application Programming</a></p></li>
-</ol>
-
 ]]></content>
   </entry>
   
