@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Wcf | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/wcf/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-06-20T23:04:23+07:00</updated>
+  <updated>2015-06-20T23:26:02+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -85,7 +85,7 @@
 
 <p><strong>2. Tes Menggunakan Aplikasi Buatan Sendiri</strong></p>
 
-<p>Setelah tes menggunakan aplikasi WCF Test Client berhasil, kita akan mencoba membuat aplikasi sendiri untuk mengakses WCF web service dan untuk menyederhanakan contoh program, kita hanya akan membuat aplikasi berbasis console. Tapi sebelumnya aktifkan kembali solution <a href="https://github.com/k4m4r82/Calculator">Calculator</a> yang di dalamnya sudah ada project CalculatorLib dan CalculatorServer.</p>
+<p>Setelah tes menggunakan aplikasi WCF Test Client berhasil, kita akan mencoba membuat aplikasi sendiri untuk mengakses WCF web service dan untuk menyederhanakan contoh program, kita hanya membuat aplikasi berbasis console. Tapi sebelumnya aktifkan kembali solution <a href="https://github.com/k4m4r82/Calculator">Calculator</a> yang di dalamnya sudah ada project CalculatorLib dan CalculatorServer.</p>
 
 <p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-09.png">https://coding4ever.files.wordpress.com/2015/06/200615-09.png</a>&#8221;></p>
 
