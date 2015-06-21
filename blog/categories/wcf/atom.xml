@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Wcf | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/wcf/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-06-20T23:26:02+07:00</updated>
+  <updated>2015-06-21T08:39:57+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -113,7 +113,7 @@
 
 <p>Sampai di sini kita akan menambahkan sebuah method dengan nama <code>GetHttpProxy</code>. Sesuai namanya method <code>GetHttpProxy</code> berfungsi untuk mengenerate <code>objek proxy</code>.</p>
 
-<p>Apa itu <code>objek proxy</code> ? Objek proxy merupakan representasi dari <code>service contract</code> sehingga objek proxy mempunyai operasi yang sama dengan <code>service contract</code>. Selain itu semua method yang dipanggil melalui objek proxy akan dieksekusi secara remote (dijalankan di sisi server)</p>
+<p>Apa itu <code>objek proxy</code> ? <code>Objek proxy</code> merupakan representasi dari <code>service contract</code> sehingga objek proxy mempunyai operasi yang sama dengan <code>service contract</code>. Selain itu semua method yang dipanggil melalui objek proxy akan dieksekusi secara remote (dijalankan di sisi server)</p>
 
 <p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-14.png">https://coding4ever.files.wordpress.com/2015/06/200615-14.png</a>&#8221;></p>
 
