@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Visual C# | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/visual-c-number/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-06-23T11:31:14+07:00</updated>
+  <updated>2015-06-23T11:38:45+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -31,7 +31,7 @@
 
 <p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-02.png">https://coding4ever.files.wordpress.com/2015/06/230615-02.png</a>&#8221;></p>
 
-<p>Kebiasaan saya yang lain adalah setiap <code>assembly</code>, apakah itu berupa file dll atau exe, harus mempunyai versi yang sama. Misalkan kalo rilis pertama, saya set versinya = 1.0.0 maka semua <code>assembly</code>-nya harus punya versi yang sama.</p>
+<p>Kebiasaan saya yang lain adalah setiap <code>assembly</code>, apakah itu berupa file <a href="https://en.wikipedia.org/wiki/Dynamic-link_library">dll</a> atau exe, harus mempunyai versi yang sama. Misalkan kalo rilis pertama, saya set versinya = 1.0.0 maka semua <code>assembly</code>-nya harus punya versi yang sama.</p>
 
 <p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-03.png">https://coding4ever.files.wordpress.com/2015/06/230615-03.png</a>&#8221;></p>
 
