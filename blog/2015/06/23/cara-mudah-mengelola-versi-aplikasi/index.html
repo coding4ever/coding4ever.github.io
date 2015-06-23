@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Menambahkan Menu Baru Di System Menu - Coding4ever&#8217;s Blog</title>
+  <title>Cara Mudah Mengelola Versi Aplikasi - Coding4ever&#8217;s Blog</title>
   <meta name="author" content="Admin">
 
   
-  <meta name="description" content="Lihat system menu yang ada form berikut : dan kita menginginkan system menunya menjadi seperti berikut : Untuk memudahkan kita dalam memprogramnya &hellip;">
+  <meta name="description" content="Oke jadi ceritanya seperti ini, saya punya kebiasaan dan saya enggak tau apakah ini kebiasaan baik atau buruk :D Untuk menerapkan konsep separation &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://coding4ever.net/blog/2009/12/29/menambahkan-menu-baru-di-system-menu">
+  <link rel="canonical" href="http://coding4ever.net/blog/2015/06/23/cara-mudah-mengelola-versi-aplikasi">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Coding4ever's Blog" type="application/atom+xml">
@@ -83,7 +83,7 @@
   
   <header>
     
-      <h1 class="entry-title">Menambahkan Menu Baru Di System Menu</h1>
+      <h1 class="entry-title">Cara Mudah Mengelola Versi Aplikasi</h1>
     
     
       <p class="meta">
@@ -92,7 +92,7 @@
 
 
 
-<time class='entry-date' datetime='2009-12-29T16:09:36+07:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2009</span></span> <span class='time'>4:09 pm</span></time>
+<time class='entry-date' datetime='2015-06-23T11:06:50+07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:06 am</span></time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://coding4ever.net">Comments</a>
@@ -102,76 +102,98 @@
   </header>
 
 
-<div class="entry-content"><p>Lihat system menu yang ada form berikut :</p>
+<div class="entry-content"><p><img class="left" src="https://coding4ever.files.wordpress.com/2015/06/230615-00.png" width="100" height="100">Oke jadi ceritanya seperti ini, saya punya kebiasaan dan saya enggak tau apakah ini kebiasaan baik atau buruk :D</p>
 
-<p><a href="http://coding4ever.files.wordpress.com/2009/12/dialog1.jpg"><img src="http://coding4ever.files.wordpress.com/2009/12/dialog1.jpg" alt="" /></a></p>
-
-<p>dan kita menginginkan system menunya menjadi seperti berikut :</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2009/12/dialog2.jpg"><img src="http://coding4ever.files.wordpress.com/2009/12/dialog2.jpg" alt="" /></a></p>
+<p>Untuk menerapkan konsep <code>separation of concerns</code> dalam pengembangan aplikasi, saya biasanya memisahkan modul-modul aplikasi menjadi beberapa project (satu solution dengan banyak project/assemblies). Contoh :</p>
 
 <!-- more -->
 
 
-<p>Untuk memudahkan kita dalam memprogramnya download dulu komponen vbAccelerator VB6 PopMenu Control di<a href="http://coding4ever.files.wordpress.com/2009/12/cpopmenu6.docx">sini</a>, ubah nama filenya menjadi <strong>cPopMenu6.rar</strong> extract kemudian jalankan file install.cmd</p>
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-01.png"></p>
 
-<p>Jika gagal registrasikan komponen secara manual dengan cara klik tombol Start -> Run. Kemudian ketik : regsvr32 cPopMenu6.ocx</p>
+<p>Dari contoh di atas klo kita build akan menghasilkan beberapa file assembly seperti berikut :</p>
 
-<p>Langkah berikutnya adalah membuat project baru kemudian tambahkan komponen (CTRL + T) vbAccelerator VB6 PopMenu Control jangan lupa langsung dimasukan ke form</p>
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-02.png"></p>
 
-<p><a href="http://coding4ever.files.wordpress.com/2009/12/dialog3.jpg"><img src="http://coding4ever.files.wordpress.com/2009/12/dialog3.jpg" alt="" /></a></p>
+<p>Kebiasaan saya yang lain adalah setiap <code>assembly</code>, apakah itu berupa file dll atau exe, harus mempunyai versi yang sama. Misalkan kalo rilis pertama, saya set versinya = 1.0.0 maka semua <code>assembly</code>-nya harus punya versi yang sama.</p>
 
-<p>copy paste kode berikut :</p>
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-03.png"></p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Option Explicit
-</span><span class='line'>
-</span><span class='line'>Private mMenuSeparator  As Long
-</span><span class='line'>Private mMenuAbout      As Long
-</span><span class='line'>Private mMenuBantuan    As Long
-</span><span class='line'>
-</span><span class='line'>Private Sub Form_Load()
-</span><span class='line'>    With PopMenu1
-</span><span class='line'>        mMenuSeparator = .SystemMenuAppendItem("-")
-</span><span class='line'>        mMenuBantuan = .SystemMenuAppendItem("&Bantuan")
-</span><span class='line'>        mMenuAbout = .SystemMenuAppendItem("&Info Program")
-</span><span class='line'>    End With
-</span><span class='line'>End Sub
-</span><span class='line'>
-</span><span class='line'>Private Sub PopMenu1_SystemMenuClick(ItemNumber As Long)
-</span><span class='line'>    Select Case ItemNumber
-</span><span class='line'>        Case mMenuAbout
-</span><span class='line'>            'todo : panggil frmAbout disini
-</span><span class='line'>
-</span><span class='line'>        Case mMenuBantuan
-</span><span class='line'>            'todo : panggil file help disini
-</span><span class='line'>    End Select
-</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
+<p>Klo rilis berikutnya versinya = 1.2.0, maka semua versi <code>assembly</code>-nya juga harus sama</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-04.png"></p>
+
+<p>Kan jadi enggak lucu klo versi <code>assembly</code>-nya ada yang beda he he :D</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-05.png"></p>
+
+<p><strong>Merubah Versi Assembly</strong></p>
+
+<p>Kalo cara biasa, misal kita punya empat project, berarti kita juga harus merubah versi <code>assembly</code> di empat lokasi yang berbeda</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-06.png"></p>
+
+<p>Dari gambar di atas kita bisa melihat informasi versi <code>assembly</code> tersimpan di file <code>AssemblyInfo.cs</code> masing-masing project. Klo penasaran ini nih isinya he he :D</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-07.png"></p>
+
+<p>Nah ini yang sedikit merepotkan dan kadang-kadang sedikit melelahkan :D, sudah di<code>build</code> eh ada <code>assembly</code> yang lupa diganti versinya, jadi <code>build</code> ulang deh he he :D</p>
+
+<p>Trus solusinya gimana ? Cara yang saya gunakan adalah dengan membuat <code>Global Version</code> misal dengan nama <code>VersionInfo</code>. File <code>VersionInfo</code> ini merupakan file dari <code>Solution</code> jadi scopenya sama dengan project.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-08.png"></p>
+
+<p>Nah untuk menambahkan file <code>VersionInfo</code> di atas caranya juga gampang, berikut langkah-langkahnya :</p>
+
+<ol>
+<li><p>Klik kanan Solution -> Add -> New Item…</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-09.png"></p></li>
+<li><p>Pilih item Visual C#/Basic Class</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-10.png"></p></li>
+<li><p>Jika berhasil file <code>VersionInfo</code> akan tersimpan di folder <code>Solution Items</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-11.png"></p>
+
+<p>Kemudian hapus semua isi file <code>VersionInfo</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-12.png"></p></li>
+<li><p>Setelah itu copy <code>sebagian</code> informasi salah satu file <code>AssemblyInfo.cs</code> ke <code>VersionInfo</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-13.png"></p></li>
+<li><p>Kemudian edit <code>sebagian</code> isi file <code>AssemblyInfo.cs</code> masing-masing project (cek yang ada komentar // di nonaktifkan)</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-14.png"></p></li>
+<li><p>Terakhir masing-masing project menambahkan link ke file <code>VersionInfo</code></p>
+
+<ul>
+<li><p>Klik kanan Project -> Add -> Existing Item…</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-15.png"></p></li>
+<li><p>Pilih file <code>VersionInfo</code> kemudian <code>Add As Link</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-16.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-17.png"></p></li>
+</ul>
 
 
-<p>Selamat mencoba :)</p>
+<p>Sampe di sini ulangi langkah-langkah sebelumnya untuk menambahkan link file <code>VersionInfo</code> ke project lainnya</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-18.png"></p></li>
+</ol>
+
+
+<p>Nah sampe di sini tugas kita sudah selesai, sehingga ketika ada perubahan versi kita cukup merubah disatu file yaitu file <code>VersionInfo</code> yang ada di <code>Solution Items</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-19.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-20.png"></p>
+
+<p>Selamat MENCOBA :)</p>
+
+<p>Referensi : <a href="http://www.codeproject.com/Articles/328977/The-Right-Way-to-Version-Your-Assemblies">The Right Way to Version Your Assemblies</a></p>
 </div>
 
 
@@ -187,12 +209,12 @@
 
 
 
-<time class='entry-date' datetime='2009-12-29T16:09:36+07:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2009</span></span> <span class='time'>4:09 pm</span></time>
+<time class='entry-date' datetime='2015-06-23T11:06:50+07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:06 am</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/visual-basic/'>visual basic</a>
+    <a class='category' href='/blog/categories/visual-c-number/'>visual c#</a>
   
 </span>
 
@@ -210,10 +232,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2009/12/29/membuat-fungsi-koneksi-untuk-beberapa-database-firebird-mysql-ms-sql-server-dan-ms-access/" title="Previous Post: Membuat fungsi koneksi untuk beberapa database (Firebird, MySQL, Ms SQL Server dan Ms Access)">&laquo; Membuat fungsi koneksi untuk beberapa database (Firebird, MySQL, Ms SQL Server dan Ms Access)</a>
+        <a class="basic-alignment left" href="/blog/2015/06/20/tutorial-wcf-service-bagian-number-4/" title="Previous Post: Tutorial WCF Service Bagian #4">&laquo; Tutorial WCF Service Bagian #4</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2009/12/30/menyimpan-dan-menampilkan-foto-di-ms-access/" title="Next Post: Menyimpan dan menampilkan foto di ms access">Menyimpan dan menampilkan foto di ms access &raquo;</a>
       
     </p>
   </footer>
@@ -355,8 +375,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://coding4ever.net/blog/2009/12/29/menambahkan-menu-baru-di-system-menu/';
-        var disqus_url = 'http://coding4ever.net/blog/2009/12/29/menambahkan-menu-baru-di-system-menu/';
+        var disqus_identifier = 'http://coding4ever.net/blog/2015/06/23/cara-mudah-mengelola-versi-aplikasi/';
+        var disqus_url = 'http://coding4ever.net/blog/2015/06/23/cara-mudah-mengelola-versi-aplikasi/';
         var disqus_script = 'embed.js';
       
     (function () {

@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-06-21T08:39:57+07:00</updated>
+  <updated>2015-06-23T11:31:14+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,106 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Cara Mudah Mengelola Versi Aplikasi]]></title>
+    <link href="http://coding4ever.net/blog/2015/06/23/cara-mudah-mengelola-versi-aplikasi/"/>
+    <updated>2015-06-23T11:06:50+07:00</updated>
+    <id>http://coding4ever.net/blog/2015/06/23/cara-mudah-mengelola-versi-aplikasi</id>
+    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2015/06/230615-00.png" width="100" height="100">Oke jadi ceritanya seperti ini, saya punya kebiasaan dan saya enggak tau apakah ini kebiasaan baik atau buruk :D</p>
+
+<p>Untuk menerapkan konsep <code>separation of concerns</code> dalam pengembangan aplikasi, saya biasanya memisahkan modul-modul aplikasi menjadi beberapa project (satu solution dengan banyak project/assemblies). Contoh :</p>
+
+<!-- more -->
+
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-01.png"></p>
+
+<p>Dari contoh di atas klo kita build akan menghasilkan beberapa file assembly seperti berikut :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-02.png"></p>
+
+<p>Kebiasaan saya yang lain adalah setiap <code>assembly</code>, apakah itu berupa file dll atau exe, harus mempunyai versi yang sama. Misalkan kalo rilis pertama, saya set versinya = 1.0.0 maka semua <code>assembly</code>-nya harus punya versi yang sama.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-03.png"></p>
+
+<p>Klo rilis berikutnya versinya = 1.2.0, maka semua versi <code>assembly</code>-nya juga harus sama</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-04.png"></p>
+
+<p>Kan jadi enggak lucu klo versi <code>assembly</code>-nya ada yang beda he he :D</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-05.png"></p>
+
+<p><strong>Merubah Versi Assembly</strong></p>
+
+<p>Kalo cara biasa, misal kita punya empat project, berarti kita juga harus merubah versi <code>assembly</code> di empat lokasi yang berbeda</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-06.png"></p>
+
+<p>Dari gambar di atas kita bisa melihat informasi versi <code>assembly</code> tersimpan di file <code>AssemblyInfo.cs</code> masing-masing project. Klo penasaran ini nih isinya he he :D</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-07.png"></p>
+
+<p>Nah ini yang sedikit merepotkan dan kadang-kadang sedikit melelahkan :D, sudah di<code>build</code> eh ada <code>assembly</code> yang lupa diganti versinya, jadi <code>build</code> ulang deh he he :D</p>
+
+<p>Trus solusinya gimana ? Cara yang saya gunakan adalah dengan membuat <code>Global Version</code> misal dengan nama <code>VersionInfo</code>. File <code>VersionInfo</code> ini merupakan file dari <code>Solution</code> jadi scopenya sama dengan project.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-08.png"></p>
+
+<p>Nah untuk menambahkan file <code>VersionInfo</code> di atas caranya juga gampang, berikut langkah-langkahnya :</p>
+
+<ol>
+<li><p>Klik kanan Solution -> Add -> New Item…</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-09.png"></p></li>
+<li><p>Pilih item Visual C#/Basic Class</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-10.png"></p></li>
+<li><p>Jika berhasil file <code>VersionInfo</code> akan tersimpan di folder <code>Solution Items</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-11.png"></p>
+
+<p>Kemudian hapus semua isi file <code>VersionInfo</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-12.png"></p></li>
+<li><p>Setelah itu copy <code>sebagian</code> informasi salah satu file <code>AssemblyInfo.cs</code> ke <code>VersionInfo</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-13.png"></p></li>
+<li><p>Kemudian edit <code>sebagian</code> isi file <code>AssemblyInfo.cs</code> masing-masing project (cek yang ada komentar // di nonaktifkan)</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-14.png"></p></li>
+<li><p>Terakhir masing-masing project menambahkan link ke file <code>VersionInfo</code></p>
+
+<ul>
+<li><p>Klik kanan Project -> Add -> Existing Item…</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-15.png"></p></li>
+<li><p>Pilih file <code>VersionInfo</code> kemudian <code>Add As Link</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-16.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-17.png"></p></li>
+</ul>
+
+
+<p>Sampe di sini ulangi langkah-langkah sebelumnya untuk menambahkan link file <code>VersionInfo</code> ke project lainnya</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-18.png"></p></li>
+</ol>
+
+
+<p>Nah sampe di sini tugas kita sudah selesai, sehingga ketika ada perubahan versi kita cukup merubah disatu file yaitu file <code>VersionInfo</code> yang ada di <code>Solution Items</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-19.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-20.png"></p>
+
+<p>Selamat MENCOBA :)</p>
+
+<p>Referensi : <a href="http://www.codeproject.com/Articles/328977/The-Right-Way-to-Version-Your-Assemblies">The Right Way to Version Your Assemblies</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Tutorial WCF Service Bagian #4]]></title>
@@ -3622,152 +3722,6 @@ Tujuan menginstall library ini adalah agar laporan yang dihasilkan <a href="http
 <p><a href="http://coding4ever.files.wordpress.com/2014/03/15.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/15.jpg" alt="15" /></a></p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/EntityFramework3">MENCOBA</a> :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Entity Framework Part 2]]></title>
-    <link href="http://coding4ever.net/blog/2014/03/21/entity-framework-part-2/"/>
-    <updated>2014-03-21T10:40:20+07:00</updated>
-    <id>http://coding4ever.net/blog/2014/03/21/entity-framework-part-2</id>
-    <content type="html"><![CDATA[<p><img class="left" src="http://coding4ever.files.wordpress.com/2014/03/entity_image.png" width="120" height="100">Melanjutkan <a href="http://coding4ever.net/blog/2014/03/18/entity-framework-part-1/">postingan</a> sebelumnya, saya sudah mendemokan begitu mudahnya mengakses data di dalam sebuah database menggunakan <a href="http://msdn.microsoft.com/en-us/data/aa937723">Entity Framework</a>.</p>
-
-<p>Entity Framework bertugas mengambil alih semua pekerjaan yang biasa kita lakukan dalam pembuatan aplikasi database, seperti mengambil data (SELECT), menambah data (INSERT), mengupdate data (UPDATE) dan menghapus data (DELETE).</p>
-
-<p>Sehingga dengan menggunakan Entity Framework kita sudah tidak lagi berhubungan secara langsung dengan perintah SQL, dan sebagai gantinya kita menggunakan <a href="msdn.microsoft.com/en-us/library/bb397926.aspx">LINQ</a>.</p>
-
-<!-- more -->
-
-
-<p>Ketika bekerja dengan <a href="http://msdn.microsoft.com/en-us/data/aa937723">Entity Framework</a> ada beberapa pendekatan yang bisa kita lakukan sesuai dengan kebiasaan kita dalam mengembangkan aplikasi.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/ef-workflow.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/ef-workflow.jpg" alt="EF Workflow" /></a></p>
-
-<p>Karena saya lebih senang membuat database terlebih dulu, baru dilanjutkan dengan menulis kode, makanya pendekatan yang saya pilih adalah &ldquo;Code first (existing database)&rdquo; yaitu membuat class-class entity (model) berdasarkan database yang sudah ada.</p>
-
-<p>Untuk informasi lebih lengkap tentang pendekatan yang bisa kita lakukan ketika bekerja dengan Entity Framework bisa langsung dicek di <a href="http://msdn.microsoft.com/en-us/data/jj590134">sini</a> :D</p>
-
-<p>Fokus pada postingan kali ini adalah melakukan mapping (pemetaan) antara tabel yang ada di database dengan class entity. Class entity adalah class yang merupakan representatif dari tabel-tabel yang ada di dalam database. Jadi kalo kita mempunyai tabel Supplier, berarti kita juga harus membuat class dengan nama yang sama dengan nama tabelnya.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/12.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/12.jpg" alt="1" /></a>Struktur Tabel Supplier</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/21.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/21.jpg" alt="2" /></a>Class Entity Supplier</p>
-
-<p>Mapping (pemetaan) merupakan inti dari ORM seperti Entity Framework. Mapping bisa dilakukan secara manual seperti yang akan kita bahas pada postingan kali ini, maupun secara otomatis menggunakan tools pembantu seperti <a href="http://msdn.microsoft.com/en-us/library/vstudio/cc716685%28v=vs.100%29.aspx">ADO.NET Entity Data Model Designer</a> dan <a href="http://visualstudiogallery.msdn.microsoft.com/72a60b14-1581-4b9b-89f2-846072eff19d">Entity Framework Power Tools</a>.</p>
-
-<p>Sebagai contoh kita melakukan mapping antara tabel supplier dan class entity supplier seperti gambar di atas. Adapun langkah-langkah seperti berikut :</p>
-
-<ol>
-<li><p>Buat project baru dengan tipe Console Application</p></li>
-<li><p>Tambahkan class baru dengan nama Supplier</p></li>
-</ol>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/3.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/3.jpg" alt="3" /></a>kemudian lengkapi kodenya seperti berikut :</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">Supplier</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">public</span> <span class="kt">int</span> <span class="n">SupplierID</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'>    <span class="k">public</span> <span class="kt">string</span> <span class="n">NamaSupplier</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'>    <span class="k">public</span> <span class="kt">string</span> <span class="n">Jalan</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'>    <span class="k">public</span> <span class="kt">string</span> <span class="n">Kota</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Class Supplier di atas merupakan representatif dari tabel Supplier yang ada di dalam database. Setiap objek dari class Supplier akan mewakili satu baris/record tabel Supplier dan setiap field akan dipetakan ke masing-masing property objeknya.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/4.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/4.jpg" alt="4" /></a></p>
-
-<ol>
-<li>Menambahkan referensi <a href="http://msdn.microsoft.com/en-us/data/aa937723">Entity Framework</a> via <a href="http://coding4ever.net/blog/2014/03/11/nuget/">NuGet</a>, caranya dengan klik kanan node References kemudian pilih Manage NuGet Packages.</li>
-</ol>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/5.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/5.jpg" alt="5" /></a>selanjutnya akan tampil dialog Manage NuGet Packages kemudian pilih EntityFramework dan klik Install.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/6.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/6.jpg" alt="6" /></a></p>
-
-<ol>
-<li>Pilih &ldquo;I Accept&rdquo; ketika ada konfirmasi, setelah itu tunggu beberapa detik sampai paket EntityFramework selesai diinstall. Kemudian cek seharusnya library EntityFramework sudah ditambahkan di bagian node References.</li>
-</ol>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/7.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/7.jpg" alt="7" /></a>selain itu ada tambahan file baru yaitu &ldquo;packages.config&rdquo; yang berisi informasi paket apa saja yang sudah ditambahkan via <a href="http://coding4ever.net/blog/2014/03/11/nuget/">NuGet</a>.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/8.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/8.jpg" alt="8" /></a></p>
-
-<p><strong>Konfigurasi Pemetaan (mapping)</strong></p>
-
-<p>Ada dua pilihan ketika kita ingin melakukan mapping :</p>
-
-<ul>
-<li><p><a href="http://msdn.microsoft.com/en-us/data/jj591583.aspx">Data Annotations</a></p></li>
-<li><p><a href="http://msdn.microsoft.com/en-us/data/jj591617.aspx">Code First’s Fluent API</a></p></li>
-</ul>
-
-
-<p><strong>Data Annotations</strong>
-Data Annotations adalah atribut yang kita tambahkan secara langsung dibagian class atau properties. Untuk menggunakan Data Annotations kita harus menambahkan namespace System.ComponentModel.DataAnnotations. Contoh :</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/92.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/92.jpg" alt="9" /></a></p>
-
-<p>Atribut Tabel hanya ditambahkan jika nama tabel dan class berbeda, begitu juga untuk atribut Column hanya ditambahkan jika nama field berbeda dengan nama property.</p>
-
-<p><strong>Code First’s Fluent API</strong>
-Jika ingin class entity kita tetap bersih dari atribut-atribut di atas, kita bisa menggunakan Code First’s Fluent API untuk konfigurasi mappingnya.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/10.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/111.jpg" alt="11" /></a></p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/10.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/10.jpg" alt="10" /></a></p>
-
-<p>Jadi terserah Anda ingin menggunakan cara yang mana untuk konfigurasi mappingnya.</p>
-
-<p><strong>DbContext</strong>
-Setelah proses mapping selesai, langkah berikutnya adalah menambahkan sebuah class dengan nama RetailContext, class ini harus turunan dari DbContext.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/121.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/121.jpg" alt="12" /></a></p>
-
-<p>Penamaan class RetailContext, disesuaikan dengan nama project yang kita buat. Jika nama project kita adalah SmartLibrary (aplikasi perpustakaan), mungkin penamaan class SmartLibraryContext bisa menjadi pertimbangan untuk nama class Contextnya.</p>
-
-<p>DbContext adalah class yang bertanggung jawab untuk berinteraksi dengan data (yang diambil dari database) yang sudah dirubah bentuknya menjadi objek atau sebaliknya dari objek kemudian dirubah lagi menjadi data yang bisa disimpan ke dalam database.</p>
-
-<p>Berikut adalah kode lengkap untuk class RetailContext di atas :</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/16.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/16.jpg" alt="16" /></a></p>
-
-<p>Dibagian constructor ada perintah base(&ldquo;Name=RetailContext&rdquo;), penulisan keyword base disini adalah untuk memanggil constructor class induk dari class RetailContext yaitu DbContext. Kemudian &ldquo;Name=RetailContext&rdquo;, RetailContext disini adalah nama dari koneksi yang kita set nilainya via file App.config.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/17.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/17.jpg" alt="17" /></a><a href="http://coding4ever.files.wordpress.com/2014/03/18.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/18.jpg" alt="18" /></a></p>
-
-<p>Berikutnya tujuan dari deklarasi property Suppliers dengan tipe DbSet<Supplier> adalah agar class RetailContext bisa mengakses dan memodifikasi objek Supplier.</p>
-
-<p>Percaya atau tidak dengan sedikit konfigurasi di atas, tanpa melibatkan perintah SQL seperti SELECT, kita bisa langsung mengakses data Supplier yang sudah berubah bentuk menjadi objek.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/4.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/4.jpg" alt="4" /></a></p>
-
-<p>Oke langsung saja kita buktikan dengan membuka file Program.cs kemudian kita lengkapi method Mainnya dengan kode berikut :</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/14.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/14.jpg" alt="14" /></a></p>
-
-<p>Langkah pertama yang kita lakukan adalah membuat objek dari RetailContext dengan nama db. Karena RetailContext mengimplementasikan interface IDisposable, kita bisa menggunakan keyword using agar objek db langsung dihapus dari memory setelah blok usingnya selesai dijalankan.</p>
-
-<p>Selanjutnya kita membuat objek daftarSupplier untuk menampung data supplier yang di-SELECT dari database kemudian dirubah bentuknya menjadi kumpulan objek dari class entity Supplier yang disimpan di dalam sebuah wadah dengan tipe class collection List.</p>
-
-<p>Terakhir kita gunakan perulangan foreach untuk mengekstrak objek Supplier yang ada di dalam objek daftarSupplier.</p>
-
-<p>Jika kode di atas dijalankan, akan menghasilkan output seperti berikut :</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/15.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/15.jpg" alt="15" /></a></p>
-
-<p>Selamat <a href="https://github.com/k4m4r82/EntityFramework2">MENCOBA</a> :)</p>
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Visual C# | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/visual-c-number/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-06-21T08:39:57+07:00</updated>
+  <updated>2015-06-23T11:31:14+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,106 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Cara Mudah Mengelola Versi Aplikasi]]></title>
+    <link href="http://coding4ever.net/blog/2015/06/23/cara-mudah-mengelola-versi-aplikasi/"/>
+    <updated>2015-06-23T11:06:50+07:00</updated>
+    <id>http://coding4ever.net/blog/2015/06/23/cara-mudah-mengelola-versi-aplikasi</id>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-00.png">https://coding4ever.files.wordpress.com/2015/06/230615-00.png</a>&#8221; width=&#8221;100&#8221; height=&#8221;100&#8221;>Oke jadi ceritanya seperti ini, saya punya kebiasaan dan saya enggak tau apakah ini kebiasaan baik atau buruk :D</p>
+
+<p>Untuk menerapkan konsep <code>separation of concerns</code> dalam pengembangan aplikasi, saya biasanya memisahkan modul-modul aplikasi menjadi beberapa project (satu solution dengan banyak project/assemblies). Contoh :</p>
+
+<!-- more -->
+
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-01.png">https://coding4ever.files.wordpress.com/2015/06/230615-01.png</a>&#8221;></p>
+
+<p>Dari contoh di atas klo kita build akan menghasilkan beberapa file assembly seperti berikut :</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-02.png">https://coding4ever.files.wordpress.com/2015/06/230615-02.png</a>&#8221;></p>
+
+<p>Kebiasaan saya yang lain adalah setiap <code>assembly</code>, apakah itu berupa file dll atau exe, harus mempunyai versi yang sama. Misalkan kalo rilis pertama, saya set versinya = 1.0.0 maka semua <code>assembly</code>-nya harus punya versi yang sama.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-03.png">https://coding4ever.files.wordpress.com/2015/06/230615-03.png</a>&#8221;></p>
+
+<p>Klo rilis berikutnya versinya = 1.2.0, maka semua versi <code>assembly</code>-nya juga harus sama</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-04.png">https://coding4ever.files.wordpress.com/2015/06/230615-04.png</a>&#8221;></p>
+
+<p>Kan jadi enggak lucu klo versi <code>assembly</code>-nya ada yang beda he he :D</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-05.png">https://coding4ever.files.wordpress.com/2015/06/230615-05.png</a>&#8221;></p>
+
+<p><strong>Merubah Versi Assembly</strong></p>
+
+<p>Kalo cara biasa, misal kita punya empat project, berarti kita juga harus merubah versi <code>assembly</code> di empat lokasi yang berbeda</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-06.png">https://coding4ever.files.wordpress.com/2015/06/230615-06.png</a>&#8221;></p>
+
+<p>Dari gambar di atas kita bisa melihat informasi versi <code>assembly</code> tersimpan di file <code>AssemblyInfo.cs</code> masing-masing project. Klo penasaran ini nih isinya he he :D</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-07.png">https://coding4ever.files.wordpress.com/2015/06/230615-07.png</a>&#8221;></p>
+
+<p>Nah ini yang sedikit merepotkan dan kadang-kadang sedikit melelahkan :D, sudah di<code>build</code> eh ada <code>assembly</code> yang lupa diganti versinya, jadi <code>build</code> ulang deh he he :D</p>
+
+<p>Trus solusinya gimana ? Cara yang saya gunakan adalah dengan membuat <code>Global Version</code> misal dengan nama <code>VersionInfo</code>. File <code>VersionInfo</code> ini merupakan file dari <code>Solution</code> jadi scopenya sama dengan project.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-08.png">https://coding4ever.files.wordpress.com/2015/06/230615-08.png</a>&#8221;></p>
+
+<p>Nah untuk menambahkan file <code>VersionInfo</code> di atas caranya juga gampang, berikut langkah-langkahnya :</p>
+
+<ol>
+<li><p>Klik kanan Solution -> Add -> New Item…</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-09.png">https://coding4ever.files.wordpress.com/2015/06/230615-09.png</a>&#8221;></p></li>
+<li><p>Pilih item Visual C#/Basic Class</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-10.png">https://coding4ever.files.wordpress.com/2015/06/230615-10.png</a>&#8221;></p></li>
+<li><p>Jika berhasil file <code>VersionInfo</code> akan tersimpan di folder <code>Solution Items</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-11.png">https://coding4ever.files.wordpress.com/2015/06/230615-11.png</a>&#8221;></p>
+
+<p>Kemudian hapus semua isi file <code>VersionInfo</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-12.png">https://coding4ever.files.wordpress.com/2015/06/230615-12.png</a>&#8221;></p></li>
+<li><p>Setelah itu copy <code>sebagian</code> informasi salah satu file <code>AssemblyInfo.cs</code> ke <code>VersionInfo</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-13.png">https://coding4ever.files.wordpress.com/2015/06/230615-13.png</a>&#8221;></p></li>
+<li><p>Kemudian edit <code>sebagian</code> isi file <code>AssemblyInfo.cs</code> masing-masing project (cek yang ada komentar // di nonaktifkan)</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-14.png">https://coding4ever.files.wordpress.com/2015/06/230615-14.png</a>&#8221;></p></li>
+<li><p>Terakhir masing-masing project menambahkan link ke file <code>VersionInfo</code></p>
+
+<ul>
+<li><p>Klik kanan Project -> Add -> Existing Item…</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-15.png">https://coding4ever.files.wordpress.com/2015/06/230615-15.png</a>&#8221;></p></li>
+<li><p>Pilih file <code>VersionInfo</code> kemudian <code>Add As Link</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-16.png">https://coding4ever.files.wordpress.com/2015/06/230615-16.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-17.png">https://coding4ever.files.wordpress.com/2015/06/230615-17.png</a>&#8221;></p></li>
+</ul>
+
+
+<p>Sampe di sini ulangi langkah-langkah sebelumnya untuk menambahkan link file <code>VersionInfo</code> ke project lainnya</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-18.png">https://coding4ever.files.wordpress.com/2015/06/230615-18.png</a>&#8221;></p></li>
+</ol>
+
+
+<p>Nah sampe di sini tugas kita sudah selesai, sehingga ketika ada perubahan versi kita cukup merubah disatu file yaitu file <code>VersionInfo</code> yang ada di <code>Solution Items</code>.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-19.png">https://coding4ever.files.wordpress.com/2015/06/230615-19.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-20.png">https://coding4ever.files.wordpress.com/2015/06/230615-20.png</a>&#8221;></p>
+
+<p>Selamat MENCOBA :)</p>
+
+<p>Referensi : <a href="http://www.codeproject.com/Articles/328977/The-Right-Way-to-Version-Your-Assemblies">The Right Way to Version Your Assemblies</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Tutorial WCF Service Bagian #4]]></title>
@@ -637,102 +737,6 @@
 <p>Yuph cukup sampai disini, insya Alloh akan kita lanjutkan pada kesempatan berikutnya.</p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/Calculator">MENCOBA</a> :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Paket NuGet Yang Wajib Dicoba Bagian #1 - CrashReporter.NET]]></title>
-    <link href="http://coding4ever.net/blog/2015/04/14/paket-nuget-yang-wajib-dicoba-bagian-number-1-crashreporter-dot-net/"/>
-    <updated>2015-04-14T14:41:34+07:00</updated>
-    <id>http://coding4ever.net/blog/2015/04/14/paket-nuget-yang-wajib-dicoba-bagian-number-1-crashreporter-dot-net</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png">http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Apakah Anda percaya jika saya katakan aplikasi saya 100% bebas bug, tentu saja tidak. Seberapa keraspun kita mencoba pasti aplikasi yang kita buat ada bugnya.</p>
-
-<p>Secara teknis kita tidak bisa melakukan pengetesan sebaik yang dilakukan oleh end-user. Mereka bisa melakukan hal-hal luar biasa diluar perkiraan dan skenario kita yang bisa menyebabkan error, dan bisa saja menyebabkan mereka menjadi <code>ilfil</code> menggunakan aplikasi kita he he :-D</p>
-
-<!-- more -->
-
-
-<p>Yang jelas, kita tidak dapat memperbaiki bug sampai kita tahu penyebabnya, sayangnya end-user biasanya kurang bisa menjelaskan masalah ini dengan baik.</p>
-
-<p><a href="http://www.nuget.org/packages/CrashReporterdotNet/">CrashReporter.NET</a> adalah salah satu library gratis yang bisa menjadi solusi untuk masalah ini dengan konfigurasi mudah dan bisa mengirimkan laporan bug via email.</p>
-
-<h3>Menambahkan Library CrashReporter.NET</h3>
-
-<p>Untuk menambahkan library <a href="http://www.nuget.org/packages/CrashReporterdotNet/">CrashReporter.NET</a> bisa kita lakukan via <a href="/blog/categories/nuget/">NuGet Package Manager</a>. Adapun caranya seperti berikut :</p>
-
-<h4>Langkah – 1</h4>
-
-<p>Klik kanan node <code>References</code> -> <code>Manage NuGet Packages...</code></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-12.png">https://coding4ever.files.wordpress.com/2015/04/140415-12.png</a>&#8221;></p>
-
-<h4>Langkah – 2</h4>
-
-<p>Cari <code>CrashReporter.NET</code> dan klik tombol Install</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-13.png">https://coding4ever.files.wordpress.com/2015/04/140415-13.png</a>&#8221;></p>
-
-<p>Klik tombol Close, kemudian cek node <code>References</code>, seharusnya sudah ada tambahan library <code>CrashReporter.NET</code></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-14.png">https://coding4ever.files.wordpress.com/2015/04/140415-14.png</a>&#8221;></p>
-
-<h3>Cara Penggunaan Library CrashReporter.NET</h3>
-
-<p>Ada dua cara untuk menggunakan <a href="http://www.nuget.org/packages/CrashReporterdotNet/">CrashReporter.NET</a></p>
-
-<p><code>1. Global Exception</code></p>
-
-<p>Jika kita ingin semua exception dihandle oleh <a href="http://www.nuget.org/packages/CrashReporterdotNet/">CrashReporter.NET</a>, gunakan opsi ini. Caranya adalah dengan menambahkan kode konfigurasi di Main Method (Entry point dari program yang akan dijalankan pertama  kali).</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-01.png">https://coding4ever.files.wordpress.com/2015/04/140415-01.png</a>&#8221;></p>
-
-<p><code>2. Individual Exception</code></p>
-
-<p>Untuk opsi yang kedua ini berarti kita menambahkan kode konfigurasi hanya pada method-method tertentu saja yang kita anggap berpotensi menimbulkan <code>error</code>.</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-02.png">https://coding4ever.files.wordpress.com/2015/04/140415-02.png</a>&#8221;></p>
-
-<p>Dua contoh kode di atas menggunakan class <code>ReportCrashConfig</code> yang kita bahas di bagian <em>konfigurasi CrashReporter.NET</em>.</p>
-
-<h3>Konfigurasi CrashReporter.NET</h3>
-
-<p>Untuk melakukan konfigurasi <a href="http://www.nuget.org/packages/CrashReporterdotNet/">CrashReporter.NET</a>, cukup membuat objek dari class ReportCrash dan mengeset beberapa nilai property seperti <em>FromEmail, ToEmail</em>, dan property penting lainnya.</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-03.png">https://coding4ever.files.wordpress.com/2015/04/140415-03.png</a>&#8221;></p>
-
-<p>Secara default <a href="http://www.nuget.org/packages/CrashReporterdotNet/">CrashReporter.NET</a>  menggunakan service <a href="https://drdump.com/crash-reporting-system">Doctor Dump</a>, untuk mengirimkan email laporan bug ke email yang sudah kita tentukan melalui property <em>ToEmail</em>.</p>
-
-<p>Jika kita ingin menggunakan email sendiri untuk mengirim laporan bug, berarti kita harus menyiapkan dua email misal dengan nama <em>pengirim.bug@gmail.com</em> dan <em>penerima.bug@gmail.com</em> yang masing-masing kita set untuk nilai property <em>FromEmail</em>, <em>ToEmail</em> dan  kemudian mengeset nilai property <em>AnalyzeWithDoctorDump = false</em>. Dan jangan lupa set property <em>UserName</em> = <em>FromEmail</em>, untuk <em>Password</em> email menyesuaikan dengan <em>FromEmail</em>.</p>
-
-<p>Agar kode konfigurasi di atas bisa digunakan berulang-ulang, mungkin bisa kita <code>bungkus</code> ke dalam sebuah class tersendiri.</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-04.png">https://coding4ever.files.wordpress.com/2015/04/140415-04.png</a>&#8221;></p>
-
-<p>Sehingga ketika diperlukan kita cukup memanggilnya dengan perintah <code>new ReportCrashConfig(object exception)</code></p>
-
-<h3>Demo CrashReporter.NET</h3>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-05.png">https://coding4ever.files.wordpress.com/2015/04/140415-05.png</a>&#8221;></p>
-
-<p>Untuk demo disini kita akan memanfaatkan dua jenis error yaitu <em>DivideByZeroException</em> dan <em>FileNotFoundException</em>.</p>
-
-<h4>DivideByZeroException</h4>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-06.png">https://coding4ever.files.wordpress.com/2015/04/140415-06.png</a>&#8221;></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-07.png">https://coding4ever.files.wordpress.com/2015/04/140415-07.png</a>&#8221;></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-08.png">https://coding4ever.files.wordpress.com/2015/04/140415-08.png</a>&#8221;></p>
-
-<h4>FileNotFoundException</h4>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-09.png">https://coding4ever.files.wordpress.com/2015/04/140415-09.png</a>&#8221;></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-10.png">https://coding4ever.files.wordpress.com/2015/04/140415-10.png</a>&#8221;></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-11.png">https://coding4ever.files.wordpress.com/2015/04/140415-11.png</a>&#8221;></p>
-
-<p>Selamat <a href="https://github.com/k4m4r82/DemoCrashReporterDotNET">MENCOBA</a> :-)</p>
 ]]></content>
   </entry>
   
