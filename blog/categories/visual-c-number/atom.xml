@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Visual C# | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/visual-c-number/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-06-23T12:11:32+07:00</updated>
+  <updated>2015-06-25T23:05:50+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -101,7 +101,7 @@
 </ol>
 
 
-<p>Nah Sampai di sini tugas kita sudah selesai, sehingga ketika ada perubahan versi kita cukup merubah disatu file yaitu file <code>VersionInfo</code> yang ada di <code>Solution Items</code>.</p>
+<p>Nah Sampai di sini tugas kita sudah selesai, sehingga ketika ada perubahan versi kita cukup merubah di satu file yaitu file <code>VersionInfo</code> yang ada di <code>Solution Items</code>.</p>
 
 <p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-19.png">https://coding4ever.files.wordpress.com/2015/06/230615-19.png</a>&#8221;></p>
 

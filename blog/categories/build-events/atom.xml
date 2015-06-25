@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Build Events | Coding4ever's Blog]]></title>
+  <link href="http://coding4ever.net/blog/categories/build-events/atom.xml" rel="self"/>
+  <link href="http://coding4ever.net/"/>
+  <updated>2015-06-25T23:05:50+07:00</updated>
+  <id>http://coding4ever.net/</id>
+  <author>
+    <name><![CDATA[Admin]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[The Power of Visual Studio .NET Build Events Part #1]]></title>
+    <link href="http://coding4ever.net/blog/2015/06/25/the-power-of-visual-studio-net-build-events-part-number-1/"/>
+    <updated>2015-06-25T22:51:48+07:00</updated>
+    <id>http://coding4ever.net/blog/2015/06/25/the-power-of-visual-studio-net-build-events-part-number-1</id>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/06/260615-00.png">https://coding4ever.files.wordpress.com/2015/06/260615-00.png</a>&#8221; width=&#8221;130&#8221; height=&#8221;130&#8221;>Build Events merupakan salah fitur menarik yang dimiliki oleh Visual Studio.NET, dengan fitur ini akan membuat hidup kita sebagai <code>software developer</code> semakin mudah :D</p>
+
+<p>Saya sendiri menggunakan fitur ini untuk melakukan proses copy file (exe, dll, config) secara otomatis setelah proses build project, tetapi bukan itu saja dengan fitur ini kita juga bisa menjalankan perintah tertentu seperti <code>batch command</code> atau perintah lainnya sesuai kebutuhan seperti  mengupload library hasil build web service ke server IIS atau mengeksekusi skrip installer seperti <a href="/blog/categories/inno-setup/">Inno Setup</a> dan <a href="/blog/categories/nsis/">NSIS</a>.</p>
+
+<!-- more -->
+
+
+<p><strong>Build Events</strong></p>
+
+<p>Build Events merupakan bagian dari Visual Studio .NET yang bisa diaktifkan melalui Project -> Properties</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/260615-01.png">https://coding4ever.files.wordpress.com/2015/06/260615-01.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/260615-02.png">https://coding4ever.files.wordpress.com/2015/06/260615-02.png</a>&#8221;></p>
+
+<p>Build Events mempunyai dua event yaitu <code>Pre-build event</code> dan <code>Post-build event</code> sesuai  namanya <code>pre</code> di jalankan sebelum proses build dan <code>post</code> setelah proses build.</p>
+
+<p><strong>Dialog Build Events</strong></p>
+
+<p>Dialog Build Events merupakan tempat untuk menuliskan perintah sesuai dengan yang kita inginkan.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/260615-03.png">https://coding4ever.files.wordpress.com/2015/06/260615-03.png</a>&#8221;></p>
+
+<p>Dialog Build Events juga menyediakan <code>Macros</code> yang di dalamnya terdapat daftar variabel bawaan (built-in) yang bisa digunakan pada saat menuliskan perintah <code>build-event</code>.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/260615-04.png">https://coding4ever.files.wordpress.com/2015/06/260615-04.png</a>&#8221;></p>
+
+<p>Kita bisa menambahkan <code>macros</code> dengan cara klik ganda item <code>macros</code>. Pemanggilan nama <code>macros</code> menggunakan format $(xxx), dimana <code>xxx</code> adalah nama <code>macros</code>. Contoh :</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/260615-05.png">https://coding4ever.files.wordpress.com/2015/06/260615-05.png</a>&#8221;></p>
+
+<p>Pada saat perintah <code>build-event</code> dijalankan <code>macros</code> ini akan diganti dengan nilai aslinya (nilai aktual). Contoh berdasarkan gambar di atas <code>$(SolutionDir)</code> nilainya akan diganti dengan <code>D:\Postingan coding4ever\coding4ever\c#\KRSchool</code>.</p>
+
+<p>Jadi ketika kita menuliskan perintah</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>copy /Y &ldquo;$(TargetDir)KRSchool.*.dll&rdquo; &ldquo;$(SolutionDir)Rilis&rdquo;</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Sama artinya kita menuliskan</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>copy /Y &ldquo;D:\Postingan coding4ever\coding4ever\c#\KRSchool\KRSchool.UI.Main\bin\Debug\KRSchool.*.dll&rdquo; &ldquo;D:\Postingan coding4ever\coding4ever\c#\KRSchool\Rilis&rdquo;</span></code></pre></td></tr></table></div></figure></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/260615-06.png">https://coding4ever.files.wordpress.com/2015/06/260615-06.png</a>&#8221;></p>
+
+<p>Berikut adalah daftar lengkap <code>macros</code> yang disediakan oleh Visual Studio .NET</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/260615-07.png">https://coding4ever.files.wordpress.com/2015/06/260615-07.png</a>&#8221;></p>
+
+<p>Untuk kolom <code>Value</code> nilainya akan menyesuaikan dengan lokasi solution Anda.</p>
+
+<p><strong>Menggunakan Post-Build Events</strong></p>
+
+<p>Saya biasanya menggunakan <code>post-build events</code> untuk keperluan mengcopy hasil build project ke <code>folder tertentu</code>, dari pada mengcopy manual dari folder <code>bin\Debug</code> atau <code>bin\Release</code>. Folder tertentu ini misalnya <code>C:\Rilis</code>, maka kita bisa mengetikan peritah berikut :</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/260615-08.png">https://coding4ever.files.wordpress.com/2015/06/260615-08.png</a>&#8221;></p>
+
+<p>Macro <code>TargetDir</code> ini nilainya tergantung dari setting <code>Configuration Manager</code>, apakah di set <code>Debug</code> atau <code>Release</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/260615-09.png">https://coding4ever.files.wordpress.com/2015/06/260615-09.png</a>&#8221;></p>
+
+<p>Setelah itu lakukan proses <code>build -&gt; project</code>, maka semua file dll atau exe yang ada di folder <code>bin\Debug</code> atau <code>bin\Release</code> akan dicopykan ke folder <code>C:\Rilis</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/260615-10.png">https://coding4ever.files.wordpress.com/2015/06/260615-10.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/260615-11.png">https://coding4ever.files.wordpress.com/2015/06/260615-11.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/260615-12.png">https://coding4ever.files.wordpress.com/2015/06/260615-12.png</a>&#8221;></p>
+
+<p>Selamat MENCOBA :)</p>
+]]></content>
+  </entry>
+  
+</feed>

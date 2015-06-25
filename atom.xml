@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-06-23T12:11:32+07:00</updated>
+  <updated>2015-06-25T23:05:50+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,86 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[The Power of Visual Studio .NET Build Events Part #1]]></title>
+    <link href="http://coding4ever.net/blog/2015/06/25/the-power-of-visual-studio-net-build-events-part-number-1/"/>
+    <updated>2015-06-25T22:51:48+07:00</updated>
+    <id>http://coding4ever.net/blog/2015/06/25/the-power-of-visual-studio-net-build-events-part-number-1</id>
+    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2015/06/260615-00.png" width="130" height="130">Build Events merupakan salah fitur menarik yang dimiliki oleh Visual Studio.NET, dengan fitur ini akan membuat hidup kita sebagai <code>software developer</code> semakin mudah :D</p>
+
+<p>Saya sendiri menggunakan fitur ini untuk melakukan proses copy file (exe, dll, config) secara otomatis setelah proses build project, tetapi bukan itu saja dengan fitur ini kita juga bisa menjalankan perintah tertentu seperti <code>batch command</code> atau perintah lainnya sesuai kebutuhan seperti  mengupload library hasil build web service ke server IIS atau mengeksekusi skrip installer seperti <a href="http://coding4ever.net/blog/categories/inno-setup/">Inno Setup</a> dan <a href="http://coding4ever.net/blog/categories/nsis/">NSIS</a>.</p>
+
+<!-- more -->
+
+
+<p><strong>Build Events</strong></p>
+
+<p>Build Events merupakan bagian dari Visual Studio .NET yang bisa diaktifkan melalui Project -> Properties</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/260615-01.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/260615-02.png"></p>
+
+<p>Build Events mempunyai dua event yaitu <code>Pre-build event</code> dan <code>Post-build event</code> sesuai  namanya <code>pre</code> di jalankan sebelum proses build dan <code>post</code> setelah proses build.</p>
+
+<p><strong>Dialog Build Events</strong></p>
+
+<p>Dialog Build Events merupakan tempat untuk menuliskan perintah sesuai dengan yang kita inginkan.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/260615-03.png"></p>
+
+<p>Dialog Build Events juga menyediakan <code>Macros</code> yang di dalamnya terdapat daftar variabel bawaan (built-in) yang bisa digunakan pada saat menuliskan perintah <code>build-event</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/260615-04.png"></p>
+
+<p>Kita bisa menambahkan <code>macros</code> dengan cara klik ganda item <code>macros</code>. Pemanggilan nama <code>macros</code> menggunakan format $(xxx), dimana <code>xxx</code> adalah nama <code>macros</code>. Contoh :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/260615-05.png"></p>
+
+<p>Pada saat perintah <code>build-event</code> dijalankan <code>macros</code> ini akan diganti dengan nilai aslinya (nilai aktual). Contoh berdasarkan gambar di atas <code>$(SolutionDir)</code> nilainya akan diganti dengan <code>D:\Postingan coding4ever\coding4ever\c#\KRSchool</code>.</p>
+
+<p>Jadi ketika kita menuliskan perintah</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>copy /Y "$(TargetDir)KRSchool.*.dll" "$(SolutionDir)Rilis"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Sama artinya kita menuliskan</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>copy /Y "D:\Postingan coding4ever\coding4ever\c#\KRSchool\KRSchool.UI.Main\bin\Debug\KRSchool.*.dll" "D:\Postingan coding4ever\coding4ever\c#\KRSchool\Rilis"</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/260615-06.png"></p>
+
+<p>Berikut adalah daftar lengkap <code>macros</code> yang disediakan oleh Visual Studio .NET</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/260615-07.png"></p>
+
+<p>Untuk kolom <code>Value</code> nilainya akan menyesuaikan dengan lokasi solution Anda.</p>
+
+<p><strong>Menggunakan Post-Build Events</strong></p>
+
+<p>Saya biasanya menggunakan <code>post-build events</code> untuk keperluan mengcopy hasil build project ke <code>folder tertentu</code>, dari pada mengcopy manual dari folder <code>bin\Debug</code> atau <code>bin\Release</code>. Folder tertentu ini misalnya <code>C:\Rilis</code>, maka kita bisa mengetikan peritah berikut :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/260615-08.png"></p>
+
+<p>Macro <code>TargetDir</code> ini nilainya tergantung dari setting <code>Configuration Manager</code>, apakah di set <code>Debug</code> atau <code>Release</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/260615-09.png"></p>
+
+<p>Setelah itu lakukan proses <code>build -&gt; project</code>, maka semua file dll atau exe yang ada di folder <code>bin\Debug</code> atau <code>bin\Release</code> akan dicopykan ke folder <code>C:\Rilis</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/260615-10.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/260615-11.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/260615-12.png"></p>
+
+<p>Selamat MENCOBA :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Cara Mudah Mengelola Versi Aplikasi]]></title>
@@ -101,7 +181,7 @@
 </ol>
 
 
-<p>Nah Sampai di sini tugas kita sudah selesai, sehingga ketika ada perubahan versi kita cukup merubah disatu file yaitu file <code>VersionInfo</code> yang ada di <code>Solution Items</code>.</p>
+<p>Nah Sampai di sini tugas kita sudah selesai, sehingga ketika ada perubahan versi kita cukup merubah di satu file yaitu file <code>VersionInfo</code> yang ada di <code>Solution Items</code>.</p>
 
 <p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-19.png"></p>
 
@@ -3611,117 +3691,6 @@ Tujuan menginstall library ini adalah agar laporan yang dihasilkan <a href="http
 <p><a href="http://coding4ever.files.wordpress.com/2014/03/82.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/82.jpg" alt="8" /></a></p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/EntityFramework4">MENCOBA</a> :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Entity Framework Part 3]]></title>
-    <link href="http://coding4ever.net/blog/2014/03/26/entity-framework-part-3/"/>
-    <updated>2014-03-26T12:14:15+07:00</updated>
-    <id>http://coding4ever.net/blog/2014/03/26/entity-framework-part-3</id>
-    <content type="html"><![CDATA[<p><img class="left" src="http://coding4ever.files.wordpress.com/2014/03/entity_image.png" width="120" height="100">Pada <a href="http://coding4ever.net/blog/2014/03/21/entity-framework-part-2/">postingan</a> sebelumnya kita sudah berhasil melakukan mapping (pemetaan) <em><strong>secara manual</strong></em> antara tabel yang ada di dalam database dengan class entity yang sudah kita definisikan di dalam project.</p>
-
-<p>Mapping secara manual oke lah kalo hanya untuk satu atau dua tabel, tapi kalo tabel sudah banyak 10, 20, 30 &hellip;, :cry: tentu merupakan pekerjaan yang mengerikan dan menyedihkan kalo masih dikerjakan secara manual :D</p>
-
-<!-- more -->
-
-
-<p>Untungnya sudah ada beberapa tool yang bisa kita gunakan untuk melakukan mapping secara otomatis :</p>
-
-<ul>
-<li><p><a href="http://msdn.microsoft.com/en-us/library/vstudio/cc716685%28v=vs.100%29.aspx">ADO.NET Entity Data Model Designer</a></p></li>
-<li><p><a href="http://visualstudiogallery.msdn.microsoft.com/72a60b14-1581-4b9b-89f2-846072eff19d">Entity Framework Power Tools</a></p></li>
-</ul>
-
-
-<p>InsyaAlloh kita akan membahasnya satu per satu, dan yang menjadi pembahasan pertama kita adalah penggunaan tool <a href="http://msdn.microsoft.com/en-us/library/vstudio/cc716685%28v=vs.100%29.aspx">ADO.NET Entity Data Model Designer</a>.</p>
-
-<p>Tapi sebelumnya kita akan menambahkan beberapa tabel baru (Barang, Beli dan ItemBeli) ke dalam database Retail kita.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/41.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/41.jpg" alt="4" /></a></p>
-
-<p><strong>ADO.NET Entity Data Model Designer</strong></p>
-
-<p>ADO.NET Entity Data Model Designer (Entity Designer) adalah tool yang digunakan untuk memodifikasi file <a href="http://msdn.microsoft.com/en-us/data/jj650889.aspx">EDMX</a>.</p>
-
-<p>Dengan menggunakan ADO.NET Entity Data Model Designer memudahkan kita untuk membuat entitas (entities), asosiasi (associations), pemetaan (mappings) dan hubungan warisan (inheritance relationships) secara visual.</p>
-
-<p>Oke langsung saja akan kita praktikan penggunakan tool ADO.NET Entity Data Model Designer :</p>
-
-<ol>
-<li><p>Aktifkan Visual Studio .NET Anda</p></li>
-<li><p>Buat project dengan tipe Console Application</p></li>
-<li><p>Klik kanan project -> Add -> New Item</p></li>
-</ol>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/19.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/19.jpg" alt="1" /></a></p>
-
-<ol>
-<li>Pilih item ADO.NET Entity Data Model, tentukan namanya misal RetailModel kemudian klik tombol Add</li>
-</ol>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/22.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/22.jpg" alt="2" /></a></p>
-
-<ol>
-<li>Selanjutnya akan tampil dialog Entity Data Model, karena kita akan melakukan mapping berdasarkan database yang sudah ada, pilih <strong>Generate from database</strong> kemudian klik tombol Next</li>
-</ol>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/31.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/31.jpg" alt="3" /></a></p>
-
-<ol>
-<li>Langkah berikutnya adalah menentukan nama database. Jika nama databasenya belum ada kita bisa menambahkannya dengan mengklik tombol New Connection &hellip;</li>
-</ol>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/112.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/112.jpg" alt="11" /></a></p>
-
-<p>Untuk melanjutkan klik tombol Next ></p>
-
-<ol>
-<li>Berikutnya adalah menentukan objek yang akan dimapping, untuks saat ini kita hanya memilih Tabel.</li>
-</ol>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/61.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/61.jpg" alt="6" /></a></p>
-
-<p>Hasil akhir dari langkah-langkah di atas, hanya akan menghasilkan sebuah file dengan ekstensi <a href="http://msdn.microsoft.com/en-us/data/jj650889.aspx">EDMX</a>.</p>
-
-<p><a href="http://msdn.microsoft.com/en-us/data/jj650889.aspx">EDMX</a> adalah file XML yang mendefinisikan model (konsep, penyimpanan dan mapping antar model) yang digunakan oleh Entity Framework.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/71.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/71.jpg" alt="7" /></a></p>
-
-<p>Trus mana kode mappingnya ?</p>
-
-<p>Seharusnya sih udah otomatis jika kita menggunakan Visual Studio .NET versi terbaru (2012 dan 2013), berhubung untuk contoh di atas saya masih menggunakan Visual Studio 2010, jadi masih ada beberapa langkah lagi yang harus kita lakukan :)</p>
-
-<p>Sebelum melakukan langkah-langkah berikut ini, sebaiknya Anda sudah menginstall <a href="http://coding4ever.net/blog/2014/03/11/nuget/">NuGet</a> dan menambahkan paket <a href="http://coding4ever.net/blog/2014/03/21/entity-framework-part-2/">Entity Framework</a>.</p>
-
-<ol>
-<li>Klik kanan di area kosong EF Designer -> Add Code Generation Item…</li>
-</ol>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/81.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/81.jpg" alt="8" /></a></p>
-
-<ol>
-<li>Pilih <strong>Online Templates</strong>, kemudian pada kotak pencarian ketik <strong>DbContext</strong>. Pilihan <strong>EF 5.x DbContext Generator for C#</strong>, tentukan namanya misal <strong>RetailModel</strong> kemudian klik tombol Add.</li>
-</ol>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/93.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/93.jpg" alt="9" /></a></p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/101.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/101.jpg" alt="10" /></a>Setelah kode generatenya berhasil dibuat seperti gambar di atas, terakhir akan kita coba untuk membaca data Supplier, dengan membuka file Program.cs dan melengkapi kode method Mainnya seperti berikut :</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/14.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/14.jpg" alt="14" /></a></p>
-
-<p>Dan jika kode di atas dijalankan, akan menghasilkan output seperti berikut :</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/15.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/15.jpg" alt="15" /></a></p>
-
-<p>Selamat <a href="https://github.com/k4m4r82/EntityFramework3">MENCOBA</a> :)</p>
 ]]></content>
   </entry>
   
