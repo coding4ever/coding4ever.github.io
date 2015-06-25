@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Visual Studio .net | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/visual-studio-net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-06-25T23:05:50+07:00</updated>
+  <updated>2015-06-26T05:41:54+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -27,7 +27,7 @@
 
 <p><strong>Build Events</strong></p>
 
-<p>Build Events merupakan bagian dari Visual Studio .NET yang bisa diaktifkan melalui Project -> Properties</p>
+<p>Build Events merupakan salah satu fitur dari Visual Studio .NET yang bisa diaktifkan melalui Project -> Properties</p>
 
 <p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/260615-01.png">https://coding4ever.files.wordpress.com/2015/06/260615-01.png</a>&#8221;></p>
 
