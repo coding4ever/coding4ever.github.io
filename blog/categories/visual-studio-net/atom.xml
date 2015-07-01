@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Visual Studio .net | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/visual-studio-net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-07-01T11:30:23+07:00</updated>
+  <updated>2015-07-01T11:43:40+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -193,7 +193,6 @@
 <span class='line-number'>156</span>
 <span class='line-number'>157</span>
 <span class='line-number'>158</span>
-<span class='line-number'>159</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>[Setup]
 </span><span class='line'>AppName={code:GetAppName}
 </span><span class='line'>AppVerName={code:GetAppName} Versi {code:GetAppVersion}
@@ -245,8 +244,7 @@
 </span><span class='line'>
 </span><span class='line'>&lt;p>;skin
 </span><span class='line'>Source: E:\Master\Developer Tools\Package\dll&amp;ocx\ISSkin.dll; DestDir: {app}; Flags: dontcopy
-</span><span class='line'>Source: E:\Master\Developer Tools\Package\dll&amp;ocx\Office2007.cjstyles; DestDir: {tmp}; Flags: dontcopy
-</span><span class='line'>Source: E:\Master\Developer Tools\Package\dll&amp;ocx\scrrun.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist&lt;/p>
+</span><span class='line'>Source: E:\Master\Developer Tools\Package\dll&amp;ocx\Office2007.cjstyles; DestDir: {tmp}; Flags: dontcopy&lt;/p>
 </span><span class='line'>
 </span><span class='line'>&lt;p>[Icons]
 </span><span class='line'>Name: {group}{code:GetAppName}; Filename: {app}\KRSchool.exe; WorkingDir: {app}; IconFilename: {app}\main.ico
@@ -275,7 +273,7 @@
 </span><span class='line'>
 </span><span class='line'>&lt;p>// Importing ShowWindow Windows API from User32.DLL
 </span><span class='line'>function ShowWindow(hWnd: Integer; uType: Integer): Integer;
-</span><span class='line'>external &lsquo;&lt;a href="&#x6d;&#x61;&#x69;&#108;&#116;&#x6f;&#x3a;&#x53;&#x68;&#x6f;&#x77;&#x57;&#x69;&#x6e;&#100;&#111;&#x77;&#x40;&#117;&#x73;&#101;&#114;&#x33;&#50;&#46;&#x64;&#x6c;&#x6c;">&#x53;&#104;&#111;&#119;&#87;&#x69;&#x6e;&#x64;&#x6f;&#x77;&#64;&#117;&#115;&#101;&#114;&#x33;&#x32;&#x2e;&#x64;&#108;&#108;&lt;/a> stdcall&rsquo;;&lt;/p>
+</span><span class='line'>external &lsquo;&lt;a href="&#x6d;&#97;&#105;&#x6c;&#116;&#111;&#x3a;&#83;&#104;&#x6f;&#x77;&#x57;&#x69;&#x6e;&#100;&#x6f;&#x77;&#x40;&#x75;&#x73;&#x65;&#x72;&#x33;&#50;&#x2e;&#x64;&#x6c;&#x6c;">&#x53;&#104;&#x6f;&#119;&#87;&#x69;&#110;&#x64;&#x6f;&#119;&#x40;&#117;&#115;&#101;&#114;&#x33;&#50;&#46;&#100;&#108;&#x6c;&lt;/a> stdcall&rsquo;;&lt;/p>
 </span><span class='line'>
 </span><span class='line'>&lt;p>function IsDotNetDetected(version: string; service: cardinal): boolean;
 </span><span class='line'>// Indicates whether the specified version and service pack of the .NET Framework is installed.
