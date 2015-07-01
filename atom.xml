@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-07-01T10:57:06+07:00</updated>
+  <updated>2015-07-01T11:30:23+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -20,7 +20,7 @@
     <id>http://coding4ever.net/blog/2015/07/01/the-power-of-visual-studio-net-build-events-part-number-2</id>
     <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2015/06/260615-00.png" width="130" height="130">Melanjutkan pembahasan <a href="http://coding4ever.net/blog/2015/06/25/the-power-of-visual-studio-net-build-events-part-number-1/">postingan</a> sebelumnya yaitu tentang fitur <code>Build Events</code> yang dimiliki oleh Visual Studio .NET.</p>
 
-<p>Di postingan <a href="http://coding4ever.net/blog/2015/06/25/the-power-of-visual-studio-net-build-events-part-number-1/">bagian #1</a> kita memanfaatkan fitur ini untuk melakukan proses copy file (exe, dll, config) secara ototmatis setelah proses build project selesai.</p>
+<p>Di postingan <a href="http://coding4ever.net/blog/2015/06/25/the-power-of-visual-studio-net-build-events-part-number-1/">bagian #1</a> kita memanfaatkan fitur ini untuk melakukan proses copy file (exe, dll, config) secara otomatis setelah proses build project selesai.</p>
 
 <p>Nah di <a href="http://coding4ever.net/blog/2015/07/01/the-power-of-visual-studio-net-build-events-part-number-2/">postingan</a> kali ini kita akan menambahkan perintah untuk mengcompile skrip <a href="http://coding4ever.net/blog/categories/inno-setup/">Inno Setup</a> sehingga proses pembuatan paket installer pun jadi otomatis.</p>
 
