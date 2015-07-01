@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Build Events | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/build-events/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-06-26T05:41:54+07:00</updated>
+  <updated>2015-07-01T10:51:57+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -14,13 +14,245 @@
 
   
   <entry>
+    <title type="html"><![CDATA[The Power of Visual Studio .NET Build Events Part #2]]></title>
+    <link href="http://coding4ever.net/blog/2015/07/01/the-power-of-visual-studio-net-build-events-part-number-2/"/>
+    <updated>2015-07-01T10:20:30+07:00</updated>
+    <id>http://coding4ever.net/blog/2015/07/01/the-power-of-visual-studio-net-build-events-part-number-2</id>
+    <content type="html"><![CDATA[<p>{% img left <a href="https://coding4ever.files.wordpress.com/2015/06/260615-00.png">https://coding4ever.files.wordpress.com/2015/06/260615-00.png</a> 130 130 %}Melanjutkan pembahasan <a href="{{%20site.url%20}}/blog/2015/06/25/the-power-of-visual-studio-net-build-events-part-number-1/">postingan</a> sebelumnya yaitu tentang fitur <code>Build Events</code> yang dimiliki oleh Visual Studio .NET.</p>
+
+<p>Di postingan <a href="{{%20site.url%20}}/blog/2015/06/25/the-power-of-visual-studio-net-build-events-part-number-1/">bagian #1</a> kita memanfaatkan fitur ini untuk melakukan proses copy file (exe, dll, config) secara ototmatis setelah proses build project selesai.</p>
+
+<p>Nah di <a href="{{%20site.url%20}}/blog/2015/07/01/the-power-of-visual-studio-net-build-events-part-number-2/">postingan</a> kali ini kita akan menambahkan perintah untuk mengcompile skrip <a href="{{%20site.url%20}}/blog/categories/inno-setup/">Inno Setup</a> sehingga proses pembuatan paket installer pun jadi otomatis.</p>
+
+<!-- more -->
+
+
+<p><strong>Inno Setup</strong></p>
+
+<p><a href="http://jrsoftware.org/">Inno Setup</a> adalah salah satu software favorit untuk membuat paket installer berbasis windows. Selain gratis software ini juga didukung oleh dokumentasi yang lengkap sehingga memudahkan kita untuk mempelajarinya. Saya juga ada menulis beberapa postingan tentang <a href="{{%20site.url%20}}/blog/categories/inno-setup/">Inno Setup</a> yang bisa anda baca di<a href="{{%20site.url%20}}/blog/categories/inno-setup/">sini</a>.</p>
+
+<p>Jadi untuk melanjutkan pembahasan ini, saya mengasumsikan Anda sudah pernah menggunakan <a href="http://jrsoftware.org/">Inno Setup</a> untuk membuat paket installer.</p>
+
+<p>Untuk membuat skrip <a href="{{%20site.url%20}}/blog/categories/inno-setup/">Inno Setup</a> itu gampang, contohnya seperti berikut :</p>
+
+<p>{% codeblock %}
+[Setup]
+AppName={code:GetAppName}
+AppVerName={code:GetAppName} Versi {code:GetAppVersion}
+AppPublisher={code:GetVendorName}
+AppVersion={code:GetAppVersion}
+AllowCancelDuringInstall = yes
+DefaultDirName={pf}\KRSchool
+DefaultGroupName={code:GetAppName}
+Compression = lzma
+SolidCompression = yes
+OutputBaseFilename=SetupKRSchool
+AllowNoIcons = yes
+AlwaysRestart = no
+AlwaysShowComponentsList = no
+DisableProgramGroupPage = yes
+AppendDefaultDirName = yes
+CreateUninstallRegKey = yes
+DisableStartupPrompt = yes
+LanguageDetectionMethod=none
+ShowLanguageDialog=no
+UsePreviousLanguage=no
+Uninstallable = yes
+UninstallFilesDir={app}\uninst
+UninstallDisplayIcon={app}\KRSchool.exe,0
+UninstallDisplayName={code:GetAppName}
+WindowVisible = no
+AppCopyright=Copyright © 2015. {code:GetVendorName}
+FlatComponentsList = yes
+PrivilegesRequired = admin
+VersionInfoVersion=1.0.0.0
+SetupIconFile=E:\Master\Developer Tools\Package\Setup.ico
+WizardImageFile=E:\Master\Developer Tools\Inno Setup\WizardImages\Modern\SetupModern16.bmp
+WizardSmallImageFile=E:\Master\Developer Tools\Inno Setup\WizardImages\Modern\Small\SetupModernSmall26.bmp</p>
+
+<p>[Languages]
+Name: ina; MessagesFile: compiler:Indonesia.isl
+Name: en; MessagesFile: compiler:Default.isl</p>
+
+<p>[Tasks]
+Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: checkedonce
+Name: quicklaunchicon; Description: {cm:CreateQuickLaunchIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked</p>
+
+<p>[Files]
+;My Application Runtime
+Source: <em>.</em>; DestDir: {app}; Flags: ignoreversion</p>
+
+<p>; .net framework
+Source: &ldquo;E:\Master\Developer Tools\dotNET Framework\dotNetFx40_Full_x86_x64.exe&rdquo;; DestDir: {tmp}; Flags: deleteafterinstall; Check: FrameworkIsNotInstalled</p>
+
+<p>;skin
+Source: E:\Master\Developer Tools\Package\dll&amp;ocx\ISSkin.dll; DestDir: {app}; Flags: dontcopy
+Source: E:\Master\Developer Tools\Package\dll&amp;ocx\Office2007.cjstyles; DestDir: {tmp}; Flags: dontcopy
+Source: E:\Master\Developer Tools\Package\dll&amp;ocx\scrrun.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist</p>
+
+<p>[Icons]
+Name: {group}{code:GetAppName}; Filename: {app}\KRSchool.exe; WorkingDir: {app}; IconFilename: {app}\main.ico
+Name: {userdesktop}{code:GetAppName}; Filename: {app}\KRSchool.exe; WorkingDir: {app}; IconFilename: {app}\main.ico; Tasks: desktopicon</p>
+
+<p>[Registry]
+;INSTALL DIR
+Root: HKCU; Subkey: &ldquo;Software{code:GetVendorName}{code:GetAppName}&rdquo;; ValueName: &ldquo;installDir&rdquo;; ValueType: String; ValueData: {app}; Flags: uninsdeletevalue</p>
+
+<p>[Run]
+Filename: {tmp}\dotNetFx40_Full_x86_x64.exe; Parameters: &ldquo;/q:a /c:&rdquo;&ldquo;install /l /q&rdquo;&ldquo;&rdquo;; Check: FrameworkIsNotInstalled; StatusMsg: &ldquo;Sedang menginstall Microsoft Framework 4.0 &hellip;&rdquo;</p>
+
+<p>[Code]
+const
+  AppName = &lsquo;KR School&rsquo;;
+  AppVersion = &lsquo;1.0.0&rsquo;;
+  VendorName = &lsquo;KR Software&rsquo;;</p>
+
+<p>// Importing LoadSkin API from ISSkin.DLL
+procedure LoadSkin(lpszPath: String; lpszIniFileName: String);
+external &lsquo;LoadSkin@files:isskin.dll stdcall&rsquo;;</p>
+
+<p>// Importing UnloadSkin API from ISSkin.DLL
+procedure UnloadSkin();
+external &lsquo;UnloadSkin@files:isskin.dll stdcall&rsquo;;</p>
+
+<p>// Importing ShowWindow Windows API from User32.DLL
+function ShowWindow(hWnd: Integer; uType: Integer): Integer;
+external &lsquo;<a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#83;&#x68;&#x6f;&#119;&#x57;&#x69;&#110;&#100;&#x6f;&#x77;&#64;&#117;&#x73;&#x65;&#x72;&#x33;&#50;&#x2e;&#x64;&#108;&#x6c;">&#83;&#104;&#111;&#119;&#87;&#105;&#x6e;&#x64;&#x6f;&#119;&#64;&#x75;&#115;&#101;&#114;&#x33;&#x32;&#x2e;&#100;&#x6c;&#x6c;</a> stdcall&rsquo;;</p>
+
+<p>function IsDotNetDetected(version: string; service: cardinal): boolean;
+// Indicates whether the specified version and service pack of the .NET Framework is installed.
+//
+// version &ndash; Specify one of these strings for the required .NET Framework version:
+//    &lsquo;v1.1.4322&rsquo;     .NET Framework 1.1
+//    &lsquo;v2.0.50727&rsquo;    .NET Framework 2.0
+//    &lsquo;v3.0&rsquo;          .NET Framework 3.0
+//    &lsquo;v3.5&rsquo;          .NET Framework 3.5
+//    &lsquo;v4\Client&rsquo;     .NET Framework 4.0 Client Profile
+//    &lsquo;v4\Full&rsquo;       .NET Framework 4.0 Full Installation
+//
+// service &ndash; Specify any non-negative integer for the required service pack level:
+//    0               No service packs required
+//    1, 2, etc.      Service pack 1, 2, etc. required
+var
+    key: string;
+    install, serviceCount: cardinal;
+    success: boolean;
+begin
+    key := &lsquo;SOFTWARE\Microsoft\NET Framework Setup\NDP\&rsquo; + version;</p>
+
+<pre><code>// .NET 3.0 uses value InstallSuccess in subkey Setup
+if Pos('v3.0', version) = 1 then begin
+    success := RegQueryDWordValue(HKLM, key + '\Setup', 'InstallSuccess', install);
+end else begin
+    success := RegQueryDWordValue(HKLM, key, 'Install', install);
+end;
+
+// .NET 4.0 uses value Servicing instead of SP
+if Pos('v4', version) = 1 then begin
+    success := success and RegQueryDWordValue(HKLM, key, 'Servicing', serviceCount);
+end else begin
+    success := success and RegQueryDWordValue(HKLM, key, 'SP', serviceCount);
+end;
+
+result := success and (install = 1) and (serviceCount &gt;= service);
+</code></pre>
+
+<p>end;</p>
+
+<p>function FrameworkIsNotInstalled: Boolean;
+begin
+    Result := not IsDotNetDetected(&lsquo;v4\Full&rsquo;, 0);
+end;</p>
+
+<p>function GetVendorName(Param: string): string;
+begin
+  Result := VendorName;
+end;</p>
+
+<p>function GetAppVersion(Param: string): string;
+begin
+  Result := AppVersion;
+end;</p>
+
+<p>function GetAppName(Param: string): string;
+begin
+  Result := AppName;
+end;</p>
+
+<p>function InitializeSetup(): Boolean;
+begin</p>
+
+<p>  ExtractTemporaryFile(&lsquo;Office2007.cjstyles&rsquo;);
+  LoadSkin(ExpandConstant(&lsquo;{tmp}\Office2007.cjstyles&rsquo;), &lsquo;NormalAqua.ini&rsquo;);</p>
+
+<p>  Result := True;
+end;</p>
+
+<p>procedure DeinitializeSetup();
+begin
+    // Hide Window before unloading skin so user does not get
+    // a glimse of an unskinned window before it is closed.
+    ShowWindow(StrToInt(ExpandConstant(&lsquo;{wizardhwnd}&rsquo;)), 0);
+    UnloadSkin();
+end;
+{% endcodeblock %}</p>
+
+<p>Kemudian skrip di atas kita simpan di folder <code>Rilis</code> misal dengan nama <code>SetupKRSchool.iss</code></p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/07/010715-01.png">https://coding4ever.files.wordpress.com/2015/07/010715-01.png</a> %}</p>
+
+<p>File <code>SetupKRSchool.iss</code> di atas akan kita compile menggunakan tool bawaan <a href="http://jrsoftware.org/">Inno Setup</a> yaitu <code>ISCC.exe</code>. Untuk contoh penggunaanya seperti ini :</p>
+
+<p>{% codeblock %}
+iscc &ldquo;c:\rilis\SetupKRSchool.iss&rdquo;
+{% endcodeblock %}</p>
+
+<p>Nah perintah di atas akan kita panggil melalui Dialog Build Events</p>
+
+<p><strong>Revisi Perintah Build Event</strong></p>
+
+<p>Pada <a href="{{%20site.url%20}}/blog/2015/06/25/the-power-of-visual-studio-net-build-events-part-number-1/">postingan</a> sebelumnya kita sudah menulis perintah sederhana di dialog Build Events</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/07/010715-02.png">https://coding4ever.files.wordpress.com/2015/07/010715-02.png</a> %}</p>
+
+<p>Kita akan merivisi perintah diatas untuk menjalankan  tool bawaan <a href="http://jrsoftware.org/">Inno Setup</a> yaitu <code>ISCC.exe</code>. Dengan tool ini kita bisa langsung mengcompile skrip <a href="http://jrsoftware.org/">Inno Setup</a>.</p>
+
+<p>Berikut perintah lengkapnya.</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/07/010715-03.png">https://coding4ever.files.wordpress.com/2015/07/010715-03.png</a> %}</p>
+
+<p>Pada perintah di atas saya menambahkan kondisi</p>
+
+<p>{% codeblock %}
+if &ldquo;$(ConfigurationName)&rdquo; == &ldquo;Debug&rdquo; goto skip
+{% endcodeblock %}</p>
+
+<p>yang artinya perintah build event di atas hanya akan dijalankan jika <code>Solution Configuration</code> atau  <code>Configuration Manager</code> di set <code>Release</code>.</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/07/010715-04.png">https://coding4ever.files.wordpress.com/2015/07/010715-04.png</a> %}</p>
+
+<p>Setelah itu lakukan proses <code>build -&gt; project</code>, maka semua file dll atau exe yang ada di folder <code>bin\Debug</code> atau <code>bin\Release</code> akan dicopykan ke folder <code>C:\Rilis</code>, kemudian akan dilanjutkan dengan mengcompile skrip <a href="http://jrsoftware.org/">Inno Setup</a>.</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/07/010715-05.png">https://coding4ever.files.wordpress.com/2015/07/010715-05.png</a> %}</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/07/010715-06.png">https://coding4ever.files.wordpress.com/2015/07/010715-06.png</a> %}</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/07/010715-07.png">https://coding4ever.files.wordpress.com/2015/07/010715-07.png</a> %}</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/07/010715-08.png">https://coding4ever.files.wordpress.com/2015/07/010715-08.png</a> %}</p>
+
+<p>Selamat MENCOBA :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[The Power of Visual Studio .NET Build Events Part #1]]></title>
     <link href="http://coding4ever.net/blog/2015/06/25/the-power-of-visual-studio-net-build-events-part-number-1/"/>
     <updated>2015-06-25T22:51:48+07:00</updated>
     <id>http://coding4ever.net/blog/2015/06/25/the-power-of-visual-studio-net-build-events-part-number-1</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/06/260615-00.png">https://coding4ever.files.wordpress.com/2015/06/260615-00.png</a>&#8221; width=&#8221;130&#8221; height=&#8221;130&#8221;>Build Events merupakan salah fitur menarik yang dimiliki oleh Visual Studio.NET, dengan fitur ini akan membuat hidup kita sebagai <code>software developer</code> semakin mudah :D</p>
+    <content type="html"><![CDATA[<p>{% img left <a href="https://coding4ever.files.wordpress.com/2015/06/260615-00.png">https://coding4ever.files.wordpress.com/2015/06/260615-00.png</a> 130 130 %}Build Events merupakan salah fitur menarik yang dimiliki oleh Visual Studio.NET, dengan fitur ini akan membuat hidup kita sebagai <code>software developer</code> semakin mudah :D</p>
 
-<p>Saya sendiri menggunakan fitur ini untuk melakukan proses copy file (exe, dll, config) secara otomatis setelah proses build project, tetapi bukan itu saja dengan fitur ini kita juga bisa menjalankan perintah tertentu seperti <code>batch command</code> atau perintah lainnya sesuai kebutuhan seperti  mengupload library hasil build web service ke server IIS atau mengeksekusi skrip installer seperti <a href="/blog/categories/inno-setup/">Inno Setup</a> dan <a href="/blog/categories/nsis/">NSIS</a>.</p>
+<p>Saya sendiri menggunakan fitur ini untuk melakukan proses copy file (exe, dll, config) secara otomatis setelah proses build project, tetapi bukan itu saja dengan fitur ini kita juga bisa menjalankan perintah tertentu seperti <code>batch command</code> atau perintah lainnya sesuai kebutuhan seperti  mengupload library hasil build web service ke server IIS atau mengeksekusi skrip installer seperti <a href="{{%20site.url%20}}/blog/categories/inno-setup/">Inno Setup</a> dan <a href="{{%20site.url%20}}/blog/categories/nsis/">NSIS</a>.</p>
 
 <!-- more -->
 
@@ -29,9 +261,9 @@
 
 <p>Build Events merupakan salah satu fitur dari Visual Studio .NET yang bisa diaktifkan melalui Project -> Properties</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/260615-01.png">https://coding4ever.files.wordpress.com/2015/06/260615-01.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/260615-01.png">https://coding4ever.files.wordpress.com/2015/06/260615-01.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/260615-02.png">https://coding4ever.files.wordpress.com/2015/06/260615-02.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/260615-02.png">https://coding4ever.files.wordpress.com/2015/06/260615-02.png</a> %}</p>
 
 <p>Build Events mempunyai dua event yaitu <code>Pre-build event</code> dan <code>Post-build event</code> sesuai  namanya <code>pre</code> di jalankan sebelum proses build dan <code>post</code> setelah proses build.</p>
 
@@ -39,33 +271,35 @@
 
 <p>Dialog Build Events merupakan tempat untuk menuliskan perintah sesuai dengan yang kita inginkan.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/260615-03.png">https://coding4ever.files.wordpress.com/2015/06/260615-03.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/260615-03.png">https://coding4ever.files.wordpress.com/2015/06/260615-03.png</a> %}</p>
 
 <p>Dialog Build Events juga menyediakan <code>Macros</code> yang di dalamnya terdapat daftar variabel bawaan (built-in) yang bisa digunakan pada saat menuliskan perintah <code>build-event</code>.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/260615-04.png">https://coding4ever.files.wordpress.com/2015/06/260615-04.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/260615-04.png">https://coding4ever.files.wordpress.com/2015/06/260615-04.png</a> %}</p>
 
 <p>Kita bisa menambahkan <code>macros</code> dengan cara klik ganda item <code>macros</code>. Pemanggilan nama <code>macros</code> menggunakan format $(xxx), dimana <code>xxx</code> adalah nama <code>macros</code>. Contoh :</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/260615-05.png">https://coding4ever.files.wordpress.com/2015/06/260615-05.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/260615-05.png">https://coding4ever.files.wordpress.com/2015/06/260615-05.png</a> %}</p>
 
 <p>Pada saat perintah <code>build-event</code> dijalankan <code>macros</code> ini akan diganti dengan nilai aslinya (nilai aktual). Contoh berdasarkan gambar di atas <code>$(SolutionDir)</code> nilainya akan diganti dengan <code>D:\Postingan coding4ever\coding4ever\c#\KRSchool</code>.</p>
 
 <p>Jadi ketika kita menuliskan perintah</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>copy /Y &ldquo;$(TargetDir)KRSchool.*.dll&rdquo; &ldquo;$(SolutionDir)Rilis&rdquo;</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+copy /Y &ldquo;$(TargetDir)KRSchool.*.dll&rdquo; &ldquo;$(SolutionDir)Rilis&rdquo;
+{% endcodeblock %}</p>
 
 <p>Sama artinya kita menuliskan</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>copy /Y &ldquo;D:\Postingan coding4ever\coding4ever\c#\KRSchool\KRSchool.UI.Main\bin\Debug\KRSchool.*.dll&rdquo; &ldquo;D:\Postingan coding4ever\coding4ever\c#\KRSchool\Rilis&rdquo;</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+copy /Y &ldquo;D:\Postingan coding4ever\coding4ever\c#\KRSchool\KRSchool.UI.Main\bin\Debug\KRSchool.*.dll&rdquo; &ldquo;D:\Postingan coding4ever\coding4ever\c#\KRSchool\Rilis&rdquo;
+{% endcodeblock %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/260615-06.png">https://coding4ever.files.wordpress.com/2015/06/260615-06.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/260615-06.png">https://coding4ever.files.wordpress.com/2015/06/260615-06.png</a> %}</p>
 
 <p>Berikut adalah daftar lengkap <code>macros</code> yang disediakan oleh Visual Studio .NET</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/260615-07.png">https://coding4ever.files.wordpress.com/2015/06/260615-07.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/260615-07.png">https://coding4ever.files.wordpress.com/2015/06/260615-07.png</a> %}</p>
 
 <p>Untuk kolom <code>Value</code> nilainya akan menyesuaikan dengan lokasi solution Anda.</p>
 
@@ -73,19 +307,19 @@
 
 <p>Saya biasanya menggunakan <code>post-build events</code> untuk keperluan mengcopy hasil build project ke <code>folder tertentu</code>, dari pada mengcopy manual dari folder <code>bin\Debug</code> atau <code>bin\Release</code>. Folder tertentu ini misalnya <code>C:\Rilis</code>, maka kita bisa mengetikan peritah berikut :</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/260615-08.png">https://coding4ever.files.wordpress.com/2015/06/260615-08.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/260615-08.png">https://coding4ever.files.wordpress.com/2015/06/260615-08.png</a> %}</p>
 
 <p>Macro <code>TargetDir</code> ini nilainya tergantung dari setting <code>Configuration Manager</code>, apakah di set <code>Debug</code> atau <code>Release</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/260615-09.png">https://coding4ever.files.wordpress.com/2015/06/260615-09.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/260615-09.png">https://coding4ever.files.wordpress.com/2015/06/260615-09.png</a> %}</p>
 
 <p>Setelah itu lakukan proses <code>build -&gt; project</code>, maka semua file dll atau exe yang ada di folder <code>bin\Debug</code> atau <code>bin\Release</code> akan dicopykan ke folder <code>C:\Rilis</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/260615-10.png">https://coding4ever.files.wordpress.com/2015/06/260615-10.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/260615-10.png">https://coding4ever.files.wordpress.com/2015/06/260615-10.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/260615-11.png">https://coding4ever.files.wordpress.com/2015/06/260615-11.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/260615-11.png">https://coding4ever.files.wordpress.com/2015/06/260615-11.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/260615-12.png">https://coding4ever.files.wordpress.com/2015/06/260615-12.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/260615-12.png">https://coding4ever.files.wordpress.com/2015/06/260615-12.png</a> %}</p>
 
 <p>Selamat MENCOBA :)</p>
 ]]></content>

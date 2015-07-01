@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-06-26T05:41:54+07:00</updated>
+  <updated>2015-07-01T10:50:20+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,392 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[The Power of Visual Studio .NET Build Events Part #2]]></title>
+    <link href="http://coding4ever.net/blog/2015/07/01/the-power-of-visual-studio-net-build-events-part-number-2/"/>
+    <updated>2015-07-01T10:20:30+07:00</updated>
+    <id>http://coding4ever.net/blog/2015/07/01/the-power-of-visual-studio-net-build-events-part-number-2</id>
+    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2015/06/260615-00.png" width="130" height="130">Melanjutkan pembahasan <a href="http://coding4ever.net/blog/2015/06/25/the-power-of-visual-studio-net-build-events-part-number-1/">postingan</a> sebelumnya yaitu tentang fitur <code>Build Events</code> yang dimiliki oleh Visual Studio .NET.</p>
+
+<p>Di postingan <a href="http://coding4ever.net/blog/2015/06/25/the-power-of-visual-studio-net-build-events-part-number-1/">bagian #1</a> kita memanfaatkan fitur ini untuk melakukan proses copy file (exe, dll, config) secara ototmatis setelah proses build project selesai.</p>
+
+<p>Nah di <a href="http://coding4ever.net/blog/2015/07/01/the-power-of-visual-studio-net-build-events-part-number-2/">postingan</a> kali ini kita akan menambahkan perintah untuk mengcompile skrip <a href="http://coding4ever.net/blog/categories/inno-setup/">Inno Setup</a> sehingga proses pembuatan paket installer pun jadi otomatis.</p>
+
+<!-- more -->
+
+
+<p><strong>Inno Setup</strong></p>
+
+<p><a href="http://jrsoftware.org/">Inno Setup</a> adalah salah satu software favorit untuk membuat paket installer berbasis windows. Selain gratis software ini juga didukung oleh dokumentasi yang lengkap sehingga memudahkan kita untuk mempelajarinya. Saya juga ada menulis beberapa postingan tentang <a href="http://coding4ever.net/blog/categories/inno-setup/">Inno Setup</a> yang bisa anda baca di<a href="http://coding4ever.net/blog/categories/inno-setup/">sini</a>.</p>
+
+<p>Jadi untuk melanjutkan pembahasan ini, saya mengasumsikan Anda sudah pernah menggunakan <a href="http://jrsoftware.org/">Inno Setup</a> untuk membuat paket installer.</p>
+
+<p>Untuk membuat skrip <a href="http://coding4ever.net/blog/categories/inno-setup/">Inno Setup</a> itu gampang, contohnya seperti berikut :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+<span class='line-number'>152</span>
+<span class='line-number'>153</span>
+<span class='line-number'>154</span>
+<span class='line-number'>155</span>
+<span class='line-number'>156</span>
+<span class='line-number'>157</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[Setup]
+</span><span class='line'>AppName={code:GetAppName}
+</span><span class='line'>AppVerName={code:GetAppName} Versi {code:GetAppVersion}
+</span><span class='line'>AppPublisher={code:GetVendorName}
+</span><span class='line'>AppVersion={code:GetAppVersion}
+</span><span class='line'>AllowCancelDuringInstall = yes
+</span><span class='line'>DefaultDirName={pf}\KRSchool
+</span><span class='line'>DefaultGroupName={code:GetAppName}
+</span><span class='line'>Compression = lzma
+</span><span class='line'>SolidCompression = yes
+</span><span class='line'>OutputBaseFilename=SetupKRSchool
+</span><span class='line'>AllowNoIcons = yes
+</span><span class='line'>AlwaysRestart = no
+</span><span class='line'>AlwaysShowComponentsList = no
+</span><span class='line'>DisableProgramGroupPage = yes
+</span><span class='line'>AppendDefaultDirName = yes
+</span><span class='line'>CreateUninstallRegKey = yes
+</span><span class='line'>DisableStartupPrompt = yes
+</span><span class='line'>LanguageDetectionMethod=none
+</span><span class='line'>ShowLanguageDialog=no
+</span><span class='line'>UsePreviousLanguage=no
+</span><span class='line'>Uninstallable = yes
+</span><span class='line'>UninstallFilesDir={app}\uninst
+</span><span class='line'>UninstallDisplayIcon={app}\KRSchool.exe,0
+</span><span class='line'>UninstallDisplayName={code:GetAppName}
+</span><span class='line'>WindowVisible = no
+</span><span class='line'>AppCopyright=Copyright © 2015. {code:GetVendorName}
+</span><span class='line'>FlatComponentsList = yes
+</span><span class='line'>PrivilegesRequired = admin
+</span><span class='line'>VersionInfoVersion=1.0.0.0
+</span><span class='line'>SetupIconFile=E:\Master\Developer Tools\Package\Setup.ico
+</span><span class='line'>WizardImageFile=E:\Master\Developer Tools\Inno Setup\WizardImages\Modern\SetupModern16.bmp
+</span><span class='line'>WizardSmallImageFile=E:\Master\Developer Tools\Inno Setup\WizardImages\Modern\Small\SetupModernSmall26.bmp
+</span><span class='line'>
+</span><span class='line'>[Languages]
+</span><span class='line'>Name: ina; MessagesFile: compiler:Indonesia.isl
+</span><span class='line'>Name: en; MessagesFile: compiler:Default.isl
+</span><span class='line'>
+</span><span class='line'>[Tasks]
+</span><span class='line'>Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: checkedonce
+</span><span class='line'>Name: quicklaunchicon; Description: {cm:CreateQuickLaunchIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
+</span><span class='line'>
+</span><span class='line'>[Files]
+</span><span class='line'>;My Application Runtime
+</span><span class='line'>Source: *.*; DestDir: {app}; Flags: ignoreversion
+</span><span class='line'>
+</span><span class='line'>; .net framework
+</span><span class='line'>Source: "E:\Master\Developer Tools\dotNET Framework\dotNetFx40_Full_x86_x64.exe"; DestDir: {tmp}; Flags: deleteafterinstall; Check: FrameworkIsNotInstalled 
+</span><span class='line'>
+</span><span class='line'>;skin
+</span><span class='line'>Source: E:\Master\Developer Tools\Package\dll&ocx\ISSkin.dll; DestDir: {app}; Flags: dontcopy
+</span><span class='line'>Source: E:\Master\Developer Tools\Package\dll&ocx\Office2007.cjstyles; DestDir: {tmp}; Flags: dontcopy
+</span><span class='line'>Source: E:\Master\Developer Tools\Package\dll&ocx\scrrun.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>
+</span><span class='line'>[Icons]
+</span><span class='line'>Name: {group}\{code:GetAppName}; Filename: {app}\KRSchool.exe; WorkingDir: {app}; IconFilename: {app}\main.ico
+</span><span class='line'>Name: {userdesktop}\{code:GetAppName}; Filename: {app}\KRSchool.exe; WorkingDir: {app}; IconFilename: {app}\main.ico; Tasks: desktopicon
+</span><span class='line'>
+</span><span class='line'>[Registry]
+</span><span class='line'>;INSTALL DIR
+</span><span class='line'>Root: HKCU; Subkey: "Software\{code:GetVendorName}\{code:GetAppName}"; ValueName: "installDir"; ValueType: String; ValueData: {app}; Flags: uninsdeletevalue
+</span><span class='line'>
+</span><span class='line'>[Run]
+</span><span class='line'>Filename: {tmp}\dotNetFx40_Full_x86_x64.exe; Parameters: "/q:a /c:""install /l /q"""; Check: FrameworkIsNotInstalled; StatusMsg: "Sedang menginstall Microsoft Framework 4.0 ..."
+</span><span class='line'>
+</span><span class='line'>[Code]
+</span><span class='line'>const
+</span><span class='line'>  AppName = 'KR School';
+</span><span class='line'>  AppVersion = '1.0.0';
+</span><span class='line'>  VendorName = 'KR Software';
+</span><span class='line'>
+</span><span class='line'>// Importing LoadSkin API from ISSkin.DLL
+</span><span class='line'>procedure LoadSkin(lpszPath: String; lpszIniFileName: String);
+</span><span class='line'>external 'LoadSkin@files:isskin.dll stdcall';
+</span><span class='line'>
+</span><span class='line'>// Importing UnloadSkin API from ISSkin.DLL
+</span><span class='line'>procedure UnloadSkin();
+</span><span class='line'>external 'UnloadSkin@files:isskin.dll stdcall';
+</span><span class='line'>
+</span><span class='line'>// Importing ShowWindow Windows API from User32.DLL
+</span><span class='line'>function ShowWindow(hWnd: Integer; uType: Integer): Integer;
+</span><span class='line'>external 'ShowWindow@user32.dll stdcall';
+</span><span class='line'>
+</span><span class='line'>function IsDotNetDetected(version: string; service: cardinal): boolean;
+</span><span class='line'>// Indicates whether the specified version and service pack of the .NET Framework is installed.
+</span><span class='line'>//
+</span><span class='line'>// version -- Specify one of these strings for the required .NET Framework version:
+</span><span class='line'>//    'v1.1.4322'     .NET Framework 1.1
+</span><span class='line'>//    'v2.0.50727'    .NET Framework 2.0
+</span><span class='line'>//    'v3.0'          .NET Framework 3.0
+</span><span class='line'>//    'v3.5'          .NET Framework 3.5
+</span><span class='line'>//    'v4\Client'     .NET Framework 4.0 Client Profile
+</span><span class='line'>//    'v4\Full'       .NET Framework 4.0 Full Installation
+</span><span class='line'>//
+</span><span class='line'>// service -- Specify any non-negative integer for the required service pack level:
+</span><span class='line'>//    0               No service packs required
+</span><span class='line'>//    1, 2, etc.      Service pack 1, 2, etc. required
+</span><span class='line'>var
+</span><span class='line'>    key: string;
+</span><span class='line'>    install, serviceCount: cardinal;
+</span><span class='line'>    success: boolean;
+</span><span class='line'>begin
+</span><span class='line'>    key := 'SOFTWARE\Microsoft\NET Framework Setup\NDP\' + version;
+</span><span class='line'>
+</span><span class='line'>    // .NET 3.0 uses value InstallSuccess in subkey Setup
+</span><span class='line'>    if Pos('v3.0', version) = 1 then begin
+</span><span class='line'>        success := RegQueryDWordValue(HKLM, key + '\Setup', 'InstallSuccess', install);
+</span><span class='line'>    end else begin
+</span><span class='line'>        success := RegQueryDWordValue(HKLM, key, 'Install', install);
+</span><span class='line'>    end;
+</span><span class='line'>
+</span><span class='line'>    // .NET 4.0 uses value Servicing instead of SP
+</span><span class='line'>    if Pos('v4', version) = 1 then begin
+</span><span class='line'>        success := success and RegQueryDWordValue(HKLM, key, 'Servicing', serviceCount);
+</span><span class='line'>    end else begin
+</span><span class='line'>        success := success and RegQueryDWordValue(HKLM, key, 'SP', serviceCount);
+</span><span class='line'>    end;
+</span><span class='line'>
+</span><span class='line'>    result := success and (install = 1) and (serviceCount >= service);
+</span><span class='line'>end;
+</span><span class='line'>
+</span><span class='line'>function FrameworkIsNotInstalled: Boolean;
+</span><span class='line'>begin
+</span><span class='line'>    Result := not IsDotNetDetected('v4\Full', 0);
+</span><span class='line'>end;
+</span><span class='line'>
+</span><span class='line'>function GetVendorName(Param: string): string;
+</span><span class='line'>begin
+</span><span class='line'>  Result := VendorName;
+</span><span class='line'>end;
+</span><span class='line'>
+</span><span class='line'>function GetAppVersion(Param: string): string;
+</span><span class='line'>begin
+</span><span class='line'>  Result := AppVersion;
+</span><span class='line'>end;
+</span><span class='line'>
+</span><span class='line'>function GetAppName(Param: string): string;
+</span><span class='line'>begin
+</span><span class='line'>  Result := AppName;
+</span><span class='line'>end;
+</span><span class='line'>
+</span><span class='line'>function InitializeSetup(): Boolean;
+</span><span class='line'>begin
+</span><span class='line'>
+</span><span class='line'>  ExtractTemporaryFile('Office2007.cjstyles');
+</span><span class='line'>  LoadSkin(ExpandConstant('{tmp}\Office2007.cjstyles'), 'NormalAqua.ini');
+</span><span class='line'>      
+</span><span class='line'>  Result := True;
+</span><span class='line'>end;
+</span><span class='line'>
+</span><span class='line'>procedure DeinitializeSetup();
+</span><span class='line'>begin
+</span><span class='line'>  // Hide Window before unloading skin so user does not get
+</span><span class='line'>  // a glimse of an unskinned window before it is closed.
+</span><span class='line'>  ShowWindow(StrToInt(ExpandConstant('{wizardhwnd}')), 0);
+</span><span class='line'>  UnloadSkin();
+</span><span class='line'>end;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Kemudian skrip di atas kita simpan di folder <code>Rilis</code> misal dengan nama <code>SetupKRSchool.iss</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/07/010715-01.png"></p>
+
+<p>File <code>SetupKRSchool.iss</code> di atas akan kita compile menggunakan tool bawaan <a href="http://jrsoftware.org/">Inno Setup</a> yaitu <code>ISCC.exe</code>. Untuk contoh penggunaanya seperti ini :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>iscc "c:\rilis\SetupKRSchool.iss"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Nah perintah di atas akan kita panggil melalui Dialog Build Events</p>
+
+<p><strong>Revisi Perintah Build Event</strong></p>
+
+<p>Pada <a href="http://coding4ever.net/blog/2015/06/25/the-power-of-visual-studio-net-build-events-part-number-1/">postingan</a> sebelumnya kita sudah menulis perintah sederhana di dialog Build Events</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/07/010715-02.png"></p>
+
+<p>Kita akan merivisi perintah diatas untuk menjalankan  tool bawaan <a href="http://jrsoftware.org/">Inno Setup</a> yaitu <code>ISCC.exe</code>. Dengan tool ini kita bisa langsung mengcompile skrip <a href="http://jrsoftware.org/">Inno Setup</a>.</p>
+
+<p>Berikut perintah lengkapnya.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/07/010715-03.png"></p>
+
+<p>Pada perintah di atas saya menambahkan kondisi</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if "$(ConfigurationName)" == "Debug" goto skip</span></code></pre></td></tr></table></div></figure>
+
+
+<p>yang artinya perintah build event di atas hanya akan dijalankan jika <code>Solution Configuration</code> atau  <code>Configuration Manager</code> di set <code>Release</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/07/010715-04.png"></p>
+
+<p>Setelah itu lakukan proses <code>build -&gt; project</code>, maka semua file dll atau exe yang ada di folder <code>bin\Debug</code> atau <code>bin\Release</code> akan dicopykan ke folder <code>C:\Rilis</code>, kemudian akan dilanjutkan dengan mengcompile skrip <a href="http://jrsoftware.org/">Inno Setup</a>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/07/010715-05.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/07/010715-06.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/07/010715-07.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/07/010715-08.png"></p>
+
+<p>Selamat MENCOBA :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[The Power of Visual Studio .NET Build Events Part #1]]></title>
@@ -3606,91 +3992,6 @@ Tujuan menginstall library ini adalah agar laporan yang dihasilkan <a href="http
 <p><a href="http://coding4ever.files.wordpress.com/2014/04/3.png"><img src="http://coding4ever.files.wordpress.com/2014/04/3.png" alt="3" /></a></p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/EntityFramework5">MENCOBA</a> :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Entity Framework Part 4]]></title>
-    <link href="http://coding4ever.net/blog/2014/03/27/entity-framework-part-4/"/>
-    <updated>2014-03-27T13:27:20+07:00</updated>
-    <id>http://coding4ever.net/blog/2014/03/27/entity-framework-part-4</id>
-    <content type="html"><![CDATA[<p><img class="left" src="http://coding4ever.files.wordpress.com/2014/03/entity_image.png" width="120" height="100">Melanjutkan <a href="http://coding4ever.net/blog/2014/03/26/entity-framework-part-3/">postingan</a> sebelumnya, tentang tool-tool yang bisa digunakan untuk mengenerate kode mapping secara otomatis. Tool kedua yang akan kita bahas adalah <a href="http://visualstudiogallery.msdn.microsoft.com/72a60b14-1581-4b9b-89f2-846072eff19d">Entity Framework Power Tools</a>.</p>
-
-<p>Saya sendiri lebih senang menggunakan <a href="http://visualstudiogallery.msdn.microsoft.com/72a60b14-1581-4b9b-89f2-846072eff19d">Entity Framework Power Tools</a>, dengan alasan kodenya lebih bersih dan transparan.</p>
-
-<p>Untuk saat ini <a href="http://visualstudiogallery.msdn.microsoft.com/72a60b14-1581-4b9b-89f2-846072eff19d">Entity Framework Power Tools</a> masih versi beta dan <strong>baru bisa digunakan untuk project C#</strong> :D.</p>
-
-<!-- more -->
-
-
-<p>Inilah salah satu alasan kenapa saya lebih memilih C# dibandingkan VB .NET, untuk Indonesia mungkin saja VB .NET lebih favorit dibandingkan C# tapi di luar sana sepertinya C# yang lebih diminati, ini dibuktikan dengan lebih banyaknya referensi berbahasa C# dibandingkan VB .NET.</p>
-
-<p>Secara default <a href="http://visualstudiogallery.msdn.microsoft.com/72a60b14-1581-4b9b-89f2-846072eff19d">Entity Framework Power Tools</a> menggunakan <a href="http://msdn.microsoft.com/en-us/data/jj591617.aspx">Code First’s Fluent API</a> untuk konfigurasi kode mappingnya, dan untuk mengganti konfigurasi default ini ke <a href="http://msdn.microsoft.com/en-us/data/jj591583.aspx">Data Annotations</a>, referensinya bisa Anda cek di <a href="http://romiller.com/2012/05/09/customizing-reverse-engineer-code-first-in-the-ef-power-tools/">sini</a>.</p>
-
-<p><strong>Instalasi Entity Framework Power Tools</strong></p>
-
-<p>Untuk Visual Studio .NET 2010 bisa diinstall secara langsung melalui menu <strong>Tools > Extensions and Updates</strong>, kemudian pilih <strong>Online Gallery</strong>, dan cari <em>Entity Framework Power Tools</em>.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/110.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/110.jpg" alt="1" /></a></p>
-
-<p>Dan untuk Visual Studio .NET 2012, saya belum cek apakah tool ini sudah di-includekan secara default pada saat instalasi, jika belum langkah-langkah instalasi sama seperti di atas :D.</p>
-
-<p>Sedangkan untuk Visual Studio .NET 2013 tool ini sudah include secara default pada saat instalasi.</p>
-
-<p><strong>Mencoba Entity Framework Power Tools</strong></p>
-
-<p>Setelah proses instalasi selesai kita bisa langsung mencoba <a href="http://visualstudiogallery.msdn.microsoft.com/72a60b14-1581-4b9b-89f2-846072eff19d">Entity Framework Power Tools</a> dan untuk databasenya kita masih menggunakan database <a href="http://coding4ever.net/blog/2014/03/26/entity-framework-part-3/">postingan</a> sebelumnya.</p>
-
-<p>Langsung saja berikut langkah-langkahnya :</p>
-
-<ol>
-<li><p>Aktifkan Visual Studio .NET Anda</p></li>
-<li><p>Buat <strong>project C#</strong> dengan tipe Console Application. Ingat projectnya harus C#, karena untuk VB .NET belum didukung.</p></li>
-<li><p>Klik kanan project -> Entity Framework -> Reverse Engineer Code First</p></li>
-</ol>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/23.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/23.jpg" alt="2" /></a></p>
-
-<ol>
-<li>Langkah berikutnya adalah menentukan koneksi dan database.</li>
-</ol>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/32.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/32.jpg" alt="3" /></a></p>
-
-<p>Setelah klik tombol Ok, tunggu beberapa saat, untuk lamanya ya tergantung jumlah tabel yang ada di database.</p>
-
-<p>Untuk progressnya bisa kita cek di bagian status bar.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/42.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/42.jpg" alt="4" /></a></p>
-
-<p>Adapun proses yang terjadi pada saat kita menggunakan <a href="http://visualstudiogallery.msdn.microsoft.com/72a60b14-1581-4b9b-89f2-846072eff19d">Entity Framework Power Tools</a> sebagai berikut :</p>
-
-<ul>
-<li><p>Menginstall paket <a href="http://www.nuget.org/packages/EntityFramework/">Entity Framework</a>, jadi jangan lupa untuk menginstall <a href="http://coding4ever.net/blog/2014/03/11/nuget/">NuGet</a> terlebih dulu.</p></li>
-<li><p>Mengenerate class <a href="http://stackoverflow.com/questions/910253/what-does-poco-mean">POCO</a> (entity) untuk masing-masing tabel.</p></li>
-<li><p>Mengenerate class Context yang merupakan turunan dari class DbContext.</p></li>
-<li><p>Secara default untuk konfigurasi mapping (pemetaan) menggunakan <a href="http://msdn.microsoft.com/en-us/data/jj591617.aspx">Code First’s Fluent API</a>.</p></li>
-<li><p>Menggunakan pendekatan <em><a href="http://coding4ever.net/blog/2014/03/21/entity-framework-part-2/">Code first (existing database)</a>.</em></p></li>
-</ul>
-
-
-<p>Berikut adalah contoh class entity dan mapping hasil generate menggunakan <a href="http://visualstudiogallery.msdn.microsoft.com/72a60b14-1581-4b9b-89f2-846072eff19d">Entity Framework Power Tools</a>.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/52.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/52.jpg" alt="5" /></a>Class entity</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/62.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/62.jpg" alt="6" /></a></p>
-
-<p>Class mapping</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/72.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/72.jpg" alt="7" /></a></p>
-
-<p>Class Context</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/82.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/82.jpg" alt="8" /></a></p>
-
-<p>Selamat <a href="https://github.com/k4m4r82/EntityFramework4">MENCOBA</a> :)</p>
 ]]></content>
   </entry>
   

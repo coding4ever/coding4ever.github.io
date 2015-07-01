@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Database | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/database/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-06-26T05:41:54+07:00</updated>
+  <updated>2015-07-01T10:51:57+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -18,7 +18,7 @@
     <link href="http://coding4ever.net/blog/2015/04/30/membuat-jadwal-backup-database-otomatis/"/>
     <updated>2015-04-30T15:33:59+07:00</updated>
     <id>http://coding4ever.net/blog/2015/04/30/membuat-jadwal-backup-database-otomatis</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-14.png">https://coding4ever.files.wordpress.com/2015/04/300415-14.png</a>&#8221; width=&#8221;100&#8221; height=&#8221;100&#8221;>Backup database merupakan salah satu hal penting, apalagi jika kita bekerja sebagai database administrator.</p>
+    <content type="html"><![CDATA[<p>{% img left <a href="https://coding4ever.files.wordpress.com/2015/04/300415-14.png">https://coding4ever.files.wordpress.com/2015/04/300415-14.png</a> 100 100 %}Backup database merupakan salah satu hal penting, apalagi jika kita bekerja sebagai database administrator.</p>
 
 <p>Semakin banyaknya data-data yang tersimpan seperti data keuangan, akademik dan data penting lainnya mengharuskan kita untuk meluangkan waktu khusus untuk melakukan backup database.</p>
 
@@ -35,49 +35,38 @@
 
 <p>Adapun perintahnya seperti berikut :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lsquo; backup
-</span><span class='line'>mysqldump -uUSER_NAME -pUSER_PASSWORD &ndash;routines NAMA_DATABASE > LOKASI_FILE_BACKUP.SQL</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+&lsquo; backup
+mysqldump -uUSER_NAME -pUSER_PASSWORD &ndash;routines NAMA_DATABASE > LOKASI_FILE_BACKUP.SQL
+{% endcodeblock %}</p>
 
 <p>Parameter <code>–routines</code> ditambahkan jika database mempunyai fungsi/trigger.</p>
 
 <p>Karena data backupnya yang disimpan lebih dari satu, untuk nama database akan kita buat unik dengan format : <code>nama_database-tahun-bulan-hari_jam_menit</code>. Contoh :</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-01.png">https://coding4ever.files.wordpress.com/2015/04/300415-01.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-01.png">https://coding4ever.files.wordpress.com/2015/04/300415-01.png</a> %}</p>
 
 <p>Untuk mendapatkan informasi tahun, bulan, hari dan jam, kita bisa memanfaatkan batch command dengan perintah seperti berikut :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>for /f &ldquo;tokens=2-4 delims=/ &rdquo; %%a in (&lsquo;date /T&rsquo;) do set year=%%c
-</span><span class='line'>for /f &ldquo;tokens=2-4 delims=/ &rdquo; %%a in (&lsquo;date /T&rsquo;) do set month=%%a
-</span><span class='line'>for /f &ldquo;tokens=2-4 delims=/ &rdquo; %%a in (&lsquo;date /T&rsquo;) do set day=%%b&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>for /f &ldquo;tokens=1 delims=: &rdquo; %%h in (&lsquo;time /T&rsquo;) do set hour=%%h
-</span><span class='line'>for /f &ldquo;tokens=2 delims=: &rdquo; %%m in (&lsquo;time /T&rsquo;) do set minutes=%%m
-</span><span class='line'>for /f &ldquo;tokens=3 delims=: &rdquo; %%a in (&lsquo;time /T&rsquo;) do set ampm=%%a&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>rem membuat file backup database dengan format nama_database-tahun-bulan-hari_jam_menit
-</span><span class='line'>set FILE_BACKUP=D:\backup\Chinook-%year%-%month%-%day%_%hour%-%minutes%-%ampm%&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>rem USER_NAME, USER_PASSWORD dan NAMA_DATABASE menyesuaikan
-</span><span class='line'>mysqldump -uroot -prahasia &ndash;routines Chinook > %FILE_BACKUP%.sql</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+for /f &ldquo;tokens=2-4 delims=/ &rdquo; %%a in (&lsquo;date /T&rsquo;) do set year=%%c
+for /f &ldquo;tokens=2-4 delims=/ &rdquo; %%a in (&lsquo;date /T&rsquo;) do set month=%%a
+for /f &ldquo;tokens=2-4 delims=/ &rdquo; %%a in (&lsquo;date /T&rsquo;) do set day=%%b</p>
+
+<p>for /f &ldquo;tokens=1 delims=: &rdquo; %%h in (&lsquo;time /T&rsquo;) do set hour=%%h
+for /f &ldquo;tokens=2 delims=: &rdquo; %%m in (&lsquo;time /T&rsquo;) do set minutes=%%m
+for /f &ldquo;tokens=3 delims=: &rdquo; %%a in (&lsquo;time /T&rsquo;) do set ampm=%%a</p>
+
+<p>rem membuat file backup database dengan format nama_database-tahun-bulan-hari_jam_menit
+set FILE_BACKUP=D:\backup\Chinook-%year%-%month%-%day%_%hour%-%minutes%-%ampm%</p>
+
+<p>rem USER_NAME, USER_PASSWORD dan NAMA_DATABASE menyesuaikan
+mysqldump -uroot -prahasia &ndash;routines Chinook > %FILE_BACKUP%.sql
+{% endcodeblock %}</p>
 
 <p>Setelah itu kode di atas kita simpan di folder <code>Instalasi MySQL\bin</code>, misal dengan nama <code>backup.cmd</code>.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-02.png">https://coding4ever.files.wordpress.com/2015/04/300415-02.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-02.png">https://coding4ever.files.wordpress.com/2015/04/300415-02.png</a> %}</p>
 
 <h3>Windows Task Scheduler</h3>
 
@@ -85,41 +74,41 @@
 
 <p>Untuk mengakses tool ini bisa dilakukan melalui menu Start -> Accessories -> System Tools -> Task Scheduler</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-03.png">https://coding4ever.files.wordpress.com/2015/04/300415-03.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-03.png">https://coding4ever.files.wordpress.com/2015/04/300415-03.png</a> %}</p>
 
 <p>Berikut langkah-langkah untuk menambahkan task baru.</p>
 
 <ol>
 <li><p>Klik <code>Create Basic Task</code> di panel Actions
-<img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-04.png">https://coding4ever.files.wordpress.com/2015/04/300415-04.png</a>&#8221;>
+{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-04.png">https://coding4ever.files.wordpress.com/2015/04/300415-04.png</a> %}
 Kemudian isikan informasi <code>Name</code> dan <code>Description</code> kemudian klik tombol Next</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-05.png">https://coding4ever.files.wordpress.com/2015/04/300415-05.png</a>&#8221;></p></li>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-05.png">https://coding4ever.files.wordpress.com/2015/04/300415-05.png</a> %}</p></li>
 <li><p>Di dialog berikutnya kita akan menentukan kapan task ini akan di eksekusi. Contoh jika task ini akan dieksekusi setiap hari kita pilih <code>Daily</code>.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-06.png">https://coding4ever.files.wordpress.com/2015/04/300415-06.png</a>&#8221;></p></li>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-06.png">https://coding4ever.files.wordpress.com/2015/04/300415-06.png</a> %}</p></li>
 <li><p>Berikutnya kita akan menentukan jam berapa task ini akan dieksekusi</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-07.png">https://coding4ever.files.wordpress.com/2015/04/300415-07.png</a>&#8221;>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-07.png">https://coding4ever.files.wordpress.com/2015/04/300415-07.png</a> %}
 Pada gambar di atas, task ini akan dieksekusi setiap jam 5 sore.</p></li>
 <li><p>Berikutnya kita akan menentukan apa yang akan dilakukan task ini, ketika dieksekusi. Sebagai contoh task ini akan menjalankan file <code>backup.cmd</code> yang tersimpan di folder bin MySQL</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-08.png">https://coding4ever.files.wordpress.com/2015/04/300415-08.png</a>&#8221;>
-<img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-09.png">https://coding4ever.files.wordpress.com/2015/04/300415-09.png</a>&#8221;>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-08.png">https://coding4ever.files.wordpress.com/2015/04/300415-08.png</a> %}
+{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-09.png">https://coding4ever.files.wordpress.com/2015/04/300415-09.png</a> %}
 Di bagian <code>Program/script</code> kita tentukan nama file <code>backup.cmd</code>, sedangkan untuk <code>Start in</code> kita tentukan lokasi/folder file <code>backup.cmd</code></p></li>
 <li>Terakhir klik tombol Finish</li>
 </ol>
 
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-10.png">https://coding4ever.files.wordpress.com/2015/04/300415-10.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-10.png">https://coding4ever.files.wordpress.com/2015/04/300415-10.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-11.png">https://coding4ever.files.wordpress.com/2015/04/300415-11.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-11.png">https://coding4ever.files.wordpress.com/2015/04/300415-11.png</a> %}</p>
 
 <p>Untuk mencoba apakah backup berjalan dengan baik, klik kanan nama task <code>Backup Database Chinook</code> -> Run</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-12.png">https://coding4ever.files.wordpress.com/2015/04/300415-12.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-12.png">https://coding4ever.files.wordpress.com/2015/04/300415-12.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-13.png">https://coding4ever.files.wordpress.com/2015/04/300415-13.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-13.png">https://coding4ever.files.wordpress.com/2015/04/300415-13.png</a> %}</p>
 
 <p>Selamat MENCOBA :)</p>
 ]]></content>

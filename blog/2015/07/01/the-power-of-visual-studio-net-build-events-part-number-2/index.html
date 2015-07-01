@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Menambahkan Serial Number Pada Paket Instalasi (Inno Setup) - Coding4ever&#8217;s Blog</title>
+  <title>The Power of Visual Studio .NET Build Events Part #2 - Coding4ever&#8217;s Blog</title>
   <meta name="author" content="Admin">
 
   
-  <meta name="description" content="Melengkapi koleksi artikel saya tentang pembuatan paket instalasi, kali ini kita akan menambahkan serial number pada paket instalasi yang kita buat &hellip;">
+  <meta name="description" content="Melanjutkan pembahasan postingan sebelumnya yaitu tentang fitur Build Events yang dimiliki oleh Visual Studio .NET. Di postingan bagian #1 kita &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://coding4ever.net/blog/2010/04/05/menambahkan-serial-number-pada-paket-instalasi-inno-setup">
+  <link rel="canonical" href="http://coding4ever.net/blog/2015/07/01/the-power-of-visual-studio-net-build-events-part-number-2">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Coding4ever's Blog" type="application/atom+xml">
@@ -83,7 +83,7 @@
   
   <header>
     
-      <h1 class="entry-title">Menambahkan Serial Number Pada Paket Instalasi (Inno Setup)</h1>
+      <h1 class="entry-title">The Power of Visual Studio .NET Build Events Part #2</h1>
     
     
       <p class="meta">
@@ -92,7 +92,7 @@
 
 
 
-<time class='entry-date' datetime='2010-04-05T00:01:04+07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>12:01 am</span></time>
+<time class='entry-date' datetime='2015-07-01T10:20:30+07:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>10:20 am</span></time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://coding4ever.net">Comments</a>
@@ -102,63 +102,22 @@
   </header>
 
 
-<div class="entry-content"><p>Melengkapi koleksi artikel saya tentang pembuatan <a href="http://coding4ever.wordpress.com/category/tools-installer/">paket instalasi</a>, kali ini kita akan menambahkan serial number pada <a href="http://coding4ever.wordpress.com/category/tools-installer/">paket instalasi</a> yang kita buat menggunakan <a href="http://jrsoftware.org/">Inno Setup</a>.</p>
+<div class="entry-content"><p><img class="left" src="https://coding4ever.files.wordpress.com/2015/06/260615-00.png" width="130" height="130">Melanjutkan pembahasan <a href="http://coding4ever.net/blog/2015/06/25/the-power-of-visual-studio-net-build-events-part-number-1/">postingan</a> sebelumnya yaitu tentang fitur <code>Build Events</code> yang dimiliki oleh Visual Studio .NET.</p>
 
-<p><a href="http://www.mjfreelancing.com/IKG.htm">IKG</a> (Inno Key Generator) adalah <a href="http://en.wikipedia.org/wiki/Third_party">Third-Party</a> files yang akan kita gunakan pada artikel ini dan <a href="http://jrsoftware.org/">Inno Setup</a> yang saya gunakan adalah versi 5.0.8.</p>
+<p>Di postingan <a href="http://coding4ever.net/blog/2015/06/25/the-power-of-visual-studio-net-build-events-part-number-1/">bagian #1</a> kita memanfaatkan fitur ini untuk melakukan proses copy file (exe, dll, config) secara ototmatis setelah proses build project selesai.</p>
 
-<p>Silahkan Anda download <a href="http://www.mjfreelancing.com/IKG.htm">IKG</a> dari situs resminya atau bisa juga download di<a href="http://dc196.4shared.com/download/257069716/702b80a7">sini</a> tetapi saya lebih menyarankan Anda untuk  mendownload dari link ke <a href="http://dc196.4shared.com/download/257069716/702b80a7">dua</a> saja :D karena sudah saya seleksi file-file apa saja yang dibutuhkan.</p>
+<p>Nah di <a href="http://coding4ever.net/blog/2015/07/01/the-power-of-visual-studio-net-build-events-part-number-2/">postingan</a> kali ini kita akan menambahkan perintah untuk mengcompile skrip <a href="http://coding4ever.net/blog/categories/inno-setup/">Inno Setup</a> sehingga proses pembuatan paket installer pun jadi otomatis.</p>
 
 <!-- more -->
 
 
-<p>Jika sudah selesai downloadnya silahkan Anda ekstrak file IKG.rarnya, berikut adalah penjelasan singkat tentang file-file yang ada di dalam file IKG.rar</p>
+<p><strong>Inno Setup</strong></p>
 
-<ol>
-<li><p> <strong>ISID.dll</strong>, file ini dibutuhkan untuk melakukan validasi serial number/unlock code yang diinputkan pada saat proses instalasi, otomatis harus kita sertakan pada saat pembuatan paket instalasi.</p></li>
-<li><p> <strong>IKG.exe</strong> adalah tool untuk mengenerate file Inno Key yang berisi informasi user + serial number valid yang sudah terenkripsi,<del> jadi setiap paket instalasi yang kita buat membutuhkan file inno key yang unik (huhhhh report juga ya) namanya juga mau aman (walaupun tidak 100%) report sedikitkan engga pa2 kan</del> (ralat 1 public key inno bisa untuk beberapa user name yg berbeda).</p></li>
-<li><p> <strong>IKGHelp.pdf</strong>, klo yang ini kayaxnya enggak perlu saya jelasin.</p></li>
-</ol>
+<p><a href="http://jrsoftware.org/">Inno Setup</a> adalah salah satu software favorit untuk membuat paket installer berbasis windows. Selain gratis software ini juga didukung oleh dokumentasi yang lengkap sehingga memudahkan kita untuk mempelajarinya. Saya juga ada menulis beberapa postingan tentang <a href="http://coding4ever.net/blog/categories/inno-setup/">Inno Setup</a> yang bisa anda baca di<a href="http://coding4ever.net/blog/categories/inno-setup/">sini</a>.</p>
 
+<p>Jadi untuk melanjutkan pembahasan ini, saya mengasumsikan Anda sudah pernah menggunakan <a href="http://jrsoftware.org/">Inno Setup</a> untuk membuat paket installer.</p>
 
-<p>Oke langsung saja Anda jalankan file IKG.exe, setelah itu akan tampil form berikut :</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2010/04/05042010-1.jpg"><img src="http://coding4ever.files.wordpress.com/2010/04/05042010-1.jpg?w=300" alt="" /></a></p>
-
-<p>Langkah pertama yang harus kita lakukan adalah mengeset password IKG, agar tidak semua orang bisa menggunakan tool ini.</p>
-
-<p>Klik menu File -> Change Bank Password</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2010/04/05042010-2.jpg"><img src="http://coding4ever.files.wordpress.com/2010/04/05042010-2.jpg?w=300" alt="" /></a></p>
-
-<p>Selanjutnya kita tinggal masukkan passwordnya</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2010/04/05042010-3.jpg"><img src="http://coding4ever.files.wordpress.com/2010/04/05042010-3.jpg" alt="" /></a></p>
-
-<p>Untuk menyederhanakan pembahasan, informasi yang akan kita tambahkan pada saat instalasi kita batasi sebagai berikut :</p>
-
-<ol>
-<li><p> Registered Name</p></li>
-<li><p> Registered Company</p></li>
-<li><p> Registration Code</p></li>
-<li><p> Private Key</p></li>
-</ol>
-
-
-<p>Maka konfigurasi yang harus kita set pada tool IKG adalah sebagai berikut :</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2010/04/05042010-4.jpg"><img src="http://coding4ever.files.wordpress.com/2010/04/05042010-4.jpg?w=300" alt="" /></a></p>
-
-<p>Kita tinggal menginputkan informasi Registered Name dan Organisation, untuk informasi Registration Code dan Private Key sudah otomatis terisi.</p>
-
-<p>Jika sudah kita langsung saja simpan file Inno Keynya, file ini berisi informasi Registered Name, Registered Company, Registration Code dan Private Key (sesuai setting diatas) yang sudah dienkripsi.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2010/04/05042010-5.jpg"><img src="http://coding4ever.files.wordpress.com/2010/04/05042010-5.jpg?w=300" alt="" /></a></p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2010/04/05042010-6.jpg"><img src="http://coding4ever.files.wordpress.com/2010/04/05042010-6.jpg?w=300" alt="" /></a></p>
-
-<p>Jadi jika kita akan membuat file setup berikutnya, kita harus mengetik ulang informasi Registered Name dan Registered Company yang lain (unik) dan menyimpan ulang file Inno Key (sebaiknya dengan nama yang berbeda).</p>
-
-<p>Sampai disini kita akan memasuki bagian yang paling menyenangkan yaitu coding :D. Kita akan menambahkan beberapa baris kode pada bagian <strong>[Files]</strong> dan <strong>[Code]</strong>.</p>
+<p>Untuk membuat skrip <a href="http://coding4ever.net/blog/categories/inno-setup/">Inno Setup</a> itu gampang, contohnya seperti berikut :</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -266,123 +225,261 @@
 <span class='line-number'>104</span>
 <span class='line-number'>105</span>
 <span class='line-number'>106</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[Files]
-</span><span class='line'>;file klien-1.iky dihasilkan oleh tool IKG
-</span><span class='line'>Source: klien-1.iky; DestDir: {tmp}; Flags: ignoreversion
-</span><span class='line'>Source: ISID.dll; DestDir: {sys}; Flags: ignoreversion
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+<span class='line-number'>152</span>
+<span class='line-number'>153</span>
+<span class='line-number'>154</span>
+<span class='line-number'>155</span>
+<span class='line-number'>156</span>
+<span class='line-number'>157</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[Setup]
+</span><span class='line'>AppName={code:GetAppName}
+</span><span class='line'>AppVerName={code:GetAppName} Versi {code:GetAppVersion}
+</span><span class='line'>AppPublisher={code:GetVendorName}
+</span><span class='line'>AppVersion={code:GetAppVersion}
+</span><span class='line'>AllowCancelDuringInstall = yes
+</span><span class='line'>DefaultDirName={pf}\KRSchool
+</span><span class='line'>DefaultGroupName={code:GetAppName}
+</span><span class='line'>Compression = lzma
+</span><span class='line'>SolidCompression = yes
+</span><span class='line'>OutputBaseFilename=SetupKRSchool
+</span><span class='line'>AllowNoIcons = yes
+</span><span class='line'>AlwaysRestart = no
+</span><span class='line'>AlwaysShowComponentsList = no
+</span><span class='line'>DisableProgramGroupPage = yes
+</span><span class='line'>AppendDefaultDirName = yes
+</span><span class='line'>CreateUninstallRegKey = yes
+</span><span class='line'>DisableStartupPrompt = yes
+</span><span class='line'>LanguageDetectionMethod=none
+</span><span class='line'>ShowLanguageDialog=no
+</span><span class='line'>UsePreviousLanguage=no
+</span><span class='line'>Uninstallable = yes
+</span><span class='line'>UninstallFilesDir={app}\uninst
+</span><span class='line'>UninstallDisplayIcon={app}\KRSchool.exe,0
+</span><span class='line'>UninstallDisplayName={code:GetAppName}
+</span><span class='line'>WindowVisible = no
+</span><span class='line'>AppCopyright=Copyright © 2015. {code:GetVendorName}
+</span><span class='line'>FlatComponentsList = yes
+</span><span class='line'>PrivilegesRequired = admin
+</span><span class='line'>VersionInfoVersion=1.0.0.0
+</span><span class='line'>SetupIconFile=E:\Master\Developer Tools\Package\Setup.ico
+</span><span class='line'>WizardImageFile=E:\Master\Developer Tools\Inno Setup\WizardImages\Modern\SetupModern16.bmp
+</span><span class='line'>WizardSmallImageFile=E:\Master\Developer Tools\Inno Setup\WizardImages\Modern\Small\SetupModernSmall26.bmp
+</span><span class='line'>
+</span><span class='line'>[Languages]
+</span><span class='line'>Name: ina; MessagesFile: compiler:Indonesia.isl
+</span><span class='line'>Name: en; MessagesFile: compiler:Default.isl
+</span><span class='line'>
+</span><span class='line'>[Tasks]
+</span><span class='line'>Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: checkedonce
+</span><span class='line'>Name: quicklaunchicon; Description: {cm:CreateQuickLaunchIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
+</span><span class='line'>
+</span><span class='line'>[Files]
+</span><span class='line'>;My Application Runtime
+</span><span class='line'>Source: *.*; DestDir: {app}; Flags: ignoreversion
+</span><span class='line'>
+</span><span class='line'>; .net framework
+</span><span class='line'>Source: "E:\Master\Developer Tools\dotNET Framework\dotNetFx40_Full_x86_x64.exe"; DestDir: {tmp}; Flags: deleteafterinstall; Check: FrameworkIsNotInstalled 
+</span><span class='line'>
+</span><span class='line'>;skin
+</span><span class='line'>Source: E:\Master\Developer Tools\Package\dll&ocx\ISSkin.dll; DestDir: {app}; Flags: dontcopy
+</span><span class='line'>Source: E:\Master\Developer Tools\Package\dll&ocx\Office2007.cjstyles; DestDir: {tmp}; Flags: dontcopy
+</span><span class='line'>Source: E:\Master\Developer Tools\Package\dll&ocx\scrrun.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>
+</span><span class='line'>[Icons]
+</span><span class='line'>Name: {group}\{code:GetAppName}; Filename: {app}\KRSchool.exe; WorkingDir: {app}; IconFilename: {app}\main.ico
+</span><span class='line'>Name: {userdesktop}\{code:GetAppName}; Filename: {app}\KRSchool.exe; WorkingDir: {app}; IconFilename: {app}\main.ico; Tasks: desktopicon
+</span><span class='line'>
+</span><span class='line'>[Registry]
+</span><span class='line'>;INSTALL DIR
+</span><span class='line'>Root: HKCU; Subkey: "Software\{code:GetVendorName}\{code:GetAppName}"; ValueName: "installDir"; ValueType: String; ValueData: {app}; Flags: uninsdeletevalue
+</span><span class='line'>
+</span><span class='line'>[Run]
+</span><span class='line'>Filename: {tmp}\dotNetFx40_Full_x86_x64.exe; Parameters: "/q:a /c:""install /l /q"""; Check: FrameworkIsNotInstalled; StatusMsg: "Sedang menginstall Microsoft Framework 4.0 ..."
 </span><span class='line'>
 </span><span class='line'>[Code]
-</span><span class='line'>function ValidateSerialNumber(InnoKeyFile, User, Orgn, ProdCode, HDD, MAC, PrivateKey, Serial: String): Boolean;
-</span><span class='line'>external 'ValidateSerialNumber@files:ISID.dll stdcall';
-</span><span class='line'>
 </span><span class='line'>const
-</span><span class='line'>    INNO_KEY = 'klien-1.iky';
+</span><span class='line'>  AppName = 'KR School';
+</span><span class='line'>  AppVersion = '1.0.0';
+</span><span class='line'>  VendorName = 'KR Software';
 </span><span class='line'>
+</span><span class='line'>// Importing LoadSkin API from ISSkin.DLL
+</span><span class='line'>procedure LoadSkin(lpszPath: String; lpszIniFileName: String);
+</span><span class='line'>external 'LoadSkin@files:isskin.dll stdcall';
+</span><span class='line'>
+</span><span class='line'>// Importing UnloadSkin API from ISSkin.DLL
+</span><span class='line'>procedure UnloadSkin();
+</span><span class='line'>external 'UnloadSkin@files:isskin.dll stdcall';
+</span><span class='line'>
+</span><span class='line'>// Importing ShowWindow Windows API from User32.DLL
+</span><span class='line'>function ShowWindow(hWnd: Integer; uType: Integer): Integer;
+</span><span class='line'>external 'ShowWindow@user32.dll stdcall';
+</span><span class='line'>
+</span><span class='line'>function IsDotNetDetected(version: string; service: cardinal): boolean;
+</span><span class='line'>// Indicates whether the specified version and service pack of the .NET Framework is installed.
+</span><span class='line'>//
+</span><span class='line'>// version -- Specify one of these strings for the required .NET Framework version:
+</span><span class='line'>//    'v1.1.4322'     .NET Framework 1.1
+</span><span class='line'>//    'v2.0.50727'    .NET Framework 2.0
+</span><span class='line'>//    'v3.0'          .NET Framework 3.0
+</span><span class='line'>//    'v3.5'          .NET Framework 3.5
+</span><span class='line'>//    'v4\Client'     .NET Framework 4.0 Client Profile
+</span><span class='line'>//    'v4\Full'       .NET Framework 4.0 Full Installation
+</span><span class='line'>//
+</span><span class='line'>// service -- Specify any non-negative integer for the required service pack level:
+</span><span class='line'>//    0               No service packs required
+</span><span class='line'>//    1, 2, etc.      Service pack 1, 2, etc. required
 </span><span class='line'>var
-</span><span class='line'>  UserPage   : TInputQueryWizardPage;
-</span><span class='line'>  UserValues : TArrayOfString;
-</span><span class='line'>
-</span><span class='line'>procedure InitializeWizard();
+</span><span class='line'>    key: string;
+</span><span class='line'>    install, serviceCount: cardinal;
+</span><span class='line'>    success: boolean;
 </span><span class='line'>begin
-</span><span class='line'>  { create the custom page }
-</span><span class='line'>    UserPage := CreateInputQueryPage(wpInfoBefore, 'Informasi Registrasi', 'Anda memerlukan user yang valid agar bisa melanjutkan proses instalasi',
-</span><span class='line'>      'Masukkan informasi registrasi (case sensitive), kemudian klik tombol Lanjut >.');
+</span><span class='line'>    key := 'SOFTWARE\Microsoft\NET Framework Setup\NDP\' + version;
 </span><span class='line'>
-</span><span class='line'>  UserPage.Add('Registered Name:', False);
-</span><span class='line'>  UserPage.Add('Registered Company:', False);
-</span><span class='line'>  UserPage.Add('Registration Code:', False);
-</span><span class='line'>  UserPage.Add('Private Key:', False);
+</span><span class='line'>    // .NET 3.0 uses value InstallSuccess in subkey Setup
+</span><span class='line'>    if Pos('v3.0', version) = 1 then begin
+</span><span class='line'>        success := RegQueryDWordValue(HKLM, key + '\Setup', 'InstallSuccess', install);
+</span><span class='line'>    end else begin
+</span><span class='line'>        success := RegQueryDWordValue(HKLM, key, 'Install', install);
+</span><span class='line'>    end;
 </span><span class='line'>
-</span><span class='line'>  { Set default values }
-</span><span class='line'>      SetArrayLength(UserValues, 4);
-</span><span class='line'>      RegQueryStringValue(HKLM, 'Software\Microsoft\Windows\CurrentVersion', 'RegisteredOwner', UserValues[0]);
-</span><span class='line'>      RegQueryStringValue(HKLM, 'Software\Microsoft\Windows\CurrentVersion', 'RegisteredOrganization', UserValues[1]);
-</span><span class='line'>      if (UserValues[0] = '') and (UserValues[1] = '') then begin
-</span><span class='line'>      RegQueryStringValue(HKCU, 'Software\Microsoft\MS Setup (ACME)\User Info', 'DefName', UserValues[0]);
-</span><span class='line'>      RegQueryStringValue(HKCU, 'Software\Microsoft\MS Setup (ACME)\User Info', 'DefCompany', UserValues[1]);
-</span><span class='line'>      end;
+</span><span class='line'>    // .NET 4.0 uses value Servicing instead of SP
+</span><span class='line'>    if Pos('v4', version) = 1 then begin
+</span><span class='line'>        success := success and RegQueryDWordValue(HKLM, key, 'Servicing', serviceCount);
+</span><span class='line'>    end else begin
+</span><span class='line'>        success := success and RegQueryDWordValue(HKLM, key, 'SP', serviceCount);
+</span><span class='line'>    end;
 </span><span class='line'>
-</span><span class='line'>      { Try to find the settings that were stored last time (also see below). }
-</span><span class='line'>      UserPage.Values[0] := GetPreviousData('Name', UserValues[0]);
-</span><span class='line'>      UserPage.Values[1] := GetPreviousData('Company', UserValues[1]);
-</span><span class='line'>      UserPage.Values[2] := GetPreviousData('Unlock', UserValues[2]);
-</span><span class='line'>      UserPage.Values[3] := GetPreviousData('Private', UserValues[3]);
-</span><span class='line'>
+</span><span class='line'>    result := success and (install = 1) and (serviceCount >= service);
 </span><span class='line'>end;
 </span><span class='line'>
-</span><span class='line'>procedure RegisterPreviousData(PreviousDataKey: Integer);
+</span><span class='line'>function FrameworkIsNotInstalled: Boolean;
 </span><span class='line'>begin
-</span><span class='line'>  { Store the settings so we can restore them next time }
-</span><span class='line'>  SetPreviousData(PreviousDataKey, 'Name', UserPage.Values[0]);
-</span><span class='line'>  SetPreviousData(PreviousDataKey, 'Company', UserPage.Values[1]);
-</span><span class='line'>  SetPreviousData(PreviousDataKey, 'Unlock', UserPage.Values[2]);
-</span><span class='line'>  SetPreviousData(PreviousDataKey, 'Private', UserPage.Values[3]);
+</span><span class='line'>    Result := not IsDotNetDetected('v4\Full', 0);
 </span><span class='line'>end;
 </span><span class='line'>
-</span><span class='line'>function ScriptDlgPages(CurPage: Integer; BackClicked: Boolean): Boolean;
-</span><span class='line'>var
-</span><span class='line'>      ExpPath: String;
-</span><span class='line'>
+</span><span class='line'>function GetVendorName(Param: string): string;
 </span><span class='line'>begin
+</span><span class='line'>  Result := VendorName;
+</span><span class='line'>end;
+</span><span class='line'>
+</span><span class='line'>function GetAppVersion(Param: string): string;
+</span><span class='line'>begin
+</span><span class='line'>  Result := AppVersion;
+</span><span class='line'>end;
+</span><span class='line'>
+</span><span class='line'>function GetAppName(Param: string): string;
+</span><span class='line'>begin
+</span><span class='line'>  Result := AppName;
+</span><span class='line'>end;
+</span><span class='line'>
+</span><span class='line'>function InitializeSetup(): Boolean;
+</span><span class='line'>begin
+</span><span class='line'>
+</span><span class='line'>  ExtractTemporaryFile('Office2007.cjstyles');
+</span><span class='line'>  LoadSkin(ExpandConstant('{tmp}\Office2007.cjstyles'), 'NormalAqua.ini');
+</span><span class='line'>      
 </span><span class='line'>  Result := True;
-</span><span class='line'>
-</span><span class='line'>  if (CurPage = UserPage.ID) then
-</span><span class='line'>  begin
-</span><span class='line'>        ExtractTemporaryFile(INNO_KEY);       { the public key file }
-</span><span class='line'>
-</span><span class='line'>      ExpPath := ExpandConstant('{tmp}\' + INNO_KEY);
-</span><span class='line'>
-</span><span class='line'>      Result := False;
-</span><span class='line'>
-</span><span class='line'>      UserValues[0] := UserPage.Values[0];
-</span><span class='line'>      UserValues[1] := UserPage.Values[1];
-</span><span class='line'>      UserValues[2] := UserPage.Values[2];
-</span><span class='line'>      UserValues[3] := UserPage.Values[3];
-</span><span class='line'>
-</span><span class='line'>      if (UserValues[0] = '') or (UserValues[1] = '') or (UserValues[2] = '') or (UserValues[3] = '') then
-</span><span class='line'>          MsgBox('No fields can be blank !', mbError, MB_OK)
-</span><span class='line'>      else
-</span><span class='line'>      begin
-</span><span class='line'>          Result := ValidateSerialNumber(ExpPath, UserValues[0], UserValues[1], '', '', '', UserValues[3], UserValues[2]);
-</span><span class='line'>
-</span><span class='line'>          if (not Result) then
-</span><span class='line'>              MsgBox('Invalid Entry !', mbError, MB_OK);
-</span><span class='line'>
-</span><span class='line'>      end
-</span><span class='line'>  end
 </span><span class='line'>end;
 </span><span class='line'>
-</span><span class='line'>function NextButtonClick(CurPage: Integer): Boolean;
+</span><span class='line'>procedure DeinitializeSetup();
 </span><span class='line'>begin
-</span><span class='line'>  Result := ScriptDlgPages(CurPage, False);
-</span><span class='line'>end;
-</span><span class='line'>
-</span><span class='line'>function BackButtonClick(CurPage: Integer): Boolean;
-</span><span class='line'>begin
-</span><span class='line'>  Result := True;//ScriptDlgPages(CurPage, True);
-</span><span class='line'>end;
-</span><span class='line'>
-</span><span class='line'>function HasHtmlHelp(): Boolean;
-</span><span class='line'>begin
-</span><span class='line'>  { HHCTRL.OCX GUID }
-</span><span class='line'>  Result := RegValueExists(HKCR, 'CLSID\{4662DAB0-D393-11D0-9A56-00C04FB68B66}\InprocServer32', '');
-</span><span class='line'>end;
-</span><span class='line'>
-</span><span class='line'>function HasNoHtmlHelp(): Boolean;
-</span><span class='line'>begin
-</span><span class='line'>  Result := not HasHtmlHelp;
+</span><span class='line'>  // Hide Window before unloading skin so user does not get
+</span><span class='line'>  // a glimse of an unskinned window before it is closed.
+</span><span class='line'>  ShowWindow(StrToInt(ExpandConstant('{wizardhwnd}')), 0);
+</span><span class='line'>  UnloadSkin();
 </span><span class='line'>end;</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Jika sudah selesai silahkan compile (CTRL+F9) skrip inno setup Anda, dan ingat skrip diatas hanya potongan skrip inno setup. Contoh skrip yang lengkap bisa Anda lihat di<a href="http://coding4ever.net/blog/2009/12/31/membuat-paket-instalasi-vb-mysql-dengan-inno-setup/">sini</a> dan <a href="http://coding4ever.net/blog/2010/01/05/membuat-paket-instalasi-vb-firebird-dengan-inno-setup/">sini</a>.</p>
+<p>Kemudian skrip di atas kita simpan di folder <code>Rilis</code> misal dengan nama <code>SetupKRSchool.iss</code></p>
 
-<p><a href="http://coding4ever.files.wordpress.com/2010/04/05042010-7.jpg"><img src="http://coding4ever.files.wordpress.com/2010/04/05042010-7.jpg?w=300" alt="" /></a>
-<a href="http://coding4ever.files.wordpress.com/2010/04/05042010-8.jpg"><img src="http://coding4ever.files.wordpress.com/2010/04/05042010-8.jpg?w=300" alt="" /></a>
-Jika kita mencoba memasukkan informasi registrasi yang salah, maka akan tampil pesan berikut :</p>
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/07/010715-01.png"></p>
 
-<p><a href="http://coding4ever.files.wordpress.com/2010/04/05042010-9.jpg"><img src="http://coding4ever.files.wordpress.com/2010/04/05042010-9.jpg" alt="" /></a></p>
+<p>File <code>SetupKRSchool.iss</code> di atas akan kita compile menggunakan tool bawaan <a href="http://jrsoftware.org/">Inno Setup</a> yaitu <code>ISCC.exe</code>. Untuk contoh penggunaanya seperti ini :</p>
 
-<p>Selamat mencoba :)</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>iscc "c:\rilis\SetupKRSchool.iss"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Nah perintah di atas akan kita panggil melalui Dialog Build Events</p>
+
+<p><strong>Revisi Perintah Build Event</strong></p>
+
+<p>Pada <a href="http://coding4ever.net/blog/2015/06/25/the-power-of-visual-studio-net-build-events-part-number-1/">postingan</a> sebelumnya kita sudah menulis perintah sederhana di dialog Build Events</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/07/010715-02.png"></p>
+
+<p>Kita akan merivisi perintah diatas untuk menjalankan  tool bawaan <a href="http://jrsoftware.org/">Inno Setup</a> yaitu <code>ISCC.exe</code>. Dengan tool ini kita bisa langsung mengcompile skrip <a href="http://jrsoftware.org/">Inno Setup</a>.</p>
+
+<p>Berikut perintah lengkapnya.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/07/010715-03.png"></p>
+
+<p>Pada perintah di atas saya menambahkan kondisi</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if "$(ConfigurationName)" == "Debug" goto skip</span></code></pre></td></tr></table></div></figure>
+
+
+<p>yang artinya perintah build event di atas hanya akan dijalankan jika <code>Solution Configuration</code> atau  <code>Configuration Manager</code> di set <code>Release</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/07/010715-04.png"></p>
+
+<p>Setelah itu lakukan proses <code>build -&gt; project</code>, maka semua file dll atau exe yang ada di folder <code>bin\Debug</code> atau <code>bin\Release</code> akan dicopykan ke folder <code>C:\Rilis</code>, kemudian akan dilanjutkan dengan mengcompile skrip <a href="http://jrsoftware.org/">Inno Setup</a>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/07/010715-05.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/07/010715-06.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/07/010715-07.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/07/010715-08.png"></p>
+
+<p>Selamat MENCOBA :)</p>
 </div>
 
 
@@ -398,12 +495,12 @@ Jika kita mencoba memasukkan informasi registrasi yang salah, maka akan tampil p
 
 
 
-<time class='entry-date' datetime='2010-04-05T00:01:04+07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>12:01 am</span></time>
+<time class='entry-date' datetime='2015-07-01T10:20:30+07:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>10:20 am</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/inno-setup/'>inno setup</a>, <a class='category' href='/blog/categories/tools-installer/'>tools installer</a>
+    <a class='category' href='/blog/categories/build-events/'>build events</a>, <a class='category' href='/blog/categories/visual-studio-net/'>visual studio .net</a>
   
 </span>
 
@@ -421,10 +518,8 @@ Jika kita mencoba memasukkan informasi registrasi yang salah, maka akan tampil p
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2010/03/31/menambahkan-skin-pada-paket-instalasi-inno-setup/" title="Previous Post: Menambahkan skin pada paket instalasi (Inno Setup)">&laquo; Menambahkan skin pada paket instalasi (Inno Setup)</a>
+        <a class="basic-alignment left" href="/blog/2015/06/25/the-power-of-visual-studio-net-build-events-part-number-1/" title="Previous Post: The Power of Visual Studio .NET Build Events Part #1">&laquo; The Power of Visual Studio .NET Build Events Part #1</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2010/04/09/tips-mengatur-posisi-caption-objek-commandbutton/" title="Next Post: Tips mengatur posisi caption objek CommandButton">Tips mengatur posisi caption objek CommandButton &raquo;</a>
       
     </p>
   </footer>
@@ -566,8 +661,8 @@ Jika kita mencoba memasukkan informasi registrasi yang salah, maka akan tampil p
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://coding4ever.net/blog/2010/04/05/menambahkan-serial-number-pada-paket-instalasi-inno-setup/';
-        var disqus_url = 'http://coding4ever.net/blog/2010/04/05/menambahkan-serial-number-pada-paket-instalasi-inno-setup/';
+        var disqus_identifier = 'http://coding4ever.net/blog/2015/07/01/the-power-of-visual-studio-net-build-events-part-number-2/';
+        var disqus_url = 'http://coding4ever.net/blog/2015/07/01/the-power-of-visual-studio-net-build-events-part-number-2/';
         var disqus_script = 'embed.js';
       
     (function () {

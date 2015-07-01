@@ -9,7 +9,7 @@
   <meta name="author" content="Admin">
 
   
-  <meta name="description" content="Artikel kali ini merupakan pengembangan dari 2 artikel saya sebelumnya yaitu Menganalisa dan membuat mesin penjawab otomatis Y!M dan Manganalisa &hellip;">
+  <meta name="description" content="Ada yang kurang di artikel sebelumnya, yaitu saya belum membahas bagaimana mengakses database SQLite dalam pembuatan aplikasi database. Secara umum &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -80,6 +80,56 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/07/05/mengakses-database-sqlite-menggunakan-library-dhsqlite/">Mengakses Database SQLite Menggunakan Library dhSQLite</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2010-07-05T08:40:04+07:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>8:40 am</span></time>
+        
+           | <a href="/blog/2010/07/05/mengakses-database-sqlite-menggunakan-library-dhsqlite/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2010/07/05/mengakses-database-sqlite-menggunakan-library-dhsqlite/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Ada yang kurang di artikel <a href="http://coding4ever.net/blog/2010/06/14/mengenal-lebih-dekat-database-sqlite/">sebelumnya</a>, yaitu saya belum membahas bagaimana mengakses database SQLite dalam pembuatan aplikasi database.</p>
+
+<p>Secara umum aksi yang sering dilakukan dalam pembuatan aplikasi database hanya seputar pernyataan DML (Insert, Update, Delete dan Select), jadi untuk menyederhanakan pembahasan saya pun membatasi artikel kali ini hanya seputar permasalahan tersebut.</p>
+
+<p>Sebenarnya cukup dengan library ADO pun kita sudah bisa mengakses database SQLite, tetapi pada artikel kali ini saya menggunakan library <a href="http://www.thecommon.net/2.html">dhSQLite</a>.</p>
+
+<p>Untuk mengakses database SQLite menggunakan <a href="http://www.thecommon.net/2.html">dhSQLite</a> kita cukup menggunakan 3 kelas yaitu :</p>
+
+<ol>
+<li><p> cConnection, sesuai namanya kelas ini digunakan untuk membuat koneksi ke database</p></li>
+<li><p> cRecordset, digunakan untuk menampung pernyataan select</p></li>
+<li><p> cCommand, digunakan untuk mengeksekusi pernyataan insert, update dan delete</p></li>
+</ol>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2010/07/05/mengakses-database-sqlite-menggunakan-library-dhsqlite/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -566,50 +616,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2010/04/23/contoh-sederhana-memanipulasi-ini-file-untuk-menyimpan-informasi/">Contoh Sederhana Memanipulasi INI File Untuk Menyimpan Informasi</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2010-04-23T07:01:27+07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2010</span></span> <span class='time'>7:01 am</span></time>
-        
-           | <a href="/blog/2010/04/23/contoh-sederhana-memanipulasi-ini-file-untuk-menyimpan-informasi/#disqus_thread"
-             data-disqus-identifier="http://coding4ever.net/blog/2010/04/23/contoh-sederhana-memanipulasi-ini-file-untuk-menyimpan-informasi/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Ada banyak cara untuk menyimpan informasi yang dibutuhkan oleh aplikasi, kita bisa menyimpannya di registry windows, database atau cukup dengan memanfaatkan file teks biasa dengan format <a href="http://en.wikipedia.org/wiki/INI_file">INI file</a>.</p>
-
-<p>Contoh kita akan menyimpan beberapa informasi berikut :
-serverName=informasi ip address server
-dbPath=lokasi database server
-Nama=Nama sekolah
-Alamat=Alamat sekolah
-Kota=Kota Sekolah</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2010/04/23/contoh-sederhana-memanipulasi-ini-file-untuk-menyimpan-informasi/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/10">&larr; Older</a>
@@ -651,6 +657,10 @@ Kota=Kota Sekolah</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/07/01/the-power-of-visual-studio-net-build-events-part-number-2/">The Power of Visual Studio .NET Build Events Part #2</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/06/25/the-power-of-visual-studio-net-build-events-part-number-1/">The Power of Visual Studio .NET Build Events Part #1</a>
       </li>
     
@@ -686,19 +696,15 @@ Kota=Kota Sekolah</p>
         <a href="/blog/2015/04/13/comment-as-a-guest/">Comment as a Guest</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push/">Membuat Laporan Crystal Reports .NET Dengan Model Data-Push</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h1>Categories</h1>
-    <ul id="category-list"><li><a href='/blog/categories/dot-net-remoting/'>.net remoting (9)</a></li><li><a href='/blog/categories/active-report/'>active report (4)</a></li><li><a href='/blog/categories/android/'>android (1)</a></li><li><a href='/blog/categories/aplikasi/'>aplikasi (4)</a></li><li><a href='/blog/categories/build-events/'>build events (1)</a></li><li><a href='/blog/categories/crashreporter-dot-net/'>crashreporter.net (1)</a></li><li><a href='/blog/categories/crystal-reports-net/'>crystal reports .net (1)</a></li><li><a href='/blog/categories/dapper-net/'>dapper .net (3)</a></li><li><a href='/blog/categories/database/'>database (1)</a></li><li><a href='/blog/categories/entity-framework/'>entity framework (8)</a></li><li><a href='/blog/categories/firebird/'>firebird (12)</a></li><li><a href='/blog/categories/freeware/'>freeware (7)</a></li><li><a href='/blog/categories/inno-setup/'>inno setup (6)</a></li><li><a href='/blog/categories/jaringan/'>jaringan (1)</a></li><li><a href='/blog/categories/mysql/'>mysql (9)</a></li><li><a href='/blog/categories/nsis/'>nsis (2)</a></li><li><a href='/blog/categories/nuget/'>nuget (4)</a></li><li><a href='/blog/categories/sql-server/'>sql server (1)</a></li><li><a href='/blog/categories/sql-server-2000/'>sql server 2000 (1)</a></li><li><a href='/blog/categories/sqlite/'>sqlite (3)</a></li><li><a href='/blog/categories/tools-installer/'>tools installer (8)</a></li><li><a href='/blog/categories/uncategorized/'>uncategorized (8)</a></li><li><a href='/blog/categories/visual-basic/'>visual basic (73)</a></li><li><a href='/blog/categories/visual-basic-net/'>visual basic .net (11)</a></li><li><a href='/blog/categories/visual-c-number/'>visual c# (39)</a></li><li><a href='/blog/categories/visual-studio-net/'>visual studio .net (1)</a></li><li><a href='/blog/categories/wcf/'>wcf (4)</a></li><li><a href='/blog/categories/winsock/'>winsock (6)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/dot-net-remoting/'>.net remoting (9)</a></li><li><a href='/blog/categories/active-report/'>active report (4)</a></li><li><a href='/blog/categories/android/'>android (1)</a></li><li><a href='/blog/categories/aplikasi/'>aplikasi (4)</a></li><li><a href='/blog/categories/build-events/'>build events (2)</a></li><li><a href='/blog/categories/crashreporter-dot-net/'>crashreporter.net (1)</a></li><li><a href='/blog/categories/crystal-reports-net/'>crystal reports .net (1)</a></li><li><a href='/blog/categories/dapper-net/'>dapper .net (3)</a></li><li><a href='/blog/categories/database/'>database (1)</a></li><li><a href='/blog/categories/entity-framework/'>entity framework (8)</a></li><li><a href='/blog/categories/firebird/'>firebird (12)</a></li><li><a href='/blog/categories/freeware/'>freeware (7)</a></li><li><a href='/blog/categories/inno-setup/'>inno setup (6)</a></li><li><a href='/blog/categories/jaringan/'>jaringan (1)</a></li><li><a href='/blog/categories/mysql/'>mysql (9)</a></li><li><a href='/blog/categories/nsis/'>nsis (2)</a></li><li><a href='/blog/categories/nuget/'>nuget (4)</a></li><li><a href='/blog/categories/sql-server/'>sql server (1)</a></li><li><a href='/blog/categories/sql-server-2000/'>sql server 2000 (1)</a></li><li><a href='/blog/categories/sqlite/'>sqlite (3)</a></li><li><a href='/blog/categories/tools-installer/'>tools installer (8)</a></li><li><a href='/blog/categories/uncategorized/'>uncategorized (8)</a></li><li><a href='/blog/categories/visual-basic/'>visual basic (73)</a></li><li><a href='/blog/categories/visual-basic-net/'>visual basic .net (11)</a></li><li><a href='/blog/categories/visual-c-number/'>visual c# (39)</a></li><li><a href='/blog/categories/visual-studio-net/'>visual studio .net (2)</a></li><li><a href='/blog/categories/wcf/'>wcf (4)</a></li><li><a href='/blog/categories/winsock/'>winsock (6)</a></li></ul>
 </section>
 <section>
   <h1>Tag Cloud</h1>
-    <span id="tag-cloud"><a href='/blog/categories/dot-net-remoting' style='font-size: 107.3972602739726%'>.net remoting(9)</a> <a href='/blog/categories/active-report' style='font-size: 103.28767123287672%'>active report(4)</a> <a href='/blog/categories/android' style='font-size: 100.82191780821918%'>android(1)</a> <a href='/blog/categories/aplikasi' style='font-size: 103.28767123287672%'>aplikasi(4)</a> <a href='/blog/categories/build-events' style='font-size: 100.82191780821918%'>build events(1)</a> <a href='/blog/categories/crashreporter-dot-net' style='font-size: 100.82191780821918%'>crashreporter.net(1)</a> <a href='/blog/categories/crystal-reports-net' style='font-size: 100.82191780821918%'>crystal reports .net(1)</a> <a href='/blog/categories/dapper-net' style='font-size: 102.46575342465754%'>dapper .net(3)</a> <a href='/blog/categories/database' style='font-size: 100.82191780821918%'>database(1)</a> <a href='/blog/categories/entity-framework' style='font-size: 106.57534246575342%'>entity framework(8)</a> <a href='/blog/categories/firebird' style='font-size: 109.86301369863014%'>firebird(12)</a> <a href='/blog/categories/freeware' style='font-size: 105.75342465753425%'>freeware(7)</a> <a href='/blog/categories/inno-setup' style='font-size: 104.93150684931507%'>inno setup(6)</a> <a href='/blog/categories/jaringan' style='font-size: 100.82191780821918%'>jaringan(1)</a> <a href='/blog/categories/mysql' style='font-size: 107.3972602739726%'>mysql(9)</a> <a href='/blog/categories/nsis' style='font-size: 101.64383561643835%'>nsis(2)</a> <a href='/blog/categories/nuget' style='font-size: 103.28767123287672%'>nuget(4)</a> <a href='/blog/categories/sql-server' style='font-size: 100.82191780821918%'>sql server(1)</a> <a href='/blog/categories/sql-server-2000' style='font-size: 100.82191780821918%'>sql server 2000(1)</a> <a href='/blog/categories/sqlite' style='font-size: 102.46575342465754%'>sqlite(3)</a> <a href='/blog/categories/tools-installer' style='font-size: 106.57534246575342%'>tools installer(8)</a> <a href='/blog/categories/uncategorized' style='font-size: 106.57534246575342%'>uncategorized(8)</a> <a href='/blog/categories/visual-basic' style='font-size: 160.0%'>visual basic(73)</a> <a href='/blog/categories/visual-basic-net' style='font-size: 109.04109589041096%'>visual basic .net(11)</a> <a href='/blog/categories/visual-c-number' style='font-size: 132.05479452054794%'>visual c#(39)</a> <a href='/blog/categories/visual-studio-net' style='font-size: 100.82191780821918%'>visual studio .net(1)</a> <a href='/blog/categories/wcf' style='font-size: 103.28767123287672%'>wcf(4)</a> <a href='/blog/categories/winsock' style='font-size: 104.93150684931507%'>winsock(6)</a> </span>
+    <span id="tag-cloud"><a href='/blog/categories/dot-net-remoting' style='font-size: 107.3972602739726%'>.net remoting(9)</a> <a href='/blog/categories/active-report' style='font-size: 103.28767123287672%'>active report(4)</a> <a href='/blog/categories/android' style='font-size: 100.82191780821918%'>android(1)</a> <a href='/blog/categories/aplikasi' style='font-size: 103.28767123287672%'>aplikasi(4)</a> <a href='/blog/categories/build-events' style='font-size: 101.64383561643835%'>build events(2)</a> <a href='/blog/categories/crashreporter-dot-net' style='font-size: 100.82191780821918%'>crashreporter.net(1)</a> <a href='/blog/categories/crystal-reports-net' style='font-size: 100.82191780821918%'>crystal reports .net(1)</a> <a href='/blog/categories/dapper-net' style='font-size: 102.46575342465754%'>dapper .net(3)</a> <a href='/blog/categories/database' style='font-size: 100.82191780821918%'>database(1)</a> <a href='/blog/categories/entity-framework' style='font-size: 106.57534246575342%'>entity framework(8)</a> <a href='/blog/categories/firebird' style='font-size: 109.86301369863014%'>firebird(12)</a> <a href='/blog/categories/freeware' style='font-size: 105.75342465753425%'>freeware(7)</a> <a href='/blog/categories/inno-setup' style='font-size: 104.93150684931507%'>inno setup(6)</a> <a href='/blog/categories/jaringan' style='font-size: 100.82191780821918%'>jaringan(1)</a> <a href='/blog/categories/mysql' style='font-size: 107.3972602739726%'>mysql(9)</a> <a href='/blog/categories/nsis' style='font-size: 101.64383561643835%'>nsis(2)</a> <a href='/blog/categories/nuget' style='font-size: 103.28767123287672%'>nuget(4)</a> <a href='/blog/categories/sql-server' style='font-size: 100.82191780821918%'>sql server(1)</a> <a href='/blog/categories/sql-server-2000' style='font-size: 100.82191780821918%'>sql server 2000(1)</a> <a href='/blog/categories/sqlite' style='font-size: 102.46575342465754%'>sqlite(3)</a> <a href='/blog/categories/tools-installer' style='font-size: 106.57534246575342%'>tools installer(8)</a> <a href='/blog/categories/uncategorized' style='font-size: 106.57534246575342%'>uncategorized(8)</a> <a href='/blog/categories/visual-basic' style='font-size: 160.0%'>visual basic(73)</a> <a href='/blog/categories/visual-basic-net' style='font-size: 109.04109589041096%'>visual basic .net(11)</a> <a href='/blog/categories/visual-c-number' style='font-size: 132.05479452054794%'>visual c#(39)</a> <a href='/blog/categories/visual-studio-net' style='font-size: 101.64383561643835%'>visual studio .net(2)</a> <a href='/blog/categories/wcf' style='font-size: 103.28767123287672%'>wcf(4)</a> <a href='/blog/categories/winsock' style='font-size: 104.93150684931507%'>winsock(6)</a> </span>
 </section>
 
 <section>
