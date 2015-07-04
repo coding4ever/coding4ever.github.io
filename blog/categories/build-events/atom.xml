@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Build Events | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/build-events/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-07-01T11:43:40+07:00</updated>
+  <updated>2015-07-04T23:34:37+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,135 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[The Power of Visual Studio .NET Build Events Part #3]]></title>
+    <link href="http://coding4ever.net/blog/2015/07/04/the-power-of-visual-studio-net-build-events-part-number-3/"/>
+    <updated>2015-07-04T23:31:23+07:00</updated>
+    <id>http://coding4ever.net/blog/2015/07/04/the-power-of-visual-studio-net-build-events-part-number-3</id>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/06/260615-00.png">https://coding4ever.files.wordpress.com/2015/06/260615-00.png</a>&#8221; width=&#8221;100&#8221; height=&#8221;100&#8221;>Masih melanjutkan pembahasan tentang <a href="/blog/categories/build-events/">build events</a> yang merupakan salah satu fitur menarik dari Visual Studio .NET dan berguna untuk meningkatkan produktivitas kita sebagai software developer.</p>
+
+<p>Di <a href="/blog/2015/07/01/the-power-of-visual-studio-net-build-events-part-number-2/">postingan</a> sebelumnya kita memanfaatkan fitur ini untuk membuat paket installer secara otomatis setelah proses build project selesai, jadi workflownya sangat cocok digunakan untuk pengembangan aplikasi desktop. Sedangkan <a href="/blog/2015/07/04/the-power-of-visual-studio-net-build-events-part-number-3/">postingan</a> kali ini, studi kasusnya adalah pengembangan aplikasi web service.</p>
+
+<!-- more -->
+
+
+<p>Perlu diketahui bahwa workflow pengembangan aplikasi desktop dan web service itu sedikit berbeda. Pengembangan aplikasi web service ada kemiripan dengan pengembangan aplikasi web. Di mana kita melakukan proses develop  di komputer lokal setelah jadi baru kita upload ke server develop (untuk pengetesan lebih lanjut) atau ke server production (jika sudah siap rilis).</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/07/050715-01.png">https://coding4ever.files.wordpress.com/2015/07/050715-01.png</a>&#8221;></p>
+
+<p>Dari gambar di atas, maka workflow yang bisa kita gunakan adalah :</p>
+
+<ol>
+<li>Build project dengan mode <code>Debug</code> akan mengupload hasil build ke <code>development server</code></li>
+<li>Sedangkan jika build project dengan mode <code>Release</code> akan mengupload hasil build ke <code>production server</code></li>
+</ol>
+
+
+<p>Setelah menentukan workflow, berikutnya adalah menentukan cara yang kita gunakan untuk mengupload hasil build. Untuk contoh di sini kita akan memanfaatkan <code>service ftp</code> untuk melakukan proses upload.</p>
+
+<p><strong> FileZilla</strong></p>
+
+<p><a href="https://filezilla-project.org/">FileZilla</a> adalah salah satu software yang bisa digunakan untuk menyediakan service FTP. Cara instalasi dan konfigurasinya juga gampang dan jika Anda belum pernah menggunakan <a href="https://filezilla-project.org/">FileZilla</a>, saya pernah menulis tutorial penggunakan <a href="https://filezilla-project.org/">FileZilla</a> di <a href="/blog/2010/09/20/beberapa-alternatif-menampilkan-file-gambar-via-jaringan/">sini</a>.</p>
+
+<p><strong>Web Server</strong></p>
+
+<p>Sama seperti aplikasi web, web service juga membutuhkan sebuah host/wadah agar bisa dijalankan. Untuk kebutuhan web server kita akan menggunakan spesifikasi seperti berikut :</p>
+
+<ol>
+<li>Menggunakan OS Windows 7/Windows Server 2008 ke atas</li>
+<li>Web Server IIS</li>
+<li>Service FTP menggunakan <a href="https://filezilla-project.org/">FileZilla</a>, walaupun Windows Server juga mempunyai fitur untuk menyediakan service FTP tapi tidak kita bahas disini</li>
+</ol>
+
+
+<p><strong>Lokasi Web Service</strong></p>
+
+<p>Secara default <code>document root</code> web server iis ada di folder <code>C:\inetpub\wwwroot</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/07/050715-02.png">https://coding4ever.files.wordpress.com/2015/07/050715-02.png</a>&#8221;></p>
+
+<p>Kita akan membahkan folder baru dengan nama <code>KRSchool</code>  berikut sub folder <code>bin</code>. Nah di sub folder <code>bin</code> inilah kita akan mengupload hasil build project.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/07/050715-03.png">https://coding4ever.files.wordpress.com/2015/07/050715-03.png</a>&#8221;></p>
+
+<p><strong>Membuat User FTP</strong></p>
+
+<p>Setelah menyiapkan lokasi web service, berikutnya adalah membuat user yang berhak untuk mengakses lokasi web service. Di sini kita akan menggunakan <a href="https://filezilla-project.org/">FileZilla</a> sebagai penyedia service FTP. Adapun langkah-langkahnya seperti berikut :</p>
+
+<ol>
+<li><p>Jalankan FileZilla Server Interface</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/07/050715-04.png">https://coding4ever.files.wordpress.com/2015/07/050715-04.png</a>&#8221;></p>
+
+<p>Kemudian klik toolbar user account dialog</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/07/050715-05.png">https://coding4ever.files.wordpress.com/2015/07/050715-05.png</a>&#8221;></p>
+
+<p>Setelah itu akan tampil dialog user</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/07/050715-06.png">https://coding4ever.files.wordpress.com/2015/07/050715-06.png</a>&#8221;></p>
+
+<p>Kemudian klik tombol Add dan isikan nama user</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/07/050715-07.png">https://coding4ever.files.wordpress.com/2015/07/050715-07.png</a>&#8221;></p></li>
+<li><p>Setelah itu kita perlu mengeset password untuk user yang baru ditambahkan</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/07/050715-08.png">https://coding4ever.files.wordpress.com/2015/07/050715-08.png</a>&#8221;></p></li>
+<li><p>Berikutnya pindah ke node <code>Shared folders</code>, klik tombol Add kemudian tentukan lokasi web service</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/07/050715-09.png">https://coding4ever.files.wordpress.com/2015/07/050715-09.png</a>&#8221;></p></li>
+<li><p>Terakhir aktifkan semua hak akses untuk modifikasi file</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/07/050715-10.png">https://coding4ever.files.wordpress.com/2015/07/050715-10.png</a>&#8221;></p></li>
+</ol>
+
+
+<p><strong>Tes User FTP</strong></p>
+
+<p>Setelah berhasil mendaftarkan user ftp, saatnya kita tes service FTPnya dari komputer lain.</p>
+
+<p>Dengan asumsi ip server adalah <code>192.168.56.101</code>, kita masuk ke dos prompt kemudian ketik <code>ftp 192.168.56.101</code>.</p>
+
+<p>Jika konfigurasi service FTP yang kita lakukan dilangkah-langkah sebelumnya benar, kita akan diminta untuk memasukkan username dan password dan jika berhasil prompt akan berganti menjadi <code>ftp&gt;</code> yang menandakan bahwa username dan password kita benar.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/07/050715-11.png">https://coding4ever.files.wordpress.com/2015/07/050715-11.png</a>&#8221;></p>
+
+<p><strong>WinSCP</strong></p>
+
+<p>Di sisi server kita menggunakan <a href="https://filezilla-project.org/">FileZilla</a> sebagai penyedia service FTP, sedangkan dari sisi klien untuk mengakses service FTP kita menggunakan <a href="http://winscp.net/">WinSCP</a>.</p>
+
+<p>Cara penggunaan <a href="http://winscp.net/">WinSCP</a>, juga gampang. Berikut contohnya :</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>winscp.com /command &ldquo;option batch abort&rdquo; &ldquo;option confirm off&rdquo; &ldquo;open &lt;a href="ftp://abu.anas:rahasia@192.168.56.101">ftp://abu.anas:rahasia@192.168.56.101&lt;/a>&rdquo; &ldquo;put *.dll bin/&rdquo; &ldquo;exit&rdquo;</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Untuk user, password dan ip ftp menyesuaikan. Selanjutnya kita tinggal panggil perintah di atas melalui <code>Build Events</code></p>
+
+<p><strong>Build Events</strong></p>
+
+<p>Setelah semua persiapan selesai, kita akan menuliskan perintah <code>Build Events</code> untuk mengcopy hasil build dan menguploadnya ke server web service.
+Berikut perintah lengkapnya :</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/07/050715-12.png">https://coding4ever.files.wordpress.com/2015/07/050715-12.png</a>&#8221;></p>
+
+<p>Pada perintah di atas, nilai IPServer tergantung dari setting <code>Solution Configuration</code> atau <code>Configuration Manager</code>. Jika di set <code>Debug</code>, hasil build akan diupload ke <code>development server</code> sedangkan jika di set <code>Release</code> akan di upload ke <code>production server</code>.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/07/010715-04.png">https://coding4ever.files.wordpress.com/2015/07/010715-04.png</a>&#8221;></p>
+
+<p>Setelah itu lakukan proses <code>build -&gt; project</code>, maka semua file dll yang ada di folder <code>bin\Debug</code> atau <code>bin\Release</code> akan dicopykan ke folder <code>C:\WebServiceRilis</code>, kemudian akan dilanjutkan dengan mengupload ke web server.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/07/050715-13.png">https://coding4ever.files.wordpress.com/2015/07/050715-13.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/07/050715-14.png">https://coding4ever.files.wordpress.com/2015/07/050715-14.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/07/050715-15.png">https://coding4ever.files.wordpress.com/2015/07/050715-15.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/07/050715-16.png">https://coding4ever.files.wordpress.com/2015/07/050715-16.png</a>&#8221;></p>
+
+<p>Selamat MENCOBA :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[The Power of Visual Studio .NET Build Events Part #2]]></title>
@@ -273,7 +402,7 @@
 </span><span class='line'>
 </span><span class='line'>&lt;p>// Importing ShowWindow Windows API from User32.DLL
 </span><span class='line'>function ShowWindow(hWnd: Integer; uType: Integer): Integer;
-</span><span class='line'>external &lsquo;&lt;a href="&#x6d;&#x61;&#x69;&#108;&#116;&#x6f;&#58;&#83;&#104;&#x6f;&#119;&#87;&#105;&#110;&#100;&#111;&#119;&#x40;&#x75;&#115;&#x65;&#x72;&#51;&#50;&#46;&#x64;&#108;&#108;">&#x53;&#104;&#x6f;&#119;&#87;&#105;&#110;&#100;&#x6f;&#119;&#64;&#117;&#115;&#101;&#x72;&#x33;&#50;&#x2e;&#100;&#108;&#108;&lt;/a> stdcall&rsquo;;&lt;/p>
+</span><span class='line'>external &lsquo;&lt;a href="&#109;&#97;&#105;&#x6c;&#116;&#x6f;&#58;&#83;&#x68;&#x6f;&#x77;&#87;&#105;&#110;&#x64;&#x6f;&#x77;&#64;&#117;&#x73;&#101;&#114;&#51;&#50;&#46;&#100;&#108;&#x6c;">&#83;&#x68;&#111;&#x77;&#87;&#105;&#110;&#100;&#111;&#x77;&#64;&#x75;&#115;&#101;&#x72;&#51;&#x32;&#46;&#x64;&#108;&#x6c;&lt;/a> stdcall&rsquo;;&lt;/p>
 </span><span class='line'>
 </span><span class='line'>&lt;p>function IsDotNetDetected(version: string; service: cardinal): boolean;
 </span><span class='line'>// Indicates whether the specified version and service pack of the .NET Framework is installed.
