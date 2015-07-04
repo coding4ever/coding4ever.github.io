@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Build Events | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/build-events/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-07-04T23:34:37+07:00</updated>
+  <updated>2015-07-04T23:46:55+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -37,11 +37,11 @@
 </ol>
 
 
-<p>Setelah menentukan workflow, berikutnya adalah menentukan cara yang kita gunakan untuk mengupload hasil build. Untuk contoh di sini kita akan memanfaatkan <code>service ftp</code> untuk melakukan proses upload.</p>
+<p>Setelah menentukan workflow, berikutnya adalah menentukan cara yang kita gunakan untuk mengupload hasil build. Untuk contoh di sini kita akan memanfaatkan <code>service FTP</code> untuk melakukan proses upload.</p>
 
 <p><strong> FileZilla</strong></p>
 
-<p><a href="https://filezilla-project.org/">FileZilla</a> adalah salah satu software yang bisa digunakan untuk menyediakan service FTP. Cara instalasi dan konfigurasinya juga gampang dan jika Anda belum pernah menggunakan <a href="https://filezilla-project.org/">FileZilla</a>, saya pernah menulis tutorial penggunakan <a href="https://filezilla-project.org/">FileZilla</a> di <a href="/blog/2010/09/20/beberapa-alternatif-menampilkan-file-gambar-via-jaringan/">sini</a>.</p>
+<p><a href="https://filezilla-project.org/">FileZilla</a> adalah salah satu software gratis dan open source yang bisa digunakan untuk menyediakan service FTP. Cara instalasi dan konfigurasinya juga gampang dan jika Anda belum pernah menggunakan <a href="https://filezilla-project.org/">FileZilla</a>, saya pernah menulis tutorial penggunakan <a href="https://filezilla-project.org/">FileZilla</a> di <a href="/blog/2010/09/20/beberapa-alternatif-menampilkan-file-gambar-via-jaringan/">sini</a>.</p>
 
 <p><strong>Web Server</strong></p>
 
@@ -50,7 +50,7 @@
 <ol>
 <li>Menggunakan OS Windows 7/Windows Server 2008 ke atas</li>
 <li>Web Server IIS</li>
-<li>Service FTP menggunakan <a href="https://filezilla-project.org/">FileZilla</a>, walaupun Windows Server juga mempunyai fitur untuk menyediakan service FTP tapi tidak kita bahas disini</li>
+<li>Service FTP menggunakan <a href="https://filezilla-project.org/">FileZilla</a>, walaupun Windows Server juga mempunyai fitur untuk menyediakan service FTP sendiri, tapi tidak kita bahas disini</li>
 </ol>
 
 
@@ -108,7 +108,7 @@
 
 <p><strong>WinSCP</strong></p>
 
-<p>Di sisi server kita menggunakan <a href="https://filezilla-project.org/">FileZilla</a> sebagai penyedia service FTP, sedangkan dari sisi klien untuk mengakses service FTP kita menggunakan <a href="http://winscp.net/">WinSCP</a>.</p>
+<p>Di sisi server kita menggunakan <a href="https://filezilla-project.org/">FileZilla</a> sebagai penyedia service FTP, sedangkan dari sisi klien kita menggunakan <a href="http://winscp.net/">WinSCP</a> untuk mengakses service FTP.</p>
 
 <p>Cara penggunaan <a href="http://winscp.net/">WinSCP</a>, juga gampang. Berikut contohnya :</p>
 
@@ -402,7 +402,7 @@ Berikut perintah lengkapnya :</p>
 </span><span class='line'>
 </span><span class='line'>&lt;p>// Importing ShowWindow Windows API from User32.DLL
 </span><span class='line'>function ShowWindow(hWnd: Integer; uType: Integer): Integer;
-</span><span class='line'>external &lsquo;&lt;a href="&#109;&#97;&#105;&#x6c;&#116;&#x6f;&#58;&#83;&#x68;&#x6f;&#x77;&#87;&#105;&#110;&#x64;&#x6f;&#x77;&#64;&#117;&#x73;&#101;&#114;&#51;&#50;&#46;&#100;&#108;&#x6c;">&#83;&#x68;&#111;&#x77;&#87;&#105;&#110;&#100;&#111;&#x77;&#64;&#x75;&#115;&#101;&#x72;&#51;&#x32;&#46;&#x64;&#108;&#x6c;&lt;/a> stdcall&rsquo;;&lt;/p>
+</span><span class='line'>external &lsquo;&lt;a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#111;&#x3a;&#x53;&#104;&#x6f;&#119;&#x57;&#105;&#x6e;&#100;&#x6f;&#x77;&#64;&#x75;&#115;&#101;&#x72;&#51;&#x32;&#46;&#100;&#x6c;&#108;">&#83;&#104;&#111;&#119;&#x57;&#x69;&#110;&#x64;&#111;&#119;&#64;&#x75;&#115;&#101;&#114;&#51;&#x32;&#x2e;&#x64;&#x6c;&#108;&lt;/a> stdcall&rsquo;;&lt;/p>
 </span><span class='line'>
 </span><span class='line'>&lt;p>function IsDotNetDetected(version: string; service: cardinal): boolean;
 </span><span class='line'>// Indicates whether the specified version and service pack of the .NET Framework is installed.
