@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-07-06T05:31:18+07:00</updated>
+  <updated>2015-07-06T05:33:21+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -113,10 +113,10 @@
 <p>Cara penggunaan <a href="http://winscp.net/">WinSCP</a>, juga gampang. Berikut contohnya :</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>winscp.com /command "option batch abort" "option confirm off" "open ftp://abu.anas:rahasia@192.168.56.101" "put *.dll bin/" "exit"</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>winscp.com /command "option batch abort" "option confirm off" "open ftp://USER_FTP:PASSWORD_FTP@IP_SERVER" "put *.dll bin/" "exit"</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Untuk user, password dan ip ftp menyesuaikan. Selanjutnya kita tinggal panggil perintah di atas melalui <code>Build Events</code></p>
+<p>Untuk <code>USER_FTP</code>, <code>PASSWORD_FTP</code> dan <code>IP_SERVER</code> menyesuaikan. Selanjutnya kita tinggal panggil perintah di atas melalui <code>Build Events</code></p>
 
 <p><strong>Build Events</strong></p>
 
