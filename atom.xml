@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-07-06T05:37:03+07:00</updated>
+  <updated>2015-07-06T05:41:41+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -116,7 +116,7 @@
 </pre></td><td class='code'><pre><code class=''><span class='line'>winscp.com /command "option batch abort" "option confirm off" "open ftp://USER_FTP:PASSWORD_FTP@IP_SERVER" "put FOLDER_RILIS\*.dll bin/" "exit"</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Untuk <code>USER_FTP</code>, <code>PASSWORD_FTP</code> dan <code>IP_SERVER</code> menyesuaikan. Selanjutnya kita tinggal panggil perintah di atas melalui <code>Build Events</code></p>
+<p>Untuk <code>USER_FTP</code>, <code>PASSWORD_FTP</code>, <code>IP_SERVER</code> dan <code>FOLDER_RILIS</code> menyesuaikan. Selanjutnya kita tinggal panggil perintah di atas melalui <code>Build Events</code></p>
 
 <p><strong>Build Events</strong></p>
 
