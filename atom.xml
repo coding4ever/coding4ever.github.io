@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-07-11T15:43:17+07:00</updated>
+  <updated>2015-10-20T09:27:48+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,192 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Performance Test Menggunakan JMeter]]></title>
+    <link href="http://coding4ever.net/blog/2015/10/20/performance-test-menggunakan-jmeter/"/>
+    <updated>2015-10-20T09:26:38+07:00</updated>
+    <id>http://coding4ever.net/blog/2015/10/20/performance-test-menggunakan-jmeter</id>
+    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2015/10/apache-jmeter.png" width="100" height="100">Aktivitas saya di kantor akhir-akhir ini, lebih sering ngoding untuk backend/web service. Nah untuk membuat service ini, biasanya saya menggunakan teknologi <a href="">WCF</a>, hanya saja untuk <code>kekinian</code> :-D saya juga menggunakan <a href="http://www.asp.net/web-api">ASP.NET Web Api</a>.</p>
+
+<!-- more -->
+
+
+<p>Untuk tahapan testing wajib yang saya lakukan adalah minimal <a href="https://en.wikipedia.org/wiki/Unit_testing">unit test</a>. <a href="https://en.wikipedia.org/wiki/Unit_testing">Unit test</a> yang dilakukan biasanya di level DAL (Data Access Layer) dan Controller. <a href="https://en.wikipedia.org/wiki/Unit_testing">Unit testing</a> ini merupakan bagian dari <code>white box testing</code> karena testing ini dieksekusi langsung oleh programmer. Sedangkan untuk <code>black box testing</code> bisa dilakukan menggunakan aplikasi sejenis <a href="http://www.telerik.com/fiddler">Fiddler</a> atau menggunakan add-ons yang dimiliki oleh browser-browser seperti Mozilla Firefox dan Google Chrome.</p>
+
+<p>Karena service ini nantinya akan digunakan oleh banyak client dan user, tentu akan <code>ngeri-ngeri sedap</code>  :-D jika testingnya masih dilakukan secara manual. Jadi sebaiknya kita menggunakan <a href="http://www.softwaretestinghelp.com/performance-testing-tools-load-testing-tools/">Performance Test Tool</a> untuk proses ini.</p>
+
+<p>Ada banyak <a href="http://www.softwaretestinghelp.com/performance-testing-tools-load-testing-tools/">Performance Test Tool</a> yang tersedia baik yang gratis maupun yang berbayar. Untuk postingan kali ini saya menggunakan <a href="http://jmeter.apache.org/">JMeter</a>.</p>
+
+<p>Apa itu <a href="http://jmeter.apache.org/">JMeter</a> ?</p>
+
+<blockquote><p>The Apache JMeter™ application is open source software, a 100% pure Java application designed to load test functional behavior and measure performance. It was originally designed for testing Web Applications but has since expanded to other test functions</p></blockquote>
+
+<p>Berikut langkah-langkah menggunakan <a href="http://jmeter.apache.org/">JMeter</a> :</p>
+
+<h5>1. Download <a href="http://jmeter.apache.org/download_jmeter.cgi">JMeter</a> kemudian ekstrak, misal di drive C:\</h5>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/10/201015-1.png"></p>
+
+<h5>2. Untuk menjalankan <a href="http://jmeter.apache.org/">JMeter</a>, klik ganda file <code>jmeter.bat</code> yang ada di folder <code>bin</code></h5>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/10/201015-2.png"></p>
+
+<p>Tunggu beberapa saat sampai tampil, aplikasi <a href="http://jmeter.apache.org/">JMeter</a></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/10/201015-3.png"></p>
+
+<p>Kemudian ganti informasi Name, sesuai kebutuhan. Misal <code>Performance Test Web Service Presensi</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/10/201015-4.png"></p>
+
+<h5>3. Menambahkan User Defined Variables</h5>
+
+<p>Di node ini kita akan menambahkan informasi global yang sering digunakan pada saat testing seperti informasi <code>host</code> dan <code>port</code>.</p>
+
+<p>Untuk menambahkan node <code>User Defined Variables</code> klik kanan node Test Plan (Performance Test Web Service Presensi) -> Add -> Config Element -> User Defined Variables.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/10/201015-5.png"></p>
+
+<p>Kemudian lakukan pengaturan <code>User Defined Variables</code> seperti gambar berikut :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/10/201015-6.png"></p>
+
+<p>Pada gambar di atas kita menambahkan dua variabel yaitu <code>host</code> dan <code>port</code>. Nah variabel-variabel ini nantinya akan digunakan pada langkah-langkah berikutnya.</p>
+
+<h5>4. Menambahkan HTTP Header Manager</h5>
+
+<p>Setelah menambahkan node <code>User Defined Variables</code>, kita lanjutkan dengan menambahkan node <code>HTTP Header Manager</code>. Langkah-langkahnya sama seperti menambahkan node <code>User Defined Variables</code>, hanya saja yang dipilih adalah <code>HTTP Header Manager</code>.</p>
+
+<p>Di node ini kita akan menambahkan informasi apa saja yang dikirimkan <a href="http://jmeter.apache.org/">JMeter</a> ke HTTP request header.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/10/201015-7.png"></p>
+
+<h5>5. Menambahkan HTTP Request Defaults</h5>
+
+<p>Langkah berikutnya adalah menambahkan node <code>HTTP Request Defaults</code>, caranya juga sama seperti sebelumnya hanya saja yang dipilih node <code>HTTP Request Defaults</code>.</p>
+
+<p>Di node ini kita cukup mengeset informasi nama server/ip address, port dan protocol.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/10/201015-8.png"></p>
+
+<p>Karena sebelumnya kita sudah mendefinisikan nama host dan port di node <code>User Defined Variables</code>, di node ini kita tinggal panggil variabel tersebut dengan format : ${<strong>NAMA_VARIABEL</strong>}.</p>
+
+<h5>6. Menambahkan Thread Group</h5>
+
+<p>Node ini digunakan untuk mengelompokan service yang akan di tes. Misal kita mempunyai service Mahasiswa dan Dosen, kedua service ini sebaiknya dibuatkan <code>Thread Group</code> masing-masing.</p>
+
+<p>Untuk menambahkan node <code>Thread Group</code> klik kanan node Test Plan (Performance Test Web Service Presensi) -> Add -> Threads (Users) -> Thread Group.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/10/201015-9.png"></p>
+
+<p>Kemudian atur settingnya seperti berikut :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/10/201015-10.png"></p>
+
+<p>Dari setting di atas, kita akan membuat skenario <code>performance test</code> seperti berikut :</p>
+
+<ul>
+<li>Jumlah user sebanyak 50 orang</li>
+<li>Setiap 2 detik (100/50), akan mengirimkan 6 request ke server.</li>
+<li>Total jumlah sample = 300 (50 x 6)</li>
+</ul>
+
+
+<p>Skenario <code>performance test</code> ini bisa diganti-ganti nilainya sesuai kebutuhan.</p>
+
+<h5>7. Menambahkan HTTP Request</h5>
+
+<p>Setelah menentukan skenario <code>performance test</code>, langkah berikutnya adalah menambahkan node <code>HTTP Request</code>. Di node inilah kita akan menentukan web service yang akan di tes. Misal web service mahasiswa mempunyai dua layanan yaitu <code>GetByID</code> dan <code>GetByName</code>. Nah dua layanan ini akan kita tambahkan sebagi bagian dari <code>HTTP Request</code>.</p>
+
+<p>Untuk menambahkan node <code>HTTP Request</code> klik kanan node Thread Group (Web Service Mahasiswa) -> Add -> Sampler -> HTTP Request.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/10/201015-11.png"></p>
+
+<p>Kemudian atur settingnya seperti berikut :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/10/201015-12.png"></p>
+
+<p>Dari gambar di atas, informasi web servicenya sebagai berikut :</p>
+
+<ul>
+<li>Nama service : <code>GetById</code></li>
+<li>Path/Url : <code>/Api/Mahasiswa/GetById</code></li>
+<li>Service ini mempunyai satu parameter yaitu <code>id</code>, yang kita set nilainya <code>09.01.2488</code></li>
+<li>Informasi server name/ip dan port number tidak perlu di set, karena sudah kita set nilainya di node <code>HTTP Request Defaults</code></li>
+</ul>
+
+
+<p>Ulangi langkah sebelumnya untuk menambahkan service yang lain.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/10/201015-13.png"></p>
+
+<h5>8. Menambahkan report untuk menampilkan hasil Performance test</h5>
+
+<p>Ada beberapa format laporan yang digunakan untuk menampilkan hasil performance test yaitu :</p>
+
+<ul>
+<li>View Results in Table</li>
+<li>View Results Tree</li>
+<li>Response Times Over Time</li>
+<li>Transactions per Second</li>
+<li>Statistical Aggregate Report</li>
+<li>Summary Report</li>
+</ul>
+
+
+<p>Untuk menambahkan semua format laporan di atas klik kanan node Thread Group (Web Service Mahasiswa) -> Add -> Listener -> Pilih jenis laporan.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/10/201015-14.png"></p>
+
+<h5>9. Menjalankan Performance test</h5>
+
+<p>Untuk menjalankan performance test, kita tinggal mengklik toolbar <code>Start</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/10/201015-15.png"></p>
+
+<p><code>Performance test</code> ini di jalankan menggunakan <code>Environment Test</code> sebagai berikut :</p>
+
+<h5>Server Web Service :</h5>
+
+<ul>
+<li>Sistem Operasi : Windows Server 2008 64 Bit</li>
+<li>Web Server : IIS 7</li>
+<li>Teknologi/framwork REST Service : ASP.NET Web API 2</li>
+<li>Processor : Intel Xeon X5570 2.93 Ghz</li>
+<li>RAM : 12 GB</li>
+</ul>
+
+
+<h5>Server Database :</h5>
+
+<ul>
+<li>Sistem Operasi : Windows Server 2012 64 Bit</li>
+<li>Database : SQL Server 2014</li>
+<li>Processor : Intel Xeon E5-2620 v2 2.10 Ghz</li>
+<li>RAM : 24 Gb</li>
+</ul>
+
+
+<h5>10. Contoh Hasil Performance Test</h5>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/10/201015-16.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/10/201015-17.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/10/201015-18.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/10/201015-19.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/10/201015-20.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/10/201015-21.png"></p>
+
+<p>Sebagai penutup saya belum menemukan referensi yang tepat bagaimana cara menganalisa hasil dari <code>performance test</code> di atas, tetapi biasanya yang saya jadikan acuan adalah hasil yang bisa dilihat melalui node <code>View Results in Table</code> kolom Status, dari node ini kelihatan apakah ada request service yang berstatus <code>Warning</code>. Jika ada mungkin ini bisa menjadi bahan acuan apakah service kita masih perlu di-<code>improve</code> lagi atau skenario <code>performance test</code> yang perlu diganti atau karena faktor lainnya seperti kondisi jaringan yang lagi <code>enggak fit</code> pada saat melakukan tes :-D.</p>
+
+<p>Selamat mencoba :-)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[The Power of Visual Studio .NET Build Events Part #3]]></title>
@@ -2984,333 +3170,6 @@ Tujuan menginstall library ini adalah agar laporan yang dihasilkan <a href="http
 <blockquote><p>Semakin sedikit kode yang kita tulis, semakin sedikit juga <strong><em>bug</em></strong> yang dihasilkan dan semakin sedikit kode yang kita tulis, semakin mudah juga untuk melakukan <strong><em>maintenance</em></strong>.</p></blockquote>
 
 <p>Selamat <a href="https://github.com/k4m4r82/EntityFramework7">MENCOBA</a> :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Entity Framework Part 6]]></title>
-    <link href="http://coding4ever.net/blog/2014/04/03/entity-framework-part-6/"/>
-    <updated>2014-04-03T10:17:31+07:00</updated>
-    <id>http://coding4ever.net/blog/2014/04/03/entity-framework-part-6</id>
-    <content type="html"><![CDATA[<p><img class="left" src="http://coding4ever.files.wordpress.com/2014/03/entity_image.png" width="120" height="100">Pada <a href="http://coding4ever.net/blog/2014/04/01/entity-framework-part-5/">postingan</a> sebelumnya kita sudah membahas bagaimana <a href="http://msdn.microsoft.com/en-us/data/aa937723">Entity Framework</a> menangani sebuah tabel tunggal. Pada kenyataannya hampir semua aplikasi database menggunakan lebih dari satu tabel dan tentunya diantara tabel ini juga mempunyai hubungan (relasi).</p>
-
-<p>Di postingan kali ini kita akan membahas bagaimana <a href="http://msdn.microsoft.com/en-us/data/aa937723">Entity Framework</a> menangani dua buah tabel yang saling berhubungan yaitu <em>Beli</em> dan <em>ItemBeli.</em></p>
-
-<!-- more -->
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/04/4.png"><img src="http://coding4ever.files.wordpress.com/2014/04/4.png" alt="4" /></a></p>
-
-<p>Untuk tabel Supplier dan Barang kita abaikan dulu walaupun kedua tabel ini juga terhubung ke tabel Beli dan ItemBeli.</p>
-
-<p>Proses pembelian di dalam sebuah aplikasinya biasa masuk ke dalam modul transaksi. Ada sebuah proses yang penting ketika akan menyimpan data berupa transaksi, apalagi jika data tersebut saling berhubungan.</p>
-
-<p>Proses ini dikenal dengan istilah <em><a href="http://en.wikipedia.org/wiki/Database_transaction">transaction</a>,</em> dan salah satu poin pentingnya adalah <a href="http://en.wikipedia.org/wiki/Atomicity_%28database_systems%29"><em>atomic</em></a>, yaitu beberapa perintah dianggap sebagai satu kesatuan. Kalau satu gagal, yang lain harus dibatalkan. Contoh pada saat transaksi pembelian proses yang terjadi adalah :</p>
-
-<ol>
-<li><p> Insert 1 kali ke tabel Beli</p></li>
-<li><p> Insert n kali ke tabel ItemBeli</p></li>
-<li><p> Menambah stok barang (tidak di bahas di postingan ini), karena bisa juga diselesaikan dengan database <a href="http://en.wikipedia.org/wiki/Database_trigger">trigger</a></p></li>
-</ol>
-
-
-<p>Ketika insert ke tabel ItemBeli gagal, maka tabel Belinya juga harus di batalkan (undo), klo enggak ya datanya jadi enggak konsisten dong, ada nota Beli yang enggak ada item belinya.</p>
-
-<p>Nah kabar gembiranya <a href="http://msdn.microsoft.com/en-us/data/aa937723">Entity Framework</a> secara default sudah mendukung <em><a href="http://en.wikipedia.org/wiki/Database_transaction">transaction</a>.</em></p>
-
-<p>Untuk membuat class entity Barang dan ItemBeli berikut class mappingnya sudah tidak dibahas lagi disini, karena saya menggunakan <a href="http://visualstudiogallery.msdn.microsoft.com/72a60b14-1581-4b9b-89f2-846072eff19d">Entity Framework Power Tools</a>.</p>
-
-<p>Sebelum kita lanjut ke pembahasan kode program, kita lihat dulu class entity diagram ke empat tabel di atas.<a href="http://coding4ever.files.wordpress.com/2014/04/12.jpg"><img src="http://coding4ever.files.wordpress.com/2014/04/12.jpg" alt="1" /></a></p>
-
-<p><strong>Independent association dan Foreign key association</strong></p>
-
-<p>Hubungan dua buah entity atau lebih dikenal dengan istilah asosiasi (association). Asosiasi ini mencakup <em>one-to-one, one-to-many</em> dan <em>many-to-many</em>.</p>
-
-<p>Dari sisi pemrograman Entity Framework, diperkenalkan lagi dua jenis asosiasi. Yang pertama dikenal dengan istilah <a href="http://www.ladislavmrnka.com/2011/05/foreign-key-vs-independent-associations-in-ef-4/"><em>independent association</em></a>, asosiasi ini sudah diperkenalkan sejak Entity Framework versi awal, dan untuk memudahkan kita sebagai pengembang aplikasi, mulai Entity Framework versi 4, tim Entity Framework menambahkan asosiasi kedua yaitu <em><a href="http://www.ladislavmrnka.com/2011/05/foreign-key-vs-independent-associations-in-ef-4/">foreign key association</a></em>.</p>
-
-<p>Dari kedua asosiasi di atas, implementasi <em>foreign key association</em> lebih disarankan dibandingkan <em>independent association</em>, sehingga untuk kode Entity Framework di bawah ini kita juga menggunakan <em>foreign key association</em> :D.</p>
-
-<p>Untuk informasi lebih lanjut mengenai <em>Independent association</em> dan <em>Foreign key association</em> bisa merujuk ke referensi berikut :</p>
-
-<ul>
-<li><p><a href="http://it-ebooks.info/book/1619/">Entity Framework 4 in Action</a></p></li>
-<li><p><a href="http://it-ebooks.info/book/613/">Programming Entity Framework, 2nd Edition</a></p></li>
-<li><p><a href="http://www.ladislavmrnka.com/2011/05/foreign-key-vs-independent-associations-in-ef-4/">Foreign key vs. Independent associations in EF 4</a></p></li>
-</ul>
-
-
-<p>Seperti <a href="http://coding4ever.net/blog/2014/04/01/entity-framework-part-5/">postingan</a> sebelumnya, saya akan menuliskan 2 versi kode sebagai bahan perbandingan yaitu menggunakan ADO.NET secara langsung dan Entity Framework.</p>
-
-<p>Nama method yang akan kita gunakan untuk menambahkan data beli berikut itemnya adalah <em>AddPembelian</em>. Method ini akan menambahkan data di dua tabel sekaligus (Beli dan ItemBeli), sehingga sangat disarankan menggunakan database <em><a href="http://en.wikipedia.org/wiki/Database_transaction">transaction</a>.</em></p>
-
-<p>Untuk ADO.NET fitur <em><a href="http://en.wikipedia.org/wiki/Database_transaction">transaction</a></em> harus ditambahkan secara manual, sedangkan Entity Framework secara default sudah menerapkan fitur <em><a href="http://en.wikipedia.org/wiki/Database_transaction">transaction</a>.</em></p>
-
-<p><strong>ADO.NET</strong></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="kt">int</span> <span class="nf">AddPembelianUsingADONET</span><span class="p">(</span><span class="n">Beli</span> <span class="n">beli</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="k">try</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="c1">// mulai transaksi</span>
-</span><span class='line'>            <span class="kt">var</span> <span class="n">transaction</span> <span class="p">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">BeginTransaction</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="kt">var</span> <span class="n">sql</span> <span class="p">=</span> <span class="s">@&quot;INSERT INTO Beli (Nota, SupplierID, Tanggal, Keterangan)</span>
-</span><span class='line'><span class="s">                        VALUES (@1, @2, @3, @4)&quot;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="c1">// insert ke tabel beli</span>
-</span><span class='line'>            <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SqlCommand</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">transaction</span><span class="p">))</span>
-</span><span class='line'>            <span class="p">{</span>
-</span><span class='line'>                <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="n">beli</span><span class="p">.</span><span class="n">Nota</span><span class="p">);</span>
-</span><span class='line'>                <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@2&quot;</span><span class="p">,</span> <span class="n">beli</span><span class="p">.</span><span class="n">SupplierID</span><span class="p">);</span>
-</span><span class='line'>                <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@3&quot;</span><span class="p">,</span> <span class="n">beli</span><span class="p">.</span><span class="n">Tanggal</span><span class="p">);</span>
-</span><span class='line'>                <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@4&quot;</span><span class="p">,</span> <span class="n">beli</span><span class="p">.</span><span class="n">Keterangan</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>                <span class="n">result</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteNonQuery</span><span class="p">();</span>
-</span><span class='line'>            <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="n">sql</span> <span class="p">=</span> <span class="s">@&quot;INSERT INTO ItemBeli (Nota, BarangID, Jumlah, HargaBeli, HargaJual)</span>
-</span><span class='line'><span class="s">                    VALUES (@1, @2, @3, @4, @5)&quot;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="c1">// insert ke tabel item beli sebanyak n item</span>
-</span><span class='line'>            <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">item</span> <span class="k">in</span> <span class="n">beli</span><span class="p">.</span><span class="n">ItemBelis</span><span class="p">)</span>
-</span><span class='line'>            <span class="p">{</span>
-</span><span class='line'>                <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SqlCommand</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">transaction</span><span class="p">))</span>
-</span><span class='line'>                <span class="p">{</span>
-</span><span class='line'>                    <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="n">beli</span><span class="p">.</span><span class="n">Nota</span><span class="p">);</span>
-</span><span class='line'>                    <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@2&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">.</span><span class="n">BarangID</span><span class="p">);</span>
-</span><span class='line'>                    <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@3&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">.</span><span class="n">Jumlah</span><span class="p">);</span>
-</span><span class='line'>                    <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@4&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">.</span><span class="n">HargaBeli</span><span class="p">);</span>
-</span><span class='line'>                    <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@5&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">.</span><span class="n">HargaJual</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>                    <span class="n">result</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteNonQuery</span><span class="p">();</span>
-</span><span class='line'>                <span class="p">}</span>
-</span><span class='line'>            <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="c1">// transaksi selesai</span>
-</span><span class='line'>            <span class="c1">// simpan perubahan secara permanen</span>
-</span><span class='line'>            <span class="n">transaction</span><span class="p">.</span><span class="n">Commit</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="n">result</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span> <span class="c1">// status transaksi berhasil</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="k">catch</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="n">result</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>Entity Framework</strong></p>
-
-<p>Menggunakan Entity Framework ternyata sangat mudah, coba lihat kode berikut setara dengan kode ADO.NET di atas :)</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="kt">int</span> <span class="nf">AddPembelianUsingEF</span><span class="p">(</span><span class="n">Beli</span> <span class="n">beli</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">db</span> <span class="p">=</span> <span class="k">new</span> <span class="n">RetailContext</span><span class="p">())</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">try</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="n">db</span><span class="p">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">beli</span><span class="p">).</span><span class="n">State</span> <span class="p">=</span> <span class="n">EntityState</span><span class="p">.</span><span class="n">Added</span><span class="p">;</span>
-</span><span class='line'>            <span class="n">db</span><span class="p">.</span><span class="n">SaveChanges</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="n">result</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="k">catch</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Contoh penggunaan :</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="c1">// buat objek item beli (3 objek)</span>
-</span><span class='line'><span class="kt">var</span> <span class="n">item1</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ItemBeli</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">BarangID</span> <span class="p">=</span> <span class="s">&quot;BB-7421&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">Jumlah</span> <span class="p">=</span> <span class="m">5</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">HargaBeli</span> <span class="p">=</span> <span class="m">54</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">HargaJual</span> <span class="p">=</span> <span class="m">60</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="kt">var</span> <span class="n">item2</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ItemBeli</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">BarangID</span> <span class="p">=</span> <span class="s">&quot;BB-8107&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">Jumlah</span> <span class="p">=</span> <span class="m">7</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">HargaBeli</span> <span class="p">=</span> <span class="m">101</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">HargaJual</span> <span class="p">=</span> <span class="m">110</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="kt">var</span> <span class="n">item3</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ItemBeli</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">BarangID</span> <span class="p">=</span> <span class="s">&quot;BK-M18B-44&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">Jumlah</span> <span class="p">=</span> <span class="m">10</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">HargaBeli</span> <span class="p">=</span> <span class="m">540</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">HargaJual</span> <span class="p">=</span> <span class="m">693</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// buat objek beli</span>
-</span><span class='line'><span class="kt">var</span> <span class="n">beli</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Beli</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">Nota</span> <span class="p">=</span> <span class="s">&quot;N001&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">SupplierID</span> <span class="p">=</span> <span class="m">3</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">Tanggal</span> <span class="p">=</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">Today</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">Keterangan</span> <span class="p">=</span> <span class="s">&quot;Transaksi beli menggunakan Entity Framework&quot;</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// tambahkan item beli ke objek beli</span>
-</span><span class='line'><span class="n">beli</span><span class="p">.</span><span class="n">ItemBelis</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">item1</span><span class="p">);</span>
-</span><span class='line'><span class="n">beli</span><span class="p">.</span><span class="n">ItemBelis</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">item2</span><span class="p">);</span>
-</span><span class='line'><span class="n">beli</span><span class="p">.</span><span class="n">ItemBelis</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">item3</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="n">AddPembelianUsingEF</span><span class="p">(</span><span class="n">beli</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;\nStatus transaksi : {0}&quot;</span><span class="p">,</span> <span class="n">result</span> <span class="p">==</span> <span class="m">1</span> <span class="p">?</span> <span class="s">&quot;Sukses&quot;</span> <span class="p">:</span> <span class="s">&quot;Gagal&quot;</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/04/13.jpg"><img src="http://coding4ever.files.wordpress.com/2014/04/13.jpg" alt="1" /></a></p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/04/2.jpg"><img src="http://coding4ever.files.wordpress.com/2014/04/2.jpg" alt="2" /></a></p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/04/3.jpg"><img src="http://coding4ever.files.wordpress.com/2014/04/3.jpg" alt="3" /></a></p>
-
-<p>Tabel Beli terhubung dengan tabel Supplier, sehingga Supplier dengan ID 3 harus sudah ada di tabel Supplier. Begitu juga dengan table ItemBeli yang terhubung dengan tabel Barang, sehingga Barang dengan ID BB-7421, BB-8107 dan BK-M18B-44 juga harus ada di tabel Barang.</p>
-
-<p>Selamat <a href="https://github.com/k4m4r82/EntityFramework6">MENCOBA</a> :)</p>
 ]]></content>
   </entry>
   
