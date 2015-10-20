@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Mysql | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/mysql/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-10-20T09:27:48+07:00</updated>
+  <updated>2015-10-20T09:48:09+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -18,7 +18,7 @@
     <link href="http://coding4ever.net/blog/2015/04/30/membuat-jadwal-backup-database-otomatis/"/>
     <updated>2015-04-30T15:33:59+07:00</updated>
     <id>http://coding4ever.net/blog/2015/04/30/membuat-jadwal-backup-database-otomatis</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-14.png">https://coding4ever.files.wordpress.com/2015/04/300415-14.png</a>&#8221; width=&#8221;100&#8221; height=&#8221;100&#8221;>Backup database merupakan salah satu hal penting, apalagi jika kita bekerja sebagai database administrator.</p>
+    <content type="html"><![CDATA[<p>{% img left <a href="https://coding4ever.files.wordpress.com/2015/04/300415-14.png">https://coding4ever.files.wordpress.com/2015/04/300415-14.png</a> 100 100 %}Backup database merupakan salah satu hal penting, apalagi jika kita bekerja sebagai database administrator.</p>
 
 <p>Semakin banyaknya data-data yang tersimpan seperti data keuangan, akademik dan data penting lainnya mengharuskan kita untuk meluangkan waktu khusus untuk melakukan backup database.</p>
 
@@ -35,49 +35,38 @@
 
 <p>Adapun perintahnya seperti berikut :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lsquo; backup
-</span><span class='line'>mysqldump -uUSER_NAME -pUSER_PASSWORD &ndash;routines NAMA_DATABASE > LOKASI_FILE_BACKUP.SQL</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+&lsquo; backup
+mysqldump -uUSER_NAME -pUSER_PASSWORD &ndash;routines NAMA_DATABASE > LOKASI_FILE_BACKUP.SQL
+{% endcodeblock %}</p>
 
 <p>Parameter <code>–routines</code> ditambahkan jika database mempunyai fungsi/trigger.</p>
 
 <p>Karena data backupnya yang disimpan lebih dari satu, untuk nama database akan kita buat unik dengan format : <code>nama_database-tahun-bulan-hari_jam_menit</code>. Contoh :</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-01.png">https://coding4ever.files.wordpress.com/2015/04/300415-01.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-01.png">https://coding4ever.files.wordpress.com/2015/04/300415-01.png</a> %}</p>
 
 <p>Untuk mendapatkan informasi tahun, bulan, hari dan jam, kita bisa memanfaatkan batch command dengan perintah seperti berikut :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>for /f &ldquo;tokens=2-4 delims=/ &rdquo; %%a in (&lsquo;date /T&rsquo;) do set year=%%c
-</span><span class='line'>for /f &ldquo;tokens=2-4 delims=/ &rdquo; %%a in (&lsquo;date /T&rsquo;) do set month=%%a
-</span><span class='line'>for /f &ldquo;tokens=2-4 delims=/ &rdquo; %%a in (&lsquo;date /T&rsquo;) do set day=%%b&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>for /f &ldquo;tokens=1 delims=: &rdquo; %%h in (&lsquo;time /T&rsquo;) do set hour=%%h
-</span><span class='line'>for /f &ldquo;tokens=2 delims=: &rdquo; %%m in (&lsquo;time /T&rsquo;) do set minutes=%%m
-</span><span class='line'>for /f &ldquo;tokens=3 delims=: &rdquo; %%a in (&lsquo;time /T&rsquo;) do set ampm=%%a&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>rem membuat file backup database dengan format nama_database-tahun-bulan-hari_jam_menit
-</span><span class='line'>set FILE_BACKUP=D:\backup\Chinook-%year%-%month%-%day%_%hour%-%minutes%-%ampm%&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>rem USER_NAME, USER_PASSWORD dan NAMA_DATABASE menyesuaikan
-</span><span class='line'>mysqldump -uroot -prahasia &ndash;routines Chinook > %FILE_BACKUP%.sql</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+for /f &ldquo;tokens=2-4 delims=/ &rdquo; %%a in (&lsquo;date /T&rsquo;) do set year=%%c
+for /f &ldquo;tokens=2-4 delims=/ &rdquo; %%a in (&lsquo;date /T&rsquo;) do set month=%%a
+for /f &ldquo;tokens=2-4 delims=/ &rdquo; %%a in (&lsquo;date /T&rsquo;) do set day=%%b</p>
+
+<p>for /f &ldquo;tokens=1 delims=: &rdquo; %%h in (&lsquo;time /T&rsquo;) do set hour=%%h
+for /f &ldquo;tokens=2 delims=: &rdquo; %%m in (&lsquo;time /T&rsquo;) do set minutes=%%m
+for /f &ldquo;tokens=3 delims=: &rdquo; %%a in (&lsquo;time /T&rsquo;) do set ampm=%%a</p>
+
+<p>rem membuat file backup database dengan format nama_database-tahun-bulan-hari_jam_menit
+set FILE_BACKUP=D:\backup\Chinook-%year%-%month%-%day%_%hour%-%minutes%-%ampm%</p>
+
+<p>rem USER_NAME, USER_PASSWORD dan NAMA_DATABASE menyesuaikan
+mysqldump -uroot -prahasia &ndash;routines Chinook > %FILE_BACKUP%.sql
+{% endcodeblock %}</p>
 
 <p>Setelah itu kode di atas kita simpan di folder <code>Instalasi MySQL\bin</code>, misal dengan nama <code>backup.cmd</code>.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-02.png">https://coding4ever.files.wordpress.com/2015/04/300415-02.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-02.png">https://coding4ever.files.wordpress.com/2015/04/300415-02.png</a> %}</p>
 
 <h3>Windows Task Scheduler</h3>
 
@@ -85,41 +74,41 @@
 
 <p>Untuk mengakses tool ini bisa dilakukan melalui menu Start -> Accessories -> System Tools -> Task Scheduler</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-03.png">https://coding4ever.files.wordpress.com/2015/04/300415-03.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-03.png">https://coding4ever.files.wordpress.com/2015/04/300415-03.png</a> %}</p>
 
 <p>Berikut langkah-langkah untuk menambahkan task baru.</p>
 
 <ol>
 <li><p>Klik <code>Create Basic Task</code> di panel Actions
-<img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-04.png">https://coding4ever.files.wordpress.com/2015/04/300415-04.png</a>&#8221;>
+{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-04.png">https://coding4ever.files.wordpress.com/2015/04/300415-04.png</a> %}
 Kemudian isikan informasi <code>Name</code> dan <code>Description</code> kemudian klik tombol Next</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-05.png">https://coding4ever.files.wordpress.com/2015/04/300415-05.png</a>&#8221;></p></li>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-05.png">https://coding4ever.files.wordpress.com/2015/04/300415-05.png</a> %}</p></li>
 <li><p>Di dialog berikutnya kita akan menentukan kapan task ini akan di eksekusi. Contoh jika task ini akan dieksekusi setiap hari kita pilih <code>Daily</code>.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-06.png">https://coding4ever.files.wordpress.com/2015/04/300415-06.png</a>&#8221;></p></li>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-06.png">https://coding4ever.files.wordpress.com/2015/04/300415-06.png</a> %}</p></li>
 <li><p>Berikutnya kita akan menentukan jam berapa task ini akan dieksekusi</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-07.png">https://coding4ever.files.wordpress.com/2015/04/300415-07.png</a>&#8221;>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-07.png">https://coding4ever.files.wordpress.com/2015/04/300415-07.png</a> %}
 Pada gambar di atas, task ini akan dieksekusi setiap jam 5 sore.</p></li>
 <li><p>Berikutnya kita akan menentukan apa yang akan dilakukan task ini, ketika dieksekusi. Sebagai contoh task ini akan menjalankan file <code>backup.cmd</code> yang tersimpan di folder bin MySQL</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-08.png">https://coding4ever.files.wordpress.com/2015/04/300415-08.png</a>&#8221;>
-<img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-09.png">https://coding4ever.files.wordpress.com/2015/04/300415-09.png</a>&#8221;>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-08.png">https://coding4ever.files.wordpress.com/2015/04/300415-08.png</a> %}
+{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-09.png">https://coding4ever.files.wordpress.com/2015/04/300415-09.png</a> %}
 Di bagian <code>Program/script</code> kita tentukan nama file <code>backup.cmd</code>, sedangkan untuk <code>Start in</code> kita tentukan lokasi/folder file <code>backup.cmd</code></p></li>
 <li>Terakhir klik tombol Finish</li>
 </ol>
 
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-10.png">https://coding4ever.files.wordpress.com/2015/04/300415-10.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-10.png">https://coding4ever.files.wordpress.com/2015/04/300415-10.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-11.png">https://coding4ever.files.wordpress.com/2015/04/300415-11.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-11.png">https://coding4ever.files.wordpress.com/2015/04/300415-11.png</a> %}</p>
 
 <p>Untuk mencoba apakah backup berjalan dengan baik, klik kanan nama task <code>Backup Database Chinook</code> -> Run</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-12.png">https://coding4ever.files.wordpress.com/2015/04/300415-12.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-12.png">https://coding4ever.files.wordpress.com/2015/04/300415-12.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-13.png">https://coding4ever.files.wordpress.com/2015/04/300415-13.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-13.png">https://coding4ever.files.wordpress.com/2015/04/300415-13.png</a> %}</p>
 
 <p>Selamat MENCOBA :)</p>
 ]]></content>
@@ -130,19 +119,20 @@ Di bagian <code>Program/script</code> kita tentukan nama file <code>backup.cmd</
     <link href="http://coding4ever.net/blog/2011/06/26/mengakses-database-mysql-menggunakan-c-bagian-2/"/>
     <updated>2011-06-26T11:04:42+07:00</updated>
     <id>http://coding4ever.net/blog/2011/06/26/mengakses-database-mysql-menggunakan-c-bagian-2</id>
-    <content type="html"><![CDATA[<p>Seperti yang sudah saya janjikan pada <a href="/blog/2011/06/25/mengakses-database-mysql-menggunakan-c-bagian-1/">postingan</a> sebelumnya, kali ini kita akan membahas bagaimana cara memanfaatkan class Mahasiswa dan MahasiswaDao pada Presentation layer</p>
+    <content type="html"><![CDATA[<p>Seperti yang sudah saya janjikan pada <a href="{{%20site.url%20}}/blog/2011/06/25/mengakses-database-mysql-menggunakan-c-bagian-1/">postingan</a> sebelumnya, kali ini kita akan membahas bagaimana cara memanfaatkan class Mahasiswa dan MahasiswaDao pada Presentation layer</p>
 
 <p>Sudah merupakan rahasia umum :D untuk melakukan koneksi ke database MySQL kita membutuhkan string koneksi berikut :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>SERVER=nama_server;DATABASE=nama_database;UID=user_database;PASSWORD=user_password</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+SERVER=nama_server;DATABASE=nama_database;UID=user_database;PASSWORD=user_password
+{% endcodeblock %}</p>
 
 <!-- more -->
 
 
 <p>Terlihat dengan jelas ada beberapa informasi yang tentunya tidak ingin kita hardcode di program, kita ambil contoh informasi <strong>nama_server</strong> dan <strong>nama_database</strong>.</p>
 
-<p>Kalo dulu mungkin kita biasanya meyimpan informasi tersebut di registry windows atau file dengan format <a href="/blog/2010/04/23/contoh-sederhana-memanipulasi-ini-file-untuk-menyimpan-informasi/">INI</a>, tapi kali ini kita akan memanfaatkan file XML yang sudah disediakan .NET</p>
+<p>Kalo dulu mungkin kita biasanya meyimpan informasi tersebut di registry windows atau file dengan format <a href="{{%20site.url%20}}/blog/2010/04/23/contoh-sederhana-memanipulasi-ini-file-untuk-menyimpan-informasi/">INI</a>, tapi kali ini kita akan memanfaatkan file XML yang sudah disediakan .NET</p>
 
 <p>Bagaimana cara menambahkan file XML tersebut ikuti langkah-langkah berikut :</p>
 
@@ -176,99 +166,55 @@ Di bagian <code>Program/script</code> kita tentukan nama file <code>backup.cmd</
 
 <p>Berikut adalah kode lengkap class DBConnectionnya :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">using</span> <span class="nn">MySql.Data.MySqlClient</span><span class="p">;</span>
-</span><span class='line'><span class="k">using</span> <span class="nn">System.Configuration</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">namespace</span> <span class="nn">DemoDAO</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">public</span> <span class="k">class</span> <span class="nc">DBConnection</span>
-</span><span class='line'>    <span class="p">{&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span>    <span class="k">private</span> <span class="n">MySqlConnection</span> <span class="n">conn</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">private</span> <span class="k">static</span> <span class="n">DBConnection</span> <span class="n">dbConn</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// constructor</span>
-</span><span class='line'>    <span class="k">private</span> <span class="nf">DBConnection</span><span class="p">()</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">conn</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="c1">// cara membaca informasi yang ada pada file XML (App.config)</span>
-</span><span class='line'>            <span class="kt">string</span> <span class="n">server</span> <span class="p">=</span> <span class="n">ConfigurationSettings</span><span class="p">.</span><span class="n">AppSettings</span><span class="p">[</span><span class="s">&quot;Server&quot;</span><span class="p">];</span>
-</span><span class='line'>            <span class="kt">string</span> <span class="n">database</span> <span class="p">=</span> <span class="n">ConfigurationSettings</span><span class="p">.</span><span class="n">AppSettings</span><span class="p">[</span><span class="s">&quot;Database&quot;</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="kt">string</span> <span class="n">user</span> <span class="p">=</span> <span class="s">&quot;root&quot;</span><span class="p">;</span>
-</span><span class='line'>            <span class="kt">string</span> <span class="n">password</span> <span class="p">=</span> <span class="s">&quot;rahasia&quot;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="kt">string</span> <span class="n">strConn</span> <span class="p">=</span> <span class="s">&quot;SERVER=&quot;</span> <span class="p">+</span> <span class="n">server</span> <span class="p">+</span> <span class="s">&quot;;DATABASE=&quot;</span> <span class="p">+</span> <span class="n">database</span> <span class="p">+</span> <span class="s">&quot;;UID=&quot;</span> <span class="p">+</span> <span class="n">user</span> <span class="p">+</span> <span class="s">&quot;;PASSWORD=&quot;</span> <span class="p">+</span> <span class="n">password</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="n">conn</span> <span class="p">=</span> <span class="k">new</span> <span class="n">MySqlConnection</span><span class="p">(</span><span class="n">strConn</span><span class="p">);</span>
-</span><span class='line'>            <span class="n">conn</span><span class="p">.</span><span class="n">Open</span><span class="p">();</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">public</span> <span class="k">static</span> <span class="n">DBConnection</span> <span class="nf">GetInstance</span><span class="p">()</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">dbConn</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span> <span class="n">dbConn</span> <span class="p">=</span> <span class="k">new</span> <span class="n">DBConnection</span><span class="p">();</span> <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="k">return</span> <span class="n">dbConn</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">public</span> <span class="n">MySqlConnection</span> <span class="nf">GetConnection</span><span class="p">()</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="n">conn</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+using MySql.Data.MySqlClient;
+using System.Configuration;</p>
 
-<p>Sampai disini semua persiapan sudah oke, saatnya kita melengkapi kode program untuk Presentation layer dan untuk merefresh ingatan kita saya tampilkan kembali form mahasiswa yang sudah kita rancang pada <a href="/blog/2011/06/25/mengakses-database-mysql-menggunakan-c-bagian-1/">postingan</a> sebelumnya.</p>
+<p>namespace DemoDAO
+{
+    public class DBConnection
+    {</p>
+
+<pre><code>    private MySqlConnection conn = null;
+    private static DBConnection dbConn = null;
+
+    // constructor
+    private DBConnection()
+    {
+        if (conn == null)
+        {
+            // cara membaca informasi yang ada pada file XML (App.config)
+            string server = ConfigurationSettings.AppSettings["Server"];
+            string database = ConfigurationSettings.AppSettings["Database"];
+
+            string user = "root";
+            string password = "rahasia";
+
+            string strConn = "SERVER=" + server + ";DATABASE=" + database + ";UID=" + user + ";PASSWORD=" + password;
+
+            conn = new MySqlConnection(strConn);
+            conn.Open();
+        }
+    }
+
+    public static DBConnection GetInstance()
+    {
+        if (dbConn == null) { dbConn = new DBConnection(); }
+
+        return dbConn;
+    }
+
+    public MySqlConnection GetConnection()
+    {
+        return this.conn;
+    }
+}
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
+
+<p>Sampai disini semua persiapan sudah oke, saatnya kita melengkapi kode program untuk Presentation layer dan untuk merefresh ingatan kita saya tampilkan kembali form mahasiswa yang sudah kita rancang pada <a href="{{%20site.url%20}}/blog/2011/06/25/mengakses-database-mysql-menggunakan-c-bagian-1/">postingan</a> sebelumnya.</p>
 
 <p><a href="http://coding4ever.files.wordpress.com/2011/06/25062011-31.png"><img src="http://coding4ever.files.wordpress.com/2011/06/25062011-31.png?w=300" alt="" /></a></p>
 
@@ -280,149 +226,85 @@ Di bagian <code>Program/script</code> kita tentukan nama file <code>backup.cmd</
 
 <p><strong>1. Menyimpan Data</strong></p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">btnSimpan_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">EventArgs</span> <span class="n">e</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="c1">// buat objek mhs</span>
-</span><span class='line'>    <span class="n">Mahasiswa</span> <span class="n">mhs</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Mahasiswa</span><span class="p">();&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="c1">// isi nilai masing-masing property</span>
-</span><span class='line'><span class="n">mhs</span><span class="p">.</span><span class="n">NomorMahasiswa</span> <span class="p">=</span> <span class="n">txtNomorMahasiswa</span><span class="p">.</span><span class="n">Text</span><span class="p">;</span>
-</span><span class='line'><span class="n">mhs</span><span class="p">.</span><span class="n">Nama</span> <span class="p">=</span> <span class="n">txtNama</span><span class="p">.</span><span class="n">Text</span><span class="p">;</span>
-</span><span class='line'><span class="n">mhs</span><span class="p">.</span><span class="n">Alamat</span> <span class="p">=</span> <span class="n">txtAlamat</span><span class="p">.</span><span class="n">Text</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">result</span> <span class="p">=</span> <span class="n">mhsDao</span><span class="p">.</span><span class="n">Save</span><span class="p">(</span><span class="n">mhs</span><span class="p">);</span> <span class="c1">// panggil method Save</span>
-</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="p">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="m">0</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">MsgInfo</span><span class="p">(</span><span class="s">&quot;Data sudah disimpan&quot;</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">KosongkanInputan</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">txtNomorMahasiswa</span><span class="p">.</span><span class="n">Focus</span><span class="p">();</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">else</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">MsgInfo</span><span class="p">(</span><span class="s">&quot;Data gagal disimpan&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+private void btnSimpan_Click(object sender, EventArgs e)
+{
+    // buat objek mhs
+    Mahasiswa mhs = new Mahasiswa();</p>
+
+<pre><code>// isi nilai masing-masing property
+mhs.NomorMahasiswa = txtNomorMahasiswa.Text;
+mhs.Nama = txtNama.Text;
+mhs.Alamat = txtAlamat.Text;
+
+result = mhsDao.Save(mhs); // panggil method Save
+if (result &gt; 0)
+{
+    MsgInfo("Data sudah disimpan");
+    KosongkanInputan();
+
+    txtNomorMahasiswa.Focus();
+}
+else
+{
+    MsgInfo("Data gagal disimpan");
+}
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p><strong>2. Mengupdate Data</strong></p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">btnPerbaiki_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">EventArgs</span> <span class="n">e</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="c1">// buat objek mhs</span>
-</span><span class='line'>    <span class="n">Mahasiswa</span> <span class="n">mhs</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Mahasiswa</span><span class="p">();&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="c1">// isi nilai masing-masing property</span>
-</span><span class='line'><span class="n">mhs</span><span class="p">.</span><span class="n">NomorMahasiswa</span> <span class="p">=</span> <span class="n">txtNomorMahasiswa</span><span class="p">.</span><span class="n">Text</span><span class="p">;</span>
-</span><span class='line'><span class="n">mhs</span><span class="p">.</span><span class="n">Nama</span> <span class="p">=</span> <span class="n">txtNama</span><span class="p">.</span><span class="n">Text</span><span class="p">;</span>
-</span><span class='line'><span class="n">mhs</span><span class="p">.</span><span class="n">Alamat</span> <span class="p">=</span> <span class="n">txtAlamat</span><span class="p">.</span><span class="n">Text</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">result</span> <span class="p">=</span> <span class="n">mhsDao</span><span class="p">.</span><span class="n">Update</span><span class="p">(</span><span class="n">mhs</span><span class="p">);</span> <span class="c1">// panggil method Update</span>
-</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="p">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="m">0</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">MsgInfo</span><span class="p">(</span><span class="s">&quot;Data sudah disimpan&quot;</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">KosongkanInputan</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">txtNomorMahasiswa</span><span class="p">.</span><span class="n">Focus</span><span class="p">();</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">else</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">MsgInfo</span><span class="p">(</span><span class="s">&quot;Data gagal disimpan&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+private void btnPerbaiki_Click(object sender, EventArgs e)
+{
+    // buat objek mhs
+    Mahasiswa mhs = new Mahasiswa();</p>
+
+<pre><code>// isi nilai masing-masing property
+mhs.NomorMahasiswa = txtNomorMahasiswa.Text;
+mhs.Nama = txtNama.Text;
+mhs.Alamat = txtAlamat.Text;
+
+result = mhsDao.Update(mhs); // panggil method Update
+if (result &gt; 0)
+{
+    MsgInfo("Data sudah disimpan");
+    KosongkanInputan();
+
+    txtNomorMahasiswa.Focus();
+}
+else
+{
+    MsgInfo("Data gagal disimpan");
+}
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p><strong>3. Menghapus Data</strong></p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">btnHapus_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">EventArgs</span> <span class="n">e</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">result</span> <span class="p">=</span> <span class="n">mhsDao</span><span class="p">.</span><span class="n">Delete</span><span class="p">(</span><span class="n">txtNomorMahasiswa</span><span class="p">.</span><span class="n">Text</span><span class="p">);</span> <span class="c1">// panggil method Delete</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="n">MsgInfo</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Data</span> <span class="n">sudah</span> <span class="n">dihapus</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
-</span><span class='line'>        <span class="n">KosongkanInputan</span><span class="p">();&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span>    <span class="n">txtNomorMahasiswa</span><span class="p">.</span><span class="n">Focus</span><span class="p">();</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">else</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">MsgInfo</span><span class="p">(</span><span class="s">&quot;Data gagal dihapus&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+private void btnHapus_Click(object sender, EventArgs e)
+{
+    result = mhsDao.Delete(txtNomorMahasiswa.Text); // panggil method Delete
+    if (result > 0)
+    {
+        MsgInfo(&ldquo;Data sudah dihapus&rdquo;);
+        KosongkanInputan();</p>
+
+<pre><code>    txtNomorMahasiswa.Focus();
+}
+else
+{
+    MsgInfo("Data gagal dihapus");
+}
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p><strong>4. Menampilkan data</strong></p>
 
@@ -430,63 +312,36 @@ Di bagian <code>Program/script</code> kita tentukan nama file <code>backup.cmd</
 
 <p>Karena data mahasiswa yang ditampilkan bisa lebih dari satu disini kita bisa menggunakan class List untuk menampung objeknya.</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">FillToListView</span><span class="p">(</span><span class="n">Mahasiswa</span> <span class="n">mhs</span><span class="p">)</span>
-</span><span class='line'><span class="p">{&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="kt">int</span> <span class="n">noUrut</span> <span class="p">=</span> <span class="n">lvwMahasiswa</span><span class="p">.</span><span class="n">Items</span><span class="p">.</span><span class="n">Count</span> <span class="p">+</span> <span class="m">1</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">ListViewItem</span> <span class="n">item</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ListViewItem</span><span class="p">(</span><span class="n">noUrut</span><span class="p">.</span><span class="n">ToString</span><span class="p">());</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">item</span><span class="p">.</span><span class="n">SubItems</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">mhs</span><span class="p">.</span><span class="n">NomorMahasiswa</span><span class="p">);</span>
-</span><span class='line'><span class="n">item</span><span class="p">.</span><span class="n">SubItems</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">mhs</span><span class="p">.</span><span class="n">Nama</span><span class="p">);</span>
-</span><span class='line'><span class="n">item</span><span class="p">.</span><span class="n">SubItems</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">mhs</span><span class="p">.</span><span class="n">Alamat</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">lvwMahasiswa</span><span class="p">.</span><span class="n">Items</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">item</span><span class="p">);</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">private</span> <span class="k">void</span> <span class="n">LoadDataMahasiswa</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">lvwMahasiswa</span><span class="p">.</span><span class="n">Items</span><span class="p">.</span><span class="n">Clear</span><span class="p">();&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="n">List</span><span class="p">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">Mahasiswa</span><span class="p">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">daftarMhs</span> <span class="p">=</span> <span class="n">mhsDao</span><span class="p">.</span><span class="n">GetAll</span><span class="p">();</span>
-</span><span class='line'><span class="k">foreach</span> <span class="p">(</span><span class="n">Mahasiswa</span> <span class="n">mhs</span> <span class="k">in</span> <span class="n">daftarMhs</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">FillToListView</span><span class="p">(</span><span class="n">mhs</span><span class="p">);</span> <span class="c1">// panggil method FillToListView</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+private void FillToListView(Mahasiswa mhs)
+{</p>
+
+<pre><code>int noUrut = lvwMahasiswa.Items.Count + 1;
+
+ListViewItem item = new ListViewItem(noUrut.ToString());
+
+item.SubItems.Add(mhs.NomorMahasiswa);
+item.SubItems.Add(mhs.Nama);
+item.SubItems.Add(mhs.Alamat);
+
+lvwMahasiswa.Items.Add(item);
+</code></pre>
+
+<p>}</p>
+
+<p>private void LoadDataMahasiswa()
+{
+    lvwMahasiswa.Items.Clear();</p>
+
+<pre><code>List&lt;Mahasiswa&gt; daftarMhs = mhsDao.GetAll();
+foreach (Mahasiswa mhs in daftarMhs)
+{
+    FillToListView(mhs); // panggil method FillToListView
+}
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p>Setelah itu tinggal panggil method LoadDataMahasiswa di constructor FrmMahasiswa</p>
 
@@ -496,137 +351,83 @@ Di bagian <code>Program/script</code> kita tentukan nama file <code>backup.cmd</
 
 <p>Untuk pencarian data kita tinggal mengoverload method  LoadDataMahasiswa dimana kita menambahkan parameter nama dengan tipe string, selain itu method MahasiswaDao yang kita panggil adalah GetByName</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">LoadDataMahasiswa</span><span class="p">(</span><span class="kt">string</span> <span class="n">nama</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">lvwMahasiswa</span><span class="p">.</span><span class="n">Items</span><span class="p">.</span><span class="n">Clear</span><span class="p">();&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="n">List</span><span class="p">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">Mahasiswa</span><span class="p">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">daftarMhs</span> <span class="p">=</span> <span class="n">mhsDao</span><span class="p">.</span><span class="n">GetByName</span><span class="p">(</span><span class="n">nama</span><span class="p">);</span>
-</span><span class='line'><span class="k">foreach</span> <span class="p">(</span><span class="n">Mahasiswa</span> <span class="n">mhs</span> <span class="k">in</span> <span class="n">daftarMhs</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">FillToListView</span><span class="p">(</span><span class="n">mhs</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+private void LoadDataMahasiswa(string nama)
+{
+    lvwMahasiswa.Items.Clear();</p>
+
+<pre><code>List&lt;Mahasiswa&gt; daftarMhs = mhsDao.GetByName(nama);
+foreach (Mahasiswa mhs in daftarMhs)
+{
+    FillToListView(mhs);
+}
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p>Selanjutnya tinggal dipanggil di event btnCari_Click</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">btnCari_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">EventArgs</span> <span class="n">e</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">LoadDataMahasiswa</span><span class="p">(</span><span class="n">txtKeywordPencarian</span><span class="p">.</span><span class="n">Text</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+private void btnCari_Click(object sender, EventArgs e)
+{
+    LoadDataMahasiswa(txtKeywordPencarian.Text);
+}
+{% endcodeblock %}</p>
 
 <p>Sebagai bonus :) saya akan tambahkan satu lagi method untuk pencarian data berdasarkan nomor mahasiswa, untuk melakukan ini kita akan menambahkan method <strong>GetByNoMahasiswa</strong>, adapun kodenya sebgai berikut :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">public</span> <span class="n">Mahasiswa</span> <span class="nf">GetByNoMahasiswa</span><span class="p">(</span><span class="kt">string</span> <span class="n">nomorMahasiswa</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">Mahasiswa</span> <span class="n">mhs</span> <span class="p">=</span> <span class="k">null</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="n">strSql</span> <span class="p">=</span> <span class="s">&quot;SELECT nomor_mahasiswa, nama, alamat FROM mahasiswa &quot;</span> <span class="p">+</span>
-</span><span class='line'>         <span class="s">&quot;WHERE nomor_mahasiswa = @1&quot;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">using</span> <span class="p">(</span><span class="n">MySqlCommand</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">MySqlCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="n">nomorMahasiswa</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="n">MySqlDataReader</span> <span class="n">dtr</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteReader</span><span class="p">())</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">dtr</span><span class="p">.</span><span class="n">Read</span><span class="p">())</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="n">mhs</span> <span class="p">=</span> <span class="n">MappingRowToObject</span><span class="p">(</span><span class="n">dtr</span><span class="p">);</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="n">mhs</span><span class="p">;</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+public Mahasiswa GetByNoMahasiswa(string nomorMahasiswa)
+{
+    Mahasiswa mhs = null;</p>
+
+<pre><code>strSql = "SELECT nomor_mahasiswa, nama, alamat FROM mahasiswa " +
+         "WHERE nomor_mahasiswa = @1";
+
+using (MySqlCommand cmd = new MySqlCommand(strSql, conn))
+{
+    cmd.Parameters.AddWithValue("@1", nomorMahasiswa);
+
+    using (MySqlDataReader dtr = cmd.ExecuteReader())
+    {
+        if (dtr.Read())
+        {
+            mhs = MappingRowToObject(dtr);
+        }
+    }
+}
+
+return mhs;
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p>Method tersebut ditambahkan di class MahasiswaDao, selain itu kita juga menambahkan satu button lagi di FrmMahasiswa untuk memanggil method tersebut.</p>
 
 <p><a href="http://coding4ever.files.wordpress.com/2011/06/26062011-10.png"><img src="http://coding4ever.files.wordpress.com/2011/06/26062011-10.png?w=300" alt="" /></a></p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">btnCariByNoMhs_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">EventArgs</span> <span class="n">e</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">Mahasiswa</span> <span class="n">mhs</span> <span class="p">=</span> <span class="n">mhsDao</span><span class="p">.</span><span class="n">GetByNoMahasiswa</span><span class="p">(</span><span class="n">txtNomorMahasiswa</span><span class="p">.</span><span class="n">Text</span><span class="p">);</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">mhs</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="n">txtNomorMahasiswa</span><span class="p">.</span><span class="n">Text</span> <span class="p">=</span> <span class="n">mhs</span><span class="p">.</span><span class="n">NomorMahasiswa</span><span class="p">;</span>
-</span><span class='line'>        <span class="n">txtNama</span><span class="p">.</span><span class="n">Text</span> <span class="p">=</span> <span class="n">mhs</span><span class="p">.</span><span class="n">Nama</span><span class="p">;</span>
-</span><span class='line'>        <span class="n">txtAlamat</span><span class="p">.</span><span class="n">Text</span> <span class="p">=</span> <span class="n">mhs</span><span class="p">.</span><span class="n">Alamat</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span>    <span class="n">MsgInfo</span><span class="p">(</span><span class="s">&quot;Data mahasiswa ditemukan&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">else</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">MsgInfo</span><span class="p">(</span><span class="s">&quot;Nomor mahasiswa tidak ditemukan&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+private void btnCariByNoMhs_Click(object sender, EventArgs e)
+{
+    Mahasiswa mhs = mhsDao.GetByNoMahasiswa(txtNomorMahasiswa.Text);
+    if (mhs != null)
+    {
+        txtNomorMahasiswa.Text = mhs.NomorMahasiswa;
+        txtNama.Text = mhs.Nama;
+        txtAlamat.Text = mhs.Alamat;</p>
+
+<pre><code>    MsgInfo("Data mahasiswa ditemukan");
+}
+else
+{
+    MsgInfo("Nomor mahasiswa tidak ditemukan");
+}
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p>Akhirnya selesai juga, tapi mungkin saya butuh satu postingan lagi untuk menutup artikel berseri ini, insya Allah :).</p>
 
@@ -708,63 +509,36 @@ Di bagian <code>Program/script</code> kita tentukan nama file <code>backup.cmd</
 
 <p>Oke sampai disini kita tinggal melengkapi kode untuk class Mahasiswa diatas, kode lengkapnya sebagai berikut :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">namespace</span> <span class="nn">DemoDAO.Model</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">public</span> <span class="k">class</span> <span class="nc">Mahasiswa</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">private</span> <span class="kt">string</span> <span class="n">nomorMahasiswa</span><span class="p">;</span>
-</span><span class='line'>        <span class="k">public</span> <span class="kt">string</span> <span class="n">NomorMahasiswa</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="k">get</span> <span class="p">{</span> <span class="k">return</span> <span class="n">nomorMahasiswa</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'>            <span class="k">set</span> <span class="p">{</span> <span class="n">nomorMahasiswa</span> <span class="p">=</span> <span class="k">value</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'>        <span class="p">}&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span>    <span class="k">private</span> <span class="kt">string</span> <span class="n">nama</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">public</span> <span class="kt">string</span> <span class="n">Nama</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">get</span> <span class="p">{</span> <span class="k">return</span> <span class="n">nama</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'>        <span class="k">set</span> <span class="p">{</span> <span class="n">nama</span> <span class="p">=</span> <span class="k">value</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">private</span> <span class="kt">string</span> <span class="n">alamat</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">public</span> <span class="kt">string</span> <span class="n">Alamat</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">get</span> <span class="p">{</span> <span class="k">return</span> <span class="n">alamat</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'>        <span class="k">set</span> <span class="p">{</span> <span class="n">alamat</span> <span class="p">=</span> <span class="k">value</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+namespace DemoDAO.Model
+{
+    public class Mahasiswa
+    {
+        private string nomorMahasiswa;
+        public string NomorMahasiswa
+        {
+            get { return nomorMahasiswa; }
+            set { nomorMahasiswa = value; }
+        }</p>
+
+<pre><code>    private string nama;
+    public string Nama
+    {
+        get { return nama; }
+        set { nama = value; }
+    }
+
+    private string alamat;
+    public string Alamat
+    {
+        get { return alamat; }
+        set { alamat = value; }
+    }
+}
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p><strong>4. Membuat Data Access</strong></p>
 
@@ -821,245 +595,134 @@ Di bagian <code>Program/script</code> kita tentukan nama file <code>backup.cmd</
 
 <p><strong>2. Menambah beberapa variabel pendukung seperti conn, strSql dan sebuah constructor</strong></p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="n">MySqlConnection</span> <span class="n">conn</span><span class="p">;</span>
-</span><span class='line'><span class="k">private</span> <span class="kt">string</span> <span class="n">strSql</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="c1">// constructor</span>
-</span><span class='line'><span class="k">public</span> <span class="nf">MahasiswaDao</span><span class="p">(</span><span class="n">MySqlConnection</span> <span class="n">conn</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">this</span><span class="p">.</span><span class="n">conn</span> <span class="p">=</span> <span class="n">conn</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+private MySqlConnection conn;
+private string strSql = string.Empty;</p>
+
+<p>// constructor
+public MahasiswaDao(MySqlConnection conn)
+{
+    this.conn = conn;
+}
+{% endcodeblock %}</p>
 
 <p><strong>3. Menambahkan method Save, Update dan Delete</strong></p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">public</span> <span class="kt">int</span> <span class="nf">Save</span><span class="p">(</span><span class="n">Mahasiswa</span> <span class="n">mhs</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">strSql</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">mahasiswa</span> <span class="p">(</span><span class="n">nomor_mahasiswa</span><span class="p">,</span> <span class="n">nama</span><span class="p">,</span> <span class="n">alamat</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="err">@</span><span class="m">1</span><span class="p">,</span> <span class="err">@</span><span class="m">2</span><span class="p">,</span> <span class="err">@</span><span class="m">3</span><span class="p">)&amp;</span><span class="n">rdquo</span><span class="p">;;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="n">MySqlCommand</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">MySqlCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="n">mhs</span><span class="p">.</span><span class="n">NomorMahasiswa</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@2&quot;</span><span class="p">,</span> <span class="n">mhs</span><span class="p">.</span><span class="n">Nama</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@3&quot;</span><span class="p">,</span> <span class="n">mhs</span><span class="p">.</span><span class="n">Alamat</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">return</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteNonQuery</span><span class="p">();</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">public</span> <span class="kt">int</span> <span class="n">Update</span><span class="p">(</span><span class="n">Mahasiswa</span> <span class="n">mhs</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">strSql</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">UPDATE</span> <span class="n">mahasiswa</span> <span class="n">SET</span> <span class="n">nama</span> <span class="p">=</span> <span class="err">@</span><span class="m">1</span><span class="p">,</span> <span class="n">alamat</span> <span class="p">=</span> <span class="err">@</span><span class="m">2</span> <span class="n">WHERE</span> <span class="n">nomor_mahasiswa</span> <span class="p">=</span> <span class="err">@</span><span class="m">3</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="n">MySqlCommand</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">MySqlCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="n">mhs</span><span class="p">.</span><span class="n">Nama</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@2&quot;</span><span class="p">,</span> <span class="n">mhs</span><span class="p">.</span><span class="n">Alamat</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@3&quot;</span><span class="p">,</span> <span class="n">mhs</span><span class="p">.</span><span class="n">NomorMahasiswa</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">return</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteNonQuery</span><span class="p">();</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">public</span> <span class="kt">int</span> <span class="n">Delete</span><span class="p">(</span><span class="kt">string</span> <span class="n">nomorMahasiswa</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">strSql</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">DELETE</span> <span class="n">FROM</span> <span class="n">mahasiswa</span> <span class="n">WHERE</span> <span class="n">nomor_mahasiswa</span> <span class="p">=</span> <span class="err">@</span><span class="m">1</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="n">MySqlCommand</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">MySqlCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="n">nomorMahasiswa</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">return</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteNonQuery</span><span class="p">();</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+public int Save(Mahasiswa mhs)
+{
+    strSql = &ldquo;INSERT INTO mahasiswa (nomor_mahasiswa, nama, alamat) VALUES (@1, @2, @3)&rdquo;;</p>
+
+<pre><code>using (MySqlCommand cmd = new MySqlCommand(strSql, conn))
+{
+    cmd.Parameters.AddWithValue("@1", mhs.NomorMahasiswa);
+    cmd.Parameters.AddWithValue("@2", mhs.Nama);
+    cmd.Parameters.AddWithValue("@3", mhs.Alamat);
+
+    return cmd.ExecuteNonQuery();
+}
+</code></pre>
+
+<p>}</p>
+
+<p>public int Update(Mahasiswa mhs)
+{
+    strSql = &ldquo;UPDATE mahasiswa SET nama = @1, alamat = @2 WHERE nomor_mahasiswa = @3&rdquo;;</p>
+
+<pre><code>using (MySqlCommand cmd = new MySqlCommand(strSql, conn))
+{
+    cmd.Parameters.AddWithValue("@1", mhs.Nama);
+    cmd.Parameters.AddWithValue("@2", mhs.Alamat);
+    cmd.Parameters.AddWithValue("@3", mhs.NomorMahasiswa);
+
+    return cmd.ExecuteNonQuery();
+}
+</code></pre>
+
+<p>}</p>
+
+<p>public int Delete(string nomorMahasiswa)
+{
+    strSql = &ldquo;DELETE FROM mahasiswa WHERE nomor_mahasiswa = @1&rdquo;;</p>
+
+<pre><code>using (MySqlCommand cmd = new MySqlCommand(strSql, conn))
+{
+    cmd.Parameters.AddWithValue("@1", nomorMahasiswa);
+
+    return cmd.ExecuteNonQuery();
+}
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p><strong>4. Menambahkan method GetAll dan GetByName</strong></p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="n">Mahasiswa</span> <span class="nf">MappingRowToObject</span><span class="p">(</span><span class="n">MySqlDataReader</span> <span class="n">dtr</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">Mahasiswa</span> <span class="n">mhs</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Mahasiswa</span><span class="p">();&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="n">mhs</span><span class="p">.</span><span class="n">NomorMahasiswa</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;nomor_mahasiswa&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;nomor_mahasiswa&quot;</span><span class="p">].</span><span class="n">ToString</span><span class="p">();</span>
-</span><span class='line'><span class="n">mhs</span><span class="p">.</span><span class="n">Nama</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;nama&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;nama&quot;</span><span class="p">].</span><span class="n">ToString</span><span class="p">();</span>
-</span><span class='line'><span class="n">mhs</span><span class="p">.</span><span class="n">Alamat</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;alamat&quot;</span><span class="p">]</span> <span class="k">is</span> <span class="n">DBNull</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;alamat&quot;</span><span class="p">].</span><span class="n">ToString</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="n">mhs</span><span class="p">;</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">public</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Mahasiswa</span><span class="p">&gt;</span> <span class="n">GetAll</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">List</span><span class="p">&lt;</span><span class="n">Mahasiswa</span><span class="p">&gt;</span> <span class="n">daftarMhs</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Mahasiswa</span><span class="p">&gt;();&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="n">strSql</span> <span class="p">=</span> <span class="s">&quot;SELECT nomor_mahasiswa, nama, alamat FROM mahasiswa &quot;</span> <span class="p">+</span>
-</span><span class='line'>         <span class="s">&quot;ORDER BY nama&quot;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">using</span> <span class="p">(</span><span class="n">MySqlCommand</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">MySqlCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="n">MySqlDataReader</span> <span class="n">dtr</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteReader</span><span class="p">())</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">while</span> <span class="p">(</span><span class="n">dtr</span><span class="p">.</span><span class="n">Read</span><span class="p">())</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="n">daftarMhs</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">MappingRowToObject</span><span class="p">(</span><span class="n">dtr</span><span class="p">));</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="n">daftarMhs</span><span class="p">;</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">public</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Mahasiswa</span><span class="p">&gt;</span> <span class="n">GetByName</span><span class="p">(</span><span class="kt">string</span> <span class="n">nama</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">List</span><span class="p">&lt;</span><span class="n">Mahasiswa</span><span class="p">&gt;</span> <span class="n">daftarMhs</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Mahasiswa</span><span class="p">&gt;();&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="n">strSql</span> <span class="p">=</span> <span class="s">&quot;SELECT nomor_mahasiswa, nama, alamat FROM mahasiswa &quot;</span> <span class="p">+</span>
-</span><span class='line'>         <span class="s">&quot;WHERE nama LIKE @1 &quot;</span> <span class="p">+</span>
-</span><span class='line'>         <span class="s">&quot;ORDER BY nama&quot;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">using</span> <span class="p">(</span><span class="n">MySqlCommand</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">MySqlCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">cmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="s">&quot;%&quot;</span> <span class="p">+</span> <span class="n">nama</span> <span class="p">+</span> <span class="s">&quot;%&quot;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="n">MySqlDataReader</span> <span class="n">dtr</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteReader</span><span class="p">())</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">while</span> <span class="p">(</span><span class="n">dtr</span><span class="p">.</span><span class="n">Read</span><span class="p">())</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="n">daftarMhs</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">MappingRowToObject</span><span class="p">(</span><span class="n">dtr</span><span class="p">));</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="n">daftarMhs</span><span class="p">;</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+private Mahasiswa MappingRowToObject(MySqlDataReader dtr)
+{
+    Mahasiswa mhs = new Mahasiswa();</p>
 
-<p>Selesai sudah pembuatan class MahasiswaDaonya sekarang tinggal bagaimana cara menggunakan class Mahasiswa dan MahasiswaDao pada Presentation layer, tapi &hellip; akan saya bahas pada <a href="/blog/2011/06/26/mengakses-database-mysql-menggunakan-c-bagian-2/">postingan</a> berikutnya :D insya Allah.</p>
+<pre><code>mhs.NomorMahasiswa = dtr["nomor_mahasiswa"] is DBNull ? string.Empty : dtr["nomor_mahasiswa"].ToString();
+mhs.Nama = dtr["nama"] is DBNull ? string.Empty : dtr["nama"].ToString();
+mhs.Alamat = dtr["alamat"] is DBNull ? string.Empty : dtr["alamat"].ToString();
+
+return mhs;
+</code></pre>
+
+<p>}</p>
+
+<p>public List<Mahasiswa> GetAll()
+{
+    List<Mahasiswa> daftarMhs = new List<Mahasiswa>();</p>
+
+<pre><code>strSql = "SELECT nomor_mahasiswa, nama, alamat FROM mahasiswa " +
+         "ORDER BY nama";
+
+using (MySqlCommand cmd = new MySqlCommand(strSql, conn))
+{
+    using (MySqlDataReader dtr = cmd.ExecuteReader())
+    {
+        while (dtr.Read())
+        {
+            daftarMhs.Add(MappingRowToObject(dtr));
+        }
+    }
+}
+
+return daftarMhs;
+</code></pre>
+
+<p>}</p>
+
+<p>public List<Mahasiswa> GetByName(string nama)
+{
+    List<Mahasiswa> daftarMhs = new List<Mahasiswa>();</p>
+
+<pre><code>strSql = "SELECT nomor_mahasiswa, nama, alamat FROM mahasiswa " +
+         "WHERE nama LIKE @1 " +
+         "ORDER BY nama";
+
+using (MySqlCommand cmd = new MySqlCommand(strSql, conn))
+{
+    cmd.Parameters.AddWithValue("@1", "%" + nama + "%");
+
+    using (MySqlDataReader dtr = cmd.ExecuteReader())
+    {
+        while (dtr.Read())
+        {
+            daftarMhs.Add(MappingRowToObject(dtr));
+        }
+    }
+}
+
+return daftarMhs;
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
+
+<p>Selesai sudah pembuatan class MahasiswaDaonya sekarang tinggal bagaimana cara menggunakan class Mahasiswa dan MahasiswaDao pada Presentation layer, tapi &hellip; akan saya bahas pada <a href="{{%20site.url%20}}/blog/2011/06/26/mengakses-database-mysql-menggunakan-c-bagian-2/">postingan</a> berikutnya :D insya Allah.</p>
 
 <p>Selamat <a href="http://www.4shared.com/file/6vack9Yi/DemoDAO.html">MENCOBA</a> :)</p>
 
@@ -1078,16 +741,13 @@ Di bagian <code>Program/script</code> kita tentukan nama file <code>backup.cmd</
 
 <p>Adapun perintah dasar untuk melakukan backup dan restore adalah sebagai berikut :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lsquo; backup
-</span><span class='line'>mysqldump -uUSER_NAME -pUSER_PASSWORD &ndash;routines NAMA_DATABASE > LOKASI_FILE_BACKUP.SQL&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>&lsquo; restore
-</span><span class='line'>mysql -uUSER_NAME -pUSER_PASSWORD NAMA_DATABASE &lt; LOKASI_FILE_BACKUP.SQL</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+&lsquo; backup
+mysqldump -uUSER_NAME -pUSER_PASSWORD &ndash;routines NAMA_DATABASE > LOKASI_FILE_BACKUP.SQL</p>
+
+<p>&lsquo; restore
+mysql -uUSER_NAME -pUSER_PASSWORD NAMA_DATABASE &lt; LOKASI_FILE_BACKUP.SQL
+{% endcodeblock %}</p>
 
 <!-- more -->
 
@@ -1096,117 +756,67 @@ Di bagian <code>Program/script</code> kita tentukan nama file <code>backup.cmd</
 
 <p>Sekarang tinggal kita siapkan kode berikut :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Private Declare Function OpenProcess Lib &ldquo;kernel32&rdquo; (ByVal dwDesiredAccess As Long, ByVal bInheritHandle As Long, ByVal dwProcessId As Long) As Long
-</span><span class='line'>Private Declare Function WaitForSingleObject Lib &ldquo;kernel32&rdquo; (ByVal hHandle As Long, ByVal dwMilliseconds As Long) As Long
-</span><span class='line'>Private Declare Function CloseHandle Lib &ldquo;kernel32&rdquo; (ByVal hObject As Long) As Long&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>Private Const SYNCHRONIZE       As Long = &amp;H100000
-</span><span class='line'>Private Const INFINITE          As Long = &amp;HFFFF&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>Private Sub execCommand(ByVal cmd As String)
-</span><span class='line'>    Dim result  As Long
-</span><span class='line'>    Dim lPid    As Long
-</span><span class='line'>    Dim lHnd    As Long
-</span><span class='line'>    Dim lRet    As Long&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>cmd = "cmd /c " &amp; cmd
-</span><span class='line'>result = Shell(cmd, vbHide)
-</span><span class='line'>
-</span><span class='line'>lPid = result
-</span><span class='line'>If lPid &lt;&gt; 0 Then
-</span><span class='line'>    lHnd = OpenProcess(SYNCHRONIZE, 0, lPid)
-</span><span class='line'>    If lHnd &lt;&gt; 0 Then
-</span><span class='line'>        lRet = WaitForSingleObject(lHnd, INFINITE)
-</span><span class='line'>        CloseHandle (lHnd)
-</span><span class='line'>    End If
-</span><span class='line'>End If
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>End Sub</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+Private Declare Function OpenProcess Lib &ldquo;kernel32&rdquo; (ByVal dwDesiredAccess As Long, ByVal bInheritHandle As Long, ByVal dwProcessId As Long) As Long
+Private Declare Function WaitForSingleObject Lib &ldquo;kernel32&rdquo; (ByVal hHandle As Long, ByVal dwMilliseconds As Long) As Long
+Private Declare Function CloseHandle Lib &ldquo;kernel32&rdquo; (ByVal hObject As Long) As Long</p>
+
+<p>Private Const SYNCHRONIZE       As Long = &amp;H100000
+Private Const INFINITE          As Long = &amp;HFFFF</p>
+
+<p>Private Sub execCommand(ByVal cmd As String)
+    Dim result  As Long
+    Dim lPid    As Long
+    Dim lHnd    As Long
+    Dim lRet    As Long</p>
+
+<pre><code>cmd = "cmd /c " &amp; cmd
+result = Shell(cmd, vbHide)
+
+lPid = result
+If lPid &lt;&gt; 0 Then
+    lHnd = OpenProcess(SYNCHRONIZE, 0, lPid)
+    If lHnd &lt;&gt; 0 Then
+        lRet = WaitForSingleObject(lHnd, INFINITE)
+        CloseHandle (lHnd)
+    End If
+End If
+</code></pre>
+
+<p>End Sub
+{% endcodeblock %}</p>
 
 <p>kemudian tinggal panggil di masing-masing proses (backup dan restore)</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Dim cmd As String&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>Private Sub cmdBackup_Click()
-</span><span class='line'>    Screen.MousePointer = vbHourglass
-</span><span class='line'>    DoEvents&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>cmd = Chr(34) &amp; "C:\Program Files\MySQL\MySQL Server 5.1\bin\mysqldump" &amp; Chr(34) &amp; " -uroot -prahasia --routines --comments nama_database &gt; c:\nama_database.sql"
-</span><span class='line'>Call execCommand(cmd)
-</span><span class='line'>
-</span><span class='line'>Screen.MousePointer = vbDefault
-</span><span class='line'>MsgBox "done"
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>End Sub&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>Private Sub cmdRestore_Click()
-</span><span class='line'>    Screen.MousePointer = vbHourglass
-</span><span class='line'>    DoEvents&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>cmd = Chr(34) &amp; "C:\Program Files\MySQL\MySQL Server 5.1\bin\mysql" &amp; Chr(34) &amp; " -uroot -prahasia --comments nama_database &lt; c:\nama_database.sql"
-</span><span class='line'>Call execCommand(cmd)
-</span><span class='line'>
-</span><span class='line'>Screen.MousePointer = vbDefault
-</span><span class='line'>MsgBox "done"
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>End Sub</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+Dim cmd As String</p>
+
+<p>Private Sub cmdBackup_Click()
+    Screen.MousePointer = vbHourglass
+    DoEvents</p>
+
+<pre><code>cmd = Chr(34) &amp; "C:\Program Files\MySQL\MySQL Server 5.1\bin\mysqldump" &amp; Chr(34) &amp; " -uroot -prahasia --routines --comments nama_database &gt; c:\nama_database.sql"
+Call execCommand(cmd)
+
+Screen.MousePointer = vbDefault
+MsgBox "done"
+</code></pre>
+
+<p>End Sub</p>
+
+<p>Private Sub cmdRestore_Click()
+    Screen.MousePointer = vbHourglass
+    DoEvents</p>
+
+<pre><code>cmd = Chr(34) &amp; "C:\Program Files\MySQL\MySQL Server 5.1\bin\mysql" &amp; Chr(34) &amp; " -uroot -prahasia --comments nama_database &lt; c:\nama_database.sql"
+Call execCommand(cmd)
+
+Screen.MousePointer = vbDefault
+MsgBox "done"
+</code></pre>
+
+<p>End Sub
+{% endcodeblock %}</p>
 
 <p>kode diatas dengan asumsi direktori bin MySQL ada di folder &ldquo;C:\Program Files\MySQL\MySQL Server 5.1\bin&rdquo;.</p>
 
@@ -1227,16 +837,13 @@ Di bagian <code>Program/script</code> kita tentukan nama file <code>backup.cmd</
 
 <p>Selanjutnya kita akan menyiapkan sebuah tabel, misal dengan nama mahasiswa dengan struktur seperti berikut :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>CREATE TABLE mahasiswa (
-</span><span class='line'>    npm VARCHAR(10),
-</span><span class='line'>    nama VARCHAR(50),
-</span><span class='line'>    foto MEDIUMBLOB
-</span><span class='line'>)</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+CREATE TABLE mahasiswa (
+    npm VARCHAR(10),
+    nama VARCHAR(50),
+    foto MEDIUMBLOB
+)
+{% endcodeblock %}</p>
 
 <!-- more -->
 
@@ -1251,13 +858,15 @@ Di bagian <code>Program/script</code> kita tentukan nama file <code>backup.cmd</
 
 <p>Perintah diatas berguna untuk menyingkat penulisan kode program contoh :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Private conn As New MySql.Data.MySqlClient.MySqlConnection</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+Private conn As New MySql.Data.MySqlClient.MySqlConnection
+{% endcodeblock %}</p>
 
 <p>bisa disingkat menjadi</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Private conn As New MySqlClient.MySqlConnection</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+Private conn As New MySqlClient.MySqlConnection
+{% endcodeblock %}</p>
 
 <p>Selanjutnya kita akan desain tampilan program seperti gambar dibawah ini</p>
 
@@ -1269,40 +878,25 @@ Di bagian <code>Program/script</code> kita tentukan nama file <code>backup.cmd</
 
 <p>Nah cara yang paling gampang kita tempatkan aja kodenya dibagian <a href="http://en.wikipedia.org/wiki/Constructor_(object-oriented_programming">constructor</a>)</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Private conn As New MySqlClient.MySqlConnection
-</span><span class='line'>Private strSql As String = String.Empty&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>Public Sub New()&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>' This call is required by the Windows Form Designer.
-</span><span class='line'>InitializeComponent()
-</span><span class='line'>
-</span><span class='line'>' Add any initialization after the InitializeComponent() call.
-</span><span class='line'>
-</span><span class='line'>' kode untuk melakukan koneksi mulai dari sini
-</span><span class='line'>Dim strConn As String = "server=127.0.0.1;uid=root;pwd=rahasia;database=test"
-</span><span class='line'>conn.ConnectionString = strConn
-</span><span class='line'>conn.Open()
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>End Sub</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+Private conn As New MySqlClient.MySqlConnection
+Private strSql As String = String.Empty</p>
+
+<p>Public Sub New()</p>
+
+<pre><code>' This call is required by the Windows Form Designer.
+InitializeComponent()
+
+' Add any initialization after the InitializeComponent() call.
+
+' kode untuk melakukan koneksi mulai dari sini
+Dim strConn As String = "server=127.0.0.1;uid=root;pwd=rahasia;database=test"
+conn.ConnectionString = strConn
+conn.Open()
+</code></pre>
+
+<p>End Sub
+{% endcodeblock %}</p>
 
 <p>Klo kelupaan lokasi constructornya dimana :D, caranya lihat gambar :</p>
 
@@ -1312,93 +906,55 @@ Di bagian <code>Program/script</code> kita tentukan nama file <code>backup.cmd</
 
 <p>Kodenya sederhana banget, kita lihat cuplikannya</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub btnSimpan_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSimpan.Click
-</span><span class='line'>    &lsquo; untuk contoh disini lokasi gambarnya saya hardcode
-</span><span class='line'>    &rsquo; kita bisa kembangkan dengan memanfaatkan komponen OpenFileDialog
-</span><span class='line'>    Dim fileName As String = &ldquo;E:\Gambar\k4m4r82.jpg&rdquo;&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>strSql = "INSERT INTO mahasiswa (npm, nama, foto) VALUES (@1, @2, @3)" ' ini perintah insert biasa
-</span><span class='line'>Using cmd As New MySqlClient.MySqlCommand(strSql, conn)
-</span><span class='line'>    With cmd
-</span><span class='line'>        .Parameters.Clear()
-</span><span class='line'>        .Parameters.AddWithValue("@1", "02.02.4114") ' npm
-</span><span class='line'>        .Parameters.AddWithValue("@2", "Kamarudin") ' nama
-</span><span class='line'>        .Parameters.AddWithValue("@3", IO.File.ReadAllBytes(fileName)) ' foto
-</span><span class='line'>
-</span><span class='line'>        .ExecuteNonQuery()
-</span><span class='line'>    End With
-</span><span class='line'>End Using
-</span><span class='line'>
-</span><span class='line'>MessageBox.Show("Data sudah disimpan", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information)
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>End Sub</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+Private Sub btnSimpan_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSimpan.Click
+    &lsquo; untuk contoh disini lokasi gambarnya saya hardcode
+    &rsquo; kita bisa kembangkan dengan memanfaatkan komponen OpenFileDialog
+    Dim fileName As String = &ldquo;E:\Gambar\k4m4r82.jpg&rdquo;</p>
+
+<pre><code>strSql = "INSERT INTO mahasiswa (npm, nama, foto) VALUES (@1, @2, @3)" ' ini perintah insert biasa
+Using cmd As New MySqlClient.MySqlCommand(strSql, conn)
+    With cmd
+        .Parameters.Clear()
+        .Parameters.AddWithValue("@1", "02.02.4114") ' npm
+        .Parameters.AddWithValue("@2", "Kamarudin") ' nama
+        .Parameters.AddWithValue("@3", IO.File.ReadAllBytes(fileName)) ' foto
+
+        .ExecuteNonQuery()
+    End With
+End Using
+
+MessageBox.Show("Data sudah disimpan", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information)
+</code></pre>
+
+<p>End Sub
+{% endcodeblock %}</p>
 
 <p><strong>Menampilkan gambar</strong></p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub btnTampil_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTampil.Click
-</span><span class='line'>    strSql = &ldquo;SELECT foto FROM mhs WHERE npm = @1&rdquo;&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>Using cmd As New MySqlClient.MySqlCommand(strSql, conn)
-</span><span class='line'>    With cmd
-</span><span class='line'>        .Parameters.Clear()
-</span><span class='line'>        .Parameters.AddWithValue("@1", "02.02.4114") ' npm
-</span><span class='line'>
-</span><span class='line'>        Using dtr As MySqlClient.MySqlDataReader = .ExecuteReader()
-</span><span class='line'>            If dtr.HasRows Then
-</span><span class='line'>                If dtr.Read() Then
-</span><span class='line'>                    Dim ms As New IO.MemoryStream(CType(dtr.Item("foto"), Byte()))
-</span><span class='line'>                    PictureBox1.Image = Image.FromStream(ms) ' tampilkan gambarnya
-</span><span class='line'>                End If
-</span><span class='line'>            End If
-</span><span class='line'>        End Using
-</span><span class='line'>    End With
-</span><span class='line'>End Using
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>End Sub</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+Private Sub btnTampil_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTampil.Click
+    strSql = &ldquo;SELECT foto FROM mhs WHERE npm = @1&rdquo;</p>
+
+<pre><code>Using cmd As New MySqlClient.MySqlCommand(strSql, conn)
+    With cmd
+        .Parameters.Clear()
+        .Parameters.AddWithValue("@1", "02.02.4114") ' npm
+
+        Using dtr As MySqlClient.MySqlDataReader = .ExecuteReader()
+            If dtr.HasRows Then
+                If dtr.Read() Then
+                    Dim ms As New IO.MemoryStream(CType(dtr.Item("foto"), Byte()))
+                    PictureBox1.Image = Image.FromStream(ms) ' tampilkan gambarnya
+                End If
+            End If
+        End Using
+    End With
+End Using
+</code></pre>
+
+<p>End Sub
+{% endcodeblock %}</p>
 
 <p><a href="http://coding4ever.files.wordpress.com/2011/03/15032011-5.jpg"><img src="http://coding4ever.files.wordpress.com/2011/03/15032011-5.jpg?w=300" alt="" /></a></p>
 

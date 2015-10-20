@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Visual C# | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/visual-c-number/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-10-20T09:27:48+07:00</updated>
+  <updated>2015-10-20T09:48:09+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -18,94 +18,94 @@
     <link href="http://coding4ever.net/blog/2015/06/23/cara-mudah-mengelola-versi-aplikasi/"/>
     <updated>2015-06-23T11:06:50+07:00</updated>
     <id>http://coding4ever.net/blog/2015/06/23/cara-mudah-mengelola-versi-aplikasi</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-00.png">https://coding4ever.files.wordpress.com/2015/06/230615-00.png</a>&#8221; width=&#8221;100&#8221; height=&#8221;100&#8221;>Oke jadi ceritanya seperti ini, saya punya kebiasaan dan saya enggak tau apakah ini kebiasaan baik atau buruk :D</p>
+    <content type="html"><![CDATA[<p>{% img left <a href="https://coding4ever.files.wordpress.com/2015/06/230615-00.png">https://coding4ever.files.wordpress.com/2015/06/230615-00.png</a> 100 100 %}Oke jadi ceritanya seperti ini, saya punya kebiasaan dan saya enggak tau apakah ini kebiasaan baik atau buruk :D</p>
 
 <p>Untuk menerapkan konsep <code>separation of concerns</code> dalam pengembangan aplikasi, saya biasanya memisahkan modul-modul aplikasi menjadi beberapa project (satu solution dengan banyak project/assemblies). Contoh :</p>
 
 <!-- more -->
 
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-01.png">https://coding4ever.files.wordpress.com/2015/06/230615-01.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/230615-01.png">https://coding4ever.files.wordpress.com/2015/06/230615-01.png</a> %}</p>
 
 <p>Dari gambar di atas klo kita build akan menghasilkan beberapa file assembly seperti berikut :</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-02.png">https://coding4ever.files.wordpress.com/2015/06/230615-02.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/230615-02.png">https://coding4ever.files.wordpress.com/2015/06/230615-02.png</a> %}</p>
 
 <p>Kebiasaan saya yang lain adalah setiap <code>assembly</code>, apakah itu berupa file <a href="https://en.wikipedia.org/wiki/Dynamic-link_library">dll</a> atau exe, harus mempunyai versi yang sama. Misalkan kalo rilis pertama, saya set versinya = 1.0.0 maka semua <code>assembly</code>-nya harus punya versi yang sama.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-03.png">https://coding4ever.files.wordpress.com/2015/06/230615-03.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/230615-03.png">https://coding4ever.files.wordpress.com/2015/06/230615-03.png</a> %}</p>
 
 <p>Klo rilis berikutnya versinya = 1.2.0, maka semua versi <code>assembly</code>-nya juga harus sama</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-04.png">https://coding4ever.files.wordpress.com/2015/06/230615-04.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/230615-04.png">https://coding4ever.files.wordpress.com/2015/06/230615-04.png</a> %}</p>
 
 <p>Kan jadi enggak lucu klo versi <code>assembly</code>-nya ada yang beda he he :D</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-05.png">https://coding4ever.files.wordpress.com/2015/06/230615-05.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/230615-05.png">https://coding4ever.files.wordpress.com/2015/06/230615-05.png</a> %}</p>
 
 <p><strong>Merubah Versi Assembly</strong></p>
 
 <p>Kalo cara biasa, misal kita punya empat project, berarti kita juga harus merubah versi <code>assembly</code> di empat lokasi yang berbeda</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-06.png">https://coding4ever.files.wordpress.com/2015/06/230615-06.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/230615-06.png">https://coding4ever.files.wordpress.com/2015/06/230615-06.png</a> %}</p>
 
 <p>Dari gambar di atas kita bisa melihat informasi versi <code>assembly</code> tersimpan di file <code>AssemblyInfo.cs</code> masing-masing project. Klo penasaran ini nih isinya he he :D</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-07.png">https://coding4ever.files.wordpress.com/2015/06/230615-07.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/230615-07.png">https://coding4ever.files.wordpress.com/2015/06/230615-07.png</a> %}</p>
 
 <p>Nah ini yang sedikit merepotkan dan kadang-kadang sedikit melelahkan :D, sudah di<code>build</code> eh ada <code>assembly</code> yang lupa diganti versinya, jadi <code>build</code> ulang deh he he :D</p>
 
 <p>Trus solusinya gimana ? Cara yang saya gunakan adalah dengan membuat <code>Global Version</code> misal dengan nama <code>VersionInfo</code>. File <code>VersionInfo</code> ini merupakan file dari <code>Solution</code> jadi scopenya sama dengan project.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-08.png">https://coding4ever.files.wordpress.com/2015/06/230615-08.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/230615-08.png">https://coding4ever.files.wordpress.com/2015/06/230615-08.png</a> %}</p>
 
 <p>Nah untuk menambahkan file <code>VersionInfo</code> di atas caranya juga gampang, berikut langkah-langkahnya :</p>
 
 <ol>
 <li><p>Klik kanan Solution -> Add -> New Item…</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-09.png">https://coding4ever.files.wordpress.com/2015/06/230615-09.png</a>&#8221;></p></li>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/230615-09.png">https://coding4ever.files.wordpress.com/2015/06/230615-09.png</a> %}</p></li>
 <li><p>Pilih item Visual C#/Basic Class</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-10.png">https://coding4ever.files.wordpress.com/2015/06/230615-10.png</a>&#8221;></p></li>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/230615-10.png">https://coding4ever.files.wordpress.com/2015/06/230615-10.png</a> %}</p></li>
 <li><p>Jika berhasil file <code>VersionInfo</code> akan tersimpan di folder <code>Solution Items</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-11.png">https://coding4ever.files.wordpress.com/2015/06/230615-11.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/230615-11.png">https://coding4ever.files.wordpress.com/2015/06/230615-11.png</a> %}</p>
 
 <p>Kemudian hapus semua isi file <code>VersionInfo</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-12.png">https://coding4ever.files.wordpress.com/2015/06/230615-12.png</a>&#8221;></p></li>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/230615-12.png">https://coding4ever.files.wordpress.com/2015/06/230615-12.png</a> %}</p></li>
 <li><p>Setelah itu copy <code>sebagian</code> informasi salah satu file <code>AssemblyInfo.cs</code> ke <code>VersionInfo</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-13.png">https://coding4ever.files.wordpress.com/2015/06/230615-13.png</a>&#8221;></p></li>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/230615-13.png">https://coding4ever.files.wordpress.com/2015/06/230615-13.png</a> %}</p></li>
 <li><p>Kemudian edit <code>sebagian</code> isi file <code>AssemblyInfo.cs</code> masing-masing project (cek yang ada komentar // di nonaktifkan)</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-14.png">https://coding4ever.files.wordpress.com/2015/06/230615-14.png</a>&#8221;></p></li>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/230615-14.png">https://coding4ever.files.wordpress.com/2015/06/230615-14.png</a> %}</p></li>
 <li><p>Terakhir masing-masing project menambahkan link ke file <code>VersionInfo</code></p>
 
 <ul>
 <li><p>Klik kanan Project -> Add -> Existing Item…</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-15.png">https://coding4ever.files.wordpress.com/2015/06/230615-15.png</a>&#8221;></p></li>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/230615-15.png">https://coding4ever.files.wordpress.com/2015/06/230615-15.png</a> %}</p></li>
 <li><p>Pilih file <code>VersionInfo</code> kemudian <code>Add As Link</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-16.png">https://coding4ever.files.wordpress.com/2015/06/230615-16.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/230615-16.png">https://coding4ever.files.wordpress.com/2015/06/230615-16.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-17.png">https://coding4ever.files.wordpress.com/2015/06/230615-17.png</a>&#8221;></p></li>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/230615-17.png">https://coding4ever.files.wordpress.com/2015/06/230615-17.png</a> %}</p></li>
 </ul>
 
 
 <p>Kemudian ulangi langkah-langkah sebelumnya untuk menambahkan link file <code>VersionInfo</code> ke project lainnya</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-18.png">https://coding4ever.files.wordpress.com/2015/06/230615-18.png</a>&#8221;></p></li>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/230615-18.png">https://coding4ever.files.wordpress.com/2015/06/230615-18.png</a> %}</p></li>
 </ol>
 
 
 <p>Nah Sampai di sini tugas kita sudah selesai, sehingga ketika ada perubahan versi kita cukup merubah di satu file yaitu file <code>VersionInfo</code> yang ada di <code>Solution Items</code>.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-19.png">https://coding4ever.files.wordpress.com/2015/06/230615-19.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/230615-19.png">https://coding4ever.files.wordpress.com/2015/06/230615-19.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-20.png">https://coding4ever.files.wordpress.com/2015/06/230615-20.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/230615-20.png">https://coding4ever.files.wordpress.com/2015/06/230615-20.png</a> %}</p>
 
 <p>Selamat MENCOBA :)</p>
 
@@ -118,15 +118,15 @@
     <link href="http://coding4ever.net/blog/2015/06/20/tutorial-wcf-service-bagian-number-4/"/>
     <updated>2015-06-20T12:38:46+07:00</updated>
     <id>http://coding4ever.net/blog/2015/06/20/tutorial-wcf-service-bagian-number-4</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-16.png">https://coding4ever.files.wordpress.com/2015/05/020515-16.png</a>&#8221; width=&#8221;100&#8221; height=&#8221;100&#8221;>Postingan kali ini masih melanjutkan pembahasan tentang pembuatan web service menggunakan <a href="/blog/categories/wcf/">WCF</a>, tapi sebelum kita melanjutkan pembahasan ada baiknya kita melakukan sedikit review.</p>
+    <content type="html"><![CDATA[<p>{% img left <a href="https://coding4ever.files.wordpress.com/2015/05/020515-16.png">https://coding4ever.files.wordpress.com/2015/05/020515-16.png</a> 100 100 %}Postingan kali ini masih melanjutkan pembahasan tentang pembuatan web service menggunakan <a href="{{%20site.url%20}}/blog/categories/wcf/">WCF</a>, tapi sebelum kita melanjutkan pembahasan ada baiknya kita melakukan sedikit review.</p>
 
 <!-- more -->
 
 
 <ol>
-<li>Pembahasan secara umum apa itu WCF, dan project apa saja yang harus kita persiapkan untuk mengimplementasikannya sudah kita bahas di <a href="/blog/2015/05/02/tutorial-wcf-service-bagian-number-1/">bagian #1</a></li>
-<li>Di <a href="/blog/2015/05/09/tutorial-wcf-service-bagian-number-2/">bagian #2</a> kita membuat project server yang mengimplementasikan service-service apa saja yang tersedia untuk bisa diakses oleh aplikasi klien</li>
-<li>Agar semua service ini bisa diakses oleh klien, kita perlu sebuah wadah/host untuk menjalankan web service, ini juga sudah kita bahas di <a href="/blog/2015/06/05/tutorial-wcf-service-bagian-number-3/">bagian #3</a></li>
+<li>Pembahasan secara umum apa itu WCF, dan project apa saja yang harus kita persiapkan untuk mengimplementasikannya sudah kita bahas di <a href="{{%20site.url%20}}/blog/2015/05/02/tutorial-wcf-service-bagian-number-1/">bagian #1</a></li>
+<li>Di <a href="{{%20site.url%20}}/blog/2015/05/09/tutorial-wcf-service-bagian-number-2/">bagian #2</a> kita membuat project server yang mengimplementasikan service-service apa saja yang tersedia untuk bisa diakses oleh aplikasi klien</li>
+<li>Agar semua service ini bisa diakses oleh klien, kita perlu sebuah wadah/host untuk menjalankan web service, ini juga sudah kita bahas di <a href="{{%20site.url%20}}/blog/2015/06/05/tutorial-wcf-service-bagian-number-3/">bagian #3</a></li>
 </ol>
 
 
@@ -144,42 +144,43 @@
 
 <p>Secara default pada saat kita menginstall Visual Studio .NET, installer tidak membuat shortcut untuk aplikasi <code>WCF Test Client</code>, sehingga kita perlu menjalankannya secara manual di lokasi berikut :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\WcfTestClient.exe</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\WcfTestClient.exe
+{% endcodeblock %}</p>
 
 <p>Lokasi di atas harus disesuaikan dengan versi Visual Studio .NET Anda.</p>
 
 <p>Berikut adalah tampilan aplikasi <code>WCF Test Client</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-01.png">https://coding4ever.files.wordpress.com/2015/06/200615-01.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/200615-01.png">https://coding4ever.files.wordpress.com/2015/06/200615-01.png</a> %}</p>
 
 <p>Untuk menambahkan url/link web service, klik menu File -> Add Service …, setelah itu inputkan link web service</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-02.png">https://coding4ever.files.wordpress.com/2015/06/200615-02.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/200615-02.png">https://coding4ever.files.wordpress.com/2015/06/200615-02.png</a> %}</p>
 
-<p>Contoh link di atas kita dapatkan dari <a href="/blog/2015/06/05/tutorial-wcf-service-bagian-number-3/">postingan</a> sebelumnya.</p>
+<p>Contoh link di atas kita dapatkan dari <a href="{{%20site.url%20}}/blog/2015/06/05/tutorial-wcf-service-bagian-number-3/">postingan</a> sebelumnya.</p>
 
 <p>Jika berhasil akan tampil di panel sebelah kiri daftar service dari ServiceCalculator.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-03.png">https://coding4ever.files.wordpress.com/2015/06/200615-03.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/200615-03.png">https://coding4ever.files.wordpress.com/2015/06/200615-03.png</a> %}</p>
 
 <p>Dari mana datangnya nama-nama service di atas seperti Penambahan dan Pengurangan ? Nama-nama service di atas di generate berdasarkan nama-nama method abstract yang ada di project <a href="https://github.com/k4m4r82/Calculator">CalculatorLib</a></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-04.png">https://coding4ever.files.wordpress.com/2015/06/200615-04.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/200615-04.png">https://coding4ever.files.wordpress.com/2015/06/200615-04.png</a> %}</p>
 
 <p>Berikutnya kita akan tes salah satu service, misal service Penambahan. Caranya adalah dengan mengklik ganda nama service Penambahan.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-05.png">https://coding4ever.files.wordpress.com/2015/06/200615-05.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/200615-05.png">https://coding4ever.files.wordpress.com/2015/06/200615-05.png</a> %}</p>
 
 <p>Setelah itu di panel sebelah kanan akan tampil form yang inputannya sesuai dengan parameter dari service Penambahan.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-06.png">https://coding4ever.files.wordpress.com/2015/06/200615-06.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/200615-06.png">https://coding4ever.files.wordpress.com/2015/06/200615-06.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-07.png">https://coding4ever.files.wordpress.com/2015/06/200615-07.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/200615-07.png">https://coding4ever.files.wordpress.com/2015/06/200615-07.png</a> %}</p>
 
 <p>Langsung saja kita masukan nilai a dan b-nya, kemudian klik tombol Invoke</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-08.png">https://coding4ever.files.wordpress.com/2015/06/200615-08.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/200615-08.png">https://coding4ever.files.wordpress.com/2015/06/200615-08.png</a> %}</p>
 
 <p>Dari hasil tes di atas kita bisa lihat bahwa service Penambahan berfungsi dengan benar karena penambahan nilai <code>5 + 2</code> menghasilkan <code>7</code>.</p>
 
@@ -187,7 +188,7 @@
 
 <p>Setelah tes menggunakan aplikasi WCF Test Client berhasil, kita akan mencoba membuat aplikasi sendiri untuk mengakses WCF web service dan untuk menyederhanakan contoh program, kita hanya membuat aplikasi berbasis console. Tapi sebelumnya aktifkan kembali solution <a href="https://github.com/k4m4r82/Calculator">Calculator</a> yang di dalamnya sudah ada project CalculatorLib dan CalculatorServer.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-09.png">https://coding4ever.files.wordpress.com/2015/06/200615-09.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/200615-09.png">https://coding4ever.files.wordpress.com/2015/06/200615-09.png</a> %}</p>
 
 <p>Kita akan menambahkan project CalculatorClient masih di solution yang sama</p>
 
@@ -196,59 +197,59 @@
 <ol>
 <li><p>Klik kanan Solution Calculator -> Add -> New Project</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-10.png">https://coding4ever.files.wordpress.com/2015/06/200615-10.png</a>&#8221;></p></li>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/200615-10.png">https://coding4ever.files.wordpress.com/2015/06/200615-10.png</a> %}</p></li>
 <li><p>Pada dialog Add New Project aktifkan pilihan Visual C# kemudian pilih Templates Class Library</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-11.png">https://coding4ever.files.wordpress.com/2015/06/200615-11.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/200615-11.png">https://coding4ever.files.wordpress.com/2015/06/200615-11.png</a> %}</p>
 
 <p>Pada isian Name isikan CalculatorClient untuk isian Location dibiarkan saja setelah itu klik Ok. Jika langkah sebelumnya berhasil maka pada solution Calculator akan ketambahan 1 project baru yaitu CalculatorClient.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-12.png">https://coding4ever.files.wordpress.com/2015/06/200615-12.png</a>&#8221;></p></li>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/200615-12.png">https://coding4ever.files.wordpress.com/2015/06/200615-12.png</a> %}</p></li>
 </ol>
 
 
 <p>Kemudian klik ganda class Program, setelah itu akan tampil editor code class Program</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-13.png">https://coding4ever.files.wordpress.com/2015/06/200615-13.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/200615-13.png">https://coding4ever.files.wordpress.com/2015/06/200615-13.png</a> %}</p>
 
 <p>Sampai di sini kita akan menambahkan sebuah method dengan nama <code>GetHttpProxy</code>. Sesuai namanya method <code>GetHttpProxy</code> berfungsi untuk mengenerate <code>objek proxy</code>.</p>
 
 <p>Apa itu <code>objek proxy</code> ? <code>Objek proxy</code> merupakan representasi dari <code>service contract</code> sehingga objek proxy mempunyai operasi yang sama dengan <code>service contract</code>. Selain itu semua method yang dipanggil melalui objek proxy akan dieksekusi secara remote (dijalankan di sisi server)</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-14.png">https://coding4ever.files.wordpress.com/2015/06/200615-14.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/200615-14.png">https://coding4ever.files.wordpress.com/2015/06/200615-14.png</a> %}</p>
 
 <p style="text-align:center">Sumber - <a href="http://www.topwcftutorials.net/2014/06/3-ways-generate-proxy-wcf-service.html" target="_blank">Top WCF Tutorial</a></p>
 
 
 <p>Berikut adalah kode dari method <code>GetHttpProxy</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-15.png">https://coding4ever.files.wordpress.com/2015/06/200615-15.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/200615-15.png">https://coding4ever.files.wordpress.com/2015/06/200615-15.png</a> %}</p>
 
 <p>Agar method <code>GetHttpProxy</code> di atas berfungsi dengan baik, kita juga harus menambahkan referensi <code>System.ServiceModel</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-16.png">https://coding4ever.files.wordpress.com/2015/06/200615-16.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/200615-16.png">https://coding4ever.files.wordpress.com/2015/06/200615-16.png</a> %}</p>
 
 <p>Kemudian mendaftarkannya di bagian using</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-17.png">https://coding4ever.files.wordpress.com/2015/06/200615-17.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/200615-17.png">https://coding4ever.files.wordpress.com/2015/06/200615-17.png</a> %}</p>
 
 <p>Selain itu kita juga perlu  menambahkan referensi ‘CalculatorLib`</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-18.png">https://coding4ever.files.wordpress.com/2015/06/200615-18.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/200615-18.png">https://coding4ever.files.wordpress.com/2015/06/200615-18.png</a> %}</p>
 
 <p>Dan mendaftarkannya dibagian using</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-19.png">https://coding4ever.files.wordpress.com/2015/06/200615-19.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/200615-19.png">https://coding4ever.files.wordpress.com/2015/06/200615-19.png</a> %}</p>
 
 <p>Kenapa perlu menambahkan referensi <code>CalculatorLib</code>, karena kita akan mengakses interface <code>ICalculator</code> dan method-method abstractnya melalui method <code>GetHttpProxy</code></p>
 
 <p>Setelah semua persiapan kode selesai, kita tinggal melengkapi method Main yang di dalamnya kita memanggil url/link web service melalui method <code>GetHttpProxy</code>.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-20.png">https://coding4ever.files.wordpress.com/2015/06/200615-20.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/200615-20.png">https://coding4ever.files.wordpress.com/2015/06/200615-20.png</a> %}</p>
 
 <p>Jika kode di atas dijalankan akan menghasilkan output seperti berikut</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-21.png">https://coding4ever.files.wordpress.com/2015/06/200615-21.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/200615-21.png">https://coding4ever.files.wordpress.com/2015/06/200615-21.png</a> %}</p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/Calculator">MENCOBA</a> :)</p>
 ]]></content>
@@ -259,7 +260,7 @@
     <link href="http://coding4ever.net/blog/2015/06/05/tutorial-wcf-service-bagian-number-3/"/>
     <updated>2015-06-05T13:14:33+07:00</updated>
     <id>http://coding4ever.net/blog/2015/06/05/tutorial-wcf-service-bagian-number-3</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-16.png">https://coding4ever.files.wordpress.com/2015/05/020515-16.png</a>&#8221; width=&#8221;100&#8221; height=&#8221;100&#8221;>Web service itu seperti parasit, tidak bisa hidup mandiri sehingga membutuhkan sebuah wadah (host) untuk kelangsungan hidupnya. Begitu juga dengan web service yang dibuat menggunakan WCF tetap membutuhkan sebuah wadah (host).</p>
+    <content type="html"><![CDATA[<p>{% img left <a href="https://coding4ever.files.wordpress.com/2015/05/020515-16.png">https://coding4ever.files.wordpress.com/2015/05/020515-16.png</a> 100 100 %}Web service itu seperti parasit, tidak bisa hidup mandiri sehingga membutuhkan sebuah wadah (host) untuk kelangsungan hidupnya. Begitu juga dengan web service yang dibuat menggunakan WCF tetap membutuhkan sebuah wadah (host).</p>
 
 <!-- more -->
 
@@ -284,7 +285,7 @@
 
 <p>Tambahkan folder baru di <code>C:\ C:\inetpub\wwwroot</code>, dengan nama <code>Calculator</code>, kemudian tambahkan juga folder <code>bin</code> di dalamnya</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-011.png">https://coding4ever.files.wordpress.com/2015/06/050615-011.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/050615-011.png">https://coding4ever.files.wordpress.com/2015/06/050615-011.png</a> %}</p>
 
 <p>Folder <code>wwwroot</code> sama seperti folder <code>htdocs</code>-nya Apache.</p>
 
@@ -292,23 +293,23 @@
 
 <p>Aktifkan kembali project <a href="https://github.com/k4m4r82/Calculator">Calculator</a>, kemudian lakukan proses <code>Build</code> project <code>CalculatorServer</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-02.png">https://coding4ever.files.wordpress.com/2015/06/050615-02.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/050615-02.png">https://coding4ever.files.wordpress.com/2015/06/050615-02.png</a> %}</p>
 
 <p>Cek hasil build di bagian <code>Output</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-03.png">https://coding4ever.files.wordpress.com/2015/06/050615-03.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/050615-03.png">https://coding4ever.files.wordpress.com/2015/06/050615-03.png</a> %}</p>
 
 <p>Kemudian buka folder hasil build</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-04.png">https://coding4ever.files.wordpress.com/2015/06/050615-04.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/050615-04.png">https://coding4ever.files.wordpress.com/2015/06/050615-04.png</a> %}</p>
 
 <p>Di dalamnya ada dua file dengan tipe DLL yaitu <code>CalculatorLib.dll</code> dan <code>CalculatorServer.dll</code>. File <code>CalculatorLib.dll</code> di hasilkan dari project <code>CalculatorLib</code> sedangkan file <code>CalculatorServer.dll</code> dihasilkan dari project <code>CalculatorServer</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-05.png">https://coding4ever.files.wordpress.com/2015/06/050615-05.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/050615-05.png">https://coding4ever.files.wordpress.com/2015/06/050615-05.png</a> %}</p>
 
 <p>Dua file ini akan kita copykan ke folder <code>C:\inetpub\wwwroot\Calculator\bin</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-06.png">https://coding4ever.files.wordpress.com/2015/06/050615-06.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/050615-06.png">https://coding4ever.files.wordpress.com/2015/06/050615-06.png</a> %}</p>
 
 <p><strong>4. Membuat File Text dengan Format .svc</strong></p>
 
@@ -325,25 +326,27 @@
 
 <p>Contoh isi file .svc</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%@ ServiceHost Language=&ldquo;C#&rdquo; Service=&ldquo;CalculatorServer.Calculator&rdquo; %></span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+&lt;%@ ServiceHost Language=&ldquo;C#&rdquo; Service=&ldquo;CalculatorServer.Calculator&rdquo; %>
+{% endcodeblock %}</p>
 
 <p>Setelah mengetahui fungsi dari file .svc, berikutnya kita akan membuat file .svc dengan nama <code>ServiceCalculator.svc</code> di folder <code>C:\inetpub\wwwroot\Calculator</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-07.png">https://coding4ever.files.wordpress.com/2015/06/050615-07.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/050615-07.png">https://coding4ever.files.wordpress.com/2015/06/050615-07.png</a> %}</p>
 
 <p>Kemudian copas skrip berikut :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%@ ServiceHost Language=&ldquo;C#&rdquo; Service=&ldquo;CalculatorServer.Calculator&rdquo; %></span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+&lt;%@ ServiceHost Language=&ldquo;C#&rdquo; Service=&ldquo;CalculatorServer.Calculator&rdquo; %>
+{% endcodeblock %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-08.png">https://coding4ever.files.wordpress.com/2015/06/050615-08.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/050615-08.png">https://coding4ever.files.wordpress.com/2015/06/050615-08.png</a> %}</p>
 
 <p>Dari skrip di atas, coba perhatikan bagian <code>Service="CalculatorServer.Calculator"</code></p>
 
 <p>CalculatorServer adalah nama namespace, sedangkan Calculator adalah nama class servicenya. Informasi ini kita dapatkan dari struktur project <code>CalculatorServer</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-09.png">https://coding4ever.files.wordpress.com/2015/06/050615-09.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/050615-09.png">https://coding4ever.files.wordpress.com/2015/06/050615-09.png</a> %}</p>
 
 <p><strong>5. Membuat File web.config</strong></p>
 
@@ -351,58 +354,15 @@
 
 <p>File web.config  ini akan kita buat di folder <code>C:\inetpub\wwwroot\Calculator</code>, satu folder dengan file <code>ServiceCalculator.svc</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-10.png">https://coding4ever.files.wordpress.com/2015/06/050615-10.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/050615-10.png">https://coding4ever.files.wordpress.com/2015/06/050615-10.png</a> %}</p>
 
 <p>Kemudian copas skrip berikut</p>
 
-<p><div><script src='https://gist.github.com/f62303ed21a209b24de5.js'></script>
-<noscript><pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
-
-&lt;configuration&gt;
-    
-    &lt;system.web&gt;
-        &lt;compilation debug=&quot;false&quot; targetFramework=&quot;4.0&quot; /&gt;
-    &lt;/system.web&gt;    
-    
-  &lt;system.serviceModel&gt;
-    
-    &lt;services&gt;      
-      &lt;service name=&quot;CalculatorServer.Calculator&quot; behaviorConfiguration=&quot;DefaultBehavior&quot;&gt;                        
-        &lt;endpoint binding=&quot;basicHttpBinding&quot; bindingConfiguration=&quot;BasicHttpBindingConfig&quot; contract=&quot;CalculatorLib.ICalculator&quot; /&gt;
-      &lt;/service&gt;                        	  
-    &lt;/services&gt;        
-        
-    &lt;bindings&gt;
-      &lt;basicHttpBinding&gt;
-        &lt;binding name=&quot;BasicHttpBindingConfig&quot;&gt;
-          &lt;security mode=&quot;None&quot; /&gt;
-        &lt;/binding&gt;
-      &lt;/basicHttpBinding&gt;
-    &lt;/bindings&gt;
-    
-    &lt;behaviors&gt;
-      &lt;serviceBehaviors&gt;
-        &lt;behavior name=&quot;DefaultBehavior&quot;&gt;
-          &lt;serviceMetadata httpGetEnabled=&quot;true&quot; /&gt;
-          &lt;serviceDebug includeExceptionDetailInFaults=&quot;false&quot; /&gt;
-        &lt;/behavior&gt;
-      &lt;/serviceBehaviors&gt;
-    &lt;/behaviors&gt;
-    
-  &lt;/system.serviceModel&gt;
-  
-&lt;/configuration&gt;</code></pre></noscript></div>
-</p>
+<p>{% gist f62303ed21a209b24de5 %}</p>
 
 <p>Dari skrip di atas, coba perhatikan bagian <code>&lt;services&gt;</code></p>
 
-<p><div><script src='https://gist.github.com/3e306818c5096e2a860b.js'></script>
-<noscript><pre><code>&lt;services&gt;      
-  &lt;service name=&quot;CalculatorServer.Calculator&quot; behaviorConfiguration=&quot;DefaultBehavior&quot;&gt;                        
-	&lt;endpoint binding=&quot;basicHttpBinding&quot; bindingConfiguration=&quot;BasicHttpBindingConfig&quot; contract=&quot;CalculatorLib.ICalculator&quot; /&gt;
-  &lt;/service&gt;                        	  
-&lt;/services&gt;</code></pre></noscript></div>
-</p>
+<p>{% gist 3e306818c5096e2a860b %}</p>
 
 <p>Di bagian ini kita mendaftarkan service apa saja yang bisa diakses oleh aplikasi klien.</p>
 
@@ -412,7 +372,7 @@
 </ul>
 
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-11.png">https://coding4ever.files.wordpress.com/2015/06/050615-11.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/050615-11.png">https://coding4ever.files.wordpress.com/2015/06/050615-11.png</a> %}</p>
 
 <p>Di dalam WCF, bagian ini dikenal dengan istilah <a href="http://wcftutorial.net/EndPoint.aspx">EndPoint</a>, dan berhubung di postingan ini tidak membahas masalah <a href="http://wcftutorial.net/EndPoint.aspx">EndPoint</a>, sebagai referensi bisa Anda baca di<a href="http://wcftutorial.net/EndPoint.aspx">sini</a>.</p>
 
@@ -420,25 +380,25 @@
 
 <p>Sebagai langkah terakhir, kita aktifkan Internet Information Services(IIS), kemudian expand node Sites -> Default Web Site</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-12.png">https://coding4ever.files.wordpress.com/2015/06/050615-12.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/050615-12.png">https://coding4ever.files.wordpress.com/2015/06/050615-12.png</a> %}</p>
 
 <p>Kemudian klik kanan <code>Calculator</code> -> Convert to Application</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-13.png">https://coding4ever.files.wordpress.com/2015/06/050615-13.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/050615-13.png">https://coding4ever.files.wordpress.com/2015/06/050615-13.png</a> %}</p>
 
 <p>Setelah itu akan tampil window <code>Add Application</code> kemudian klik tombol <code>Select</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-14.png">https://coding4ever.files.wordpress.com/2015/06/050615-14.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/050615-14.png">https://coding4ever.files.wordpress.com/2015/06/050615-14.png</a> %}</p>
 
 <p>Pilih ASP.NET v4.0</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-15.png">https://coding4ever.files.wordpress.com/2015/06/050615-15.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/050615-15.png">https://coding4ever.files.wordpress.com/2015/06/050615-15.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-16.png">https://coding4ever.files.wordpress.com/2015/06/050615-16.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/050615-16.png">https://coding4ever.files.wordpress.com/2015/06/050615-16.png</a> %}</p>
 
-<p>Jika berhasil icon folder Calculator akan berganti menjadi <img class="<a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-20.png">https://coding4ever.files.wordpress.com/2015/06/050615-20.png</a>&#8221;></p>
+<p>Jika berhasil icon folder Calculator akan berganti menjadi {% img <a href="https://coding4ever.files.wordpress.com/2015/06/050615-20.png">https://coding4ever.files.wordpress.com/2015/06/050615-20.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-17.png">https://coding4ever.files.wordpress.com/2015/06/050615-17.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/050615-17.png">https://coding4ever.files.wordpress.com/2015/06/050615-17.png</a> %}</p>
 
 <p><strong>7. Testing Web Service Calculator</strong></p>
 
@@ -446,11 +406,11 @@
 
 <p>Seharusnya anda mendapatkan tampilan seperti berikut yang menandakan konfigurasi WCF service berhasil.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-18.png">https://coding4ever.files.wordpress.com/2015/06/050615-18.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/050615-18.png">https://coding4ever.files.wordpress.com/2015/06/050615-18.png</a> %}</p>
 
 <p>Tampilan jika diakses dari <code>WCF Test Client</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-19.png">https://coding4ever.files.wordpress.com/2015/06/050615-19.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/06/050615-19.png">https://coding4ever.files.wordpress.com/2015/06/050615-19.png</a> %}</p>
 
 <p>Yuph sampai disini saja untuk postingan kali ini, insyaAlloh akan kita lanjutkan pada kesempatan berikutnya.</p>
 
@@ -463,18 +423,18 @@
     <link href="http://coding4ever.net/blog/2015/05/09/tutorial-wcf-service-bagian-number-2/"/>
     <updated>2015-05-09T09:34:34+07:00</updated>
     <id>http://coding4ever.net/blog/2015/05/09/tutorial-wcf-service-bagian-number-2</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-16.png">https://coding4ever.files.wordpress.com/2015/05/020515-16.png</a>&#8221; width=&#8221;100&#8221; height=&#8221;100&#8221;>Melanjutkan pembahasan <a href="/blog/2015/05/02/tutorial-wcf-service-bagian-number-1/">postingan</a> sebelumnya yaitu tentang pembuatan web service menggunakan teknologi <a href="/blog/categories/wcf/">WCF</a>.</p>
+    <content type="html"><![CDATA[<p>{% img left <a href="https://coding4ever.files.wordpress.com/2015/05/020515-16.png">https://coding4ever.files.wordpress.com/2015/05/020515-16.png</a> 100 100 %}Melanjutkan pembahasan <a href="{{%20site.url%20}}/blog/2015/05/02/tutorial-wcf-service-bagian-number-1/">postingan</a> sebelumnya yaitu tentang pembuatan web service menggunakan teknologi <a href="{{%20site.url%20}}/blog/categories/wcf/">WCF</a>.</p>
 
-<p>Kita sudah menyelesaikan project pertama yaitu pembuatan project <a href="/blog/2015/05/02/tutorial-wcf-service-bagian-number-1/">CalculatorLib</a> dan kita lanjutkan dengan pembuatan project CalculatorServer.</p>
+<p>Kita sudah menyelesaikan project pertama yaitu pembuatan project <a href="{{%20site.url%20}}/blog/2015/05/02/tutorial-wcf-service-bagian-number-1/">CalculatorLib</a> dan kita lanjutkan dengan pembuatan project CalculatorServer.</p>
 
 <!-- more -->
 
 
-<p>Sebagai review CalculatorServer adalah project yang akan mengimplementasikan semua method abstract yang ada pada interface ICalculator (project <a href="https://github.com/k4m4r82/Calculator">CalculatorLib</a> selain itu project CalculatorServer juga akan kita <code>hostkan</code> sehingga bisa menjadi web service. Apa yang dimaksud dengan <code>host</code> disini, silahkan baca postingan <a href="/blog/2015/05/02/tutorial-wcf-service-bagian-number-1/">Tutorial WCF Service Bagian #1</a>.</p>
+<p>Sebagai review CalculatorServer adalah project yang akan mengimplementasikan semua method abstract yang ada pada interface ICalculator (project <a href="https://github.com/k4m4r82/Calculator">CalculatorLib</a> selain itu project CalculatorServer juga akan kita <code>hostkan</code> sehingga bisa menjadi web service. Apa yang dimaksud dengan <code>host</code> disini, silahkan baca postingan <a href="{{%20site.url%20}}/blog/2015/05/02/tutorial-wcf-service-bagian-number-1/">Tutorial WCF Service Bagian #1</a>.</p>
 
 <p>Aktifkan kembali solution <a href="https://github.com/k4m4r82/Calculator">Calculator</a> yang di dalamnya sudah ada project CalculatorLib.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-02.png">https://coding4ever.files.wordpress.com/2015/05/020515-02.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-02.png">https://coding4ever.files.wordpress.com/2015/05/020515-02.png</a> %}</p>
 
 <p>Kita akan menambahkan project CalculatorServer masih di solution yang sama</p>
 
@@ -483,63 +443,63 @@
 <ol>
 <li><p>Klik kanan Solution Calculator -> Add -> New Project</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-01.png">https://coding4ever.files.wordpress.com/2015/05/090515-01.png</a>&#8221;></p></li>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/090515-01.png">https://coding4ever.files.wordpress.com/2015/05/090515-01.png</a> %}</p></li>
 <li><p>Pada dialog Add New Project aktifkan pilihan Visual C# kemudian pilih Templates Class Library</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-02.png">https://coding4ever.files.wordpress.com/2015/05/090515-02.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/090515-02.png">https://coding4ever.files.wordpress.com/2015/05/090515-02.png</a> %}</p>
 
 <p>Pada isian Name isikan CalculatorServer untuk isian Location dibiarkan saja setelah itu klik Ok. Jika langkah sebelumnya berhasil maka pada solution Calculator akan ketambahan 1 project baru yaitu CalculatorServer.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-03.png">https://coding4ever.files.wordpress.com/2015/05/090515-03.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/090515-03.png">https://coding4ever.files.wordpress.com/2015/05/090515-03.png</a> %}</p>
 
 <p>Kemudian hapus class <code>Class1</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-04.png">https://coding4ever.files.wordpress.com/2015/05/090515-04.png</a>&#8221;></p></li>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/090515-04.png">https://coding4ever.files.wordpress.com/2015/05/090515-04.png</a> %}</p></li>
 </ol>
 
 
 <h3>Menambahkan Class Calculator</h3>
 
-<p>Class Calculator adalah class yang akan mengimplementasikan semua method abstract dari interface ICalculator yang sudah kita buat pada project sebelumnya (<a href="/blog/2015/05/02/tutorial-wcf-service-bagian-number-1/">CalculatorLib</a>).</p>
+<p>Class Calculator adalah class yang akan mengimplementasikan semua method abstract dari interface ICalculator yang sudah kita buat pada project sebelumnya (<a href="{{%20site.url%20}}/blog/2015/05/02/tutorial-wcf-service-bagian-number-1/">CalculatorLib</a>).</p>
 
 <ol>
 <li><p>Klik kanan project CalculatorServer -> Add -> Class…</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-05.png">https://coding4ever.files.wordpress.com/2015/05/090515-05.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/090515-05.png">https://coding4ever.files.wordpress.com/2015/05/090515-05.png</a> %}</p>
 
 <p>Pada isian Name diisi <code>Calculator</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-06.png">https://coding4ever.files.wordpress.com/2015/05/090515-06.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/090515-06.png">https://coding4ever.files.wordpress.com/2015/05/090515-06.png</a> %}</p>
 
 <p>Setelah itu akan tampil editor code class Calculator</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-07.png">https://coding4ever.files.wordpress.com/2015/05/090515-07.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/090515-07.png">https://coding4ever.files.wordpress.com/2015/05/090515-07.png</a> %}</p>
 
 <p>Jangan lupa untuk menambahkan access modifier <code>public</code>.</p>
 
 <p>Sebelum kita melengkapi kode class Calculator di atas, terlebih dulu kita harus menambahkan referensi <a href="https://github.com/k4m4r82/Calculator">CalculatorLib</a> yang sudah kita buat pada project sebelumnya, tujuannya adalah agar class Calculator bisa mengakses interface ICalculator dan mengimplementasikan semua method abstractnya.</p></li>
 <li><p>Klik kanan node References -> Add Reference…</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-08.png">https://coding4ever.files.wordpress.com/2015/05/090515-08.png</a>&#8221;></p></li>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/090515-08.png">https://coding4ever.files.wordpress.com/2015/05/090515-08.png</a> %}</p></li>
 <li><p>Aktifkan panel Solution kemudian pilih project CalculatorLib</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-09.png">https://coding4ever.files.wordpress.com/2015/05/090515-09.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/090515-09.png">https://coding4ever.files.wordpress.com/2015/05/090515-09.png</a> %}</p>
 
 <p>Jika langkah sebelumnya berhasil akan ketambahan 1 buah node dengan nama CalculatorLib pada node References</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-10.png">https://coding4ever.files.wordpress.com/2015/05/090515-10.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/090515-10.png">https://coding4ever.files.wordpress.com/2015/05/090515-10.png</a> %}</p>
 
 <p>Selanjutnya kita lengkapi kode class Calculator di atas, seperti di bawah ini.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-11.png">https://coding4ever.files.wordpress.com/2015/05/090515-11.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/090515-11.png">https://coding4ever.files.wordpress.com/2015/05/090515-11.png</a> %}</p>
 
 <p>Sampai disini kita sudah bisa mencoba untuk meng-compile project CalculatorServer dengan cara klik kanan project <code>CalculatorServer</code> -> <code>Build</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-12.png">https://coding4ever.files.wordpress.com/2015/05/090515-12.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/090515-12.png">https://coding4ever.files.wordpress.com/2015/05/090515-12.png</a> %}</p>
 
 <p>Apa yang terjadi ??? Masih error bukan ?</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-13.png">https://coding4ever.files.wordpress.com/2015/05/090515-13.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/090515-13.png">https://coding4ever.files.wordpress.com/2015/05/090515-13.png</a> %}</p>
 
 <p>Error ini terjadi karena class Calculator mengimplementasikan interface ICalculator sedangkan method-method abstractnya (Penambahan, Pengurangan, Perkalian dan Pembagian) belum kita definisikan ulang / override di class Calculator.</p></li>
 </ol>
@@ -549,21 +509,21 @@
 
 <p>Untuk mengatasi error pada langkah sebelumnya kita tinggal klik kanan pada tulisan interface ICalculator ->Implement Interface -> Implement Interface</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-14.png">https://coding4ever.files.wordpress.com/2015/05/090515-14.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/090515-14.png">https://coding4ever.files.wordpress.com/2015/05/090515-14.png</a> %}</p>
 
 <p>Kemudian secara otomatis semua implementasi method abstract dari interface ICalculator akan ditambahkan.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-15.png">https://coding4ever.files.wordpress.com/2015/05/090515-15.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/090515-15.png">https://coding4ever.files.wordpress.com/2015/05/090515-15.png</a> %}</p>
 
 <p>Setelah itu kita tinggal melengkapi kode untuk masing-masing method diatas.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-16.png">https://coding4ever.files.wordpress.com/2015/05/090515-16.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/090515-16.png">https://coding4ever.files.wordpress.com/2015/05/090515-16.png</a> %}</p>
 
 <p>Sekarang kita coba lagi untuk meng-compile ulang project CalculatorServer dengan cara klik kanan project <code>CalculatorServer</code> -> <code>Build</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-12.png">https://coding4ever.files.wordpress.com/2015/05/090515-12.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/090515-12.png">https://coding4ever.files.wordpress.com/2015/05/090515-12.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-17.png">https://coding4ever.files.wordpress.com/2015/05/090515-17.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/090515-17.png">https://coding4ever.files.wordpress.com/2015/05/090515-17.png</a> %}</p>
 
 <h3>WCF Service Behavior</h3>
 
@@ -588,15 +548,15 @@
 
 <p>Untuk menggunakan attribute WCF service behavior, tambahkan terlebih dulu referensi <code>System.ServiceModel</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-18.png">https://coding4ever.files.wordpress.com/2015/05/090515-18.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/090515-18.png">https://coding4ever.files.wordpress.com/2015/05/090515-18.png</a> %}</p>
 
 <p>Kemudian tambahkan juga di bagian <code>using</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-19.png">https://coding4ever.files.wordpress.com/2015/05/090515-19.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/090515-19.png">https://coding4ever.files.wordpress.com/2015/05/090515-19.png</a> %}</p>
 
 <p>Setelah itu revisi class Calculator menjadi seperti berikut :</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-20.png">https://coding4ever.files.wordpress.com/2015/05/090515-20.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/090515-20.png">https://coding4ever.files.wordpress.com/2015/05/090515-20.png</a> %}</p>
 
 <p>Yuph sampai disini saja untuk postingan kali ini, insyaAlloh akan kita lanjutkan pada kesempatan berikutnya.</p>
 
@@ -611,16 +571,16 @@
     <id>http://coding4ever.net/blog/2015/05/02/tutorial-wcf-service-bagian-number-1</id>
     <content type="html"><![CDATA[<h3>Apa itu WCF</h3>
 
-<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-16.png">https://coding4ever.files.wordpress.com/2015/05/020515-16.png</a>&#8221; width=&#8221;100&#8221; height=&#8221;100&#8221;>WCF singkatan dari Windows Communication Foundation, merupakan salah satu teknologi Microsoft untuk membangun aplikasi berbasis layanan (service-oriented applications). Dengan kata lain WCF itu merupakan salah satu alternatif untuk membangun <a href="http://www.techopedia.com/definition/1622/web-service-net">web service</a> dan <a href="http://en.wikipedia.org/wiki/Distributed_computing">sistem terdistribusi</a> lainnya menggunakan teknologi Microsoft .NET.</p>
+<p>{% img left <a href="https://coding4ever.files.wordpress.com/2015/05/020515-16.png">https://coding4ever.files.wordpress.com/2015/05/020515-16.png</a> 100 100 %}WCF singkatan dari Windows Communication Foundation, merupakan salah satu teknologi Microsoft untuk membangun aplikasi berbasis layanan (service-oriented applications). Dengan kata lain WCF itu merupakan salah satu alternatif untuk membangun <a href="http://www.techopedia.com/definition/1622/web-service-net">web service</a> dan <a href="http://en.wikipedia.org/wiki/Distributed_computing">sistem terdistribusi</a> lainnya menggunakan teknologi Microsoft .NET.</p>
 
 <blockquote><p>Dalam tutorial ini kita akan lebih banyak membahas hal-hal teknis untuk membuat web service menggunakan WCF. Untuk referensi lebih lanjut mengenai WCF bisa langsung Anda cari menggunakan layanan search engine favorit Anda :-)</p></blockquote>
 
 <!-- more -->
 
 
-<p>WCF merupakan gabungan dari beberapa teknologi <a href="http://en.wikipedia.org/wiki/Remote_procedure_call">RPC</a> lainnya seperti Web Service, <a href="/blog/categories/dot-net-remoting/">.NET Remoting</a>, MSMQ dan COM+</p>
+<p>WCF merupakan gabungan dari beberapa teknologi <a href="http://en.wikipedia.org/wiki/Remote_procedure_call">RPC</a> lainnya seperti Web Service, <a href="{{%20site.url%20}}/blog/categories/dot-net-remoting/">.NET Remoting</a>, MSMQ dan COM+</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-01.png">https://coding4ever.files.wordpress.com/2015/05/020515-01.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-01.png">https://coding4ever.files.wordpress.com/2015/05/020515-01.png</a> %}</p>
 
 <p style="text-align:center">Sumber - <a href="http://wcftutorial.net/Introduction-to-WCF.aspx" target="_blank">WCF Tutorial</a></p>
 
@@ -630,7 +590,7 @@
 <ol>
 <li><p><code>CalculatorLib</code> – Project CalculatorLib dibuat dengan memanfaatkan project bertipe Class Library yang isinya hanya berupa interface ICalculator dengan 4 buah method abstract yaitu : <code>Penambahan</code>, <code>Pengurangan</code>, <code>Perkalian</code> dan <code>Pembagian</code>.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-02.png">https://coding4ever.files.wordpress.com/2015/05/020515-02.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-02.png">https://coding4ever.files.wordpress.com/2015/05/020515-02.png</a> %}</p>
 
 <p>Project ini nantinya akan dicompile menjadi file dengan ekstensi .dll (CalculatorLib.dll), file CalculatorLib.dll ini akan dishare atau ditambahkan sebagai referensi untuk aplikasi CalculatorServer dan CalculatorClient.</p>
 
@@ -639,7 +599,7 @@
 
 <p>Project ini nantinya akan mengimplementasikan semua method-method abstract dari project CalculatorLib.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-03.png">https://coding4ever.files.wordpress.com/2015/05/020515-03.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-03.png">https://coding4ever.files.wordpress.com/2015/05/020515-03.png</a> %}</p>
 
 <p>Agar class ini (CalculatorServer.dll) bisa dikenali sebagai WCF service, kita perlu meng-host-kannya terlebih dulu dengan beberapa cara yaitu :</p>
 
@@ -653,13 +613,13 @@
 </li>
 <li><p><code>CalculatorClient</code> – Project CalculatorClient dibuat dengan memanfaatkan project bertipe Windows Application, aplikasi ini hanya memanggil method-method abstract dari project CalculatorLib dengan memanfaatkan objek proxy sehingga method tersebut akan dieksekusi secara remote (dijalankan di sisi server).</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-04.png">https://coding4ever.files.wordpress.com/2015/05/020515-04.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-04.png">https://coding4ever.files.wordpress.com/2015/05/020515-04.png</a> %}</p>
 
 <p><p style="text-align:center">Sumber - <a href="http://www.topwcftutorials.net/2014/06/3-ways-generate-proxy-wcf-service.html" target="_blank">Top WCF Tutorial</a></p></p>
 
 <p>Berikut gambaran lengkap project yang akan kita buat</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-05.png">https://coding4ever.files.wordpress.com/2015/05/020515-05.png</a>&#8221;></p></li>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-05.png">https://coding4ever.files.wordpress.com/2015/05/020515-05.png</a> %}</p></li>
 </ol>
 
 
@@ -671,13 +631,13 @@
 <li><p>Klik menu File ->New -> Project …</p></li>
 <li><p>Pada dialog New Project aktifkan pilihan Visual C# kemudian pada pilihan Templates pilih Class Library</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-06.png">https://coding4ever.files.wordpress.com/2015/05/020515-06.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-06.png">https://coding4ever.files.wordpress.com/2015/05/020515-06.png</a> %}</p>
 
 <p>Pada isian Name isikan CalculatorLib, setelah itu klik tombol Ok.</p>
 
 <p>Secara default pada saat pembuatan project sudah otomatis disediakan 1 buah class kosong dengan nama Class1, karena kita akan menambahkan class baru jadi class ini dihapus saja.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-07.png">https://coding4ever.files.wordpress.com/2015/05/020515-07.png</a>&#8221;></p></li>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-07.png">https://coding4ever.files.wordpress.com/2015/05/020515-07.png</a> %}</p></li>
 </ol>
 
 
@@ -686,14 +646,14 @@
 <ol>
 <li><p>Klik kanan project CalculatorLib -> Add -> New Item…</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-08.png">https://coding4ever.files.wordpress.com/2015/05/020515-08.png</a>&#8221;></p></li>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-08.png">https://coding4ever.files.wordpress.com/2015/05/020515-08.png</a> %}</p></li>
 <li><p>Pada dialog add new item, pilih Interface dan untuk isian Name diisi ICalculator</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-09.png">https://coding4ever.files.wordpress.com/2015/05/020515-09.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-09.png">https://coding4ever.files.wordpress.com/2015/05/020515-09.png</a> %}</p>
 
 <p>Setelah itu akan tampil editor code interface ICalculator</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-10.png">https://coding4ever.files.wordpress.com/2015/05/020515-10.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-10.png">https://coding4ever.files.wordpress.com/2015/05/020515-10.png</a> %}</p>
 
 <p>Jangan lupa untuk menambahkan access modifier <code>public</code>.</p>
 
@@ -701,7 +661,7 @@
 
 <p>Berikut kode lengkapnya :</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-11.png">https://coding4ever.files.wordpress.com/2015/05/020515-11.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-11.png">https://coding4ever.files.wordpress.com/2015/05/020515-11.png</a> %}</p>
 
 <p>Jika kita perhatikan kode di atas, ada tambahan attribute <code>ServiceContract</code> dan <code>OperationContract</code> pada nama interface dan method abstractnya.</p>
 
@@ -711,11 +671,11 @@
 
 <p>Untuk menambahkan attribut <code>ServiceContract</code> dan <code>OperationContract</code> kita perlu menambahkan referensi <code>System.ServiceModel</code>.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-12.png">https://coding4ever.files.wordpress.com/2015/05/020515-12.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-12.png">https://coding4ever.files.wordpress.com/2015/05/020515-12.png</a> %}</p>
 
 <p>Kemudian mendaftarkannya di bagian using</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-13.png">https://coding4ever.files.wordpress.com/2015/05/020515-13.png</a>&#8221;></p></li>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-13.png">https://coding4ever.files.wordpress.com/2015/05/020515-13.png</a> %}</p></li>
 </ol>
 
 
@@ -726,11 +686,11 @@
 <ol>
 <li><p>Klik kanan project CalculatorLib -> Build</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-14.png">https://coding4ever.files.wordpress.com/2015/05/020515-14.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-14.png">https://coding4ever.files.wordpress.com/2015/05/020515-14.png</a> %}</p>
 
 <p>Setelah itu akan tampil hasil output dari proses Build</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-15.png">https://coding4ever.files.wordpress.com/2015/05/020515-15.png</a>&#8221;></p></li>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-15.png">https://coding4ever.files.wordpress.com/2015/05/020515-15.png</a> %}</p></li>
 </ol>
 
 
