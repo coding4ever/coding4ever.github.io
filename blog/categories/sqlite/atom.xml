@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Sqlite | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/sqlite/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-10-20T09:48:09+07:00</updated>
+  <updated>2015-10-20T10:11:22+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -24,12 +24,12 @@
 
 <p>Oke jadi kasusnya apa nih, kita ambil aja sample sederhana yaitu &ldquo;<strong>pembuatan sms gateway untuk request nilai siswa</strong>&rdquo; dan untuk menyederhanakan pembahasan keywordnya kita batasi saja yaitu <strong>request</strong> <strong>nilai tugas</strong> dan <strong>ulangan</strong>.</p>
 
-<p>Apa yang harus di persiapkan, pertama kita rancang dulu databasenya dan berhubung <a href="{{%20site.url%20}}/blog/2010/06/14/mengenal-lebih-dekat-database-sqlite/">artikel</a> saya yang membahas tentang database SQLite masih hangat jadi untuk databasenya kita menggunakan SQLite saja.</p>
+<p>Apa yang harus di persiapkan, pertama kita rancang dulu databasenya dan berhubung <a href="/blog/2010/06/14/mengenal-lebih-dekat-database-sqlite/">artikel</a> saya yang membahas tentang database SQLite masih hangat jadi untuk databasenya kita menggunakan SQLite saja.</p>
 
 <!-- more -->
 
 
-<p>SQLite adalah database standalone yang kecil, mungil dan gratis. Bagaimana cara membuat database di SQLite sudah saya bahas di<a href="{{%20site.url%20}}/blog/2010/06/14/mengenal-lebih-dekat-database-sqlite/">sini</a> kemudian bagaimana mengaksesnya dari aplikasi juga sudah saya bahasa di<a href="{{%20site.url%20}}/blog/2010/07/05/mengakses-database-sqlite-menggunakan-library-dhsqlite/">sini</a>.</p>
+<p>SQLite adalah database standalone yang kecil, mungil dan gratis. Bagaimana cara membuat database di SQLite sudah saya bahas di<a href="/blog/2010/06/14/mengenal-lebih-dekat-database-sqlite/">sini</a> kemudian bagaimana mengaksesnya dari aplikasi juga sudah saya bahasa di<a href="/blog/2010/07/05/mengakses-database-sqlite-menggunakan-library-dhsqlite/">sini</a>.</p>
 
 <p>Berikut adalah rancangan sederhana database sms yang akan kita buat :</p>
 
@@ -47,69 +47,123 @@
 
 <p><strong>1. Membaca SMS Masuk</strong></p>
 
-<p>{% codeblock lang:vbnet %}
-Private Sub cmdBacaSMS_Click()
-    Dim objGsmIn        As ASmsCtrl.GsmIn</p>
-
-<pre><code>Set objGsmIn = New ASmsCtrl.GsmIn
-With objGsmIn
-    .Activate "XXX-XXXX-XXXX-XXXXX"  'diisi serial number yg Anda dapatkan secara ilegal
-    .Device = "COM1" 'disesuaikan dengan port COM yang digunakan
-    .DeviceSpeed = 19200 'default = 0
-
-    .Storage = 2 '0=sim 1=device 2=any
-    .DeleteAfterReceive = True
-    .Receive
-
-    If .LastError = 0 Or .LastError = 23140 Then ' Success
-        .GetFirstMessage
-
-        While .LastError = 0
-            Debug.Print "Pengirim : " &amp; .MessageSender
-            Debug.Print "Isi SMS : " &amp; .MessageData
-
-            'TODO : INSERT KE TABEL SMS_IN
-
-            .GetNextMessage
-        Wend
-    End If
-End With
-Set objGsmIn = Nothing
-</code></pre>
-
-<p>End Sub
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">cmdBacaSMS_Click</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">objGsmIn</span>        <span class="ow">As</span> <span class="n">ASmsCtrl</span><span class="p">.</span><span class="n">GsmIn</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">Set</span> <span class="n">objGsmIn</span> <span class="o">=</span> <span class="k">New</span> <span class="n">ASmsCtrl</span><span class="p">.</span><span class="n">GsmIn</span>
+</span><span class='line'><span class="k">With</span> <span class="n">objGsmIn</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">Activate</span> <span class="s">&quot;XXX-XXXX-XXXX-XXXXX&quot;</span>  <span class="c">&#39;diisi serial number yg Anda dapatkan secara ilegal</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">Device</span> <span class="o">=</span> <span class="s">&quot;COM1&quot;</span> <span class="c">&#39;disesuaikan dengan port COM yang digunakan</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">DeviceSpeed</span> <span class="o">=</span> <span class="mi">19200</span> <span class="c">&#39;default = 0</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">.</span><span class="n">Storage</span> <span class="o">=</span> <span class="mi">2</span> <span class="c">&#39;0=sim 1=device 2=any</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">DeleteAfterReceive</span> <span class="o">=</span> <span class="k">True</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">Receive</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">If</span> <span class="p">.</span><span class="n">LastError</span> <span class="o">=</span> <span class="mi">0</span> <span class="ow">Or</span> <span class="p">.</span><span class="n">LastError</span> <span class="o">=</span> <span class="mi">23140</span> <span class="k">Then</span> <span class="c">&#39; Success</span>
+</span><span class='line'>        <span class="p">.</span><span class="n">GetFirstMessage</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">While</span> <span class="p">.</span><span class="n">LastError</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>            <span class="n">Debug</span><span class="p">.</span><span class="n">Print</span> <span class="s">&quot;Pengirim : &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="p">.</span><span class="n">MessageSender</span>
+</span><span class='line'>            <span class="n">Debug</span><span class="p">.</span><span class="n">Print</span> <span class="s">&quot;Isi SMS : &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="p">.</span><span class="n">MessageData</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="c">&#39;TODO : INSERT KE TABEL SMS_IN</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="p">.</span><span class="n">GetNextMessage</span>
+</span><span class='line'>        <span class="k">Wend</span>
+</span><span class='line'>    <span class="k">End</span> <span class="k">If</span>
+</span><span class='line'><span class="k">End</span> <span class="k">With</span>
+</span><span class='line'><span class="k">Set</span> <span class="n">objGsmIn</span> <span class="o">=</span> <span class="k">Nothing</span>
+</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Sub</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p><strong>2. Mengirim sms</strong></p>
 
-<p>{% codeblock lang:vbnet %}
-Private Sub cmdKirimSMS_Click()
-    Dim objGsmOut       As ASmsCtrl.GsmOut
-    Dim objConstants    As ASmsCtrl.Constants</p>
-
-<pre><code>Set objGsmOut = New ASmsCtrl.GsmOut
-Set objConstants = New ASmsCtrl.Constants
-
-With objGsmOut
-    .Activate "XXX-XXXX-XXXX-XXXXX"  'diisi serial number yg Anda dapatkan secara ilegal
-    .Device = "COM1" 'disesuaikan dengan port COM yang digunakan
-    .DeviceSpeed = 19200 'default = 0
-    .RequestStatusReport = False
-
-    .MessageType = objConstants.asMESSAGETYPE_TEXT 'mengirim pesan maksimal 160 karakter
-    '.MessageType = objConstants.asMESSAGETYPE_TEXT_MULTIPART 'jika lebih dari 160 karakter gunakan opsi ini
-
-    .MessageRecipient = "nomor tujuan" 'biasanya menggunakan prefix +62
-    .MessageData = "isi pesan"
-    .Send 'kirim
-End With
-
-Set objConstants = Nothing
-Set objGsmOut = Nothing
-</code></pre>
-
-<p>End Sub
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">cmdKirimSMS_Click</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">objGsmOut</span>       <span class="ow">As</span> <span class="n">ASmsCtrl</span><span class="p">.</span><span class="n">GsmOut</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">objConstants</span>    <span class="ow">As</span> <span class="n">ASmsCtrl</span><span class="p">.</span><span class="n">Constants</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">Set</span> <span class="n">objGsmOut</span> <span class="o">=</span> <span class="k">New</span> <span class="n">ASmsCtrl</span><span class="p">.</span><span class="n">GsmOut</span>
+</span><span class='line'><span class="k">Set</span> <span class="n">objConstants</span> <span class="o">=</span> <span class="k">New</span> <span class="n">ASmsCtrl</span><span class="p">.</span><span class="n">Constants</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">With</span> <span class="n">objGsmOut</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">Activate</span> <span class="s">&quot;XXX-XXXX-XXXX-XXXXX&quot;</span>  <span class="c">&#39;diisi serial number yg Anda dapatkan secara ilegal</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">Device</span> <span class="o">=</span> <span class="s">&quot;COM1&quot;</span> <span class="c">&#39;disesuaikan dengan port COM yang digunakan</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">DeviceSpeed</span> <span class="o">=</span> <span class="mi">19200</span> <span class="c">&#39;default = 0</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">RequestStatusReport</span> <span class="o">=</span> <span class="k">False</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">.</span><span class="n">MessageType</span> <span class="o">=</span> <span class="n">objConstants</span><span class="p">.</span><span class="n">asMESSAGETYPE_TEXT</span> <span class="c">&#39;mengirim pesan maksimal 160 karakter</span>
+</span><span class='line'>    <span class="c">&#39;.MessageType = objConstants.asMESSAGETYPE_TEXT_MULTIPART &#39;jika lebih dari 160 karakter gunakan opsi ini</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">.</span><span class="n">MessageRecipient</span> <span class="o">=</span> <span class="s">&quot;nomor tujuan&quot;</span> <span class="c">&#39;biasanya menggunakan prefix +62</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">MessageData</span> <span class="o">=</span> <span class="s">&quot;isi pesan&quot;</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">Send</span> <span class="c">&#39;kirim</span>
+</span><span class='line'><span class="k">End</span> <span class="k">With</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">Set</span> <span class="n">objConstants</span> <span class="o">=</span> <span class="k">Nothing</span>
+</span><span class='line'><span class="k">Set</span> <span class="n">objGsmOut</span> <span class="o">=</span> <span class="k">Nothing</span>
+</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Sub</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Jadi cukup dengan bermodalkan 2 cuplikan kode diatas kita akan menyelesaikan aplikasi yg dibahas pada artikel kali ini.</p>
 
@@ -137,390 +191,735 @@ Nilai ulangan (NAMA SISWA) : BI=95, IPA=75, IPS=80, MTK=85</p>
 
 <p>Berikut penjelasan ringkas beberapa cuplikan source code yang digunakan dalam pembuatan aplikasi sms gateway ini.</p>
 
-<p>{% codeblock lang:vbnet %}
-Private Function connectToDevice(ByVal device As String) As Boolean
-    Dim objGsm      As ASmsCtrl.GsmOut
-    Dim manufaktur  As String</p>
-
-<pre><code>On Error GoTo errHandle
-
-Set objGsm = New ASmsCtrl.GsmOut
-With objGsm
-    .Activate SERIAL_NUMBER
-    .device = device
-
-    manufaktur = .SendCommand("AT+CGMI", 500)  'menampilkan informasi manufactur
-    manufaktur = Replace$(manufaktur, vbCrLf, "")
-    manufaktur = Replace$(manufaktur, "OK", "")
-    manufaktur = Replace$(manufaktur, "ERROR", "")
-    manufaktur = Replace$(manufaktur, "AT+CGMI", "")
-End With
-Set objGsm = Nothing
-
-If Len(manufaktur) &gt; 0 Then
-    txtModem.Text = manufaktur
-    connectToDevice = True
-End If
-
-Exit Function
-</code></pre>
-
-<p>errHandle:
-    connectToDevice = False
-End Function
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Function</span> <span class="nf">connectToDevice</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">device</span> <span class="ow">As</span> <span class="kt">String</span><span class="p">)</span> <span class="ow">As</span> <span class="kt">Boolean</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">objGsm</span>      <span class="ow">As</span> <span class="n">ASmsCtrl</span><span class="p">.</span><span class="n">GsmOut</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">manufaktur</span>  <span class="ow">As</span> <span class="kt">String</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">On</span> <span class="k">Error</span> <span class="k">GoTo</span> <span class="n">errHandle</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">Set</span> <span class="n">objGsm</span> <span class="o">=</span> <span class="k">New</span> <span class="n">ASmsCtrl</span><span class="p">.</span><span class="n">GsmOut</span>
+</span><span class='line'><span class="k">With</span> <span class="n">objGsm</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">Activate</span> <span class="n">SERIAL_NUMBER</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">manufaktur</span> <span class="o">=</span> <span class="p">.</span><span class="n">SendCommand</span><span class="p">(</span><span class="s">&quot;AT+CGMI&quot;</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>  <span class="c">&#39;menampilkan informasi manufactur</span>
+</span><span class='line'>    <span class="n">manufaktur</span> <span class="o">=</span> <span class="n">Replace$</span><span class="p">(</span><span class="n">manufaktur</span><span class="p">,</span> <span class="n">vbCrLf</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">manufaktur</span> <span class="o">=</span> <span class="n">Replace$</span><span class="p">(</span><span class="n">manufaktur</span><span class="p">,</span> <span class="s">&quot;OK&quot;</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">manufaktur</span> <span class="o">=</span> <span class="n">Replace$</span><span class="p">(</span><span class="n">manufaktur</span><span class="p">,</span> <span class="s">&quot;ERROR&quot;</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">manufaktur</span> <span class="o">=</span> <span class="n">Replace$</span><span class="p">(</span><span class="n">manufaktur</span><span class="p">,</span> <span class="s">&quot;AT+CGMI&quot;</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">End</span> <span class="k">With</span>
+</span><span class='line'><span class="k">Set</span> <span class="n">objGsm</span> <span class="o">=</span> <span class="k">Nothing</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">If</span> <span class="n">Len</span><span class="p">(</span><span class="n">manufaktur</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">gt</span><span class="err">;</span> <span class="mi">0</span> <span class="k">Then</span>
+</span><span class='line'>    <span class="n">txtModem</span><span class="p">.</span><span class="n">Text</span> <span class="o">=</span> <span class="n">manufaktur</span>
+</span><span class='line'>    <span class="n">connectToDevice</span> <span class="o">=</span> <span class="k">True</span>
+</span><span class='line'><span class="k">End</span> <span class="k">If</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">Exit</span> <span class="k">Function</span>
+</span><span class='line'><span class="err">&lt;/</span><span class="nf">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;p&gt;</span><span class="n">errHandle</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">connectToDevice</span> <span class="o">=</span> <span class="k">False</span>
+</span><span class='line'><span class="k">End</span> <span class="k">Function</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Sesuai namanya fungsi connectToDevice digunakan untuk mengecek status modem sms yang terpasang, salah satu caranya adalah dengan mengirimkan <a href="http://www.developershome.com/sms/atCommandsIntro.asp">AT COMMAND</a> &ldquo;AT+CGM&rdquo;, <a href="http://www.developershome.com/sms/atCommandsIntro.asp">AT COMMAND</a> ini berfungsi untuk mendapatkan informasi manufaktur.</p>
 
 <p>Sebagai contoh jika modem sms yg digunakan adalah hp siemens maka nilai yg dihasilkan dari perintah ini adalah &ldquo;SIEMENS&rdquo; dan tentunya hp yg bersangkutan juga harus mendukung AT COMMAND.</p>
 
-<p>{% codeblock lang:vbnet %}
-Private Sub readSMS()
-    Dim objGsmIn        As ASmsCtrl.GsmIn
-    Dim objConstants    As ASmsCtrl.Constants
-    Dim cmd             As cCommand</p>
-
-<pre><code>Dim keyword         As String
-Dim phoneNumber     As String
-Dim i               As Integer
-
-On Error GoTo errHandle
-
-Screen.MousePointer = vbHourglass
-cmdStop.Enabled = False
-tmrReceiveSms.Enabled = False
-
-DoEvents
-
-Set objGsmIn = New ASmsCtrl.GsmIn
-Set objConstants = New ASmsCtrl.Constants
-
-With objGsmIn
-    .Activate SERIAL_NUMBER
-    .device = cmbPORT.Text
-    .DeviceSpeed = 0
-
-    .Storage = cmbStorage.ItemData(cmbStorage.ListIndex)
-    .DeleteAfterReceive = True 'hapus sms jika sudah dibaca
-    .Receive
-
-    If .LastError = 0 Or .LastError = 23140 Then 'baca sms sukses
-        .GetFirstMessage
-
-        strSql = "INSERT INTO sms_in (phone_number, sms_keyword, date_in, time_in) VALUES (?, ?, ?, ?)"
-        Set cmd = conn.CreateCommand(strSql)
-        conn.BeginTrans
-
-        i = 1
-        While .LastError = 0
-            phoneNumber = rep0to62(.MessageSender)
-            keyword = .MessageData
-
-            cmd.SetText 1, phoneNumber
-            cmd.SetText 2, keyword
-            cmd.SetDate 3, Format(Now, "yyyy/MM/dd")
-            cmd.SetTime 4, Format(Now, "hh:mm:ss")
-
-            cmd.Execute
-
-            If i Mod 10 = 0 Then
-                conn.CommitTrans
-                DoEvents
-
-                conn.BeginTrans
-            End If
-
-            i = i + 1
-
-            .GetNextMessage
-        Wend
-
-        conn.CommitTrans
-        Set cmd = Nothing
-
-    End If
-End With
-Set objGsmIn = Nothing
-
-If cekSMSIn Then
-    Call sendSMS
-Else
-    Call Wait(5000)
-End If
-
-cmdStop.Enabled = True
-Screen.MousePointer = vbDefault
-
-tmrReceiveSms.Enabled = True
-
-Exit Sub
-</code></pre>
-
-<p>errHandle:
-    tmrReceiveSms.Enabled = True
-End Sub
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">readSMS</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">objGsmIn</span>        <span class="ow">As</span> <span class="n">ASmsCtrl</span><span class="p">.</span><span class="n">GsmIn</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">objConstants</span>    <span class="ow">As</span> <span class="n">ASmsCtrl</span><span class="p">.</span><span class="n">Constants</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">cmd</span>             <span class="ow">As</span> <span class="n">cCommand</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">Dim</span> <span class="n">keyword</span>         <span class="ow">As</span> <span class="kt">String</span>
+</span><span class='line'><span class="k">Dim</span> <span class="n">phoneNumber</span>     <span class="ow">As</span> <span class="kt">String</span>
+</span><span class='line'><span class="k">Dim</span> <span class="n">i</span>               <span class="ow">As</span> <span class="kt">Integer</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">On</span> <span class="k">Error</span> <span class="k">GoTo</span> <span class="n">errHandle</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">Screen</span><span class="p">.</span><span class="n">MousePointer</span> <span class="o">=</span> <span class="n">vbHourglass</span>
+</span><span class='line'><span class="n">cmdStop</span><span class="p">.</span><span class="n">Enabled</span> <span class="o">=</span> <span class="k">False</span>
+</span><span class='line'><span class="n">tmrReceiveSms</span><span class="p">.</span><span class="n">Enabled</span> <span class="o">=</span> <span class="k">False</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">DoEvents</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">Set</span> <span class="n">objGsmIn</span> <span class="o">=</span> <span class="k">New</span> <span class="n">ASmsCtrl</span><span class="p">.</span><span class="n">GsmIn</span>
+</span><span class='line'><span class="k">Set</span> <span class="n">objConstants</span> <span class="o">=</span> <span class="k">New</span> <span class="n">ASmsCtrl</span><span class="p">.</span><span class="n">Constants</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">With</span> <span class="n">objGsmIn</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">Activate</span> <span class="n">SERIAL_NUMBER</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">cmbPORT</span><span class="p">.</span><span class="n">Text</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">DeviceSpeed</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">.</span><span class="n">Storage</span> <span class="o">=</span> <span class="n">cmbStorage</span><span class="p">.</span><span class="n">ItemData</span><span class="p">(</span><span class="n">cmbStorage</span><span class="p">.</span><span class="n">ListIndex</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">DeleteAfterReceive</span> <span class="o">=</span> <span class="k">True</span> <span class="c">&#39;hapus sms jika sudah dibaca</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">Receive</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">If</span> <span class="p">.</span><span class="n">LastError</span> <span class="o">=</span> <span class="mi">0</span> <span class="ow">Or</span> <span class="p">.</span><span class="n">LastError</span> <span class="o">=</span> <span class="mi">23140</span> <span class="k">Then</span> <span class="c">&#39;baca sms sukses</span>
+</span><span class='line'>        <span class="p">.</span><span class="n">GetFirstMessage</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;INSERT INTO sms_in (phone_number, sms_keyword, date_in, time_in) VALUES (?, ?, ?, ?)&quot;</span>
+</span><span class='line'>        <span class="k">Set</span> <span class="n">cmd</span> <span class="o">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">CreateCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">conn</span><span class="p">.</span><span class="n">BeginTrans</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>        <span class="k">While</span> <span class="p">.</span><span class="n">LastError</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>            <span class="n">phoneNumber</span> <span class="o">=</span> <span class="n">rep0to62</span><span class="p">(.</span><span class="n">MessageSender</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">keyword</span> <span class="o">=</span> <span class="p">.</span><span class="n">MessageData</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">cmd</span><span class="p">.</span><span class="n">SetText</span> <span class="mi">1</span><span class="p">,</span> <span class="n">phoneNumber</span>
+</span><span class='line'>            <span class="n">cmd</span><span class="p">.</span><span class="n">SetText</span> <span class="mi">2</span><span class="p">,</span> <span class="n">keyword</span>
+</span><span class='line'>            <span class="n">cmd</span><span class="p">.</span><span class="n">SetDate</span> <span class="mi">3</span><span class="p">,</span> <span class="n">Format</span><span class="p">(</span><span class="n">Now</span><span class="p">,</span> <span class="s">&quot;yyyy/MM/dd&quot;</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">cmd</span><span class="p">.</span><span class="n">SetTime</span> <span class="mi">4</span><span class="p">,</span> <span class="n">Format</span><span class="p">(</span><span class="n">Now</span><span class="p">,</span> <span class="s">&quot;hh:mm:ss&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">cmd</span><span class="p">.</span><span class="n">Execute</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="k">If</span> <span class="n">i</span> <span class="ow">Mod</span> <span class="mi">10</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">Then</span>
+</span><span class='line'>                <span class="n">conn</span><span class="p">.</span><span class="n">CommitTrans</span>
+</span><span class='line'>                <span class="n">DoEvents</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="n">conn</span><span class="p">.</span><span class="n">BeginTrans</span>
+</span><span class='line'>            <span class="k">End</span> <span class="k">If</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="p">.</span><span class="n">GetNextMessage</span>
+</span><span class='line'>        <span class="k">Wend</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">conn</span><span class="p">.</span><span class="n">CommitTrans</span>
+</span><span class='line'>        <span class="k">Set</span> <span class="n">cmd</span> <span class="o">=</span> <span class="k">Nothing</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">End</span> <span class="k">If</span>
+</span><span class='line'><span class="k">End</span> <span class="k">With</span>
+</span><span class='line'><span class="k">Set</span> <span class="n">objGsmIn</span> <span class="o">=</span> <span class="k">Nothing</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">If</span> <span class="n">cekSMSIn</span> <span class="k">Then</span>
+</span><span class='line'>    <span class="k">Call</span> <span class="n">sendSMS</span>
+</span><span class='line'><span class="k">Else</span>
+</span><span class='line'>    <span class="k">Call</span> <span class="n">Wait</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>
+</span><span class='line'><span class="k">End</span> <span class="k">If</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">cmdStop</span><span class="p">.</span><span class="n">Enabled</span> <span class="o">=</span> <span class="k">True</span>
+</span><span class='line'><span class="n">Screen</span><span class="p">.</span><span class="n">MousePointer</span> <span class="o">=</span> <span class="n">vbDefault</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">tmrReceiveSms</span><span class="p">.</span><span class="n">Enabled</span> <span class="o">=</span> <span class="k">True</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">Exit</span> <span class="k">Sub</span>
+</span><span class='line'><span class="err">&lt;/</span><span class="nf">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;p&gt;</span><span class="n">errHandle</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">tmrReceiveSms</span><span class="p">.</span><span class="n">Enabled</span> <span class="o">=</span> <span class="k">True</span>
+</span><span class='line'><span class="k">End</span> <span class="k">Sub</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Prosedur readSMS digunakan untuk membaca sms masuk dan menyimpannya ke tabel sms_in, berhubung komponen ActiveXpert SMS tidak mempunyai event yg menandai adanya sms masuk maka sebagai gantinya kita menggunakan timer untuk memanggil prosedur readSMS.</p>
 
 <p>Salah satu properties penting yang dimiliki oleh ActiveXpert SMS adalah DeleteAfterReceive, jika nilainya diset true maka sms yg masuk akan otomatis dihapus dan tentunya setelah smsnya dibaca.</p>
 
-<p>{% codeblock lang:vbnet %}
-Private Function cekSMSIn() As Boolean
-    Dim ret As Integer</p>
-
-<pre><code>strSql = "SELECT COUNT(*) FROM sms_in WHERE status = 0" 'jika status = 0 berarti sms masuk belum di proses
-ret = CInt(dbGetValue(strSql, 0))
-If ret &gt; 0 Then 'ada sms yg belum diproses
-    cekSMSIn = True
-End If
-</code></pre>
-
-<p>End Function
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Function</span> <span class="nf">cekSMSIn</span><span class="p">()</span> <span class="ow">As</span> <span class="kt">Boolean</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">ret</span> <span class="ow">As</span> <span class="kt">Integer</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;SELECT COUNT(*) FROM sms_in WHERE status = 0&quot;</span> <span class="c">&#39;jika status = 0 berarti sms masuk belum di proses</span>
+</span><span class='line'><span class="n">ret</span> <span class="o">=</span> <span class="k">CInt</span><span class="p">(</span><span class="n">dbGetValue</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+</span><span class='line'><span class="k">If</span> <span class="n">ret</span> <span class="o">&amp;</span><span class="n">gt</span><span class="err">;</span> <span class="mi">0</span> <span class="k">Then</span> <span class="c">&#39;ada sms yg belum diproses</span>
+</span><span class='line'>    <span class="n">cekSMSIn</span> <span class="o">=</span> <span class="k">True</span>
+</span><span class='line'><span class="k">End</span> <span class="k">If</span>
+</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Function</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Prosedur cekSMSIn dibutuhkan oleh prosedur readSMS, jadi dengan adanya prosedur cekSMSIn ini program akan mengetahui kapan waktu yg tepat untuk memanggil prosedur sendSMS.</p>
 
-<p>{% codeblock lang:vbnet %}
-Private Sub sendSMS()
-    Dim rsSend          As cRecordset
-    Dim cmd             As cCommand</p>
-
-<pre><code>Dim objGsmOut       As ASmsCtrl.GsmOut
-Dim objConstants    As ASmsCtrl.Constants
-
-Dim phoneNumber     As String
-Dim keyword         As String
-Dim smsBalasan      As String
-
-On Error GoTo errHandle
-
-'cek sms yang belum di proses, ditandai dg status = 0
-strSql = "SELECT id, phone_number, sms_keyword " &amp; _
-         "FROM sms_in " &amp; _
-         "WHERE status = 0 " &amp; _
-         "ORDER BY id"
-Set rsSend = conn.OpenRecordset(strSql)
-If Not rsSend.EOF Then
-    Set objGsmOut = New ASmsCtrl.GsmOut
-    Set objConstants = New ASmsCtrl.Constants
-
-    objGsmOut.Activate SERIAL_NUMBER
-    objGsmOut.device = cmbPORT.Text
-    objGsmOut.DeviceSpeed = 0
-    objGsmOut.RequestStatusReport = False
-    objGsmOut.MessageType = objConstants.asMESSAGETYPE_TEXT_MULTIPART
-
-    Do While Not rsSend.EOF
-        'ganti prefix nomor hp 0 -&gt; +62
-        phoneNumber = rep0to62("" &amp; rsSend("phone_number").Value)
-        keyword = rsSend("sms_keyword").Value
-
-        smsBalasan = getBalasanSms(keyword, phoneNumber)
-
-        objGsmOut.MessageRecipient = phoneNumber
-        objGsmOut.MessageData = smsBalasan
-        objGsmOut.Send
-
-        If objGsmOut.LastError = 0 Or objGsmOut.LastError = 23140 Then 'sms sukses dikirim
-            'update status sms -&gt; 1
-            strSql = "UPDATE sms_in SET status = ?, no_ref = ? " &amp; _
-                     "WHERE id = ?"
-            Set cmd = conn.CreateCommand(strSql)
-            With cmd
-                .SetInt32 1, 1
-                .SetInt32 2, objGsmOut.MessageReference
-                .SetInt32 3, rsSend("id").Value
-
-                .Execute
-            End With
-            Set cmd = Nothing
-
-            'insert ke tabel sms_out, untuk histori sms keluar
-            strSql = "INSERT INTO sms_out (phone_number, replay_msg, date_out, time_out) VALUES (?, ?, ?, ?)"
-            Set cmd = conn.CreateCommand(strSql)
-            With cmd
-                .SetText 1, phoneNumber
-                .SetText 2, smsBalasan
-                .SetDate 3, Format(Now, "yyyy/MM/dd")
-                .SetTime 4, Format(Now, "hh:mm:ss")
-
-                .Execute
-            End With
-            Set cmd = Nothing
-
-        Else 'sms gagal dikirim
-            'update status sms -&gt; 1
-
-            'ini masih bisa dikembangkan lagi dengan menambah kolom max_jumlah_kirim di tabel sms_in
-            'jadi bisa diberi aturan sms yg gagal dikirim &gt; 3x baru status smsnya diupdate menjadi 1
-            strSql = "UPDATE sms_in SET status = ?, no_ref = ? " &amp; _
-                     "WHERE id = ?"
-            Set cmd = conn.CreateCommand(strSql)
-            With cmd
-                .SetInt32 1, 1
-                .SetInt32 2, objGsmOut.MessageReference
-                .SetInt32 3, rsSend("id").Value
-
-                .Execute
-            End With
-            Set cmd = Nothing
-        End If
-
-        Call Wait(5000)
-
-        rsSend.MoveNext
-    Loop
-    Set objConstants = Nothing
-    Set objGsmOut = Nothing
-End If
-
-Exit Sub
-</code></pre>
-
-<p>errHandle:
-    Resume Next
-End Sub
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">sendSMS</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">rsSend</span>          <span class="ow">As</span> <span class="n">cRecordset</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">cmd</span>             <span class="ow">As</span> <span class="n">cCommand</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">Dim</span> <span class="n">objGsmOut</span>       <span class="ow">As</span> <span class="n">ASmsCtrl</span><span class="p">.</span><span class="n">GsmOut</span>
+</span><span class='line'><span class="k">Dim</span> <span class="n">objConstants</span>    <span class="ow">As</span> <span class="n">ASmsCtrl</span><span class="p">.</span><span class="n">Constants</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">Dim</span> <span class="n">phoneNumber</span>     <span class="ow">As</span> <span class="kt">String</span>
+</span><span class='line'><span class="k">Dim</span> <span class="n">keyword</span>         <span class="ow">As</span> <span class="kt">String</span>
+</span><span class='line'><span class="k">Dim</span> <span class="n">smsBalasan</span>      <span class="ow">As</span> <span class="kt">String</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">On</span> <span class="k">Error</span> <span class="k">GoTo</span> <span class="n">errHandle</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&#39;cek sms yang belum di proses, ditandai dg status = 0</span>
+</span><span class='line'><span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;SELECT id, phone_number, sms_keyword &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">_</span>
+</span><span class='line'>         <span class="s">&quot;FROM sms_in &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">_</span>
+</span><span class='line'>         <span class="s">&quot;WHERE status = 0 &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">_</span>
+</span><span class='line'>         <span class="s">&quot;ORDER BY id&quot;</span>
+</span><span class='line'><span class="k">Set</span> <span class="n">rsSend</span> <span class="o">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">OpenRecordset</span><span class="p">(</span><span class="n">strSql</span><span class="p">)</span>
+</span><span class='line'><span class="k">If</span> <span class="k">Not</span> <span class="n">rsSend</span><span class="p">.</span><span class="n">EOF</span> <span class="k">Then</span>
+</span><span class='line'>    <span class="k">Set</span> <span class="n">objGsmOut</span> <span class="o">=</span> <span class="k">New</span> <span class="n">ASmsCtrl</span><span class="p">.</span><span class="n">GsmOut</span>
+</span><span class='line'>    <span class="k">Set</span> <span class="n">objConstants</span> <span class="o">=</span> <span class="k">New</span> <span class="n">ASmsCtrl</span><span class="p">.</span><span class="n">Constants</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">objGsmOut</span><span class="p">.</span><span class="n">Activate</span> <span class="n">SERIAL_NUMBER</span>
+</span><span class='line'>    <span class="n">objGsmOut</span><span class="p">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">cmbPORT</span><span class="p">.</span><span class="n">Text</span>
+</span><span class='line'>    <span class="n">objGsmOut</span><span class="p">.</span><span class="n">DeviceSpeed</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="n">objGsmOut</span><span class="p">.</span><span class="n">RequestStatusReport</span> <span class="o">=</span> <span class="k">False</span>
+</span><span class='line'>    <span class="n">objGsmOut</span><span class="p">.</span><span class="n">MessageType</span> <span class="o">=</span> <span class="n">objConstants</span><span class="p">.</span><span class="n">asMESSAGETYPE_TEXT_MULTIPART</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">Do</span> <span class="k">While</span> <span class="k">Not</span> <span class="n">rsSend</span><span class="p">.</span><span class="n">EOF</span>
+</span><span class='line'>        <span class="c">&#39;ganti prefix nomor hp 0 -&amp;gt; +62</span>
+</span><span class='line'>        <span class="n">phoneNumber</span> <span class="o">=</span> <span class="n">rep0to62</span><span class="p">(</span><span class="s">&quot;&quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">rsSend</span><span class="p">(</span><span class="s">&quot;phone_number&quot;</span><span class="p">).</span><span class="n">Value</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">keyword</span> <span class="o">=</span> <span class="n">rsSend</span><span class="p">(</span><span class="s">&quot;sms_keyword&quot;</span><span class="p">).</span><span class="n">Value</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">smsBalasan</span> <span class="o">=</span> <span class="n">getBalasanSms</span><span class="p">(</span><span class="n">keyword</span><span class="p">,</span> <span class="n">phoneNumber</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">objGsmOut</span><span class="p">.</span><span class="n">MessageRecipient</span> <span class="o">=</span> <span class="n">phoneNumber</span>
+</span><span class='line'>        <span class="n">objGsmOut</span><span class="p">.</span><span class="n">MessageData</span> <span class="o">=</span> <span class="n">smsBalasan</span>
+</span><span class='line'>        <span class="n">objGsmOut</span><span class="p">.</span><span class="n">Send</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">If</span> <span class="n">objGsmOut</span><span class="p">.</span><span class="n">LastError</span> <span class="o">=</span> <span class="mi">0</span> <span class="ow">Or</span> <span class="n">objGsmOut</span><span class="p">.</span><span class="n">LastError</span> <span class="o">=</span> <span class="mi">23140</span> <span class="k">Then</span> <span class="c">&#39;sms sukses dikirim</span>
+</span><span class='line'>            <span class="c">&#39;update status sms -&amp;gt; 1</span>
+</span><span class='line'>            <span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;UPDATE sms_in SET status = ?, no_ref = ? &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">_</span>
+</span><span class='line'>                     <span class="s">&quot;WHERE id = ?&quot;</span>
+</span><span class='line'>            <span class="k">Set</span> <span class="n">cmd</span> <span class="o">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">CreateCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">With</span> <span class="n">cmd</span>
+</span><span class='line'>                <span class="p">.</span><span class="n">SetInt32</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span>
+</span><span class='line'>                <span class="p">.</span><span class="n">SetInt32</span> <span class="mi">2</span><span class="p">,</span> <span class="n">objGsmOut</span><span class="p">.</span><span class="n">MessageReference</span>
+</span><span class='line'>                <span class="p">.</span><span class="n">SetInt32</span> <span class="mi">3</span><span class="p">,</span> <span class="n">rsSend</span><span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">).</span><span class="n">Value</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="p">.</span><span class="n">Execute</span>
+</span><span class='line'>            <span class="k">End</span> <span class="k">With</span>
+</span><span class='line'>            <span class="k">Set</span> <span class="n">cmd</span> <span class="o">=</span> <span class="k">Nothing</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="c">&#39;insert ke tabel sms_out, untuk histori sms keluar</span>
+</span><span class='line'>            <span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;INSERT INTO sms_out (phone_number, replay_msg, date_out, time_out) VALUES (?, ?, ?, ?)&quot;</span>
+</span><span class='line'>            <span class="k">Set</span> <span class="n">cmd</span> <span class="o">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">CreateCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">With</span> <span class="n">cmd</span>
+</span><span class='line'>                <span class="p">.</span><span class="n">SetText</span> <span class="mi">1</span><span class="p">,</span> <span class="n">phoneNumber</span>
+</span><span class='line'>                <span class="p">.</span><span class="n">SetText</span> <span class="mi">2</span><span class="p">,</span> <span class="n">smsBalasan</span>
+</span><span class='line'>                <span class="p">.</span><span class="n">SetDate</span> <span class="mi">3</span><span class="p">,</span> <span class="n">Format</span><span class="p">(</span><span class="n">Now</span><span class="p">,</span> <span class="s">&quot;yyyy/MM/dd&quot;</span><span class="p">)</span>
+</span><span class='line'>                <span class="p">.</span><span class="n">SetTime</span> <span class="mi">4</span><span class="p">,</span> <span class="n">Format</span><span class="p">(</span><span class="n">Now</span><span class="p">,</span> <span class="s">&quot;hh:mm:ss&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="p">.</span><span class="n">Execute</span>
+</span><span class='line'>            <span class="k">End</span> <span class="k">With</span>
+</span><span class='line'>            <span class="k">Set</span> <span class="n">cmd</span> <span class="o">=</span> <span class="k">Nothing</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">Else</span> <span class="c">&#39;sms gagal dikirim</span>
+</span><span class='line'>            <span class="c">&#39;update status sms -&amp;gt; 1</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="c">&#39;ini masih bisa dikembangkan lagi dengan menambah kolom max_jumlah_kirim di tabel sms_in</span>
+</span><span class='line'>            <span class="c">&#39;jadi bisa diberi aturan sms yg gagal dikirim &amp;gt; 3x baru status smsnya diupdate menjadi 1</span>
+</span><span class='line'>            <span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;UPDATE sms_in SET status = ?, no_ref = ? &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">_</span>
+</span><span class='line'>                     <span class="s">&quot;WHERE id = ?&quot;</span>
+</span><span class='line'>            <span class="k">Set</span> <span class="n">cmd</span> <span class="o">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">CreateCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">With</span> <span class="n">cmd</span>
+</span><span class='line'>                <span class="p">.</span><span class="n">SetInt32</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span>
+</span><span class='line'>                <span class="p">.</span><span class="n">SetInt32</span> <span class="mi">2</span><span class="p">,</span> <span class="n">objGsmOut</span><span class="p">.</span><span class="n">MessageReference</span>
+</span><span class='line'>                <span class="p">.</span><span class="n">SetInt32</span> <span class="mi">3</span><span class="p">,</span> <span class="n">rsSend</span><span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">).</span><span class="n">Value</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="p">.</span><span class="n">Execute</span>
+</span><span class='line'>            <span class="k">End</span> <span class="k">With</span>
+</span><span class='line'>            <span class="k">Set</span> <span class="n">cmd</span> <span class="o">=</span> <span class="k">Nothing</span>
+</span><span class='line'>        <span class="k">End</span> <span class="k">If</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">Call</span> <span class="n">Wait</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">rsSend</span><span class="p">.</span><span class="n">MoveNext</span>
+</span><span class='line'>    <span class="k">Loop</span>
+</span><span class='line'>    <span class="k">Set</span> <span class="n">objConstants</span> <span class="o">=</span> <span class="k">Nothing</span>
+</span><span class='line'>    <span class="k">Set</span> <span class="n">objGsmOut</span> <span class="o">=</span> <span class="k">Nothing</span>
+</span><span class='line'><span class="k">End</span> <span class="k">If</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">Exit</span> <span class="k">Sub</span>
+</span><span class='line'><span class="err">&lt;/</span><span class="nf">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;p&gt;</span><span class="n">errHandle</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">Resume</span> <span class="k">Next</span>
+</span><span class='line'><span class="k">End</span> <span class="k">Sub</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Prosedur sendSMS akan mengolah sms masuk yg belum di proses (ditandai dengan status = 0), mengupdate statusnya menjadi 1 jika berhasil mengirimkan sms, kemudian menyimpannya ke tabel sms_out sebagai histori pengiriman sms.</p>
 
-<p>{% codeblock lang:vbnet %}
-Public Function rep0to62(ByVal phoneNumber As String) As String
-    &lsquo;fungsi untuk mengganti prefix 0 -> +62</p>
-
-<pre><code>rep0to62 = phoneNumber
-If Left(phoneNumber, 1) = "0" Then rep0to62 = "+62" &amp; Right(phoneNumber, Len(phoneNumber) - 1)
-</code></pre>
-
-<p>End Function
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Public</span> <span class="k">Function</span> <span class="nf">rep0to62</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">phoneNumber</span> <span class="ow">As</span> <span class="kt">String</span><span class="p">)</span> <span class="ow">As</span> <span class="kt">String</span>
+</span><span class='line'>    <span class="o">&amp;</span><span class="n">lsquo</span><span class="err">;</span><span class="n">fungsi</span> <span class="n">untuk</span> <span class="n">mengganti</span> <span class="n">prefix</span> <span class="mi">0</span> <span class="o">-&gt;</span> <span class="o">+</span><span class="mi">62</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">rep0to62</span> <span class="o">=</span> <span class="n">phoneNumber</span>
+</span><span class='line'><span class="k">If</span> <span class="n">Left</span><span class="p">(</span><span class="n">phoneNumber</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="s">&quot;0&quot;</span> <span class="k">Then</span> <span class="n">rep0to62</span> <span class="o">=</span> <span class="s">&quot;+62&quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">Right</span><span class="p">(</span><span class="n">phoneNumber</span><span class="p">,</span> <span class="n">Len</span><span class="p">(</span><span class="n">phoneNumber</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Function</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Sesuai namanya fungsi ini berguna untuk mengganti prefix nomor hp 0 menjadi +62 (kode indonesia).</p>
 
 <p>Terakhir fungsi untuk memproses keyword sms yang masuk dan sekaligus sebagai balasan untuk sms keluar.</p>
 
-<p>{% codeblock lang:vbnet %}
-Public Function getBalasanSms(ByVal keywordSms As String, ByVal phoneNumber As String) As String
-    Dim rs              As cRecordset
-    Dim param1          As String
-    Dim arrKeyword()    As String</p>
-
-<pre><code>Dim prefix          As String
-Dim nilai           As String
-Dim nama            As String
-
-Dim tha             As String
-Dim semester        As String
-
-If Len(keywordSms) &gt; 0 Then
-    If InStr(1, keywordSms, "#") &gt; 0 Then 'karakter # -&gt; separator keyword
-        arrKeyword = Split(keywordSms, "#")
-        If Not (Len(arrKeyword(0)) &gt; 0) Then
-            getBalasanSms = "Keyword sms salah"
-            Exit Function
-
-        Else
-            'do nothing
-        End If
-
-    Else
-        ReDim arrKeyword(0)
-        arrKeyword(0) = keywordSms
-    End If
-
-Else
-    getBalasanSms = "Keyword sms salah"
-    Exit Function
-End If
-
-prefix = arrKeyword(0)
-prefix = UCase$(prefix)
-
-If UBound(arrKeyword) &gt; 0 Then param1 = arrKeyword(1) 'untuk contoh disini param1 bernilai nomor induk siswa
-
-'untuk pengembangan lebih lanjut tahun ajaran dan semester dibuat settingan tersendiri
-tha = "2009/2010"
-semester = 2
-
-Select Case prefix
-    Case "TGS"
-        'validasi nis siswa
-        If Not isValidNIS(param1) Then getBalasanSms = Replace(NIS_SALAH, "&lt;nis&gt;", param1): Exit Function
-
-        'validasi no hp siswa
-        'nama sekolah sebaiknya disimpan didalam variabel
-        If Not isValidHPSiswa(param1, phoneNumber) Then
-            getBalasanSms = Replace(HP_UNREG, "&lt;nama_sekolah&gt;", "SMA Negeri Yogyakarta")
-            getBalasanSms = Replace(getBalasanSms, "&lt;no_hp&gt;", phoneNumber): Exit Function
-        End If
-
-        strSql = "SELECT UPPER(nama) FROM siswa WHERE nis = '" &amp; param1 &amp; "'"
-        nama = CStr(dbGetValue(strSql, ""))
-
-        'mulai proses pencarian nilai
-        strSql = "SELECT matapelajaran_kode, nilai " &amp; _
-                 "FROM nilai_tugas " &amp; _
-                 "WHERE siswa_nis = '" &amp; param1 &amp; "' AND tahun_ajaran = '" &amp; tha &amp; "' AND semester = " &amp; semester &amp; " " &amp; _
-                 "ORDER BY matapelajaran_kode"
-        Set rs = conn.OpenRecordset(strSql)
-        If Not rs.EOF Then
-            Do While Not rs.EOF
-                nilai = nilai &amp; rs("matapelajaran_kode").Value &amp; "=" &amp; rs("nilai").Value &amp; ", "
-                rs.MoveNext
-            Loop
-        End If
-
-        If Len(nilai) &gt; 0 Then
-            nilai = Left(nilai, Len(nilai) - 2)
-            getBalasanSms = "Nilai tugas (" &amp; nama &amp; ") : " &amp; nilai
-
-        Else
-            getBalasanSms = "Nilai tugas (" &amp; nama &amp; ") sedang dalam proses pendataan"
-        End If
-
-    Case "UH"
-        'validasi nis siswa
-        If Not isValidNIS(param1) Then getBalasanSms = Replace(NIS_SALAH, "&lt;nis&gt;", param1): Exit Function
-
-        'validasi no hp siswa
-        'nama sekolah sebaiknya disimpan didalam variabel
-        If Not isValidHPSiswa(param1, phoneNumber) Then
-            getBalasanSms = Replace(HP_UNREG, "&lt;nama_sekolah&gt;", "SMA Negeri Yogyakarta")
-            getBalasanSms = Replace(getBalasanSms, "&lt;no_hp&gt;", phoneNumber): Exit Function
-        End If
-
-        strSql = "SELECT UPPER(nama) FROM siswa WHERE nis = '" &amp; param1 &amp; "'"
-        nama = CStr(dbGetValue(strSql, ""))
-
-        'mulai proses pencarian nilai
-        strSql = "SELECT matapelajaran_kode, nilai " &amp; _
-                 "FROM nilai_ulangan " &amp; _
-                 "WHERE siswa_nis = '" &amp; param1 &amp; "' AND tahun_ajaran = '" &amp; tha &amp; "' AND semester = " &amp; semester &amp; " " &amp; _
-                 "ORDER BY matapelajaran_kode"
-        Set rs = conn.OpenRecordset(strSql)
-        If Not rs.EOF Then
-            Do While Not rs.EOF
-                nilai = nilai &amp; rs("matapelajaran_kode").Value &amp; "=" &amp; rs("nilai").Value &amp; ", "
-                rs.MoveNext
-            Loop
-        End If
-
-        If Len(nilai) &gt; 0 Then
-            nilai = Left(nilai, Len(nilai) - 2)
-            getBalasanSms = "Nilai ulangan (" &amp; nama &amp; ") : " &amp; nilai
-
-        Else
-            getBalasanSms = "Nilai ulangan (" &amp; nama &amp; ") sedang dalam proses pendataan"
-        End If
-
-    Case Else
-        getBalasanSms = "Keyword sms salah"
-End Select
-</code></pre>
-
-<p>End Function
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Public</span> <span class="k">Function</span> <span class="nf">getBalasanSms</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">keywordSms</span> <span class="ow">As</span> <span class="kt">String</span><span class="p">,</span> <span class="k">ByVal</span> <span class="n">phoneNumber</span> <span class="ow">As</span> <span class="kt">String</span><span class="p">)</span> <span class="ow">As</span> <span class="kt">String</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">rs</span>              <span class="ow">As</span> <span class="n">cRecordset</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">param1</span>          <span class="ow">As</span> <span class="kt">String</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">arrKeyword</span><span class="p">()</span>    <span class="ow">As</span> <span class="kt">String</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">Dim</span> <span class="n">prefix</span>          <span class="ow">As</span> <span class="kt">String</span>
+</span><span class='line'><span class="k">Dim</span> <span class="n">nilai</span>           <span class="ow">As</span> <span class="kt">String</span>
+</span><span class='line'><span class="k">Dim</span> <span class="n">nama</span>            <span class="ow">As</span> <span class="kt">String</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">Dim</span> <span class="n">tha</span>             <span class="ow">As</span> <span class="kt">String</span>
+</span><span class='line'><span class="k">Dim</span> <span class="n">semester</span>        <span class="ow">As</span> <span class="kt">String</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">If</span> <span class="n">Len</span><span class="p">(</span><span class="n">keywordSms</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">gt</span><span class="err">;</span> <span class="mi">0</span> <span class="k">Then</span>
+</span><span class='line'>    <span class="k">If</span> <span class="n">InStr</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">keywordSms</span><span class="p">,</span> <span class="s">&quot;#&quot;</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">gt</span><span class="err">;</span> <span class="mi">0</span> <span class="k">Then</span> <span class="c">&#39;karakter # -&amp;gt; separator keyword</span>
+</span><span class='line'>        <span class="n">arrKeyword</span> <span class="o">=</span> <span class="n">Split</span><span class="p">(</span><span class="n">keywordSms</span><span class="p">,</span> <span class="s">&quot;#&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">If</span> <span class="k">Not</span> <span class="p">(</span><span class="n">Len</span><span class="p">(</span><span class="n">arrKeyword</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="o">&amp;</span><span class="n">gt</span><span class="err">;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">Then</span>
+</span><span class='line'>            <span class="n">getBalasanSms</span> <span class="o">=</span> <span class="s">&quot;Keyword sms salah&quot;</span>
+</span><span class='line'>            <span class="k">Exit</span> <span class="k">Function</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nf">Else</span>
+</span><span class='line'>            <span class="c">&#39;do nothing</span>
+</span><span class='line'>        <span class="k">End</span> <span class="k">If</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">Else</span>
+</span><span class='line'>        <span class="k">ReDim</span> <span class="n">arrKeyword</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">arrKeyword</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="n">keywordSms</span>
+</span><span class='line'>    <span class="k">End</span> <span class="k">If</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">Else</span>
+</span><span class='line'>    <span class="n">getBalasanSms</span> <span class="o">=</span> <span class="s">&quot;Keyword sms salah&quot;</span>
+</span><span class='line'>    <span class="k">Exit</span> <span class="k">Function</span>
+</span><span class='line'><span class="nf">End</span> <span class="k">If</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">prefix</span> <span class="o">=</span> <span class="n">arrKeyword</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'><span class="n">prefix</span> <span class="o">=</span> <span class="n">UCase$</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">If</span> <span class="n">UBound</span><span class="p">(</span><span class="n">arrKeyword</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">gt</span><span class="err">;</span> <span class="mi">0</span> <span class="k">Then</span> <span class="n">param1</span> <span class="o">=</span> <span class="n">arrKeyword</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c">&#39;untuk contoh disini param1 bernilai nomor induk siswa</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&#39;untuk pengembangan lebih lanjut tahun ajaran dan semester dibuat settingan tersendiri</span>
+</span><span class='line'><span class="n">tha</span> <span class="o">=</span> <span class="s">&quot;2009/2010&quot;</span>
+</span><span class='line'><span class="n">semester</span> <span class="o">=</span> <span class="mi">2</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">Select</span> <span class="k">Case</span> <span class="n">prefix</span>
+</span><span class='line'>    <span class="k">Case</span> <span class="s">&quot;TGS&quot;</span>
+</span><span class='line'>        <span class="c">&#39;validasi nis siswa</span>
+</span><span class='line'>        <span class="k">If</span> <span class="k">Not</span> <span class="n">isValidNIS</span><span class="p">(</span><span class="n">param1</span><span class="p">)</span> <span class="k">Then</span> <span class="n">getBalasanSms</span> <span class="o">=</span> <span class="n">Replace</span><span class="p">(</span><span class="n">NIS_SALAH</span><span class="p">,</span> <span class="s">&quot;&amp;lt;nis&amp;gt;&quot;</span><span class="p">,</span> <span class="n">param1</span><span class="p">):</span> <span class="k">Exit</span> <span class="k">Function</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="err">&#39;</span><span class="nf">validasi</span> <span class="n">no</span> <span class="n">hp</span> <span class="n">siswa</span>
+</span><span class='line'>        <span class="c">&#39;nama sekolah sebaiknya disimpan didalam variabel</span>
+</span><span class='line'>        <span class="k">If</span> <span class="k">Not</span> <span class="n">isValidHPSiswa</span><span class="p">(</span><span class="n">param1</span><span class="p">,</span> <span class="n">phoneNumber</span><span class="p">)</span> <span class="k">Then</span>
+</span><span class='line'>            <span class="n">getBalasanSms</span> <span class="o">=</span> <span class="n">Replace</span><span class="p">(</span><span class="n">HP_UNREG</span><span class="p">,</span> <span class="s">&quot;&amp;lt;nama_sekolah&amp;gt;&quot;</span><span class="p">,</span> <span class="s">&quot;SMA Negeri Yogyakarta&quot;</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">getBalasanSms</span> <span class="o">=</span> <span class="n">Replace</span><span class="p">(</span><span class="n">getBalasanSms</span><span class="p">,</span> <span class="s">&quot;&amp;lt;no_hp&amp;gt;&quot;</span><span class="p">,</span> <span class="n">phoneNumber</span><span class="p">):</span> <span class="k">Exit</span> <span class="k">Function</span>
+</span><span class='line'>        <span class="nf">End</span> <span class="k">If</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;SELECT UPPER(nama) FROM siswa WHERE nis = &#39;&quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">param1</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="s">&quot;&#39;&quot;</span>
+</span><span class='line'>        <span class="n">nama</span> <span class="o">=</span> <span class="k">CStr</span><span class="p">(</span><span class="n">dbGetValue</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c">&#39;mulai proses pencarian nilai</span>
+</span><span class='line'>        <span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;SELECT matapelajaran_kode, nilai &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">_</span>
+</span><span class='line'>                 <span class="s">&quot;FROM nilai_tugas &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">_</span>
+</span><span class='line'>                 <span class="s">&quot;WHERE siswa_nis = &#39;&quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">param1</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="s">&quot;&#39; AND tahun_ajaran = &#39;&quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">tha</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="s">&quot;&#39; AND semester = &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">semester</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="s">&quot; &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">_</span>
+</span><span class='line'>                 <span class="s">&quot;ORDER BY matapelajaran_kode&quot;</span>
+</span><span class='line'>        <span class="k">Set</span> <span class="n">rs</span> <span class="o">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">OpenRecordset</span><span class="p">(</span><span class="n">strSql</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">If</span> <span class="k">Not</span> <span class="n">rs</span><span class="p">.</span><span class="n">EOF</span> <span class="k">Then</span>
+</span><span class='line'>            <span class="k">Do</span> <span class="k">While</span> <span class="k">Not</span> <span class="n">rs</span><span class="p">.</span><span class="n">EOF</span>
+</span><span class='line'>                <span class="n">nilai</span> <span class="o">=</span> <span class="n">nilai</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">rs</span><span class="p">(</span><span class="s">&quot;matapelajaran_kode&quot;</span><span class="p">).</span><span class="n">Value</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="s">&quot;=&quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">rs</span><span class="p">(</span><span class="s">&quot;nilai&quot;</span><span class="p">).</span><span class="n">Value</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="s">&quot;, &quot;</span>
+</span><span class='line'>                <span class="n">rs</span><span class="p">.</span><span class="n">MoveNext</span>
+</span><span class='line'>            <span class="k">Loop</span>
+</span><span class='line'>        <span class="k">End</span> <span class="k">If</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">If</span> <span class="n">Len</span><span class="p">(</span><span class="n">nilai</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">gt</span><span class="err">;</span> <span class="mi">0</span> <span class="k">Then</span>
+</span><span class='line'>            <span class="n">nilai</span> <span class="o">=</span> <span class="n">Left</span><span class="p">(</span><span class="n">nilai</span><span class="p">,</span> <span class="n">Len</span><span class="p">(</span><span class="n">nilai</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">getBalasanSms</span> <span class="o">=</span> <span class="s">&quot;Nilai tugas (&quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">nama</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="s">&quot;) : &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">nilai</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">Else</span>
+</span><span class='line'>            <span class="n">getBalasanSms</span> <span class="o">=</span> <span class="s">&quot;Nilai tugas (&quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">nama</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="s">&quot;) sedang dalam proses pendataan&quot;</span>
+</span><span class='line'>        <span class="k">End</span> <span class="k">If</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">Case</span> <span class="s">&quot;UH&quot;</span>
+</span><span class='line'>        <span class="c">&#39;validasi nis siswa</span>
+</span><span class='line'>        <span class="k">If</span> <span class="k">Not</span> <span class="n">isValidNIS</span><span class="p">(</span><span class="n">param1</span><span class="p">)</span> <span class="k">Then</span> <span class="n">getBalasanSms</span> <span class="o">=</span> <span class="n">Replace</span><span class="p">(</span><span class="n">NIS_SALAH</span><span class="p">,</span> <span class="s">&quot;&amp;lt;nis&amp;gt;&quot;</span><span class="p">,</span> <span class="n">param1</span><span class="p">):</span> <span class="k">Exit</span> <span class="k">Function</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="err">&#39;</span><span class="nf">validasi</span> <span class="n">no</span> <span class="n">hp</span> <span class="n">siswa</span>
+</span><span class='line'>        <span class="c">&#39;nama sekolah sebaiknya disimpan didalam variabel</span>
+</span><span class='line'>        <span class="k">If</span> <span class="k">Not</span> <span class="n">isValidHPSiswa</span><span class="p">(</span><span class="n">param1</span><span class="p">,</span> <span class="n">phoneNumber</span><span class="p">)</span> <span class="k">Then</span>
+</span><span class='line'>            <span class="n">getBalasanSms</span> <span class="o">=</span> <span class="n">Replace</span><span class="p">(</span><span class="n">HP_UNREG</span><span class="p">,</span> <span class="s">&quot;&amp;lt;nama_sekolah&amp;gt;&quot;</span><span class="p">,</span> <span class="s">&quot;SMA Negeri Yogyakarta&quot;</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">getBalasanSms</span> <span class="o">=</span> <span class="n">Replace</span><span class="p">(</span><span class="n">getBalasanSms</span><span class="p">,</span> <span class="s">&quot;&amp;lt;no_hp&amp;gt;&quot;</span><span class="p">,</span> <span class="n">phoneNumber</span><span class="p">):</span> <span class="k">Exit</span> <span class="k">Function</span>
+</span><span class='line'>        <span class="nf">End</span> <span class="k">If</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;SELECT UPPER(nama) FROM siswa WHERE nis = &#39;&quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">param1</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="s">&quot;&#39;&quot;</span>
+</span><span class='line'>        <span class="n">nama</span> <span class="o">=</span> <span class="k">CStr</span><span class="p">(</span><span class="n">dbGetValue</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c">&#39;mulai proses pencarian nilai</span>
+</span><span class='line'>        <span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;SELECT matapelajaran_kode, nilai &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">_</span>
+</span><span class='line'>                 <span class="s">&quot;FROM nilai_ulangan &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">_</span>
+</span><span class='line'>                 <span class="s">&quot;WHERE siswa_nis = &#39;&quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">param1</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="s">&quot;&#39; AND tahun_ajaran = &#39;&quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">tha</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="s">&quot;&#39; AND semester = &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">semester</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="s">&quot; &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">_</span>
+</span><span class='line'>                 <span class="s">&quot;ORDER BY matapelajaran_kode&quot;</span>
+</span><span class='line'>        <span class="k">Set</span> <span class="n">rs</span> <span class="o">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">OpenRecordset</span><span class="p">(</span><span class="n">strSql</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">If</span> <span class="k">Not</span> <span class="n">rs</span><span class="p">.</span><span class="n">EOF</span> <span class="k">Then</span>
+</span><span class='line'>            <span class="k">Do</span> <span class="k">While</span> <span class="k">Not</span> <span class="n">rs</span><span class="p">.</span><span class="n">EOF</span>
+</span><span class='line'>                <span class="n">nilai</span> <span class="o">=</span> <span class="n">nilai</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">rs</span><span class="p">(</span><span class="s">&quot;matapelajaran_kode&quot;</span><span class="p">).</span><span class="n">Value</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="s">&quot;=&quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">rs</span><span class="p">(</span><span class="s">&quot;nilai&quot;</span><span class="p">).</span><span class="n">Value</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="s">&quot;, &quot;</span>
+</span><span class='line'>                <span class="n">rs</span><span class="p">.</span><span class="n">MoveNext</span>
+</span><span class='line'>            <span class="k">Loop</span>
+</span><span class='line'>        <span class="k">End</span> <span class="k">If</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">If</span> <span class="n">Len</span><span class="p">(</span><span class="n">nilai</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">gt</span><span class="err">;</span> <span class="mi">0</span> <span class="k">Then</span>
+</span><span class='line'>            <span class="n">nilai</span> <span class="o">=</span> <span class="n">Left</span><span class="p">(</span><span class="n">nilai</span><span class="p">,</span> <span class="n">Len</span><span class="p">(</span><span class="n">nilai</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">getBalasanSms</span> <span class="o">=</span> <span class="s">&quot;Nilai ulangan (&quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">nama</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="s">&quot;) : &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">nilai</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">Else</span>
+</span><span class='line'>            <span class="n">getBalasanSms</span> <span class="o">=</span> <span class="s">&quot;Nilai ulangan (&quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">nama</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="s">&quot;) sedang dalam proses pendataan&quot;</span>
+</span><span class='line'>        <span class="k">End</span> <span class="k">If</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">Case</span> <span class="k">Else</span>
+</span><span class='line'>        <span class="n">getBalasanSms</span> <span class="o">=</span> <span class="s">&quot;Keyword sms salah&quot;</span>
+</span><span class='line'><span class="k">End</span> <span class="k">Select</span>
+</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Function</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p><a href="http://coding4ever.files.wordpress.com/2010/07/12072010-2.jpg"><img src="http://coding4ever.files.wordpress.com/2010/07/12072010-2.jpg?w=300" alt="" /></a></p>
 
@@ -535,7 +934,7 @@ End Select
     <link href="http://coding4ever.net/blog/2010/07/05/mengakses-database-sqlite-menggunakan-library-dhsqlite/"/>
     <updated>2010-07-05T08:40:04+07:00</updated>
     <id>http://coding4ever.net/blog/2010/07/05/mengakses-database-sqlite-menggunakan-library-dhsqlite</id>
-    <content type="html"><![CDATA[<p>Ada yang kurang di artikel <a href="{{%20site.url%20}}/blog/2010/06/14/mengenal-lebih-dekat-database-sqlite/">sebelumnya</a>, yaitu saya belum membahas bagaimana mengakses database SQLite dalam pembuatan aplikasi database.</p>
+    <content type="html"><![CDATA[<p>Ada yang kurang di artikel <a href="/blog/2010/06/14/mengenal-lebih-dekat-database-sqlite/">sebelumnya</a>, yaitu saya belum membahas bagaimana mengakses database SQLite dalam pembuatan aplikasi database.</p>
 
 <p>Secara umum aksi yang sering dilakukan dalam pembuatan aplikasi database hanya seputar pernyataan DML (Insert, Update, Delete dan Select), jadi untuk menyederhanakan pembahasan saya pun membatasi artikel kali ini hanya seputar permasalahan tersebut.</p>
 
@@ -559,40 +958,63 @@ End Select
 
 <p>Tambahkan sebuah modul, kemudian ketik kode berikut :</p>
 
-<p>{% codeblock lang:vbnet %}
-Public Function openDb() As Boolean
-    On Error GoTo errHandle</p>
-
-<pre><code>Set conn = New cConnection
-conn.openDb "C:\dbpos\dbpos.db3"
-openDb = True
-
-Exit Function
-</code></pre>
-
-<p>errHandle:
-    openDb = False
-End Function
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Public</span> <span class="k">Function</span> <span class="nf">openDb</span><span class="p">()</span> <span class="ow">As</span> <span class="kt">Boolean</span>
+</span><span class='line'>    <span class="k">On</span> <span class="k">Error</span> <span class="k">GoTo</span> <span class="n">errHandle</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">Set</span> <span class="n">conn</span> <span class="o">=</span> <span class="k">New</span> <span class="n">cConnection</span>
+</span><span class='line'><span class="n">conn</span><span class="p">.</span><span class="n">openDb</span> <span class="s">&quot;C:\dbpos\dbpos.db3&quot;</span>
+</span><span class='line'><span class="n">openDb</span> <span class="o">=</span> <span class="k">True</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">Exit</span> <span class="k">Function</span>
+</span><span class='line'><span class="err">&lt;/</span><span class="nf">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;p&gt;</span><span class="n">errHandle</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">openDb</span> <span class="o">=</span> <span class="k">False</span>
+</span><span class='line'><span class="k">End</span> <span class="k">Function</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>dengan asumsi database dbpos.db3 sudah ada di folder C:\dbpos.</p>
 
 <p>Untuk mencoba fungsi <strong>openDb</strong> diatas, kita akan memanfaat prosedur Main berikut :</p>
 
-<p>{% codeblock lang:vbnet %}
-Public Sub Main()
-    Dim ret As Boolean</p>
-
-<pre><code>ret = openDb
-If ret Then
-    'TODO : tampilkan form utama
-Else
-    MsgBox "Koneksi gagal", vbExclamation, "Peringatan"
-End If
-</code></pre>
-
-<p>End Sub
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Public</span> <span class="k">Sub</span> <span class="nf">Main</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">ret</span> <span class="ow">As</span> <span class="kt">Boolean</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">ret</span> <span class="o">=</span> <span class="n">openDb</span>
+</span><span class='line'><span class="k">If</span> <span class="n">ret</span> <span class="k">Then</span>
+</span><span class='line'>    <span class="c">&#39;TODO : tampilkan form utama</span>
+</span><span class='line'><span class="k">Else</span>
+</span><span class='line'>    <span class="n">MsgBox</span> <span class="s">&quot;Koneksi gagal&quot;</span><span class="p">,</span> <span class="n">vbExclamation</span><span class="p">,</span> <span class="s">&quot;Peringatan&quot;</span>
+</span><span class='line'><span class="k">End</span> <span class="k">If</span>
+</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Sub</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Tentunya agar prosedur Main tersebut bisa dijalankan, kita harus merubah Startup Object menjadi Sub Main.</p>
 
@@ -602,25 +1024,41 @@ End If
 
 <p>Menambahkan data menggunakan objek cCommand sangat mudah sekali, lihat kode berikut :</p>
 
-<p>{% codeblock lang:vbnet %}
-Private Sub cmdSimpan_Click()
-    Dim cmd As cCommand</p>
-
-<pre><code>strSql = "INSERT INTO barang (kode_barang, nama_barang, stok, harga_beli, harga_jual) VALUES (?, ?, ?, ?, ?)"
-Set cmd = conn.CreateCommand(strSql)
-With cmd
-    .SetText 1, txtKodeBarang.Text
-    .SetText 2, txtNamaBarang.Text
-    .SetDouble 3, Val(txtStok.Text)
-    .SetDouble 4, Val(txtHargaBeli.Text)
-    .SetDouble 5, Val(txtHargaJual.Text)
-    .Execute
-End With
-Set cmd = Nothing
-</code></pre>
-
-<p>End Sub
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">cmdSimpan_Click</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">cmd</span> <span class="ow">As</span> <span class="n">cCommand</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;INSERT INTO barang (kode_barang, nama_barang, stok, harga_beli, harga_jual) VALUES (?, ?, ?, ?, ?)&quot;</span>
+</span><span class='line'><span class="k">Set</span> <span class="n">cmd</span> <span class="o">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">CreateCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">)</span>
+</span><span class='line'><span class="k">With</span> <span class="n">cmd</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">SetText</span> <span class="mi">1</span><span class="p">,</span> <span class="n">txtKodeBarang</span><span class="p">.</span><span class="n">Text</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">SetText</span> <span class="mi">2</span><span class="p">,</span> <span class="n">txtNamaBarang</span><span class="p">.</span><span class="n">Text</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">SetDouble</span> <span class="mi">3</span><span class="p">,</span> <span class="n">Val</span><span class="p">(</span><span class="n">txtStok</span><span class="p">.</span><span class="n">Text</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">SetDouble</span> <span class="mi">4</span><span class="p">,</span> <span class="n">Val</span><span class="p">(</span><span class="n">txtHargaBeli</span><span class="p">.</span><span class="n">Text</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">SetDouble</span> <span class="mi">5</span><span class="p">,</span> <span class="n">Val</span><span class="p">(</span><span class="n">txtHargaJual</span><span class="p">.</span><span class="n">Text</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">Execute</span>
+</span><span class='line'><span class="k">End</span> <span class="k">With</span>
+</span><span class='line'><span class="k">Set</span> <span class="n">cmd</span> <span class="o">=</span> <span class="k">Nothing</span>
+</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Sub</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Mirip sekali bukan menambahkan data menggunakan interface <a href="http://www.herongyang.com/jdbc/Derby-PreparedStatement-Insert-Performance.html">PreparedStatement</a> di java :D</p>
 
@@ -632,118 +1070,199 @@ Set cmd = Nothing
 
 <p><strong>3. Mengedit data</strong></p>
 
-<p>{% codeblock lang:vbnet %}
-Private Sub cmdEdit_Click()
-    Dim cmd As cCommand</p>
-
-<pre><code>strSql = "UPDATE barang SET nama_barang = ?, stok = ?, harga_beli = ?, harga_jual = ? " &amp; _
-         "WHERE kode_barang = ?"
-Set cmd = conn.CreateCommand(strSql)
-With cmd
-    .SetText 1, txtNamaBarang.Text
-    .SetDouble 2, Val(txtStok.Text)
-    .SetDouble 3, Val(txtHargaBeli.Text)
-    .SetDouble 4, Val(txtHargaJual.Text)
-    .SetText 5, txtKodeBarang.Text
-    .Execute
-End With
-Set cmd = Nothing
-</code></pre>
-
-<p>End Sub
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">cmdEdit_Click</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">cmd</span> <span class="ow">As</span> <span class="n">cCommand</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;UPDATE barang SET nama_barang = ?, stok = ?, harga_beli = ?, harga_jual = ? &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">_</span>
+</span><span class='line'>         <span class="s">&quot;WHERE kode_barang = ?&quot;</span>
+</span><span class='line'><span class="k">Set</span> <span class="n">cmd</span> <span class="o">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">CreateCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">)</span>
+</span><span class='line'><span class="k">With</span> <span class="n">cmd</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">SetText</span> <span class="mi">1</span><span class="p">,</span> <span class="n">txtNamaBarang</span><span class="p">.</span><span class="n">Text</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">SetDouble</span> <span class="mi">2</span><span class="p">,</span> <span class="n">Val</span><span class="p">(</span><span class="n">txtStok</span><span class="p">.</span><span class="n">Text</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">SetDouble</span> <span class="mi">3</span><span class="p">,</span> <span class="n">Val</span><span class="p">(</span><span class="n">txtHargaBeli</span><span class="p">.</span><span class="n">Text</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">SetDouble</span> <span class="mi">4</span><span class="p">,</span> <span class="n">Val</span><span class="p">(</span><span class="n">txtHargaJual</span><span class="p">.</span><span class="n">Text</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">SetText</span> <span class="mi">5</span><span class="p">,</span> <span class="n">txtKodeBarang</span><span class="p">.</span><span class="n">Text</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">Execute</span>
+</span><span class='line'><span class="k">End</span> <span class="k">With</span>
+</span><span class='line'><span class="k">Set</span> <span class="n">cmd</span> <span class="o">=</span> <span class="k">Nothing</span>
+</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Sub</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p><strong>4. Menghapus data</strong></p>
 
-<p>{% codeblock lang:vbnet %}
-Private Sub cmdHapus_Click()
-    Dim cmd As cCommand</p>
-
-<pre><code>strSql = "DELETE FROM barang WHERE kode_barang = ?"
-Set cmd = conn.CreateCommand(strSql)
-With cmd
-    .SetText 1, txtKodeBarang.Text
-    .Execute
-End With
-Set cmd = Nothing
-</code></pre>
-
-<p>End Sub
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">cmdHapus_Click</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">cmd</span> <span class="ow">As</span> <span class="n">cCommand</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;DELETE FROM barang WHERE kode_barang = ?&quot;</span>
+</span><span class='line'><span class="k">Set</span> <span class="n">cmd</span> <span class="o">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">CreateCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">)</span>
+</span><span class='line'><span class="k">With</span> <span class="n">cmd</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">SetText</span> <span class="mi">1</span><span class="p">,</span> <span class="n">txtKodeBarang</span><span class="p">.</span><span class="n">Text</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">Execute</span>
+</span><span class='line'><span class="k">End</span> <span class="k">With</span>
+</span><span class='line'><span class="k">Set</span> <span class="n">cmd</span> <span class="o">=</span> <span class="k">Nothing</span>
+</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Sub</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p><strong>5. Menampilkan data</strong></p>
 
 <p>Untuk menampilkan data kita menggunakan pernyataan SELECT, dan ingat pernyataan SELECT mengembalikan data dalam bentuk recordset, sehingga kita harus membuat objek dengan tipe cRecordset.</p>
 
-<p>{% codeblock lang:vbnet %}
-Private Sub cmdTampilkan_Click()
-    Dim rs  As cRecordset</p>
-
-<pre><code>strSql = "SELECT kode_barang, nama_barang, stok, harga_beli, harga_jual " &amp; _
-         "FROM barang " &amp; _
-         "ORDER BY nama_barang"
-Set rs = conn.OpenRecordset(strSql, True)
-If Not rs.EOF Then
-    Do While Not rs.EOF
-        Debug.Print rs("kode_barang").Value &amp; ", " &amp; rs("nama_barang").Value
-        rs.MoveNext
-    Loop
-End If
-</code></pre>
-
-<p>End Sub
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">cmdTampilkan_Click</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">rs</span>  <span class="ow">As</span> <span class="n">cRecordset</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;SELECT kode_barang, nama_barang, stok, harga_beli, harga_jual &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">_</span>
+</span><span class='line'>         <span class="s">&quot;FROM barang &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">_</span>
+</span><span class='line'>         <span class="s">&quot;ORDER BY nama_barang&quot;</span>
+</span><span class='line'><span class="k">Set</span> <span class="n">rs</span> <span class="o">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">OpenRecordset</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="k">True</span><span class="p">)</span>
+</span><span class='line'><span class="k">If</span> <span class="k">Not</span> <span class="n">rs</span><span class="p">.</span><span class="n">EOF</span> <span class="k">Then</span>
+</span><span class='line'>    <span class="k">Do</span> <span class="k">While</span> <span class="k">Not</span> <span class="n">rs</span><span class="p">.</span><span class="n">EOF</span>
+</span><span class='line'>        <span class="n">Debug</span><span class="p">.</span><span class="n">Print</span> <span class="n">rs</span><span class="p">(</span><span class="s">&quot;kode_barang&quot;</span><span class="p">).</span><span class="n">Value</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="s">&quot;, &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">rs</span><span class="p">(</span><span class="s">&quot;nama_barang&quot;</span><span class="p">).</span><span class="n">Value</span>
+</span><span class='line'>        <span class="n">rs</span><span class="p">.</span><span class="n">MoveNext</span>
+</span><span class='line'>    <span class="k">Loop</span>
+</span><span class='line'><span class="k">End</span> <span class="k">If</span>
+</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Sub</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p><strong>6. Insert, Update dan Delete dalam jumlah banyak</strong></p>
 
 <p>Hati-hati jangan langsung mengunakan kode seperti berikut :</p>
 
-<p>{% codeblock lang:vbnet %}
-Private Sub cmdTest1_Click()
-    Dim cmd As cCommand
-    Dim i   As Integer</p>
-
-<pre><code>strSql = "INSERT INTO tabel_test (no_urut) VALUES (?)"
-
-Set cmd = conn.CreateCommand(strSql)
-For i = 1 To 1000
-    cmd.SetInt32 1, i
-    cmd.Execute
-Next i
-Set cmd = Nothing
-</code></pre>
-
-<p>End Sub
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">cmdTest1_Click</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">cmd</span> <span class="ow">As</span> <span class="n">cCommand</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">i</span>   <span class="ow">As</span> <span class="kt">Integer</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;INSERT INTO tabel_test (no_urut) VALUES (?)&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">Set</span> <span class="n">cmd</span> <span class="o">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">CreateCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">)</span>
+</span><span class='line'><span class="k">For</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">To</span> <span class="mi">1000</span>
+</span><span class='line'>    <span class="n">cmd</span><span class="p">.</span><span class="n">SetInt32</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span>
+</span><span class='line'>    <span class="n">cmd</span><span class="p">.</span><span class="n">Execute</span>
+</span><span class='line'><span class="k">Next</span> <span class="n">i</span>
+</span><span class='line'><span class="k">Set</span> <span class="n">cmd</span> <span class="o">=</span> <span class="k">Nothing</span>
+</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Sub</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>hasil uji coba di laptop saya membutuhkan waktu sekitar 1 menitan, tetapi bandingkan jika menggunakan <strong>transaction</strong></p>
 
-<p>{% codeblock lang:vbnet %}
-Private Sub cmdTest2_Click()
-    Dim cmd As cCommand
-    Dim i   As Integer</p>
-
-<pre><code>strSql = "INSERT INTO tabel_test (no_urut) VALUES (?)"
-
-Set cmd = conn.CreateCommand(strSql)
-conn.BeginTrans
-For i = 1 To 1000
-    cmd.SetInt32 1, i
-    cmd.Execute
-
-    If i Mod 200 = 0 Then
-        conn.CommitTrans
-        DoEvents
-
-        conn.BeginTrans
-    End If
-Next i
-conn.CommitTrans
-Set cmd = Nothing
-</code></pre>
-
-<p>End Sub
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">cmdTest2_Click</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">cmd</span> <span class="ow">As</span> <span class="n">cCommand</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">i</span>   <span class="ow">As</span> <span class="kt">Integer</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;INSERT INTO tabel_test (no_urut) VALUES (?)&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">Set</span> <span class="n">cmd</span> <span class="o">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">CreateCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">)</span>
+</span><span class='line'><span class="n">conn</span><span class="p">.</span><span class="n">BeginTrans</span>
+</span><span class='line'><span class="k">For</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">To</span> <span class="mi">1000</span>
+</span><span class='line'>    <span class="n">cmd</span><span class="p">.</span><span class="n">SetInt32</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span>
+</span><span class='line'>    <span class="n">cmd</span><span class="p">.</span><span class="n">Execute</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">If</span> <span class="n">i</span> <span class="ow">Mod</span> <span class="mi">200</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">Then</span>
+</span><span class='line'>        <span class="n">conn</span><span class="p">.</span><span class="n">CommitTrans</span>
+</span><span class='line'>        <span class="n">DoEvents</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">conn</span><span class="p">.</span><span class="n">BeginTrans</span>
+</span><span class='line'>    <span class="k">End</span> <span class="k">If</span>
+</span><span class='line'><span class="k">Next</span> <span class="n">i</span>
+</span><span class='line'><span class="n">conn</span><span class="p">.</span><span class="n">CommitTrans</span>
+</span><span class='line'><span class="k">Set</span> <span class="n">cmd</span> <span class="o">=</span> <span class="k">Nothing</span>
+</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Sub</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>hanya membutuhkan waktu 1 detik, wowww lumayan bedakan.</p>
 
@@ -893,7 +1412,7 @@ Set cmd = Nothing
 
 <p><strong>>> Update &lt;&lt;</strong></p>
 
-<p>Ikuti juga artikel bagaimana cara mengakses database SQLite dari Visual Basic 6 di <a href="{{%20site.url%20}}/blog/2010/07/05/mengakses-database-sqlite-menggunakan-library-dhsqlite/">sini</a>.</p>
+<p>Ikuti juga artikel bagaimana cara mengakses database SQLite dari Visual Basic 6 di <a href="/blog/2010/07/05/mengakses-database-sqlite-menggunakan-library-dhsqlite/">sini</a>.</p>
 
 <p>Selamat mencoba :)</p>
 ]]></content>

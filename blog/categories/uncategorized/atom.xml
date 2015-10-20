@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Uncategorized | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/uncategorized/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2015-10-20T09:48:09+07:00</updated>
+  <updated>2015-10-20T10:11:22+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -18,7 +18,7 @@
     <link href="http://coding4ever.net/blog/2015/04/13/comment-as-a-guest/"/>
     <updated>2015-04-13T09:13:52+07:00</updated>
     <id>http://coding4ever.net/blog/2015/04/13/comment-as-a-guest</id>
-    <content type="html"><![CDATA[<p>{% img left <a href="https://coding4ever.files.wordpress.com/2015/04/disqus_icon.png">https://coding4ever.files.wordpress.com/2015/04/disqus_icon.png</a> 120 100 %}Blog <a href="http://coding4ever.net/">ini</a> dibangun di atas static blogging framework <a href="http://octopress.org/">Octopress</a> dan untuk berinteraksi dengan pengunjung saya menggunakan layanan <a href="https://disqus.com/">Disqus</a>.</p>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/04/disqus_icon.png">https://coding4ever.files.wordpress.com/2015/04/disqus_icon.png</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Blog <a href="http://coding4ever.net/">ini</a> dibangun di atas static blogging framework <a href="http://octopress.org/">Octopress</a> dan untuk berinteraksi dengan pengunjung saya menggunakan layanan <a href="https://disqus.com/">Disqus</a>.</p>
 
 <p>Jika sebelumnya Anda harus menjadi anggota dari <a href="https://disqus.com/">Disqus</a> untuk memberikan komentar, mulai sekarang Anda sudah bisa memberikan komentar tanpa harus mendaftar di <a href="https://disqus.com/">Disqus</a>.</p>
 
@@ -27,7 +27,7 @@
 
 <p>Caranya adalah pada saat memberikan komentar, Anda aktifkan pilihan <strong><em>I&rsquo;d rather post as gues</em></strong>.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/disqus_comment1.png">https://coding4ever.files.wordpress.com/2015/04/disqus_comment1.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/disqus_comment1.png">https://coding4ever.files.wordpress.com/2015/04/disqus_comment1.png</a>&#8221;></p>
 
 <p>Untuk informasi email, sebaiknya Anda isikan dengan benar jika ingin mendapatkan notifikasi ketika saya me-replay pesan Anda.</p>
 
