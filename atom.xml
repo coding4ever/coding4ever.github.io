@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-01-06T16:52:18+07:00</updated>
+  <updated>2016-01-10T10:36:26+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,106 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Paket NuGet Yang Wajib Dicoba Bagian #2 - AutoUpdater.NET]]></title>
+    <link href="http://coding4ever.net/blog/2016/01/10/paket-nuget-yang-wajib-dicoba-bagian-number-2-autoupdater-dot-net/"/>
+    <updated>2016-01-10T10:35:44+07:00</updated>
+    <id>http://coding4ever.net/blog/2016/01/10/paket-nuget-yang-wajib-dicoba-bagian-number-2-autoupdater-dot-net</id>
+    <content type="html"><![CDATA[<p><img class="left" src="http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png" width="120" height="100">Masalah update program adalah masalah klasik bagi para programmer aplikasi desktop. Apakah itu untuk perbaikan bug atau penambahan fitur baru. Bagaimana tidak, biasanya kita selalu disibukan dengan masalah yang satu ini. Update… update… dan update … :-D apalagi dengan jumlah klien yang banyak wahhhh cape deh :&lsquo;(</p>
+
+<!-- more -->
+
+
+<p>Sebenarnya proses update sendiri pada dasarnya adalah masalah sederhana <em>&ldquo;tinggal copy program yang baru untuk menimpa program yang lama&rdquo;</em>. Nah permasalahan biasanya muncul jika yang harus melakukan update adalah klien kita yang mungkin cuma bisa ngetik di word atau mantan operator dos yang baru pindah ke windows de el el.</p>
+
+<p>Jadi merupakan ide yang baik untuk memberikan notifikasi (pemberitahuan) kepada end-user, bahwa ada updatean terbaru untuk aplikasi yang mereka gunakan.</p>
+
+<p>Sehingga dengan adanya program update yang baik <code>User nyaman kita pun senang</code> :-D.</p>
+
+<p><a href="http://www.nuget.org/packages/AutoupdaterdotNet/">AutoUpdater.NET</a> adalah salah satu library gratis yang bisa menjadi solusi untuk masalah ini dengan konfigurasi yang mudah sehingga proses update-pun menjadi menyenangkan.</p>
+
+<p>Sebelum menggunakan library <a href="http://www.nuget.org/packages/AutoupdaterdotNet/">AutoUpdater.NET</a> ada beberapa hal yang perlu dipersiapkan :</p>
+
+<h5>1. File exe versi terakhir</h5>
+
+<p>File exe ini akan kita simpan di server, file inilah yang akan didownload oleh klien jika ada updatean terbaru. Jika akan mengupdate beberapa file sekaligus, misal selain mengupdate file exe juga mengupdate file <a href="https://en.wikipedia.org/wiki/Dynamic-link_library">dll</a>, untuk kasus seperti ini kita bisa menggunakan <a href="http://coding4ever.net/blog/categories/tools-installer/">paket installer</a>.</p>
+
+<p>Ada banyak <a href="http://coding4ever.net/blog/categories/tools-installer/">tools gratis</a> untuk membuat <a href="http://coding4ever.net/blog/categories/tools-installer/">paket installer</a> seperti <a href="http://coding4ever.net/blog/categories/inno-setup/">Inno Setup</a> dan <a href="](http://coding4ever.net/blog/categories/nsis/">NSIS</a>. Untuk contoh pembuatan paket installer update bisa dilihat di <a href="http://coding4ever.net/blog/2009/12/29/membuat-paket-instalasi-update-program-menggunakan-inno-setup/">sini</a> dan <a href="http://coding4ever.net/blog/2009/12/29/membuat-paket-instalasi-update-program-menggunakan-nsis/">sini</a>.</p>
+
+<h5>2. File Info Rilis</h5>
+
+<p>File info rilis akan kita simpan di server. File ini berfungsi sebagai informasi bagi aplikasi klien apakah ada update-an terbaru atau tidak. File ini dibuat dengan menggunakan format XML.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?>
+</span><span class='line'>&lt;item>
+</span><span class='line'>  &lt;title>Sistem Informasi Manufaktur&lt;/title>
+</span><span class='line'>  &lt;version>1.3.1.0&lt;/version>
+</span><span class='line'>  &lt;url>http://xxxxx.xxx/online-update/manufactur/auto-updater.exe&lt;/url> 
+</span><span class='line'>&lt;/item></span></code></pre></td></tr></table></div></figure>
+
+
+<h5>3. Web Server</h5>
+
+<p>Anda bisa menggunakan IIS, Apache atau web server lainnya. Di web server ini kita akan menyimpan file exe dan info rilis (poin 1 dan 2).</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/100116-01.png"></p>
+
+<h5>Menambahkan Library AutoUpdater.NET</h5>
+
+<p>Untuk menambahkan library <a href="http://www.nuget.org/packages/AutoupdaterdotNet/">AutoUpdater.NET</a> bisa kita lakukan via <a href="http://coding4ever.net/blog/categories/nuget/">NuGet Package Manager</a>. Adapun caranya seperti berikut :</p>
+
+<h6>1. Klik kanan node References -> Manage NuGet Packages&hellip;</h6>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/100116-02.png"></p>
+
+<h6>2. Cari AutoUpdater.NET dan klik tombol Install</h6>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/100116-03.png"></p>
+
+<p>Klik tombol Close, kemudian cek node <code>References</code>, seharusnya sudah ada tambahan library <code>AutoUpdater.NET</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/100116-04.png"></p>
+
+<h5>Cara Penggunaan Library AutoUpdater.NET</h5>
+
+<p>Cara penggunaan <a href="http://www.nuget.org/packages/AutoupdaterdotNet/">AutoUpdater.NET</a> sangat mudah, kita cukup menambahkan beberapa kode berikut di form utama.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/100116-05.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/100116-06.png"></p>
+
+<p>Pada kode di atas method <code>Start</code> kita arahkan ke url :<br><a href="http://localhost/update/DemoAutoUpdaterDotNet.xml">http://localhost/update/DemoAutoUpdaterDotNet.xml</a></p>
+
+<p>Adapun isi dari file <code>DemoAutoUpdaterDotNet.xml</code> seperti berikut :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?>
+</span><span class='line'>&lt;item>
+</span><span class='line'>  &lt;title>Demo AutoUpdater.Net&lt;/title>
+</span><span class='line'>  &lt;version>1.1.0.0&lt;/version>
+</span><span class='line'>  &lt;url>http://localhost/update/DemoAutoUpdaterDotNet.exe&lt;/url> 
+</span><span class='line'>&lt;/item></span></code></pre></td></tr></table></div></figure>
+
+
+<h5>Demo AutoUpdater.NET</h5>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/100116-071.png"></p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/DemoOnlineBackup">MENCOBA</a> :-)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Online Backup Database]]></title>
@@ -2763,395 +2863,6 @@ Tujuan menginstall library ini adalah agar laporan yang dihasilkan <a href="http
 <p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/23.png"></p>
 
 <p>Selamat mencoba :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[SMS Gateway Edisi .NET Part 1]]></title>
-    <link href="http://coding4ever.net/blog/2014/05/10/sms-gateway-edisi-net-part-1/"/>
-    <updated>2014-05-10T10:11:25+07:00</updated>
-    <id>http://coding4ever.net/blog/2014/05/10/sms-gateway-edisi-net-part-1</id>
-    <content type="html"><![CDATA[<p><img class="left" src="http://coding4ever.files.wordpress.com/2014/05/sms_gateway.png">Postingan pertama di <a href="http://coding4ever.net">domain</a> yang baru :), saya ingin membahas lagi tentang pembuatan aplikasi SMS Gateway. Alasannya sederhana karna salah satu artikel yang paling banyak dibaca di blog ini adalah artikel <a href="http://coding4ever.net/blog/2010/07/12/membuat-sms-gateway-itu-gampang-jangan-dipersulit/">Membuat Sms Gateway Itu Gampang, Jangan Dipersulit !!!</a>.</p>
-
-<p>Jika pada artikel <a href="http://coding4ever.net/blog/2010/07/12/membuat-sms-gateway-itu-gampang-jangan-dipersulit/">Membuat Sms Gateway Itu Gampang, Jangan Dipersulit !!!</a>, kita menggunakan bahasa pemrograman VB 6, untuk postingan kali ini kita akan menggunakan bahasa pemrograman C#.</p>
-
-<!-- more -->
-
-
-<p>Untuk membaca dan mengirim sms kita akan menggunakan library <a href="http://www.nuget.org/packages/GSMComm/">GSMComm</a>, yang bisa diinstall via <a href="http://coding4ever.net/blog/categories/nuget/">NuGet</a>.</p>
-
-<p>Sebelum lanjut kita lihat dulu fitur dari library <a href="http://www.nuget.org/packages/GSMComm/">GSMComm</a> :</p>
-
-<ul>
-<li>Manage SMS messages: Send, read, delete, store, import and export messages, get memory status, get/set SMSC.</li>
-<li>Manage the phonebook: Create, find, delete, read, import and export phonebook entries, get memory status.</li>
-<li>Manage the phone: Read general info, reset configuration, enter PIN</li>
-<li>Supports notifications about new messages as well as forwarding them directly to the application.</li>
-<li>Detect phone connection/disconnection.</li>
-<li>Other SMS message variants also possible, such as alerts and notifications.</li>
-<li>Support for Smart Messaging and related messages to create, locate and recombine concatenated text messages, and also to create operator logo messages.</li>
-<li>Logging support with 4 levels to assist in troubleshooting.</li>
-<li>Support for GSM 7-bit default alphabet and Unicode for the message text.</li>
-<li>Supports some operator functions.</li>
-<li>Remoting support for sending SMS messages.</li>
-<li>SMS batch mode for faster sending of multiple messages.</li>
-<li>Execution of custom commands that are not directly supported.</li>
-</ul>
-
-
-<p>Keren bukan untuk ukuran library gratis :)</p>
-
-<p>Pada postingan bagian pertama ini kita hanya akan membahas perintah-perintah dasar yang dibutuhkan untuk membuat aplikasi SMS Gateway, seperti <code>koneksi ke device modem atau hp</code>, <code>membaca sms masuk</code>, dan <code>mengirim sms</code>.</p>
-
-<h3>Membuat Project</h3>
-
-<p>Project yang kita gunakan adalah project berbasis Windows Form.</p>
-
-<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/1.png"></p>
-
-<h3>Menambahkan Library <a href="http://www.nuget.org/packages/GSMComm/">GSMComm</a> via <a href="http://coding4ever.net/blog/categories/nuget/">NuGet</a></h3>
-
-<ul>
-<li><p>Klik kanan node References -> Manage NuGet Packages &hellip;</p>
-
-<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/21.png"></p></li>
-<li><p>Pada tab Online pilih nuget.org, pada kotak pencarian ketik <code>gsm</code>, kemudian klik tombol <code>Install</code>.</p>
-
-<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/3.png"></p></li>
-</ul>
-
-
-<p>kemudian tunggu sampai proses instalasi selesai.</p>
-
-<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/4.png"></p>
-
-<p>Tutup dialog NuGet package, Kemudian cek node references, seharusnya ada empat library baru yang sudah ditambahkan yaitu <code>GSMCommServer</code>, <code>GSMCommShared</code>, <code>GSMCommunication</code> dan <code>PDUConverter</code>.</p>
-
-<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/5.png"></p>
-
-<p>Library <code>PDUConverter</code> bertanggung jawaban untuk melakukan proses <code>decoding</code> pesan sms, sedangkan yang bertugas untuk melakukan komunikasi ke modem atau hp adalah library <code>GSMCommunication</code>.</p>
-
-<p>Untuk library <code>GSMCommServer</code> dan <code>GSMCommShared</code> hanya digunakan jika kita ingin mengaktifkan fitur <a href="http://coding4ever.net/blog/categories/dot-net-remoting/">.NET Remoting</a> untuk mengirim sms.</p>
-
-<p>Setelah semua persiapan selesai, kita bisa langsung mencoba perintah-perintah dasar yang diperlukan untuk pembuatan aplikasi sms gateway.</p>
-
-<h3>1. Konek ke device modem atau hp</h3>
-
-<p>Untuk melakukan koneksi ke modem atau hp, ada beberapa tahapan yang harus kita lakukan :</p>
-
-<ul>
-<li>Membuat objek dari class GsmCommMain</li>
-<li>Mendaftarkan method ke event <code>MessageReceived</code>, yang dikenal dengan istilah <a href="http://www.codeproject.com/Articles/11657/Understanding-Delegates-in-C">delegate</a>    method.</li>
-<li>Memanggil method <code>Open</code>.</li>
-</ul>
-
-
-<p><strong>Membuat objek dari class GsmCommMain</strong></p>
-
-<p>Misal kita akan membuat sebuah objek dari class GsmCommMain dengan nama <code>comm</code>, maka perintahnya yang digunakan adalah :</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="kt">var</span> <span class="n">port</span> <span class="p">=</span> <span class="s">&quot;COM1&quot;</span><span class="p">;</span> <span class="c1">// port yang digunakan menyesuaikan</span>
-</span><span class='line'><span class="kt">var</span> <span class="n">baudRate</span> <span class="p">=</span> <span class="m">9600</span><span class="p">;</span>
-</span><span class='line'><span class="kt">var</span> <span class="n">timeout</span> <span class="p">=</span> <span class="m">150</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="kt">var</span> <span class="n">comm</span> <span class="p">=</span> <span class="k">new</span> <span class="n">GsmCommMain</span><span class="p">(</span><span class="n">port</span><span class="p">,</span> <span class="n">baudRate</span><span class="p">,</span> <span class="n">timeout</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>Mendaftarkan method ke event <code>MessageReceived</code> yang dikenal dengan istilah <a href="http://www.codeproject.com/Articles/11657/Understanding-Delegates-in-C">delegate</a>    method</strong></p>
-
-<p>Salah satu fitur keren yang dimiliki oleh library <a href="http://www.nuget.org/packages/GSMComm/">GSMComm</a> adalah Event <code>MessageReceived</code>. Dengan adanya event ini kita tidak perlu menggunakan objek timer untuk mengecek apakah ada sms yang masuk.</p>
-
-<p>Event ini tidak bisa kita akses secara langsung, yang perlu kita lakukan adalah membuat sebuah method kemudian mendaftarkannya ke event ini.</p>
-
-<p>Contoh kita membuat sebuah method dengan nama <code>comm_MessageReceived</code>, method ini hanya akan menampilkan notifikasi sms masuk. Untuk selanjutnya method ini bisa kita kembangkan lagi, misal ketika ada sms masuk datanya langsung kita simpan ke database.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">comm_MessageReceived</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">MessageReceivedEventArgs</span> <span class="n">e</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">obj</span> <span class="p">=</span> <span class="n">e</span><span class="p">.</span><span class="n">IndicationObject</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">obj</span> <span class="k">is</span> <span class="n">MemoryLocation</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="kt">var</span> <span class="n">loc</span> <span class="p">=</span> <span class="p">(</span><span class="n">MemoryLocation</span><span class="p">)</span><span class="n">obj</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="kt">var</span> <span class="n">msg</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;New message received in storage \&quot;{0}\&quot;, index {1}.&quot;</span><span class="p">,</span>
-</span><span class='line'>                                <span class="n">loc</span><span class="p">.</span><span class="n">Storage</span><span class="p">,</span> <span class="n">loc</span><span class="p">.</span><span class="n">Index</span><span class="p">);</span>
-</span><span class='line'>        <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="k">return</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">obj</span> <span class="k">is</span> <span class="n">ShortMessage</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="kt">var</span> <span class="n">msg</span> <span class="p">=</span> <span class="p">(</span><span class="n">ShortMessage</span><span class="p">)</span><span class="n">obj</span><span class="p">;</span>
-</span><span class='line'>        <span class="kt">var</span> <span class="n">pdu</span> <span class="p">=</span> <span class="n">comm</span><span class="p">.</span><span class="n">DecodeReceivedMessage</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="s">&quot;New message received&quot;</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Kemudian kita daftarkan ke event <code>MessageReceived</code> dengan perintah :</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="n">comm</span><span class="p">.</span><span class="n">MessageReceived</span> <span class="p">+=</span> <span class="k">new</span> <span class="n">MessageReceivedEventHandler</span><span class="p">(</span><span class="n">comm_MessageReceived</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>sehingga ketika ada sms yang masuk method <code>comm_MessageReceived</code> akan otomatis dipanggil.</p>
-
-<p><strong>Memanggil method <code>Open</code></strong></p>
-
-<p>Setelah langkah pertama dan kedua selesai dikerjakan kita bisa langsung memanggil method <code>Open</code> untuk melakukan koneksi ke modem atau hp.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="n">comm</span><span class="p">.</span><span class="n">Open</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">while</span> <span class="p">(!</span><span class="n">comm</span><span class="p">.</span><span class="n">IsConnected</span><span class="p">())</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">msgResult</span> <span class="p">=</span> <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="s">&quot;No phone connected.&quot;</span><span class="p">,</span> <span class="s">&quot;Connection setup&quot;</span><span class="p">,</span>
-</span><span class='line'>                                        <span class="n">MessageBoxButtons</span><span class="p">.</span><span class="n">RetryCancel</span><span class="p">,</span> <span class="n">MessageBoxIcon</span><span class="p">.</span><span class="n">Exclamation</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">msgResult</span> <span class="p">==</span> <span class="n">DialogResult</span><span class="p">.</span><span class="n">Cancel</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="n">comm</span><span class="p">.</span><span class="n">Close</span><span class="p">();</span>
-</span><span class='line'>        <span class="k">return</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">else</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="n">comm</span><span class="p">.</span><span class="n">Close</span><span class="p">();</span>
-</span><span class='line'>        <span class="n">comm</span><span class="p">.</span><span class="n">Open</span><span class="p">();</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>2. Membaca SMS Masuk</h3>
-
-<p>Method yang digunakan untuk membaca sms adalah method <code>ReadMessages</code>, method ini mempunyai dua parameter yaitu <code>PhoneMessageStatus</code> dan <code>Storage</code>.</p>
-
-<p>Untuk <code>PhoneMessageStatus</code> pilihannya adalah : <code>ReceivedUnread</code>, <code>ReceivedRead</code>, <code>StoredUnsent</code>, <code>StoredSent</code> dan <code>All</code>. Sedangkan <code>Storage</code> pilihannya hanya dua yaitu : <code>SM</code> dan <code>ME</code>.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'>
-</span><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">btnBacaSMS_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">EventArgs</span> <span class="n">e</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">messages</span> <span class="p">=</span> <span class="n">comm</span><span class="p">.</span><span class="n">ReadMessages</span><span class="p">(</span><span class="n">PhoneMessageStatus</span><span class="p">.</span><span class="n">All</span><span class="p">,</span> <span class="n">PhoneStorageType</span><span class="p">.</span><span class="n">Sim</span><span class="p">);</span>
-</span><span class='line'>    <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">message</span> <span class="k">in</span> <span class="n">messages</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="kt">var</span> <span class="n">data</span> <span class="p">=</span> <span class="p">(</span><span class="n">SmsDeliverPdu</span><span class="p">)</span><span class="n">message</span><span class="p">.</span><span class="n">Data</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="kt">var</span> <span class="n">phoneNumber</span> <span class="p">=</span> <span class="n">data</span><span class="p">.</span><span class="n">OriginatingAddress</span><span class="p">;</span>
-</span><span class='line'>        <span class="kt">var</span> <span class="n">msg</span> <span class="p">=</span> <span class="n">data</span><span class="p">.</span><span class="n">UserDataText</span><span class="p">;</span>
-</span><span class='line'>        <span class="kt">var</span> <span class="n">tanggal</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;{0:yyyy/MM/dd}&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">.</span><span class="n">SCTimestamp</span><span class="p">.</span><span class="n">ToDateTime</span><span class="p">());</span>
-</span><span class='line'>        <span class="kt">var</span> <span class="n">jam</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;{0:HH:mm:ss}&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">.</span><span class="n">SCTimestamp</span><span class="p">.</span><span class="n">ToDateTime</span><span class="p">());</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">lstDaftarSMS</span><span class="p">.</span><span class="n">Items</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;{0}, {1}, {2}, {3}&quot;</span><span class="p">,</span> <span class="n">tanggal</span><span class="p">,</span> <span class="n">jam</span><span class="p">,</span> <span class="n">phoneNumber</span><span class="p">,</span> <span class="n">msg</span><span class="p">));</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>3. Mengirim SMS</h3>
-
-<p>Untuk mengirim sms kita menggunakan method <code>SendMessage</code> yang membutuhkan objek <a href="http://en.wikipedia.org/wiki/Protocol_data_unit">pdu</a>.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">btnKirimSMS_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">EventArgs</span> <span class="n">e</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">msg</span> <span class="p">=</span> <span class="n">txtPesan</span><span class="p">.</span><span class="n">Text</span><span class="p">;</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">phoneNumber</span> <span class="p">=</span> <span class="n">txtNoHp</span><span class="p">.</span><span class="n">Text</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">pdu</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SmsSubmitPdu</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">phoneNumber</span><span class="p">,</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">comm</span><span class="p">.</span><span class="n">SendMessage</span><span class="p">(</span><span class="n">pdu</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Kode di atas hanya bisa mengirim sms dengan jumlah karakter maksimal 160 karakter, jika ingin lebih kita harus merevisi kode di atas dengan menambahkan beberapa method baru yaitu <code>CreateConcatMessage</code> dan <code>SendMultiple</code>.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="n">OutgoingSmsPdu</span><span class="p">[]</span> <span class="nf">CreateConcatMessage</span><span class="p">(</span><span class="kt">string</span> <span class="n">message</span><span class="p">,</span> <span class="kt">string</span> <span class="n">number</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">OutgoingSmsPdu</span><span class="p">[]</span> <span class="n">pdus</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">try</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="n">pdus</span> <span class="p">=</span> <span class="n">SmartMessageFactory</span><span class="p">.</span><span class="n">CreateConcatTextMessage</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">number</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">catch</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="k">null</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">return</span> <span class="n">pdus</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">SendMultiple</span><span class="p">(</span><span class="n">OutgoingSmsPdu</span><span class="p">[]</span> <span class="n">pdus</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">num</span> <span class="p">=</span> <span class="n">pdus</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">try</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="c1">// Send the created messages</span>
-</span><span class='line'>        <span class="n">comm</span><span class="p">.</span><span class="n">EnableTemporarySmsBatchMode</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="k">foreach</span> <span class="p">(</span><span class="n">OutgoingSmsPdu</span> <span class="n">pdu</span> <span class="k">in</span> <span class="n">pdus</span><span class="p">)</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="n">comm</span><span class="p">.</span><span class="n">SendMessage</span><span class="p">(</span><span class="n">pdu</span><span class="p">);</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">catch</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Terakhir kode yang ada di method <code>btnKirimSMS_Click</code> juga harus di revisi :</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">btnKirimSMS_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">EventArgs</span> <span class="n">e</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">msg</span> <span class="p">=</span> <span class="n">txtPesan</span><span class="p">.</span><span class="n">Text</span><span class="p">;</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">phoneNumber</span> <span class="p">=</span> <span class="n">txtNoHp</span><span class="p">.</span><span class="n">Text</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">msg</span><span class="p">.</span><span class="n">Length</span> <span class="p">&gt;</span> <span class="m">160</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="kt">var</span> <span class="n">pdus</span> <span class="p">=</span> <span class="n">CreateConcatMessage</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">phoneNumber</span><span class="p">);</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">pdus</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span> <span class="n">SendMultiple</span><span class="p">(</span><span class="n">pdus</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">else</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="kt">var</span> <span class="n">pdu</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SmsSubmitPdu</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">phoneNumber</span><span class="p">,</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span><span class="p">);</span>
-</span><span class='line'>        <span class="n">comm</span><span class="p">.</span><span class="n">SendMessage</span><span class="p">(</span><span class="n">pdu</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Yuph akhirnya selesai juga.</p>
-
-<p>Selamat <a href="https://github.com/k4m4r82/SMSGatewayNET1">MENCOBA</a> :)</p>
 ]]></content>
   </entry>
   

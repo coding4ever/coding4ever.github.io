@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Visual C# | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/visual-c-number/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-01-06T16:56:14+07:00</updated>
+  <updated>2016-01-10T10:38:19+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,96 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Paket NuGet Yang Wajib Dicoba Bagian #2 - AutoUpdater.NET]]></title>
+    <link href="http://coding4ever.net/blog/2016/01/10/paket-nuget-yang-wajib-dicoba-bagian-number-2-autoupdater-dot-net/"/>
+    <updated>2016-01-10T10:35:44+07:00</updated>
+    <id>http://coding4ever.net/blog/2016/01/10/paket-nuget-yang-wajib-dicoba-bagian-number-2-autoupdater-dot-net</id>
+    <content type="html"><![CDATA[<p>{% img left <a href="http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png">http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png</a> 120 100 %}Masalah update program adalah masalah klasik bagi para programmer aplikasi desktop. Apakah itu untuk perbaikan bug atau penambahan fitur baru. Bagaimana tidak, biasanya kita selalu disibukan dengan masalah yang satu ini. Update… update… dan update … :-D apalagi dengan jumlah klien yang banyak wahhhh cape deh :&lsquo;(</p>
+
+<!-- more -->
+
+
+<p>Sebenarnya proses update sendiri pada dasarnya adalah masalah sederhana <em>&ldquo;tinggal copy program yang baru untuk menimpa program yang lama&rdquo;</em>. Nah permasalahan biasanya muncul jika yang harus melakukan update adalah klien kita yang mungkin cuma bisa ngetik di word atau mantan operator dos yang baru pindah ke windows de el el.</p>
+
+<p>Jadi merupakan ide yang baik untuk memberikan notifikasi (pemberitahuan) kepada end-user, bahwa ada updatean terbaru untuk aplikasi yang mereka gunakan.</p>
+
+<p>Sehingga dengan adanya program update yang baik <code>User nyaman kita pun senang</code> :-D.</p>
+
+<p><a href="http://www.nuget.org/packages/AutoupdaterdotNet/">AutoUpdater.NET</a> adalah salah satu library gratis yang bisa menjadi solusi untuk masalah ini dengan konfigurasi yang mudah sehingga proses update-pun menjadi menyenangkan.</p>
+
+<p>Sebelum menggunakan library <a href="http://www.nuget.org/packages/AutoupdaterdotNet/">AutoUpdater.NET</a> ada beberapa hal yang perlu dipersiapkan :</p>
+
+<h5>1. File exe versi terakhir</h5>
+
+<p>File exe ini akan kita simpan di server, file inilah yang akan didownload oleh klien jika ada updatean terbaru. Jika akan mengupdate beberapa file sekaligus, misal selain mengupdate file exe juga mengupdate file <a href="https://en.wikipedia.org/wiki/Dynamic-link_library">dll</a>, untuk kasus seperti ini kita bisa menggunakan <a href="{{%20site.url%20}}/blog/categories/tools-installer/">paket installer</a>.</p>
+
+<p>Ada banyak <a href="{{%20site.url%20}}/blog/categories/tools-installer/">tools gratis</a> untuk membuat <a href="{{%20site.url%20}}/blog/categories/tools-installer/">paket installer</a> seperti <a href="{{%20site.url%20}}/blog/categories/inno-setup/">Inno Setup</a> dan <a href="]({{%20site.url%20}}/blog/categories/nsis/">NSIS</a>. Untuk contoh pembuatan paket installer update bisa dilihat di <a href="{{%20site.url%20}}/blog/2009/12/29/membuat-paket-instalasi-update-program-menggunakan-inno-setup/">sini</a> dan <a href="{{%20site.url%20}}/blog/2009/12/29/membuat-paket-instalasi-update-program-menggunakan-nsis/">sini</a>.</p>
+
+<h5>2. File Info Rilis</h5>
+
+<p>File info rilis akan kita simpan di server. File ini berfungsi sebagai informasi bagi aplikasi klien apakah ada update-an terbaru atau tidak. File ini dibuat dengan menggunakan format XML.</p>
+
+<p>{% codeblock %}
+&lt;?xml version=&ldquo;1.0&rdquo; encoding=&ldquo;UTF-8&rdquo;?>
+<item>
+    <title>Sistem Informasi Manufaktur</title>
+    <version>1.3.1.0</version>
+    <url><a href="http://xxxxx.xxx/online-update/manufactur/auto-updater.exe">http://xxxxx.xxx/online-update/manufactur/auto-updater.exe</a></url> <br/>
+</item>
+{% endcodeblock %}</p>
+
+<h5>3. Web Server</h5>
+
+<p>Anda bisa menggunakan IIS, Apache atau web server lainnya. Di web server ini kita akan menyimpan file exe dan info rilis (poin 1 dan 2).</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/100116-01.png">https://coding4ever.files.wordpress.com/2016/01/100116-01.png</a> %}</p>
+
+<h5>Menambahkan Library AutoUpdater.NET</h5>
+
+<p>Untuk menambahkan library <a href="http://www.nuget.org/packages/AutoupdaterdotNet/">AutoUpdater.NET</a> bisa kita lakukan via <a href="{{%20site.url%20}}/blog/categories/nuget/">NuGet Package Manager</a>. Adapun caranya seperti berikut :</p>
+
+<h6>1. Klik kanan node References -> Manage NuGet Packages&hellip;</h6>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/100116-02.png">https://coding4ever.files.wordpress.com/2016/01/100116-02.png</a> %}</p>
+
+<h6>2. Cari AutoUpdater.NET dan klik tombol Install</h6>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/100116-03.png">https://coding4ever.files.wordpress.com/2016/01/100116-03.png</a> %}</p>
+
+<p>Klik tombol Close, kemudian cek node <code>References</code>, seharusnya sudah ada tambahan library <code>AutoUpdater.NET</code></p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/100116-04.png">https://coding4ever.files.wordpress.com/2016/01/100116-04.png</a> %}</p>
+
+<h5>Cara Penggunaan Library AutoUpdater.NET</h5>
+
+<p>Cara penggunaan <a href="http://www.nuget.org/packages/AutoupdaterdotNet/">AutoUpdater.NET</a> sangat mudah, kita cukup menambahkan beberapa kode berikut di form utama.</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/100116-05.png">https://coding4ever.files.wordpress.com/2016/01/100116-05.png</a> %}</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/100116-06.png">https://coding4ever.files.wordpress.com/2016/01/100116-06.png</a> %}</p>
+
+<p>Pada kode di atas method <code>Start</code> kita arahkan ke url :<br><a href="http://localhost/update/DemoAutoUpdaterDotNet.xml">http://localhost/update/DemoAutoUpdaterDotNet.xml</a></p>
+
+<p>Adapun isi dari file <code>DemoAutoUpdaterDotNet.xml</code> seperti berikut :</p>
+
+<p>{% codeblock %}
+&lt;?xml version=&ldquo;1.0&rdquo; encoding=&ldquo;UTF-8&rdquo;?>
+<item>
+  <title>Demo AutoUpdater.Net</title>
+  <version>1.1.0.0</version>
+  <url><a href="http://localhost/update/DemoAutoUpdaterDotNet.exe">http://localhost/update/DemoAutoUpdaterDotNet.exe</a></url>
+</item>
+{% endcodeblock %}</p>
+
+<h5>Demo AutoUpdater.NET</h5>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/100116-071.png">https://coding4ever.files.wordpress.com/2016/01/100116-071.png</a> %}</p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/DemoOnlineBackup">MENCOBA</a> :-)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Cara Mudah Mengelola Versi Aplikasi]]></title>
@@ -559,142 +649,6 @@ C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\WcfTestClient.ex
 <p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/090515-20.png">https://coding4ever.files.wordpress.com/2015/05/090515-20.png</a> %}</p>
 
 <p>Yuph sampai disini saja untuk postingan kali ini, insyaAlloh akan kita lanjutkan pada kesempatan berikutnya.</p>
-
-<p>Selamat <a href="https://github.com/k4m4r82/Calculator">MENCOBA</a> :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Tutorial WCF Service Bagian #1]]></title>
-    <link href="http://coding4ever.net/blog/2015/05/02/tutorial-wcf-service-bagian-number-1/"/>
-    <updated>2015-05-02T10:15:26+07:00</updated>
-    <id>http://coding4ever.net/blog/2015/05/02/tutorial-wcf-service-bagian-number-1</id>
-    <content type="html"><![CDATA[<h3>Apa itu WCF</h3>
-
-<p>{% img left <a href="https://coding4ever.files.wordpress.com/2015/05/020515-16.png">https://coding4ever.files.wordpress.com/2015/05/020515-16.png</a> 100 100 %}WCF singkatan dari Windows Communication Foundation, merupakan salah satu teknologi Microsoft untuk membangun aplikasi berbasis layanan (service-oriented applications). Dengan kata lain WCF itu merupakan salah satu alternatif untuk membangun <a href="http://www.techopedia.com/definition/1622/web-service-net">web service</a> dan <a href="http://en.wikipedia.org/wiki/Distributed_computing">sistem terdistribusi</a> lainnya menggunakan teknologi Microsoft .NET.</p>
-
-<blockquote><p>Dalam tutorial ini kita akan lebih banyak membahas hal-hal teknis untuk membuat web service menggunakan WCF. Untuk referensi lebih lanjut mengenai WCF bisa langsung Anda cari menggunakan layanan search engine favorit Anda :-)</p></blockquote>
-
-<!-- more -->
-
-
-<p>WCF merupakan gabungan dari beberapa teknologi <a href="http://en.wikipedia.org/wiki/Remote_procedure_call">RPC</a> lainnya seperti Web Service, <a href="{{%20site.url%20}}/blog/categories/dot-net-remoting/">.NET Remoting</a>, MSMQ dan COM+</p>
-
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-01.png">https://coding4ever.files.wordpress.com/2015/05/020515-01.png</a> %}</p>
-
-<p style="text-align:center">Sumber - <a href="http://wcftutorial.net/Introduction-to-WCF.aspx" target="_blank">WCF Tutorial</a></p>
-
-
-<p>Sebagai langkah awal kita akan membuat aplikasi sederhana yang akan menerapkan teknologi WCF. Aplikasi yang akan kita buat yaitu Calculator, walaupun sederhana tetapi aplikasi ini membutuhkan 3 project untuk membuatnya.</p>
-
-<ol>
-<li><p><code>CalculatorLib</code> – Project CalculatorLib dibuat dengan memanfaatkan project bertipe Class Library yang isinya hanya berupa interface ICalculator dengan 4 buah method abstract yaitu : <code>Penambahan</code>, <code>Pengurangan</code>, <code>Perkalian</code> dan <code>Pembagian</code>.</p>
-
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-02.png">https://coding4ever.files.wordpress.com/2015/05/020515-02.png</a> %}</p>
-
-<p>Project ini nantinya akan dicompile menjadi file dengan ekstensi .dll (CalculatorLib.dll), file CalculatorLib.dll ini akan dishare atau ditambahkan sebagai referensi untuk aplikasi CalculatorServer dan CalculatorClient.</p>
-
-<p>Teknik ini dikenal dengan istilah <code>Shared Assembly</code> tujuannya adalah agar aplikasi server dan klien bisa berkomunikasi dengan cara yang sama.</p></li>
-<li><p><code>CalculatorServer</code> – Project CalculatorServer dibuat dengan memanfaatkan project bertipe Class Library. Project ini akan dicompile menjadi file dengan ekstensi .dll (CalculatorServer.dll).</p>
-
-<p>Project ini nantinya akan mengimplementasikan semua method-method abstract dari project CalculatorLib.</p>
-
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-03.png">https://coding4ever.files.wordpress.com/2015/05/020515-03.png</a> %}</p>
-
-<p>Agar class ini (CalculatorServer.dll) bisa dikenali sebagai WCF service, kita perlu meng-host-kannya terlebih dulu dengan beberapa cara yaitu :</p>
-
-<ul>
-<li>Hosting in Internet Information Services(IIS)</li>
-<li>Hosting in Windows Activation Services(WAS)</li>
-<li>Hosting in a Console or Desktop application(Self hosting)</li>
-<li>Hosting in a Windows Service <br/>
-<br></li>
-</ul>
-</li>
-<li><p><code>CalculatorClient</code> – Project CalculatorClient dibuat dengan memanfaatkan project bertipe Windows Application, aplikasi ini hanya memanggil method-method abstract dari project CalculatorLib dengan memanfaatkan objek proxy sehingga method tersebut akan dieksekusi secara remote (dijalankan di sisi server).</p>
-
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-04.png">https://coding4ever.files.wordpress.com/2015/05/020515-04.png</a> %}</p>
-
-<p><p style="text-align:center">Sumber - <a href="http://www.topwcftutorials.net/2014/06/3-ways-generate-proxy-wcf-service.html" target="_blank">Top WCF Tutorial</a></p></p>
-
-<p>Berikut gambaran lengkap project yang akan kita buat</p>
-
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-05.png">https://coding4ever.files.wordpress.com/2015/05/020515-05.png</a> %}</p></li>
-</ol>
-
-
-<p>Oke kita sudahi dulu obrolannya dan kita langsung saja mulai dengan pembuatan project CalculatorLib, jangan lupa untuk mengaktifkan terlebih dulu Visual Studio .NET Anda.</p>
-
-<h3>Membuat Project CalculatorLib</h3>
-
-<ol>
-<li><p>Klik menu File ->New -> Project …</p></li>
-<li><p>Pada dialog New Project aktifkan pilihan Visual C# kemudian pada pilihan Templates pilih Class Library</p>
-
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-06.png">https://coding4ever.files.wordpress.com/2015/05/020515-06.png</a> %}</p>
-
-<p>Pada isian Name isikan CalculatorLib, setelah itu klik tombol Ok.</p>
-
-<p>Secara default pada saat pembuatan project sudah otomatis disediakan 1 buah class kosong dengan nama Class1, karena kita akan menambahkan class baru jadi class ini dihapus saja.</p>
-
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-07.png">https://coding4ever.files.wordpress.com/2015/05/020515-07.png</a> %}</p></li>
-</ol>
-
-
-<h3>Menambahkan Interface ICalculator</h3>
-
-<ol>
-<li><p>Klik kanan project CalculatorLib -> Add -> New Item…</p>
-
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-08.png">https://coding4ever.files.wordpress.com/2015/05/020515-08.png</a> %}</p></li>
-<li><p>Pada dialog add new item, pilih Interface dan untuk isian Name diisi ICalculator</p>
-
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-09.png">https://coding4ever.files.wordpress.com/2015/05/020515-09.png</a> %}</p>
-
-<p>Setelah itu akan tampil editor code interface ICalculator</p>
-
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-10.png">https://coding4ever.files.wordpress.com/2015/05/020515-10.png</a> %}</p>
-
-<p>Jangan lupa untuk menambahkan access modifier <code>public</code>.</p>
-
-<p>Selanjutnya kita tinggal menambahkan 4 method abstractnya yaitu <code>Penambahan</code>, <code>Pengurangan</code>, <code>Perkalian</code> dan <code>Pembagian</code>.</p>
-
-<p>Berikut kode lengkapnya :</p>
-
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-11.png">https://coding4ever.files.wordpress.com/2015/05/020515-11.png</a> %}</p>
-
-<p>Jika kita perhatikan kode di atas, ada tambahan attribute <code>ServiceContract</code> dan <code>OperationContract</code> pada nama interface dan method abstractnya.</p>
-
-<p><code>ServiceContract</code> memberikan informasi service/layanan apa saja yang tersedia untuk bisa diakses sedangkan <code>OperationContract</code>  digunakan untuk memberikan tanda bahwa method tersebut merupakan operasi atau bagian dari <code>ServiceContract</code>.</p>
-
-<p>Bagaimana jika kita lupa menambahkan attribut <code>ServiceContract</code> dan <code>OperationContract</code> ? Ya otomatis interface ICalculator berikut method tidak bisa diakses oleh client.</p>
-
-<p>Untuk menambahkan attribut <code>ServiceContract</code> dan <code>OperationContract</code> kita perlu menambahkan referensi <code>System.ServiceModel</code>.</p>
-
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-12.png">https://coding4ever.files.wordpress.com/2015/05/020515-12.png</a> %}</p>
-
-<p>Kemudian mendaftarkannya di bagian using</p>
-
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-13.png">https://coding4ever.files.wordpress.com/2015/05/020515-13.png</a> %}</p></li>
-</ol>
-
-
-<h3>Mengcompile project CalculatorLib</h3>
-
-<p>Tujuannya adalah agar project CalculatorLib ini bisa digunakan sebagai referensi oleh aplikasi CalculatorServer dan CalculatorClient</p>
-
-<ol>
-<li><p>Klik kanan project CalculatorLib -> Build</p>
-
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-14.png">https://coding4ever.files.wordpress.com/2015/05/020515-14.png</a> %}</p>
-
-<p>Setelah itu akan tampil hasil output dari proses Build</p>
-
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/05/020515-15.png">https://coding4ever.files.wordpress.com/2015/05/020515-15.png</a> %}</p></li>
-</ol>
-
-
-<p>Yuph cukup sampai disini, insya Alloh akan kita lanjutkan pada kesempatan berikutnya.</p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/Calculator">MENCOBA</a> :)</p>
 ]]></content>
