@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Inno Setup | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/inno-setup/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-01-10T11:10:38+07:00</updated>
+  <updated>2016-01-10T11:14:35+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -24,85 +24,140 @@
 
 <p><a href="http://coding4ever.files.wordpress.com/2010/12/12122010-3.jpg"><img src="http://coding4ever.files.wordpress.com/2010/12/12122010-3.jpg?w=300" alt="" /></a></p>
 
-<p>Jadi dengan menggunakan <a href="http://jrsoftware.org/">Inno Setup</a> kita bisa dengan mudah melakukan hal ini, dan untuk lokasi penyimpanannya sendiri ada 2 pilihan yaitu disimpan dalam format file <a href="{{%20site.url%20}}/blog/2010/04/23/contoh-sederhana-memanipulasi-ini-file-untuk-menyimpan-informasi/">INI</a> atau langsung ke registry windows.</p>
+<p>Jadi dengan menggunakan <a href="http://jrsoftware.org/">Inno Setup</a> kita bisa dengan mudah melakukan hal ini, dan untuk lokasi penyimpanannya sendiri ada 2 pilihan yaitu disimpan dalam format file <a href="/blog/2010/04/23/contoh-sederhana-memanipulasi-ini-file-untuk-menyimpan-informasi/">INI</a> atau langsung ke registry windows.</p>
 
 <!-- more -->
 
 
 <p>Kita akan bahas satu-satu kodenya dan pada artikel ini saya tidak membahas skrip lengkap <a href="http://jrsoftware.org/">Inno Setup</a>nya karna sudah saya bahas pada artikel yang <a href="http://coding4ever.wordpress.com/category/tools-installer/">lain</a>nya, jadi fokus kita kali ini hanya di section <strong>[Code]</strong>.</p>
 
-<p>Berikut kodenya untuk menambahkan form input dan menyimpannya ke file dengan format <a href="{{%20site.url%20}}/blog/2010/04/23/contoh-sederhana-memanipulasi-ini-file-untuk-menyimpan-informasi/">INI</a>.</p>
+<p>Berikut kodenya untuk menambahkan form input dan menyimpannya ke file dengan format <a href="/blog/2010/04/23/contoh-sederhana-memanipulasi-ini-file-untuk-menyimpan-informasi/">INI</a>.</p>
 
-<p>{% codeblock %}
-[Code]
-var
-   INIInputPage: TInputQueryWizardPage;</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[Code]
+</span><span class='line'>var
+</span><span class='line'>   INIInputPage: TInputQueryWizardPage;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>procedure InitializeWizard();
+</span><span class='line'>begin
+</span><span class='line'>  // Form Input
+</span><span class='line'>  INIInputPage := CreateInputQueryPage(wpInfoAfter, &lsquo;Konfigurasi&rsquo;, &lsquo;Konfigurasi Program.&rsquo;,
+</span><span class='line'>                                       &lsquo;Isikan konfigurasi program ke dalam form di bawah ini.&rsquo;);&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>  INIInputPage.Add(&lsquo;Nama&rsquo;, False);
+</span><span class='line'>  INIInputPage.Add(&lsquo;Telepon&rsquo;, False);
+</span><span class='line'>  INIInputPage.Add(&lsquo;Alamat&rsquo;, False);
+</span><span class='line'>  INIInputPage.Add(&lsquo;Kota&rsquo;, False);&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>  INIInputPage.Values[0] := GetPreviousData(&lsquo;Nama&rsquo;, &lsquo;&rsquo;);
+</span><span class='line'>  INIInputPage.Values[1] := GetPreviousData(&lsquo;Telepon&rsquo;, &lsquo;&rsquo;);
+</span><span class='line'>  INIInputPage.Values[2] := GetPreviousData(&lsquo;Alamat&rsquo;, &lsquo;&rsquo;);
+</span><span class='line'>  INIInputPage.Values[3] := GetPreviousData(&lsquo;Kota&rsquo;, &lsquo;&rsquo;);
+</span><span class='line'>end;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>// prosedur ketika user mengklik tombol kembali, setelah pengisian form
+</span><span class='line'>procedure RegisterPreviousData(PreviousDataKey: Integer);
+</span><span class='line'>begin
+</span><span class='line'>  // tampilkan nilai sebelumnya yang sudah diinputkan user
+</span><span class='line'>  SetPreviousData(PreviousDataKey, &lsquo;Nama&rsquo;, INIInputPage.Values[0]);
+</span><span class='line'>  SetPreviousData(PreviousDataKey, &lsquo;Telepon&rsquo;, INIInputPage.Values[1]);
+</span><span class='line'>  SetPreviousData(PreviousDataKey, &lsquo;Alamat&rsquo;, INIInputPage.Values[2]);
+</span><span class='line'>  SetPreviousData(PreviousDataKey, &lsquo;Kota&rsquo;, INIInputPage.Values[3]);
+</span><span class='line'>end;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>// prosedur ketika user mengklik tombol lanjut, setelah pengisian form
+</span><span class='line'>function NextButtonClick(CurPageID: Integer): Boolean;
+</span><span class='line'>begin
+</span><span class='line'>  Result := True;
+</span><span class='line'>  if CurPageID = INIInputPage.ID then begin
+</span><span class='line'>    // validasi input, untuk contoh disini saya validasi semua inputan harus diisi
+</span><span class='line'>    if (Trim(INIInputPage.Values[0]) = &lsquo;&rsquo;) or (Trim(INIInputPage.Values[1]) = &lsquo;&rsquo;) or
+</span><span class='line'>       (Trim(INIInputPage.Values[2]) = &lsquo;&rsquo;) or (Trim(INIInputPage.Values[3]) = &lsquo;&rsquo;) then begin
+</span><span class='line'>       MsgBox(&lsquo;Anda harus mengisikan data secara lengkap!&rsquo;, mbError, MB_OK);
+</span><span class='line'>       Result := False;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>end else begin
+</span><span class='line'>  // jika semua input form oke, tulis ke file dengan format INI
+</span><span class='line'>  // otomatis akan disimpan di folder instalasi dengan nama konfig.ini
+</span><span class='line'>  SetIniString('Konfigurasi', 'Nama', INIInputPage.Values[0], ExpandConstant('{app}') + '\konfig.ini');
+</span><span class='line'>  SetIniString('Konfigurasi', 'Telepon', INIInputPage.Values[1], ExpandConstant('{app}') + '\konfig.ini');
+</span><span class='line'>  SetIniString('Konfigurasi', 'Alamat', INIInputPage.Values[2], ExpandConstant('{app}') + '\konfig.ini');
+</span><span class='line'>  SetIniString('Konfigurasi', 'kota', INIInputPage.Values[3], ExpandConstant('{app}') + '\konfig.ini');
+</span><span class='line'>end;
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>  end;
+</span><span class='line'>end;</span></code></pre></td></tr></table></div></figure></p>
 
-<p>procedure InitializeWizard();
-begin
-  // Form Input
-  INIInputPage := CreateInputQueryPage(wpInfoAfter, &lsquo;Konfigurasi&rsquo;, &lsquo;Konfigurasi Program.&rsquo;,
-                                       &lsquo;Isikan konfigurasi program ke dalam form di bawah ini.&rsquo;);</p>
-
-<p>  INIInputPage.Add(&lsquo;Nama&rsquo;, False);
-  INIInputPage.Add(&lsquo;Telepon&rsquo;, False);
-  INIInputPage.Add(&lsquo;Alamat&rsquo;, False);
-  INIInputPage.Add(&lsquo;Kota&rsquo;, False);</p>
-
-<p>  INIInputPage.Values[0] := GetPreviousData(&lsquo;Nama&rsquo;, &lsquo;&rsquo;);
-  INIInputPage.Values[1] := GetPreviousData(&lsquo;Telepon&rsquo;, &lsquo;&rsquo;);
-  INIInputPage.Values[2] := GetPreviousData(&lsquo;Alamat&rsquo;, &lsquo;&rsquo;);
-  INIInputPage.Values[3] := GetPreviousData(&lsquo;Kota&rsquo;, &lsquo;&rsquo;);
-end;</p>
-
-<p>// prosedur ketika user mengklik tombol kembali, setelah pengisian form
-procedure RegisterPreviousData(PreviousDataKey: Integer);
-begin
-  // tampilkan nilai sebelumnya yang sudah diinputkan user
-  SetPreviousData(PreviousDataKey, &lsquo;Nama&rsquo;, INIInputPage.Values[0]);
-  SetPreviousData(PreviousDataKey, &lsquo;Telepon&rsquo;, INIInputPage.Values[1]);
-  SetPreviousData(PreviousDataKey, &lsquo;Alamat&rsquo;, INIInputPage.Values[2]);
-  SetPreviousData(PreviousDataKey, &lsquo;Kota&rsquo;, INIInputPage.Values[3]);
-end;</p>
-
-<p>// prosedur ketika user mengklik tombol lanjut, setelah pengisian form
-function NextButtonClick(CurPageID: Integer): Boolean;
-begin
-  Result := True;
-  if CurPageID = INIInputPage.ID then begin
-    // validasi input, untuk contoh disini saya validasi semua inputan harus diisi
-    if (Trim(INIInputPage.Values[0]) = &lsquo;&rsquo;) or (Trim(INIInputPage.Values[1]) = &lsquo;&rsquo;) or
-       (Trim(INIInputPage.Values[2]) = &lsquo;&rsquo;) or (Trim(INIInputPage.Values[3]) = &lsquo;&rsquo;) then begin
-       MsgBox(&lsquo;Anda harus mengisikan data secara lengkap!&rsquo;, mbError, MB_OK);
-       Result := False;</p>
-
-<pre><code>end else begin
-  // jika semua input form oke, tulis ke file dengan format INI
-  // otomatis akan disimpan di folder instalasi dengan nama konfig.ini
-  SetIniString('Konfigurasi', 'Nama', INIInputPage.Values[0], ExpandConstant('{app}') + '\konfig.ini');
-  SetIniString('Konfigurasi', 'Telepon', INIInputPage.Values[1], ExpandConstant('{app}') + '\konfig.ini');
-  SetIniString('Konfigurasi', 'Alamat', INIInputPage.Values[2], ExpandConstant('{app}') + '\konfig.ini');
-  SetIniString('Konfigurasi', 'kota', INIInputPage.Values[3], ExpandConstant('{app}') + '\konfig.ini');
-end;
-</code></pre>
-
-<p>  end;
-end;
-{% endcodeblock %}</p>
-
-<p>Berikut contoh file <a href="{{%20site.url%20}}/blog/2010/04/23/contoh-sederhana-memanipulasi-ini-file-untuk-menyimpan-informasi/">INI</a> yang dihasilkan dari kode diatas</p>
+<p>Berikut contoh file <a href="/blog/2010/04/23/contoh-sederhana-memanipulasi-ini-file-untuk-menyimpan-informasi/">INI</a> yang dihasilkan dari kode diatas</p>
 
 <p><a href="http://coding4ever.files.wordpress.com/2010/12/12122010-1.jpg"><img src="http://coding4ever.files.wordpress.com/2010/12/12122010-1.jpg?w=300" alt="" /></a></p>
 
 <p>Sedangkan untuk menyimpan langsung ke registry windows menggunakan perintah <strong>RegWriteStringValue</strong></p>
 
-<p>{% codeblock %}
-// jika semua input form oke, simpan ke registry windows
-RegWriteStringValue(HKEY_CURRENT_USER, &lsquo;Software\K4m4r82<code>s Laboratory\Sistem Informasi Sekolah', 'Nama', INIInputPage.Values[0]);
-RegWriteStringValue(HKEY_CURRENT_USER, 'Software\K4m4r82</code>s Laboratory\Sistem Informasi Sekolah&rsquo;, &lsquo;Telepon&rsquo;, INIInputPage.Values[1]);
-RegWriteStringValue(HKEY_CURRENT_USER, &lsquo;Software\K4m4r82<code>s Laboratory\Sistem Informasi Sekolah', 'Alamat', INIInputPage.Values[2]);
-RegWriteStringValue(HKEY_CURRENT_USER, 'Software\K4m4r82</code>s Laboratory\Sistem Informasi Sekolah&rsquo;, &lsquo;Kota&rsquo;, INIInputPage.Values[3]);
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// jika semua input form oke, simpan ke registry windows
+</span><span class='line'>RegWriteStringValue(HKEY_CURRENT_USER, &lsquo;Software\K4m4r82&lt;code>s Laboratory\Sistem Informasi Sekolah', 'Nama', INIInputPage.Values[0]);
+</span><span class='line'>RegWriteStringValue(HKEY_CURRENT_USER, 'Software\K4m4r82&lt;/code>s Laboratory\Sistem Informasi Sekolah&rsquo;, &lsquo;Telepon&rsquo;, INIInputPage.Values[1]);
+</span><span class='line'>RegWriteStringValue(HKEY_CURRENT_USER, &lsquo;Software\K4m4r82&lt;code>s Laboratory\Sistem Informasi Sekolah', 'Alamat', INIInputPage.Values[2]);
+</span><span class='line'>RegWriteStringValue(HKEY_CURRENT_USER, 'Software\K4m4r82&lt;/code>s Laboratory\Sistem Informasi Sekolah&rsquo;, &lsquo;Kota&rsquo;, INIInputPage.Values[3]);</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Jika kita lihat di registry windows, hasilnya lebih kurang seperti berikut :</p>
 
@@ -175,119 +230,226 @@ RegWriteStringValue(HKEY_CURRENT_USER, 'Software\K4m4r82</code>s Laboratory\Sist
 
 <p>Sampai disini kita akan memasuki bagian yang paling menyenangkan yaitu coding :D. Kita akan menambahkan beberapa baris kode pada bagian <strong>[Files]</strong> dan <strong>[Code]</strong>.</p>
 
-<p>{% codeblock %}
-[Files]
-;file klien-1.iky dihasilkan oleh tool IKG
-Source: klien-1.iky; DestDir: {tmp}; Flags: ignoreversion
-Source: ISID.dll; DestDir: {sys}; Flags: ignoreversion</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[Files]
+</span><span class='line'>;file klien-1.iky dihasilkan oleh tool IKG
+</span><span class='line'>Source: klien-1.iky; DestDir: {tmp}; Flags: ignoreversion
+</span><span class='line'>Source: ISID.dll; DestDir: {sys}; Flags: ignoreversion&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>[Code]
+</span><span class='line'>function ValidateSerialNumber(InnoKeyFile, User, Orgn, ProdCode, HDD, MAC, PrivateKey, Serial: String): Boolean;
+</span><span class='line'>external &lsquo;ValidateSerialNumber@files:ISID.dll stdcall&rsquo;;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>const
+</span><span class='line'>    INNO_KEY = &lsquo;klien-1.iky&rsquo;;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>var
+</span><span class='line'>    UserPage   : TInputQueryWizardPage;
+</span><span class='line'>    UserValues : TArrayOfString;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>procedure InitializeWizard();
+</span><span class='line'>begin
+</span><span class='line'>    { create the custom page }
+</span><span class='line'>    UserPage := CreateInputQueryPage(wpInfoBefore, &lsquo;Informasi Registrasi&rsquo;, &lsquo;Anda memerlukan user yang valid agar bisa melanjutkan proses instalasi&rsquo;,
+</span><span class='line'>        &lsquo;Masukkan informasi registrasi (case sensitive), kemudian klik tombol Lanjut >.&rsquo;);&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>UserPage.Add('Registered Name:', False);
+</span><span class='line'>UserPage.Add('Registered Company:', False);
+</span><span class='line'>UserPage.Add('Registration Code:', False);
+</span><span class='line'>UserPage.Add('Private Key:', False);
+</span><span class='line'>
+</span><span class='line'>{ Set default values }
+</span><span class='line'>SetArrayLength(UserValues, 4);
+</span><span class='line'>RegQueryStringValue(HKLM, 'Software\Microsoft\Windows\CurrentVersion', 'RegisteredOwner', UserValues[0]);
+</span><span class='line'>RegQueryStringValue(HKLM, 'Software\Microsoft\Windows\CurrentVersion', 'RegisteredOrganization', UserValues[1]);
+</span><span class='line'>if (UserValues[0] = '') and (UserValues[1] = '') then begin
+</span><span class='line'>    RegQueryStringValue(HKCU, 'Software\Microsoft\MS Setup (ACME)\User Info', 'DefName', UserValues[0]);
+</span><span class='line'>    RegQueryStringValue(HKCU, 'Software\Microsoft\MS Setup (ACME)\User Info', 'DefCompany', UserValues[1]);
+</span><span class='line'>end;
+</span><span class='line'>
+</span><span class='line'>{ Try to find the settings that were stored last time (also see below). }
+</span><span class='line'>UserPage.Values[0] := GetPreviousData('Name', UserValues[0]);
+</span><span class='line'>UserPage.Values[1] := GetPreviousData('Company', UserValues[1]);
+</span><span class='line'>UserPage.Values[2] := GetPreviousData('Unlock', UserValues[2]);
+</span><span class='line'>UserPage.Values[3] := GetPreviousData('Private', UserValues[3]);
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>end;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>procedure RegisterPreviousData(PreviousDataKey: Integer);
+</span><span class='line'>begin
+</span><span class='line'>  { Store the settings so we can restore them next time }
+</span><span class='line'>  SetPreviousData(PreviousDataKey, &lsquo;Name&rsquo;, UserPage.Values[0]);
+</span><span class='line'>  SetPreviousData(PreviousDataKey, &lsquo;Company&rsquo;, UserPage.Values[1]);
+</span><span class='line'>  SetPreviousData(PreviousDataKey, &lsquo;Unlock&rsquo;, UserPage.Values[2]);
+</span><span class='line'>  SetPreviousData(PreviousDataKey, &lsquo;Private&rsquo;, UserPage.Values[3]);
+</span><span class='line'>end;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>function ScriptDlgPages(CurPage: Integer; BackClicked: Boolean): Boolean;
+</span><span class='line'>var
+</span><span class='line'>    ExpPath: String;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>begin
+</span><span class='line'>    Result := True;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>if (CurPage = UserPage.ID) then
+</span><span class='line'>begin
+</span><span class='line'>    ExtractTemporaryFile(INNO_KEY);     { the public key file }
+</span><span class='line'>
+</span><span class='line'>    ExpPath := ExpandConstant('{tmp}\' + INNO_KEY);
+</span><span class='line'>
+</span><span class='line'>    Result := False;
+</span><span class='line'>
+</span><span class='line'>    UserValues[0] := UserPage.Values[0];
+</span><span class='line'>    UserValues[1] := UserPage.Values[1];
+</span><span class='line'>    UserValues[2] := UserPage.Values[2];
+</span><span class='line'>    UserValues[3] := UserPage.Values[3];
+</span><span class='line'>
+</span><span class='line'>    if (UserValues[0] = '') or (UserValues[1] = '') or (UserValues[2] = '') or (UserValues[3] = '') then
+</span><span class='line'>        MsgBox('No fields can be blank !', mbError, MB_OK)
+</span><span class='line'>    else
+</span><span class='line'>    begin
+</span><span class='line'>        Result := ValidateSerialNumber(ExpPath, UserValues[0], UserValues[1], '', '', '', UserValues[3], UserValues[2]);
+</span><span class='line'>
+</span><span class='line'>        if (not Result) then
+</span><span class='line'>            MsgBox('Invalid Entry !', mbError, MB_OK);
+</span><span class='line'>
+</span><span class='line'>    end
+</span><span class='line'>end
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>end;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>function NextButtonClick(CurPage: Integer): Boolean;
+</span><span class='line'>begin
+</span><span class='line'>  Result := ScriptDlgPages(CurPage, False);
+</span><span class='line'>end;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>function BackButtonClick(CurPage: Integer): Boolean;
+</span><span class='line'>begin
+</span><span class='line'>  Result := True;//ScriptDlgPages(CurPage, True);
+</span><span class='line'>end;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>function HasHtmlHelp(): Boolean;
+</span><span class='line'>begin
+</span><span class='line'>    { HHCTRL.OCX GUID }
+</span><span class='line'>    Result := RegValueExists(HKCR, &lsquo;CLSID{4662DAB0-D393-11D0-9A56-00C04FB68B66}\InprocServer32&rsquo;, &lsquo;&rsquo;);
+</span><span class='line'>end;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>function HasNoHtmlHelp(): Boolean;
+</span><span class='line'>begin
+</span><span class='line'>    Result := not HasHtmlHelp;
+</span><span class='line'>end;</span></code></pre></td></tr></table></div></figure></p>
 
-<p>[Code]
-function ValidateSerialNumber(InnoKeyFile, User, Orgn, ProdCode, HDD, MAC, PrivateKey, Serial: String): Boolean;
-external &lsquo;ValidateSerialNumber@files:ISID.dll stdcall&rsquo;;</p>
-
-<p>const
-    INNO_KEY = &lsquo;klien-1.iky&rsquo;;</p>
-
-<p>var
-    UserPage   : TInputQueryWizardPage;
-    UserValues : TArrayOfString;</p>
-
-<p>procedure InitializeWizard();
-begin
-    { create the custom page }
-    UserPage := CreateInputQueryPage(wpInfoBefore, &lsquo;Informasi Registrasi&rsquo;, &lsquo;Anda memerlukan user yang valid agar bisa melanjutkan proses instalasi&rsquo;,
-        &lsquo;Masukkan informasi registrasi (case sensitive), kemudian klik tombol Lanjut >.&rsquo;);</p>
-
-<pre><code>UserPage.Add('Registered Name:', False);
-UserPage.Add('Registered Company:', False);
-UserPage.Add('Registration Code:', False);
-UserPage.Add('Private Key:', False);
-
-{ Set default values }
-SetArrayLength(UserValues, 4);
-RegQueryStringValue(HKLM, 'Software\Microsoft\Windows\CurrentVersion', 'RegisteredOwner', UserValues[0]);
-RegQueryStringValue(HKLM, 'Software\Microsoft\Windows\CurrentVersion', 'RegisteredOrganization', UserValues[1]);
-if (UserValues[0] = '') and (UserValues[1] = '') then begin
-    RegQueryStringValue(HKCU, 'Software\Microsoft\MS Setup (ACME)\User Info', 'DefName', UserValues[0]);
-    RegQueryStringValue(HKCU, 'Software\Microsoft\MS Setup (ACME)\User Info', 'DefCompany', UserValues[1]);
-end;
-
-{ Try to find the settings that were stored last time (also see below). }
-UserPage.Values[0] := GetPreviousData('Name', UserValues[0]);
-UserPage.Values[1] := GetPreviousData('Company', UserValues[1]);
-UserPage.Values[2] := GetPreviousData('Unlock', UserValues[2]);
-UserPage.Values[3] := GetPreviousData('Private', UserValues[3]);
-</code></pre>
-
-<p>end;</p>
-
-<p>procedure RegisterPreviousData(PreviousDataKey: Integer);
-begin
-  { Store the settings so we can restore them next time }
-  SetPreviousData(PreviousDataKey, &lsquo;Name&rsquo;, UserPage.Values[0]);
-  SetPreviousData(PreviousDataKey, &lsquo;Company&rsquo;, UserPage.Values[1]);
-  SetPreviousData(PreviousDataKey, &lsquo;Unlock&rsquo;, UserPage.Values[2]);
-  SetPreviousData(PreviousDataKey, &lsquo;Private&rsquo;, UserPage.Values[3]);
-end;</p>
-
-<p>function ScriptDlgPages(CurPage: Integer; BackClicked: Boolean): Boolean;
-var
-    ExpPath: String;</p>
-
-<p>begin
-    Result := True;</p>
-
-<pre><code>if (CurPage = UserPage.ID) then
-begin
-    ExtractTemporaryFile(INNO_KEY);     { the public key file }
-
-    ExpPath := ExpandConstant('{tmp}\' + INNO_KEY);
-
-    Result := False;
-
-    UserValues[0] := UserPage.Values[0];
-    UserValues[1] := UserPage.Values[1];
-    UserValues[2] := UserPage.Values[2];
-    UserValues[3] := UserPage.Values[3];
-
-    if (UserValues[0] = '') or (UserValues[1] = '') or (UserValues[2] = '') or (UserValues[3] = '') then
-        MsgBox('No fields can be blank !', mbError, MB_OK)
-    else
-    begin
-        Result := ValidateSerialNumber(ExpPath, UserValues[0], UserValues[1], '', '', '', UserValues[3], UserValues[2]);
-
-        if (not Result) then
-            MsgBox('Invalid Entry !', mbError, MB_OK);
-
-    end
-end
-</code></pre>
-
-<p>end;</p>
-
-<p>function NextButtonClick(CurPage: Integer): Boolean;
-begin
-  Result := ScriptDlgPages(CurPage, False);
-end;</p>
-
-<p>function BackButtonClick(CurPage: Integer): Boolean;
-begin
-  Result := True;//ScriptDlgPages(CurPage, True);
-end;</p>
-
-<p>function HasHtmlHelp(): Boolean;
-begin
-    { HHCTRL.OCX GUID }
-    Result := RegValueExists(HKCR, &lsquo;CLSID{4662DAB0-D393-11D0-9A56-00C04FB68B66}\InprocServer32&rsquo;, &lsquo;&rsquo;);
-end;</p>
-
-<p>function HasNoHtmlHelp(): Boolean;
-begin
-    Result := not HasHtmlHelp;
-end;
-{% endcodeblock %}</p>
-
-<p>Jika sudah selesai silahkan compile (CTRL+F9) skrip inno setup Anda, dan ingat skrip diatas hanya potongan skrip inno setup. Contoh skrip yang lengkap bisa Anda lihat di<a href="{{%20site.url%20}}/blog/2009/12/31/membuat-paket-instalasi-vb-mysql-dengan-inno-setup/">sini</a> dan <a href="{{%20site.url%20}}/blog/2010/01/05/membuat-paket-instalasi-vb-firebird-dengan-inno-setup/">sini</a>.</p>
+<p>Jika sudah selesai silahkan compile (CTRL+F9) skrip inno setup Anda, dan ingat skrip diatas hanya potongan skrip inno setup. Contoh skrip yang lengkap bisa Anda lihat di<a href="/blog/2009/12/31/membuat-paket-instalasi-vb-mysql-dengan-inno-setup/">sini</a> dan <a href="/blog/2010/01/05/membuat-paket-instalasi-vb-firebird-dengan-inno-setup/">sini</a>.</p>
 
 <p><a href="http://coding4ever.files.wordpress.com/2010/04/05042010-7.jpg"><img src="http://coding4ever.files.wordpress.com/2010/04/05042010-7.jpg?w=300" alt="" /></a>
 <a href="http://coding4ever.files.wordpress.com/2010/04/05042010-8.jpg"><img src="http://coding4ever.files.wordpress.com/2010/04/05042010-8.jpg?w=300" alt="" /></a>
@@ -323,71 +485,104 @@ Jika kita mencoba memasukkan informasi registrasi yang salah, maka akan tampil p
 
 <p>Apakah cukup seperti itu saja ? Tentu tidak, kita harus menambahkan beberapa baris kode pada skrip inno setup di bagian [Files] dan [Code].</p>
 
-<p>{% codeblock %}
-[Files]
-; Add the ISSkin DLL used for skinning Inno Setup installations.
-Source: ISSkin.dll; DestDir: {app}; Flags: dontcopy</p>
-
-<p>; Add the Visual Style resource contains resources used for skinning,
-; you can also use Microsoft Visual Styles (*.msstyles) resources.
-Source: Styles\Office2007.cjstyles; DestDir: {tmp}; Flags: dontcopy</p>
-
-<p>; The following code block is used to load the ISS, pass in
-; NormalAqua.ini as the second parameter to LoadSkin to use
-; the Aqua color scheme instead of the default Blue color
-; scheme.
-[Code]
-// Importing LoadSkin API from ISSkin.DLL
-procedure LoadSkin(lpszPath: String; lpszIniFileName: String);
-external &lsquo;LoadSkin@files:isskin.dll stdcall&rsquo;;</p>
-
-<p>// Importing UnloadSkin API from ISSkin.DLL
-procedure UnloadSkin();
-external &lsquo;UnloadSkin@files:isskin.dll stdcall&rsquo;;</p>
-
-<p>// Importing ShowWindow Windows API from User32.DLL
-function ShowWindow(hWnd: Integer; uType: Integer): Integer;
-external &lsquo;<a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#83;&#x68;&#x6f;&#119;&#x57;&#x69;&#x6e;&#x64;&#x6f;&#x77;&#64;&#117;&#x73;&#101;&#x72;&#51;&#50;&#x2e;&#x64;&#108;&#108;">&#x53;&#104;&#x6f;&#119;&#87;&#105;&#x6e;&#x64;&#x6f;&#119;&#64;&#x75;&#x73;&#x65;&#x72;&#51;&#x32;&#46;&#x64;&#x6c;&#x6c;</a> stdcall&rsquo;;</p>
-
-<p>function InitializeSetup(): Boolean;
-begin
-    ExtractTemporaryFile(&lsquo;Office2007.cjstyles&rsquo;);
-    LoadSkin(ExpandConstant(&lsquo;{tmp}\Office2007.cjstyles&rsquo;), &lsquo;NormalAqua.ini&rsquo;);
-    Result := True;
-end;</p>
-
-<p>procedure DeinitializeSetup();
-begin
-    // Hide Window before unloading skin so user does not get
-    // a glimse of an unskinned window before it is closed.
-    ShowWindow(StrToInt(ExpandConstant(&lsquo;{wizardhwnd}&rsquo;)), 0);
-    UnloadSkin();
-end;
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[Files]
+</span><span class='line'>; Add the ISSkin DLL used for skinning Inno Setup installations.
+</span><span class='line'>Source: ISSkin.dll; DestDir: {app}; Flags: dontcopy&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>; Add the Visual Style resource contains resources used for skinning,
+</span><span class='line'>; you can also use Microsoft Visual Styles (*.msstyles) resources.
+</span><span class='line'>Source: Styles\Office2007.cjstyles; DestDir: {tmp}; Flags: dontcopy&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>; The following code block is used to load the ISS, pass in
+</span><span class='line'>; NormalAqua.ini as the second parameter to LoadSkin to use
+</span><span class='line'>; the Aqua color scheme instead of the default Blue color
+</span><span class='line'>; scheme.
+</span><span class='line'>[Code]
+</span><span class='line'>// Importing LoadSkin API from ISSkin.DLL
+</span><span class='line'>procedure LoadSkin(lpszPath: String; lpszIniFileName: String);
+</span><span class='line'>external &lsquo;LoadSkin@files:isskin.dll stdcall&rsquo;;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>// Importing UnloadSkin API from ISSkin.DLL
+</span><span class='line'>procedure UnloadSkin();
+</span><span class='line'>external &lsquo;UnloadSkin@files:isskin.dll stdcall&rsquo;;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>// Importing ShowWindow Windows API from User32.DLL
+</span><span class='line'>function ShowWindow(hWnd: Integer; uType: Integer): Integer;
+</span><span class='line'>external &lsquo;&lt;a href="&#109;&#97;&#105;&#108;&#116;&#x6f;&#58;&#x53;&#104;&#111;&#x77;&#87;&#x69;&#110;&#x64;&#x6f;&#x77;&#64;&#117;&#115;&#x65;&#x72;&#x33;&#50;&#x2e;&#100;&#x6c;&#x6c;">&#83;&#104;&#111;&#x77;&#87;&#105;&#x6e;&#x64;&#111;&#119;&#x40;&#117;&#115;&#x65;&#114;&#x33;&#50;&#x2e;&#x64;&#108;&#x6c;&lt;/a> stdcall&rsquo;;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>function InitializeSetup(): Boolean;
+</span><span class='line'>begin
+</span><span class='line'>    ExtractTemporaryFile(&lsquo;Office2007.cjstyles&rsquo;);
+</span><span class='line'>    LoadSkin(ExpandConstant(&lsquo;{tmp}\Office2007.cjstyles&rsquo;), &lsquo;NormalAqua.ini&rsquo;);
+</span><span class='line'>    Result := True;
+</span><span class='line'>end;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>procedure DeinitializeSetup();
+</span><span class='line'>begin
+</span><span class='line'>    // Hide Window before unloading skin so user does not get
+</span><span class='line'>    // a glimse of an unskinned window before it is closed.
+</span><span class='line'>    ShowWindow(StrToInt(ExpandConstant(&lsquo;{wizardhwnd}&rsquo;)), 0);
+</span><span class='line'>    UnloadSkin();
+</span><span class='line'>end;</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Berikut adalah beberapa variasi skin hasil dari ngoprek kode berikut :</p>
 
-<p>{% codeblock %}
-LoadSkin(ExpandConstant(&lsquo;{tmp}\Office2007.cjstyles&rsquo;), &lsquo;NormalAqua.ini&rsquo;);
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>LoadSkin(ExpandConstant(&lsquo;{tmp}\Office2007.cjstyles&rsquo;), &lsquo;NormalAqua.ini&rsquo;);</span></code></pre></td></tr></table></div></figure></p>
 
 <p><a href="http://coding4ever.files.wordpress.com/2010/03/31032010-3.jpg"><img src="http://coding4ever.files.wordpress.com/2010/03/31032010-3.jpg?w=300" alt="" /></a></p>
 
-<p>{% codeblock %}
-LoadSkin(ExpandConstant(&lsquo;{tmp}\Office2007.cjstyles&rsquo;), &lsquo;NormalBlack.ini&rsquo;);
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>LoadSkin(ExpandConstant(&lsquo;{tmp}\Office2007.cjstyles&rsquo;), &lsquo;NormalBlack.ini&rsquo;);</span></code></pre></td></tr></table></div></figure></p>
 
 <p><a href="http://coding4ever.files.wordpress.com/2010/03/31032010-4.jpg"><img src="http://coding4ever.files.wordpress.com/2010/03/31032010-4.jpg?w=300" alt="" /></a></p>
 
-<p>{% codeblock %}
-LoadSkin(ExpandConstant(&lsquo;{tmp}\Vista.cjstyles&rsquo;), &lsquo;NormalSilver.ini&rsquo;);
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>LoadSkin(ExpandConstant(&lsquo;{tmp}\Vista.cjstyles&rsquo;), &lsquo;NormalSilver.ini&rsquo;);</span></code></pre></td></tr></table></div></figure></p>
 
 <p><a href="http://coding4ever.files.wordpress.com/2010/03/31032010-5.jpg"><img src="http://coding4ever.files.wordpress.com/2010/03/31032010-5.jpg?w=300" alt="" /></a></p>
 
-<p>{% codeblock %}
-LoadSkin(ExpandConstant(&lsquo;{tmp}\Vista.cjstyles&rsquo;), &lsquo;&rsquo;);
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>LoadSkin(ExpandConstant(&lsquo;{tmp}\Vista.cjstyles&rsquo;), &lsquo;&rsquo;);</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Selamat mencoba :)</p>
 ]]></content>
@@ -398,7 +593,7 @@ LoadSkin(ExpandConstant(&lsquo;{tmp}\Vista.cjstyles&rsquo;), &lsquo;&rsquo;);
     <link href="http://coding4ever.net/blog/2010/01/05/membuat-paket-instalasi-vb-firebird-dengan-inno-setup/"/>
     <updated>2010-01-05T13:16:54+07:00</updated>
     <id>http://coding4ever.net/blog/2010/01/05/membuat-paket-instalasi-vb-firebird-dengan-inno-setup</id>
-    <content type="html"><![CDATA[<p>Menyambung postingan saya sebelumnya <a href="{{%20site.url%20}}/blog/2009/12/31/membuat-paket-instalasi-vb-mysql-dengan-inno-setup/">Membuat paket instalasi vb + mysql dengan inno setup</a> kali ini database yang kita paketkan adalah <a href="http://firebirdsql.org/">Firebird</a>. Adapun hal-hal yang perlu dipersiapkan :</p>
+    <content type="html"><![CDATA[<p>Menyambung postingan saya sebelumnya <a href="/blog/2009/12/31/membuat-paket-instalasi-vb-mysql-dengan-inno-setup/">Membuat paket instalasi vb + mysql dengan inno setup</a> kali ini database yang kita paketkan adalah <a href="http://firebirdsql.org/">Firebird</a>. Adapun hal-hal yang perlu dipersiapkan :</p>
 
 <ol>
 <li><p> File <a href="http://sourceforge.net/projects/firebird/files/firebird-win32/2.1.3-Release/Firebird-2.1.3.18185_0_Win32.exe/download?use_mirror=autoselect">Setup Firebird</a> (saat postingan ini dibuat versi Firebird-2.1.3.18185_0_Win32)</p></li>
@@ -412,117 +607,224 @@ LoadSkin(ExpandConstant(&lsquo;{tmp}\Vista.cjstyles&rsquo;), &lsquo;&rsquo;);
 
 <p>Karena semua persiapan sudah oke, berikut skrip instalasinya :</p>
 
-<p>{% codeblock %}
-;Skrip instalasi by k4m4r82
-;<a href="http://coding4ever.wordpress.com">http://coding4ever.wordpress.com</a></p>
-
-<p>[Setup]
-AppName=Retail Manager Pro
-AppVerName=Retail Manager Pro Versi 1.0.0.50
-AppPublisher=K4m4r82&rsquo;s Laboratory
-AllowCancelDuringInstall = yes
-DefaultDirName={pf}\RetailManagerPro
-DefaultGroupName=Retail Manager Pro
-Compression = lzma
-SolidCompression = yes
-OutputBaseFilename=SetupRetailManagerPro
-AllowNoIcons = yes
-AlwaysRestart = no
-AlwaysShowComponentsList = no
-DisableProgramGroupPage = yes
-AppendDefaultDirName = yes
-CreateUninstallRegKey = yes
-DisableStartupPrompt = yes
-LanguageDetectionMethod=none
-ShowLanguageDialog=no
-Uninstallable = yes
-UninstallFilesDir={app}\uninst
-UninstallDisplayIcon={app}\RetailManager.exe,0
-UninstallDisplayName=Retail Manager Pro
-WindowVisible = no
-AppCopyright=Copyright © 2009 K4m4r82&rsquo;s Laboratory
-FlatComponentsList = yes
-PrivilegesRequired = admin
-VersionInfoVersion=1.0.0.50
-SetupIconFile=Setup.ico
-WizardImageFile=SetupModern21.bmp
-WizardSmallImageFile=SetupModernSmall21.bmp</p>
-
-<p>[Languages]
-Name: ina; MessagesFile: compiler:Indonesia.isl
-Name: en; MessagesFile: compiler:Default.isl</p>
-
-<p>[Tasks]
-Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
-Name: quicklaunchicon; Description: {cm:CreateQuickLaunchIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked</p>
-
-<p>[Files]
-;Visual Basic Runtime
-Source: dll&amp;ocx\VB6STKIT.DLL; DestDir: {sys}; Flags: uninsneveruninstall onlyifdoesntexist
-Source: dll&amp;ocx\COMCAT.DLL; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
-Source: dll&amp;ocx\stdole2.tlb; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regtypelib
-Source: dll&amp;ocx\asycfilt.dll; DestDir: {sys}; Flags: uninsneveruninstall onlyifdoesntexist
-Source: dll&amp;ocx\olepro32.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
-Source: dll&amp;ocx\oleaut32.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
-Source: dll&amp;ocx\msvbvm60.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist</p>
-
-<p>;file hasil instalasi firebird odbc
-Source: C:\WINDOWS\system32\OdbcFb32.dll; DestDir: {sys}; Flags: restartreplace sharedfile regserver onlyifdoesntexist</p>
-
-<p>;file installer database firebird sesuaikan dengan versi yang Anda download
-Source: main\Firebird-2.1.3.18185_0_Win32.exe; DestDir: &ldquo;{tmp}&rdquo;; Flags: deleteafterinstall</p>
-
-<p>;My Application Runtime
-Source: main\RetailManager.exe; DestDir: {app}; Flags: ignoreversion
-Source: main\RetailManager.pdf; DestDir: {app}; Flags: ignoreversion
-Source: main\RETAIL_MANAGER.FDB; DestDir: {app}\Db; Flags: onlyifdoesntexist
-Source: main\RetailManager.exe.manifest; DestDir: {app}; Flags: ignoreversion</p>
-
-<p>Source: dll&amp;ocx\cTreeOpt6.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
-Source: dll&amp;ocx\vbalDTab6.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
-Source: dll&amp;ocx\vbalExpBar6.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
-Source: dll&amp;ocx\mscomctl.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
-Source: dll&amp;ocx\vbalIml6.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
-Source: dll&amp;ocx\cPopMenu6.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
-Source: dll&amp;ocx\LVbuttons.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
-Source: dll&amp;ocx\MyTextBox.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
-Source: dll&amp;ocx\MSCOMCT2.OCX; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
-Source: dll&amp;ocx\vbalMDITabs6.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
-Source: dll&amp;ocx\SSubTmr6.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
-Source: dll&amp;ocx\scrrun.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
-Source: dll&amp;ocx\cNewMenu6.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
-Source: dll&amp;ocx\msado21.tlb; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regtypelib</p>
-
-<p>[Icons]
-Name: {group}\Retail Manager Pro; Filename: {app}\RetailManager.exe; WorkingDir: {app}
-Name: {group}\Retail Manager Pro User Manual; Filename: {app}\RetailManager.pdf; WorkingDir: {app}</p>
-
-<p>Name: {userdesktop}\Retail Manager Pro; Filename: {app}\RetailManager.exe; WorkingDir: {app}; Tasks: desktopicon
-Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\Retail Manager Pro; Filename: {app}\RetailManager.exe; WorkingDir: {app}; Tasks: quicklaunchicon</p>
-
-<p>[Registry]
-;mencatat lokasi instalasi program, ini dibutuhkan jika kita ingin membuat paket instalasi update
-Root: HKCU; Subkey: &ldquo;Software\K4m4r82`s Laboratory\RetailManager&rdquo;; ValueName: &ldquo;installDir&rdquo;; ValueType: String; ValueData: {app}; Flags: uninsdeletevalue</p>
-
-<p>[INI]
-Filename: &ldquo;{app}\infoProgram.ini&rdquo;; Section: &ldquo;Sistem&rdquo;; Key: &ldquo;serverName&rdquo;; String: &ldquo;127.0.0.1&rdquo;
-Filename: &ldquo;{app}\infoProgram.ini&rdquo;; Section: &ldquo;Sistem&rdquo;; Key: &ldquo;dbPath&rdquo;; String: &ldquo;{app}\Db&rdquo;</p>
-
-<p>[Run]
-;install firebird
-Filename: &ldquo;{tmp}\Firebird-2.1.3.18185_0_Win32.exe&rdquo;; Parameters: &ldquo;/SP- /NORESTART /NOCPL /NOICONS /SILENT /FORCE /COMPONENTS=&rdquo;&ldquo;servercomponent\superservercomponent, SuperServerComponent, ServerComponent, ClientComponent, DevAdminComponent&rdquo;&ldquo;&rdquo;; StatusMsg: &ldquo;Instalasi Firebird 2.0 Server&hellip;&rdquo;</p>
-
-<p>;daftarkan port firebird (3050) ke windows firewall
-Filename: &ldquo;{sys}\netsh.exe&rdquo;; Parameters: &ldquo;firewall add portopening TCP 3050 &rdquo;&ldquo;Service Firebird Server&rdquo;&ldquo;&rdquo;; StatusMsg: &ldquo;Mendaftarkan port Service Firebird &hellip;&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2
-Filename: &ldquo;{sys}\netsh.exe&rdquo;; Parameters: &ldquo;firewall add allowedprogram &rdquo;&ldquo;{pf}\Firebird\Firebird_2_0\bin\fbserver.exe&rdquo;&ldquo; &rdquo;&ldquo;Firebird Server&rdquo;&ldquo; ENABLE ALL&rdquo;; StatusMsg: &ldquo;Mendaftarkan Firebird Server &hellip;&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2</p>
-
-<p>;menjalankan service firebird
-Filename: &ldquo;{pf}\Firebird\Firebird_2_0\bin\fbserver.exe&rdquo;; Parameters: &ldquo;-a&rdquo;; StatusMsg: &ldquo;Menjalankan service firebird&rdquo;; Flags: waituntilidle</p>
-
-<p>[UninstallRun]
-Filename: &ldquo;{sys}\netsh.exe&rdquo;; Parameters: &ldquo;firewall delete portopening protocol = TCP port = 3050&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2
-Filename: &ldquo;{sys}\netsh.exe&rdquo;; Parameters: &ldquo;firewall delete allowedprogram &rdquo;&ldquo;{pf}\Firebird\Firebird_2_0\bin\fbserver.exe&rdquo;&ldquo;&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>;Skrip instalasi by k4m4r82
+</span><span class='line'>;&lt;a href="http://coding4ever.wordpress.com">http://coding4ever.wordpress.com&lt;/a>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>[Setup]
+</span><span class='line'>AppName=Retail Manager Pro
+</span><span class='line'>AppVerName=Retail Manager Pro Versi 1.0.0.50
+</span><span class='line'>AppPublisher=K4m4r82&rsquo;s Laboratory
+</span><span class='line'>AllowCancelDuringInstall = yes
+</span><span class='line'>DefaultDirName={pf}\RetailManagerPro
+</span><span class='line'>DefaultGroupName=Retail Manager Pro
+</span><span class='line'>Compression = lzma
+</span><span class='line'>SolidCompression = yes
+</span><span class='line'>OutputBaseFilename=SetupRetailManagerPro
+</span><span class='line'>AllowNoIcons = yes
+</span><span class='line'>AlwaysRestart = no
+</span><span class='line'>AlwaysShowComponentsList = no
+</span><span class='line'>DisableProgramGroupPage = yes
+</span><span class='line'>AppendDefaultDirName = yes
+</span><span class='line'>CreateUninstallRegKey = yes
+</span><span class='line'>DisableStartupPrompt = yes
+</span><span class='line'>LanguageDetectionMethod=none
+</span><span class='line'>ShowLanguageDialog=no
+</span><span class='line'>Uninstallable = yes
+</span><span class='line'>UninstallFilesDir={app}\uninst
+</span><span class='line'>UninstallDisplayIcon={app}\RetailManager.exe,0
+</span><span class='line'>UninstallDisplayName=Retail Manager Pro
+</span><span class='line'>WindowVisible = no
+</span><span class='line'>AppCopyright=Copyright © 2009 K4m4r82&rsquo;s Laboratory
+</span><span class='line'>FlatComponentsList = yes
+</span><span class='line'>PrivilegesRequired = admin
+</span><span class='line'>VersionInfoVersion=1.0.0.50
+</span><span class='line'>SetupIconFile=Setup.ico
+</span><span class='line'>WizardImageFile=SetupModern21.bmp
+</span><span class='line'>WizardSmallImageFile=SetupModernSmall21.bmp&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>[Languages]
+</span><span class='line'>Name: ina; MessagesFile: compiler:Indonesia.isl
+</span><span class='line'>Name: en; MessagesFile: compiler:Default.isl&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>[Tasks]
+</span><span class='line'>Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
+</span><span class='line'>Name: quicklaunchicon; Description: {cm:CreateQuickLaunchIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>[Files]
+</span><span class='line'>;Visual Basic Runtime
+</span><span class='line'>Source: dll&amp;ocx\VB6STKIT.DLL; DestDir: {sys}; Flags: uninsneveruninstall onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\COMCAT.DLL; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\stdole2.tlb; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regtypelib
+</span><span class='line'>Source: dll&amp;ocx\asycfilt.dll; DestDir: {sys}; Flags: uninsneveruninstall onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\olepro32.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\oleaut32.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\msvbvm60.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>;file hasil instalasi firebird odbc
+</span><span class='line'>Source: C:\WINDOWS\system32\OdbcFb32.dll; DestDir: {sys}; Flags: restartreplace sharedfile regserver onlyifdoesntexist&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>;file installer database firebird sesuaikan dengan versi yang Anda download
+</span><span class='line'>Source: main\Firebird-2.1.3.18185_0_Win32.exe; DestDir: &ldquo;{tmp}&rdquo;; Flags: deleteafterinstall&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>;My Application Runtime
+</span><span class='line'>Source: main\RetailManager.exe; DestDir: {app}; Flags: ignoreversion
+</span><span class='line'>Source: main\RetailManager.pdf; DestDir: {app}; Flags: ignoreversion
+</span><span class='line'>Source: main\RETAIL_MANAGER.FDB; DestDir: {app}\Db; Flags: onlyifdoesntexist
+</span><span class='line'>Source: main\RetailManager.exe.manifest; DestDir: {app}; Flags: ignoreversion&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Source: dll&amp;ocx\cTreeOpt6.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\vbalDTab6.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\vbalExpBar6.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\mscomctl.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\vbalIml6.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\cPopMenu6.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\LVbuttons.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\MyTextBox.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\MSCOMCT2.OCX; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\vbalMDITabs6.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\SSubTmr6.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\scrrun.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\cNewMenu6.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\msado21.tlb; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regtypelib&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>[Icons]
+</span><span class='line'>Name: {group}\Retail Manager Pro; Filename: {app}\RetailManager.exe; WorkingDir: {app}
+</span><span class='line'>Name: {group}\Retail Manager Pro User Manual; Filename: {app}\RetailManager.pdf; WorkingDir: {app}&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Name: {userdesktop}\Retail Manager Pro; Filename: {app}\RetailManager.exe; WorkingDir: {app}; Tasks: desktopicon
+</span><span class='line'>Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\Retail Manager Pro; Filename: {app}\RetailManager.exe; WorkingDir: {app}; Tasks: quicklaunchicon&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>[Registry]
+</span><span class='line'>;mencatat lokasi instalasi program, ini dibutuhkan jika kita ingin membuat paket instalasi update
+</span><span class='line'>Root: HKCU; Subkey: &ldquo;Software\K4m4r82`s Laboratory\RetailManager&rdquo;; ValueName: &ldquo;installDir&rdquo;; ValueType: String; ValueData: {app}; Flags: uninsdeletevalue&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>[INI]
+</span><span class='line'>Filename: &ldquo;{app}\infoProgram.ini&rdquo;; Section: &ldquo;Sistem&rdquo;; Key: &ldquo;serverName&rdquo;; String: &ldquo;127.0.0.1&rdquo;
+</span><span class='line'>Filename: &ldquo;{app}\infoProgram.ini&rdquo;; Section: &ldquo;Sistem&rdquo;; Key: &ldquo;dbPath&rdquo;; String: &ldquo;{app}\Db&rdquo;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>[Run]
+</span><span class='line'>;install firebird
+</span><span class='line'>Filename: &ldquo;{tmp}\Firebird-2.1.3.18185_0_Win32.exe&rdquo;; Parameters: &ldquo;/SP- /NORESTART /NOCPL /NOICONS /SILENT /FORCE /COMPONENTS=&rdquo;&ldquo;servercomponent\superservercomponent, SuperServerComponent, ServerComponent, ClientComponent, DevAdminComponent&rdquo;&ldquo;&rdquo;; StatusMsg: &ldquo;Instalasi Firebird 2.0 Server&hellip;&rdquo;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>;daftarkan port firebird (3050) ke windows firewall
+</span><span class='line'>Filename: &ldquo;{sys}\netsh.exe&rdquo;; Parameters: &ldquo;firewall add portopening TCP 3050 &rdquo;&ldquo;Service Firebird Server&rdquo;&ldquo;&rdquo;; StatusMsg: &ldquo;Mendaftarkan port Service Firebird &hellip;&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2
+</span><span class='line'>Filename: &ldquo;{sys}\netsh.exe&rdquo;; Parameters: &ldquo;firewall add allowedprogram &rdquo;&ldquo;{pf}\Firebird\Firebird_2_0\bin\fbserver.exe&rdquo;&ldquo; &rdquo;&ldquo;Firebird Server&rdquo;&ldquo; ENABLE ALL&rdquo;; StatusMsg: &ldquo;Mendaftarkan Firebird Server &hellip;&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>;menjalankan service firebird
+</span><span class='line'>Filename: &ldquo;{pf}\Firebird\Firebird_2_0\bin\fbserver.exe&rdquo;; Parameters: &ldquo;-a&rdquo;; StatusMsg: &ldquo;Menjalankan service firebird&rdquo;; Flags: waituntilidle&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>[UninstallRun]
+</span><span class='line'>Filename: &ldquo;{sys}\netsh.exe&rdquo;; Parameters: &ldquo;firewall delete portopening protocol = TCP port = 3050&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2
+</span><span class='line'>Filename: &ldquo;{sys}\netsh.exe&rdquo;; Parameters: &ldquo;firewall delete allowedprogram &rdquo;&ldquo;{pf}\Firebird\Firebird_2_0\bin\fbserver.exe&rdquo;&ldquo;&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Selamat mencoba :)</p>
 ]]></content>
@@ -580,194 +882,351 @@ Filename: &ldquo;{sys}\netsh.exe&rdquo;; Parameters: &ldquo;firewall delete allo
 
 <p>Parameter <strong>&ndash;routines</strong> wajib Anda ketikkan jika database Anda mempunyai prosedur/fungsi. Persiapan terakhir untuk struktur folder saya buat seperti berikut :</p>
 
-<p>{% img center <a href="http://coding4ever.files.wordpress.com/2009/12/struktur_folder.jpg">http://coding4ever.files.wordpress.com/2009/12/struktur_folder.jpg</a> %}</p>
+<p><img class="center <a" src="href="http://coding4ever.files.wordpress.com/2009/12/struktur_folder.jpg">http://coding4ever.files.wordpress.com/2009/12/struktur_folder.jpg</a>&#8221;></p>
 
 <p>Untuk keterangan lebih lanjut skrip inno setup silahkan baca manualnya. Contoh skrip instalasi lengkap :</p>
 
-<p>{% codeblock %}
-;Skrip instalasi by k4m4r82
-;<a href="http://coding4ever.wordpress.com/">http://coding4ever.wordpress.com/</a>
-[Setup]
-AppName=Sistem Pembelian Bahan Baku PT. ALBASI
-AppVerName=Sistem Pembelian Bahan Baku PT. ALBASI Versi 1.0.0.50
-AppPublisher=K4m4r82&rsquo;s Laboratory
-AllowCancelDuringInstall = yes
-DefaultDirName={pf}\PT ALBASI
-DefaultGroupName=PT ALBASI
-Compression = lzma
-SolidCompression = yes
-OutputBaseFilename=SetupAlbasiServer
-AllowNoIcons = yes
-AlwaysRestart = no
-AlwaysShowComponentsList = no
-DisableProgramGroupPage = yes
-AppendDefaultDirName = yes
-CreateUninstallRegKey = yes
-DisableStartupPrompt = yes
-LanguageDetectionMethod=none
-ShowLanguageDialog=no
-Uninstallable = yes
-UninstallFilesDir={app}\uninst
-UninstallDisplayIcon={app}\Albasi.exe,0
-UninstallDisplayName=Sistem Pembelian Bahan Baku PT. ALBASI
-WindowVisible = no
-AppCopyright=Copyright © 2009. K4m4r82&rsquo;s Laboratory
-FlatComponentsList = yes
-PrivilegesRequired = admin
-VersionInfoVersion=1.0.0.50
-SetupIconFile=Setup.ico
-WizardImageFile=SetupModern21.bmp
-WizardSmallImageFile=SetupModernSmall21.bmp</p>
-
-<p>[Languages]
-Name: ina; MessagesFile: compiler:Indonesia.isl
-Name: en; MessagesFile: compiler:Default.isl</p>
-
-<p>[Tasks]
-Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
-Name: quicklaunchicon; Description: {cm:CreateQuickLaunchIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
-Name: installmysql; Description: &ldquo;Install MySQL&rdquo;; GroupDescription: &ldquo;Proses tambahan:&rdquo;; Flags: checkedonce</p>
-
-<p>[Files]
-;Visual Basic Runtime
-Source: dll&amp;ocx\VB6STKIT.DLL; DestDir: {sys}; Flags: uninsneveruninstall onlyifdoesntexist
-Source: dll&amp;ocx\COMCAT.DLL; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
-Source: dll&amp;ocx\stdole2.tlb; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regtypelib
-Source: dll&amp;ocx\asycfilt.dll; DestDir: {sys}; Flags: uninsneveruninstall onlyifdoesntexist
-Source: dll&amp;ocx\olepro32.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
-Source: dll&amp;ocx\oleaut32.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
-Source: dll&amp;ocx\msvbvm60.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist</p>
-
-<p>;daftar file MySQL
-Source: mysql-5.1.36-win32\bin*; DestDir: {app}\mysql\bin; Flags: ignoreversion; Tasks: installmysql
-Source: mysql-5.1.36-win32\Docs*; DestDir: {app}\mysql\Docs; Flags: ignoreversion; Tasks: installmysql
-Source: mysql-5.1.36-win32\lib*; DestDir: {app}\mysql\lib; Flags: ignoreversion recursesubdirs; Tasks: installmysql
-Source: mysql-5.1.36-win32\share*; DestDir: {app}\mysql\share; Flags: ignoreversion recursesubdirs; Tasks: installmysql
-Source: mysql-5.1.36-win32\data*; DestDir: {app}\mysql\data; Flags: ignoreversion recursesubdirs uninsneveruninstall; Tasks: installmysql
-Source: mysql-5.1.36-win32*; DestDir: {app}\mysql; Flags: ignoreversion; Tasks: installmysql</p>
-
-<p>;daftar file MySQL ODBC 5.1
-Source: &ldquo;C:\Program Files\MySQL\Connector ODBC 5.1\myodbc5.dll&rdquo;; DestDir: {sys}; Flags: onlyifdoesntexist
-Source: &ldquo;C:\Program Files\MySQL\Connector ODBC 5.1\myodbc5S.dll&rdquo;; DestDir: {sys}; Flags: onlyifdoesntexist
-Source: &ldquo;C:\Program Files\MySQL\Connector ODBC 5.1\myodbc5.lib&rdquo;; DestDir: {sys}; Flags: onlyifdoesntexist
-Source: &ldquo;C:\Program Files\MySQL\Connector ODBC 5.1\myodbc5S.lib&rdquo;; DestDir: {sys}; Flags: onlyifdoesntexist
-Source: &ldquo;C:\Program Files\MySQL\Connector ODBC 5.1\myodbc-installer.exe&rdquo;; DestDir: {sys}; Flags: onlyifdoesntexist</p>
-
-<p>;My Application Runtime
-Source: main\Albasi.exe.manifest; DestDir: {app}; Flags: ignoreversion
-Source: main\Albasi.exe; DestDir: {app}; Flags: ignoreversion
-Source: main\albasi.sql; DestDir: {app}\mysql\bin; Flags: ignoreversion
-Source: main\exec.cmd; DestDir: {app}\mysql\bin; Flags: ignoreversion</p>
-
-<p>Source: dll&amp;ocx\MSMASK32.OCX; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
-Source: dll&amp;ocx\cTreeOpt6.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
-Source: dll&amp;ocx\Comdlg32.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
-Source: dll&amp;ocx\vbalDTab6.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
-Source: dll&amp;ocx\MSCOMCT2.OCX; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
-Source: dll&amp;ocx\MyTextBox.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
-Source: dll&amp;ocx\LVbuttons.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
-Source: dll&amp;ocx\vbalExpBar6.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
-Source: dll&amp;ocx\MSCOMCTL.OCX; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
-Source: dll&amp;ocx\vbalIml6.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
-Source: dll&amp;ocx\cPopMenu6.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
-Source: dll&amp;ocx\cNewMenu6.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
-Source: dll&amp;ocx\scrrun.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
-Source: dll&amp;ocx\vbalMDITabs6.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
-Source: dll&amp;ocx\SSubTmr6.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist</p>
-
-<p>Source: dll&amp;ocx\msado21.tlb; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regtypelib</p>
-
-<p>[Icons]
-Name: {group}\Sistem Pembelian Bahan Baku PT. ALBASI; Filename: {app}\Albasi.exe; WorkingDir: {app}
-Name: {userdesktop}\Sistem Pembelian Bahan Baku PT. ALBASI; Filename: {app}\Albasi.exe; WorkingDir: {app}; Tasks: desktopicon
-Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\Sistem Pembelian Bahan Baku PT. ALBASI; Filename: {app}\Albasi.exe; WorkingDir: {app}; Tasks: quicklaunchicon</p>
-
-<p>[INI]
-Filename: {app}\mysql\my.ini; Section: mysqld; Key: basedir; String: {app}\mysql; Tasks: installmysql
-Filename: {app}\mysql\my.ini; Section: mysqld; Key: datadir; String: {app}\mysql\data; Tasks: installmysql</p>
-
-<p>Filename: {app}\infoProgram.ini; Section: Sistem; Key: serverName; String: &ldquo;127.0.0.1&rdquo;
-Filename: {app}\infoProgram.ini; Section: Sistem; Key: dbName; String: &ldquo;albasi&rdquo;</p>
-
-<p>[Run]
-;install service MySQL
-Filename: &ldquo;{app}\mysql\bin\mysqld.exe&rdquo;; Parameters: &ldquo;install &rdquo;&ldquo;MySQL&rdquo;&ldquo;&rdquo;; StatusMsg: &ldquo;Sedang menginstall service MySQL &hellip;&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2; Tasks: installmysql</p>
-
-<p>;jalankan service MySQL
-Filename: {sys}\net.exe; Parameters: &ldquo;start &rdquo;&ldquo;MySQL&rdquo;&ldquo;&rdquo;; StatusMsg: &ldquo;Sedang menjalankan service MySQL &hellip;&rdquo;; Flags: runhidden; MinVersion: 0.0,4.0.1381; Tasks: installmysql</p>
-
-<p>;mendaftarkan port default mysql (3306) ke firewall
-Filename: &ldquo;{sys}\netsh.exe&rdquo;; Parameters: &ldquo;firewall add portopening TCP 3306 &rdquo;&ldquo;Port MySQL&rdquo;&ldquo;&rdquo;; StatusMsg: &ldquo;Sedang mendaftarkan port MySQL &hellip;&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2
-Filename: &ldquo;{sys}\netsh.exe&rdquo;; Parameters: &ldquo;firewall set service type = fileandprint mode = enable&rdquo;; StatusMsg: &ldquo;Mengaktifkan File and Printer Sharing &hellip;&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2</p>
-
-<p>;mengganti password default root (blank). ex : masterkey
-Filename: &ldquo;{app}\mysql\bin\mysqladmin.exe&rdquo;; Parameters: &ldquo;-uroot password masterkey&rdquo;; StatusMsg: &ldquo;Mengganti password root&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2</p>
-
-<p>;menghapus user default1 (user=blank, password=blank)
-Filename: &ldquo;{app}\mysql\bin\mysql.exe&rdquo;; Parameters: &ldquo;-uroot -pmasterkey -e &rdquo;&ldquo;DELETE FROM mysql.user WHERE Host=&lsquo;localhost&rsquo; AND User=&lsquo;&rsquo;&rdquo;&ldquo;&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2
-Filename: &ldquo;{app}\mysql\bin\mysql.exe&rdquo;; Parameters: &ldquo;-uroot -pmasterkey -e &rdquo;&ldquo;FLUSH PRIVILEGES&rdquo;&ldquo;&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2</p>
-
-<p>;menghapus user default2 (user=root, password=blank)
-Filename: &ldquo;{app}\mysql\bin\mysql.exe&rdquo;; Parameters: &ldquo;-uroot -pmasterkey -e &rdquo;&ldquo;DELETE FROM mysql.user WHERE Host=&lsquo;127.0.0.1&rsquo; AND User=&lsquo;root&rsquo;&rdquo;&ldquo;&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2
-Filename: &ldquo;{app}\mysql\bin\mysql.exe&rdquo;; Parameters: &ldquo;-uroot -pmasterkey -e &rdquo;&ldquo;FLUSH PRIVILEGES&rdquo;&ldquo;&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2</p>
-
-<p>;set agar user root bisa login dari mesin lain (kalo diperlukan)
-Filename: &ldquo;{app}\mysql\bin\mysql.exe&rdquo;; Parameters: &ldquo;-uroot -pmasterkey -e &rdquo;&ldquo;GRANT ALL PRIVILEGES ON <em>.</em> TO root@&lsquo;%&rsquo; IDENTIFIED BY &lsquo;masterkey&rsquo;&rdquo;&ldquo;&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2
-Filename: &ldquo;{app}\mysql\bin\mysql.exe&rdquo;; Parameters: &ldquo;-uroot -pmasterkey -e &rdquo;&ldquo;FLUSH PRIVILEGES&rdquo;&ldquo;&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2</p>
-
-<p>;membuat database kosong
-Filename: &ldquo;{app}\mysql\bin\mysql.exe&rdquo;; Parameters: &ldquo;-uroot -pmasterkey -e &rdquo;&ldquo;CREATE DATABASE albasi&rdquo;&ldquo;&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2</p>
-
-<p>;menjalankan file batch exec.cmd untuk melakukan proses undump
-Filename: &ldquo;{app}\mysql\bin\exec.cmd&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2</p>
-
-<p>;install driver myodbc
-Filename: &ldquo;{sys}\myodbc-installer.exe&rdquo;; Parameters: &ldquo;-d -a -n &rdquo;&ldquo;MySQL ODBC 5.1 Driver&rdquo;&ldquo; -t &rdquo;&ldquo;DRIVER=myodbc5.dll;SETUP=myodbc5S.dll&rdquo;&ldquo;&rdquo;; StatusMsg: &ldquo;Tunggu sedang mendaftarkan driver MySQL Connector ODBC 5.1.5&rdquo;; Flags: runhidden</p>
-
-<p>[UninstallRun]
-Filename: {sys}\net.exe; Parameters: &ldquo;stop &rdquo;&ldquo;MySQL&rdquo;&ldquo;&rdquo;; StatusMsg: &ldquo;Menghentikan Service MySQL &hellip;&rdquo;; Flags: runhidden; MinVersion: 0.0,4.0.1381
-Filename: &ldquo;{app}\mysql\bin\mysqld.exe&rdquo;; Parameters: &ldquo;remove &rdquo;&ldquo;MySQL&rdquo;&ldquo;&rdquo;; StatusMsg: &ldquo;Sedang menghapus service MySQL &hellip;&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2</p>
-
-<p>Filename: &ldquo;{sys}\myodbc-installer.exe&rdquo;; Parameters: &ldquo;-d -r -n &rdquo;&ldquo;MySQL ODBC 5.1 Driver&rdquo;&ldquo;&rdquo;; StatusMsg: &ldquo;Tunggu sedang menghapus driver MySQL Connector ODBC 5.1.5&rdquo;; Flags: runhidden</p>
-
-<p>[UninstallDelete]
-Type: files; Name: {app}\mysql\bin*.<em>
-Type: files; Name: {app}\mysql\Docs*.</em>
-Type: files; Name: {app}\mysql\lib*.<em>
-Type: files; Name: {app}\mysql\share*.</em></p>
-
-<p>Type: files; Name: {sys}\myodbc5S.dll
-Type: files; Name: {sys}\myodbc5S.lib
-Type: files; Name: {sys}\myodbc5.dll
-Type: files; Name: {sys}\myodbc5.lib
-Type: files; Name: {sys}\myodbc-installer.exe</p>
-
-<p>[Registry]
-;mencatat lokasi instalasi program, ini dibutuhkan jika kita ingin membuat paket instalasi update
-Root: HKCU; Subkey: &ldquo;Software\PT ALBASI\SPBB&rdquo;; ValueName: &ldquo;installDir&rdquo;; ValueType: String; ValueData: {app}; Flags: uninsdeletevalue
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+<span class='line-number'>152</span>
+<span class='line-number'>153</span>
+<span class='line-number'>154</span>
+<span class='line-number'>155</span>
+<span class='line-number'>156</span>
+<span class='line-number'>157</span>
+<span class='line-number'>158</span>
+<span class='line-number'>159</span>
+<span class='line-number'>160</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>;Skrip instalasi by k4m4r82
+</span><span class='line'>;&lt;a href="http://coding4ever.wordpress.com/">http://coding4ever.wordpress.com/&lt;/a>
+</span><span class='line'>[Setup]
+</span><span class='line'>AppName=Sistem Pembelian Bahan Baku PT. ALBASI
+</span><span class='line'>AppVerName=Sistem Pembelian Bahan Baku PT. ALBASI Versi 1.0.0.50
+</span><span class='line'>AppPublisher=K4m4r82&rsquo;s Laboratory
+</span><span class='line'>AllowCancelDuringInstall = yes
+</span><span class='line'>DefaultDirName={pf}\PT ALBASI
+</span><span class='line'>DefaultGroupName=PT ALBASI
+</span><span class='line'>Compression = lzma
+</span><span class='line'>SolidCompression = yes
+</span><span class='line'>OutputBaseFilename=SetupAlbasiServer
+</span><span class='line'>AllowNoIcons = yes
+</span><span class='line'>AlwaysRestart = no
+</span><span class='line'>AlwaysShowComponentsList = no
+</span><span class='line'>DisableProgramGroupPage = yes
+</span><span class='line'>AppendDefaultDirName = yes
+</span><span class='line'>CreateUninstallRegKey = yes
+</span><span class='line'>DisableStartupPrompt = yes
+</span><span class='line'>LanguageDetectionMethod=none
+</span><span class='line'>ShowLanguageDialog=no
+</span><span class='line'>Uninstallable = yes
+</span><span class='line'>UninstallFilesDir={app}\uninst
+</span><span class='line'>UninstallDisplayIcon={app}\Albasi.exe,0
+</span><span class='line'>UninstallDisplayName=Sistem Pembelian Bahan Baku PT. ALBASI
+</span><span class='line'>WindowVisible = no
+</span><span class='line'>AppCopyright=Copyright © 2009. K4m4r82&rsquo;s Laboratory
+</span><span class='line'>FlatComponentsList = yes
+</span><span class='line'>PrivilegesRequired = admin
+</span><span class='line'>VersionInfoVersion=1.0.0.50
+</span><span class='line'>SetupIconFile=Setup.ico
+</span><span class='line'>WizardImageFile=SetupModern21.bmp
+</span><span class='line'>WizardSmallImageFile=SetupModernSmall21.bmp&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>[Languages]
+</span><span class='line'>Name: ina; MessagesFile: compiler:Indonesia.isl
+</span><span class='line'>Name: en; MessagesFile: compiler:Default.isl&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>[Tasks]
+</span><span class='line'>Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
+</span><span class='line'>Name: quicklaunchicon; Description: {cm:CreateQuickLaunchIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
+</span><span class='line'>Name: installmysql; Description: &ldquo;Install MySQL&rdquo;; GroupDescription: &ldquo;Proses tambahan:&rdquo;; Flags: checkedonce&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>[Files]
+</span><span class='line'>;Visual Basic Runtime
+</span><span class='line'>Source: dll&amp;ocx\VB6STKIT.DLL; DestDir: {sys}; Flags: uninsneveruninstall onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\COMCAT.DLL; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\stdole2.tlb; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regtypelib
+</span><span class='line'>Source: dll&amp;ocx\asycfilt.dll; DestDir: {sys}; Flags: uninsneveruninstall onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\olepro32.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\oleaut32.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\msvbvm60.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>;daftar file MySQL
+</span><span class='line'>Source: mysql-5.1.36-win32\bin*; DestDir: {app}\mysql\bin; Flags: ignoreversion; Tasks: installmysql
+</span><span class='line'>Source: mysql-5.1.36-win32\Docs*; DestDir: {app}\mysql\Docs; Flags: ignoreversion; Tasks: installmysql
+</span><span class='line'>Source: mysql-5.1.36-win32\lib*; DestDir: {app}\mysql\lib; Flags: ignoreversion recursesubdirs; Tasks: installmysql
+</span><span class='line'>Source: mysql-5.1.36-win32\share*; DestDir: {app}\mysql\share; Flags: ignoreversion recursesubdirs; Tasks: installmysql
+</span><span class='line'>Source: mysql-5.1.36-win32\data*; DestDir: {app}\mysql\data; Flags: ignoreversion recursesubdirs uninsneveruninstall; Tasks: installmysql
+</span><span class='line'>Source: mysql-5.1.36-win32*; DestDir: {app}\mysql; Flags: ignoreversion; Tasks: installmysql&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>;daftar file MySQL ODBC 5.1
+</span><span class='line'>Source: &ldquo;C:\Program Files\MySQL\Connector ODBC 5.1\myodbc5.dll&rdquo;; DestDir: {sys}; Flags: onlyifdoesntexist
+</span><span class='line'>Source: &ldquo;C:\Program Files\MySQL\Connector ODBC 5.1\myodbc5S.dll&rdquo;; DestDir: {sys}; Flags: onlyifdoesntexist
+</span><span class='line'>Source: &ldquo;C:\Program Files\MySQL\Connector ODBC 5.1\myodbc5.lib&rdquo;; DestDir: {sys}; Flags: onlyifdoesntexist
+</span><span class='line'>Source: &ldquo;C:\Program Files\MySQL\Connector ODBC 5.1\myodbc5S.lib&rdquo;; DestDir: {sys}; Flags: onlyifdoesntexist
+</span><span class='line'>Source: &ldquo;C:\Program Files\MySQL\Connector ODBC 5.1\myodbc-installer.exe&rdquo;; DestDir: {sys}; Flags: onlyifdoesntexist&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>;My Application Runtime
+</span><span class='line'>Source: main\Albasi.exe.manifest; DestDir: {app}; Flags: ignoreversion
+</span><span class='line'>Source: main\Albasi.exe; DestDir: {app}; Flags: ignoreversion
+</span><span class='line'>Source: main\albasi.sql; DestDir: {app}\mysql\bin; Flags: ignoreversion
+</span><span class='line'>Source: main\exec.cmd; DestDir: {app}\mysql\bin; Flags: ignoreversion&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Source: dll&amp;ocx\MSMASK32.OCX; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\cTreeOpt6.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\Comdlg32.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\vbalDTab6.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\MSCOMCT2.OCX; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\MyTextBox.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\LVbuttons.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\vbalExpBar6.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\MSCOMCTL.OCX; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\vbalIml6.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\cPopMenu6.ocx; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\cNewMenu6.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\scrrun.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\vbalMDITabs6.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist
+</span><span class='line'>Source: dll&amp;ocx\SSubTmr6.dll; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regserver onlyifdoesntexist&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Source: dll&amp;ocx\msado21.tlb; DestDir: {sys}; Flags: uninsneveruninstall sharedfile regtypelib&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>[Icons]
+</span><span class='line'>Name: {group}\Sistem Pembelian Bahan Baku PT. ALBASI; Filename: {app}\Albasi.exe; WorkingDir: {app}
+</span><span class='line'>Name: {userdesktop}\Sistem Pembelian Bahan Baku PT. ALBASI; Filename: {app}\Albasi.exe; WorkingDir: {app}; Tasks: desktopicon
+</span><span class='line'>Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\Sistem Pembelian Bahan Baku PT. ALBASI; Filename: {app}\Albasi.exe; WorkingDir: {app}; Tasks: quicklaunchicon&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>[INI]
+</span><span class='line'>Filename: {app}\mysql\my.ini; Section: mysqld; Key: basedir; String: {app}\mysql; Tasks: installmysql
+</span><span class='line'>Filename: {app}\mysql\my.ini; Section: mysqld; Key: datadir; String: {app}\mysql\data; Tasks: installmysql&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Filename: {app}\infoProgram.ini; Section: Sistem; Key: serverName; String: &ldquo;127.0.0.1&rdquo;
+</span><span class='line'>Filename: {app}\infoProgram.ini; Section: Sistem; Key: dbName; String: &ldquo;albasi&rdquo;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>[Run]
+</span><span class='line'>;install service MySQL
+</span><span class='line'>Filename: &ldquo;{app}\mysql\bin\mysqld.exe&rdquo;; Parameters: &ldquo;install &rdquo;&ldquo;MySQL&rdquo;&ldquo;&rdquo;; StatusMsg: &ldquo;Sedang menginstall service MySQL &hellip;&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2; Tasks: installmysql&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>;jalankan service MySQL
+</span><span class='line'>Filename: {sys}\net.exe; Parameters: &ldquo;start &rdquo;&ldquo;MySQL&rdquo;&ldquo;&rdquo;; StatusMsg: &ldquo;Sedang menjalankan service MySQL &hellip;&rdquo;; Flags: runhidden; MinVersion: 0.0,4.0.1381; Tasks: installmysql&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>;mendaftarkan port default mysql (3306) ke firewall
+</span><span class='line'>Filename: &ldquo;{sys}\netsh.exe&rdquo;; Parameters: &ldquo;firewall add portopening TCP 3306 &rdquo;&ldquo;Port MySQL&rdquo;&ldquo;&rdquo;; StatusMsg: &ldquo;Sedang mendaftarkan port MySQL &hellip;&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2
+</span><span class='line'>Filename: &ldquo;{sys}\netsh.exe&rdquo;; Parameters: &ldquo;firewall set service type = fileandprint mode = enable&rdquo;; StatusMsg: &ldquo;Mengaktifkan File and Printer Sharing &hellip;&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>;mengganti password default root (blank). ex : masterkey
+</span><span class='line'>Filename: &ldquo;{app}\mysql\bin\mysqladmin.exe&rdquo;; Parameters: &ldquo;-uroot password masterkey&rdquo;; StatusMsg: &ldquo;Mengganti password root&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>;menghapus user default1 (user=blank, password=blank)
+</span><span class='line'>Filename: &ldquo;{app}\mysql\bin\mysql.exe&rdquo;; Parameters: &ldquo;-uroot -pmasterkey -e &rdquo;&ldquo;DELETE FROM mysql.user WHERE Host=&lsquo;localhost&rsquo; AND User=&lsquo;&rsquo;&rdquo;&ldquo;&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2
+</span><span class='line'>Filename: &ldquo;{app}\mysql\bin\mysql.exe&rdquo;; Parameters: &ldquo;-uroot -pmasterkey -e &rdquo;&ldquo;FLUSH PRIVILEGES&rdquo;&ldquo;&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>;menghapus user default2 (user=root, password=blank)
+</span><span class='line'>Filename: &ldquo;{app}\mysql\bin\mysql.exe&rdquo;; Parameters: &ldquo;-uroot -pmasterkey -e &rdquo;&ldquo;DELETE FROM mysql.user WHERE Host=&lsquo;127.0.0.1&rsquo; AND User=&lsquo;root&rsquo;&rdquo;&ldquo;&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2
+</span><span class='line'>Filename: &ldquo;{app}\mysql\bin\mysql.exe&rdquo;; Parameters: &ldquo;-uroot -pmasterkey -e &rdquo;&ldquo;FLUSH PRIVILEGES&rdquo;&ldquo;&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>;set agar user root bisa login dari mesin lain (kalo diperlukan)
+</span><span class='line'>Filename: &ldquo;{app}\mysql\bin\mysql.exe&rdquo;; Parameters: &ldquo;-uroot -pmasterkey -e &rdquo;&ldquo;GRANT ALL PRIVILEGES ON &lt;em>.&lt;/em> TO root@&lsquo;%&rsquo; IDENTIFIED BY &lsquo;masterkey&rsquo;&rdquo;&ldquo;&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2
+</span><span class='line'>Filename: &ldquo;{app}\mysql\bin\mysql.exe&rdquo;; Parameters: &ldquo;-uroot -pmasterkey -e &rdquo;&ldquo;FLUSH PRIVILEGES&rdquo;&ldquo;&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>;membuat database kosong
+</span><span class='line'>Filename: &ldquo;{app}\mysql\bin\mysql.exe&rdquo;; Parameters: &ldquo;-uroot -pmasterkey -e &rdquo;&ldquo;CREATE DATABASE albasi&rdquo;&ldquo;&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>;menjalankan file batch exec.cmd untuk melakukan proses undump
+</span><span class='line'>Filename: &ldquo;{app}\mysql\bin\exec.cmd&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>;install driver myodbc
+</span><span class='line'>Filename: &ldquo;{sys}\myodbc-installer.exe&rdquo;; Parameters: &ldquo;-d -a -n &rdquo;&ldquo;MySQL ODBC 5.1 Driver&rdquo;&ldquo; -t &rdquo;&ldquo;DRIVER=myodbc5.dll;SETUP=myodbc5S.dll&rdquo;&ldquo;&rdquo;; StatusMsg: &ldquo;Tunggu sedang mendaftarkan driver MySQL Connector ODBC 5.1.5&rdquo;; Flags: runhidden&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>[UninstallRun]
+</span><span class='line'>Filename: {sys}\net.exe; Parameters: &ldquo;stop &rdquo;&ldquo;MySQL&rdquo;&ldquo;&rdquo;; StatusMsg: &ldquo;Menghentikan Service MySQL &hellip;&rdquo;; Flags: runhidden; MinVersion: 0.0,4.0.1381
+</span><span class='line'>Filename: &ldquo;{app}\mysql\bin\mysqld.exe&rdquo;; Parameters: &ldquo;remove &rdquo;&ldquo;MySQL&rdquo;&ldquo;&rdquo;; StatusMsg: &ldquo;Sedang menghapus service MySQL &hellip;&rdquo;; Flags: runhidden; MinVersion: 0,5.01.2600sp2&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Filename: &ldquo;{sys}\myodbc-installer.exe&rdquo;; Parameters: &ldquo;-d -r -n &rdquo;&ldquo;MySQL ODBC 5.1 Driver&rdquo;&ldquo;&rdquo;; StatusMsg: &ldquo;Tunggu sedang menghapus driver MySQL Connector ODBC 5.1.5&rdquo;; Flags: runhidden&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>[UninstallDelete]
+</span><span class='line'>Type: files; Name: {app}\mysql\bin*.&lt;em>
+</span><span class='line'>Type: files; Name: {app}\mysql\Docs*.&lt;/em>
+</span><span class='line'>Type: files; Name: {app}\mysql\lib*.&lt;em>
+</span><span class='line'>Type: files; Name: {app}\mysql\share*.&lt;/em>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Type: files; Name: {sys}\myodbc5S.dll
+</span><span class='line'>Type: files; Name: {sys}\myodbc5S.lib
+</span><span class='line'>Type: files; Name: {sys}\myodbc5.dll
+</span><span class='line'>Type: files; Name: {sys}\myodbc5.lib
+</span><span class='line'>Type: files; Name: {sys}\myodbc-installer.exe&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>[Registry]
+</span><span class='line'>;mencatat lokasi instalasi program, ini dibutuhkan jika kita ingin membuat paket instalasi update
+</span><span class='line'>Root: HKCU; Subkey: &ldquo;Software\PT ALBASI\SPBB&rdquo;; ValueName: &ldquo;installDir&rdquo;; ValueType: String; ValueData: {app}; Flags: uninsdeletevalue</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Di dalam skrip instalasi ada file exec.cmd, isinya adalah :</p>
 
-<p>{% codeblock %}
-mysql -uroot -pmasterkey albasi &lt; albasi.sql
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mysql -uroot -pmasterkey albasi &lt; albasi.sql</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Isi file exec.cmd sebenarnya untuk proses undump, tapi saya masih belum tau kenapa inno setup gagal menjalankannya padahal perintah-perintah yang lainnya sukses.</p>
 
 <p>Contoh hasil instalasi :</p>
 
-<p>{% img center <a href="http://coding4ever.files.wordpress.com/2009/12/install-1.jpg">http://coding4ever.files.wordpress.com/2009/12/install-1.jpg</a> %}</p>
+<p><img class="center <a" src="href="http://coding4ever.files.wordpress.com/2009/12/install-1.jpg">http://coding4ever.files.wordpress.com/2009/12/install-1.jpg</a>&#8221;></p>
 
-<p>{% img center <a href="http://coding4ever.files.wordpress.com/2009/12/install-2.jpg">http://coding4ever.files.wordpress.com/2009/12/install-2.jpg</a> %}</p>
+<p><img class="center <a" src="href="http://coding4ever.files.wordpress.com/2009/12/install-2.jpg">http://coding4ever.files.wordpress.com/2009/12/install-2.jpg</a>&#8221;></p>
 
-<p>{% img center <a href="http://coding4ever.files.wordpress.com/2009/12/install-3.jpg">http://coding4ever.files.wordpress.com/2009/12/install-3.jpg</a> %}</p>
+<p><img class="center <a" src="href="http://coding4ever.files.wordpress.com/2009/12/install-3.jpg">http://coding4ever.files.wordpress.com/2009/12/install-3.jpg</a>&#8221;></p>
 
-<p>{% img center <a href="http://coding4ever.files.wordpress.com/2009/12/install-4.jpg">http://coding4ever.files.wordpress.com/2009/12/install-4.jpg</a> %}</p>
+<p><img class="center <a" src="href="http://coding4ever.files.wordpress.com/2009/12/install-4.jpg">http://coding4ever.files.wordpress.com/2009/12/install-4.jpg</a>&#8221;></p>
 
-<p>{% img center <a href="http://coding4ever.files.wordpress.com/2009/12/install-5.jpg">http://coding4ever.files.wordpress.com/2009/12/install-5.jpg</a> %}</p>
+<p><img class="center <a" src="href="http://coding4ever.files.wordpress.com/2009/12/install-5.jpg">http://coding4ever.files.wordpress.com/2009/12/install-5.jpg</a>&#8221;></p>
 
-<p>{% img center <a href="http://coding4ever.files.wordpress.com/2009/12/install-6.jpg">http://coding4ever.files.wordpress.com/2009/12/install-6.jpg</a> %}</p>
+<p><img class="center <a" src="href="http://coding4ever.files.wordpress.com/2009/12/install-6.jpg">http://coding4ever.files.wordpress.com/2009/12/install-6.jpg</a>&#8221;></p>
 
 <p>Yuph mungkin itu saja, selamat mencoba :)</p>
 ]]></content>

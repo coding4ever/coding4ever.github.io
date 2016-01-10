@@ -4,7 +4,7 @@
   <title><![CDATA[Category: autoupdater.net | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/autoupdater-dot-net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-01-10T11:09:28+07:00</updated>
+  <updated>2016-01-10T11:14:35+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -37,7 +37,7 @@
 
 <p>File exe ini akan kita simpan di server, file inilah yang akan didownload oleh klien jika ada updatean terbaru. Jika akan mengupdate beberapa file sekaligus, misal selain mengupdate file exe juga mengupdate file <a href="https://en.wikipedia.org/wiki/Dynamic-link_library">dll</a>, untuk kasus seperti ini kita bisa menggunakan <a href="/blog/categories/tools-installer/">paket installer</a>.</p>
 
-<p>Ada banyak <a href="/blog/categories/tools-installer/">tools gratis</a> untuk membuat <a href="/blog/categories/tools-installer/">paket installer</a> seperti <a href="/blog/categories/inno-setup/">Inno Setup</a> dan <a href="(/blog/categories/nsis/">NSIS</a>. Untuk contoh pembuatan paket installer update bisa dilihat di <a href="/blog/2009/12/29/membuat-paket-instalasi-update-program-menggunakan-inno-setup/">sini</a> dan <a href="/blog/2009/12/29/membuat-paket-instalasi-update-program-menggunakan-nsis/">sini</a>.</p>
+<p>Ada banyak <a href="/blog/categories/tools-installer/">tools gratis</a> untuk membuat <a href="/blog/categories/tools-installer/">paket installer</a> seperti <a href="/blog/categories/inno-setup/">Inno Setup</a> dan <a href="/blog/categories/nsis/">NSIS</a>. Untuk contoh pembuatan paket installer update bisa dilihat di <a href="/blog/2009/12/29/membuat-paket-instalasi-update-program-menggunakan-inno-setup/">sini</a> dan <a href="/blog/2009/12/29/membuat-paket-instalasi-update-program-menggunakan-nsis/">sini</a>.</p>
 
 <h5>2. File Info Rilis</h5>
 
