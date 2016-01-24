@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Visual C# | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/visual-c-number/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-01-24T15:25:33+07:00</updated>
+  <updated>2016-01-24T17:03:04+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -18,7 +18,7 @@
     <link href="http://coding4ever.net/blog/2016/01/24/membuat-laporan-crystal-reports-net-dengan-model-data-push-bagian-number-2/"/>
     <updated>2016-01-24T15:25:29+07:00</updated>
     <id>http://coding4ever.net/blog/2016/01/24/membuat-laporan-crystal-reports-net-dengan-model-data-push-bagian-number-2</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg">https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Melanjutkan pembahasan tentang bagaimana cara mendesain laporan menggunakan Crystal Reports‎ .NET tanpa terhubungan langsung ke database dengan memanfaatkan objek ADO.NET DataSet atau yang dikenal dengan istilah <a href="/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push/">Push model</a>.</p>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg">https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Melanjutkan pembahasan tentang bagaimana cara mendesain laporan menggunakan Crystal Reports‎ .NET tanpa terhubung langsung ke database dengan memanfaatkan objek ADO.NET DataSet atau yang dikenal dengan istilah <a href="/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push/">Push model</a>.</p>
 
 <!-- more -->
 
@@ -79,7 +79,7 @@
 
 <p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-10.png">https://coding4ever.files.wordpress.com/2016/01/240116-10.png</a>&#8221;></p>
 
-<p>Kode di atas menggunakan <a href="/blog/categories/dapper-net/">micro ORM</a> <a href="/blog/categories/dapper-net/">Dapper.NET</a> untuk melakukan mapping/pemetaan hasil query ke objek collection.</p>
+<p>Kode di atas menggunakan <a href="/blog/categories/dapper-net/">Micro ORM</a> <a href="/blog/categories/dapper-net/">Dapper.NET</a> untuk melakukan mapping/pemetaan hasil query ke objek collection.</p>
 
 <p>Kemudian kita panggil seperti berikut :</p>
 
