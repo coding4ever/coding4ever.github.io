@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Visual C# | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/visual-c-number/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-01-10T11:37:24+07:00</updated>
+  <updated>2016-01-24T15:19:04+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,152 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Membuat Laporan Crystal Reports .NET Dengan Model Data-Push Bagian #2]]></title>
+    <link href="http://coding4ever.net/blog/2016/01/24/membuat-laporan-crystal-reports-net-dengan-model-data-push-bagian-number-2/"/>
+    <updated>2016-01-24T13:30:29+07:00</updated>
+    <id>http://coding4ever.net/blog/2016/01/24/membuat-laporan-crystal-reports-net-dengan-model-data-push-bagian-number-2</id>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg">https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Melanjutkan pembahasan tentang bagaimana cara mendesain laporan menggunakan Crystal Reports‎ .NET tanpa terhubungan langsung ke database dengan memanfaatkan objek ADO.NET DataSet atau yang dikenal dengan istilah <a href="/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push/">Push model</a>.</p>
+
+<!-- more -->
+
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-01.png">https://coding4ever.files.wordpress.com/2016/01/240116-01.png</a>&#8221;></p>
+
+<p>Jika pada postingan <a href="/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push/">sebelumnya</a> kita hanya menampilkan data dari sebuah tabel maka untuk <a href="/blog/2016/01/24/membuat-laporan-crystal-reports-net-dengan-model-data-push-bagian-number-2/">postingan</a> kali ini kita menampilkan data dari tiga buah tabel yang saling berhubungan.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-02.png">https://coding4ever.files.wordpress.com/2016/01/240116-02.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-03.png">https://coding4ever.files.wordpress.com/2016/01/240116-03.png</a>&#8221;></p>
+
+<p>Persiapan tool-tool yang akan digunakan :</p>
+
+<ol>
+<li><a href="http://www.visualstudio.com/en-us/downloads/download-visual-studio-vs#d-community">Visual Studio Community 2013</a>, Anda bisa saja menggunakan Visual Studio .NET versi sebelumnya (2010, 2012)</li>
+<li><a href="/blog/categories/nuget/">NuGet</a>, untuk memudahkan dalam menambahkan library pihak ketiga. Adapun library pihak ketiga yang digunakan dalam sample ini adalah <a href="/blog/categories/dapper-net/">Dapper .NET</a> dan <a href="http://www.nuget.org/packages/System.Data.SQLite.Core/">System.Data.SQLite Core</a></li>
+<li><a href="http://scn.sap.com/docs/DOC-7824">Crystal Reports SP 13</a></li>
+<li>Database <a href="http://www.sqlite.org/">SQLite</a></li>
+</ol>
+
+
+<p>Setelah semua tool yang dibutuhkan tersedia kita lanjutkan dengan pembuatan project :</p>
+
+<ol>
+<li><p>Buat project baru dengan type WinForm</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-04.png">https://coding4ever.files.wordpress.com/2016/01/240116-04.png</a>&#8221;></p></li>
+<li><p>Tambahkan empat folder baru masing-masing dengan nama DataSet, Model, Repository dan Report</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-05.png">https://coding4ever.files.wordpress.com/2016/01/240116-05.png</a>&#8221;></p></li>
+</ol>
+
+
+<p>Folder DataSet digunakan untuk mengelompokkan item-item DataSet yang berfungsi sebagai tabel temporary, folder Model untuk mengelompokkan class-class model atau entity, folder <a href="https://msdn.microsoft.com/en-us/library/ff649690.aspx">Repository</a> untuk mengelompokkan class-class akses database dan terakhir folder Report untuk mengelompokkan item-item Crystal Reports.</p>
+
+<h5>Class Model/Entity</h5>
+
+<p>Untuk menerapkan konsep OOP (Object-oriented programming) dalam pemrograman database kita perlu membuat sebuah class yang disebut dengan istilah class Model atau Entity. Class ini merupakan representasi dari tabel-tabel yang ada di dalam database. Tujuan dari membuat class ini adalah agar kita bisa melakukan mapping (pemetaan) baris/row dari tabel menjadi kumpulan objek (object collection).</p>
+
+<p>Pemetaan bisa dilakukan secara manual atau bisa juga secara otomatis dengan menggunakan tool-tool ORM dari pihak ketiga seperti <a href="/blog/categories/dapper-net/">Dapper .NET</a> dan <a href="](/blog/categories/entity-framework/">Entity Framework</a>. Untuk contoh kali ini kita menggunakan <a href="/blog/categories/dapper-net/">Dapper .NET</a>.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-06.png">https://coding4ever.files.wordpress.com/2016/01/240116-06.png</a>&#8221;></p>
+
+<p>Setelah memahami apa itu class model dan bagaimana proses pemetaan record ke objek terjadi, langkah berikutnya adalah menambahkan class model <em>Category, Product</em> dan <em>Supplier</em> yang mempunyai struktur sama persis dengan rancangan tabel di atas.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-07.png">https://coding4ever.files.wordpress.com/2016/01/240116-07.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-08.png">https://coding4ever.files.wordpress.com/2016/01/240116-08.png</a>&#8221;></p>
+
+<h5>Class Repository</h5>
+
+<p>Class <a href="https://msdn.microsoft.com/en-us/library/ff649690.aspx">repository</a> adalah class yang bertugas untuk menangani operasi database yang dikenal dengan istilah operasi CRUD (Create, Read, Update dan Delete). Di dalam class inilah kita menuliskan perintah-perintah INSERT, UPDATE, DELETE dan SELECT.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-09.png">https://coding4ever.files.wordpress.com/2016/01/240116-09.png</a>&#8221;></p>
+
+<p>Sebagai contoh kode dibawah ini akan melakukan mapping (pemetaan) baris/row tabel menjadi kumpulan objek (object collection) secara otomatis.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-10.png">https://coding4ever.files.wordpress.com/2016/01/240116-10.png</a>&#8221;></p>
+
+<p>Kode di atas menggunakan <a href="/blog/categories/dapper-net/">micro ORM</a> <a href="/blog/categories/dapper-net/">Dapper.NET</a> untuk melakukan mapping/pemetaan hasil query ke objek collection.</p>
+
+<p>Kemudian kita panggil seperti berikut :</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-11.png">https://coding4ever.files.wordpress.com/2016/01/240116-11.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-12.png">https://coding4ever.files.wordpress.com/2016/01/240116-12.png</a>&#8221;></p>
+
+<h5>DataSet</h5>
+
+<p>Dengan model <a href="/blog/categories/crystal-reports-net/">data Push</a> kita tidak langsung menghubungkan antara Crystal Reports dengan database, jadi sebagai solusinya kita menggunakan DataSet yang berfungsi sebagai tabel temporary dan menjadi sumber data bagi Crystal Reports.</p>
+
+<p>Untuk menambahkan item DataSet, klik kanan Project -> Add -> New Item…</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-13.png">https://coding4ever.files.wordpress.com/2016/01/240116-13.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-14.png">https://coding4ever.files.wordpress.com/2016/01/240116-14.png</a>&#8221;></p>
+
+<p>Setelah menambahkan item DataSet (DsNorthwind), langkah berikutnya adalah menambahkan item DataTable</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-15.png">https://coding4ever.files.wordpress.com/2016/01/240116-15.png</a>&#8221;></p>
+
+<p>Kemudian input informasi DataTablenya seperti gambar berikut :</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-16.png">https://coding4ever.files.wordpress.com/2016/01/240116-16.png</a>&#8221;></p>
+
+<p>Ulangi langkah sebelumnya untuk menambahkan DataTable lainnya.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-17.png">https://coding4ever.files.wordpress.com/2016/01/240116-17.png</a>&#8221;></p>
+
+<h5>Crystal Reports</h5>
+
+<p>Crystal Reports adalah tool yang kita gunakan untuk membuat laporan. Untuk menambahkan item Crystal Report, klik kanan Project -> Add -> New Item…</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-18.png">https://coding4ever.files.wordpress.com/2016/01/240116-18.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-19.png">https://coding4ever.files.wordpress.com/2016/01/240116-19.png</a>&#8221;></p>
+
+<p>Pilih “As a Blank Report” karena kita akan mendesain report secara manual.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-20.png">https://coding4ever.files.wordpress.com/2016/01/240116-20.png</a>&#8221;></p>
+
+<p>Langkah berikutnya adalah menentukan sumber data yang kita arahkan ke item DataSet yang sudah kita buat pada langkah sebelumnya</p>
+
+<p>Klik kanan Database Fields -> Database Expert &hellip;</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-21.png">https://coding4ever.files.wordpress.com/2016/01/240116-21.png</a>&#8221;></p>
+
+<p>Pilih ADO.NET DataSet</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-22.png">https://coding4ever.files.wordpress.com/2016/01/240116-22.png</a>&#8221;></p>
+
+<p>Drag satu-satu field ke section detail, kemudian dirapikan.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-23.png">https://coding4ever.files.wordpress.com/2016/01/240116-23.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-24.png">https://coding4ever.files.wordpress.com/2016/01/240116-24.png</a>&#8221;></p>
+
+<h5>Crystal Report Viewer</h5>
+
+<p>Setelah semua persiapan selesai, langkah berikutnya adalah menambahkan Crystal Report Viewer yang berfungsi sebagai container untuk untuk menampilkan report.</p>
+
+<p>Aktifkan form kemudian tambahkan Crystal Report Viewer</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-25.png">https://coding4ever.files.wordpress.com/2016/01/240116-25.png</a>&#8221;></p>
+
+<p>Kemudian tambahkan kode berikut :</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-26.png">https://coding4ever.files.wordpress.com/2016/01/240116-26.png</a>&#8221;></p>
+
+<p>Dari kode di atas kita bisa melihat tidak ada lagi kode untuk mengeset koneksi database dan perintah SQL yang akan dikirimkan. Cara ini sangat cocok digunakan ketika kita akan membangun sistem dengan arsitektur <a href="](/blog/2012/02/01/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-1/">N-Tier</a>, di mana aplikasi klien sudah tidak terkoneksi lagi secara langsung ke database.</p>
+
+<p>Jika kode di atas dijalankan, akan menghasilkan output seperti gambar di bawah ini.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-27.png">https://coding4ever.files.wordpress.com/2016/01/240116-27.png</a>&#8221;></p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/DemoCRPushModel2">MENCOBA</a> :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Paket NuGet Yang Wajib Dicoba Bagian #2 - AutoUpdater.NET]]></title>
@@ -549,152 +695,6 @@
 <p>Tampilan jika diakses dari <code>WCF Test Client</code></p>
 
 <p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/050615-19.png">https://coding4ever.files.wordpress.com/2015/06/050615-19.png</a>&#8221;></p>
-
-<p>Yuph sampai disini saja untuk postingan kali ini, insyaAlloh akan kita lanjutkan pada kesempatan berikutnya.</p>
-
-<p>Selamat <a href="https://github.com/k4m4r82/Calculator">MENCOBA</a> :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Tutorial WCF Service Bagian #2]]></title>
-    <link href="http://coding4ever.net/blog/2015/05/09/tutorial-wcf-service-bagian-number-2/"/>
-    <updated>2015-05-09T09:34:34+07:00</updated>
-    <id>http://coding4ever.net/blog/2015/05/09/tutorial-wcf-service-bagian-number-2</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-16.png">https://coding4ever.files.wordpress.com/2015/05/020515-16.png</a>&#8221; width=&#8221;100&#8221; height=&#8221;100&#8221;>Melanjutkan pembahasan <a href="/blog/2015/05/02/tutorial-wcf-service-bagian-number-1/">postingan</a> sebelumnya yaitu tentang pembuatan web service menggunakan teknologi <a href="/blog/categories/wcf/">WCF</a>.</p>
-
-<p>Kita sudah menyelesaikan project pertama yaitu pembuatan project <a href="/blog/2015/05/02/tutorial-wcf-service-bagian-number-1/">CalculatorLib</a> dan kita lanjutkan dengan pembuatan project CalculatorServer.</p>
-
-<!-- more -->
-
-
-<p>Sebagai review CalculatorServer adalah project yang akan mengimplementasikan semua method abstract yang ada pada interface ICalculator (project <a href="https://github.com/k4m4r82/Calculator">CalculatorLib</a> selain itu project CalculatorServer juga akan kita <code>hostkan</code> sehingga bisa menjadi web service. Apa yang dimaksud dengan <code>host</code> disini, silahkan baca postingan <a href="/blog/2015/05/02/tutorial-wcf-service-bagian-number-1/">Tutorial WCF Service Bagian #1</a>.</p>
-
-<p>Aktifkan kembali solution <a href="https://github.com/k4m4r82/Calculator">Calculator</a> yang di dalamnya sudah ada project CalculatorLib.</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-02.png">https://coding4ever.files.wordpress.com/2015/05/020515-02.png</a>&#8221;></p>
-
-<p>Kita akan menambahkan project CalculatorServer masih di solution yang sama</p>
-
-<h3>Menambahkan Project CalculatorServer</h3>
-
-<ol>
-<li><p>Klik kanan Solution Calculator -> Add -> New Project</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-01.png">https://coding4ever.files.wordpress.com/2015/05/090515-01.png</a>&#8221;></p></li>
-<li><p>Pada dialog Add New Project aktifkan pilihan Visual C# kemudian pilih Templates Class Library</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-02.png">https://coding4ever.files.wordpress.com/2015/05/090515-02.png</a>&#8221;></p>
-
-<p>Pada isian Name isikan CalculatorServer untuk isian Location dibiarkan saja setelah itu klik Ok. Jika langkah sebelumnya berhasil maka pada solution Calculator akan ketambahan 1 project baru yaitu CalculatorServer.</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-03.png">https://coding4ever.files.wordpress.com/2015/05/090515-03.png</a>&#8221;></p>
-
-<p>Kemudian hapus class <code>Class1</code></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-04.png">https://coding4ever.files.wordpress.com/2015/05/090515-04.png</a>&#8221;></p></li>
-</ol>
-
-
-<h3>Menambahkan Class Calculator</h3>
-
-<p>Class Calculator adalah class yang akan mengimplementasikan semua method abstract dari interface ICalculator yang sudah kita buat pada project sebelumnya (<a href="/blog/2015/05/02/tutorial-wcf-service-bagian-number-1/">CalculatorLib</a>).</p>
-
-<ol>
-<li><p>Klik kanan project CalculatorServer -> Add -> Class…</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-05.png">https://coding4ever.files.wordpress.com/2015/05/090515-05.png</a>&#8221;></p>
-
-<p>Pada isian Name diisi <code>Calculator</code></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-06.png">https://coding4ever.files.wordpress.com/2015/05/090515-06.png</a>&#8221;></p>
-
-<p>Setelah itu akan tampil editor code class Calculator</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-07.png">https://coding4ever.files.wordpress.com/2015/05/090515-07.png</a>&#8221;></p>
-
-<p>Jangan lupa untuk menambahkan access modifier <code>public</code>.</p>
-
-<p>Sebelum kita melengkapi kode class Calculator di atas, terlebih dulu kita harus menambahkan referensi <a href="https://github.com/k4m4r82/Calculator">CalculatorLib</a> yang sudah kita buat pada project sebelumnya, tujuannya adalah agar class Calculator bisa mengakses interface ICalculator dan mengimplementasikan semua method abstractnya.</p></li>
-<li><p>Klik kanan node References -> Add Reference…</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-08.png">https://coding4ever.files.wordpress.com/2015/05/090515-08.png</a>&#8221;></p></li>
-<li><p>Aktifkan panel Solution kemudian pilih project CalculatorLib</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-09.png">https://coding4ever.files.wordpress.com/2015/05/090515-09.png</a>&#8221;></p>
-
-<p>Jika langkah sebelumnya berhasil akan ketambahan 1 buah node dengan nama CalculatorLib pada node References</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-10.png">https://coding4ever.files.wordpress.com/2015/05/090515-10.png</a>&#8221;></p>
-
-<p>Selanjutnya kita lengkapi kode class Calculator di atas, seperti di bawah ini.</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-11.png">https://coding4ever.files.wordpress.com/2015/05/090515-11.png</a>&#8221;></p>
-
-<p>Sampai disini kita sudah bisa mencoba untuk meng-compile project CalculatorServer dengan cara klik kanan project <code>CalculatorServer</code> -> <code>Build</code></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-12.png">https://coding4ever.files.wordpress.com/2015/05/090515-12.png</a>&#8221;></p>
-
-<p>Apa yang terjadi ??? Masih error bukan ?</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-13.png">https://coding4ever.files.wordpress.com/2015/05/090515-13.png</a>&#8221;></p>
-
-<p>Error ini terjadi karena class Calculator mengimplementasikan interface ICalculator sedangkan method-method abstractnya (Penambahan, Pengurangan, Perkalian dan Pembagian) belum kita definisikan ulang / override di class Calculator.</p></li>
-</ol>
-
-
-<h3>Mengimplementasikan Method Abastract Interface ICalculator secara Otomatis</h3>
-
-<p>Untuk mengatasi error pada langkah sebelumnya kita tinggal klik kanan pada tulisan interface ICalculator ->Implement Interface -> Implement Interface</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-14.png">https://coding4ever.files.wordpress.com/2015/05/090515-14.png</a>&#8221;></p>
-
-<p>Kemudian secara otomatis semua implementasi method abstract dari interface ICalculator akan ditambahkan.</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-15.png">https://coding4ever.files.wordpress.com/2015/05/090515-15.png</a>&#8221;></p>
-
-<p>Setelah itu kita tinggal melengkapi kode untuk masing-masing method diatas.</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-16.png">https://coding4ever.files.wordpress.com/2015/05/090515-16.png</a>&#8221;></p>
-
-<p>Sekarang kita coba lagi untuk meng-compile ulang project CalculatorServer dengan cara klik kanan project <code>CalculatorServer</code> -> <code>Build</code></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-12.png">https://coding4ever.files.wordpress.com/2015/05/090515-12.png</a>&#8221;></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-17.png">https://coding4ever.files.wordpress.com/2015/05/090515-17.png</a>&#8221;></p>
-
-<h3>WCF Service Behavior</h3>
-
-<p>WCF service behavior digunakan untuk mengatur behavior atau prilaku WCF service ketika menangani request atau permintaan dari klien.</p>
-
-<p>Jika kita mempunyai behavior atau tingkah laku yang baik, otomatis kita juga bisa menjadi orang yang lebih baik, benar atau tidak ? :-D</p>
-
-<p>Begitu juga dengan WCF Service Behavior, dengan attribut ini kita bisa mengatur hal-hal yang berhubungan dengan :</p>
-
-<ul>
-<li>Concurrency</li>
-<li>Throttling</li>
-<li>Transaction</li>
-<li>Instance Context/Session Management</li>
-<li>Thread Behavior</li>
-</ul>
-
-
-<p>Untuk informasi yang lebih lengkap tentang WCF Service Behavior, silahkan baca artikel <a href="http://www.codeproject.com/Articles/443576/Implementing-WCF-Service-Behaviors">Implementing WCF Service Behaviors</a> dan <a href="http://www.codeproject.com/Articles/89858/WCF-Concurrency-Single-Multiple-and-Reentrant-and">WCF Concurrency (Single, Multiple, and Reentrant) and Throttling</a>.</p>
-
-<p>Sebagi contoh kita akan mengeset behavior untuk <code>Concurrency</code> dan <code>Instance Context</code> dengan model Concurrency = Single dan Instance Context = Per Call via attribute WCF service behavior.</p>
-
-<p>Untuk menggunakan attribute WCF service behavior, tambahkan terlebih dulu referensi <code>System.ServiceModel</code></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-18.png">https://coding4ever.files.wordpress.com/2015/05/090515-18.png</a>&#8221;></p>
-
-<p>Kemudian tambahkan juga di bagian <code>using</code></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-19.png">https://coding4ever.files.wordpress.com/2015/05/090515-19.png</a>&#8221;></p>
-
-<p>Setelah itu revisi class Calculator menjadi seperti berikut :</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/05/090515-20.png">https://coding4ever.files.wordpress.com/2015/05/090515-20.png</a>&#8221;></p>
 
 <p>Yuph sampai disini saja untuk postingan kali ini, insyaAlloh akan kita lanjutkan pada kesempatan berikutnya.</p>
 

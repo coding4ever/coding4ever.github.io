@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-01-10T11:37:24+07:00</updated>
+  <updated>2016-01-24T15:19:04+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,152 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Membuat Laporan Crystal Reports .NET Dengan Model Data-Push Bagian #2]]></title>
+    <link href="http://coding4ever.net/blog/2016/01/24/membuat-laporan-crystal-reports-net-dengan-model-data-push-bagian-number-2/"/>
+    <updated>2016-01-24T13:30:29+07:00</updated>
+    <id>http://coding4ever.net/blog/2016/01/24/membuat-laporan-crystal-reports-net-dengan-model-data-push-bagian-number-2</id>
+    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg" width="120" height="100">Melanjutkan pembahasan tentang bagaimana cara mendesain laporan menggunakan Crystal Reports‎ .NET tanpa terhubungan langsung ke database dengan memanfaatkan objek ADO.NET DataSet atau yang dikenal dengan istilah <a href="http://coding4ever.net/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push/">Push model</a>.</p>
+
+<!-- more -->
+
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-01.png"></p>
+
+<p>Jika pada postingan <a href="http://coding4ever.net/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push/">sebelumnya</a> kita hanya menampilkan data dari sebuah tabel maka untuk <a href="http://coding4ever.net/blog/2016/01/24/membuat-laporan-crystal-reports-net-dengan-model-data-push-bagian-number-2/">postingan</a> kali ini kita menampilkan data dari tiga buah tabel yang saling berhubungan.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-02.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-03.png"></p>
+
+<p>Persiapan tool-tool yang akan digunakan :</p>
+
+<ol>
+<li><a href="http://www.visualstudio.com/en-us/downloads/download-visual-studio-vs#d-community">Visual Studio Community 2013</a>, Anda bisa saja menggunakan Visual Studio .NET versi sebelumnya (2010, 2012)</li>
+<li><a href="http://coding4ever.net/blog/categories/nuget/">NuGet</a>, untuk memudahkan dalam menambahkan library pihak ketiga. Adapun library pihak ketiga yang digunakan dalam sample ini adalah <a href="http://coding4ever.net/blog/categories/dapper-net/">Dapper .NET</a> dan <a href="http://www.nuget.org/packages/System.Data.SQLite.Core/">System.Data.SQLite Core</a></li>
+<li><a href="http://scn.sap.com/docs/DOC-7824">Crystal Reports SP 13</a></li>
+<li>Database <a href="http://www.sqlite.org/">SQLite</a></li>
+</ol>
+
+
+<p>Setelah semua tool yang dibutuhkan tersedia kita lanjutkan dengan pembuatan project :</p>
+
+<ol>
+<li><p>Buat project baru dengan type WinForm</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-04.png"></p></li>
+<li><p>Tambahkan empat folder baru masing-masing dengan nama DataSet, Model, Repository dan Report</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-05.png"></p></li>
+</ol>
+
+
+<p>Folder DataSet digunakan untuk mengelompokkan item-item DataSet yang berfungsi sebagai tabel temporary, folder Model untuk mengelompokkan class-class model atau entity, folder <a href="https://msdn.microsoft.com/en-us/library/ff649690.aspx">Repository</a> untuk mengelompokkan class-class akses database dan terakhir folder Report untuk mengelompokkan item-item Crystal Reports.</p>
+
+<h5>Class Model/Entity</h5>
+
+<p>Untuk menerapkan konsep OOP (Object-oriented programming) dalam pemrograman database kita perlu membuat sebuah class yang disebut dengan istilah class Model atau Entity. Class ini merupakan representasi dari tabel-tabel yang ada di dalam database. Tujuan dari membuat class ini adalah agar kita bisa melakukan mapping (pemetaan) baris/row dari tabel menjadi kumpulan objek (object collection).</p>
+
+<p>Pemetaan bisa dilakukan secara manual atau bisa juga secara otomatis dengan menggunakan tool-tool ORM dari pihak ketiga seperti <a href="http://coding4ever.net/blog/categories/dapper-net/">Dapper .NET</a> dan <a href="](http://coding4ever.net/blog/categories/entity-framework/">Entity Framework</a>. Untuk contoh kali ini kita menggunakan <a href="http://coding4ever.net/blog/categories/dapper-net/">Dapper .NET</a>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-06.png"></p>
+
+<p>Setelah memahami apa itu class model dan bagaimana proses pemetaan record ke objek terjadi, langkah berikutnya adalah menambahkan class model <em>Category, Product</em> dan <em>Supplier</em> yang mempunyai struktur sama persis dengan rancangan tabel di atas.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-07.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-08.png"></p>
+
+<h5>Class Repository</h5>
+
+<p>Class <a href="https://msdn.microsoft.com/en-us/library/ff649690.aspx">repository</a> adalah class yang bertugas untuk menangani operasi database yang dikenal dengan istilah operasi CRUD (Create, Read, Update dan Delete). Di dalam class inilah kita menuliskan perintah-perintah INSERT, UPDATE, DELETE dan SELECT.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-09.png"></p>
+
+<p>Sebagai contoh kode dibawah ini akan melakukan mapping (pemetaan) baris/row tabel menjadi kumpulan objek (object collection) secara otomatis.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-10.png"></p>
+
+<p>Kode di atas menggunakan <a href="http://coding4ever.net/blog/categories/dapper-net/">micro ORM</a> <a href="http://coding4ever.net/blog/categories/dapper-net/">Dapper.NET</a> untuk melakukan mapping/pemetaan hasil query ke objek collection.</p>
+
+<p>Kemudian kita panggil seperti berikut :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-11.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-12.png"></p>
+
+<h5>DataSet</h5>
+
+<p>Dengan model <a href="http://coding4ever.net/blog/categories/crystal-reports-net/">data Push</a> kita tidak langsung menghubungkan antara Crystal Reports dengan database, jadi sebagai solusinya kita menggunakan DataSet yang berfungsi sebagai tabel temporary dan menjadi sumber data bagi Crystal Reports.</p>
+
+<p>Untuk menambahkan item DataSet, klik kanan Project -> Add -> New Item…</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-13.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-14.png"></p>
+
+<p>Setelah menambahkan item DataSet (DsNorthwind), langkah berikutnya adalah menambahkan item DataTable</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-15.png"></p>
+
+<p>Kemudian input informasi DataTablenya seperti gambar berikut :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-16.png"></p>
+
+<p>Ulangi langkah sebelumnya untuk menambahkan DataTable lainnya.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-17.png"></p>
+
+<h5>Crystal Reports</h5>
+
+<p>Crystal Reports adalah tool yang kita gunakan untuk membuat laporan. Untuk menambahkan item Crystal Report, klik kanan Project -> Add -> New Item…</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-18.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-19.png"></p>
+
+<p>Pilih “As a Blank Report” karena kita akan mendesain report secara manual.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-20.png"></p>
+
+<p>Langkah berikutnya adalah menentukan sumber data yang kita arahkan ke item DataSet yang sudah kita buat pada langkah sebelumnya</p>
+
+<p>Klik kanan Database Fields -> Database Expert &hellip;</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-21.png"></p>
+
+<p>Pilih ADO.NET DataSet</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-22.png"></p>
+
+<p>Drag satu-satu field ke section detail, kemudian dirapikan.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-23.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-24.png"></p>
+
+<h5>Crystal Report Viewer</h5>
+
+<p>Setelah semua persiapan selesai, langkah berikutnya adalah menambahkan Crystal Report Viewer yang berfungsi sebagai container untuk untuk menampilkan report.</p>
+
+<p>Aktifkan form kemudian tambahkan Crystal Report Viewer</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-25.png"></p>
+
+<p>Kemudian tambahkan kode berikut :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-26.png"></p>
+
+<p>Dari kode di atas kita bisa melihat tidak ada lagi kode untuk mengeset koneksi database dan perintah SQL yang akan dikirimkan. Cara ini sangat cocok digunakan ketika kita akan membangun sistem dengan arsitektur <a href="](http://coding4ever.net/blog/2012/02/01/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-1/">N-Tier</a>, di mana aplikasi klien sudah tidak terkoneksi lagi secara langsung ke database.</p>
+
+<p>Jika kode di atas dijalankan, akan menghasilkan output seperti gambar di bawah ini.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-27.png"></p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/DemoCRPushModel2">MENCOBA</a> :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Paket NuGet Yang Wajib Dicoba Bagian #2 - AutoUpdater.NET]]></title>
@@ -2669,198 +2815,6 @@ Tujuan menginstall library ini adalah agar laporan yang dihasilkan <a href="http
 
 
 <p>Akhirnya selesai juga :), dan untuk langkah-langkah penggunaan <a href="http://redmine.org/">Redmine</a> insya Alloh akan kita bahas dilain kesempatan.</p>
-
-<p>Selamat mencoba :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Manajemen Password Menggunakan KeePass]]></title>
-    <link href="http://coding4ever.net/blog/2014/05/21/manajemen-password-menggunakan-keepass/"/>
-    <updated>2014-05-21T15:12:47+07:00</updated>
-    <id>http://coding4ever.net/blog/2014/05/21/manajemen-password-menggunakan-keepass</id>
-    <content type="html"><![CDATA[<p><img class="left" src="http://coding4ever.files.wordpress.com/2014/05/keepass2.png">Hari ini kita dituntut untuk mengingat banyak password. Ada password Email, FTP, Facebook, Internet Banking, Remote Desktop dan lain sebagainya. Ditambah lagi pekerjaan kita sebagai <code>Software developer</code> berarti ada tambahan password lagi yang harus kita ingat seperti password SQL Server, MySQL, Firebird, Web hosting dan lain-lain.</p>
-
-<!-- more -->
-
-
-<p>Kita disarankan untuk menggunakan password yang berbeda untuk setiap user. Karena jika kita hanya menggunakan satu password untuk semuanya dan jika seseorang berhasil mendapatkan password kita, berarti kita mempunyai masalah&hellip; ya masalah yang serius, Anda bisa membayangkannya ? Orang tersebut akan memiliki akses ke akun email kita, facebook dan lain sebagainya.</p>
-
-<p><a href="http://keepass.info/">KeePass</a> adalah aplikasi password manager gratis dan open source, yang membantu kita untuk mengelola password dengan cara yang aman. Kita bisa menyimpan semua password dalam satu database. Database ini sendiri dipassword dengan satu password master atau bisa juga dalam bentuk file kunci. Jadi kita hanya perlu mengingat satu password master atau menggunakan file kunci untuk membuka database.</p>
-
-<p>Database <a href="http://keepass.info/">KeePass</a> dienkripsi menggunakan enkripsi yang terbaik dan paling aman untuk saat ini yaitu (<a href="http://en.wikipedia.org/wiki/Advanced_Encryption_Standard">AES</a> dan <a href="http://en.wikipedia.org/wiki/Twofish">Twofish</a>).</p>
-
-<h3>Instalasi</h3>
-
-<p>Langkah-langkah instalasi seperti berikut :</p>
-
-<ol>
-<li>Download <a href="http://keepass.info/download.html">KeePass</a></li>
-<li>Lakukan instalasi, kita tinggal mengikuti langkah-langkah yang ada</li>
-</ol>
-
-
-<h3>Cara penggunaan</h3>
-
-<p>Untuk menggunakan <a href="http://keepass.info/">KeePass</a> sangat mudah, berikut langkah-langkahnya :</p>
-
-<ul>
-<li>Jalankan aplikasi <a href="http://keepass.info/download.html">KeePass</a>, bisa melalui menu Start -> Programs -> KeePass 2 atau melalui desktop.</li>
-<li>Hal pertama yang harus kita lakukan adalah membuat database <a href="http://keepass.info/download.html">KeePass</a>. Caranya dengan mengklik menu File -> New</li>
-</ul>
-
-
-<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/31.png"></p>
-
-<p>   Kemudian tentukan nama database misal <code>DbKeePass</code></p>
-
-<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/41.png"></p>
-
-<ul>
-<li>Setelah itu kita diminta untuk menentukan password yang digunakan untuk membuka database <code>DbKeePass</code></li>
-</ul>
-
-
-<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/51.png"></p>
-
-<p>   kemudian klik <code>OK</code> sekali lagi</p>
-
-<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/6.png"></p>
-
-<h3>Group Password</h3>
-
-<p>Secara default <a href="http://keepass.info/">KeePass</a> sudah menyediakan beberapa group password seperti group password untuk <code>Windows</code>, <code>Network</code>, <code>Email</code> dan sebagainya.</p>
-
-<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/7.png"></p>
-
-<p>Untuk menambahkan group baru, kita tinggal klik kanan pada node utama kemudian pilih Add Group</p>
-
-<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/8.png"></p>
-
-<p>Setelah itu kita inputkan nama group, misal <code>SQL Server</code></p>
-
-<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/9.png"></p>
-
-<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/10.png"></p>
-
-<h3>Item Group</h3>
-
-<p>Setelah semua group password yang diperlukan dibuat, berikutnya adalah menambahkan <code>user</code>, <code>password</code> dan <code>link URL</code> (jika halaman web) untuk masing-masing group password.</p>
-
-<p>Misal kita akan menambahkan user dan password facebook di group Internet.</p>
-
-<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/111.png"></p>
-
-<p>Caranya dengan memilih group Internet kemudian klik kanan area kosong di panel sebelah kanan kemudian pilih Add Entry&hellip;</p>
-
-<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/12.png"></p>
-
-<p>Setelah itu inputkan informasi <code>User Name</code>, <code>Password</code> dan <code>URL</code></p>
-
-<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/13.png"></p>
-
-<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/14.png"></p>
-
-<p>Sampai disini kita bisa mengulangi langkah-langkah sebelumnya untuk mendaftarkan user name dan password lainnya.</p>
-
-<h3>Plugin</h3>
-
-<p><a href="http://keepass.info/">KeePass</a> mempunyai banyak sekali <a href="http://keepass.info/plugins.html">plugin</a> yang bermanfaat, salah satunya adalah <a href="https://github.com/pfn/passifox/">PassIFox</a>, plugin ini memudahkan kita untuk menginputkan secara otomatis <code>user</code> dan <code>password</code> ketika kita mengakses halaman web yang ada form user dan passwordnya.</p>
-
-<p><a href="https://github.com/pfn/passifox/">PassIFox</a> khusus untuk browser <a href="http://www.mozilla.org/en-US/firefox/new/">Firefox</a>, bagi pengguna <a href="https://www.google.com/intl/en/chrome/browser/">Chrome</a> bisa menggunakan <a href="https://chrome.google.com/webstore/detail/chromeipass/ompiailgknfdndiefoaoiligalphfdae">ChromeIPass</a>.</p>
-
-<p>Misal kita mengakses halaman web yang ada form user dan passwordnya seperti <a href="http://wordpress.com/">Wordpress</a>, setelah itu kita klik kanan di inputan <code>Username</code> atau <code>Password</code> kemudian pilih menu <code>Fill User &amp; Pass</code>.</p>
-
-<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/11.png"></p>
-
-<p>Secara otomatis user dan password akan diisikan sesuai dengan data user dan password yang ada pada database <a href="http://keepass.info/">KeePass</a>.</p>
-
-<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/22.png"></p>
-
-<p><a href="https://github.com/pfn/passifox/">PassIFox</a> sendiri membutuhkan plugin yang lain yaitu <a href="https://github.com/pfn/keepasshttp/">KeePassHttp</a>.</p>
-
-<h3>Instalasi Plugin <a href="https://github.com/pfn/keepasshttp/">KeePassHttp</a> dan <a href="https://github.com/pfn/passifox/">PassIFox</a></h3>
-
-<h4><a href="https://github.com/pfn/keepasshttp/">KeePassHttp</a></h4>
-
-<p>Berikut langkah-langkahnya :</p>
-
-<ul>
-<li>Jika aplikasi <a href="http://keepass.info/">KeePass</a> sedang dijalankan, tutup terlebih dulu.</li>
-<li>Download <a href="https://passifox.appspot.com/KeePassHttp.plgx">KeePassHttp</a>.</li>
-<li>Copykan ke folder instalasi KeePass.</li>
-</ul>
-
-
-<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/15.png"></p>
-
-<ul>
-<li>Verifikasi apakah plugin <a href="https://github.com/pfn/keepasshttp/">KeePassHttp</a> sudah terinstall dengan benar melalui menu Tools -> Plugins</li>
-</ul>
-
-
-<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/17.png"></p>
-
-<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/18.png"></p>
-
-<h4><a href="https://github.com/pfn/passifox/">PassIFox</a></h4>
-
-<p>Setelah instalasi plugin <a href="https://github.com/pfn/keepasshttp/">KeePassHttp</a> berhasil, kita lanjutkan dengan menginstall plugin <a href="https://github.com/pfn/passifox/">PassIFox</a>. Adapun langkah-langkahnya seperti berikut :</p>
-
-<ul>
-<li>Jika aplikasi <a href="http://keepass.info/">KeePass</a> sedang dijalankan, tutup terlebih dulu.</li>
-<li>Aktifkan <code>Firefox Add-ons Manager</code></li>
-<li>Pada kota pencarian ketik <code>PassIFox</code></li>
-</ul>
-
-
-<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/16.png"></p>
-
-<ul>
-<li>Setelah instalasi <a href="https://github.com/pfn/passifox/">PassIFox</a>, restart Firefoxnya.</li>
-</ul>
-
-
-<h3>Konfigurasi plugin <a href="https://github.com/pfn/passifox/">PassIFox</a></h3>
-
-<ul>
-<li>Jalankan aplikasi <a href="http://keepass.info/">KeePass</a></li>
-<li>Buka halaman website yang ada form loginnya misal <a href="https://www.facebook.com/">Facebook</a>, kemudian klik tombol <code>Connect</code> yang ada dipojok kanan atas</li>
-</ul>
-
-
-<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/19.png"></p>
-
-<ul>
-<li>Akan tampil dialog konfirmasi, isikan <code>KeePassHttpKey</code> kemudian klik tombol Save</li>
-</ul>
-
-
-<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/20.png"></p>
-
-<p>Langkah-langkah konfigurasi ini hanya sekali saja setelah instalasi awal plugin <a href="https://github.com/pfn/passifox/">PassIFox</a>.</p>
-
-<h3>Uji coba plugin <a href="https://github.com/pfn/passifox/">PassIFox</a></h3>
-
-<ul>
-<li>Jalankan aplikasi <a href="http://keepass.info/">KeePass</a></li>
-<li>Buka halaman website yang ada form loginnya misal <a href="https://www.facebook.com/">Facebook</a></li>
-<li>Akan tampil konfirmasi, jangan lupa untuk mencontreng pilihan <code>Remember this decision</code> agar kotak konfirmasi ini tidak tampil lagi ketika kita mengakses halaman  web yang sama.</li>
-</ul>
-
-
-<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/211.png"></p>
-
-<ul>
-<li>Klik kanan inputan user atau password, kemudian pilih menu <code>Fill User &amp; Pass</code></li>
-</ul>
-
-
-<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/221.png"></p>
-
-<p>dan secara otomatis user dan password akan diisikan sesuai dengan data user dan password yang ada pada database <a href="http://keepass.info/">KeePass</a>.</p>
-
-<p><img class="center" src="http://coding4ever.files.wordpress.com/2014/05/23.png"></p>
 
 <p>Selamat mencoba :)</p>
 ]]></content>
