@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-01-27T15:02:02+07:00</updated>
+  <updated>2016-01-27T15:06:10+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -18,7 +18,7 @@
     <link href="http://coding4ever.net/blog/2016/01/27/menghilangkan-tab-main-report-pada-crystalreportviewer/"/>
     <updated>2016-01-27T15:00:58+07:00</updated>
     <id>http://coding4ever.net/blog/2016/01/27/menghilangkan-tab-main-report-pada-crystalreportviewer</id>
-    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg" width="120" height="100">Bagi Anda penggemar Crystal Reports .NET tentu sudah tidak asing lagi dengan tab <code>Main Report</code> yang tampil pada saat menampilkan laporan. Bagi sebagain orang seperti saya <em>tab</em> ini lumayan mengganggu karena biasanya report yang kita buat adalah report tunggal (report yang tidak me-link kehalaman yang lain).</p>
+    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg" width="120" height="100">Bagi Anda penggemar Crystal Reports .NET tentu sudah tidak asing lagi dengan tab <code>Main Report</code> yang tampil pada saat menampilkan laporan. Bagi sebagian orang seperti saya <em>tab</em> ini lumayan mengganggu karena biasanya report yang kita buat adalah report tunggal (report yang tidak me-link kehalaman yang lain).</p>
 
 <p>Masih bingung ? Coba lihat gambar berikut.</p>
 
