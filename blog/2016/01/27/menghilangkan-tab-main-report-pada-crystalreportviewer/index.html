@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Menyembunyikan Tulisan MERAH Di ActiveReports for .NET 2 SP 2 - Coding4ever&#8217;s Blog</title>
+  <title>Menghilangkan Tab Main Report Pada CrystalReportViewer - Coding4ever&#8217;s Blog</title>
   <meta name="author" content="Admin">
 
   
-  <meta name="description" content="Active Report adalah salah satu tool keren untuk membuat report dan sebagai pengguna setia Active Report di VB 6, di VB .NET pun saya tetap setia &hellip;">
+  <meta name="description" content="Bagi Anda penggemar Crystal Reports .NET tentu sudah tidak asing lagi dengan tab Main Report yang tampil pada saat menampilkan laporan. Bagi sebagain &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://coding4ever.net/blog/2010/12/30/menyembunyikan-tulisan-merah-di-activereports-for-net-2-sp-2">
+  <link rel="canonical" href="http://coding4ever.net/blog/2016/01/27/menghilangkan-tab-main-report-pada-crystalreportviewer">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Coding4ever's Blog" type="application/atom+xml">
@@ -83,7 +83,7 @@
   
   <header>
     
-      <h1 class="entry-title">Menyembunyikan Tulisan MERAH Di ActiveReports for .NET 2 SP 2</h1>
+      <h1 class="entry-title">Menghilangkan Tab Main Report Pada CrystalReportViewer</h1>
     
     
       <p class="meta">
@@ -92,7 +92,7 @@
 
 
 
-<time class='entry-date' datetime='2010-12-30T19:13:56+07:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>7:13 pm</span></time>
+<time class='entry-date' datetime='2016-01-27T14:24:58+07:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:24 pm</span></time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://coding4ever.net">Comments</a>
@@ -102,48 +102,54 @@
   </header>
 
 
-<div class="entry-content"><p><a href="http://www.datadynamics.com/">Active Report</a> adalah salah satu tool keren untuk membuat report dan sebagai pengguna setia Active Report di VB 6, di VB .NET pun saya tetap setia menggunakan tool ini.</p>
+<div class="entry-content"><p><img class="left" src="https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg" width="120" height="100">Bagi Anda penggemar Crystal Reports .NET tentu sudah tidak asing lagi dengan tab <code>Main Report</code> yang tampil pada saat menampilkan laporan. Bagi sebagain orang seperti saya <em>tab</em> ini lumayan mengganggu karena biasanya report yang kita buat adalah report tunggal (report yang tidak me-link kehalaman yang lain).</p>
 
-<p>Setelah mencoba membuat report sederhana dan menampilkannya ada yang sedikit mengecewakan dari Active Report for .NET ini, mau tau ? lihat gambar berikut :</p>
+<p>Masih bingung ? Coba lihat gambar berikut.</p>
 
 <!-- more -->
 
 
-<p><a href="http://coding4ever.files.wordpress.com/2010/12/30122010-1.jpg"><img src="http://coding4ever.files.wordpress.com/2010/12/30122010-1.jpg?w=300" alt="" /></a></p>
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/270116-01.png"></p>
 
-<p>Jadi sesuai dengan judul diatas, kita akan mencoba menyembunyikan tulisan tersebut dengan cara ngawur tetapi terbukti bekerja :D.</p>
+<p>Ada beberapa cara untuk menghilangkan tab tersebut, bisa dengan membuat sebuah <em>method biasa</em> atau dengan membuat <a href="https://msdn.microsoft.com/en-us//library/bb383977.aspx"><em>extension method</em></a>.</p>
 
-<p>Trus tool apa aja nih yang dibutuhkan ? Ngawurrr kita bukan cr4ck3r lagi, jadi enggak perlu tool yang aneh-aneh tapi cukup memanfaatkan komponen TextBox, Shape plus permainan properties, klo enggak percaya silahkan ikuti langkah-langkah berikut :</p>
+<h5>Method biasa</h5>
 
-<p><strong>1. Tambahkan komponen Shape ke section PageFooter</strong></p>
+<p>Nah cara pertama adalah dengan membuat sebuah method, misal dengan nama <code>RemoveMainTab</code>.</p>
 
-<p><a href="http://coding4ever.files.wordpress.com/2010/12/30122010-2.jpg"><img src="http://coding4ever.files.wordpress.com/2010/12/30122010-2.jpg?w=300" alt="" /></a></p>
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/270116-02.png"></p>
 
-<p>kemudian atur propertiesnya seperti gambar dibawah ini :</p>
+<p>kemudian method di atas kita panggil setelah pengesetan nilai property <code>ReportSource</code></p>
 
-<p><a href="http://coding4ever.files.wordpress.com/2010/12/30122010-3.jpg"><img src="http://coding4ever.files.wordpress.com/2010/12/30122010-3.jpg?w=300" alt="" /></a></p>
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/270116-03.png"></p>
 
-<p><strong>2. Berikutnya tambahkan juga komponen TextBox ke section yg sama</strong></p>
+<h5>Extension method</h5>
 
-<p><a href="http://coding4ever.files.wordpress.com/2010/12/30122010-4.jpg"><img src="http://coding4ever.files.wordpress.com/2010/12/30122010-4.jpg?w=300" alt="" /></a></p>
+<p><a href="https://msdn.microsoft.com/en-us//library/bb383977.aspx">Extension method</a> adalah salah satu fitur yang ada dalam bahasa pemrograman .NET yang memungkinkan kita untuk menambahkan  method baru dari sebuah type seperti class tanpa harus membuat turunan dari type tesebut.</p>
 
-<p>atur juga propertiesnya seperti gambar berikut :</p>
+<p>Contoh class <code>CrystalReportViewer</code>  aslinya tidak mempunyai method <code>RemoveMainTab</code> tetapi dengan adanya fitur  <a href="https://msdn.microsoft.com/en-us//library/bb383977.aspx">extension method</a> kita bisa menambahkan method baru tanpa harus membuat turunan dari class <code>CrystalReportViewer</code> atau merubah secara langsung class <code>CrystalReportViewer</code>.</p>
 
-<p><a href="http://coding4ever.files.wordpress.com/2010/12/30122010-5.jpg"><img src="http://coding4ever.files.wordpress.com/2010/12/30122010-5.jpg?w=300" alt="" /></a></p>
+<p>Untuk membuat <a href="https://msdn.microsoft.com/en-us//library/bb383977.aspx">extension method</a> kita harus menambahkan class baru misal dengan nama <code>CrystalReportViewerExtension</code>.</p>
 
-<p><strong>3. Terakhir properties yang perlu diatur adalah margin kiri, atas, kanan dan bawah</strong></p>
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/270116-04.png"></p>
 
-<p><a href="http://coding4ever.files.wordpress.com/2010/12/30122010-6.jpg"><img src="http://coding4ever.files.wordpress.com/2010/12/30122010-6.jpg?w=300" alt="" /></a></p>
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/270116-05.png"></p>
 
-<p><a href="http://coding4ever.files.wordpress.com/2010/12/30122010-7.jpg"><img src="http://coding4ever.files.wordpress.com/2010/12/30122010-7.jpg?w=300" alt="" /></a></p>
+<p>kemudian classnya harus static, setelah itu kita tambahkan method <code>RemoveMainTab</code></p>
 
-<p>klo udah coba jalankan lagi aplikasi dan tampilkan reportnya</p>
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/270116-06.png"></p>
 
-<p><a href="http://coding4ever.files.wordpress.com/2010/12/30122010-8.jpg"><img src="http://coding4ever.files.wordpress.com/2010/12/30122010-8.jpg?w=300" alt="" /></a></p>
+<p>Nah coba perhatikan method <code>RemoveMainTab</code> di atas, selain harus <code>static</code> parameternya juga harus ditambahkan keyword <code>this</code>.</p>
 
-<p>Case closed.</p>
+<p>Jika berhasil objek dari class <code>CrystalReportViewer</code> akan ketambahan method baru dengan nama <code>RemoveMainTab</code>.</p>
 
-<p>Selamat <a href="http://www.4shared.com/file/o8gShrol/AR_NET.html">MENCOBA</a> :)</p>
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/270116-07.png"></p>
+
+<p>Terakhir kita cek reportnya apakah tab Main Report sudah hilang ?</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/270116-08.png"></p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/RemoveMainReportTabOnCRViewer">MENCOBA</a> :)</p>
 </div>
 
 
@@ -159,12 +165,12 @@
 
 
 
-<time class='entry-date' datetime='2010-12-30T19:13:56+07:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>7:13 pm</span></time>
+<time class='entry-date' datetime='2016-01-27T14:24:58+07:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:24 pm</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/visual-basic-net/'>visual basic .net</a>
+    <a class='category' href='/blog/categories/crystal-reports-net/'>crystal reports .net</a>, <a class='category' href='/blog/categories/visual-c-number/'>visual c#</a>
   
 </span>
 
@@ -187,10 +193,8 @@ Saat ini bekerja sebagai staf IT di salah satu PTS di Yogyakarta sebagai senior 
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2010/12/24/seri-kajian-motivasi-yogyakarta/" title="Previous Post: Seri Kajian Motivasi (Yogyakarta)">&laquo; Seri Kajian Motivasi (Yogyakarta)</a>
+        <a class="basic-alignment left" href="/blog/2016/01/24/membuat-laporan-crystal-reports-net-dengan-model-data-push-bagian-number-2/" title="Previous Post: Membuat Laporan Crystal Reports .NET dengan Model Data-Push Bagian #2">&laquo; Membuat Laporan Crystal Reports .NET dengan Model Data-Push Bagian #2</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2011/01/03/menembus-pertahanan-database-firebird-yang-diproteksi/" title="Next Post: Menembus pertahanan database Firebird yang diproteksi">Menembus pertahanan database Firebird yang diproteksi &raquo;</a>
       
     </p>
   </footer>
@@ -335,8 +339,8 @@ Saat ini bekerja sebagai staf IT di salah satu PTS di Yogyakarta sebagai senior 
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://coding4ever.net/blog/2010/12/30/menyembunyikan-tulisan-merah-di-activereports-for-net-2-sp-2/';
-        var disqus_url = 'http://coding4ever.net/blog/2010/12/30/menyembunyikan-tulisan-merah-di-activereports-for-net-2-sp-2/';
+        var disqus_identifier = 'http://coding4ever.net/blog/2016/01/27/menghilangkan-tab-main-report-pada-crystalreportviewer/';
+        var disqus_url = 'http://coding4ever.net/blog/2016/01/27/menghilangkan-tab-main-report-pada-crystalreportviewer/';
         var disqus_script = 'embed.js';
       
     (function () {

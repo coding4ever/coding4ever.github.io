@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Crystal Reports .net | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/crystal-reports-net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-01-24T22:11:20+07:00</updated>
+  <updated>2016-01-27T14:52:08+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,62 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Menghilangkan Tab Main Report Pada CrystalReportViewer]]></title>
+    <link href="http://coding4ever.net/blog/2016/01/27/menghilangkan-tab-main-report-pada-crystalreportviewer/"/>
+    <updated>2016-01-27T14:24:58+07:00</updated>
+    <id>http://coding4ever.net/blog/2016/01/27/menghilangkan-tab-main-report-pada-crystalreportviewer</id>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg">https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Bagi Anda penggemar Crystal Reports .NET tentu sudah tidak asing lagi dengan tab <code>Main Report</code> yang tampil pada saat menampilkan laporan. Bagi sebagain orang seperti saya <em>tab</em> ini lumayan mengganggu karena biasanya report yang kita buat adalah report tunggal (report yang tidak me-link kehalaman yang lain).</p>
+
+<p>Masih bingung ? Coba lihat gambar berikut.</p>
+
+<!-- more -->
+
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/270116-01.png">https://coding4ever.files.wordpress.com/2016/01/270116-01.png</a>&#8221;></p>
+
+<p>Ada beberapa cara untuk menghilangkan tab tersebut, bisa dengan membuat sebuah <em>method biasa</em> atau dengan membuat <a href="https://msdn.microsoft.com/en-us//library/bb383977.aspx"><em>extension method</em></a>.</p>
+
+<h5>Method biasa</h5>
+
+<p>Nah cara pertama adalah dengan membuat sebuah method, misal dengan nama <code>RemoveMainTab</code>.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/270116-02.png">https://coding4ever.files.wordpress.com/2016/01/270116-02.png</a>&#8221;></p>
+
+<p>kemudian method di atas kita panggil setelah pengesetan nilai property <code>ReportSource</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/270116-03.png">https://coding4ever.files.wordpress.com/2016/01/270116-03.png</a>&#8221;></p>
+
+<h5>Extension method</h5>
+
+<p><a href="https://msdn.microsoft.com/en-us//library/bb383977.aspx">Extension method</a> adalah salah satu fitur yang ada dalam bahasa pemrograman .NET yang memungkinkan kita untuk menambahkan  method baru dari sebuah type seperti class tanpa harus membuat turunan dari type tesebut.</p>
+
+<p>Contoh class <code>CrystalReportViewer</code>  aslinya tidak mempunyai method <code>RemoveMainTab</code> tetapi dengan adanya fitur  <a href="https://msdn.microsoft.com/en-us//library/bb383977.aspx">extension method</a> kita bisa menambahkan method baru tanpa harus membuat turunan dari class <code>CrystalReportViewer</code> atau merubah secara langsung class <code>CrystalReportViewer</code>.</p>
+
+<p>Untuk membuat <a href="https://msdn.microsoft.com/en-us//library/bb383977.aspx">extension method</a> kita harus menambahkan class baru misal dengan nama <code>CrystalReportViewerExtension</code>.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/270116-04.png">https://coding4ever.files.wordpress.com/2016/01/270116-04.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/270116-05.png">https://coding4ever.files.wordpress.com/2016/01/270116-05.png</a>&#8221;></p>
+
+<p>kemudian classnya harus static, setelah itu kita tambahkan method <code>RemoveMainTab</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/270116-06.png">https://coding4ever.files.wordpress.com/2016/01/270116-06.png</a>&#8221;></p>
+
+<p>Nah coba perhatikan method <code>RemoveMainTab</code> di atas, selain harus <code>static</code> parameternya juga harus ditambahkan keyword <code>this</code>.</p>
+
+<p>Jika berhasil objek dari class <code>CrystalReportViewer</code> akan ketambahan method baru dengan nama <code>RemoveMainTab</code>.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/270116-07.png">https://coding4ever.files.wordpress.com/2016/01/270116-07.png</a>&#8221;></p>
+
+<p>Terakhir kita cek reportnya apakah tab Main Report sudah hilang ?</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/270116-08.png">https://coding4ever.files.wordpress.com/2016/01/270116-08.png</a>&#8221;></p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/RemoveMainReportTabOnCRViewer">MENCOBA</a> :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Membuat Laporan Crystal Reports .NET Dengan Model Data-Push Bagian #2]]></title>

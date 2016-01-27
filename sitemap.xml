@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://coding4ever.net/blog/2016/01/27/menghilangkan-tab-main-report-pada-crystalreportviewer/</loc>
+    <lastmod>2016-01-27T14:24:58+07:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>http://coding4ever.net/blog/2016/01/24/membuat-laporan-crystal-reports-net-dengan-model-data-push-bagian-number-2/</loc>
     <lastmod>2016-01-24T15:25:29+07:00</lastmod>
     <priority>0.8</priority>
@@ -867,31 +872,31 @@
   </url>
   <url>
     <loc>http://coding4ever.net/blog/archives/</loc>
-    <lastmod>2016-01-24T22:11:20+07:00</lastmod>
+    <lastmod>2016-01-27T14:52:08+07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>http://coding4ever.net/</loc>
-    <lastmod>2016-01-24T22:11:20+07:00</lastmod>
+    <lastmod>2016-01-27T14:52:08+07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://coding4ever.net/gudang-software/</loc>
-    <lastmod>2016-01-24T22:11:20+07:00</lastmod>
+    <lastmod>2016-01-27T14:52:08+07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>http://coding4ever.net/aplikasi-gratis/</loc>
-    <lastmod>2016-01-24T22:11:20+07:00</lastmod>
+    <lastmod>2016-01-27T14:52:08+07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>http://coding4ever.net/source-code/</loc>
-    <lastmod>2016-01-24T22:11:20+07:00</lastmod>
+    <lastmod>2016-01-27T14:52:08+07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
