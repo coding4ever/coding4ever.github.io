@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Visual Studio .net | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/visual-studio-net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-01-27T15:06:10+07:00</updated>
+  <updated>2016-02-03T12:44:25+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -402,7 +402,7 @@ Berikut perintah lengkapnya :</p>
 </span><span class='line'>
 </span><span class='line'>&lt;p>// Importing ShowWindow Windows API from User32.DLL
 </span><span class='line'>function ShowWindow(hWnd: Integer; uType: Integer): Integer;
-</span><span class='line'>external &lsquo;&lt;a href="&#109;&#x61;&#105;&#x6c;&#116;&#111;&#58;&#x53;&#104;&#111;&#119;&#87;&#105;&#110;&#100;&#111;&#119;&#64;&#x75;&#115;&#101;&#x72;&#x33;&#x32;&#x2e;&#x64;&#108;&#x6c;">&#x53;&#104;&#x6f;&#119;&#x57;&#x69;&#x6e;&#100;&#111;&#119;&#x40;&#x75;&#115;&#101;&#x72;&#x33;&#50;&#46;&#100;&#x6c;&#x6c;&lt;/a> stdcall&rsquo;;&lt;/p>
+</span><span class='line'>external &lsquo;&lt;a href="&#109;&#97;&#105;&#108;&#x74;&#111;&#x3a;&#x53;&#104;&#111;&#x77;&#x57;&#x69;&#x6e;&#100;&#x6f;&#x77;&#x40;&#x75;&#115;&#101;&#x72;&#51;&#x32;&#x2e;&#x64;&#x6c;&#108;">&#83;&#104;&#x6f;&#119;&#87;&#105;&#x6e;&#x64;&#x6f;&#x77;&#64;&#117;&#x73;&#101;&#114;&#51;&#x32;&#46;&#100;&#x6c;&#108;&lt;/a> stdcall&rsquo;;&lt;/p>
 </span><span class='line'>
 </span><span class='line'>&lt;p>function IsDotNetDetected(version: string; service: cardinal): boolean;
 </span><span class='line'>// Indicates whether the specified version and service pack of the .NET Framework is installed.
