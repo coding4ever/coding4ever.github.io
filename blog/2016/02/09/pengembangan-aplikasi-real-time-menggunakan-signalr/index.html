@@ -1,0 +1,653 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Pengembangan Aplikasi Real-time Menggunakan SignalR - Coding4ever&#8217;s Blog</title>
+  <meta name="author" content="Admin">
+
+  
+  <meta name="description" content="ASP.NET SignalR atau dapat disingkat menjadi SignalR adalah library yang memudahkan kita untuk menambahkan fungsi komunikasi real-time pada aplikasi &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://coding4ever.net/blog/2016/02/09/pengembangan-aplikasi-real-time-menggunakan-signalr">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Coding4ever's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50866618-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Coding4ever&#8217;s Blog</a></h1>
+  
+    <h2>Just coding&#8230; coding&#8230; and coding&#8230; because coding should be fun :)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:coding4ever.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/gudang-software">Gudang Software</a></li>
+  <li><a href="/source-code">Source Code</a></li>  
+  <li><a href="/aplikasi-gratis">Aplikasi Gratis</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Pengembangan Aplikasi Real-time Menggunakan SignalR</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-02-09T11:17:00+07:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>11:17 am</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img class="left" src="https://coding4ever.files.wordpress.com/2016/02/signalr.png" width="120" height="100"><a href="http://signalr.net/">ASP.NET  SignalR</a> atau  dapat  disingkat  menjadi  <a href="http://signalr.net/">SignalR</a>  adalah  library yang memudahkan kita untuk menambahkan fungsi komunikasi <code>real-time</code> pada aplikasi yang kita kembangkan. Fungsi <code>real-time</code> di sini adalah kemampuan server melakukan pengiriman (push) konten atau data kepada client yang  sudah  terkoneksi  ke  server, sehingga  server  tidak  perlu  menunggu  client  untuk melakukan permintaan (request) data terbaru.</p>
+
+<p><a href="http://signalr.net/">SignalR</a> selain digunakan untuk pengembangan aplikasi web, juga bisa digunakan untuk platform lainnya seperti desktop (console dan windows form) ataupun mobile (windows phone, android dan iOS).</p>
+
+<!-- more -->
+
+
+<p><a href="http://signalr.net/">SignalR</a> menyediakan API yang memungkinkan server memanggil fungsi/method yang dimiliki oleh client atau pun sebaliknya. Proses memanggil method secara remote ini dikenal dengan istilah <code>remote procedure call (RPC)</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/090216-01.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/090216-02.png"></p>
+
+<p style="text-align:center">Sumber - <a href=" http://www.asp.net/signalr/overview/getting-started/introduction-to-signalr" target="_blank">Introduction to SignalR</a></p>
+
+
+<p>Pada gambar di atas Hub merupakan class turunan dari class <code>Microsoft.AspNet.SignalR.Hub</code> yang memungkinkan server memanggil fungsi/method yang dimiliki oleh client atau sebaliknya client memanggil fungsi/method yang dimiliki oleh server. Sedangkan Hub Proxy merupakan objek proxy dari class Hub yang ada di server, sehingga method yang dipanggil melalui objek proxy ini otomatis akan dieksekusi secara remote (dijalankan di sisi server).</p>
+
+<p>Sebagai contoh penggunaan SignalR, kita akan membuat aplikasi sederhana tanpa database. Di contoh ini kita akan melihat bagaimana cara server dan client berbagi data secara <code>real-time</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/090216-03.png"></p>
+
+<p>Aplikasi di atas terdiri dari tiga project yaitu :</p>
+
+<h5>1. DemoSignalR.WinFormServer</h5>
+
+<p>Project ini bertipe Windows Application yang berfungsi sebagai Server dari SignalR</p>
+
+<h5>2. DemoSignalR.WinFormClient</h5>
+
+<p>Project ini juga bertipe Windows Application yang berfungsi sebagai aplikasi Client</p>
+
+<h5>3. DemoSignalR.Model</h5>
+
+<p>Terakhir adalah project DemoSignalR.Model, project ini bertipe Class Library yang isinya hanya berupa class model. Objek dari class model inilah nantinya akan dishare secara <code>real-time</code> dari server ke client atau sebaliknya.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/090216-04.png"></p>
+
+<p>Berikutnya kita akan bahas satu persatu ketiga project di atas.</p>
+
+<h5>1. DemoSignalR.WinFormServer</h5>
+
+<p>Project ini berfungsi sebagai server dari SignalR. Untuk menggunakan SignalR kita perlu menambahkan beberapa library yang bisa kita install via <a href="http://coding4ever.net/blog/2014/03/11/nuget/">NuGet</a>.</p>
+
+<p>Berikut adalah daftar paket <a href="http://coding4ever.net/blog/2014/03/11/nuget/">NuGet</a> yang perlu kita tambahkan untuk project server.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/090216-05.png"></p>
+
+<h6>SignalR Hubs API</h6>
+
+<p>SignalR Hubs API memungkinkan server memanggil fungsi/method yang dimiliki oleh client atau sebaliknya client memanggil fungsi/method yang dimiliki oleh server. Proses memanggil method secara remote ini dikenal dengan istilah <code>remote procedure call (RPC)</code>.</p>
+
+<p>Di server kita mendefinisikan method yang bisa langsung dipanggil oleh client, kemudian di dalam method ini akan memanggil method yang dijalankan oleh client. Contoh :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/090216-06.png"></p>
+
+<p>Coba perhatikan kode di atas, method <code>AddCustomer</code> adalah method server yang kita definisikan dan bisa langsung dipanggil oleh client. Nah di dalam method ini juga ada perintah <code>Clients.All.RefreshData(customer)</code>. Method <code>RefreshData</code> setelah property <code>All</code> adalah <code>dynamic method</code>, sehingga kita bebas menentukan sendiri nama methodnya. Dan jangan lupa method <code>RefreshData</code> ini juga harus kita definisikan ulang di bagian client.</p>
+
+<p>Untuk menggunakan fitur SignalR Hubs API kita cukup membuat sebuah class yang merupakan turunan dari class <code>Microsoft.AspNet.SignalR.Hub</code>. Misal kita membuat sebuah class dengan nama <code>ServerHub</code>, class ini harus turunan dari class <code>Microsoft.AspNet.SignalR.Hub</code>. Untuk kode lengkapnya seperti berikut :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/090216-07.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/090216-08.png"></p>
+
+<h6>Mendaftarkan SignalR</h6>
+
+<p><a href="http://signalr.net/">SignalR</a> itu seperti parasit, tidak bisa hidup mandiri sehingga membutuhkan sebuah wadah (host) untuk kelangsungan hidupnya.
+Ada beberapa cara yang bisa digunakan untuk menempatkan SignalR ke dalam wadahnya (host) yaitu :</p>
+
+<ul>
+<li>Hosting in Internet Information Services (IIS)</li>
+<li>Hosting in a Console or Desktop application (Self hosting)</li>
+<li>Hosting in a Windows Service (Self hosting)</li>
+</ul>
+
+
+<p>Karena contoh Server SignalR yang kita buat di atas bertipe Windows Application, berarti kita menggunakan cara <code>Self hosting</code> untuk meng-hostkan SignalR. Untuk mengaktifkan fitur <code>Self hosting</code> kita perlu menambahkan library <code>Microsoft.AspNet.SignalR.SelfHost</code> dan <code>Microsoft.AspNet.Cors</code>, kemudian kita buat class baru dengan nama <code>Startup</code>. Untuk kode lengkapnya seperti berikut :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/090216-09.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/090216-10.png"></p>
+
+<p>Setelah membuat class <code>ServerHub</code> dan <code>Startup</code> kita lanjutkan dengan form utama (FrmServer). Untuk desain UInya seperti berikut :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/090216-11.png"></p>
+
+<p>Untuk kode lengkapnya seperti berikut :</p>
+
+<div><script src='https://gist.github.com/63391d8f511049303b20.js'></script>
+<noscript><pre><code>using Microsoft.Owin.Hosting;
+
+namespace DemoSignalR.WinFormServer
+{
+    public partial class FrmServer : Form
+    {
+        private IDisposable signalR { get; set; }
+        private const string SERVER_URL = &quot;http://192.168.56.1:8282&quot;;
+
+        public FrmServer()
+        {
+            InitializeComponent();
+        }
+
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            WriteToConsole(&quot;Starting server...&quot;);
+
+            btnStart.Enabled = false;
+            Task.Run(() =&gt; StartServer());
+        }
+
+        private void btnStop_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        /// &lt;summary&gt;
+        /// Starts the server and checks for error thrown when another server is already 
+        /// running. This method is called asynchronously from Button_Start.
+        /// &lt;/summary&gt;
+        private void StartServer()
+        {
+            try
+            {
+                signalR = WebApp.Start(SERVER_URL);
+            }
+            catch (TargetInvocationException)
+            {
+                WriteToConsole(&quot;Server failed to start. A server is already running on &quot; + SERVER_URL);
+
+                //Re-enable button to let user try to start server again
+                this.Invoke((Action)(() =&gt; btnStart.Enabled = true));
+                return;
+            }
+
+            this.Invoke((Action)(() =&gt; btnStop.Enabled = true));
+            WriteToConsole(&quot;Server started at &quot; + SERVER_URL);
+        }
+
+        /// &lt;summary&gt;
+        /// This method adds a line to the RichTextBoxConsole control, using Invoke if used
+        /// from a SignalR hub thread rather than the UI thread.
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;message&quot;&gt;&lt;/param&gt;
+        internal void WriteToConsole(String message)
+        {
+            if (lstConsole.InvokeRequired)
+            {
+                this.Invoke((Action)(() =&gt;
+                    WriteToConsole(message)
+                ));
+
+                return;
+            }
+
+            lstConsole.Items.Add(message);
+        }       
+
+        private void FrmServer_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (signalR != null)
+            {
+                signalR.Dispose();
+            }
+        }
+    }
+}
+</code></pre></noscript></div>
+
+
+<p>Setelah menyelesaikan project Server (DemoSignalR.WinFormServer) kita lanjutkan dengan project DemoSignalR.Model.</p>
+
+<h5>2. DemoSignalR.Model</h5>
+
+<p>Project ini hanya berisi class-class model. Data atau objek dari class-class model inilah yang nantinya akan dishare oleh server dan client secara <code>real-time</code>. Sebagai contoh di project ini kita hanya menambahkan satu class model yaitu <code>Customer</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/090216-12.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/090216-13.png"></p>
+
+<p>Class Customer di atas masuk dalam kategori  <code>complex types</code> sehingga objek dari class Customer tersebut tidak bisa langsung dikirim dari client ke server atau sebaliknya. Perlu diketahui untuk tipe-tipe data primitif seperti integer, long, boolean termasuk string (pengecualian untuk string bukan tipe data primitif) bisa langsung dikirim dari client ke server atau sebaliknya. Khusus untuk objek dari <code>complex types</code> perlu kita konversi terlebih dulu datanya dalam format json.</p>
+
+<p>Ada dua cara yang bisa kita gunakan yaitu :</p>
+
+<ul>
+<li><p>Menambahkan atribut <code>JsonProperty</code> pada property class
+<img class="center" src="https://coding4ever.files.wordpress.com/2016/02/090216-14.png"></p></li>
+<li><p>Atau mengkonversi secara langsung objek class ke dalam format json<br/>
+<img class="center" src="https://coding4ever.files.wordpress.com/2016/02/090216-15.png"></p></li>
+</ul>
+
+
+<p>Jadi terserah Anda mau menggunakan cara yang mana.</p>
+
+<h5>3. DemoSignalR.WinFormClient</h5>
+
+<p>Project terakhir yang akan kita bahas adalah <code>DemoSignalR.WinFormClient</code> ini adalah project untuk Client SignalR, tipenya juga sama seperti project Server SignalR yaitu Windows Application.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/090216-16.png"></p>
+
+<p>Untuk menggunakan SignalR di sisi client kita perlu menambahkan beberapa library yang bisa kita install via <a href="http://coding4ever.net/blog/2014/03/11/nuget/">NuGet</a>.</p>
+
+<p>Berikut adalah daftar paket <a href="http://coding4ever.net/blog/2014/03/11/nuget/">NuGet</a> yang perlu kita tambahkan di project client.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/090216-17.png"></p>
+
+<p>Untuk kode lengkapnya seperti berikut :</p>
+
+<div><script src='https://gist.github.com/ded6ca2911696e0b752e.js'></script>
+<noscript><pre><code>using Microsoft.AspNet.SignalR.Client;
+using DemoSignalR.Model;
+
+namespace DemoSignalR.WinFormClient
+{
+    public partial class FrmClient : Form
+    {
+        private const string SERVER_URL = &quot;http://192.168.56.1:8282&quot;;
+
+        private HubConnection hubConnection;
+        private IHubProxy hubProxy;
+
+        public FrmClient()
+        {
+            InitializeComponent();
+
+            InisialisasiListView();
+
+            hubConnection = new HubConnection(SERVER_URL);
+            
+            // membuat objek proxy dari class hub yang ada di server
+            hubProxy = hubConnection.CreateHubProxy(&quot;ServerHub&quot;);
+
+            // set mode listen untuk method RefreshData
+            // method RefreshData sebelumnya harus didefinisikan di server
+            hubProxy.On&lt;Customer&gt;(&quot;RefreshData&quot;, (customer) =&gt; RefreshData(customer));
+            ConnectAsync();
+        }
+
+        private void RefreshData(Customer customer)
+        {
+            lvwCustomer.Invoke(new MethodInvoker(() =&gt; FillToListView(customer)));
+        }
+
+        /// &lt;summary&gt;
+        /// Creates and connects the hub connection and hub proxy.
+        /// &lt;/summary&gt;
+        private async void ConnectAsync()
+        {
+            try
+            {
+                await hubConnection.Start();
+                btnSave.Enabled = true;
+            }
+            catch
+            {
+                MessageBox.Show(&quot;Unable to connect to server: Start server before connecting clients.&quot;);
+                return;
+            }
+
+        }
+
+        // pengaturan propery listview
+        private void InisialisasiListView()
+        {
+            lvwCustomer.View = System.Windows.Forms.View.Details;
+            lvwCustomer.FullRowSelect = true;
+            lvwCustomer.GridLines = true;
+
+            lvwCustomer.Columns.Add(&quot;No.&quot;, 30, HorizontalAlignment.Center);
+            lvwCustomer.Columns.Add(&quot;Customer Id&quot;, 70, HorizontalAlignment.Left);
+            lvwCustomer.Columns.Add(&quot;Company Name&quot;, 150, HorizontalAlignment.Left);
+            lvwCustomer.Columns.Add(&quot;Contact Name&quot;, 155, HorizontalAlignment.Left);
+        }
+
+        // method untuk menampilkan data customer ke listview
+        private void FillToListView(Customer customer)
+        {
+            int noUrut = lvwCustomer.Items.Count + 1;
+
+            ListViewItem item = new ListViewItem(noUrut.ToString());
+            item.SubItems.Add(customer.CustomerId);
+            item.SubItems.Add(customer.CompanyName);
+            item.SubItems.Add(customer.ContactName);
+
+            lvwCustomer.Items.Add(item);
+        }
+
+        private void FrmClient_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (hubConnection != null)
+            {
+                hubConnection.Stop();
+                hubConnection.Dispose();
+            }
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            var customer = new Customer
+            {
+                CustomerId = txtCustomerId.Text,
+                CompanyName = txtCompanyName.Text,
+                ContactName = txtContactName.Text
+            };
+
+            // invoking a server function: 
+            hubProxy.Invoke(&quot;AddCustomer&quot;, customer);
+        }
+    }
+}
+</code></pre></noscript></div>
+
+
+<p>Dan hasilnya adalah seperti berikut :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/090216-03.png"></p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/DemoSignalR">MENCOBA</a> :-)</p>
+
+<p>Referensi :</p>
+
+<ul>
+<li><a href="http://www.asp.net/signalr/overview/getting-started/introduction-to-signalr">Introduction to SignalR</a></li>
+<li><a href="http://www.asp.net/signalr/overview/getting-started/tutorial-getting-started-with-signalr">Getting Started with SignalR 2</a></li>
+<li><a href="http://www.asp.net/signalr/overview/getting-started/tutorial-high-frequency-realtime-with-signalr">High-Frequency Realtime with SignalR 2</a></li>
+<li><a href="http://www.asp.net/signalr">Learn About ASP.NET SignalR</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Admin</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-02-09T11:17:00+07:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>11:17 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/signalr/'>signalr</a>, <a class='category' href='/blog/categories/visual-c-number/'>visual c#</a>
+  
+</span>
+
+
+    </p>
+    
+      <h2>Tentang Penulis</h2>
+<p class="meta">
+<img class="left" src="https://coding4ever.files.wordpress.com/2015/07/avatar-blog-mini.png">Software developer yang fokus mengembangkan aplikasi di atas platform .NET (Desktop, Web Service) dan Android. Senang mempelajari teknologi baru terutama di bidang OOP, Design Pattern, ORM dan Database.
+<br/>
+Saat ini bekerja sebagai staf IT di salah satu PTS di Yogyakarta sebagai senior software developer. Di waktu luang insya Alloh akan terus berbagi pengalaman di blog <a href="http://coding4ever.net" target="_blank">ini</a> :)
+</p>
+<div class="sharing">
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/01/27/menghilangkan-tab-main-report-pada-crystalreportviewer/" title="Previous Post: Menghilangkan Tab Main Report pada CrystalReportViewer">&laquo; Menghilangkan Tab Main Report pada CrystalReportViewer</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Admin</h1>
+  
+  <a href="http://www.facebook.com/abu.anas.1232" title="Admin" target="_blank"><img src="https://coding4ever.files.wordpress.com/2015/04/avatar-blog.png" border="0" alt="Admin" /></a><br/>
+  
+  <p>Software developer yang berasal dari Riau, tepatnya di <a href="http://id.wikipedia.org/wiki/Kabupaten_Indragiri_Hilir" title="Negeri Seribu Parit" target="_blank">Negeri Seribu Parit</a> dan saat ini berdomisili di Yogyakarta.</p>
+  
+  <p>Pernah mengajar di salah satu perguruan tinggi swasta (PTS) di Yogyakarta.<br>
+     Saat ini bekerja sebagai staf IT di PTS yang sama sebagai senior software developer.</p>
+  
+  <p>Fokus mengembangkan aplikasi di atas platform .NET (Desktop, Web Service) dan Android. Di waktu luang insya Alloh akan terus berbagi pengalaman di blog <a href="http://coding4ever.net" target="_blank">ini</a>.</p>    
+</section><section>
+  <h1>Contacts</h1>
+    <ul>		
+		<li>			
+			<a href="mailto:coding4ever.net@gmail.com" title="GMail" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/gmail-small2.png" border="0" alt="GMail" /></a>
+		</li>		
+		<li>			
+			<a href="https://github.com/k4m4r82?tab=repositories" title="GitHub" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/github-small2.png" border="0" alt="GitHub" /></a>
+		</li>
+		<li>
+			<a href="http://www.facebook.com/abu.anas.1232" title="Facebook" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/fb-small2.png" border="0" alt="Facebook" /></a>
+		</li>				
+		<li>
+			<img src="https://coding4ever.files.wordpress.com/2016/01/bbm-pin1.png" border="0" alt="BBM PIN" />
+		</li>
+	</ul>
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/02/09/pengembangan-aplikasi-real-time-menggunakan-signalr/">Pengembangan Aplikasi Real-time Menggunakan SignalR</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/27/menghilangkan-tab-main-report-pada-crystalreportviewer/">Menghilangkan Tab Main Report Pada CrystalReportViewer</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/24/membuat-laporan-crystal-reports-net-dengan-model-data-push-bagian-number-2/">Membuat Laporan Crystal Reports .NET Dengan Model Data-Push Bagian #2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/10/paket-nuget-yang-wajib-dicoba-bagian-number-2-autoupdater-dot-net/">Paket NuGet Yang Wajib Dicoba Bagian #2 - AutoUpdater.NET</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/06/online-backup-database/">Online Backup Database</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/10/20/performance-test-menggunakan-jmeter/">Performance Test Menggunakan JMeter</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/04/the-power-of-visual-studio-net-build-events-part-number-3/">The Power of Visual Studio .NET Build Events Part #3</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/01/the-power-of-visual-studio-net-build-events-part-number-2/">The Power of Visual Studio .NET Build Events Part #2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/25/the-power-of-visual-studio-net-build-events-part-number-1/">The Power of Visual Studio .NET Build Events Part #1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/23/cara-mudah-mengelola-versi-aplikasi/">Cara Mudah Mengelola Versi Aplikasi</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+    <ul id="category-list"><li><a href='/blog/categories/dot-net-remoting/'>.net remoting (9)</a></li><li><a href='/blog/categories/active-report/'>active report (4)</a></li><li><a href='/blog/categories/android/'>android (1)</a></li><li><a href='/blog/categories/aplikasi/'>aplikasi (4)</a></li><li><a href='/blog/categories/autoupdater-dot-net/'>autoupdater.net (1)</a></li><li><a href='/blog/categories/build-events/'>build events (3)</a></li><li><a href='/blog/categories/crashreporter-dot-net/'>crashreporter.net (1)</a></li><li><a href='/blog/categories/crystal-reports-net/'>crystal reports .net (3)</a></li><li><a href='/blog/categories/dapper-net/'>dapper .net (3)</a></li><li><a href='/blog/categories/database/'>database (2)</a></li><li><a href='/blog/categories/entity-framework/'>entity framework (8)</a></li><li><a href='/blog/categories/firebird/'>firebird (12)</a></li><li><a href='/blog/categories/freeware/'>freeware (7)</a></li><li><a href='/blog/categories/inno-setup/'>inno setup (6)</a></li><li><a href='/blog/categories/jaringan/'>jaringan (1)</a></li><li><a href='/blog/categories/mysql/'>mysql (10)</a></li><li><a href='/blog/categories/nsis/'>nsis (2)</a></li><li><a href='/blog/categories/nuget/'>nuget (5)</a></li><li><a href='/blog/categories/signalr/'>signalr (1)</a></li><li><a href='/blog/categories/sql-server/'>sql server (1)</a></li><li><a href='/blog/categories/sql-server-2000/'>sql server 2000 (1)</a></li><li><a href='/blog/categories/sqlite/'>sqlite (3)</a></li><li><a href='/blog/categories/testing/'>testing (1)</a></li><li><a href='/blog/categories/tools-installer/'>tools installer (8)</a></li><li><a href='/blog/categories/uncategorized/'>uncategorized (8)</a></li><li><a href='/blog/categories/visual-basic/'>visual basic (73)</a></li><li><a href='/blog/categories/visual-basic-net/'>visual basic .net (11)</a></li><li><a href='/blog/categories/visual-c-number/'>visual c# (43)</a></li><li><a href='/blog/categories/visual-studio-net/'>visual studio .net (3)</a></li><li><a href='/blog/categories/wcf/'>wcf (4)</a></li><li><a href='/blog/categories/winsock/'>winsock (6)</a></li></ul>
+</section>
+<section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/blog/categories/dot-net-remoting' style='font-size: 107.3972602739726%'>.net remoting(9)</a> <a href='/blog/categories/active-report' style='font-size: 103.28767123287672%'>active report(4)</a> <a href='/blog/categories/android' style='font-size: 100.82191780821918%'>android(1)</a> <a href='/blog/categories/aplikasi' style='font-size: 103.28767123287672%'>aplikasi(4)</a> <a href='/blog/categories/autoupdater-dot-net' style='font-size: 100.82191780821918%'>autoupdater.net(1)</a> <a href='/blog/categories/build-events' style='font-size: 102.46575342465754%'>build events(3)</a> <a href='/blog/categories/crashreporter-dot-net' style='font-size: 100.82191780821918%'>crashreporter.net(1)</a> <a href='/blog/categories/crystal-reports-net' style='font-size: 102.46575342465754%'>crystal reports .net(3)</a> <a href='/blog/categories/dapper-net' style='font-size: 102.46575342465754%'>dapper .net(3)</a> <a href='/blog/categories/database' style='font-size: 101.64383561643835%'>database(2)</a> <a href='/blog/categories/entity-framework' style='font-size: 106.57534246575342%'>entity framework(8)</a> <a href='/blog/categories/firebird' style='font-size: 109.86301369863014%'>firebird(12)</a> <a href='/blog/categories/freeware' style='font-size: 105.75342465753425%'>freeware(7)</a> <a href='/blog/categories/inno-setup' style='font-size: 104.93150684931507%'>inno setup(6)</a> <a href='/blog/categories/jaringan' style='font-size: 100.82191780821918%'>jaringan(1)</a> <a href='/blog/categories/mysql' style='font-size: 108.21917808219177%'>mysql(10)</a> <a href='/blog/categories/nsis' style='font-size: 101.64383561643835%'>nsis(2)</a> <a href='/blog/categories/nuget' style='font-size: 104.10958904109589%'>nuget(5)</a> <a href='/blog/categories/signalr' style='font-size: 100.82191780821918%'>signalr(1)</a> <a href='/blog/categories/sql-server' style='font-size: 100.82191780821918%'>sql server(1)</a> <a href='/blog/categories/sql-server-2000' style='font-size: 100.82191780821918%'>sql server 2000(1)</a> <a href='/blog/categories/sqlite' style='font-size: 102.46575342465754%'>sqlite(3)</a> <a href='/blog/categories/testing' style='font-size: 100.82191780821918%'>testing(1)</a> <a href='/blog/categories/tools-installer' style='font-size: 106.57534246575342%'>tools installer(8)</a> <a href='/blog/categories/uncategorized' style='font-size: 106.57534246575342%'>uncategorized(8)</a> <a href='/blog/categories/visual-basic' style='font-size: 160.0%'>visual basic(73)</a> <a href='/blog/categories/visual-basic-net' style='font-size: 109.04109589041096%'>visual basic .net(11)</a> <a href='/blog/categories/visual-c-number' style='font-size: 135.34246575342465%'>visual c#(43)</a> <a href='/blog/categories/visual-studio-net' style='font-size: 102.46575342465754%'>visual studio .net(3)</a> <a href='/blog/categories/wcf' style='font-size: 103.28767123287672%'>wcf(4)</a> <a href='/blog/categories/winsock' style='font-size: 104.93150684931507%'>winsock(6)</a> </span>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'k4m4r82',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p align="center">
+  Copyright &copy; 2009 - 2016 - Admin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'coding4ever';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://coding4ever.net/blog/2016/02/09/pengembangan-aplikasi-real-time-menggunakan-signalr/';
+        var disqus_url = 'http://coding4ever.net/blog/2016/02/09/pengembangan-aplikasi-real-time-menggunakan-signalr/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

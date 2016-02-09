@@ -9,7 +9,7 @@
   <meta name="author" content="Admin">
 
   
-  <meta name="description" content="Adakalanya kita ingin menyederhanan proses konfigurasi aplikasi, sehingga sebagian konfigurasi kita pindah pada saat instalasi. Misal kita akan &hellip;">
+  <meta name="description" content="Apapun bahasanya klo lagi ngoding di dot NET, biasanya enggak bakalan jauh-jauh dari aktivitas pembuatan kelas. Kita ambil contoh pembuatan kelas &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -80,6 +80,99 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/12/18/property-builder/">Property Builder</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2010-12-18T14:15:10+07:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>2:15 pm</span></time>
+        
+           | <a href="/blog/2010/12/18/property-builder/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2010/12/18/property-builder/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Apapun bahasanya klo lagi ngoding di dot NET, biasanya enggak bakalan jauh-jauh dari aktivitas pembuatan kelas.</p>
+
+<p>Kita ambil contoh pembuatan kelas sederhana yang hanya mempunyai 2 property (id dan keterangan), hasil kodenya (Visual Basic .NET) akan terlihat seperti berikut :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Public Class Pekerjaan
+</span><span class='line'>
+</span><span class='line'>    Private mPekerjaanID As Short ' deklarasi instance variable
+</span><span class='line'>    Public Property PekerjaanID() As Short
+</span><span class='line'>        Get
+</span><span class='line'>            Return mPekerjaanID ' mengembalikan id pekerjaan
+</span><span class='line'>        End Get
+</span><span class='line'>
+</span><span class='line'>        Set(ByVal value As Short)
+</span><span class='line'>            mPekerjaanID = value ' mengeset id pekerjaan
+</span><span class='line'>        End Set
+</span><span class='line'>    End Property
+</span><span class='line'>
+</span><span class='line'>    Private mKeterangan As String ' deklarasi instace variabel
+</span><span class='line'>    Public Property Keterangan() As String
+</span><span class='line'>        Get
+</span><span class='line'>            Return mKeterangan ' mengembalikan nama pekerjaan
+</span><span class='line'>        End Get
+</span><span class='line'>
+</span><span class='line'>        Set(ByVal value As String)
+</span><span class='line'>            mKeterangan = value ' mengeset nilai pekerjaan
+</span><span class='line'>        End Set
+</span><span class='line'>    End Property
+</span><span class='line'>
+</span><span class='line'>End Class</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2010/12/18/property-builder/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -571,49 +664,6 @@ Ceramah tentang wanita muslimah, jalan mencapai kebahagiaan, emansipasi wanita, 
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2010/09/02/membuat-rumus-penilaian-dinamis/">Membuat Rumus Penilaian Dinamis</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2010-09-02T13:34:44+07:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2010</span></span> <span class='time'>1:34 pm</span></time>
-        
-           | <a href="/blog/2010/09/02/membuat-rumus-penilaian-dinamis/#disqus_thread"
-             data-disqus-identifier="http://coding4ever.net/blog/2010/09/02/membuat-rumus-penilaian-dinamis/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Setahun yang lalu, sewaktu saya masih aktif mengembangkan aplikasi sekolah di beberapa kabupaten di Riau, masalah yang sering saya hadapi adalah tidak adanya standarisasi rumus dalam menentukan nilai akhir siswa (rapor akhir), tetapi untung saja variabel nilainya masih sama (rata2 tugas, rata2 ulangan, uts dan uas).</p>
-
-<p>Pada awalnya saya hanya menyediakan input prosentasi untuk masing-masing nilai tersebut, dan tentu saja cara ini tidak memberikan solusi yang terbaik mengingat masing-masing guru terkadang mempunyai rumus penilaian yang berbeda.</p>
-
-<p>Jadi alternatif solusi lain yang saya tawarkan adalah dengan memberikan keleluasaan untuk menginputkan sendiri rumus dan untuk melakukan ini kita harus mendefinisikan konstanta untuk mewakili nilai-nilai diatas sebagai berikut :</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2010/09/02092010-1.jpg"><img src="http://coding4ever.files.wordpress.com/2010/09/02092010-1.jpg" alt="" /></a></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2010/09/02/membuat-rumus-penilaian-dinamis/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/9">&larr; Older</a>
@@ -658,6 +708,10 @@ Ceramah tentang wanita muslimah, jalan mencapai kebahagiaan, emansipasi wanita, 
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/02/09/pengembangan-aplikasi-real-time-menggunakan-signalr/">Pengembangan Aplikasi Real-time Menggunakan SignalR</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/01/27/menghilangkan-tab-main-report-pada-crystalreportviewer/">Menghilangkan Tab Main Report Pada CrystalReportViewer</a>
       </li>
     
@@ -693,19 +747,15 @@ Ceramah tentang wanita muslimah, jalan mencapai kebahagiaan, emansipasi wanita, 
         <a href="/blog/2015/06/23/cara-mudah-mengelola-versi-aplikasi/">Cara Mudah Mengelola Versi Aplikasi</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2015/06/20/tutorial-wcf-service-bagian-number-4/">Tutorial WCF Service Bagian #4</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h1>Categories</h1>
-    <ul id="category-list"><li><a href='/blog/categories/dot-net-remoting/'>.net remoting (9)</a></li><li><a href='/blog/categories/active-report/'>active report (4)</a></li><li><a href='/blog/categories/android/'>android (1)</a></li><li><a href='/blog/categories/aplikasi/'>aplikasi (4)</a></li><li><a href='/blog/categories/autoupdater-dot-net/'>autoupdater.net (1)</a></li><li><a href='/blog/categories/build-events/'>build events (3)</a></li><li><a href='/blog/categories/crashreporter-dot-net/'>crashreporter.net (1)</a></li><li><a href='/blog/categories/crystal-reports-net/'>crystal reports .net (3)</a></li><li><a href='/blog/categories/dapper-net/'>dapper .net (3)</a></li><li><a href='/blog/categories/database/'>database (2)</a></li><li><a href='/blog/categories/entity-framework/'>entity framework (8)</a></li><li><a href='/blog/categories/firebird/'>firebird (12)</a></li><li><a href='/blog/categories/freeware/'>freeware (7)</a></li><li><a href='/blog/categories/inno-setup/'>inno setup (6)</a></li><li><a href='/blog/categories/jaringan/'>jaringan (1)</a></li><li><a href='/blog/categories/mysql/'>mysql (10)</a></li><li><a href='/blog/categories/nsis/'>nsis (2)</a></li><li><a href='/blog/categories/nuget/'>nuget (5)</a></li><li><a href='/blog/categories/sql-server/'>sql server (1)</a></li><li><a href='/blog/categories/sql-server-2000/'>sql server 2000 (1)</a></li><li><a href='/blog/categories/sqlite/'>sqlite (3)</a></li><li><a href='/blog/categories/testing/'>testing (1)</a></li><li><a href='/blog/categories/tools-installer/'>tools installer (8)</a></li><li><a href='/blog/categories/uncategorized/'>uncategorized (8)</a></li><li><a href='/blog/categories/visual-basic/'>visual basic (73)</a></li><li><a href='/blog/categories/visual-basic-net/'>visual basic .net (11)</a></li><li><a href='/blog/categories/visual-c-number/'>visual c# (42)</a></li><li><a href='/blog/categories/visual-studio-net/'>visual studio .net (3)</a></li><li><a href='/blog/categories/wcf/'>wcf (4)</a></li><li><a href='/blog/categories/winsock/'>winsock (6)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/dot-net-remoting/'>.net remoting (9)</a></li><li><a href='/blog/categories/active-report/'>active report (4)</a></li><li><a href='/blog/categories/android/'>android (1)</a></li><li><a href='/blog/categories/aplikasi/'>aplikasi (4)</a></li><li><a href='/blog/categories/autoupdater-dot-net/'>autoupdater.net (1)</a></li><li><a href='/blog/categories/build-events/'>build events (3)</a></li><li><a href='/blog/categories/crashreporter-dot-net/'>crashreporter.net (1)</a></li><li><a href='/blog/categories/crystal-reports-net/'>crystal reports .net (3)</a></li><li><a href='/blog/categories/dapper-net/'>dapper .net (3)</a></li><li><a href='/blog/categories/database/'>database (2)</a></li><li><a href='/blog/categories/entity-framework/'>entity framework (8)</a></li><li><a href='/blog/categories/firebird/'>firebird (12)</a></li><li><a href='/blog/categories/freeware/'>freeware (7)</a></li><li><a href='/blog/categories/inno-setup/'>inno setup (6)</a></li><li><a href='/blog/categories/jaringan/'>jaringan (1)</a></li><li><a href='/blog/categories/mysql/'>mysql (10)</a></li><li><a href='/blog/categories/nsis/'>nsis (2)</a></li><li><a href='/blog/categories/nuget/'>nuget (5)</a></li><li><a href='/blog/categories/signalr/'>signalr (1)</a></li><li><a href='/blog/categories/sql-server/'>sql server (1)</a></li><li><a href='/blog/categories/sql-server-2000/'>sql server 2000 (1)</a></li><li><a href='/blog/categories/sqlite/'>sqlite (3)</a></li><li><a href='/blog/categories/testing/'>testing (1)</a></li><li><a href='/blog/categories/tools-installer/'>tools installer (8)</a></li><li><a href='/blog/categories/uncategorized/'>uncategorized (8)</a></li><li><a href='/blog/categories/visual-basic/'>visual basic (73)</a></li><li><a href='/blog/categories/visual-basic-net/'>visual basic .net (11)</a></li><li><a href='/blog/categories/visual-c-number/'>visual c# (43)</a></li><li><a href='/blog/categories/visual-studio-net/'>visual studio .net (3)</a></li><li><a href='/blog/categories/wcf/'>wcf (4)</a></li><li><a href='/blog/categories/winsock/'>winsock (6)</a></li></ul>
 </section>
 <section>
   <h1>Tag Cloud</h1>
-    <span id="tag-cloud"><a href='/blog/categories/dot-net-remoting' style='font-size: 107.3972602739726%'>.net remoting(9)</a> <a href='/blog/categories/active-report' style='font-size: 103.28767123287672%'>active report(4)</a> <a href='/blog/categories/android' style='font-size: 100.82191780821918%'>android(1)</a> <a href='/blog/categories/aplikasi' style='font-size: 103.28767123287672%'>aplikasi(4)</a> <a href='/blog/categories/autoupdater-dot-net' style='font-size: 100.82191780821918%'>autoupdater.net(1)</a> <a href='/blog/categories/build-events' style='font-size: 102.46575342465754%'>build events(3)</a> <a href='/blog/categories/crashreporter-dot-net' style='font-size: 100.82191780821918%'>crashreporter.net(1)</a> <a href='/blog/categories/crystal-reports-net' style='font-size: 102.46575342465754%'>crystal reports .net(3)</a> <a href='/blog/categories/dapper-net' style='font-size: 102.46575342465754%'>dapper .net(3)</a> <a href='/blog/categories/database' style='font-size: 101.64383561643835%'>database(2)</a> <a href='/blog/categories/entity-framework' style='font-size: 106.57534246575342%'>entity framework(8)</a> <a href='/blog/categories/firebird' style='font-size: 109.86301369863014%'>firebird(12)</a> <a href='/blog/categories/freeware' style='font-size: 105.75342465753425%'>freeware(7)</a> <a href='/blog/categories/inno-setup' style='font-size: 104.93150684931507%'>inno setup(6)</a> <a href='/blog/categories/jaringan' style='font-size: 100.82191780821918%'>jaringan(1)</a> <a href='/blog/categories/mysql' style='font-size: 108.21917808219177%'>mysql(10)</a> <a href='/blog/categories/nsis' style='font-size: 101.64383561643835%'>nsis(2)</a> <a href='/blog/categories/nuget' style='font-size: 104.10958904109589%'>nuget(5)</a> <a href='/blog/categories/sql-server' style='font-size: 100.82191780821918%'>sql server(1)</a> <a href='/blog/categories/sql-server-2000' style='font-size: 100.82191780821918%'>sql server 2000(1)</a> <a href='/blog/categories/sqlite' style='font-size: 102.46575342465754%'>sqlite(3)</a> <a href='/blog/categories/testing' style='font-size: 100.82191780821918%'>testing(1)</a> <a href='/blog/categories/tools-installer' style='font-size: 106.57534246575342%'>tools installer(8)</a> <a href='/blog/categories/uncategorized' style='font-size: 106.57534246575342%'>uncategorized(8)</a> <a href='/blog/categories/visual-basic' style='font-size: 160.0%'>visual basic(73)</a> <a href='/blog/categories/visual-basic-net' style='font-size: 109.04109589041096%'>visual basic .net(11)</a> <a href='/blog/categories/visual-c-number' style='font-size: 134.52054794520546%'>visual c#(42)</a> <a href='/blog/categories/visual-studio-net' style='font-size: 102.46575342465754%'>visual studio .net(3)</a> <a href='/blog/categories/wcf' style='font-size: 103.28767123287672%'>wcf(4)</a> <a href='/blog/categories/winsock' style='font-size: 104.93150684931507%'>winsock(6)</a> </span>
+    <span id="tag-cloud"><a href='/blog/categories/dot-net-remoting' style='font-size: 107.3972602739726%'>.net remoting(9)</a> <a href='/blog/categories/active-report' style='font-size: 103.28767123287672%'>active report(4)</a> <a href='/blog/categories/android' style='font-size: 100.82191780821918%'>android(1)</a> <a href='/blog/categories/aplikasi' style='font-size: 103.28767123287672%'>aplikasi(4)</a> <a href='/blog/categories/autoupdater-dot-net' style='font-size: 100.82191780821918%'>autoupdater.net(1)</a> <a href='/blog/categories/build-events' style='font-size: 102.46575342465754%'>build events(3)</a> <a href='/blog/categories/crashreporter-dot-net' style='font-size: 100.82191780821918%'>crashreporter.net(1)</a> <a href='/blog/categories/crystal-reports-net' style='font-size: 102.46575342465754%'>crystal reports .net(3)</a> <a href='/blog/categories/dapper-net' style='font-size: 102.46575342465754%'>dapper .net(3)</a> <a href='/blog/categories/database' style='font-size: 101.64383561643835%'>database(2)</a> <a href='/blog/categories/entity-framework' style='font-size: 106.57534246575342%'>entity framework(8)</a> <a href='/blog/categories/firebird' style='font-size: 109.86301369863014%'>firebird(12)</a> <a href='/blog/categories/freeware' style='font-size: 105.75342465753425%'>freeware(7)</a> <a href='/blog/categories/inno-setup' style='font-size: 104.93150684931507%'>inno setup(6)</a> <a href='/blog/categories/jaringan' style='font-size: 100.82191780821918%'>jaringan(1)</a> <a href='/blog/categories/mysql' style='font-size: 108.21917808219177%'>mysql(10)</a> <a href='/blog/categories/nsis' style='font-size: 101.64383561643835%'>nsis(2)</a> <a href='/blog/categories/nuget' style='font-size: 104.10958904109589%'>nuget(5)</a> <a href='/blog/categories/signalr' style='font-size: 100.82191780821918%'>signalr(1)</a> <a href='/blog/categories/sql-server' style='font-size: 100.82191780821918%'>sql server(1)</a> <a href='/blog/categories/sql-server-2000' style='font-size: 100.82191780821918%'>sql server 2000(1)</a> <a href='/blog/categories/sqlite' style='font-size: 102.46575342465754%'>sqlite(3)</a> <a href='/blog/categories/testing' style='font-size: 100.82191780821918%'>testing(1)</a> <a href='/blog/categories/tools-installer' style='font-size: 106.57534246575342%'>tools installer(8)</a> <a href='/blog/categories/uncategorized' style='font-size: 106.57534246575342%'>uncategorized(8)</a> <a href='/blog/categories/visual-basic' style='font-size: 160.0%'>visual basic(73)</a> <a href='/blog/categories/visual-basic-net' style='font-size: 109.04109589041096%'>visual basic .net(11)</a> <a href='/blog/categories/visual-c-number' style='font-size: 135.34246575342465%'>visual c#(43)</a> <a href='/blog/categories/visual-studio-net' style='font-size: 102.46575342465754%'>visual studio .net(3)</a> <a href='/blog/categories/wcf' style='font-size: 103.28767123287672%'>wcf(4)</a> <a href='/blog/categories/winsock' style='font-size: 104.93150684931507%'>winsock(6)</a> </span>
 </section>
 
 <section>

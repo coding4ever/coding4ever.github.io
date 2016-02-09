@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Visual C# | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/visual-c-number/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-02-03T12:44:25+07:00</updated>
+  <updated>2016-02-09T11:17:24+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,342 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Pengembangan Aplikasi Real-time Menggunakan SignalR]]></title>
+    <link href="http://coding4ever.net/blog/2016/02/09/pengembangan-aplikasi-real-time-menggunakan-signalr/"/>
+    <updated>2016-02-09T11:17:00+07:00</updated>
+    <id>http://coding4ever.net/blog/2016/02/09/pengembangan-aplikasi-real-time-menggunakan-signalr</id>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2016/02/signalr.png">https://coding4ever.files.wordpress.com/2016/02/signalr.png</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;><a href="http://signalr.net/">ASP.NET  SignalR</a> atau  dapat  disingkat  menjadi  <a href="http://signalr.net/">SignalR</a>  adalah  library yang memudahkan kita untuk menambahkan fungsi komunikasi <code>real-time</code> pada aplikasi yang kita kembangkan. Fungsi <code>real-time</code> di sini adalah kemampuan server melakukan pengiriman (push) konten atau data kepada client yang  sudah  terkoneksi  ke  server, sehingga  server  tidak  perlu  menunggu  client  untuk melakukan permintaan (request) data terbaru.</p>
+
+<p><a href="http://signalr.net/">SignalR</a> selain digunakan untuk pengembangan aplikasi web, juga bisa digunakan untuk platform lainnya seperti desktop (console dan windows form) ataupun mobile (windows phone, android dan iOS).</p>
+
+<!-- more -->
+
+
+<p><a href="http://signalr.net/">SignalR</a> menyediakan API yang memungkinkan server memanggil fungsi/method yang dimiliki oleh client atau pun sebaliknya. Proses memanggil method secara remote ini dikenal dengan istilah <code>remote procedure call (RPC)</code>.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-01.png">https://coding4ever.files.wordpress.com/2016/02/090216-01.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-02.png">https://coding4ever.files.wordpress.com/2016/02/090216-02.png</a>&#8221;></p>
+
+<p style="text-align:center">Sumber - <a href=" http://www.asp.net/signalr/overview/getting-started/introduction-to-signalr" target="_blank">Introduction to SignalR</a></p>
+
+
+<p>Pada gambar di atas Hub merupakan class turunan dari class <code>Microsoft.AspNet.SignalR.Hub</code> yang memungkinkan server memanggil fungsi/method yang dimiliki oleh client atau sebaliknya client memanggil fungsi/method yang dimiliki oleh server. Sedangkan Hub Proxy merupakan objek proxy dari class Hub yang ada di server, sehingga method yang dipanggil melalui objek proxy ini otomatis akan dieksekusi secara remote (dijalankan di sisi server).</p>
+
+<p>Sebagai contoh penggunaan SignalR, kita akan membuat aplikasi sederhana tanpa database. Di contoh ini kita akan melihat bagaimana cara server dan client berbagi data secara <code>real-time</code>.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-03.png">https://coding4ever.files.wordpress.com/2016/02/090216-03.png</a>&#8221;></p>
+
+<p>Aplikasi di atas terdiri dari tiga project yaitu :</p>
+
+<h5>1. DemoSignalR.WinFormServer</h5>
+
+<p>Project ini bertipe Windows Application yang berfungsi sebagai Server dari SignalR</p>
+
+<h5>2. DemoSignalR.WinFormClient</h5>
+
+<p>Project ini juga bertipe Windows Application yang berfungsi sebagai aplikasi Client</p>
+
+<h5>3. DemoSignalR.Model</h5>
+
+<p>Terakhir adalah project DemoSignalR.Model, project ini bertipe Class Library yang isinya hanya berupa class model. Objek dari class model inilah nantinya akan dishare secara <code>real-time</code> dari server ke client atau sebaliknya.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-04.png">https://coding4ever.files.wordpress.com/2016/02/090216-04.png</a>&#8221;></p>
+
+<p>Berikutnya kita akan bahas satu persatu ketiga project di atas.</p>
+
+<h5>1. DemoSignalR.WinFormServer</h5>
+
+<p>Project ini berfungsi sebagai server dari SignalR. Untuk menggunakan SignalR kita perlu menambahkan beberapa library yang bisa kita install via <a href="/blog/2014/03/11/nuget/">NuGet</a>.</p>
+
+<p>Berikut adalah daftar paket <a href="/blog/2014/03/11/nuget/">NuGet</a> yang perlu kita tambahkan untuk project server.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-05.png">https://coding4ever.files.wordpress.com/2016/02/090216-05.png</a>&#8221;></p>
+
+<h6>SignalR Hubs API</h6>
+
+<p>SignalR Hubs API memungkinkan server memanggil fungsi/method yang dimiliki oleh client atau sebaliknya client memanggil fungsi/method yang dimiliki oleh server. Proses memanggil method secara remote ini dikenal dengan istilah <code>remote procedure call (RPC)</code>.</p>
+
+<p>Di server kita mendefinisikan method yang bisa langsung dipanggil oleh client, kemudian di dalam method ini akan memanggil method yang dijalankan oleh client. Contoh :</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-06.png">https://coding4ever.files.wordpress.com/2016/02/090216-06.png</a>&#8221;></p>
+
+<p>Coba perhatikan kode di atas, method <code>AddCustomer</code> adalah method server yang kita definisikan dan bisa langsung dipanggil oleh client. Nah di dalam method ini juga ada perintah <code>Clients.All.RefreshData(customer)</code>. Method <code>RefreshData</code> setelah property <code>All</code> adalah <code>dynamic method</code>, sehingga kita bebas menentukan sendiri nama methodnya. Dan jangan lupa method <code>RefreshData</code> ini juga harus kita definisikan ulang di bagian client.</p>
+
+<p>Untuk menggunakan fitur SignalR Hubs API kita cukup membuat sebuah class yang merupakan turunan dari class <code>Microsoft.AspNet.SignalR.Hub</code>. Misal kita membuat sebuah class dengan nama <code>ServerHub</code>, class ini harus turunan dari class <code>Microsoft.AspNet.SignalR.Hub</code>. Untuk kode lengkapnya seperti berikut :</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-07.png">https://coding4ever.files.wordpress.com/2016/02/090216-07.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-08.png">https://coding4ever.files.wordpress.com/2016/02/090216-08.png</a>&#8221;></p>
+
+<h6>Mendaftarkan SignalR</h6>
+
+<p><a href="http://signalr.net/">SignalR</a> itu seperti parasit, tidak bisa hidup mandiri sehingga membutuhkan sebuah wadah (host) untuk kelangsungan hidupnya.
+Ada beberapa cara yang bisa digunakan untuk menempatkan SignalR ke dalam wadahnya (host) yaitu :</p>
+
+<ul>
+<li>Hosting in Internet Information Services (IIS)</li>
+<li>Hosting in a Console or Desktop application (Self hosting)</li>
+<li>Hosting in a Windows Service (Self hosting)</li>
+</ul>
+
+
+<p>Karena contoh Server SignalR yang kita buat di atas bertipe Windows Application, berarti kita menggunakan cara <code>Self hosting</code> untuk meng-hostkan SignalR. Untuk mengaktifkan fitur <code>Self hosting</code> kita perlu menambahkan library <code>Microsoft.AspNet.SignalR.SelfHost</code> dan <code>Microsoft.AspNet.Cors</code>, kemudian kita buat class baru dengan nama <code>Startup</code>. Untuk kode lengkapnya seperti berikut :</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-09.png">https://coding4ever.files.wordpress.com/2016/02/090216-09.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-10.png">https://coding4ever.files.wordpress.com/2016/02/090216-10.png</a>&#8221;></p>
+
+<p>Setelah membuat class <code>ServerHub</code> dan <code>Startup</code> kita lanjutkan dengan form utama (FrmServer). Untuk desain UInya seperti berikut :</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-11.png">https://coding4ever.files.wordpress.com/2016/02/090216-11.png</a>&#8221;></p>
+
+<p>Untuk kode lengkapnya seperti berikut :</p>
+
+<p><div><script src='https://gist.github.com/63391d8f511049303b20.js'></script>
+<noscript><pre><code>using Microsoft.Owin.Hosting;
+
+namespace DemoSignalR.WinFormServer
+{
+    public partial class FrmServer : Form
+    {
+        private IDisposable signalR { get; set; }
+        private const string SERVER_URL = &quot;http://192.168.56.1:8282&quot;;
+
+        public FrmServer()
+        {
+            InitializeComponent();
+        }
+
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            WriteToConsole(&quot;Starting server...&quot;);
+
+            btnStart.Enabled = false;
+            Task.Run(() =&gt; StartServer());
+        }
+
+        private void btnStop_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        /// &lt;summary&gt;
+        /// Starts the server and checks for error thrown when another server is already 
+        /// running. This method is called asynchronously from Button_Start.
+        /// &lt;/summary&gt;
+        private void StartServer()
+        {
+            try
+            {
+                signalR = WebApp.Start(SERVER_URL);
+            }
+            catch (TargetInvocationException)
+            {
+                WriteToConsole(&quot;Server failed to start. A server is already running on &quot; + SERVER_URL);
+
+                //Re-enable button to let user try to start server again
+                this.Invoke((Action)(() =&gt; btnStart.Enabled = true));
+                return;
+            }
+
+            this.Invoke((Action)(() =&gt; btnStop.Enabled = true));
+            WriteToConsole(&quot;Server started at &quot; + SERVER_URL);
+        }
+
+        /// &lt;summary&gt;
+        /// This method adds a line to the RichTextBoxConsole control, using Invoke if used
+        /// from a SignalR hub thread rather than the UI thread.
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;message&quot;&gt;&lt;/param&gt;
+        internal void WriteToConsole(String message)
+        {
+            if (lstConsole.InvokeRequired)
+            {
+                this.Invoke((Action)(() =&gt;
+                    WriteToConsole(message)
+                ));
+
+                return;
+            }
+
+            lstConsole.Items.Add(message);
+        }       
+
+        private void FrmServer_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (signalR != null)
+            {
+                signalR.Dispose();
+            }
+        }
+    }
+}
+</code></pre></noscript></div>
+</p>
+
+<p>Setelah menyelesaikan project Server (DemoSignalR.WinFormServer) kita lanjutkan dengan project DemoSignalR.Model.</p>
+
+<h5>2. DemoSignalR.Model</h5>
+
+<p>Project ini hanya berisi class-class model. Data atau objek dari class-class model inilah yang nantinya akan dishare oleh server dan client secara <code>real-time</code>. Sebagai contoh di project ini kita hanya menambahkan satu class model yaitu <code>Customer</code>.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-12.png">https://coding4ever.files.wordpress.com/2016/02/090216-12.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-13.png">https://coding4ever.files.wordpress.com/2016/02/090216-13.png</a>&#8221;></p>
+
+<p>Class Customer di atas masuk dalam kategori  <code>complex types</code> sehingga objek dari class Customer tersebut tidak bisa langsung dikirim dari client ke server atau sebaliknya. Perlu diketahui untuk tipe-tipe data primitif seperti integer, long, boolean termasuk string (pengecualian untuk string bukan tipe data primitif) bisa langsung dikirim dari client ke server atau sebaliknya. Khusus untuk objek dari <code>complex types</code> perlu kita konversi terlebih dulu datanya dalam format json.</p>
+
+<p>Ada dua cara yang bisa kita gunakan yaitu :</p>
+
+<ul>
+<li><p>Menambahkan atribut <code>JsonProperty</code> pada property class
+<img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-14.png">https://coding4ever.files.wordpress.com/2016/02/090216-14.png</a>&#8221;></p></li>
+<li><p>Atau mengkonversi secara langsung objek class ke dalam format json<br/>
+<img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-15.png">https://coding4ever.files.wordpress.com/2016/02/090216-15.png</a>&#8221;></p></li>
+</ul>
+
+
+<p>Jadi terserah Anda mau menggunakan cara yang mana.</p>
+
+<h5>3. DemoSignalR.WinFormClient</h5>
+
+<p>Project terakhir yang akan kita bahas adalah <code>DemoSignalR.WinFormClient</code> ini adalah project untuk Client SignalR, tipenya juga sama seperti project Server SignalR yaitu Windows Application.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-16.png">https://coding4ever.files.wordpress.com/2016/02/090216-16.png</a>&#8221;></p>
+
+<p>Untuk menggunakan SignalR di sisi client kita perlu menambahkan beberapa library yang bisa kita install via <a href="/blog/2014/03/11/nuget/">NuGet</a>.</p>
+
+<p>Berikut adalah daftar paket <a href="/blog/2014/03/11/nuget/">NuGet</a> yang perlu kita tambahkan di project client.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-17.png">https://coding4ever.files.wordpress.com/2016/02/090216-17.png</a>&#8221;></p>
+
+<p>Untuk kode lengkapnya seperti berikut :</p>
+
+<p><div><script src='https://gist.github.com/ded6ca2911696e0b752e.js'></script>
+<noscript><pre><code>using Microsoft.AspNet.SignalR.Client;
+using DemoSignalR.Model;
+
+namespace DemoSignalR.WinFormClient
+{
+    public partial class FrmClient : Form
+    {
+        private const string SERVER_URL = &quot;http://192.168.56.1:8282&quot;;
+
+        private HubConnection hubConnection;
+        private IHubProxy hubProxy;
+
+        public FrmClient()
+        {
+            InitializeComponent();
+
+            InisialisasiListView();
+
+            hubConnection = new HubConnection(SERVER_URL);
+            
+            // membuat objek proxy dari class hub yang ada di server
+            hubProxy = hubConnection.CreateHubProxy(&quot;ServerHub&quot;);
+
+            // set mode listen untuk method RefreshData
+            // method RefreshData sebelumnya harus didefinisikan di server
+            hubProxy.On&lt;Customer&gt;(&quot;RefreshData&quot;, (customer) =&gt; RefreshData(customer));
+            ConnectAsync();
+        }
+
+        private void RefreshData(Customer customer)
+        {
+            lvwCustomer.Invoke(new MethodInvoker(() =&gt; FillToListView(customer)));
+        }
+
+        /// &lt;summary&gt;
+        /// Creates and connects the hub connection and hub proxy.
+        /// &lt;/summary&gt;
+        private async void ConnectAsync()
+        {
+            try
+            {
+                await hubConnection.Start();
+                btnSave.Enabled = true;
+            }
+            catch
+            {
+                MessageBox.Show(&quot;Unable to connect to server: Start server before connecting clients.&quot;);
+                return;
+            }
+
+        }
+
+        // pengaturan propery listview
+        private void InisialisasiListView()
+        {
+            lvwCustomer.View = System.Windows.Forms.View.Details;
+            lvwCustomer.FullRowSelect = true;
+            lvwCustomer.GridLines = true;
+
+            lvwCustomer.Columns.Add(&quot;No.&quot;, 30, HorizontalAlignment.Center);
+            lvwCustomer.Columns.Add(&quot;Customer Id&quot;, 70, HorizontalAlignment.Left);
+            lvwCustomer.Columns.Add(&quot;Company Name&quot;, 150, HorizontalAlignment.Left);
+            lvwCustomer.Columns.Add(&quot;Contact Name&quot;, 155, HorizontalAlignment.Left);
+        }
+
+        // method untuk menampilkan data customer ke listview
+        private void FillToListView(Customer customer)
+        {
+            int noUrut = lvwCustomer.Items.Count + 1;
+
+            ListViewItem item = new ListViewItem(noUrut.ToString());
+            item.SubItems.Add(customer.CustomerId);
+            item.SubItems.Add(customer.CompanyName);
+            item.SubItems.Add(customer.ContactName);
+
+            lvwCustomer.Items.Add(item);
+        }
+
+        private void FrmClient_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (hubConnection != null)
+            {
+                hubConnection.Stop();
+                hubConnection.Dispose();
+            }
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            var customer = new Customer
+            {
+                CustomerId = txtCustomerId.Text,
+                CompanyName = txtCompanyName.Text,
+                ContactName = txtContactName.Text
+            };
+
+            // invoking a server function: 
+            hubProxy.Invoke(&quot;AddCustomer&quot;, customer);
+        }
+    }
+}
+</code></pre></noscript></div>
+</p>
+
+<p>Dan hasilnya adalah seperti berikut :</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-03.png">https://coding4ever.files.wordpress.com/2016/02/090216-03.png</a>&#8221;></p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/DemoSignalR">MENCOBA</a> :-)</p>
+
+<p>Referensi :</p>
+
+<ul>
+<li><a href="http://www.asp.net/signalr/overview/getting-started/introduction-to-signalr">Introduction to SignalR</a></li>
+<li><a href="http://www.asp.net/signalr/overview/getting-started/tutorial-getting-started-with-signalr">Getting Started with SignalR 2</a></li>
+<li><a href="http://www.asp.net/signalr/overview/getting-started/tutorial-high-frequency-realtime-with-signalr">High-Frequency Realtime with SignalR 2</a></li>
+<li><a href="http://www.asp.net/signalr">Learn About ASP.NET SignalR</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Menghilangkan Tab Main Report Pada CrystalReportViewer]]></title>
@@ -410,147 +746,6 @@
 <p>Selamat MENCOBA :)</p>
 
 <p>Referensi : <a href="http://www.codeproject.com/Articles/328977/The-Right-Way-to-Version-Your-Assemblies">The Right Way to Version Your Assemblies</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Tutorial WCF Service Bagian #4]]></title>
-    <link href="http://coding4ever.net/blog/2015/06/20/tutorial-wcf-service-bagian-number-4/"/>
-    <updated>2015-06-20T12:38:46+07:00</updated>
-    <id>http://coding4ever.net/blog/2015/06/20/tutorial-wcf-service-bagian-number-4</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/05/020515-16.png">https://coding4ever.files.wordpress.com/2015/05/020515-16.png</a>&#8221; width=&#8221;100&#8221; height=&#8221;100&#8221;>Postingan kali ini masih melanjutkan pembahasan tentang pembuatan web service menggunakan <a href="/blog/categories/wcf/">WCF</a>, tapi sebelum kita melanjutkan pembahasan ada baiknya kita melakukan sedikit review.</p>
-
-<!-- more -->
-
-
-<ol>
-<li>Pembahasan secara umum apa itu WCF, dan project apa saja yang harus kita persiapkan untuk mengimplementasikannya sudah kita bahas di <a href="/blog/2015/05/02/tutorial-wcf-service-bagian-number-1/">bagian #1</a></li>
-<li>Di <a href="/blog/2015/05/09/tutorial-wcf-service-bagian-number-2/">bagian #2</a> kita membuat project server yang mengimplementasikan service-service apa saja yang tersedia untuk bisa diakses oleh aplikasi klien</li>
-<li>Agar semua service ini bisa diakses oleh klien, kita perlu sebuah wadah/host untuk menjalankan web service, ini juga sudah kita bahas di <a href="/blog/2015/06/05/tutorial-wcf-service-bagian-number-3/">bagian #3</a></li>
-</ol>
-
-
-<p>Berarti sekarang waktu yang tepat untuk mengetes apakah web service yang sudah kita buat berfungsi dengan baik atau belum.</p>
-
-<p>Ada banyak cara untuk mengetes web service yang dibuat menggunakan WCF, kita akan bahas dua di antaranya yaitu :</p>
-
-<ol>
-<li>Tes Menggunakan Aplikasi WCF Test Client</li>
-<li>Tes Menggunakan Aplikasi Buatan Sendiri</li>
-</ol>
-
-
-<p><strong>1. Tes Menggunakan Aplikasi WCF Test Client</strong></p>
-
-<p>Secara default pada saat kita menginstall Visual Studio .NET, installer tidak membuat shortcut untuk aplikasi <code>WCF Test Client</code>, sehingga kita perlu menjalankannya secara manual di lokasi berikut :</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\WcfTestClient.exe</span></code></pre></td></tr></table></div></figure></p>
-
-<p>Lokasi di atas harus disesuaikan dengan versi Visual Studio .NET Anda.</p>
-
-<p>Berikut adalah tampilan aplikasi <code>WCF Test Client</code></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-01.png">https://coding4ever.files.wordpress.com/2015/06/200615-01.png</a>&#8221;></p>
-
-<p>Untuk menambahkan url/link web service, klik menu File -> Add Service …, setelah itu inputkan link web service</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-02.png">https://coding4ever.files.wordpress.com/2015/06/200615-02.png</a>&#8221;></p>
-
-<p>Contoh link di atas kita dapatkan dari <a href="/blog/2015/06/05/tutorial-wcf-service-bagian-number-3/">postingan</a> sebelumnya.</p>
-
-<p>Jika berhasil akan tampil di panel sebelah kiri daftar service dari ServiceCalculator.</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-03.png">https://coding4ever.files.wordpress.com/2015/06/200615-03.png</a>&#8221;></p>
-
-<p>Dari mana datangnya nama-nama service di atas seperti Penambahan dan Pengurangan ? Nama-nama service di atas di generate berdasarkan nama-nama method abstract yang ada di project <a href="https://github.com/k4m4r82/Calculator">CalculatorLib</a></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-04.png">https://coding4ever.files.wordpress.com/2015/06/200615-04.png</a>&#8221;></p>
-
-<p>Berikutnya kita akan tes salah satu service, misal service Penambahan. Caranya adalah dengan mengklik ganda nama service Penambahan.</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-05.png">https://coding4ever.files.wordpress.com/2015/06/200615-05.png</a>&#8221;></p>
-
-<p>Setelah itu di panel sebelah kanan akan tampil form yang inputannya sesuai dengan parameter dari service Penambahan.</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-06.png">https://coding4ever.files.wordpress.com/2015/06/200615-06.png</a>&#8221;></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-07.png">https://coding4ever.files.wordpress.com/2015/06/200615-07.png</a>&#8221;></p>
-
-<p>Langsung saja kita masukan nilai a dan b-nya, kemudian klik tombol Invoke</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-08.png">https://coding4ever.files.wordpress.com/2015/06/200615-08.png</a>&#8221;></p>
-
-<p>Dari hasil tes di atas kita bisa lihat bahwa service Penambahan berfungsi dengan benar karena penambahan nilai <code>5 + 2</code> menghasilkan <code>7</code>.</p>
-
-<p><strong>2. Tes Menggunakan Aplikasi Buatan Sendiri</strong></p>
-
-<p>Setelah tes menggunakan aplikasi WCF Test Client berhasil, kita akan mencoba membuat aplikasi sendiri untuk mengakses WCF web service dan untuk menyederhanakan contoh program, kita hanya membuat aplikasi berbasis console. Tapi sebelumnya aktifkan kembali solution <a href="https://github.com/k4m4r82/Calculator">Calculator</a> yang di dalamnya sudah ada project CalculatorLib dan CalculatorServer.</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-09.png">https://coding4ever.files.wordpress.com/2015/06/200615-09.png</a>&#8221;></p>
-
-<p>Kita akan menambahkan project CalculatorClient masih di solution yang sama</p>
-
-<h4>Menambahkan project CalculatorClient</h4>
-
-<ol>
-<li><p>Klik kanan Solution Calculator -> Add -> New Project</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-10.png">https://coding4ever.files.wordpress.com/2015/06/200615-10.png</a>&#8221;></p></li>
-<li><p>Pada dialog Add New Project aktifkan pilihan Visual C# kemudian pilih Templates Class Library</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-11.png">https://coding4ever.files.wordpress.com/2015/06/200615-11.png</a>&#8221;></p>
-
-<p>Pada isian Name isikan CalculatorClient untuk isian Location dibiarkan saja setelah itu klik Ok. Jika langkah sebelumnya berhasil maka pada solution Calculator akan ketambahan 1 project baru yaitu CalculatorClient.</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-12.png">https://coding4ever.files.wordpress.com/2015/06/200615-12.png</a>&#8221;></p></li>
-</ol>
-
-
-<p>Kemudian klik ganda class Program, setelah itu akan tampil editor code class Program</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-13.png">https://coding4ever.files.wordpress.com/2015/06/200615-13.png</a>&#8221;></p>
-
-<p>Sampai di sini kita akan menambahkan sebuah method dengan nama <code>GetHttpProxy</code>. Sesuai namanya method <code>GetHttpProxy</code> berfungsi untuk mengenerate <code>objek proxy</code>.</p>
-
-<p>Apa itu <code>objek proxy</code> ? <code>Objek proxy</code> merupakan representasi dari <code>service contract</code> sehingga objek proxy mempunyai operasi yang sama dengan <code>service contract</code>. Selain itu semua method yang dipanggil melalui objek proxy akan dieksekusi secara remote (dijalankan di sisi server)</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-14.png">https://coding4ever.files.wordpress.com/2015/06/200615-14.png</a>&#8221;></p>
-
-<p style="text-align:center">Sumber - <a href="http://www.topwcftutorials.net/2014/06/3-ways-generate-proxy-wcf-service.html" target="_blank">Top WCF Tutorial</a></p>
-
-
-<p>Berikut adalah kode dari method <code>GetHttpProxy</code></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-15.png">https://coding4ever.files.wordpress.com/2015/06/200615-15.png</a>&#8221;></p>
-
-<p>Agar method <code>GetHttpProxy</code> di atas berfungsi dengan baik, kita juga harus menambahkan referensi <code>System.ServiceModel</code></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-16.png">https://coding4ever.files.wordpress.com/2015/06/200615-16.png</a>&#8221;></p>
-
-<p>Kemudian mendaftarkannya di bagian using</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-17.png">https://coding4ever.files.wordpress.com/2015/06/200615-17.png</a>&#8221;></p>
-
-<p>Selain itu kita juga perlu  menambahkan referensi ‘CalculatorLib`</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-18.png">https://coding4ever.files.wordpress.com/2015/06/200615-18.png</a>&#8221;></p>
-
-<p>Dan mendaftarkannya dibagian using</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-19.png">https://coding4ever.files.wordpress.com/2015/06/200615-19.png</a>&#8221;></p>
-
-<p>Kenapa perlu menambahkan referensi <code>CalculatorLib</code>, karena kita akan mengakses interface <code>ICalculator</code> dan method-method abstractnya melalui method <code>GetHttpProxy</code></p>
-
-<p>Setelah semua persiapan kode selesai, kita tinggal melengkapi method Main yang di dalamnya kita memanggil url/link web service melalui method <code>GetHttpProxy</code>.</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-20.png">https://coding4ever.files.wordpress.com/2015/06/200615-20.png</a>&#8221;></p>
-
-<p>Jika kode di atas dijalankan akan menghasilkan output seperti berikut</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/200615-21.png">https://coding4ever.files.wordpress.com/2015/06/200615-21.png</a>&#8221;></p>
-
-<p>Selamat <a href="https://github.com/k4m4r82/Calculator">MENCOBA</a> :)</p>
 ]]></content>
   </entry>
   
