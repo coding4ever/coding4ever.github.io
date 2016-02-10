@@ -1,0 +1,745 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Coding4ever&#8217;s Blog</title>
+  <meta name="author" content="Admin">
+
+  
+  <meta name="description" content="1. Tambahkan sebuah modul dan copy paste kode berikut : 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://coding4ever.net/posts/18">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Coding4ever's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50866618-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Coding4ever&#8217;s Blog</a></h1>
+  
+    <h2>Just coding&#8230; coding&#8230; and coding&#8230; because coding should be fun :)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:coding4ever.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/gudang-software">Gudang Software</a></li>
+  <li><a href="/source-code">Source Code</a></li>  
+  <li><a href="/aplikasi-gratis">Aplikasi Gratis</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/12/29/membuat-fungsi-koneksi-untuk-beberapa-database-firebird-mysql-ms-sql-server-dan-ms-access/">Membuat Fungsi Koneksi Untuk Beberapa Database (Firebird, MySQL, Ms SQL Server Dan Ms Access)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2009-12-29T14:55:07+07:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2009</span></span> <span class='time'>2:55 pm</span></time>
+        
+           | <a href="/blog/2009/12/29/membuat-fungsi-koneksi-untuk-beberapa-database-firebird-mysql-ms-sql-server-dan-ms-access/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2009/12/29/membuat-fungsi-koneksi-untuk-beberapa-database-firebird-mysql-ms-sql-server-dan-ms-access/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>1. Tambahkan sebuah modul dan copy paste kode berikut :</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Public conn As ADODB.Connection
+</span><span class='line'>
+</span><span class='line'>Public Enum TIPE_DATABASE
+</span><span class='line'>   FIREBIRD = 1
+</span><span class='line'>   MYSQL = 2
+</span><span class='line'>   SQLSERVER = 3
+</span><span class='line'>   MSACCESS = 4
+</span><span class='line'>End Enum
+</span><span class='line'>
+</span><span class='line'>Public Function connToDB(ByVal tipeDb As TIPE_DATABASE, Optional ByVal serverName As String = "", _
+</span><span class='line'>   Optional ByVal userName As String = "", Optional ByVal userPass As String = "", _
+</span><span class='line'>   Optional ByVal dbPath As String = "", Optional ByVal dbName As String = "") As Boolean
+</span><span class='line'>
+</span><span class='line'>   Dim strCon As String
+</span><span class='line'>
+</span><span class='line'>   On Error GoTo errHandle
+</span><span class='line'>
+</span><span class='line'>   Select Case tipeDb
+</span><span class='line'>      Case FIREBIRD
+</span><span class='line'>         strCon = "DRIVER=Firebird/Interbase(r) Driver;UID=" & userName & ";PWD=" & userPass & ";" & _
+</span><span class='line'>         "DBNAME=" & serverName & ":" & dbPath & "\" & dbName & ""
+</span><span class='line'>
+</span><span class='line'>      Case MYSQL
+</span><span class='line'>         strCon = "DRIVER={MySQL ODBC 5.1 Driver};SERVER=" & serverName & ";DATABASE=" & dbName & ";" & _
+</span><span class='line'>         "UID=" & userName & ";PWD=" & userPass & ";OPTION=3"
+</span><span class='line'>
+</span><span class='line'>      Case SQLSERVER
+</span><span class='line'>         strCon = "Provider=SQLOLEDB.1;User ID=" & userName & ";Pwd=" & userPass & ";" & _
+</span><span class='line'>         "Initial Catalog=" & dbName & ";Data Source=" & serverName & ""
+</span><span class='line'>
+</span><span class='line'>      Case MSACCESS
+</span><span class='line'>        If Len(userPass) > 0 Then
+</span><span class='line'>           strCon = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source= " & dbPath & "\" & dbName & ";" & _
+</span><span class='line'>           "Jet OLEDB:Database Password=" & userPass & ""
+</span><span class='line'>        Else
+</span><span class='line'>           strCon = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source= " & dbPath & "\" & dbName & ""
+</span><span class='line'>        End If
+</span><span class='line'>   End Select
+</span><span class='line'>
+</span><span class='line'>   Set conn = New ADODB.Connection
+</span><span class='line'>   conn.ConnectionString = strCon
+</span><span class='line'>   conn.Open
+</span><span class='line'>
+</span><span class='line'>   connToDB = True
+</span><span class='line'>
+</span><span class='line'>   Exit Function
+</span><span class='line'>errHandle:
+</span><span class='line'>   connToDB = False
+</span><span class='line'>End Function</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>2. Pada form tambahkan sebuah objek command dan set properties Name = cmdTesKoneksi</strong></p>
+
+<p>copy paste kode berikut :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub cmdTesKoneksi_Click()
+</span><span class='line'>   Dim result  As Boolean
+</span><span class='line'>
+</span><span class='line'>   'Firebird
+</span><span class='line'>   result = connToDB(FIREBIRD, "127.0.0.1", "SYSDBA", "masterkey", "d:\data", "db_akademik.fdb")
+</span><span class='line'>   Debug.Print result
+</span><span class='line'>
+</span><span class='line'>   'MySQL
+</span><span class='line'>   result = connToDB(MYSQL, "127.0.0.1", "root", "masterkey", , "db_akademik")
+</span><span class='line'>   Debug.Print result
+</span><span class='line'>
+</span><span class='line'>   'SQL Server 2000
+</span><span class='line'>   result = connToDB(SQLSERVER, "127.0.0.1", "sa", "masterkey", , "db_akademik")
+</span><span class='line'>   Debug.Print result
+</span><span class='line'>
+</span><span class='line'>   'Ms Access - tanpa password
+</span><span class='line'>   result = connToDB(MSACCESS, , , , "d:\data", "db_akademik.mdb")
+</span><span class='line'>   Debug.Print result
+</span><span class='line'>
+</span><span class='line'>   'Ms Access - menggunakan password
+</span><span class='line'>   result = connToDB(MSACCESS, , , "masterkey", "d:\data", "db_akademik.mdb")
+</span><span class='line'>   Debug.Print result
+</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Untuk nilai semua parameter fungsi connToDB disesuaikan dengan kondisi komputer Anda. Selamat mencoba :)</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/12/29/membuat-paket-instalasi-update-program-menggunakan-inno-setup/">Membuat Paket Instalasi Update Program Menggunakan Inno Setup</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2009-12-29T13:35:58+07:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2009</span></span> <span class='time'>1:35 pm</span></time>
+        
+           | <a href="/blog/2009/12/29/membuat-paket-instalasi-update-program-menggunakan-inno-setup/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2009/12/29/membuat-paket-instalasi-update-program-menggunakan-inno-setup/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Masalah update program adalah masalah klasik untuk para programmer aplikasi desktop, bagaimana tidak biasanya kita selalu disibukan dengan masalah yang satu ini. Update&hellip; update&hellip; dan update &hellip; :D apalagi dengan jumlah klien yang banyak wahhhh cape deh.</p>
+
+<p>Sebenarnya proses update sendiri pada dasarnya adalah masalah sederhana <strong>&ldquo;tinggal copy program yang baru untuk menimpa program yang lama&rdquo;</strong>. Permasalahan biasanya muncul jika yang harus melakukan update adalah klien kita yang benar<sup>5</sup> END USER :D. Ya mungking cuma bisa ngetik di word atau mantan operator dos yang baru pindah ke windows de el el.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2009/12/29/membuat-paket-instalasi-update-program-menggunakan-inno-setup/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/12/29/membuat-paket-instalasi-update-program-menggunakan-nsis/">Membuat Paket Instalasi Update Program Menggunakan NSIS</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2009-12-29T13:26:52+07:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2009</span></span> <span class='time'>1:26 pm</span></time>
+        
+           | <a href="/blog/2009/12/29/membuat-paket-instalasi-update-program-menggunakan-nsis/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2009/12/29/membuat-paket-instalasi-update-program-menggunakan-nsis/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Masalah update program adalah masalah klasik untuk para programmer aplikasi desktop, bagaimana tidak biasanya kita selalu disibukan dengan masalah yang satu ini. Update&hellip; update&hellip; dan update &hellip; :D apalagi dengan jumlah klien yang banyak wahhhh cape deh.</p>
+
+<p>Sebenarnya proses update sendiri pada dasarnya adalah masalah sederhana <strong>&ldquo;tinggal copy program yang baru untuk menimpa program yang lama&rdquo;</strong>. Permasalahan biasanya muncul jika yang harus melakukan update adalah klien kita yang benar<sup>5</sup> END USER :D. Ya mungking cuma bisa ngetik di word atau mantan operator dos yang baru pindah ke windows de el el.</p>
+
+<p>Sehingga dengan adanya program update yang baik <strong>&ldquo;User nyaman kita pun tenang&rdquo;</strong> :D.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2009/12/29/membuat-paket-instalasi-update-program-menggunakan-nsis/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/12/29/daftar-fungsi-rahasia-dan-penggunaannya/">Daftar Fungsi Rahasia Dan Penggunaannya</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2009-12-29T06:32:28+07:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2009</span></span> <span class='time'>6:32 am</span></time>
+        
+           | <a href="/blog/2009/12/29/daftar-fungsi-rahasia-dan-penggunaannya/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2009/12/29/daftar-fungsi-rahasia-dan-penggunaannya/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Sengaja judulnya saya buat heboh :D padahal sih cuma fungsi biasa yang sering saya gunakan dalam pengembangan aplikasi.</p>
+
+<p><strong>1. Mendapatkan nama bulan dalam bahasa indonesia</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Public Function getBulanIndonesia(ByVal bulan As Integer) As String
+</span><span class='line'>   Select Case bulan
+</span><span class='line'>      Case 1: getBulanIndonesia = "Januari"
+</span><span class='line'>      Case 2: getBulanIndonesia = "Februari"
+</span><span class='line'>      Case 3: getBulanIndonesia = "Maret"
+</span><span class='line'>      Case 4: getBulanIndonesia = "April"
+</span><span class='line'>      Case 5: getBulanIndonesia = "Mei"
+</span><span class='line'>      Case 6: getBulanIndonesia = "Juni"
+</span><span class='line'>      Case 7: getBulanIndonesia = "Juli"
+</span><span class='line'>      Case 8: getBulanIndonesia = "Agustus"
+</span><span class='line'>      Case 9: getBulanIndonesia = "September"
+</span><span class='line'>      Case 10: getBulanIndonesia = "Oktober"
+</span><span class='line'>      Case 11: getBulanIndonesia = "November"
+</span><span class='line'>      Case 12: getBulanIndonesia = "Desember"
+</span><span class='line'>   End Select
+</span><span class='line'>End Function</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Contoh :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Debug.Print getBulanIndonesia(Month(Now))</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2009/12/29/daftar-fungsi-rahasia-dan-penggunaannya/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/12/28/mengganti-posisi-tombol-default-fungsi-msgbox/">Mengganti Posisi Tombol Default Fungsi MsgBox</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2009-12-28T16:21:02+07:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2009</span></span> <span class='time'>4:21 pm</span></time>
+        
+           | <a href="/blog/2009/12/28/mengganti-posisi-tombol-default-fungsi-msgbox/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2009/12/28/mengganti-posisi-tombol-default-fungsi-msgbox/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Lihat kode berikut :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub cmdKeluar_Click()
+</span><span class='line'>   If MsgBox("Apakah Anda ingin keluar ???", vbExclamation + vbYesNo, "Konfirmasi") = vbYes Then End
+</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
+
+
+<p>dan lihat hasilnya</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2009/12/msg1.jpg"><img src="http://coding4ever.files.wordpress.com/2009/12/msg1.jpg" alt="" /></a></p>
+
+<p>dan bagaimana jika ingin hasilnya seperti ini :</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2009/12/msg2.jpg"><img src="http://coding4ever.files.wordpress.com/2009/12/msg2.jpg" alt="" /></a></p>
+
+<p>gampang tinggal rubah kodenya menjadi seperti ini</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub cmdKeluar_Click()
+</span><span class='line'>   If MsgBox("Apakah Anda ingin keluar ???", vbExclamation + vbYesNo + vbDefaultButton2, "Konfirmasi") = vbYes Then End
+</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Selamat mencoba :)</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/12/28/first-step/">First Step</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2009-12-28T15:49:53+07:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2009</span></span> <span class='time'>3:49 pm</span></time>
+        
+           | <a href="/blog/2009/12/28/first-step/#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net/blog/2009/12/28/first-step/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Sapa dunia dengan Java</p>
+
+<figure class='code'><figcaption><span>class=&#8221;java&#8221; </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class HelloWorld {
+</span><span class='line'>   public static void main(String[] args) {
+</span><span class='line'>      System.out.println("Hello world!");
+</span><span class='line'>   }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Atau Anda juga bisa menyapanya dengan VB</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Public Sub Main()
+</span><span class='line'>   MsgBox "Hello world!"
+</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/posts/17">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Admin</h1>
+  
+  <a href="http://www.facebook.com/abu.anas.1232" title="Admin" target="_blank"><img src="https://coding4ever.files.wordpress.com/2015/04/avatar-blog.png" border="0" alt="Admin" /></a><br/>
+  
+  <p>Software developer yang berasal dari Riau, tepatnya di <a href="http://id.wikipedia.org/wiki/Kabupaten_Indragiri_Hilir" title="Negeri Seribu Parit" target="_blank">Negeri Seribu Parit</a> dan saat ini berdomisili di Yogyakarta.</p>
+  
+  <p>Pernah mengajar di salah satu perguruan tinggi swasta (PTS) di Yogyakarta.<br>
+     Saat ini bekerja sebagai staf IT di PTS yang sama sebagai senior software developer.</p>
+  
+  <p>Fokus mengembangkan aplikasi di atas platform .NET (Desktop, Web Service) dan Android. Di waktu luang insya Alloh akan terus berbagi pengalaman di blog <a href="http://coding4ever.net" target="_blank">ini</a>.</p>    
+</section><section>
+  <h1>Contacts</h1>
+    <ul>		
+		<li>			
+			<a href="mailto:coding4ever.net@gmail.com" title="GMail" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/gmail-small2.png" border="0" alt="GMail" /></a>
+		</li>		
+		<li>			
+			<a href="https://github.com/k4m4r82?tab=repositories" title="GitHub" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/github-small2.png" border="0" alt="GitHub" /></a>
+		</li>
+		<li>
+			<a href="http://www.facebook.com/abu.anas.1232" title="Facebook" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/fb-small2.png" border="0" alt="Facebook" /></a>
+		</li>				
+		<li>
+			<img src="https://coding4ever.files.wordpress.com/2016/01/bbm-pin1.png" border="0" alt="BBM PIN" />
+		</li>
+	</ul>
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/02/11/menggunakan-objek-collection-dan-transaction-pada-visual-basic-6/">Menggunakan Objek Collection Dan Transaction Pada Visual Basic 6</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/09/pengembangan-aplikasi-real-time-menggunakan-signalr/">Pengembangan Aplikasi Real-time Menggunakan SignalR</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/27/menghilangkan-tab-main-report-pada-crystalreportviewer/">Menghilangkan Tab Main Report Pada CrystalReportViewer</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/24/membuat-laporan-crystal-reports-net-dengan-model-data-push-bagian-number-2/">Membuat Laporan Crystal Reports .NET Dengan Model Data-Push Bagian #2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/10/paket-nuget-yang-wajib-dicoba-bagian-number-2-autoupdater-dot-net/">Paket NuGet Yang Wajib Dicoba Bagian #2 - AutoUpdater.NET</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/06/online-backup-database/">Online Backup Database</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/10/20/performance-test-menggunakan-jmeter/">Performance Test Menggunakan JMeter</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/04/the-power-of-visual-studio-net-build-events-part-number-3/">The Power of Visual Studio .NET Build Events Part #3</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/01/the-power-of-visual-studio-net-build-events-part-number-2/">The Power of Visual Studio .NET Build Events Part #2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/25/the-power-of-visual-studio-net-build-events-part-number-1/">The Power of Visual Studio .NET Build Events Part #1</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+    <ul id="category-list"><li><a href='/blog/categories/dot-net-remoting/'>.net remoting (9)</a></li><li><a href='/blog/categories/active-report/'>active report (4)</a></li><li><a href='/blog/categories/android/'>android (1)</a></li><li><a href='/blog/categories/aplikasi/'>aplikasi (4)</a></li><li><a href='/blog/categories/autoupdater-dot-net/'>autoupdater.net (1)</a></li><li><a href='/blog/categories/build-events/'>build events (3)</a></li><li><a href='/blog/categories/crashreporter-dot-net/'>crashreporter.net (1)</a></li><li><a href='/blog/categories/crystal-reports-net/'>crystal reports .net (3)</a></li><li><a href='/blog/categories/dapper-net/'>dapper .net (3)</a></li><li><a href='/blog/categories/database/'>database (2)</a></li><li><a href='/blog/categories/entity-framework/'>entity framework (8)</a></li><li><a href='/blog/categories/firebird/'>firebird (12)</a></li><li><a href='/blog/categories/freeware/'>freeware (7)</a></li><li><a href='/blog/categories/inno-setup/'>inno setup (6)</a></li><li><a href='/blog/categories/jaringan/'>jaringan (1)</a></li><li><a href='/blog/categories/mysql/'>mysql (10)</a></li><li><a href='/blog/categories/nsis/'>nsis (2)</a></li><li><a href='/blog/categories/nuget/'>nuget (5)</a></li><li><a href='/blog/categories/signalr/'>signalr (1)</a></li><li><a href='/blog/categories/sql-server/'>sql server (1)</a></li><li><a href='/blog/categories/sql-server-2000/'>sql server 2000 (1)</a></li><li><a href='/blog/categories/sqlite/'>sqlite (3)</a></li><li><a href='/blog/categories/testing/'>testing (1)</a></li><li><a href='/blog/categories/tools-installer/'>tools installer (8)</a></li><li><a href='/blog/categories/uncategorized/'>uncategorized (8)</a></li><li><a href='/blog/categories/visual-basic/'>visual basic (74)</a></li><li><a href='/blog/categories/visual-basic-net/'>visual basic .net (11)</a></li><li><a href='/blog/categories/visual-c-number/'>visual c# (43)</a></li><li><a href='/blog/categories/visual-studio-net/'>visual studio .net (3)</a></li><li><a href='/blog/categories/wcf/'>wcf (4)</a></li><li><a href='/blog/categories/winsock/'>winsock (6)</a></li></ul>
+</section>
+<section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/blog/categories/dot-net-remoting' style='font-size: 107.29729729729729%'>.net remoting(9)</a> <a href='/blog/categories/active-report' style='font-size: 103.24324324324324%'>active report(4)</a> <a href='/blog/categories/android' style='font-size: 100.8108108108108%'>android(1)</a> <a href='/blog/categories/aplikasi' style='font-size: 103.24324324324324%'>aplikasi(4)</a> <a href='/blog/categories/autoupdater-dot-net' style='font-size: 100.8108108108108%'>autoupdater.net(1)</a> <a href='/blog/categories/build-events' style='font-size: 102.43243243243244%'>build events(3)</a> <a href='/blog/categories/crashreporter-dot-net' style='font-size: 100.8108108108108%'>crashreporter.net(1)</a> <a href='/blog/categories/crystal-reports-net' style='font-size: 102.43243243243244%'>crystal reports .net(3)</a> <a href='/blog/categories/dapper-net' style='font-size: 102.43243243243244%'>dapper .net(3)</a> <a href='/blog/categories/database' style='font-size: 101.62162162162163%'>database(2)</a> <a href='/blog/categories/entity-framework' style='font-size: 106.48648648648648%'>entity framework(8)</a> <a href='/blog/categories/firebird' style='font-size: 109.72972972972973%'>firebird(12)</a> <a href='/blog/categories/freeware' style='font-size: 105.67567567567568%'>freeware(7)</a> <a href='/blog/categories/inno-setup' style='font-size: 104.86486486486487%'>inno setup(6)</a> <a href='/blog/categories/jaringan' style='font-size: 100.8108108108108%'>jaringan(1)</a> <a href='/blog/categories/mysql' style='font-size: 108.10810810810811%'>mysql(10)</a> <a href='/blog/categories/nsis' style='font-size: 101.62162162162163%'>nsis(2)</a> <a href='/blog/categories/nuget' style='font-size: 104.05405405405405%'>nuget(5)</a> <a href='/blog/categories/signalr' style='font-size: 100.8108108108108%'>signalr(1)</a> <a href='/blog/categories/sql-server' style='font-size: 100.8108108108108%'>sql server(1)</a> <a href='/blog/categories/sql-server-2000' style='font-size: 100.8108108108108%'>sql server 2000(1)</a> <a href='/blog/categories/sqlite' style='font-size: 102.43243243243244%'>sqlite(3)</a> <a href='/blog/categories/testing' style='font-size: 100.8108108108108%'>testing(1)</a> <a href='/blog/categories/tools-installer' style='font-size: 106.48648648648648%'>tools installer(8)</a> <a href='/blog/categories/uncategorized' style='font-size: 106.48648648648648%'>uncategorized(8)</a> <a href='/blog/categories/visual-basic' style='font-size: 160.0%'>visual basic(74)</a> <a href='/blog/categories/visual-basic-net' style='font-size: 108.91891891891892%'>visual basic .net(11)</a> <a href='/blog/categories/visual-c-number' style='font-size: 134.86486486486487%'>visual c#(43)</a> <a href='/blog/categories/visual-studio-net' style='font-size: 102.43243243243244%'>visual studio .net(3)</a> <a href='/blog/categories/wcf' style='font-size: 103.24324324324324%'>wcf(4)</a> <a href='/blog/categories/winsock' style='font-size: 104.86486486486487%'>winsock(6)</a> </span>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'k4m4r82',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p align="center">
+  Copyright &copy; 2009 - 2016 - Admin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'coding4ever';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>
