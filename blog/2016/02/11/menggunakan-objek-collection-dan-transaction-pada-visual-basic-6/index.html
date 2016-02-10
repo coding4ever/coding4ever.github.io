@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Belajar Winsock Bagian 1 - Intro - Coding4ever&#8217;s Blog</title>
+  <title>Menggunakan Objek Collection Dan Transaction Pada Visual Basic 6 - Coding4ever&#8217;s Blog</title>
   <meta name="author" content="Admin">
 
   
-  <meta name="description" content="1. Sekilas tentang Winsock Kita telah mengetahui bahwa komputer membutuhkan sistem operasi agar bisa bekerja. Sistem operasi itu sendiri adalah &hellip;">
+  <meta name="description" content="Lagi kangen :-D, udah lama enggak posting tentang Visual Basic 6. Terakhir nulis sekitar 3-4 tahun yang lalu he he :-D. Kali ini saya ingin membahas &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://coding4ever.net/blog/2010/01/26/belajar-winsock-bagian-1-intro">
+  <link rel="canonical" href="http://coding4ever.net/blog/2016/02/11/menggunakan-objek-collection-dan-transaction-pada-visual-basic-6">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Coding4ever's Blog" type="application/atom+xml">
@@ -83,7 +83,7 @@
   
   <header>
     
-      <h1 class="entry-title">Belajar Winsock Bagian 1 - Intro</h1>
+      <h1 class="entry-title">Menggunakan Objek Collection Dan Transaction Pada Visual Basic 6</h1>
     
     
       <p class="meta">
@@ -92,7 +92,7 @@
 
 
 
-<time class='entry-date' datetime='2010-01-26T01:00:30+07:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>1:00 am</span></time>
+<time class='entry-date' datetime='2016-02-11T05:00:47+07:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>5:00 am</span></time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://coding4ever.net">Comments</a>
@@ -102,245 +102,328 @@
   </header>
 
 
-<div class="entry-content"><p><strong>1. Sekilas tentang Winsock</strong></p>
+<div class="entry-content"><p><img class="left" src="https://coding4ever.files.wordpress.com/2016/02/visualbasic6.jpg" width="120" height="100">Lagi kangen :-D, udah lama enggak posting tentang <a href="http://coding4ever.net/blog/categories/visual-basic/">Visual Basic 6</a>. Terakhir nulis sekitar <a href="http://coding4ever.net/blog/categories/visual-basic/">3-4 tahun</a> yang lalu he he :-D.</p>
 
-<p>Kita telah mengetahui bahwa komputer membutuhkan sistem operasi agar bisa bekerja. Sistem operasi itu sendiri adalah software. Untuk mengetik, cetak, gambar, semua tugas komputasi membutuhkan software, termasuk juga berkomunikasi dengan komputer lain.</p>
-
-<p>Windows memiliki API (Application Programming Interface) untuk berkomunikasi melalui TCP/IP yang terkenal dengan nama Winsock API. Namun penggunaan API itu sendiri sudah cukup sulit. Microsoft mengerti kebutuhkan para programer dan membuat komponen ActiveX control yang bernama Winsock Control.</p>
+<p>Kali ini saya ingin membahas salah satu poin <code>penting</code> tetapi sering kali disepelekan ketika akan membuat aplikasi bisnis yaitu <a href="http://en.wikipedia.org/wiki/Database_transaction">transaction</a>. Padahal fitur ini sangat penting untuk menjaga konsistensi data, karena hampir bisa dipastikan semua aplikasi bisnis menggunakan skema header-detail.</p>
 
 <!-- more -->
 
 
-<p>Fungsinya mempermudah kita sebagai programer untuk membuat software yang bisa berkomunikasi dengan komputer lain. Dengan Winsock control maka Anda tidak perlu mengetahui secara detail protokol TCP/IP maupun pemanggilan fungsi Winsock API untuk membuat sebuah aplikasi network. Yang perlu Anda lakukan hanyalah mengisi nilai properti, mengeksekusi metode, dan semuanya segera berjalan sesuai skenario (dengan catatan, semua seting network dalam kondisi baik).</p>
+<p>Salah satu poin penting dari <a href="http://en.wikipedia.org/wiki/Database_transaction">transaction</a> adalah <a href="http://en.wikipedia.org/wiki/Atomicity_%28database_systems%29">atomic</a>, yaitu beberapa perintah dianggap sebagai satu kesatuan. Kalau satu gagal, yang lain juga harus dibatalkan.</p>
 
-<p><strong>2. Protokol-protokok Winsock</strong></p>
-
-<p>Komponen Winsock mempunyai 2 jenis protokol:</p>
+<p>Contoh pada saat terjadi order penjualan proses yang terjadi adalah :</p>
 
 <ol>
-<li><p> TCP - Transmission Control Protocol. Dengan TCP mengharuskan 2 atau lebih komputer yang terhubungan untuk mengirim/menerima data harus dalam kondisi terkoneksi. Jadi dengan menggunakan TCP sangat aman karena data akan selalu dicek sampai atau tidak.</p></li>
-<li><p> UDP - User Datagram Protocol. Dengan UDP tidak mengharuskan adanya koneksi yang aktif, hanya saja tidak ada jaminan data yang dikirim sampai atau tidak.</p></li>
+<li>Insert 1 kali ke tabel Order</li>
+<li>Insert n kali ke tabel OrderDetail</li>
+<li>Mengurangi stok barang (tidak di bahas di postingan ini), karena bisa juga diselesaikan dengan database trigger</li>
 </ol>
 
 
-<p>Dalam artikel ini saya hanya akan membahas menggunakan protokol TCP</p>
+<p>Ketika insert ke tabel OrderDetail gagal, maka tabel Ordernya juga harus di batalkan (undo), klo enggak ya datanya jadi enggak konsisten, karena ada nota Order yang enggak ada OrderDetailnya.</p>
 
-<p><strong>3. Contoh menggunakan Winsock</strong></p>
+<p>Nah utk mempermudah proses <a href="http://en.wikipedia.org/wiki/Database_transaction">transaction</a>  ini kita bisa menggunakan objek collection untuk menyimpan objek OrderDetail yang kemudian kita binding ke objek Ordernya. Berhubung <a href="http://coding4ever.net/blog/categories/visual-basic/">Visual Basic 6</a> tidak mempunyai class collection yang sepadan dengan class collection yang ada di Visual Basic .NET atau bahasa pemrograman .NET lainnya, sebagai gantinya kita bisa menggunakan class <code>Scripting.Dictionary</code>. Tetapi untuk menggunakan class <code>Scripting.Dictionary</code> ini kita harus menambahkan referensi <code>Microsoft Scripting Runtime</code> terlebih dulu.</p>
 
-<p>Winsock mempunyai 2 fungsi dasar, yang pertama mendengarkan fungsi yang masuk :</p>
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/100216-05.png"></p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub Form_Load()
-</span><span class='line'>    With Winsock1
-</span><span class='line'>        'set lokal port, misal 21211
-</span><span class='line'>        'jangan menggunakan port standar yang sudah digunakan
-</span><span class='line'>        'ex : 3306 (MySQL), 3050 (Firebird) de el el
-</span><span class='line'>        .LocalPort = 21211
-</span><span class='line'>
-</span><span class='line'>        'listen on this port
-</span><span class='line'>        .Listen
-</span><span class='line'>    End With
-</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
+<p>Dengan asumsi database berikut tabelnya sudah tersedia, langkah berikutnya adalah membuat class <code>Order</code> dan <code>OrderDetail</code>. Kedua class ini dikenal dengan istilah class model, yaitu class yang merupakan representasi dari tabel-tabel yang ada di database.</p>
 
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/100216-01.png"></p>
 
-<p>ketika ada koneksi masuk event Winsock_ConnectionRequest() akan dijalankan, contoh sederhana untuk menghandle event Winsock_ConnectionRequest() :</p>
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/100216-02.png"></p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub Winsock1_ConnectionRequest(ByVal requestID As Long)
-</span><span class='line'>    With Winsock1
-</span><span class='line'>        'tutup terlebih dulu, karena jika sebelumnya masih ada koneksi
-</span><span class='line'>        'akan menyebabkan error
-</span><span class='line'>        .Close
-</span><span class='line'>
-</span><span class='line'>        'requestID mengandung informasi angka unik setiap koneksi yang masuk
-</span><span class='line'>        .Accept requestID
-</span><span class='line'>    End With
-</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
+<p>Nah class-class model ini biasanya mempunyai beberapa property yang juga merupakan representasi field-field yang ada di dalam tabel.</p>
 
+<div><script src='https://gist.github.com/b374ccae1ccd75e58f17.js'></script>
+<noscript><pre><code>' tambahkan referensi Microsoft Scripting Runtime
+Option Explicit
 
-<p>Nah sampai disini kita sudah mengetahui cara untuk menghandle koneksi yang masuk, untuk menghandle koneksi keluar ada 2 properties yang perlu kita ketahui yaitu RemoteHost (diisi dengan IP Address komputer target) dan RemotePort (diisi dengan port yang sama pada saat memanggil method .Listen).</p>
+Private mOrderID            As Long
+Private mCustomerID         As String
+Private mOrderDate          As String
+Private mShipName           As String
+Private mShipAddress        As String
+Private mListOfOrderDetail  As Scripting.Dictionary
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub cmdTesKoneksi_Click()
-</span><span class='line'>    With Winsock1
-</span><span class='line'>        'ip komputer target
-</span><span class='line'>        .RemoteHost = "127.0.0.1"
-</span><span class='line'>
-</span><span class='line'>        'harus sama dengan port pada saat pemanggilan method .Listen
-</span><span class='line'>        .RemotePort = 21211
-</span><span class='line'>
-</span><span class='line'>        'start the connection
-</span><span class='line'>        .Connect
-</span><span class='line'>    End With
-</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
+Public Property Let orderID(ByVal vData As Long)
+    mOrderID = vData
+End Property
+Public Property Get orderID() As Long
+    orderID = mOrderID
+End Property
+
+Public Property Let customerID(ByVal vData As String)
+    mCustomerID = vData
+End Property
+Public Property Get customerID() As String
+    customerID = mCustomerID
+End Property
+
+Public Property Let orderDate(ByVal vData As String)
+    mOrderDate = vData
+End Property
+Public Property Get orderDate() As String
+    orderDate = mOrderDate
+End Property
+
+Public Property Let shipName(ByVal vData As String)
+    mShipName = vData
+End Property
+Public Property Get shipName() As String
+    shipName = mShipName
+End Property
+
+Public Property Let shipAddress(ByVal vData As String)
+    mShipAddress = vData
+End Property
+Public Property Get shipAddress() As String
+    shipAddress = mShipAddress
+End Property
+
+Public Property Let listOfOrderDetail(ByVal vData As Scripting.Dictionary)
+    Set mListOfOrderDetail = vData
+End Property
+
+Public Property Get listOfOrderDetail() As Scripting.Dictionary
+    Set listOfOrderDetail = mListOfOrderDetail
+End Property</code></pre></noscript></div>
 
 
-<p>Selanjutnya permintaan koneksi sudah dilakukan kemudian bagaimana kita mengetahui koneksi tersebut sudah diterima/belum.  Ada 2 method yang bisa melakukan ini yaitu Winsock_Connect dan the Winsock_Error,  dan dari nama methodnya saja saya rasa sudah menjelaskan maksud dan tujuan dari method tersebut.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub Winsock1_Connect()
-</span><span class='line'>    MsgBox "Connected"
-</span><span class='line'>End Sub
-</span><span class='line'>
-</span><span class='line'>Private Sub Winsock1_Error(ByVal Number As Integer, Description As String, ByVal Scode As Long, ByVal Source As String, ByVal HelpFile As String, ByVal HelpContext As Long, CancelDisplay As Boolean)
-</span><span class='line'>    MsgBox "Error: " & Description
-</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Pembahasan artikel pertama ini akan kita tutup dengan 2 sample program <strong>SEDERHANA</strong> untuk melakukan koneksi via Winsock. Persiapan yang perlu dilakukan :</p>
+<div><script src='https://gist.github.com/52d180a02053e56fae2b.js'></script>
+<noscript><pre><code>Option Explicit
 
-<ol>
-<li><p> Buat project baru</p></li>
-<li><p> Tambahkan komponen (CTRL + T) Microsoft Winsock Control 6.0 kemudian drag ke form</p></li>
-<li><p> Drag komponen CommandButton dan set properties Name = cmdTesKoneksi (khusus program klien)</p></li>
-</ol>
+Private mOrderID        As Long
+Private mProductID      As Long
+Private mUnitPrice      As Double
+Private mQuantity       As Integer
+Private mDiscount       As Single
 
+Public Property Let orderID(ByVal vData As Long)
+    mOrderID = vData
+End Property
+Public Property Get orderID() As Long
+    orderID = mOrderID
+End Property
 
-<p>Source code lengkap program pertama (server) :</p>
+Public Property Let productID(ByVal vData As Long)
+    mProductID = vData
+End Property
+Public Property Get productID() As Long
+    productID = mProductID
+End Property
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub Form_Load()
-</span><span class='line'>    With Winsock1
-</span><span class='line'>        'set lokal port, misal 21211
-</span><span class='line'>        'jangan menggunakan port standar yang sudah digunakan
-</span><span class='line'>        'ex : 3306 (MySQL), 3050 (Firebird) de el el
-</span><span class='line'>        .LocalPort = 21211
-</span><span class='line'>
-</span><span class='line'>        'listen on this port
-</span><span class='line'>        .Listen
-</span><span class='line'>    End With
-</span><span class='line'>End Sub
-</span><span class='line'>
-</span><span class='line'>Private Sub Winsock1_ConnectionRequest(ByVal requestID As Long)
-</span><span class='line'>    With Winsock1
-</span><span class='line'>        'tutup terlebih dulu, karena jika sebelumnya masih ada koneksi
-</span><span class='line'>        'akan menyebabkan error
-</span><span class='line'>        .Close
-</span><span class='line'>
-</span><span class='line'>        'requestID mengandung informasi angka unik setiap koneksi yang masuk
-</span><span class='line'>        .Accept requestID
-</span><span class='line'>    End With
-</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
+Public Property Let unitPrice(ByVal vData As Double)
+    mUnitPrice = vData
+End Property
+Public Property Get unitPrice() As Double
+    unitPrice = mUnitPrice
+End Property
+
+Public Property Let quantity(ByVal vData As Integer)
+    mQuantity = vData
+End Property
+Public Property Get quantity() As Integer
+    quantity = mQuantity
+End Property
+
+Public Property Let discount(ByVal vData As Single)
+    mDiscount = vData
+End Property
+Public Property Get discount() As Single
+    discount = mDiscount
+End Property</code></pre></noscript></div>
 
 
-<p>Source code lengkap program kedua (klien) :</p>
+<p>Setelah class-class model selesai dibuat, untuk urusan <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a>-nya kita buat class tersendiri atau yang dikenal dengan istilah class-class <a href="http://coding4ever.net/blog/2011/09/08/implementasi-konsep-data-access-object-dao-di-vb-6/">DAO</a> atau <a href="https://msdn.microsoft.com/en-us/library/ff649690.aspx">Repository</a>.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub cmdTesKoneksi_Click()
-</span><span class='line'>    With Winsock1
-</span><span class='line'>        If .State &lt;> sckClosed Then .Close
-</span><span class='line'>
-</span><span class='line'>        'ip komputer target - server
-</span><span class='line'>        .RemoteHost = "127.0.0.1"
-</span><span class='line'>
-</span><span class='line'>        'harus sama dengan port pada saat pemanggilan method .Listen program server
-</span><span class='line'>        .RemotePort = 21211
-</span><span class='line'>
-</span><span class='line'>        'start the connection
-</span><span class='line'>        .Connect
-</span><span class='line'>    End With
-</span><span class='line'>End Sub
-</span><span class='line'>
-</span><span class='line'>Private Sub Winsock1_Connect()
-</span><span class='line'>    MsgBox "Connected"
-</span><span class='line'>End Sub
-</span><span class='line'>
-</span><span class='line'>Private Sub Winsock1_Error(ByVal Number As Integer, Description As String, ByVal Scode As Long, ByVal Source As String, ByVal HelpFile As String, ByVal HelpContext As Long, CancelDisplay As Boolean)
-</span><span class='line'>    MsgBox "Error: " & Description
-</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/100216-03.png"></p>
+
+<p>Class <a href="http://coding4ever.net/blog/2011/09/08/implementasi-konsep-data-access-object-dao-di-vb-6/">DAO</a> ini biasanya berisi method-method standar seperti Save, Update, Delete dan Get. Tapi untuk contoh kali ini saya hanya menambahkan method Save. Karena kita ingin insert ke tabel Order dan OrderDetail dianggap sebagai satu kesatuan, maka diterapkanlah konsep <a href="http://en.wikipedia.org/wiki/Database_transaction">transaction</a> dengan menambahkan perintah-perintah <a href="http://en.wikipedia.org/wiki/Database_transaction">transaction</a> seperti <code>BeginTrans</code>, <code>CommitTrans</code> dan <code>RollbackTrans</code>.</p>
+
+<div><script src='https://gist.github.com/41b8f6f9570100a2dc98.js'></script>
+<noscript><pre><code>Option Explicit
+
+Private dbConn  As DbConnection
+Private conn    As ADODB.Connection
+Private strSql  As String
+
+Private Sub Class_Initialize()
+    Set dbConn = New DbConnection
+    Set conn = dbConn.GetOpenConnection
+End Sub
+
+Public Function Save(ByVal objOrder As Order) As Integer
+    Dim cmd             As ADODB.Command
+    Dim key             As Variant
+    Dim objItemOrder    As OrderDetail
+    
+    On Error GoTo errHandle
+
+    conn.BeginTrans ' begin transaction
+    
+    ' insert header
+    strSql = &quot;INSERT INTO Orders (OrderID, CustomerID, OrderDate, ShipName, ShipAddress) &quot; &amp; _
+             &quot;VALUES (?, ?, ?, ?, ?)&quot;
+    Set cmd = New ADODB.Command
+    With cmd
+        .ActiveConnection = conn
+        .CommandType = adCmdText
+        .CommandText = strSql
+        .Prepared = True
+        
+        .Parameters(0) = objOrder.orderID
+        .Parameters(1) = objOrder.customerID
+        .Parameters(2) = objOrder.orderDate
+        .Parameters(3) = objOrder.shipName
+        .Parameters(4) = objOrder.shipAddress
+
+        .Execute
+    End With
+    Set cmd = Nothing
+
+    ' insert detail
+    strSql = &quot;INSERT INTO OrderDetails (OrderID, ProductID, UnitPrice, Quantity, Discount) &quot; &amp; _
+             &quot;VALUES (?, ?, ?, ?, ?)&quot;
+
+    For Each key In objOrder.listOfOrderDetail
+        
+        ' ekstrak objek item order
+        Set objItemOrder = objOrder.listOfOrderDetail.Item(key)
+
+        Set cmd = New ADODB.Command
+        With cmd
+            .ActiveConnection = conn
+            .CommandType = adCmdText
+            .CommandText = strSql
+            .Prepared = True
+            
+            .Parameters(0) = objOrder.orderID
+            .Parameters(1) = objItemOrder.productID
+            .Parameters(2) = objItemOrder.unitPrice
+            .Parameters(3) = objItemOrder.quantity
+            .Parameters(4) = objItemOrder.discount
+            
+            .Execute
+        End With
+        Set cmd = Nothing
+    Next
+
+    conn.CommitTrans ' commit transaction
+    
+    Save = 1
+    
+    Exit Function
+
+errHandle:
+    conn.RollbackTrans ' error, rollback transaction
+    Save = 0
+End Function
+
+Private Sub Class_Terminate()
+    Call dbConn.CloseConnection(conn)
+End Sub</code></pre></noscript></div>
 
 
-<p>Jika sudah jalankan kedua program tersebut kemudian klik tombol cmdTesKoneksi, dan kita akan mendapatkan pesan &ldquo;Connected&rdquo; yang artinya kita sudah berhasil membuat aplikasi sederhana untuk melakukan koneksi menggunakan Winsock.</p>
+<p>Nah klo kita perhatikan di bagian constructor (Class_Initialize), terdapat perintah untuk membuat objek Connection dengan memanggil method <code>GetOpenConnection</code> dari class DbConnection.</p>
 
-<p>Artikel berikutnya insya Alloh dengan judul <a href="http://coding4ever.net/blog/2010/01/28/belajar-winsock-bagian-2-membuat-aplikasi-chat-sederhana-11/">Belajar Winsock bagian 2 – Membuat aplikasi chat sederhana 1:1</a> segera menyusul.</p>
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/100216-04.png"></p>
 
-<p>Selamat mencoba :)</p>
+<div><script src='https://gist.github.com/de02c82aeceac1f83bd4.js'></script>
+<noscript><pre><code>Option Explicit
 
-<p>Referensi :</p>
+Public Function GetOpenConnection() As ADODB.Connection
+    Dim conn    As ADODB.Connection
+    Dim strCon  As String
+            
+    On Error GoTo errHandle
+        
+    strCon = &quot;DRIVER=SQLite3 ODBC Driver;Database=&quot; &amp; App.Path &amp; &quot;\db\Northwind.db;LongNames=0;Timeout=1000;NoTXN=0;SyncPragma=NORMAL;StepAPI=0&quot;
+    
+    Set conn = New ADODB.Connection
+    conn.ConnectionString = strCon
+    conn.Open
+    
+    Set GetOpenConnection = conn
+    
+    Exit Function
+errHandle:
+    ' do nothing
+End Function
 
-<ol>
-<li><p> <a href="http://www.winsockvb.com">http://www.winsockvb.com</a> sayangnya situs ini sekarang sudah offline</p></li>
-<li><p> Tugas Akhir saya membuat billing warnet di bla bla</p></li>
-</ol>
+Public Sub CloseConnection(ByVal conn As ADODB.Connection)
+    If Not conn Is Nothing Then
+        If conn.State = adStateOpen Then conn.Close
+        Set conn = Nothing
+    End If
+End Sub</code></pre></noscript></div>
 
+
+<p>Setelah semua kodenya lengkap kita tinggal melakukan testing seperti berikut :</p>
+
+<div><script src='https://gist.github.com/ff6696a7d94a1a3e6967.js'></script>
+<noscript><pre><code>Option Explicit
+
+Public Sub Main()
+    ' buat objek Order
+    Dim objOrder As New Order
+    
+    With objOrder
+        .orderID = 123451
+        .customerID = &quot;SUPRD&quot;
+        .orderDate = &quot;2016-2-6&quot;
+        .shipName = &quot;Que Delícia&quot;
+        .shipAddress = &quot;Rua da Panificadora, 12&quot;
+    End With
+    
+    ' buat objek OrderDetail
+    ' objek #1
+    Dim objItemOrder1 As New OrderDetail
+    With objItemOrder1
+        .productID = 11
+        .unitPrice = 9.8
+        .quantity = 10
+        .discount = 0
+    End With
+    
+    ' objek #2
+    Dim objItemOrder2 As New OrderDetail
+    With objItemOrder2
+        .productID = 65
+        .unitPrice = 16.8
+        .quantity = 5
+        .discount = 0.15
+    End With
+    
+    ' objek #3
+    Dim objItemOrder3 As New OrderDetail
+    With objItemOrder3
+        .productID = 212
+        .unitPrice = 42.4
+        .quantity = 15
+        .discount = 0.25
+    End With
+    
+    ' hubungkan objek item order ke objek order
+    objOrder.listOfOrderDetail = New Scripting.Dictionary
+    objOrder.listOfOrderDetail.Add 1, objItemOrder1
+    objOrder.listOfOrderDetail.Add 2, objItemOrder2
+    objOrder.listOfOrderDetail.Add 3, objItemOrder3
+    
+    Dim dao     As New OrderDao
+    Dim result  As Integer
+    
+    result = dao.Save(objOrder)
+    If result &gt; 0 Then
+        Debug.Print &quot;Penyimpanan data order berhasil&quot;
+    Else
+        Debug.Print &quot;Penyimpanan data order gagal&quot;
+    End If
+End Sub</code></pre></noscript></div>
+
+
+<p>Selamat <a href="https://github.com/k4m4r82/DemoTransactionVB6">MENCOBA</a> :-)</p>
 </div>
 
 
@@ -356,12 +439,12 @@
 
 
 
-<time class='entry-date' datetime='2010-01-26T01:00:30+07:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>1:00 am</span></time>
+<time class='entry-date' datetime='2016-02-11T05:00:47+07:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>5:00 am</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/visual-basic/'>visual basic</a>, <a class='category' href='/blog/categories/winsock/'>winsock</a>
+    <a class='category' href='/blog/categories/visual-basic/'>visual basic</a>
   
 </span>
 
@@ -384,10 +467,8 @@ Saat ini bekerja sebagai staf IT di salah satu PTS di Yogyakarta sebagai senior 
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2010/01/22/membuat-menu-samping-dengan-komponen-vbaccelerator-vb6-explorer-bar/" title="Previous Post: Membuat menu samping dengan komponen vbAccelerator VB6 Explorer Bar">&laquo; Membuat menu samping dengan komponen vbAccelerator VB6 Explorer Bar</a>
+        <a class="basic-alignment left" href="/blog/2016/02/09/pengembangan-aplikasi-real-time-menggunakan-signalr/" title="Previous Post: Pengembangan Aplikasi Real-time Menggunakan SignalR">&laquo; Pengembangan Aplikasi Real-time Menggunakan SignalR</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2010/01/28/belajar-winsock-bagian-2-membuat-aplikasi-chat-sederhana-11/" title="Next Post: Belajar Winsock bagian 2 - Membuat aplikasi chat sederhana 1:1">Belajar Winsock bagian 2 - Membuat aplikasi chat sederhana 1:1 &raquo;</a>
       
     </p>
   </footer>
@@ -532,8 +613,8 @@ Saat ini bekerja sebagai staf IT di salah satu PTS di Yogyakarta sebagai senior 
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://coding4ever.net/blog/2010/01/26/belajar-winsock-bagian-1-intro/';
-        var disqus_url = 'http://coding4ever.net/blog/2010/01/26/belajar-winsock-bagian-1-intro/';
+        var disqus_identifier = 'http://coding4ever.net/blog/2016/02/11/menggunakan-objek-collection-dan-transaction-pada-visual-basic-6/';
+        var disqus_url = 'http://coding4ever.net/blog/2016/02/11/menggunakan-objek-collection-dan-transaction-pada-visual-basic-6/';
         var disqus_script = 'embed.js';
       
     (function () {

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Visual Basic | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/visual-basic/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-02-09T11:17:24+07:00</updated>
+  <updated>2016-02-11T05:39:06+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,334 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Menggunakan Objek Collection Dan Transaction Pada Visual Basic 6]]></title>
+    <link href="http://coding4ever.net/blog/2016/02/11/menggunakan-objek-collection-dan-transaction-pada-visual-basic-6/"/>
+    <updated>2016-02-11T05:00:47+07:00</updated>
+    <id>http://coding4ever.net/blog/2016/02/11/menggunakan-objek-collection-dan-transaction-pada-visual-basic-6</id>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2016/02/visualbasic6.jpg">https://coding4ever.files.wordpress.com/2016/02/visualbasic6.jpg</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Lagi kangen :-D, udah lama enggak posting tentang <a href="/blog/categories/visual-basic/">Visual Basic 6</a>. Terakhir nulis sekitar <a href="/blog/categories/visual-basic/">3-4 tahun</a> yang lalu he he :-D.</p>
+
+<p>Kali ini saya ingin membahas salah satu poin <code>penting</code> tetapi sering kali disepelekan ketika akan membuat aplikasi bisnis yaitu <a href="http://en.wikipedia.org/wiki/Database_transaction">transaction</a>. Padahal fitur ini sangat penting untuk menjaga konsistensi data, karena hampir bisa dipastikan semua aplikasi bisnis menggunakan skema header-detail.</p>
+
+<!-- more -->
+
+
+<p>Salah satu poin penting dari <a href="http://en.wikipedia.org/wiki/Database_transaction">transaction</a> adalah <a href="http://en.wikipedia.org/wiki/Atomicity_%28database_systems%29">atomic</a>, yaitu beberapa perintah dianggap sebagai satu kesatuan. Kalau satu gagal, yang lain juga harus dibatalkan.</p>
+
+<p>Contoh pada saat terjadi order penjualan proses yang terjadi adalah :</p>
+
+<ol>
+<li>Insert 1 kali ke tabel Order</li>
+<li>Insert n kali ke tabel OrderDetail</li>
+<li>Mengurangi stok barang (tidak di bahas di postingan ini), karena bisa juga diselesaikan dengan database trigger</li>
+</ol>
+
+
+<p>Ketika insert ke tabel OrderDetail gagal, maka tabel Ordernya juga harus di batalkan (undo), klo enggak ya datanya jadi enggak konsisten, karena ada nota Order yang enggak ada OrderDetailnya.</p>
+
+<p>Nah utk mempermudah proses <a href="http://en.wikipedia.org/wiki/Database_transaction">transaction</a>  ini kita bisa menggunakan objek collection untuk menyimpan objek OrderDetail yang kemudian kita binding ke objek Ordernya. Berhubung <a href="/blog/categories/visual-basic/">Visual Basic 6</a> tidak mempunyai class collection yang sepadan dengan class collection yang ada di Visual Basic .NET atau bahasa pemrograman .NET lainnya, sebagai gantinya kita bisa menggunakan class <code>Scripting.Dictionary</code>. Tetapi untuk menggunakan class <code>Scripting.Dictionary</code> ini kita harus menambahkan referensi <code>Microsoft Scripting Runtime</code> terlebih dulu.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/100216-05.png">https://coding4ever.files.wordpress.com/2016/02/100216-05.png</a>&#8221;></p>
+
+<p>Dengan asumsi database berikut tabelnya sudah tersedia, langkah berikutnya adalah membuat class <code>Order</code> dan <code>OrderDetail</code>. Kedua class ini dikenal dengan istilah class model, yaitu class yang merupakan representasi dari tabel-tabel yang ada di database.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/100216-01.png">https://coding4ever.files.wordpress.com/2016/02/100216-01.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/100216-02.png">https://coding4ever.files.wordpress.com/2016/02/100216-02.png</a>&#8221;></p>
+
+<p>Nah class-class model ini biasanya mempunyai beberapa property yang juga merupakan representasi field-field yang ada di dalam tabel.</p>
+
+<p><div><script src='https://gist.github.com/b374ccae1ccd75e58f17.js'></script>
+<noscript><pre><code>' tambahkan referensi Microsoft Scripting Runtime
+Option Explicit
+
+Private mOrderID            As Long
+Private mCustomerID         As String
+Private mOrderDate          As String
+Private mShipName           As String
+Private mShipAddress        As String
+Private mListOfOrderDetail  As Scripting.Dictionary
+
+Public Property Let orderID(ByVal vData As Long)
+    mOrderID = vData
+End Property
+Public Property Get orderID() As Long
+    orderID = mOrderID
+End Property
+
+Public Property Let customerID(ByVal vData As String)
+    mCustomerID = vData
+End Property
+Public Property Get customerID() As String
+    customerID = mCustomerID
+End Property
+
+Public Property Let orderDate(ByVal vData As String)
+    mOrderDate = vData
+End Property
+Public Property Get orderDate() As String
+    orderDate = mOrderDate
+End Property
+
+Public Property Let shipName(ByVal vData As String)
+    mShipName = vData
+End Property
+Public Property Get shipName() As String
+    shipName = mShipName
+End Property
+
+Public Property Let shipAddress(ByVal vData As String)
+    mShipAddress = vData
+End Property
+Public Property Get shipAddress() As String
+    shipAddress = mShipAddress
+End Property
+
+Public Property Let listOfOrderDetail(ByVal vData As Scripting.Dictionary)
+    Set mListOfOrderDetail = vData
+End Property
+
+Public Property Get listOfOrderDetail() As Scripting.Dictionary
+    Set listOfOrderDetail = mListOfOrderDetail
+End Property</code></pre></noscript></div>
+</p>
+
+<p><div><script src='https://gist.github.com/52d180a02053e56fae2b.js'></script>
+<noscript><pre><code>Option Explicit
+
+Private mOrderID        As Long
+Private mProductID      As Long
+Private mUnitPrice      As Double
+Private mQuantity       As Integer
+Private mDiscount       As Single
+
+Public Property Let orderID(ByVal vData As Long)
+    mOrderID = vData
+End Property
+Public Property Get orderID() As Long
+    orderID = mOrderID
+End Property
+
+Public Property Let productID(ByVal vData As Long)
+    mProductID = vData
+End Property
+Public Property Get productID() As Long
+    productID = mProductID
+End Property
+
+Public Property Let unitPrice(ByVal vData As Double)
+    mUnitPrice = vData
+End Property
+Public Property Get unitPrice() As Double
+    unitPrice = mUnitPrice
+End Property
+
+Public Property Let quantity(ByVal vData As Integer)
+    mQuantity = vData
+End Property
+Public Property Get quantity() As Integer
+    quantity = mQuantity
+End Property
+
+Public Property Let discount(ByVal vData As Single)
+    mDiscount = vData
+End Property
+Public Property Get discount() As Single
+    discount = mDiscount
+End Property</code></pre></noscript></div>
+</p>
+
+<p>Setelah class-class model selesai dibuat, untuk urusan <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a>-nya kita buat class tersendiri atau yang dikenal dengan istilah class-class <a href="/blog/2011/09/08/implementasi-konsep-data-access-object-dao-di-vb-6/">DAO</a> atau <a href="https://msdn.microsoft.com/en-us/library/ff649690.aspx">Repository</a>.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/100216-03.png">https://coding4ever.files.wordpress.com/2016/02/100216-03.png</a>&#8221;></p>
+
+<p>Class <a href="/blog/2011/09/08/implementasi-konsep-data-access-object-dao-di-vb-6/">DAO</a> ini biasanya berisi method-method standar seperti Save, Update, Delete dan Get. Tapi untuk contoh kali ini saya hanya menambahkan method Save. Karena kita ingin insert ke tabel Order dan OrderDetail dianggap sebagai satu kesatuan, maka diterapkanlah konsep <a href="http://en.wikipedia.org/wiki/Database_transaction">transaction</a> dengan menambahkan perintah-perintah <a href="http://en.wikipedia.org/wiki/Database_transaction">transaction</a> seperti <code>BeginTrans</code>, <code>CommitTrans</code> dan <code>RollbackTrans</code>.</p>
+
+<p><div><script src='https://gist.github.com/41b8f6f9570100a2dc98.js'></script>
+<noscript><pre><code>Option Explicit
+
+Private dbConn  As DbConnection
+Private conn    As ADODB.Connection
+Private strSql  As String
+
+Private Sub Class_Initialize()
+    Set dbConn = New DbConnection
+    Set conn = dbConn.GetOpenConnection
+End Sub
+
+Public Function Save(ByVal objOrder As Order) As Integer
+    Dim cmd             As ADODB.Command
+    Dim key             As Variant
+    Dim objItemOrder    As OrderDetail
+    
+    On Error GoTo errHandle
+
+    conn.BeginTrans ' begin transaction
+    
+    ' insert header
+    strSql = &quot;INSERT INTO Orders (OrderID, CustomerID, OrderDate, ShipName, ShipAddress) &quot; &amp; _
+             &quot;VALUES (?, ?, ?, ?, ?)&quot;
+    Set cmd = New ADODB.Command
+    With cmd
+        .ActiveConnection = conn
+        .CommandType = adCmdText
+        .CommandText = strSql
+        .Prepared = True
+        
+        .Parameters(0) = objOrder.orderID
+        .Parameters(1) = objOrder.customerID
+        .Parameters(2) = objOrder.orderDate
+        .Parameters(3) = objOrder.shipName
+        .Parameters(4) = objOrder.shipAddress
+
+        .Execute
+    End With
+    Set cmd = Nothing
+
+    ' insert detail
+    strSql = &quot;INSERT INTO OrderDetails (OrderID, ProductID, UnitPrice, Quantity, Discount) &quot; &amp; _
+             &quot;VALUES (?, ?, ?, ?, ?)&quot;
+
+    For Each key In objOrder.listOfOrderDetail
+        
+        ' ekstrak objek item order
+        Set objItemOrder = objOrder.listOfOrderDetail.Item(key)
+
+        Set cmd = New ADODB.Command
+        With cmd
+            .ActiveConnection = conn
+            .CommandType = adCmdText
+            .CommandText = strSql
+            .Prepared = True
+            
+            .Parameters(0) = objOrder.orderID
+            .Parameters(1) = objItemOrder.productID
+            .Parameters(2) = objItemOrder.unitPrice
+            .Parameters(3) = objItemOrder.quantity
+            .Parameters(4) = objItemOrder.discount
+            
+            .Execute
+        End With
+        Set cmd = Nothing
+    Next
+
+    conn.CommitTrans ' commit transaction
+    
+    Save = 1
+    
+    Exit Function
+
+errHandle:
+    conn.RollbackTrans ' error, rollback transaction
+    Save = 0
+End Function
+
+Private Sub Class_Terminate()
+    Call dbConn.CloseConnection(conn)
+End Sub</code></pre></noscript></div>
+</p>
+
+<p>Nah klo kita perhatikan di bagian constructor (Class_Initialize), terdapat perintah untuk membuat objek Connection dengan memanggil method <code>GetOpenConnection</code> dari class DbConnection.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/100216-04.png">https://coding4ever.files.wordpress.com/2016/02/100216-04.png</a>&#8221;></p>
+
+<p><div><script src='https://gist.github.com/de02c82aeceac1f83bd4.js'></script>
+<noscript><pre><code>Option Explicit
+
+Public Function GetOpenConnection() As ADODB.Connection
+    Dim conn    As ADODB.Connection
+    Dim strCon  As String
+            
+    On Error GoTo errHandle
+        
+    strCon = &quot;DRIVER=SQLite3 ODBC Driver;Database=&quot; &amp; App.Path &amp; &quot;\db\Northwind.db;LongNames=0;Timeout=1000;NoTXN=0;SyncPragma=NORMAL;StepAPI=0&quot;
+    
+    Set conn = New ADODB.Connection
+    conn.ConnectionString = strCon
+    conn.Open
+    
+    Set GetOpenConnection = conn
+    
+    Exit Function
+errHandle:
+    ' do nothing
+End Function
+
+Public Sub CloseConnection(ByVal conn As ADODB.Connection)
+    If Not conn Is Nothing Then
+        If conn.State = adStateOpen Then conn.Close
+        Set conn = Nothing
+    End If
+End Sub</code></pre></noscript></div>
+</p>
+
+<p>Setelah semua kodenya lengkap kita tinggal melakukan testing seperti berikut :</p>
+
+<p><div><script src='https://gist.github.com/ff6696a7d94a1a3e6967.js'></script>
+<noscript><pre><code>Option Explicit
+
+Public Sub Main()
+    ' buat objek Order
+    Dim objOrder As New Order
+    
+    With objOrder
+        .orderID = 123451
+        .customerID = &quot;SUPRD&quot;
+        .orderDate = &quot;2016-2-6&quot;
+        .shipName = &quot;Que Delícia&quot;
+        .shipAddress = &quot;Rua da Panificadora, 12&quot;
+    End With
+    
+    ' buat objek OrderDetail
+    ' objek #1
+    Dim objItemOrder1 As New OrderDetail
+    With objItemOrder1
+        .productID = 11
+        .unitPrice = 9.8
+        .quantity = 10
+        .discount = 0
+    End With
+    
+    ' objek #2
+    Dim objItemOrder2 As New OrderDetail
+    With objItemOrder2
+        .productID = 65
+        .unitPrice = 16.8
+        .quantity = 5
+        .discount = 0.15
+    End With
+    
+    ' objek #3
+    Dim objItemOrder3 As New OrderDetail
+    With objItemOrder3
+        .productID = 212
+        .unitPrice = 42.4
+        .quantity = 15
+        .discount = 0.25
+    End With
+    
+    ' hubungkan objek item order ke objek order
+    objOrder.listOfOrderDetail = New Scripting.Dictionary
+    objOrder.listOfOrderDetail.Add 1, objItemOrder1
+    objOrder.listOfOrderDetail.Add 2, objItemOrder2
+    objOrder.listOfOrderDetail.Add 3, objItemOrder3
+    
+    Dim dao     As New OrderDao
+    Dim result  As Integer
+    
+    result = dao.Save(objOrder)
+    If result &gt; 0 Then
+        Debug.Print &quot;Penyimpanan data order berhasil&quot;
+    Else
+        Debug.Print &quot;Penyimpanan data order gagal&quot;
+    End If
+End Sub</code></pre></noscript></div>
+</p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/DemoTransactionVB6">MENCOBA</a> :-)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Menggunakan Library .NET Di VB 6]]></title>
@@ -1187,897 +1515,6 @@
 </span></code></pre></td></tr></table></div></figure></p>
 
 <p>Selamat <a href="http://www.4shared.com/file/ZlvryGZ4/ARTanpaDB.html">MENCOBA</a> :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Implementasi Konsep Data Access Object (DAO) Di VB 6]]></title>
-    <link href="http://coding4ever.net/blog/2011/09/08/implementasi-konsep-data-access-object-dao-di-vb-6/"/>
-    <updated>2011-09-08T09:18:53+07:00</updated>
-    <id>http://coding4ever.net/blog/2011/09/08/implementasi-konsep-data-access-object-dao-di-vb-6</id>
-    <content type="html"><![CDATA[<p>Maksud <a href="http://en.wikipedia.org/wiki/Data_access_object">DAO</a> disini bukan komponen <a href="http://msdn.microsoft.com/en-us/library/et1kh6d3.aspx">Microsoft DAO</a> yang populer di kalangan programmer vb untuk mengakses database tapi <a href="http://en.wikipedia.org/wiki/Data_access_object">DAO</a> disini lebih ke penerapan konsep <a href="http://en.wikipedia.org/wiki/Data_access_object">DAO</a> yang diperkenalkan Java untuk mengakses database.</p>
-
-<!-- more -->
-
-
-<p>Dalam konsep <a href="http://en.wikipedia.org/wiki/Data_access_object">DAO</a> kita akan memisahkan module program menjadi beberapa bagian/layer yaitu :</p>
-
-<ol>
-<li><p> Presentation</p></li>
-<li><p> Business Logic</p></li>
-<li><p> Data Access</p></li>
-</ol>
-
-
-<p>Untuk presentation layer berhubungan dengan UI (user interface) .</p>
-
-<p>Business Logic biasanya berhubungannya dengan entity class dan entity class sendiri merupakan representasi tabel-tabel yang ada di database biasanya juga disebut dengan istilah class model.</p>
-
-<p>Terakhir Data Access yaitu bagian yang menangani urusan akses database biasanya terdapat operasi CRUD (Create, Read, Update, Delete).</p>
-
-<p>Untuk kasusnya yang gampang aja :), kita akan mencoba mengakses data siswa yang mempunyai empat field yaitu nomor induk, nama, tempat lahir dan tanggal lahir.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/09/08092011-1.png"><img src="http://coding4ever.files.wordpress.com/2011/09/08092011-1.png" alt="" /></a></p>
-
-<p><strong>Memulai project baru</strong></p>
-
-<p>Jalankan Visual Basih 6 kemudian pada dialog New Project aktifkan tab New kemudian pilih Standar EXE dan akhiri dengan menekan tombol Open.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/09/08092011-2.png"><img src="http://coding4ever.files.wordpress.com/2011/09/08092011-2.png?w=300" alt="" /></a></p>
-
-<p><strong>Membuat Presentation Layer</strong></p>
-
-<p>Pada saat membuat project baru secara default sudah disiapkan 1 buah project  plus formnya</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/09/08092011-3.png"><img src="http://coding4ever.files.wordpress.com/2011/09/08092011-3.png" alt="" /></a></p>
-
-<p>kemudian lakukan perubahan properties seperti gambar berikut :</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/09/08092011-4.png"><img src="http://coding4ever.files.wordpress.com/2011/09/08092011-4.png?w=300" alt="" /></a></p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/09/08092011-5.png"><img src="http://coding4ever.files.wordpress.com/2011/09/08092011-5.png?w=277" alt="" /></a></p>
-
-<p>untuk tampilannya kita akan desain seperti berikut :</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/09/08092011-6.png"><img src="http://coding4ever.files.wordpress.com/2011/09/08092011-6.png?w=300" alt="" /></a></p>
-
-<p><strong>Membuat Business Logic</strong></p>
-
-<p>Business Logic ada hubungannya dengan entity class yang merupakan representasi dari tabel-tabel yang ada didatabase.</p>
-
-<p>Berdasarkan struktur tabel siswa diatas kita akan membuat sebuah class dengan nama Siswa yang mempunyai empat buah property yaitu Nomor Induk, Nama, Tempat Lahir dan Tanggal Lahir.</p>
-
-<p>Jadi property ini sudah mewakili method mutator dan accessor yang sudah biasa kita kenal penggunakannya di Java.</p>
-
-<p>Untuk menampung class-class yang berhubungan dengan Business Logic kita akan menambahkan project baru dengan tipe ActiveX DLL, adapun caranya seperti berikut :</p>
-
-<p>Klik menu File -> Add Project setelah itu akan tampil dialog Add Project</p>
-
-<p>kemudian pilih ActiveX DLL dan klik tombol Open</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/09/08092011-7.png"><img src="http://coding4ever.files.wordpress.com/2011/09/08092011-7.png?w=300" alt="" /></a></p>
-
-<p>setelah itu akan ditambahkan 1 buah project dan class</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/09/08092011-8.png"><img src="http://coding4ever.files.wordpress.com/2011/09/08092011-8.png?w=292" alt="" /></a></p>
-
-<p>kemudian lakukan perubahan properties seperti gambar berikut :</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/09/08092011-9.png"><img src="http://coding4ever.files.wordpress.com/2011/09/08092011-9.png?w=293" alt="" /></a></p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/09/08092011-10.png"><img src="http://coding4ever.files.wordpress.com/2011/09/08092011-10.png?w=300" alt="" /></a></p>
-
-<p>Adapun kode lengkap untuk class Siswanya adalah sebagai berikut :</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="n">m_nomorInduk</span>    <span class="ow">As</span> <span class="kt">String</span>
-</span><span class='line'><span class="k">Private</span> <span class="n">m_nama</span>          <span class="ow">As</span> <span class="kt">String</span>
-</span><span class='line'><span class="k">Private</span> <span class="n">m_tempatLahir</span>   <span class="ow">As</span> <span class="kt">String</span>
-</span><span class='line'><span class="k">Private</span> <span class="n">m_tanggalLahir</span>  <span class="ow">As</span> <span class="kt">Date</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">Public</span> <span class="k">Property</span> <span class="nf">Let</span> <span class="n">NomorInduk</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">vData</span> <span class="ow">As</span> <span class="kt">String</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">m_nomorInduk</span> <span class="o">=</span> <span class="n">vData</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Property</span>
-</span><span class='line'><span class="k">Public</span> <span class="k">Property</span> <span class="nf">Get</span> <span class="n">NomorInduk</span><span class="p">()</span> <span class="ow">As</span> <span class="kt">String</span>
-</span><span class='line'>    <span class="n">NomorInduk</span> <span class="o">=</span> <span class="n">m_nomorInduk</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Property</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">Public</span> <span class="k">Property</span> <span class="nf">Let</span> <span class="n">Nama</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">vData</span> <span class="ow">As</span> <span class="kt">String</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">m_nama</span> <span class="o">=</span> <span class="n">vData</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Property</span>
-</span><span class='line'><span class="k">Public</span> <span class="k">Property</span> <span class="nf">Get</span> <span class="n">Nama</span><span class="p">()</span> <span class="ow">As</span> <span class="kt">String</span>
-</span><span class='line'>    <span class="n">Nama</span> <span class="o">=</span> <span class="n">m_nama</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Property</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">Public</span> <span class="k">Property</span> <span class="nf">Let</span> <span class="n">TempatLahir</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">vData</span> <span class="ow">As</span> <span class="kt">String</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">m_tempatLahir</span> <span class="o">=</span> <span class="n">vData</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Property</span>
-</span><span class='line'><span class="k">Public</span> <span class="k">Property</span> <span class="nf">Get</span> <span class="n">TempatLahir</span><span class="p">()</span> <span class="ow">As</span> <span class="kt">String</span>
-</span><span class='line'>    <span class="n">TempatLahir</span> <span class="o">=</span> <span class="n">m_tempatLahir</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Property</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">Public</span> <span class="k">Property</span> <span class="nf">Let</span> <span class="n">TanggalLahir</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">vData</span> <span class="ow">As</span> <span class="kt">Date</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">m_tanggalLahir</span> <span class="o">=</span> <span class="n">vData</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Property</span>
-</span><span class='line'><span class="k">Public</span> <span class="k">Property</span> <span class="nf">Get</span> <span class="n">TanggalLahir</span><span class="p">()</span> <span class="ow">As</span> <span class="kt">Date</span>
-</span><span class='line'>    <span class="n">TanggalLahir</span> <span class="o">=</span> <span class="n">m_tanggalLahir</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Property</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<p><strong>Membuat Data Access</strong></p>
-
-<p>Lapisan ini biasanya berisi operasi CRUD (Create, Read, Update, Delete), tapi kita akan menggunakan istilah yang sedikit berbeda untuk nama operasinya yaitu :</p>
-
-<ol>
-<li><p> Save</p></li>
-<li><p> Update</p></li>
-<li><p> Delete</p></li>
-<li><p> GetAll</p></li>
-<li><p> GetByName</p></li>
-<li><p> GetByNIS</p></li>
-</ol>
-
-
-<p>Biasanya untuk penamaan classnya cukup menambahkan akhiran (suffixes) Dao untuk setiap class entitynya. Contoh untuk class entity Siswa, biasanya class Data Accessnya diberi nama SiswaDao.</p>
-
-<p>Oke langsung saja kita tambahkan project baru dengan mengklik menu File -> Add Project setelah itu akan tampil dialog Add Project</p>
-
-<p>kemudian pilih ActiveX DLL dan klik tombol Open</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/09/08092011-7.png"><img src="http://coding4ever.files.wordpress.com/2011/09/08092011-7.png?w=300" alt="" /></a></p>
-
-<p>setelah itu akan ditambahkan 1 buah project dan class</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/09/08092011-11.png"><img src="http://coding4ever.files.wordpress.com/2011/09/08092011-11.png?w=278" alt="" /></a></p>
-
-<p>kemudian lakukan perubahan properties seperti gambar berikut :</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/09/08092011-12.png"><img src="http://coding4ever.files.wordpress.com/2011/09/08092011-12.png?w=282" alt="" /></a></p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/09/08092011-13.png"><img src="http://coding4ever.files.wordpress.com/2011/09/08092011-13.png?w=279" alt="" /></a></p>
-
-<p>Adapun kode lengkap untuk class SiswaDaonya adalah seperti berikut :</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="n">cmd</span>     <span class="ow">As</span> <span class="n">ADODB</span><span class="p">.</span><span class="n">Command</span>
-</span><span class='line'><span class="k">Private</span> <span class="n">strSql</span>  <span class="ow">As</span> <span class="kt">String</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">Private</span> <span class="k">Function</span> <span class="nf">MappingRowToObject</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">rs</span> <span class="ow">As</span> <span class="n">ADODB</span><span class="p">.</span><span class="n">Recordset</span><span class="p">)</span> <span class="ow">As</span> <span class="n">SiswaModel</span><span class="p">.</span><span class="n">siswa</span>
-</span><span class='line'>    <span class="k">Dim</span> <span class="n">siswa</span> <span class="ow">As</span> <span class="k">New</span> <span class="n">SiswaModel</span><span class="p">.</span><span class="n">siswa</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">With</span> <span class="n">siswa</span>
-</span><span class='line'>    <span class="p">.</span><span class="n">NomorInduk</span> <span class="o">=</span> <span class="n">IIf</span><span class="p">(</span><span class="n">IsNull</span><span class="p">(</span><span class="n">rs</span><span class="p">(</span><span class="s">&quot;nomor_induk&quot;</span><span class="p">).</span><span class="n">Value</span><span class="p">),</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">rs</span><span class="p">(</span><span class="s">&quot;nomor_induk&quot;</span><span class="p">).</span><span class="n">Value</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">.</span><span class="n">nama</span> <span class="o">=</span> <span class="n">IIf</span><span class="p">(</span><span class="n">IsNull</span><span class="p">(</span><span class="n">rs</span><span class="p">(</span><span class="s">&quot;nama&quot;</span><span class="p">).</span><span class="n">Value</span><span class="p">),</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">rs</span><span class="p">(</span><span class="s">&quot;nama&quot;</span><span class="p">).</span><span class="n">Value</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">.</span><span class="n">TempatLahir</span> <span class="o">=</span> <span class="n">IIf</span><span class="p">(</span><span class="n">IsNull</span><span class="p">(</span><span class="n">rs</span><span class="p">(</span><span class="s">&quot;tempat_lahir&quot;</span><span class="p">).</span><span class="n">Value</span><span class="p">),</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">rs</span><span class="p">(</span><span class="s">&quot;tempat_lahir&quot;</span><span class="p">).</span><span class="n">Value</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">.</span><span class="n">TanggalLahir</span> <span class="o">=</span> <span class="n">IIf</span><span class="p">(</span><span class="n">IsNull</span><span class="p">(</span><span class="n">rs</span><span class="p">(</span><span class="s">&quot;tgl_lahir&quot;</span><span class="p">).</span><span class="n">Value</span><span class="p">),</span> <span class="s">&quot;1/1/1900&quot;</span><span class="p">,</span> <span class="n">rs</span><span class="p">(</span><span class="s">&quot;tgl_lahir&quot;</span><span class="p">).</span><span class="n">Value</span><span class="p">)</span>
-</span><span class='line'><span class="k">End</span> <span class="k">With</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">Set</span> <span class="n">MappingRowToObject</span> <span class="o">=</span> <span class="n">siswa</span>
-</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Function</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<p><strong>1. Method Save</strong></p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Public</span> <span class="k">Function</span> <span class="nf">Save</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">siswa</span> <span class="ow">As</span> <span class="n">SiswaModel</span><span class="p">.</span><span class="n">siswa</span><span class="p">,</span> <span class="k">ByVal</span> <span class="n">conn</span> <span class="ow">As</span> <span class="n">ADODB</span><span class="p">.</span><span class="n">Connection</span><span class="p">)</span> <span class="ow">As</span> <span class="kt">Integer</span>
-</span><span class='line'>    <span class="k">On</span> <span class="k">Error</span> <span class="k">GoTo</span> <span class="n">errHandle</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;INSERT INTO siswa (nomor_induk, nama, tempat_lahir, tgl_lahir) VALUES (?, ?, ?, ?)&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">Set</span> <span class="n">cmd</span> <span class="o">=</span> <span class="k">New</span> <span class="n">ADODB</span><span class="p">.</span><span class="n">Command</span>
-</span><span class='line'><span class="k">With</span> <span class="n">cmd</span>
-</span><span class='line'>    <span class="p">.</span><span class="n">ActiveConnection</span> <span class="o">=</span> <span class="n">conn</span>
-</span><span class='line'>    <span class="p">.</span><span class="n">CommandType</span> <span class="o">=</span> <span class="n">adCmdText</span>
-</span><span class='line'>    <span class="p">.</span><span class="n">CommandText</span> <span class="o">=</span> <span class="n">strSql</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="p">.</span><span class="n">Parameters</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="n">siswa</span><span class="p">.</span><span class="n">NomorInduk</span>
-</span><span class='line'>    <span class="p">.</span><span class="n">Parameters</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">siswa</span><span class="p">.</span><span class="n">nama</span>
-</span><span class='line'>    <span class="p">.</span><span class="n">Parameters</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">siswa</span><span class="p">.</span><span class="n">TempatLahir</span>
-</span><span class='line'>    <span class="p">.</span><span class="n">Parameters</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">=</span> <span class="n">siswa</span><span class="p">.</span><span class="n">TanggalLahir</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="p">.</span><span class="n">Execute</span> <span class="n">Save</span>
-</span><span class='line'><span class="k">End</span> <span class="k">With</span>
-</span><span class='line'><span class="k">Set</span> <span class="n">cmd</span> <span class="o">=</span> <span class="k">Nothing</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">Exit</span> <span class="k">Function</span>
-</span><span class='line'><span class="err">&lt;/</span><span class="nf">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span><span class="n">errHandle</span><span class="p">:</span>
-</span><span class='line'>    <span class="n">Save</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Function</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<p><strong>2. Method Update</strong></p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Public</span> <span class="k">Function</span> <span class="nf">Update</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">siswa</span> <span class="ow">As</span> <span class="n">SiswaModel</span><span class="p">.</span><span class="n">siswa</span><span class="p">,</span> <span class="k">ByVal</span> <span class="n">conn</span> <span class="ow">As</span> <span class="n">ADODB</span><span class="p">.</span><span class="n">Connection</span><span class="p">)</span> <span class="ow">As</span> <span class="kt">Integer</span>
-</span><span class='line'>    <span class="k">On</span> <span class="k">Error</span> <span class="k">GoTo</span> <span class="n">errHandle</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;UPDATE siswa SET nama = ?, tempat_lahir = ?, tgl_lahir = ? WHERE nomor_induk = ?&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">Set</span> <span class="n">cmd</span> <span class="o">=</span> <span class="k">New</span> <span class="n">ADODB</span><span class="p">.</span><span class="n">Command</span>
-</span><span class='line'><span class="k">With</span> <span class="n">cmd</span>
-</span><span class='line'>    <span class="p">.</span><span class="n">ActiveConnection</span> <span class="o">=</span> <span class="n">conn</span>
-</span><span class='line'>    <span class="p">.</span><span class="n">CommandType</span> <span class="o">=</span> <span class="n">adCmdText</span>
-</span><span class='line'>    <span class="p">.</span><span class="n">CommandText</span> <span class="o">=</span> <span class="n">strSql</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="p">.</span><span class="n">Parameters</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="n">siswa</span><span class="p">.</span><span class="n">nama</span>
-</span><span class='line'>    <span class="p">.</span><span class="n">Parameters</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">siswa</span><span class="p">.</span><span class="n">TempatLahir</span>
-</span><span class='line'>    <span class="p">.</span><span class="n">Parameters</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">siswa</span><span class="p">.</span><span class="n">TanggalLahir</span>
-</span><span class='line'>    <span class="p">.</span><span class="n">Parameters</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">=</span> <span class="n">siswa</span><span class="p">.</span><span class="n">NomorInduk</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="p">.</span><span class="n">Execute</span> <span class="n">Update</span>
-</span><span class='line'><span class="k">End</span> <span class="k">With</span>
-</span><span class='line'><span class="k">Set</span> <span class="n">cmd</span> <span class="o">=</span> <span class="k">Nothing</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">Exit</span> <span class="k">Function</span>
-</span><span class='line'><span class="err">&lt;/</span><span class="nf">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span><span class="n">errHandle</span><span class="p">:</span>
-</span><span class='line'>    <span class="n">Update</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Function</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<p><strong>3. Method Delete</strong></p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Public</span> <span class="k">Function</span> <span class="nf">Delete</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">nis</span> <span class="ow">As</span> <span class="kt">String</span><span class="p">,</span> <span class="k">ByVal</span> <span class="n">conn</span> <span class="ow">As</span> <span class="n">ADODB</span><span class="p">.</span><span class="n">Connection</span><span class="p">)</span> <span class="ow">As</span> <span class="kt">Integer</span>
-</span><span class='line'>    <span class="k">On</span> <span class="k">Error</span> <span class="k">GoTo</span> <span class="n">errHandle</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;DELETE FROM siswa WHERE nomor_induk = ?&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">Set</span> <span class="n">cmd</span> <span class="o">=</span> <span class="k">New</span> <span class="n">ADODB</span><span class="p">.</span><span class="n">Command</span>
-</span><span class='line'><span class="k">With</span> <span class="n">cmd</span>
-</span><span class='line'>    <span class="p">.</span><span class="n">ActiveConnection</span> <span class="o">=</span> <span class="n">conn</span>
-</span><span class='line'>    <span class="p">.</span><span class="n">CommandType</span> <span class="o">=</span> <span class="n">adCmdText</span>
-</span><span class='line'>    <span class="p">.</span><span class="n">CommandText</span> <span class="o">=</span> <span class="n">strSql</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="p">.</span><span class="n">Parameters</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="n">nis</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="p">.</span><span class="n">Execute</span> <span class="n">Delete</span>
-</span><span class='line'><span class="k">End</span> <span class="k">With</span>
-</span><span class='line'><span class="k">Set</span> <span class="n">cmd</span> <span class="o">=</span> <span class="k">Nothing</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">Exit</span> <span class="k">Function</span>
-</span><span class='line'><span class="err">&lt;/</span><span class="nf">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span><span class="n">errHandle</span><span class="p">:</span>
-</span><span class='line'>    <span class="n">Delete</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Function</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<p><strong>4. Method GetAll</strong></p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Public</span> <span class="k">Function</span> <span class="nf">GetAll</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">conn</span> <span class="ow">As</span> <span class="n">ADODB</span><span class="p">.</span><span class="n">Connection</span><span class="p">)</span> <span class="ow">As</span> <span class="n">Scripting</span><span class="p">.</span><span class="n">Dictionary</span>
-</span><span class='line'>    <span class="k">Dim</span> <span class="n">daftarSiswa</span>     <span class="ow">As</span> <span class="k">New</span> <span class="n">Scripting</span><span class="p">.</span><span class="n">Dictionary</span>
-</span><span class='line'>    <span class="k">Dim</span> <span class="n">rs</span>              <span class="ow">As</span> <span class="n">ADODB</span><span class="p">.</span><span class="n">Recordset</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">Dim</span> <span class="n">key</span>             <span class="ow">As</span> <span class="kt">Long</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">On</span> <span class="k">Error</span> <span class="k">GoTo</span> <span class="n">errHandle</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;SELECT nomor_induk, nama, tempat_lahir, tgl_lahir &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">_</span>
-</span><span class='line'>         <span class="s">&quot;FROM siswa &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">_</span>
-</span><span class='line'>         <span class="s">&quot;ORDER BY nomor_induk&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">Set</span> <span class="n">rs</span> <span class="o">=</span> <span class="n">OpenRecordset</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
-</span><span class='line'><span class="k">Do</span> <span class="k">While</span> <span class="k">Not</span> <span class="n">rs</span><span class="p">.</span><span class="n">EOF</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">Call</span> <span class="n">daftarSiswa</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">MappingRowToObject</span><span class="p">(</span><span class="n">rs</span><span class="p">))</span>
-</span><span class='line'>    <span class="n">key</span> <span class="o">=</span> <span class="n">key</span> <span class="o">+</span> <span class="mi">1</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">rs</span><span class="p">.</span><span class="n">MoveNext</span>
-</span><span class='line'><span class="k">Loop</span>
-</span><span class='line'><span class="k">Call</span> <span class="n">CloseRecordset</span><span class="p">(</span><span class="n">rs</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">Set</span> <span class="n">GetAll</span> <span class="o">=</span> <span class="n">daftarSiswa</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">Exit</span> <span class="k">Function</span>
-</span><span class='line'><span class="err">&lt;/</span><span class="nf">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span><span class="n">errHandle</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">Set</span> <span class="n">GetAll</span> <span class="o">=</span> <span class="k">Nothing</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Function</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<p><strong>5. Method GetByName</strong></p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Public</span> <span class="k">Function</span> <span class="nf">GetByName</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">nama</span> <span class="ow">As</span> <span class="kt">String</span><span class="p">,</span> <span class="k">ByVal</span> <span class="n">conn</span> <span class="ow">As</span> <span class="n">ADODB</span><span class="p">.</span><span class="n">Connection</span><span class="p">)</span> <span class="ow">As</span> <span class="n">Scripting</span><span class="p">.</span><span class="n">Dictionary</span>
-</span><span class='line'>    <span class="k">Dim</span> <span class="n">daftarSiswa</span>     <span class="ow">As</span> <span class="k">New</span> <span class="n">Scripting</span><span class="p">.</span><span class="n">Dictionary</span>
-</span><span class='line'>    <span class="k">Dim</span> <span class="n">rs</span>              <span class="ow">As</span> <span class="n">ADODB</span><span class="p">.</span><span class="n">Recordset</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">Dim</span> <span class="n">key</span>             <span class="ow">As</span> <span class="kt">Long</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">On</span> <span class="k">Error</span> <span class="k">GoTo</span> <span class="n">errHandle</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">nama</span> <span class="o">=</span> <span class="n">Replace</span><span class="p">(</span><span class="n">nama</span><span class="p">,</span> <span class="s">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s">&quot;&#39;&#39;&quot;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;SELECT nomor_induk, nama, tempat_lahir, tgl_lahir &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">_</span>
-</span><span class='line'>         <span class="s">&quot;FROM siswa &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">_</span>
-</span><span class='line'>         <span class="s">&quot;WHERE nama LIKE &#39;%&quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">nama</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="s">&quot;%&#39; &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">_</span>
-</span><span class='line'>         <span class="s">&quot;ORDER BY nomor_induk&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">Set</span> <span class="n">rs</span> <span class="o">=</span> <span class="n">OpenRecordset</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
-</span><span class='line'><span class="k">Do</span> <span class="k">While</span> <span class="k">Not</span> <span class="n">rs</span><span class="p">.</span><span class="n">EOF</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">Call</span> <span class="n">daftarSiswa</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">MappingRowToObject</span><span class="p">(</span><span class="n">rs</span><span class="p">))</span>
-</span><span class='line'>    <span class="n">key</span> <span class="o">=</span> <span class="n">key</span> <span class="o">+</span> <span class="mi">1</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">rs</span><span class="p">.</span><span class="n">MoveNext</span>
-</span><span class='line'><span class="k">Loop</span>
-</span><span class='line'><span class="k">Call</span> <span class="n">CloseRecordset</span><span class="p">(</span><span class="n">rs</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">Set</span> <span class="n">GetByName</span> <span class="o">=</span> <span class="n">daftarSiswa</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">Exit</span> <span class="k">Function</span>
-</span><span class='line'><span class="err">&lt;/</span><span class="nf">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span><span class="n">errHandle</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">Set</span> <span class="n">GetByName</span> <span class="o">=</span> <span class="k">Nothing</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Function</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<p><strong>6. Method GetByNIS</strong></p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Public</span> <span class="k">Function</span> <span class="nf">GetByNIS</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">nis</span> <span class="ow">As</span> <span class="kt">String</span><span class="p">,</span> <span class="k">ByVal</span> <span class="n">conn</span> <span class="ow">As</span> <span class="n">ADODB</span><span class="p">.</span><span class="n">Connection</span><span class="p">)</span> <span class="ow">As</span> <span class="n">SiswaModel</span><span class="p">.</span><span class="n">siswa</span>
-</span><span class='line'>    <span class="k">Dim</span> <span class="n">siswa</span>   <span class="ow">As</span> <span class="n">SiswaModel</span><span class="p">.</span><span class="n">siswa</span>
-</span><span class='line'>    <span class="k">Dim</span> <span class="n">rs</span>      <span class="ow">As</span> <span class="n">ADODB</span><span class="p">.</span><span class="n">Recordset</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">On</span> <span class="k">Error</span> <span class="k">GoTo</span> <span class="n">errHandle</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;SELECT nomor_induk, nama, tempat_lahir, tgl_lahir &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">_</span>
-</span><span class='line'>         <span class="s">&quot;FROM siswa &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">_</span>
-</span><span class='line'>         <span class="s">&quot;WHERE nomor_induk = &#39;&quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">nis</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="s">&quot;&#39;&quot;</span>
-</span><span class='line'><span class="k">Set</span> <span class="n">rs</span> <span class="o">=</span> <span class="n">OpenRecordset</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
-</span><span class='line'><span class="k">If</span> <span class="k">Not</span> <span class="n">rs</span><span class="p">.</span><span class="n">EOF</span> <span class="k">Then</span>
-</span><span class='line'>    <span class="k">Set</span> <span class="n">siswa</span> <span class="o">=</span> <span class="n">MappingRowToObject</span><span class="p">(</span><span class="n">rs</span><span class="p">)</span>
-</span><span class='line'><span class="k">End</span> <span class="k">If</span>
-</span><span class='line'><span class="k">Call</span> <span class="n">CloseRecordset</span><span class="p">(</span><span class="n">rs</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">Set</span> <span class="n">GetByNIS</span> <span class="o">=</span> <span class="n">siswa</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">Exit</span> <span class="k">Function</span>
-</span><span class='line'><span class="err">&lt;/</span><span class="nf">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span><span class="n">errHandle</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">Set</span> <span class="n">GetByNIS</span> <span class="o">=</span> <span class="k">Nothing</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Function</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<p>Class SiswaDao diatas membutuhkan referensi/library tambahan berikut :</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/09/08092011-14.png"><img src="http://coding4ever.files.wordpress.com/2011/09/08092011-14.png?w=300" alt="" /></a></p>
-
-<p>Karena class SiswaModel dan SiswaDao berbeda project sehingga untuk mengakses class Siswa berikut propertiesnya dari SiswaDao perlu ditambahkan referensi SiswaModel.</p>
-
-<p>Referensi Microsoft Scripting Runtime mirip dengan class <a href="http://msdn.microsoft.com/en-us/library/cy13e6ex%28v=vs.71%29.aspx">Collection</a>.</p>
-
-<p>Terakhir kita akan membahas bagaimana mengakses class Siswa dan SiswaDao dari form Siswa tapi sebelumnya kita harus menambahkan referensi SiswaModel, SiswaDataAccess, Microsoft ADO 2x dan Microsoft Scripting Runtime.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/09/08092011-15.png"><img src="http://coding4ever.files.wordpress.com/2011/09/08092011-15.png?w=300" alt="" /></a></p>
-
-<p><strong>1. Menyimpan data</strong></p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">cmdSimpan_Click</span><span class="p">()</span>
-</span><span class='line'>    <span class="k">Dim</span> <span class="n">siswa</span> <span class="ow">As</span> <span class="k">New</span> <span class="n">SiswaModel</span><span class="p">.</span><span class="n">siswa</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">With</span> <span class="n">siswa</span>
-</span><span class='line'>    <span class="p">.</span><span class="n">NomorInduk</span> <span class="o">=</span> <span class="n">txtNomorInduk</span><span class="p">.</span><span class="n">Text</span>
-</span><span class='line'>    <span class="p">.</span><span class="n">nama</span> <span class="o">=</span> <span class="n">txtNama</span><span class="p">.</span><span class="n">Text</span>
-</span><span class='line'>    <span class="p">.</span><span class="n">TempatLahir</span> <span class="o">=</span> <span class="n">txtTempatLahir</span><span class="p">.</span><span class="n">Text</span>
-</span><span class='line'>    <span class="p">.</span><span class="n">TanggalLahir</span> <span class="o">=</span> <span class="n">dtpTanggal</span><span class="p">.</span><span class="n">Value</span>
-</span><span class='line'><span class="k">End</span> <span class="k">With</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">result</span> <span class="o">=</span> <span class="n">siswaDao</span><span class="p">.</span><span class="n">Save</span><span class="p">(</span><span class="n">siswa</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
-</span><span class='line'><span class="k">If</span> <span class="n">result</span> <span class="o">&amp;</span><span class="n">gt</span><span class="err">;</span> <span class="mi">0</span> <span class="k">Then</span>
-</span><span class='line'>    <span class="n">MsgBox</span> <span class="s">&quot;Data siswa sudah disimpan&quot;</span>
-</span><span class='line'>    <span class="k">Call</span> <span class="n">LoadDataSiswa</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">Else</span>
-</span><span class='line'>    <span class="n">MsgBox</span> <span class="s">&quot;Data siswa gagal disimpan&quot;</span>
-</span><span class='line'><span class="k">End</span> <span class="k">If</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">Set</span> <span class="n">siswa</span> <span class="o">=</span> <span class="k">Nothing</span>
-</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Sub</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<p><strong>2. Mengupdate data</strong></p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">cmdPerbaiki_Click</span><span class="p">()</span>
-</span><span class='line'>    <span class="k">Dim</span> <span class="n">siswa</span> <span class="ow">As</span> <span class="k">New</span> <span class="n">SiswaModel</span><span class="p">.</span><span class="n">siswa</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">With</span> <span class="n">siswa</span>
-</span><span class='line'>    <span class="p">.</span><span class="n">NomorInduk</span> <span class="o">=</span> <span class="n">txtNomorInduk</span><span class="p">.</span><span class="n">Text</span>
-</span><span class='line'>    <span class="p">.</span><span class="n">nama</span> <span class="o">=</span> <span class="n">txtNama</span><span class="p">.</span><span class="n">Text</span>
-</span><span class='line'>    <span class="p">.</span><span class="n">TempatLahir</span> <span class="o">=</span> <span class="n">txtTempatLahir</span><span class="p">.</span><span class="n">Text</span>
-</span><span class='line'>    <span class="p">.</span><span class="n">TanggalLahir</span> <span class="o">=</span> <span class="n">dtpTanggal</span><span class="p">.</span><span class="n">Value</span>
-</span><span class='line'><span class="k">End</span> <span class="k">With</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">result</span> <span class="o">=</span> <span class="n">siswaDao</span><span class="p">.</span><span class="n">Update</span><span class="p">(</span><span class="n">siswa</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
-</span><span class='line'><span class="k">If</span> <span class="n">result</span> <span class="o">&amp;</span><span class="n">gt</span><span class="err">;</span> <span class="mi">0</span> <span class="k">Then</span>
-</span><span class='line'>    <span class="n">MsgBox</span> <span class="s">&quot;Data siswa sudah disimpan&quot;</span>
-</span><span class='line'>    <span class="k">Call</span> <span class="n">LoadDataSiswa</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">Else</span>
-</span><span class='line'>    <span class="n">MsgBox</span> <span class="s">&quot;Data siswa gagal disimpan&quot;</span>
-</span><span class='line'><span class="k">End</span> <span class="k">If</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">Set</span> <span class="n">siswa</span> <span class="o">=</span> <span class="k">Nothing</span>
-</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Sub</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<p><strong>3. Menghapus data</strong></p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">cmdHapus_Click</span><span class="p">()</span>
-</span><span class='line'>    <span class="k">Dim</span> <span class="n">nis</span> <span class="ow">As</span> <span class="kt">String</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">nis</span> <span class="o">=</span> <span class="n">lsvSiswa</span><span class="p">.</span><span class="n">ListItems</span><span class="p">(</span><span class="n">lsvSiswa</span><span class="p">.</span><span class="n">SelectedItem</span><span class="p">.</span><span class="n">Index</span><span class="p">).</span><span class="n">SubItems</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">If</span> <span class="n">MsgBox</span><span class="p">(</span><span class="s">&quot;Apakah proses penghapusan ingin dilanjutkan ?&quot;</span><span class="p">,</span> <span class="n">vbExclamation</span> <span class="o">+</span> <span class="n">vbYesNo</span><span class="p">,</span> <span class="s">&quot;Konfirmasi&quot;</span><span class="p">)</span> <span class="o">=</span> <span class="n">vbYes</span> <span class="k">Then</span>
-</span><span class='line'>    <span class="n">result</span> <span class="o">=</span> <span class="n">siswaDao</span><span class="p">.</span><span class="n">Delete</span><span class="p">(</span><span class="n">nis</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">If</span> <span class="n">result</span> <span class="o">&amp;</span><span class="n">gt</span><span class="err">;</span> <span class="mi">0</span> <span class="k">Then</span>
-</span><span class='line'>        <span class="n">MsgBox</span> <span class="s">&quot;Data siswa sudah dihapus&quot;</span>
-</span><span class='line'>        <span class="k">Call</span> <span class="n">LoadDataSiswa</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">txtNomorInduk</span><span class="p">.</span><span class="n">Text</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
-</span><span class='line'>        <span class="n">txtNama</span><span class="p">.</span><span class="n">Text</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
-</span><span class='line'>        <span class="n">txtTempatLahir</span><span class="p">.</span><span class="n">Text</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">txtNomorInduk</span><span class="p">.</span><span class="n">SetFocus</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">Else</span>
-</span><span class='line'>        <span class="n">MsgBox</span> <span class="s">&quot;Data siswa gagal dihapus&quot;</span>
-</span><span class='line'>    <span class="k">End</span> <span class="k">If</span>
-</span><span class='line'><span class="k">End</span> <span class="k">If</span>
-</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Sub</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<p><strong>4. Menampilkan semua data</strong></p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">FillToListView</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">siswa</span> <span class="ow">As</span> <span class="n">SiswaModel</span><span class="p">.</span><span class="n">siswa</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">Dim</span> <span class="n">row</span> <span class="ow">As</span> <span class="kt">Long</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">With</span> <span class="n">lsvSiswa</span>
-</span><span class='line'>    <span class="n">row</span> <span class="o">=</span> <span class="p">.</span><span class="n">ListItems</span><span class="p">.</span><span class="n">Count</span> <span class="o">+</span> <span class="mi">1</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="p">.</span><span class="n">ListItems</span><span class="p">.</span><span class="n">Add</span> <span class="p">,</span> <span class="p">,</span> <span class="n">row</span>
-</span><span class='line'>    <span class="p">.</span><span class="n">ListItems</span><span class="p">(</span><span class="n">row</span><span class="p">).</span><span class="n">SubItems</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">siswa</span><span class="p">.</span><span class="n">NomorInduk</span>
-</span><span class='line'>    <span class="p">.</span><span class="n">ListItems</span><span class="p">(</span><span class="n">row</span><span class="p">).</span><span class="n">SubItems</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">siswa</span><span class="p">.</span><span class="n">nama</span>
-</span><span class='line'>    <span class="p">.</span><span class="n">ListItems</span><span class="p">(</span><span class="n">row</span><span class="p">).</span><span class="n">SubItems</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">=</span> <span class="n">siswa</span><span class="p">.</span><span class="n">TempatLahir</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">If</span> <span class="n">siswa</span><span class="p">.</span><span class="n">TanggalLahir</span> <span class="o">&amp;</span><span class="n">lt</span><span class="err">;</span><span class="o">&amp;</span><span class="n">gt</span><span class="err">;</span> <span class="s">&quot;1/1/1900&quot;</span> <span class="k">Then</span>
-</span><span class='line'>        <span class="p">.</span><span class="n">ListItems</span><span class="p">(</span><span class="n">row</span><span class="p">).</span><span class="n">SubItems</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">=</span> <span class="n">Format</span><span class="p">(</span><span class="n">siswa</span><span class="p">.</span><span class="n">TanggalLahir</span><span class="p">,</span> <span class="s">&quot;dd/MM/yyyy&quot;</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">End</span> <span class="k">If</span>
-</span><span class='line'><span class="k">End</span> <span class="k">With</span>
-</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Sub</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">LoadDataSiswa</span><span class="p">(</span><span class="k">Optional</span> <span class="k">ByVal</span> <span class="n">nama</span> <span class="ow">As</span> <span class="kt">String</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="err">;</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="err">;</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">Dim</span> <span class="n">daftarSiswa</span> <span class="ow">As</span> <span class="k">New</span> <span class="n">Scripting</span><span class="p">.</span><span class="n">Dictionary</span>
-</span><span class='line'>    <span class="k">Dim</span> <span class="n">siswa</span>       <span class="ow">As</span> <span class="n">SiswaModel</span><span class="p">.</span><span class="n">siswa</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">Dim</span> <span class="n">key</span><span class="err">        </span> <span class="ow">As</span> <span class="kt">Variant</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">If</span> <span class="n">Len</span><span class="p">(</span><span class="n">nama</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">gt</span><span class="err">;</span> <span class="mi">0</span> <span class="k">Then</span>
-</span><span class='line'>    <span class="k">Set</span> <span class="n">daftarSiswa</span> <span class="o">=</span> <span class="n">siswaDao</span><span class="p">.</span><span class="n">GetByName</span><span class="p">(</span><span class="n">nama</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
-</span><span class='line'><span class="k">Else</span>
-</span><span class='line'>    <span class="k">Set</span> <span class="n">daftarSiswa</span> <span class="o">=</span> <span class="n">siswaDao</span><span class="p">.</span><span class="n">GetAll</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>
-</span><span class='line'><span class="k">End</span> <span class="k">If</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">lsvSiswa</span><span class="p">.</span><span class="n">ListItems</span><span class="p">.</span><span class="n">Clear</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">For</span> <span class="k">Each</span> <span class="n">key</span> <span class="ow">In</span> <span class="n">daftarSiswa</span>
-</span><span class='line'>    <span class="k">Set</span> <span class="n">siswa</span> <span class="o">=</span> <span class="n">daftarSiswa</span><span class="p">.</span><span class="n">Item</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">Call</span> <span class="n">FillToListView</span><span class="p">(</span><span class="n">siswa</span><span class="p">)</span>
-</span><span class='line'><span class="k">Next</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">Set</span> <span class="n">siswa</span> <span class="o">=</span> <span class="k">Nothing</span>
-</span><span class='line'><span class="k">Set</span> <span class="n">daftarSiswa</span> <span class="o">=</span> <span class="k">Nothing</span>
-</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Sub</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<p>kemudian tinggal panggil di event Form_Load</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">Form_Load</span><span class="p">()</span>
-</span><span class='line'>    <span class="k">Call</span> <span class="n">LoadDataSiswa</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Sub</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<p><strong>5. Menampilkan data berdasarkan nama</strong></p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">cmdCariByName_Click</span><span class="p">()</span>
-</span><span class='line'>    <span class="k">Call</span> <span class="n">LoadDataSiswa</span><span class="p">(</span><span class="n">txtKeywordPencarian</span><span class="p">.</span><span class="n">Text</span><span class="p">)</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Sub</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<p><strong>6. Menampilkan data berdasarkan nomor induk</strong></p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">cmdCariByNIS_Click</span><span class="p">()</span>
-</span><span class='line'>    <span class="k">Dim</span> <span class="n">siswa</span> <span class="ow">As</span> <span class="n">SiswaModel</span><span class="p">.</span><span class="n">siswa</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">Set</span> <span class="n">siswa</span> <span class="o">=</span> <span class="n">siswaDao</span><span class="p">.</span><span class="n">GetByNIS</span><span class="p">(</span><span class="n">txtNomorInduk</span><span class="p">.</span><span class="n">Text</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
-</span><span class='line'><span class="k">If</span> <span class="k">Not</span> <span class="n">siswa</span> <span class="ow">Is</span> <span class="k">Nothing</span> <span class="k">Then</span>
-</span><span class='line'>    <span class="k">With</span> <span class="n">siswa</span>
-</span><span class='line'>        <span class="n">txtNama</span><span class="p">.</span><span class="n">Text</span> <span class="o">=</span> <span class="p">.</span><span class="n">nama</span>
-</span><span class='line'>        <span class="n">txtTempatLahir</span><span class="p">.</span><span class="n">Text</span> <span class="o">=</span> <span class="p">.</span><span class="n">TempatLahir</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="k">If</span> <span class="p">.</span><span class="n">TanggalLahir</span> <span class="o">&amp;</span><span class="n">lt</span><span class="err">;</span><span class="o">&amp;</span><span class="n">gt</span><span class="err">;</span> <span class="s">&quot;1/1/1900&quot;</span> <span class="k">Then</span>
-</span><span class='line'>            <span class="n">dtpTanggal</span><span class="p">.</span><span class="n">Value</span> <span class="o">=</span> <span class="n">siswa</span><span class="p">.</span><span class="n">TanggalLahir</span>
-</span><span class='line'>        <span class="k">End</span> <span class="k">If</span>
-</span><span class='line'>    <span class="k">End</span> <span class="k">With</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">Else</span>
-</span><span class='line'>    <span class="n">MsgBox</span> <span class="s">&quot;Data siswa tidak ditemukan&quot;</span>
-</span><span class='line'><span class="k">End</span> <span class="k">If</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">Set</span> <span class="n">siswa</span> <span class="o">=</span> <span class="k">Nothing</span>
-</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Sub</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/09/08092011-16.png"><img src="http://coding4ever.files.wordpress.com/2011/09/08092011-16.png?w=300" alt="" /></a></p>
-
-<p>Selamat <a href="http://www.4shared.com/file/jS0iKjHn/ImplementasiDAOVB6.html">MENCOBA</a> :)</p>
 ]]></content>
   </entry>
   
