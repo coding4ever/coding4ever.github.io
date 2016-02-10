@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Visual Basic | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/visual-basic/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-02-11T05:44:26+07:00</updated>
+  <updated>2016-02-11T06:03:18+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -42,7 +42,7 @@
 
 <p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/100216-05.png">https://coding4ever.files.wordpress.com/2016/02/100216-05.png</a>&#8221;></p>
 
-<p>Dengan asumsi database berikut tabelnya sudah tersedia, langkah berikutnya adalah membuat class <code>Order</code> dan <code>OrderDetail</code>. Kedua class ini dikenal dengan istilah class model, yaitu class yang merupakan representasi dari tabel-tabel yang ada di database.</p>
+<p>Dengan asumsi database berikut tabelnya sudah tersedia, langkah berikutnya adalah membuat class <code>Order</code> dan <code>OrderDetail</code>. Kedua class ini dikenal dengan istilah class model, yaitu class-class yang merupakan representasi dari tabel-tabel yang ada di database.</p>
 
 <p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/100216-01.png">https://coding4ever.files.wordpress.com/2016/02/100216-01.png</a>&#8221;></p>
 
@@ -240,7 +240,7 @@ Private Sub Class_Terminate()
 End Sub</code></pre></noscript></div>
 </p>
 
-<p>Nah klo kita perhatikan di bagian constructor (Class_Initialize), terdapat perintah untuk membuat objek Connection dengan memanggil method <code>GetOpenConnection</code> dari class DbConnection.</p>
+<p>Nah klo kita perhatikan di bagian constructor (Class_Initialize), terdapat perintah untuk membuat objek Connection dengan memanggil method <code>GetOpenConnection</code> dari class <a href="https://gist.github.com/k4m4r82/de02c82aeceac1f83bd4">DbConnection</a>.</p>
 
 <p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/100216-04.png">https://coding4ever.files.wordpress.com/2016/02/100216-04.png</a>&#8221;></p>
 
