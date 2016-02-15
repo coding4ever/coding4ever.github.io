@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Testing | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/testing/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-02-15T07:42:23+07:00</updated>
+  <updated>2016-02-15T07:47:15+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -18,7 +18,7 @@
     <link href="http://coding4ever.net/blog/2015/10/20/performance-test-menggunakan-jmeter/"/>
     <updated>2015-10-20T09:26:38+07:00</updated>
     <id>http://coding4ever.net/blog/2015/10/20/performance-test-menggunakan-jmeter</id>
-    <content type="html"><![CDATA[<p>{% img left <a href="https://coding4ever.files.wordpress.com/2015/10/apache-jmeter.png">https://coding4ever.files.wordpress.com/2015/10/apache-jmeter.png</a> 100 100 %}Aktivitas saya di kantor akhir-akhir ini, lebih sering ngoding untuk backend/web service. Nah untuk membuat service ini, saya biasanya menggunakan teknologi <a href="{{%20site.url%20}}/blog/categories/wcf/">WCF</a>, hanya saja untuk <code>kekinian</code> :-D saya juga menggunakan <a href="http://www.asp.net/web-api">ASP.NET Web Api</a>.</p>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/10/apache-jmeter.png">https://coding4ever.files.wordpress.com/2015/10/apache-jmeter.png</a>&#8221; width=&#8221;100&#8221; height=&#8221;100&#8221;>Aktivitas saya di kantor akhir-akhir ini, lebih sering ngoding untuk backend/web service. Nah untuk membuat service ini, saya biasanya menggunakan teknologi <a href="/blog/categories/wcf/">WCF</a>, hanya saja untuk <code>kekinian</code> :-D saya juga menggunakan <a href="http://www.asp.net/web-api">ASP.NET Web Api</a>.</p>
 
 <p>Untuk tahapan testing wajib yang saya lakukan adalah minimal <a href="https://en.wikipedia.org/wiki/Unit_testing">unit test</a>. <a href="https://en.wikipedia.org/wiki/Unit_testing">Unit test</a> yang dilakukan biasanya di level DAL (Data Access Layer) dan Controller.</p>
 
@@ -39,19 +39,19 @@
 
 <h5>1. Download <a href="http://jmeter.apache.org/download_jmeter.cgi">JMeter</a> kemudian ekstrak, misal di drive C:\</h5>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-1.png">https://coding4ever.files.wordpress.com/2015/10/201015-1.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/10/201015-1.png">https://coding4ever.files.wordpress.com/2015/10/201015-1.png</a>&#8221;></p>
 
 <h5>2. Untuk menjalankan <a href="http://jmeter.apache.org/">JMeter</a>, klik ganda file <code>jmeter.bat</code> yang ada di folder <code>bin</code></h5>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-2.png">https://coding4ever.files.wordpress.com/2015/10/201015-2.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/10/201015-2.png">https://coding4ever.files.wordpress.com/2015/10/201015-2.png</a>&#8221;></p>
 
 <p>Tunggu beberapa saat sampai tampil, aplikasi <a href="http://jmeter.apache.org/">JMeter</a></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-3.png">https://coding4ever.files.wordpress.com/2015/10/201015-3.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/10/201015-3.png">https://coding4ever.files.wordpress.com/2015/10/201015-3.png</a>&#8221;></p>
 
 <p>Kemudian ganti informasi Name, sesuai kebutuhan. Misal <code>Performance Test Web Service Presensi</code>.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-4.png">https://coding4ever.files.wordpress.com/2015/10/201015-4.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/10/201015-4.png">https://coding4ever.files.wordpress.com/2015/10/201015-4.png</a>&#8221;></p>
 
 <h5>3. Menambahkan User Defined Variables</h5>
 
@@ -59,11 +59,11 @@
 
 <p>Untuk menambahkan node <code>User Defined Variables</code> klik kanan node Test Plan (Performance Test Web Service Presensi) -> Add -> Config Element -> User Defined Variables.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-5.png">https://coding4ever.files.wordpress.com/2015/10/201015-5.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/10/201015-5.png">https://coding4ever.files.wordpress.com/2015/10/201015-5.png</a>&#8221;></p>
 
 <p>Kemudian lakukan pengaturan <code>User Defined Variables</code> seperti gambar berikut :</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-6.png">https://coding4ever.files.wordpress.com/2015/10/201015-6.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/10/201015-6.png">https://coding4ever.files.wordpress.com/2015/10/201015-6.png</a>&#8221;></p>
 
 <p>Pada gambar di atas kita menambahkan dua variabel yaitu <code>host</code> dan <code>port</code>. Nah variabel-variabel ini nantinya akan digunakan pada langkah-langkah berikutnya.</p>
 
@@ -73,7 +73,7 @@
 
 <p>Di node ini kita akan menambahkan informasi apa saja yang dikirimkan <a href="http://jmeter.apache.org/">JMeter</a> ke HTTP request header.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-7.png">https://coding4ever.files.wordpress.com/2015/10/201015-7.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/10/201015-7.png">https://coding4ever.files.wordpress.com/2015/10/201015-7.png</a>&#8221;></p>
 
 <h5>5. Menambahkan HTTP Request Defaults</h5>
 
@@ -81,7 +81,7 @@
 
 <p>Di node ini kita cukup mengeset informasi nama server/ip address, port dan protocol.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-8.png">https://coding4ever.files.wordpress.com/2015/10/201015-8.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/10/201015-8.png">https://coding4ever.files.wordpress.com/2015/10/201015-8.png</a>&#8221;></p>
 
 <p>Karena sebelumnya kita sudah mendefinisikan nama host dan port di node <code>User Defined Variables</code>, di node ini kita tinggal panggil variabel tersebut dengan format : ${<strong>NAMA_VARIABEL</strong>}.</p>
 
@@ -91,11 +91,11 @@
 
 <p>Untuk menambahkan node <code>Thread Group</code> klik kanan node Test Plan (Performance Test Web Service Presensi) -> Add -> Threads (Users) -> Thread Group.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-9.png">https://coding4ever.files.wordpress.com/2015/10/201015-9.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/10/201015-9.png">https://coding4ever.files.wordpress.com/2015/10/201015-9.png</a>&#8221;></p>
 
 <p>Kemudian atur settingnya seperti berikut :</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-10.png">https://coding4ever.files.wordpress.com/2015/10/201015-10.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/10/201015-10.png">https://coding4ever.files.wordpress.com/2015/10/201015-10.png</a>&#8221;></p>
 
 <p>Dari setting di atas, kita akan membuat skenario <code>performance test</code> seperti berikut :</p>
 
@@ -114,11 +114,11 @@
 
 <p>Untuk menambahkan node <code>HTTP Request</code> klik kanan node Thread Group (Web Service Mahasiswa) -> Add -> Sampler -> HTTP Request.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-11.png">https://coding4ever.files.wordpress.com/2015/10/201015-11.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/10/201015-11.png">https://coding4ever.files.wordpress.com/2015/10/201015-11.png</a>&#8221;></p>
 
 <p>Kemudian atur settingnya seperti berikut :</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-12.png">https://coding4ever.files.wordpress.com/2015/10/201015-12.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/10/201015-12.png">https://coding4ever.files.wordpress.com/2015/10/201015-12.png</a>&#8221;></p>
 
 <p>Dari gambar di atas, informasi web servicenya sebagai berikut :</p>
 
@@ -132,7 +132,7 @@
 
 <p>Ulangi langkah sebelumnya untuk menambahkan service yang lain.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-13.png">https://coding4ever.files.wordpress.com/2015/10/201015-13.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/10/201015-13.png">https://coding4ever.files.wordpress.com/2015/10/201015-13.png</a>&#8221;></p>
 
 <h5>8. Menambahkan report untuk menampilkan hasil Performance test</h5>
 
@@ -150,13 +150,13 @@
 
 <p>Untuk menambahkan semua format laporan di atas klik kanan node Thread Group (Web Service Mahasiswa) -> Add -> Listener -> Pilih jenis laporan.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-14.png">https://coding4ever.files.wordpress.com/2015/10/201015-14.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/10/201015-14.png">https://coding4ever.files.wordpress.com/2015/10/201015-14.png</a>&#8221;></p>
 
 <h5>9. Menjalankan Performance test</h5>
 
 <p>Untuk menjalankan performance test, kita tinggal mengklik toolbar <code>Start</code></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-15.png">https://coding4ever.files.wordpress.com/2015/10/201015-15.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/10/201015-15.png">https://coding4ever.files.wordpress.com/2015/10/201015-15.png</a>&#8221;></p>
 
 <p><code>Performance test</code> ini di jalankan menggunakan <code>Environment Test</code> sebagai berikut :</p>
 
@@ -183,17 +183,17 @@
 
 <h5>10. Contoh Hasil Performance Test</h5>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-16.png">https://coding4ever.files.wordpress.com/2015/10/201015-16.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/10/201015-16.png">https://coding4ever.files.wordpress.com/2015/10/201015-16.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-17.png">https://coding4ever.files.wordpress.com/2015/10/201015-17.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/10/201015-17.png">https://coding4ever.files.wordpress.com/2015/10/201015-17.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-18.png">https://coding4ever.files.wordpress.com/2015/10/201015-18.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/10/201015-18.png">https://coding4ever.files.wordpress.com/2015/10/201015-18.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-19.png">https://coding4ever.files.wordpress.com/2015/10/201015-19.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/10/201015-19.png">https://coding4ever.files.wordpress.com/2015/10/201015-19.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-20.png">https://coding4ever.files.wordpress.com/2015/10/201015-20.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/10/201015-20.png">https://coding4ever.files.wordpress.com/2015/10/201015-20.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-21.png">https://coding4ever.files.wordpress.com/2015/10/201015-21.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/10/201015-21.png">https://coding4ever.files.wordpress.com/2015/10/201015-21.png</a>&#8221;></p>
 
 <p>Sebagai penutup saya belum menemukan referensi yang tepat bagaimana cara menganalisa hasil dari <code>performance test</code> di atas, tetapi biasanya yang saya jadikan acuan adalah hasil yang bisa dilihat melalui node <code>View Results in Table</code> kolom Status, dari node ini kelihatan apakah ada request service yang berstatus <code>Warning</code>. Jika ada mungkin ini bisa menjadi bahan acuan apakah service kita masih perlu di-<code>improve</code> lagi atau skenario <code>performance test</code> yang perlu diganti atau karena faktor lainnya seperti kondisi jaringan yang lagi <code>enggak fit</code> pada saat melakukan tes :-D.</p>
 
