@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Signalr | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/signalr/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-02-15T07:47:15+07:00</updated>
+  <updated>2016-02-15T07:52:03+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Pengembangan Aplikasi Real-time Menggunakan SignalR Bagian #2]]></title>
     <link href="http://coding4ever.net/blog/2016/02/15/pengembangan-aplikasi-real-time-menggunakan-signalr-bagian-number-2/"/>
-    <updated>2016-02-15T06:31:15+07:00</updated>
+    <updated>2016-02-15T07:49:15+07:00</updated>
     <id>http://coding4ever.net/blog/2016/02/15/pengembangan-aplikasi-real-time-menggunakan-signalr-bagian-number-2</id>
     <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2016/02/signalr.png">https://coding4ever.files.wordpress.com/2016/02/signalr.png</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Dasar-dasar penggunaan <a href="http://signalr.net/">SignalR</a>, sudah saya bahas dipostingan <a href="/blog/2016/02/09/pengembangan-aplikasi-real-time-menggunakan-signalr/">pertama</a>. Jadi dipostingan <a href="/blog/2016/02/15/pengembangan-aplikasi-real-time-menggunakan-signalr-bagian-number-2/">kedua</a> ini saya hanya ingin berbagai source code lain contoh penggunaan <a href="http://signalr.net/">SignalR</a> yaitu source code untuk aplikasi pemesanan <a href="/blog/2016/02/15/pengembangan-aplikasi-real-time-menggunakan-signalr-bagian-number-2/">tiket real-time</a>.</p>
 
