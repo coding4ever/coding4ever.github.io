@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Visual C# | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/visual-c-number/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-02-11T06:05:12+07:00</updated>
+  <updated>2016-02-15T07:42:23+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -14,11 +14,29 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Pengembangan Aplikasi Real-time Menggunakan SignalR Bagian #2]]></title>
+    <link href="http://coding4ever.net/blog/2016/02/15/pengembangan-aplikasi-real-time-menggunakan-signalr-bagian-number-2/"/>
+    <updated>2016-02-15T06:31:15+07:00</updated>
+    <id>http://coding4ever.net/blog/2016/02/15/pengembangan-aplikasi-real-time-menggunakan-signalr-bagian-number-2</id>
+    <content type="html"><![CDATA[<p>{% img left <a href="https://coding4ever.files.wordpress.com/2016/02/signalr.png">https://coding4ever.files.wordpress.com/2016/02/signalr.png</a> 120 100 %}Dasar-dasar penggunaan <a href="http://signalr.net/">SignalR</a>, sudah saya bahas dipostingan <a href="{{%20site.url%20}}/blog/2016/02/09/pengembangan-aplikasi-real-time-menggunakan-signalr/">pertama</a>. Jadi dipostingan <a href="{{%20site.url%20}}/blog/2016/02/15/pengembangan-aplikasi-real-time-menggunakan-signalr-bagian-number-2/">kedua</a> ini saya hanya ingin berbagai source code lain contoh penggunaan <a href="http://signalr.net/">SignalR</a> yaitu source code untuk aplikasi pemesanan <a href="xxxx">tiket real-time</a>.</p>
+
+<p>Cara kerja aplikasi ini masih sederhana sekali yaitu hanya mengirimkan informasi nomor kursi yang dipilih oleh user ke server, kemudian server akan melakukan pengiriman (push) nomor kursi yang dipesan kepada semua client yang sudah terkoneksi ke server.</p>
+
+<!-- more -->
+
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/150216-01.png">https://coding4ever.files.wordpress.com/2016/02/150216-01.png</a> %}</p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/DemoSignalR2">MENCOBA</a> :-)</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Pengembangan Aplikasi Real-time Menggunakan SignalR]]></title>
     <link href="http://coding4ever.net/blog/2016/02/09/pengembangan-aplikasi-real-time-menggunakan-signalr/"/>
     <updated>2016-02-09T11:17:00+07:00</updated>
     <id>http://coding4ever.net/blog/2016/02/09/pengembangan-aplikasi-real-time-menggunakan-signalr</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2016/02/signalr.png">https://coding4ever.files.wordpress.com/2016/02/signalr.png</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;><a href="http://signalr.net/">ASP.NET  SignalR</a> atau  dapat  disingkat  menjadi  <a href="http://signalr.net/">SignalR</a>  adalah  library yang memudahkan kita untuk menambahkan fungsi komunikasi <code>real-time</code> pada aplikasi yang kita kembangkan. Fungsi <code>real-time</code> di sini adalah kemampuan server melakukan pengiriman (push) konten atau data kepada client yang  sudah  terkoneksi  ke  server, sehingga  server  tidak  perlu  menunggu  client  untuk melakukan permintaan (request) data terbaru.</p>
+    <content type="html"><![CDATA[<p>{% img left <a href="https://coding4ever.files.wordpress.com/2016/02/signalr.png">https://coding4ever.files.wordpress.com/2016/02/signalr.png</a> 120 100 %}<a href="http://signalr.net/">ASP.NET  SignalR</a> atau  dapat  disingkat  menjadi  <a href="http://signalr.net/">SignalR</a>  adalah  library yang memudahkan kita untuk menambahkan fungsi komunikasi <code>real-time</code> pada aplikasi yang kita kembangkan. Fungsi <code>real-time</code> di sini adalah kemampuan server melakukan pengiriman (push) konten atau data kepada client yang  sudah  terkoneksi  ke  server, sehingga  server  tidak  perlu  menunggu  client  untuk melakukan permintaan (request) data terbaru.</p>
 
 <p><a href="http://signalr.net/">SignalR</a> selain digunakan untuk pengembangan aplikasi web, juga bisa digunakan untuk platform lainnya seperti desktop (console dan windows form) ataupun mobile (windows phone, android dan iOS).</p>
 
@@ -27,9 +45,9 @@
 
 <p><a href="http://signalr.net/">SignalR</a> menyediakan API yang memungkinkan server memanggil fungsi/method yang dimiliki oleh client atau pun sebaliknya. Proses memanggil method secara remote ini dikenal dengan istilah <code>remote procedure call (RPC)</code>.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-01.png">https://coding4ever.files.wordpress.com/2016/02/090216-01.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-01.png">https://coding4ever.files.wordpress.com/2016/02/090216-01.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-02.png">https://coding4ever.files.wordpress.com/2016/02/090216-02.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-02.png">https://coding4ever.files.wordpress.com/2016/02/090216-02.png</a> %}</p>
 
 <p style="text-align:center">Sumber - <a href=" http://www.asp.net/signalr/overview/getting-started/introduction-to-signalr" target="_blank">Introduction to SignalR</a></p>
 
@@ -38,7 +56,7 @@
 
 <p>Sebagai contoh penggunaan SignalR, kita akan membuat aplikasi sederhana tanpa database. Di contoh ini kita akan melihat bagaimana cara server dan client berbagi data secara <code>real-time</code>.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-03.png">https://coding4ever.files.wordpress.com/2016/02/090216-03.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-03.png">https://coding4ever.files.wordpress.com/2016/02/090216-03.png</a> %}</p>
 
 <p>Aplikasi di atas terdiri dari tiga project yaitu :</p>
 
@@ -54,17 +72,17 @@
 
 <p>Terakhir adalah project DemoSignalR.Model, project ini bertipe Class Library yang isinya hanya berupa class model. Objek dari class model inilah nantinya akan dishare secara <code>real-time</code> dari server ke client atau sebaliknya.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-04.png">https://coding4ever.files.wordpress.com/2016/02/090216-04.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-04.png">https://coding4ever.files.wordpress.com/2016/02/090216-04.png</a> %}</p>
 
 <p>Berikutnya kita akan bahas satu persatu ketiga project di atas.</p>
 
 <h5>1. DemoSignalR.WinFormServer</h5>
 
-<p>Project ini berfungsi sebagai server dari SignalR. Untuk menggunakan SignalR kita perlu menambahkan beberapa library yang bisa kita install via <a href="/blog/2014/03/11/nuget/">NuGet</a>.</p>
+<p>Project ini berfungsi sebagai server dari SignalR. Untuk menggunakan SignalR kita perlu menambahkan beberapa library yang bisa kita install via <a href="{{%20site.url%20}}/blog/2014/03/11/nuget/">NuGet</a>.</p>
 
-<p>Berikut adalah daftar paket <a href="/blog/2014/03/11/nuget/">NuGet</a> yang perlu kita tambahkan untuk project server.</p>
+<p>Berikut adalah daftar paket <a href="{{%20site.url%20}}/blog/2014/03/11/nuget/">NuGet</a> yang perlu kita tambahkan untuk project server.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-05.png">https://coding4ever.files.wordpress.com/2016/02/090216-05.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-05.png">https://coding4ever.files.wordpress.com/2016/02/090216-05.png</a> %}</p>
 
 <h6>SignalR Hubs API</h6>
 
@@ -72,15 +90,15 @@
 
 <p>Di server kita mendefinisikan method yang bisa langsung dipanggil oleh client, kemudian di dalam method ini akan memanggil method yang dijalankan oleh client. Contoh :</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-06.png">https://coding4ever.files.wordpress.com/2016/02/090216-06.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-06.png">https://coding4ever.files.wordpress.com/2016/02/090216-06.png</a> %}</p>
 
 <p>Coba perhatikan kode di atas, method <code>AddCustomer</code> adalah method server yang kita definisikan dan bisa langsung dipanggil oleh client. Nah di dalam method ini juga ada perintah <code>Clients.All.RefreshData(customer)</code>. Method <code>RefreshData</code> setelah property <code>All</code> adalah <code>dynamic method</code>, sehingga kita bebas menentukan sendiri nama methodnya. Dan jangan lupa method <code>RefreshData</code> ini juga harus kita definisikan ulang di bagian client.</p>
 
 <p>Untuk menggunakan fitur SignalR Hubs API kita cukup membuat sebuah class yang merupakan turunan dari class <code>Microsoft.AspNet.SignalR.Hub</code>. Misal kita membuat sebuah class dengan nama <code>ServerHub</code>, class ini harus turunan dari class <code>Microsoft.AspNet.SignalR.Hub</code>. Untuk kode lengkapnya seperti berikut :</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-07.png">https://coding4ever.files.wordpress.com/2016/02/090216-07.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-07.png">https://coding4ever.files.wordpress.com/2016/02/090216-07.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-08.png">https://coding4ever.files.wordpress.com/2016/02/090216-08.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-08.png">https://coding4ever.files.wordpress.com/2016/02/090216-08.png</a> %}</p>
 
 <h6>Mendaftarkan SignalR</h6>
 
@@ -96,97 +114,17 @@ Ada beberapa cara yang bisa digunakan untuk menempatkan SignalR ke dalam wadahny
 
 <p>Karena contoh Server SignalR yang kita buat di atas bertipe Windows Application, berarti kita menggunakan cara <code>Self hosting</code> untuk meng-hostkan SignalR. Untuk mengaktifkan fitur <code>Self hosting</code> kita perlu menambahkan library <code>Microsoft.AspNet.SignalR.SelfHost</code> dan <code>Microsoft.AspNet.Cors</code>, kemudian kita buat class baru dengan nama <code>Startup</code>. Untuk kode lengkapnya seperti berikut :</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-09.png">https://coding4ever.files.wordpress.com/2016/02/090216-09.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-09.png">https://coding4ever.files.wordpress.com/2016/02/090216-09.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-10.png">https://coding4ever.files.wordpress.com/2016/02/090216-10.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-10.png">https://coding4ever.files.wordpress.com/2016/02/090216-10.png</a> %}</p>
 
 <p>Setelah membuat class <code>ServerHub</code> dan <code>Startup</code> kita lanjutkan dengan form utama (FrmServer). Untuk desain UInya seperti berikut :</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-11.png">https://coding4ever.files.wordpress.com/2016/02/090216-11.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-11.png">https://coding4ever.files.wordpress.com/2016/02/090216-11.png</a> %}</p>
 
 <p>Untuk kode lengkapnya seperti berikut :</p>
 
-<p><div><script src='https://gist.github.com/63391d8f511049303b20.js'></script>
-<noscript><pre><code>using Microsoft.Owin.Hosting;
-
-namespace DemoSignalR.WinFormServer
-{
-    public partial class FrmServer : Form
-    {
-        private IDisposable signalR { get; set; }
-        private const string SERVER_URL = &quot;http://192.168.56.1:8282&quot;;
-
-        public FrmServer()
-        {
-            InitializeComponent();
-        }
-
-        private void btnStart_Click(object sender, EventArgs e)
-        {
-            WriteToConsole(&quot;Starting server...&quot;);
-
-            btnStart.Enabled = false;
-            Task.Run(() =&gt; StartServer());
-        }
-
-        private void btnStop_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-
-        /// &lt;summary&gt;
-        /// Starts the server and checks for error thrown when another server is already 
-        /// running. This method is called asynchronously from Button_Start.
-        /// &lt;/summary&gt;
-        private void StartServer()
-        {
-            try
-            {
-                signalR = WebApp.Start(SERVER_URL);
-            }
-            catch (TargetInvocationException)
-            {
-                WriteToConsole(&quot;Server failed to start. A server is already running on &quot; + SERVER_URL);
-
-                //Re-enable button to let user try to start server again
-                this.Invoke((Action)(() =&gt; btnStart.Enabled = true));
-                return;
-            }
-
-            this.Invoke((Action)(() =&gt; btnStop.Enabled = true));
-            WriteToConsole(&quot;Server started at &quot; + SERVER_URL);
-        }
-
-        /// &lt;summary&gt;
-        /// This method adds a line to the RichTextBoxConsole control, using Invoke if used
-        /// from a SignalR hub thread rather than the UI thread.
-        /// &lt;/summary&gt;
-        /// &lt;param name=&quot;message&quot;&gt;&lt;/param&gt;
-        internal void WriteToConsole(String message)
-        {
-            if (lstConsole.InvokeRequired)
-            {
-                this.Invoke((Action)(() =&gt;
-                    WriteToConsole(message)
-                ));
-
-                return;
-            }
-
-            lstConsole.Items.Add(message);
-        }       
-
-        private void FrmServer_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (signalR != null)
-            {
-                signalR.Dispose();
-            }
-        }
-    }
-}
-</code></pre></noscript></div>
-</p>
+<p>{% gist 63391d8f511049303b20 %}</p>
 
 <p>Setelah menyelesaikan project Server (DemoSignalR.WinFormServer) kita lanjutkan dengan project DemoSignalR.Model.</p>
 
@@ -194,9 +132,9 @@ namespace DemoSignalR.WinFormServer
 
 <p>Project ini hanya berisi class-class model. Data atau objek dari class-class model inilah yang nantinya akan dishare oleh server dan client secara <code>real-time</code>. Sebagai contoh di project ini kita hanya menambahkan satu class model yaitu <code>Customer</code>.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-12.png">https://coding4ever.files.wordpress.com/2016/02/090216-12.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-12.png">https://coding4ever.files.wordpress.com/2016/02/090216-12.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-13.png">https://coding4ever.files.wordpress.com/2016/02/090216-13.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-13.png">https://coding4ever.files.wordpress.com/2016/02/090216-13.png</a> %}</p>
 
 <p>Class Customer di atas masuk dalam kategori  <code>complex types</code> sehingga objek dari class Customer tersebut tidak bisa langsung dikirim dari client ke server atau sebaliknya. Perlu diketahui untuk tipe-tipe data primitif seperti integer, long, boolean termasuk string (pengecualian untuk string bukan tipe data primitif) bisa langsung dikirim dari client ke server atau sebaliknya. Khusus untuk objek dari <code>complex types</code> perlu kita konversi terlebih dulu datanya dalam format json.</p>
 
@@ -204,9 +142,9 @@ namespace DemoSignalR.WinFormServer
 
 <ul>
 <li><p>Menambahkan atribut <code>JsonProperty</code> pada property class
-<img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-14.png">https://coding4ever.files.wordpress.com/2016/02/090216-14.png</a>&#8221;></p></li>
+{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-14.png">https://coding4ever.files.wordpress.com/2016/02/090216-14.png</a> %}</p></li>
 <li><p>Atau mengkonversi secara langsung objek class ke dalam format json<br/>
-<img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-15.png">https://coding4ever.files.wordpress.com/2016/02/090216-15.png</a>&#8221;></p></li>
+{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-15.png">https://coding4ever.files.wordpress.com/2016/02/090216-15.png</a> %}</p></li>
 </ul>
 
 
@@ -216,124 +154,21 @@ namespace DemoSignalR.WinFormServer
 
 <p>Project terakhir yang akan kita bahas adalah <code>DemoSignalR.WinFormClient</code> ini adalah project untuk Client SignalR, tipenya juga sama seperti project Server SignalR yaitu Windows Application.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-16.png">https://coding4ever.files.wordpress.com/2016/02/090216-16.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-16.png">https://coding4ever.files.wordpress.com/2016/02/090216-16.png</a> %}</p>
 
-<p>Untuk menggunakan SignalR di sisi client kita perlu menambahkan beberapa library yang bisa kita install via <a href="/blog/2014/03/11/nuget/">NuGet</a>.</p>
+<p>Untuk menggunakan SignalR di sisi client kita perlu menambahkan beberapa library yang bisa kita install via <a href="{{%20site.url%20}}/blog/2014/03/11/nuget/">NuGet</a>.</p>
 
-<p>Berikut adalah daftar paket <a href="/blog/2014/03/11/nuget/">NuGet</a> yang perlu kita tambahkan di project client.</p>
+<p>Berikut adalah daftar paket <a href="{{%20site.url%20}}/blog/2014/03/11/nuget/">NuGet</a> yang perlu kita tambahkan di project client.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-17.png">https://coding4ever.files.wordpress.com/2016/02/090216-17.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-17.png">https://coding4ever.files.wordpress.com/2016/02/090216-17.png</a> %}</p>
 
 <p>Untuk kode lengkapnya seperti berikut :</p>
 
-<p><div><script src='https://gist.github.com/ded6ca2911696e0b752e.js'></script>
-<noscript><pre><code>using Microsoft.AspNet.SignalR.Client;
-using DemoSignalR.Model;
-
-namespace DemoSignalR.WinFormClient
-{
-    public partial class FrmClient : Form
-    {
-        private const string SERVER_URL = &quot;http://192.168.56.1:8282&quot;;
-
-        private HubConnection hubConnection;
-        private IHubProxy hubProxy;
-
-        public FrmClient()
-        {
-            InitializeComponent();
-
-            InisialisasiListView();
-
-            hubConnection = new HubConnection(SERVER_URL);
-            
-            // membuat objek proxy dari class hub yang ada di server
-            hubProxy = hubConnection.CreateHubProxy(&quot;ServerHub&quot;);
-
-            // set mode listen untuk method RefreshData
-            // method RefreshData sebelumnya harus didefinisikan di server
-            hubProxy.On&lt;Customer&gt;(&quot;RefreshData&quot;, (customer) =&gt; RefreshData(customer));
-            ConnectAsync();
-        }
-
-        private void RefreshData(Customer customer)
-        {
-            lvwCustomer.Invoke(new MethodInvoker(() =&gt; FillToListView(customer)));
-        }
-
-        /// &lt;summary&gt;
-        /// Creates and connects the hub connection and hub proxy.
-        /// &lt;/summary&gt;
-        private async void ConnectAsync()
-        {
-            try
-            {
-                await hubConnection.Start();
-                btnSave.Enabled = true;
-            }
-            catch
-            {
-                MessageBox.Show(&quot;Unable to connect to server: Start server before connecting clients.&quot;);
-                return;
-            }
-
-        }
-
-        // pengaturan propery listview
-        private void InisialisasiListView()
-        {
-            lvwCustomer.View = System.Windows.Forms.View.Details;
-            lvwCustomer.FullRowSelect = true;
-            lvwCustomer.GridLines = true;
-
-            lvwCustomer.Columns.Add(&quot;No.&quot;, 30, HorizontalAlignment.Center);
-            lvwCustomer.Columns.Add(&quot;Customer Id&quot;, 70, HorizontalAlignment.Left);
-            lvwCustomer.Columns.Add(&quot;Company Name&quot;, 150, HorizontalAlignment.Left);
-            lvwCustomer.Columns.Add(&quot;Contact Name&quot;, 155, HorizontalAlignment.Left);
-        }
-
-        // method untuk menampilkan data customer ke listview
-        private void FillToListView(Customer customer)
-        {
-            int noUrut = lvwCustomer.Items.Count + 1;
-
-            ListViewItem item = new ListViewItem(noUrut.ToString());
-            item.SubItems.Add(customer.CustomerId);
-            item.SubItems.Add(customer.CompanyName);
-            item.SubItems.Add(customer.ContactName);
-
-            lvwCustomer.Items.Add(item);
-        }
-
-        private void FrmClient_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (hubConnection != null)
-            {
-                hubConnection.Stop();
-                hubConnection.Dispose();
-            }
-        }
-
-        private void btnSave_Click(object sender, EventArgs e)
-        {
-            var customer = new Customer
-            {
-                CustomerId = txtCustomerId.Text,
-                CompanyName = txtCompanyName.Text,
-                ContactName = txtContactName.Text
-            };
-
-            // invoking a server function: 
-            hubProxy.Invoke(&quot;AddCustomer&quot;, customer);
-        }
-    }
-}
-</code></pre></noscript></div>
-</p>
+<p>{% gist ded6ca2911696e0b752e %}</p>
 
 <p>Dan hasilnya adalah seperti berikut :</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-03.png">https://coding4ever.files.wordpress.com/2016/02/090216-03.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-03.png">https://coding4ever.files.wordpress.com/2016/02/090216-03.png</a> %}</p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/DemoSignalR">MENCOBA</a> :-)</p>
 
@@ -354,14 +189,14 @@ namespace DemoSignalR.WinFormClient
     <link href="http://coding4ever.net/blog/2016/01/27/menghilangkan-tab-main-report-pada-crystalreportviewer/"/>
     <updated>2016-01-27T15:00:58+07:00</updated>
     <id>http://coding4ever.net/blog/2016/01/27/menghilangkan-tab-main-report-pada-crystalreportviewer</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg">https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Bagi Anda penggemar Crystal Reports .NET tentu sudah tidak asing lagi dengan tab <code>Main Report</code> yang tampil pada saat menampilkan laporan. Bagi sebagian orang seperti saya <em>tab</em> ini lumayan mengganggu karena biasanya report yang kita buat adalah report tunggal (report yang tidak me-link kehalaman yang lain).</p>
+    <content type="html"><![CDATA[<p>{% img left <a href="https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg">https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg</a> 120 100 %}Bagi Anda penggemar Crystal Reports .NET tentu sudah tidak asing lagi dengan tab <code>Main Report</code> yang tampil pada saat menampilkan laporan. Bagi sebagian orang seperti saya <em>tab</em> ini lumayan mengganggu karena biasanya report yang kita buat adalah report tunggal (report yang tidak me-link kehalaman yang lain).</p>
 
 <p>Masih bingung ? Coba lihat gambar berikut.</p>
 
 <!-- more -->
 
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/270116-01.png">https://coding4ever.files.wordpress.com/2016/01/270116-01.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/270116-01.png">https://coding4ever.files.wordpress.com/2016/01/270116-01.png</a> %}</p>
 
 <p>Ada beberapa cara untuk menghilangkan tab tersebut, bisa dengan membuat sebuah <em>method biasa</em> atau dengan membuat <a href="https://msdn.microsoft.com/en-us//library/bb383977.aspx"><em>extension method</em></a>.</p>
 
@@ -369,11 +204,11 @@ namespace DemoSignalR.WinFormClient
 
 <p>Nah cara pertama adalah dengan membuat sebuah method, misal dengan nama <code>RemoveMainTab</code>.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/270116-02.png">https://coding4ever.files.wordpress.com/2016/01/270116-02.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/270116-02.png">https://coding4ever.files.wordpress.com/2016/01/270116-02.png</a> %}</p>
 
 <p>kemudian method di atas kita panggil setelah pengesetan nilai property <code>ReportSource</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/270116-03.png">https://coding4ever.files.wordpress.com/2016/01/270116-03.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/270116-03.png">https://coding4ever.files.wordpress.com/2016/01/270116-03.png</a> %}</p>
 
 <h5>Extension method</h5>
 
@@ -383,23 +218,23 @@ namespace DemoSignalR.WinFormClient
 
 <p>Untuk membuat <a href="https://msdn.microsoft.com/en-us//library/bb383977.aspx">extension method</a> kita harus menambahkan class baru misal dengan nama <code>CrystalReportViewerExtension</code>.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/270116-04.png">https://coding4ever.files.wordpress.com/2016/01/270116-04.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/270116-04.png">https://coding4ever.files.wordpress.com/2016/01/270116-04.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/270116-05.png">https://coding4ever.files.wordpress.com/2016/01/270116-05.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/270116-05.png">https://coding4ever.files.wordpress.com/2016/01/270116-05.png</a> %}</p>
 
 <p>kemudian classnya harus static, setelah itu kita tambahkan method <code>RemoveMainTab</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/270116-06.png">https://coding4ever.files.wordpress.com/2016/01/270116-06.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/270116-06.png">https://coding4ever.files.wordpress.com/2016/01/270116-06.png</a> %}</p>
 
 <p>Nah coba perhatikan method <code>RemoveMainTab</code> di atas, selain harus <code>static</code> parameternya juga harus ditambahkan keyword <code>this</code>.</p>
 
 <p>Jika berhasil objek dari class <code>CrystalReportViewer</code> akan ketambahan method baru dengan nama <code>RemoveMainTab</code>.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/270116-07.png">https://coding4ever.files.wordpress.com/2016/01/270116-07.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/270116-07.png">https://coding4ever.files.wordpress.com/2016/01/270116-07.png</a> %}</p>
 
 <p>Terakhir kita cek reportnya apakah tab Main Report sudah hilang ?</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/270116-08.png">https://coding4ever.files.wordpress.com/2016/01/270116-08.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/270116-08.png">https://coding4ever.files.wordpress.com/2016/01/270116-08.png</a> %}</p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/RemoveMainReportTabOnCRViewer">MENCOBA</a> :)</p>
 ]]></content>
@@ -410,24 +245,24 @@ namespace DemoSignalR.WinFormClient
     <link href="http://coding4ever.net/blog/2016/01/24/membuat-laporan-crystal-reports-net-dengan-model-data-push-bagian-number-2/"/>
     <updated>2016-01-24T15:25:29+07:00</updated>
     <id>http://coding4ever.net/blog/2016/01/24/membuat-laporan-crystal-reports-net-dengan-model-data-push-bagian-number-2</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg">https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Melanjutkan pembahasan tentang bagaimana cara mendesain laporan menggunakan Crystal Reports‎ .NET tanpa terhubung langsung ke database dengan memanfaatkan objek ADO.NET DataSet atau yang dikenal dengan istilah <a href="/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push/">Push model</a>.</p>
+    <content type="html"><![CDATA[<p>{% img left <a href="https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg">https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg</a> 120 100 %}Melanjutkan pembahasan tentang bagaimana cara mendesain laporan menggunakan Crystal Reports‎ .NET tanpa terhubung langsung ke database dengan memanfaatkan objek ADO.NET DataSet atau yang dikenal dengan istilah <a href="{{%20site.url%20}}/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push/">Push model</a>.</p>
 
 <!-- more -->
 
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-01.png">https://coding4ever.files.wordpress.com/2016/01/240116-01.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-01.png">https://coding4ever.files.wordpress.com/2016/01/240116-01.png</a> %}</p>
 
-<p>Jika pada postingan <a href="/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push/">sebelumnya</a> kita hanya menampilkan data dari sebuah tabel maka untuk <a href="/blog/2016/01/24/membuat-laporan-crystal-reports-net-dengan-model-data-push-bagian-number-2/">postingan</a> kali ini kita menampilkan data dari tiga buah tabel yang saling berhubungan.</p>
+<p>Jika pada postingan <a href="{{%20site.url%20}}/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push/">sebelumnya</a> kita hanya menampilkan data dari sebuah tabel maka untuk <a href="{{%20site.url%20}}/blog/2016/01/24/membuat-laporan-crystal-reports-net-dengan-model-data-push-bagian-number-2/">postingan</a> kali ini kita menampilkan data dari tiga buah tabel yang saling berhubungan.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-02.png">https://coding4ever.files.wordpress.com/2016/01/240116-02.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-02.png">https://coding4ever.files.wordpress.com/2016/01/240116-02.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-03.png">https://coding4ever.files.wordpress.com/2016/01/240116-03.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-03.png">https://coding4ever.files.wordpress.com/2016/01/240116-03.png</a> %}</p>
 
 <p>Persiapan tool-tool yang akan digunakan :</p>
 
 <ol>
 <li><a href="http://www.visualstudio.com/en-us/downloads/download-visual-studio-vs#d-community">Visual Studio Community 2013</a>, Anda bisa saja menggunakan Visual Studio .NET versi sebelumnya (2010, 2012)</li>
-<li><a href="/blog/categories/nuget/">NuGet</a>, untuk memudahkan dalam menambahkan library pihak ketiga. Adapun library pihak ketiga yang digunakan dalam sample ini adalah <a href="/blog/categories/dapper-net/">Dapper .NET</a> dan <a href="http://www.nuget.org/packages/System.Data.SQLite.Core/">System.Data.SQLite Core</a></li>
+<li><a href="{{%20site.url%20}}/blog/categories/nuget/">NuGet</a>, untuk memudahkan dalam menambahkan library pihak ketiga. Adapun library pihak ketiga yang digunakan dalam sample ini adalah <a href="{{%20site.url%20}}/blog/categories/dapper-net/">Dapper .NET</a> dan <a href="http://www.nuget.org/packages/System.Data.SQLite.Core/">System.Data.SQLite Core</a></li>
 <li><a href="http://scn.sap.com/docs/DOC-7824">Crystal Reports SP 13</a></li>
 <li>Database <a href="http://www.sqlite.org/">SQLite</a></li>
 </ol>
@@ -438,10 +273,10 @@ namespace DemoSignalR.WinFormClient
 <ol>
 <li><p>Buat project baru dengan type WinForm</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-04.png">https://coding4ever.files.wordpress.com/2016/01/240116-04.png</a>&#8221;></p></li>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-04.png">https://coding4ever.files.wordpress.com/2016/01/240116-04.png</a> %}</p></li>
 <li><p>Tambahkan empat folder baru masing-masing dengan nama DataSet, Model, Repository dan Report</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-05.png">https://coding4ever.files.wordpress.com/2016/01/240116-05.png</a>&#8221;></p></li>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-05.png">https://coding4ever.files.wordpress.com/2016/01/240116-05.png</a> %}</p></li>
 </ol>
 
 
@@ -451,83 +286,83 @@ namespace DemoSignalR.WinFormClient
 
 <p>Untuk menerapkan konsep OOP (Object-oriented programming) dalam pemrograman database kita perlu membuat sebuah class yang disebut dengan istilah class Model atau Entity. Class ini merupakan representasi dari tabel-tabel yang ada di dalam database. Tujuan dari membuat class ini adalah agar kita bisa melakukan mapping (pemetaan) baris/row dari tabel menjadi kumpulan objek (object collection).</p>
 
-<p>Pemetaan bisa dilakukan secara manual atau bisa juga secara otomatis dengan menggunakan tool-tool ORM dari pihak ketiga seperti <a href="/blog/categories/dapper-net/">Dapper .NET</a> dan <a href="](/blog/categories/entity-framework/">Entity Framework</a>. Untuk contoh kali ini kita menggunakan <a href="/blog/categories/dapper-net/">Dapper .NET</a>.</p>
+<p>Pemetaan bisa dilakukan secara manual atau bisa juga secara otomatis dengan menggunakan tool-tool ORM dari pihak ketiga seperti <a href="{{%20site.url%20}}/blog/categories/dapper-net/">Dapper .NET</a> dan <a href="]({{%20site.url%20}}/blog/categories/entity-framework/">Entity Framework</a>. Untuk contoh kali ini kita menggunakan <a href="{{%20site.url%20}}/blog/categories/dapper-net/">Dapper .NET</a>.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-06.png">https://coding4ever.files.wordpress.com/2016/01/240116-06.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-06.png">https://coding4ever.files.wordpress.com/2016/01/240116-06.png</a> %}</p>
 
 <p>Setelah memahami apa itu class model dan bagaimana proses pemetaan record ke objek terjadi, langkah berikutnya adalah menambahkan class model <em>Category, Product</em> dan <em>Supplier</em> yang mempunyai struktur sama persis dengan rancangan tabel di atas.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-07.png">https://coding4ever.files.wordpress.com/2016/01/240116-07.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-07.png">https://coding4ever.files.wordpress.com/2016/01/240116-07.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-08.png">https://coding4ever.files.wordpress.com/2016/01/240116-08.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-08.png">https://coding4ever.files.wordpress.com/2016/01/240116-08.png</a> %}</p>
 
 <h5>Class Repository</h5>
 
 <p>Class <a href="https://msdn.microsoft.com/en-us/library/ff649690.aspx">repository</a> adalah class yang bertugas untuk menangani operasi database yang dikenal dengan istilah operasi CRUD (Create, Read, Update dan Delete). Di dalam class inilah kita menuliskan perintah-perintah INSERT, UPDATE, DELETE dan SELECT.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-09.png">https://coding4ever.files.wordpress.com/2016/01/240116-09.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-09.png">https://coding4ever.files.wordpress.com/2016/01/240116-09.png</a> %}</p>
 
 <p>Sebagai contoh kode dibawah ini akan melakukan mapping (pemetaan) baris/row tabel menjadi kumpulan objek (object collection) secara otomatis.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-10.png">https://coding4ever.files.wordpress.com/2016/01/240116-10.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-10.png">https://coding4ever.files.wordpress.com/2016/01/240116-10.png</a> %}</p>
 
-<p>Kode di atas menggunakan <a href="/blog/categories/dapper-net/">Micro ORM</a> <a href="/blog/categories/dapper-net/">Dapper.NET</a> untuk melakukan mapping/pemetaan hasil query ke objek collection.</p>
+<p>Kode di atas menggunakan <a href="{{%20site.url%20}}/blog/categories/dapper-net/">Micro ORM</a> <a href="{{%20site.url%20}}/blog/categories/dapper-net/">Dapper.NET</a> untuk melakukan mapping/pemetaan hasil query ke objek collection.</p>
 
 <p>Kemudian kita panggil seperti berikut :</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-11.png">https://coding4ever.files.wordpress.com/2016/01/240116-11.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-11.png">https://coding4ever.files.wordpress.com/2016/01/240116-11.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-12.png">https://coding4ever.files.wordpress.com/2016/01/240116-12.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-12.png">https://coding4ever.files.wordpress.com/2016/01/240116-12.png</a> %}</p>
 
 <h5>DataSet</h5>
 
-<p>Dengan model <a href="/blog/categories/crystal-reports-net/">data Push</a> kita tidak langsung menghubungkan antara Crystal Reports dengan database, jadi sebagai solusinya kita menggunakan DataSet yang berfungsi sebagai tabel temporary dan menjadi sumber data bagi Crystal Reports.</p>
+<p>Dengan model <a href="{{%20site.url%20}}/blog/categories/crystal-reports-net/">data Push</a> kita tidak langsung menghubungkan antara Crystal Reports dengan database, jadi sebagai solusinya kita menggunakan DataSet yang berfungsi sebagai tabel temporary dan menjadi sumber data bagi Crystal Reports.</p>
 
 <p>Untuk menambahkan item DataSet, klik kanan Project -> Add -> New Item…</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-13.png">https://coding4ever.files.wordpress.com/2016/01/240116-13.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-13.png">https://coding4ever.files.wordpress.com/2016/01/240116-13.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-14.png">https://coding4ever.files.wordpress.com/2016/01/240116-14.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-14.png">https://coding4ever.files.wordpress.com/2016/01/240116-14.png</a> %}</p>
 
 <p>Setelah menambahkan item DataSet (DsNorthwind), langkah berikutnya adalah menambahkan item DataTable</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-15.png">https://coding4ever.files.wordpress.com/2016/01/240116-15.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-15.png">https://coding4ever.files.wordpress.com/2016/01/240116-15.png</a> %}</p>
 
 <p>Kemudian input informasi DataTablenya seperti gambar berikut :</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-16.png">https://coding4ever.files.wordpress.com/2016/01/240116-16.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-16.png">https://coding4ever.files.wordpress.com/2016/01/240116-16.png</a> %}</p>
 
 <p>Ulangi langkah sebelumnya untuk menambahkan DataTable lainnya.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-17.png">https://coding4ever.files.wordpress.com/2016/01/240116-17.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-17.png">https://coding4ever.files.wordpress.com/2016/01/240116-17.png</a> %}</p>
 
 <h5>Crystal Reports</h5>
 
 <p>Crystal Reports adalah tool yang kita gunakan untuk membuat laporan. Untuk menambahkan item Crystal Report, klik kanan Project -> Add -> New Item…</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-18.png">https://coding4ever.files.wordpress.com/2016/01/240116-18.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-18.png">https://coding4ever.files.wordpress.com/2016/01/240116-18.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-19.png">https://coding4ever.files.wordpress.com/2016/01/240116-19.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-19.png">https://coding4ever.files.wordpress.com/2016/01/240116-19.png</a> %}</p>
 
 <p>Pilih “As a Blank Report” karena kita akan mendesain report secara manual.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-20.png">https://coding4ever.files.wordpress.com/2016/01/240116-20.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-20.png">https://coding4ever.files.wordpress.com/2016/01/240116-20.png</a> %}</p>
 
 <p>Langkah berikutnya adalah menentukan sumber data yang kita arahkan ke item DataSet yang sudah kita buat pada langkah sebelumnya</p>
 
 <p>Klik kanan Database Fields -> Database Expert &hellip;</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-21.png">https://coding4ever.files.wordpress.com/2016/01/240116-21.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-21.png">https://coding4ever.files.wordpress.com/2016/01/240116-21.png</a> %}</p>
 
 <p>Pilih ADO.NET DataSet</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-22.png">https://coding4ever.files.wordpress.com/2016/01/240116-22.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-22.png">https://coding4ever.files.wordpress.com/2016/01/240116-22.png</a> %}</p>
 
 <p>Drag satu-satu field ke section detail, kemudian dirapikan.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-23.png">https://coding4ever.files.wordpress.com/2016/01/240116-23.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-23.png">https://coding4ever.files.wordpress.com/2016/01/240116-23.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-24.png">https://coding4ever.files.wordpress.com/2016/01/240116-24.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-24.png">https://coding4ever.files.wordpress.com/2016/01/240116-24.png</a> %}</p>
 
 <h5>Crystal Report Viewer</h5>
 
@@ -535,17 +370,17 @@ namespace DemoSignalR.WinFormClient
 
 <p>Aktifkan form kemudian tambahkan Crystal Report Viewer</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-25.png">https://coding4ever.files.wordpress.com/2016/01/240116-25.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-25.png">https://coding4ever.files.wordpress.com/2016/01/240116-25.png</a> %}</p>
 
 <p>Kemudian tambahkan kode berikut :</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-26.png">https://coding4ever.files.wordpress.com/2016/01/240116-26.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-26.png">https://coding4ever.files.wordpress.com/2016/01/240116-26.png</a> %}</p>
 
-<p>Dari kode di atas kita bisa melihat tidak ada lagi kode untuk mengeset koneksi database dan perintah SQL yang akan dikirimkan. Cara ini sangat cocok digunakan ketika kita akan membangun sistem dengan arsitektur <a href="/blog/2012/02/01/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-1/">N-Tier</a>, di mana aplikasi klien sudah tidak terkoneksi lagi secara langsung ke database.</p>
+<p>Dari kode di atas kita bisa melihat tidak ada lagi kode untuk mengeset koneksi database dan perintah SQL yang akan dikirimkan. Cara ini sangat cocok digunakan ketika kita akan membangun sistem dengan arsitektur <a href="{{%20site.url%20}}/blog/2012/02/01/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-1/">N-Tier</a>, di mana aplikasi klien sudah tidak terkoneksi lagi secara langsung ke database.</p>
 
 <p>Jika kode di atas dijalankan, akan menghasilkan output seperti gambar di bawah ini.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-27.png">https://coding4ever.files.wordpress.com/2016/01/240116-27.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-27.png">https://coding4ever.files.wordpress.com/2016/01/240116-27.png</a> %}</p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/DemoCRPushModel2">MENCOBA</a> :)</p>
 ]]></content>
@@ -556,7 +391,7 @@ namespace DemoSignalR.WinFormClient
     <link href="http://coding4ever.net/blog/2016/01/10/paket-nuget-yang-wajib-dicoba-bagian-number-2-autoupdater-dot-net/"/>
     <updated>2016-01-10T10:35:44+07:00</updated>
     <id>http://coding4ever.net/blog/2016/01/10/paket-nuget-yang-wajib-dicoba-bagian-number-2-autoupdater-dot-net</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png">http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Masalah update program adalah masalah klasik bagi para programmer aplikasi desktop. Apakah itu untuk perbaikan bug atau penambahan fitur baru. Bagaimana tidak, biasanya kita selalu disibukan dengan masalah yang satu ini. Update… update… dan update … :-D apalagi dengan jumlah klien yang banyak wahhhh cape deh :&lsquo;(</p>
+    <content type="html"><![CDATA[<p>{% img left <a href="http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png">http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png</a> 120 100 %}Masalah update program adalah masalah klasik bagi para programmer aplikasi desktop. Apakah itu untuk perbaikan bug atau penambahan fitur baru. Bagaimana tidak, biasanya kita selalu disibukan dengan masalah yang satu ini. Update… update… dan update … :-D apalagi dengan jumlah klien yang banyak wahhhh cape deh :&lsquo;(</p>
 
 <!-- more -->
 
@@ -573,179 +408,71 @@ namespace DemoSignalR.WinFormClient
 
 <h5>1. File exe versi terakhir</h5>
 
-<p>File exe ini akan kita simpan di server, file inilah yang akan didownload oleh klien jika ada updatean terbaru. Jika akan mengupdate beberapa file sekaligus, misal selain mengupdate file exe juga mengupdate file <a href="https://en.wikipedia.org/wiki/Dynamic-link_library">dll</a>, untuk kasus seperti ini kita bisa menggunakan <a href="/blog/categories/tools-installer/">paket installer</a>.</p>
+<p>File exe ini akan kita simpan di server, file inilah yang akan didownload oleh klien jika ada updatean terbaru. Jika akan mengupdate beberapa file sekaligus, misal selain mengupdate file exe juga mengupdate file <a href="https://en.wikipedia.org/wiki/Dynamic-link_library">dll</a>, untuk kasus seperti ini kita bisa menggunakan <a href="{{%20site.url%20}}/blog/categories/tools-installer/">paket installer</a>.</p>
 
-<p>Ada banyak <a href="/blog/categories/tools-installer/">tools gratis</a> untuk membuat <a href="/blog/categories/tools-installer/">paket installer</a> seperti <a href="/blog/categories/inno-setup/">Inno Setup</a> dan <a href="/blog/categories/nsis/">NSIS</a>. Untuk contoh pembuatan paket installer update bisa dilihat di <a href="/blog/2009/12/29/membuat-paket-instalasi-update-program-menggunakan-inno-setup/">sini</a> dan <a href="/blog/2009/12/29/membuat-paket-instalasi-update-program-menggunakan-nsis/">sini</a>.</p>
+<p>Ada banyak <a href="{{%20site.url%20}}/blog/categories/tools-installer/">tools gratis</a> untuk membuat <a href="{{%20site.url%20}}/blog/categories/tools-installer/">paket installer</a> seperti <a href="{{%20site.url%20}}/blog/categories/inno-setup/">Inno Setup</a> dan <a href="{{%20site.url%20}}/blog/categories/nsis/">NSIS</a>. Untuk contoh pembuatan paket installer update bisa dilihat di <a href="{{%20site.url%20}}/blog/2009/12/29/membuat-paket-instalasi-update-program-menggunakan-inno-setup/">sini</a> dan <a href="{{%20site.url%20}}/blog/2009/12/29/membuat-paket-instalasi-update-program-menggunakan-nsis/">sini</a>.</p>
 
 <h5>2. File Info Rilis</h5>
 
 <p>File info rilis akan kita simpan di server. File ini berfungsi sebagai informasi bagi aplikasi klien apakah ada update-an terbaru atau tidak. File ini dibuat dengan menggunakan format XML. Contoh :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version=&ldquo;1.0&rdquo; encoding=&ldquo;UTF-8&rdquo;?>
-</span><span class='line'>&lt;item>
-</span><span class='line'>    &lt;title>Sistem Informasi Manufaktur&lt;/title>
-</span><span class='line'>    &lt;version>1.3.1.0&lt;/version>
-</span><span class='line'>    &lt;url>&lt;a href="http://xxxxx.xxx/online-update/manufactur/auto-updater.exe">http://xxxxx.xxx/online-update/manufactur/auto-updater.exe&lt;/a>&lt;/url> &lt;br/>
-</span><span class='line'>&lt;/item></span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+&lt;?xml version=&ldquo;1.0&rdquo; encoding=&ldquo;UTF-8&rdquo;?>
+<item>
+    <title>Sistem Informasi Manufaktur</title>
+    <version>1.3.1.0</version>
+    <url><a href="http://xxxxx.xxx/online-update/manufactur/auto-updater.exe">http://xxxxx.xxx/online-update/manufactur/auto-updater.exe</a></url> <br/>
+</item>
+{% endcodeblock %}</p>
 
 <h5>3. Web Server</h5>
 
 <p>Anda bisa menggunakan IIS, Apache atau web server lainnya. Di web server ini kita akan menyimpan file exe dan info rilis (poin 1 dan 2).</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/100116-01.png">https://coding4ever.files.wordpress.com/2016/01/100116-01.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/100116-01.png">https://coding4ever.files.wordpress.com/2016/01/100116-01.png</a> %}</p>
 
 <h5>Menambahkan Library AutoUpdater.NET</h5>
 
-<p>Untuk menambahkan library <a href="http://www.nuget.org/packages/AutoupdaterdotNet/">AutoUpdater.NET</a> bisa kita lakukan via <a href="/blog/categories/nuget/">NuGet Package Manager</a>. Adapun caranya seperti berikut :</p>
+<p>Untuk menambahkan library <a href="http://www.nuget.org/packages/AutoupdaterdotNet/">AutoUpdater.NET</a> bisa kita lakukan via <a href="{{%20site.url%20}}/blog/categories/nuget/">NuGet Package Manager</a>. Adapun caranya seperti berikut :</p>
 
 <h6>1. Klik kanan node References -> Manage NuGet Packages&hellip;</h6>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/100116-02.png">https://coding4ever.files.wordpress.com/2016/01/100116-02.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/100116-02.png">https://coding4ever.files.wordpress.com/2016/01/100116-02.png</a> %}</p>
 
 <h6>2. Cari AutoUpdater.NET dan klik tombol Install</h6>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/100116-03.png">https://coding4ever.files.wordpress.com/2016/01/100116-03.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/100116-03.png">https://coding4ever.files.wordpress.com/2016/01/100116-03.png</a> %}</p>
 
 <p>Klik tombol Close, kemudian cek node <code>References</code>, seharusnya sudah ada tambahan library <code>AutoUpdater.NET</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/100116-04.png">https://coding4ever.files.wordpress.com/2016/01/100116-04.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/100116-04.png">https://coding4ever.files.wordpress.com/2016/01/100116-04.png</a> %}</p>
 
 <h5>Cara Penggunaan Library AutoUpdater.NET</h5>
 
 <p>Cara penggunaan <a href="http://www.nuget.org/packages/AutoupdaterdotNet/">AutoUpdater.NET</a> sangat mudah, kita cukup menambahkan beberapa kode berikut di form utama.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/100116-05.png">https://coding4ever.files.wordpress.com/2016/01/100116-05.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/100116-05.png">https://coding4ever.files.wordpress.com/2016/01/100116-05.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/100116-06.png">https://coding4ever.files.wordpress.com/2016/01/100116-06.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/100116-06.png">https://coding4ever.files.wordpress.com/2016/01/100116-06.png</a> %}</p>
 
 <p>Pada kode di atas method <code>Start</code> kita arahkan ke url :<br><a href="http://localhost/update/DemoAutoUpdaterDotNet.xml">http://localhost/update/DemoAutoUpdaterDotNet.xml</a></p>
 
 <p>Adapun isi dari file <code>DemoAutoUpdaterDotNet.xml</code> seperti berikut :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version=&ldquo;1.0&rdquo; encoding=&ldquo;UTF-8&rdquo;?>
-</span><span class='line'>&lt;item>
-</span><span class='line'>  &lt;title>Demo AutoUpdater.Net&lt;/title>
-</span><span class='line'>  &lt;version>1.1.0.0&lt;/version>
-</span><span class='line'>  &lt;url>&lt;a href="http://localhost/update/DemoAutoUpdaterDotNet.exe">http://localhost/update/DemoAutoUpdaterDotNet.exe&lt;/a>&lt;/url>
-</span><span class='line'>&lt;/item></span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+&lt;?xml version=&ldquo;1.0&rdquo; encoding=&ldquo;UTF-8&rdquo;?>
+<item>
+  <title>Demo AutoUpdater.Net</title>
+  <version>1.1.0.0</version>
+  <url><a href="http://localhost/update/DemoAutoUpdaterDotNet.exe">http://localhost/update/DemoAutoUpdaterDotNet.exe</a></url>
+</item>
+{% endcodeblock %}</p>
 
 <h5>Demo AutoUpdater.NET</h5>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/100116-071.png">https://coding4ever.files.wordpress.com/2016/01/100116-071.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/100116-071.png">https://coding4ever.files.wordpress.com/2016/01/100116-071.png</a> %}</p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/DemoOnlineBackup">MENCOBA</a> :-)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Cara Mudah Mengelola Versi Aplikasi]]></title>
-    <link href="http://coding4ever.net/blog/2015/06/23/cara-mudah-mengelola-versi-aplikasi/"/>
-    <updated>2015-06-23T11:06:50+07:00</updated>
-    <id>http://coding4ever.net/blog/2015/06/23/cara-mudah-mengelola-versi-aplikasi</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-00.png">https://coding4ever.files.wordpress.com/2015/06/230615-00.png</a>&#8221; width=&#8221;100&#8221; height=&#8221;100&#8221;>Oke jadi ceritanya seperti ini, saya punya kebiasaan dan saya enggak tau apakah ini kebiasaan baik atau buruk :D</p>
-
-<p>Untuk menerapkan konsep <code>separation of concerns</code> dalam pengembangan aplikasi, saya biasanya memisahkan modul-modul aplikasi menjadi beberapa project (satu solution dengan banyak project/assemblies). Contoh :</p>
-
-<!-- more -->
-
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-01.png">https://coding4ever.files.wordpress.com/2015/06/230615-01.png</a>&#8221;></p>
-
-<p>Dari gambar di atas klo kita build akan menghasilkan beberapa file assembly seperti berikut :</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-02.png">https://coding4ever.files.wordpress.com/2015/06/230615-02.png</a>&#8221;></p>
-
-<p>Kebiasaan saya yang lain adalah setiap <code>assembly</code>, apakah itu berupa file <a href="https://en.wikipedia.org/wiki/Dynamic-link_library">dll</a> atau exe, harus mempunyai versi yang sama. Misalkan kalo rilis pertama, saya set versinya = 1.0.0 maka semua <code>assembly</code>-nya harus punya versi yang sama.</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-03.png">https://coding4ever.files.wordpress.com/2015/06/230615-03.png</a>&#8221;></p>
-
-<p>Klo rilis berikutnya versinya = 1.2.0, maka semua versi <code>assembly</code>-nya juga harus sama</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-04.png">https://coding4ever.files.wordpress.com/2015/06/230615-04.png</a>&#8221;></p>
-
-<p>Kan jadi enggak lucu klo versi <code>assembly</code>-nya ada yang beda he he :D</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-05.png">https://coding4ever.files.wordpress.com/2015/06/230615-05.png</a>&#8221;></p>
-
-<p><strong>Merubah Versi Assembly</strong></p>
-
-<p>Kalo cara biasa, misal kita punya empat project, berarti kita juga harus merubah versi <code>assembly</code> di empat lokasi yang berbeda</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-06.png">https://coding4ever.files.wordpress.com/2015/06/230615-06.png</a>&#8221;></p>
-
-<p>Dari gambar di atas kita bisa melihat informasi versi <code>assembly</code> tersimpan di file <code>AssemblyInfo.cs</code> masing-masing project. Klo penasaran ini nih isinya he he :D</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-07.png">https://coding4ever.files.wordpress.com/2015/06/230615-07.png</a>&#8221;></p>
-
-<p>Nah ini yang sedikit merepotkan dan kadang-kadang sedikit melelahkan :D, sudah di<code>build</code> eh ada <code>assembly</code> yang lupa diganti versinya, jadi <code>build</code> ulang deh he he :D</p>
-
-<p>Trus solusinya gimana ? Cara yang saya gunakan adalah dengan membuat <code>Global Version</code> misal dengan nama <code>VersionInfo</code>. File <code>VersionInfo</code> ini merupakan file dari <code>Solution</code> jadi scopenya sama dengan project.</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-08.png">https://coding4ever.files.wordpress.com/2015/06/230615-08.png</a>&#8221;></p>
-
-<p>Nah untuk menambahkan file <code>VersionInfo</code> di atas caranya juga gampang, berikut langkah-langkahnya :</p>
-
-<ol>
-<li><p>Klik kanan Solution -> Add -> New Item…</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-09.png">https://coding4ever.files.wordpress.com/2015/06/230615-09.png</a>&#8221;></p></li>
-<li><p>Pilih item Visual C#/Basic Class</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-10.png">https://coding4ever.files.wordpress.com/2015/06/230615-10.png</a>&#8221;></p></li>
-<li><p>Jika berhasil file <code>VersionInfo</code> akan tersimpan di folder <code>Solution Items</code></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-11.png">https://coding4ever.files.wordpress.com/2015/06/230615-11.png</a>&#8221;></p>
-
-<p>Kemudian hapus semua isi file <code>VersionInfo</code></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-12.png">https://coding4ever.files.wordpress.com/2015/06/230615-12.png</a>&#8221;></p></li>
-<li><p>Setelah itu copy <code>sebagian</code> informasi salah satu file <code>AssemblyInfo.cs</code> ke <code>VersionInfo</code></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-13.png">https://coding4ever.files.wordpress.com/2015/06/230615-13.png</a>&#8221;></p></li>
-<li><p>Kemudian edit <code>sebagian</code> isi file <code>AssemblyInfo.cs</code> masing-masing project (cek yang ada komentar // di nonaktifkan)</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-14.png">https://coding4ever.files.wordpress.com/2015/06/230615-14.png</a>&#8221;></p></li>
-<li><p>Terakhir masing-masing project menambahkan link ke file <code>VersionInfo</code></p>
-
-<ul>
-<li><p>Klik kanan Project -> Add -> Existing Item…</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-15.png">https://coding4ever.files.wordpress.com/2015/06/230615-15.png</a>&#8221;></p></li>
-<li><p>Pilih file <code>VersionInfo</code> kemudian <code>Add As Link</code></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-16.png">https://coding4ever.files.wordpress.com/2015/06/230615-16.png</a>&#8221;></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-17.png">https://coding4ever.files.wordpress.com/2015/06/230615-17.png</a>&#8221;></p></li>
-</ul>
-
-
-<p>Kemudian ulangi langkah-langkah sebelumnya untuk menambahkan link file <code>VersionInfo</code> ke project lainnya</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-18.png">https://coding4ever.files.wordpress.com/2015/06/230615-18.png</a>&#8221;></p></li>
-</ol>
-
-
-<p>Nah Sampai di sini tugas kita sudah selesai, sehingga ketika ada perubahan versi kita cukup merubah di satu file yaitu file <code>VersionInfo</code> yang ada di <code>Solution Items</code>.</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-19.png">https://coding4ever.files.wordpress.com/2015/06/230615-19.png</a>&#8221;></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/06/230615-20.png">https://coding4ever.files.wordpress.com/2015/06/230615-20.png</a>&#8221;></p>
-
-<p>Selamat MENCOBA :)</p>
-
-<p>Referensi : <a href="http://www.codeproject.com/Articles/328977/The-Right-Way-to-Version-Your-Assemblies">The Right Way to Version Your Assemblies</a></p>
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Nuget | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/nuget/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-02-11T06:05:12+07:00</updated>
+  <updated>2016-02-15T07:42:23+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -18,7 +18,7 @@
     <link href="http://coding4ever.net/blog/2016/01/10/paket-nuget-yang-wajib-dicoba-bagian-number-2-autoupdater-dot-net/"/>
     <updated>2016-01-10T10:35:44+07:00</updated>
     <id>http://coding4ever.net/blog/2016/01/10/paket-nuget-yang-wajib-dicoba-bagian-number-2-autoupdater-dot-net</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png">http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Masalah update program adalah masalah klasik bagi para programmer aplikasi desktop. Apakah itu untuk perbaikan bug atau penambahan fitur baru. Bagaimana tidak, biasanya kita selalu disibukan dengan masalah yang satu ini. Update… update… dan update … :-D apalagi dengan jumlah klien yang banyak wahhhh cape deh :&lsquo;(</p>
+    <content type="html"><![CDATA[<p>{% img left <a href="http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png">http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png</a> 120 100 %}Masalah update program adalah masalah klasik bagi para programmer aplikasi desktop. Apakah itu untuk perbaikan bug atau penambahan fitur baru. Bagaimana tidak, biasanya kita selalu disibukan dengan masalah yang satu ini. Update… update… dan update … :-D apalagi dengan jumlah klien yang banyak wahhhh cape deh :&lsquo;(</p>
 
 <!-- more -->
 
@@ -35,77 +35,69 @@
 
 <h5>1. File exe versi terakhir</h5>
 
-<p>File exe ini akan kita simpan di server, file inilah yang akan didownload oleh klien jika ada updatean terbaru. Jika akan mengupdate beberapa file sekaligus, misal selain mengupdate file exe juga mengupdate file <a href="https://en.wikipedia.org/wiki/Dynamic-link_library">dll</a>, untuk kasus seperti ini kita bisa menggunakan <a href="/blog/categories/tools-installer/">paket installer</a>.</p>
+<p>File exe ini akan kita simpan di server, file inilah yang akan didownload oleh klien jika ada updatean terbaru. Jika akan mengupdate beberapa file sekaligus, misal selain mengupdate file exe juga mengupdate file <a href="https://en.wikipedia.org/wiki/Dynamic-link_library">dll</a>, untuk kasus seperti ini kita bisa menggunakan <a href="{{%20site.url%20}}/blog/categories/tools-installer/">paket installer</a>.</p>
 
-<p>Ada banyak <a href="/blog/categories/tools-installer/">tools gratis</a> untuk membuat <a href="/blog/categories/tools-installer/">paket installer</a> seperti <a href="/blog/categories/inno-setup/">Inno Setup</a> dan <a href="/blog/categories/nsis/">NSIS</a>. Untuk contoh pembuatan paket installer update bisa dilihat di <a href="/blog/2009/12/29/membuat-paket-instalasi-update-program-menggunakan-inno-setup/">sini</a> dan <a href="/blog/2009/12/29/membuat-paket-instalasi-update-program-menggunakan-nsis/">sini</a>.</p>
+<p>Ada banyak <a href="{{%20site.url%20}}/blog/categories/tools-installer/">tools gratis</a> untuk membuat <a href="{{%20site.url%20}}/blog/categories/tools-installer/">paket installer</a> seperti <a href="{{%20site.url%20}}/blog/categories/inno-setup/">Inno Setup</a> dan <a href="{{%20site.url%20}}/blog/categories/nsis/">NSIS</a>. Untuk contoh pembuatan paket installer update bisa dilihat di <a href="{{%20site.url%20}}/blog/2009/12/29/membuat-paket-instalasi-update-program-menggunakan-inno-setup/">sini</a> dan <a href="{{%20site.url%20}}/blog/2009/12/29/membuat-paket-instalasi-update-program-menggunakan-nsis/">sini</a>.</p>
 
 <h5>2. File Info Rilis</h5>
 
 <p>File info rilis akan kita simpan di server. File ini berfungsi sebagai informasi bagi aplikasi klien apakah ada update-an terbaru atau tidak. File ini dibuat dengan menggunakan format XML. Contoh :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version=&ldquo;1.0&rdquo; encoding=&ldquo;UTF-8&rdquo;?>
-</span><span class='line'>&lt;item>
-</span><span class='line'>    &lt;title>Sistem Informasi Manufaktur&lt;/title>
-</span><span class='line'>    &lt;version>1.3.1.0&lt;/version>
-</span><span class='line'>    &lt;url>&lt;a href="http://xxxxx.xxx/online-update/manufactur/auto-updater.exe">http://xxxxx.xxx/online-update/manufactur/auto-updater.exe&lt;/a>&lt;/url> &lt;br/>
-</span><span class='line'>&lt;/item></span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+&lt;?xml version=&ldquo;1.0&rdquo; encoding=&ldquo;UTF-8&rdquo;?>
+<item>
+    <title>Sistem Informasi Manufaktur</title>
+    <version>1.3.1.0</version>
+    <url><a href="http://xxxxx.xxx/online-update/manufactur/auto-updater.exe">http://xxxxx.xxx/online-update/manufactur/auto-updater.exe</a></url> <br/>
+</item>
+{% endcodeblock %}</p>
 
 <h5>3. Web Server</h5>
 
 <p>Anda bisa menggunakan IIS, Apache atau web server lainnya. Di web server ini kita akan menyimpan file exe dan info rilis (poin 1 dan 2).</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/100116-01.png">https://coding4ever.files.wordpress.com/2016/01/100116-01.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/100116-01.png">https://coding4ever.files.wordpress.com/2016/01/100116-01.png</a> %}</p>
 
 <h5>Menambahkan Library AutoUpdater.NET</h5>
 
-<p>Untuk menambahkan library <a href="http://www.nuget.org/packages/AutoupdaterdotNet/">AutoUpdater.NET</a> bisa kita lakukan via <a href="/blog/categories/nuget/">NuGet Package Manager</a>. Adapun caranya seperti berikut :</p>
+<p>Untuk menambahkan library <a href="http://www.nuget.org/packages/AutoupdaterdotNet/">AutoUpdater.NET</a> bisa kita lakukan via <a href="{{%20site.url%20}}/blog/categories/nuget/">NuGet Package Manager</a>. Adapun caranya seperti berikut :</p>
 
 <h6>1. Klik kanan node References -> Manage NuGet Packages&hellip;</h6>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/100116-02.png">https://coding4ever.files.wordpress.com/2016/01/100116-02.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/100116-02.png">https://coding4ever.files.wordpress.com/2016/01/100116-02.png</a> %}</p>
 
 <h6>2. Cari AutoUpdater.NET dan klik tombol Install</h6>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/100116-03.png">https://coding4ever.files.wordpress.com/2016/01/100116-03.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/100116-03.png">https://coding4ever.files.wordpress.com/2016/01/100116-03.png</a> %}</p>
 
 <p>Klik tombol Close, kemudian cek node <code>References</code>, seharusnya sudah ada tambahan library <code>AutoUpdater.NET</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/100116-04.png">https://coding4ever.files.wordpress.com/2016/01/100116-04.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/100116-04.png">https://coding4ever.files.wordpress.com/2016/01/100116-04.png</a> %}</p>
 
 <h5>Cara Penggunaan Library AutoUpdater.NET</h5>
 
 <p>Cara penggunaan <a href="http://www.nuget.org/packages/AutoupdaterdotNet/">AutoUpdater.NET</a> sangat mudah, kita cukup menambahkan beberapa kode berikut di form utama.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/100116-05.png">https://coding4ever.files.wordpress.com/2016/01/100116-05.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/100116-05.png">https://coding4ever.files.wordpress.com/2016/01/100116-05.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/100116-06.png">https://coding4ever.files.wordpress.com/2016/01/100116-06.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/100116-06.png">https://coding4ever.files.wordpress.com/2016/01/100116-06.png</a> %}</p>
 
 <p>Pada kode di atas method <code>Start</code> kita arahkan ke url :<br><a href="http://localhost/update/DemoAutoUpdaterDotNet.xml">http://localhost/update/DemoAutoUpdaterDotNet.xml</a></p>
 
 <p>Adapun isi dari file <code>DemoAutoUpdaterDotNet.xml</code> seperti berikut :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version=&ldquo;1.0&rdquo; encoding=&ldquo;UTF-8&rdquo;?>
-</span><span class='line'>&lt;item>
-</span><span class='line'>  &lt;title>Demo AutoUpdater.Net&lt;/title>
-</span><span class='line'>  &lt;version>1.1.0.0&lt;/version>
-</span><span class='line'>  &lt;url>&lt;a href="http://localhost/update/DemoAutoUpdaterDotNet.exe">http://localhost/update/DemoAutoUpdaterDotNet.exe&lt;/a>&lt;/url>
-</span><span class='line'>&lt;/item></span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+&lt;?xml version=&ldquo;1.0&rdquo; encoding=&ldquo;UTF-8&rdquo;?>
+<item>
+  <title>Demo AutoUpdater.Net</title>
+  <version>1.1.0.0</version>
+  <url><a href="http://localhost/update/DemoAutoUpdaterDotNet.exe">http://localhost/update/DemoAutoUpdaterDotNet.exe</a></url>
+</item>
+{% endcodeblock %}</p>
 
 <h5>Demo AutoUpdater.NET</h5>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/100116-071.png">https://coding4ever.files.wordpress.com/2016/01/100116-071.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/100116-071.png">https://coding4ever.files.wordpress.com/2016/01/100116-071.png</a> %}</p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/DemoOnlineBackup">MENCOBA</a> :-)</p>
 ]]></content>
@@ -116,7 +108,7 @@
     <link href="http://coding4ever.net/blog/2015/04/14/paket-nuget-yang-wajib-dicoba-bagian-number-1-crashreporter-dot-net/"/>
     <updated>2015-04-14T14:41:34+07:00</updated>
     <id>http://coding4ever.net/blog/2015/04/14/paket-nuget-yang-wajib-dicoba-bagian-number-1-crashreporter-dot-net</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png">http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Apakah Anda percaya jika saya katakan aplikasi saya 100% bebas bug, tentu saja tidak. Seberapa keraspun kita mencoba pasti aplikasi yang kita buat ada bugnya.</p>
+    <content type="html"><![CDATA[<p>{% img left <a href="http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png">http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png</a> 120 100 %}Apakah Anda percaya jika saya katakan aplikasi saya 100% bebas bug, tentu saja tidak. Seberapa keraspun kita mencoba pasti aplikasi yang kita buat ada bugnya.</p>
 
 <p>Secara teknis kita tidak bisa melakukan pengetesan sebaik yang dilakukan oleh end-user. Mereka bisa melakukan hal-hal luar biasa diluar perkiraan dan skenario kita yang bisa menyebabkan error, dan bisa saja menyebabkan mereka menjadi <code>ilfil</code> menggunakan aplikasi kita he he :-D</p>
 
@@ -129,23 +121,23 @@
 
 <h3>Menambahkan Library CrashReporter.NET</h3>
 
-<p>Untuk menambahkan library <a href="http://www.nuget.org/packages/CrashReporterdotNet/">CrashReporter.NET</a> bisa kita lakukan via <a href="/blog/categories/nuget/">NuGet Package Manager</a>. Adapun caranya seperti berikut :</p>
+<p>Untuk menambahkan library <a href="http://www.nuget.org/packages/CrashReporterdotNet/">CrashReporter.NET</a> bisa kita lakukan via <a href="{{%20site.url%20}}/blog/categories/nuget/">NuGet Package Manager</a>. Adapun caranya seperti berikut :</p>
 
 <h4>Langkah – 1</h4>
 
 <p>Klik kanan node <code>References</code> -> <code>Manage NuGet Packages...</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-12.png">https://coding4ever.files.wordpress.com/2015/04/140415-12.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-12.png">https://coding4ever.files.wordpress.com/2015/04/140415-12.png</a> %}</p>
 
 <h4>Langkah – 2</h4>
 
 <p>Cari <code>CrashReporter.NET</code> dan klik tombol Install</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-13.png">https://coding4ever.files.wordpress.com/2015/04/140415-13.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-13.png">https://coding4ever.files.wordpress.com/2015/04/140415-13.png</a> %}</p>
 
 <p>Klik tombol Close, kemudian cek node <code>References</code>, seharusnya sudah ada tambahan library <code>CrashReporter.NET</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-14.png">https://coding4ever.files.wordpress.com/2015/04/140415-14.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-14.png">https://coding4ever.files.wordpress.com/2015/04/140415-14.png</a> %}</p>
 
 <h3>Cara Penggunaan Library CrashReporter.NET</h3>
 
@@ -155,13 +147,13 @@
 
 <p>Jika kita ingin semua exception dihandle oleh <a href="http://www.nuget.org/packages/CrashReporterdotNet/">CrashReporter.NET</a>, gunakan opsi ini. Caranya adalah dengan menambahkan kode konfigurasi di Main Method (Entry point dari program yang akan dijalankan pertama  kali).</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-01.png">https://coding4ever.files.wordpress.com/2015/04/140415-01.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-01.png">https://coding4ever.files.wordpress.com/2015/04/140415-01.png</a> %}</p>
 
 <p><code>2. Individual Exception</code></p>
 
 <p>Untuk opsi yang kedua ini berarti kita menambahkan kode konfigurasi hanya pada method-method tertentu saja yang kita anggap berpotensi menimbulkan <code>error</code>.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-02.png">https://coding4ever.files.wordpress.com/2015/04/140415-02.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-02.png">https://coding4ever.files.wordpress.com/2015/04/140415-02.png</a> %}</p>
 
 <p>Dua contoh kode di atas menggunakan class <code>ReportCrashConfig</code> yang kita bahas di bagian <em>konfigurasi CrashReporter.NET</em>.</p>
 
@@ -169,7 +161,7 @@
 
 <p>Untuk melakukan konfigurasi <a href="http://www.nuget.org/packages/CrashReporterdotNet/">CrashReporter.NET</a>, cukup membuat objek dari class ReportCrash dan mengeset beberapa nilai property seperti <em>FromEmail, ToEmail</em>, dan property penting lainnya.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-03.png">https://coding4ever.files.wordpress.com/2015/04/140415-03.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-03.png">https://coding4ever.files.wordpress.com/2015/04/140415-03.png</a> %}</p>
 
 <p>Secara default <a href="http://www.nuget.org/packages/CrashReporterdotNet/">CrashReporter.NET</a>  menggunakan service <a href="https://drdump.com/crash-reporting-system">Doctor Dump</a>, untuk mengirimkan email laporan bug ke email yang sudah kita tentukan melalui property <em>ToEmail</em>.</p>
 
@@ -177,31 +169,31 @@
 
 <p>Agar kode konfigurasi di atas bisa digunakan berulang-ulang, mungkin bisa kita <code>bungkus</code> ke dalam sebuah class tersendiri.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-04.png">https://coding4ever.files.wordpress.com/2015/04/140415-04.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-04.png">https://coding4ever.files.wordpress.com/2015/04/140415-04.png</a> %}</p>
 
 <p>Sehingga ketika diperlukan kita cukup memanggilnya dengan perintah <code>new ReportCrashConfig(object exception)</code></p>
 
 <h3>Demo CrashReporter.NET</h3>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-05.png">https://coding4ever.files.wordpress.com/2015/04/140415-05.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-05.png">https://coding4ever.files.wordpress.com/2015/04/140415-05.png</a> %}</p>
 
 <p>Untuk demo disini kita akan memanfaatkan dua jenis error yaitu <em>DivideByZeroException</em> dan <em>FileNotFoundException</em>.</p>
 
 <h4>DivideByZeroException</h4>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-06.png">https://coding4ever.files.wordpress.com/2015/04/140415-06.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-06.png">https://coding4ever.files.wordpress.com/2015/04/140415-06.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-07.png">https://coding4ever.files.wordpress.com/2015/04/140415-07.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-07.png">https://coding4ever.files.wordpress.com/2015/04/140415-07.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-08.png">https://coding4ever.files.wordpress.com/2015/04/140415-08.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-08.png">https://coding4ever.files.wordpress.com/2015/04/140415-08.png</a> %}</p>
 
 <h4>FileNotFoundException</h4>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-09.png">https://coding4ever.files.wordpress.com/2015/04/140415-09.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-09.png">https://coding4ever.files.wordpress.com/2015/04/140415-09.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-10.png">https://coding4ever.files.wordpress.com/2015/04/140415-10.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-10.png">https://coding4ever.files.wordpress.com/2015/04/140415-10.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-11.png">https://coding4ever.files.wordpress.com/2015/04/140415-11.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-11.png">https://coding4ever.files.wordpress.com/2015/04/140415-11.png</a> %}</p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/DemoCrashReporterDotNET">MENCOBA</a> :-)</p>
 ]]></content>
@@ -212,9 +204,9 @@
     <link href="http://coding4ever.net/blog/2014/03/13/membuat-paket-nuget/"/>
     <updated>2014-03-13T15:22:02+07:00</updated>
     <id>http://coding4ever.net/blog/2014/03/13/membuat-paket-nuget</id>
-    <content type="html"><![CDATA[<p><img style="float: left; margin:0 10px 10px 0;width:200px;height:70px" src="http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png" />Sedikit lagi tentang <a href="http://www.nuget.org/">NuGet</a>, pada <a href="/blog/2014/03/12/menginstall-server-nuget-lokal/">postingan</a> sebelumnya kita sudah berhasil menginstall server NuGet lokal baik untuk keperluan pribadi atau internal kantor.</p>
+    <content type="html"><![CDATA[<p><img style="float: left; margin:0 10px 10px 0;width:200px;height:70px" src="http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png" />Sedikit lagi tentang <a href="http://www.nuget.org/">NuGet</a>, pada <a href="{{%20site.url%20}}/blog/2014/03/12/menginstall-server-nuget-lokal/">postingan</a> sebelumnya kita sudah berhasil menginstall server NuGet lokal baik untuk keperluan pribadi atau internal kantor.</p>
 
-<p>Ada beberapa alasan kenapa kita sebaiknya mempunyai server <a href="/blog/2014/03/12/menginstall-server-nuget-lokal/">NuGet</a> sendiri, dua diantaranya :</p>
+<p>Ada beberapa alasan kenapa kita sebaiknya mempunyai server <a href="{{%20site.url%20}}/blog/2014/03/12/menginstall-server-nuget-lokal/">NuGet</a> sendiri, dua diantaranya :</p>
 
 <ol>
 <li><p> Untuk menghemat bandwidth internet</p></li>
@@ -248,7 +240,7 @@
 <ol>
 <li><p> Flash disk</p></li>
 <li><p> Share folder</p></li>
-<li><p> <a href="/blog/2014/03/12/menginstall-server-nuget-lokal/">Server NuGet Lokal</a></p></li>
+<li><p> <a href="{{%20site.url%20}}/blog/2014/03/12/menginstall-server-nuget-lokal/">Server NuGet Lokal</a></p></li>
 <li><p> Media lainnya</p></li>
 </ol>
 
@@ -274,13 +266,15 @@
 
 <p>Untuk meng-compile skrip <a href="http://docs.nuget.org/docs/reference/nuspec-reference">.nuspec</a> gunakan perintah berikut :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NuGet pack &ldquo;nama_file_nuspec.nuspec&rdquo; -o &ldquo;folder_output&rdquo;</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+NuGet pack &ldquo;nama_file_nuspec.nuspec&rdquo; -o &ldquo;folder_output&rdquo;
+{% endcodeblock %}</p>
 
 <p>Contoh :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NuGet pack &ldquo;CalculatorLib.nuspec&rdquo; -o &ldquo;D:\ServerNuGetLocal\Packages&rdquo;</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+NuGet pack &ldquo;CalculatorLib.nuspec&rdquo; -o &ldquo;D:\ServerNuGetLocal\Packages&rdquo;
+{% endcodeblock %}</p>
 
 <p>Jika berhasil akan dibuatkan file baru dengan nama CalculatorLib.1.0.0.nupkg.</p>
 
@@ -290,28 +284,19 @@
 
 <p>Jika kita mempunyai banyak file <a href="http://docs.nuget.org/docs/reference/nuspec-reference">.nuspec</a>, dan untuk mempermudah meng-compile skrip <a href="http://docs.nuget.org/docs/reference/nuspec-reference">.nuspec</a>, kita bisa memanfaatkan registry windows untuk menambahkan context menu &ldquo;Build NuGet Package&rdquo; setiap mengklik kanan file dengan ekstensi <a href="http://docs.nuget.org/docs/reference/nuspec-reference">.nuspec</a>.</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Windows Registry Editor Version 5.00&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>[HKEY_CLASSES_ROOT.nuspec]&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>[HKEY_CLASSES_ROOT.nuspec\Shell]&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>[HKEY_CLASSES_ROOT.nuspec\Shell\BuildNuGet]
-</span><span class='line'>@=&ldquo;Build NuGet Package&rdquo;&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>[HKEY_CLASSES_ROOT.nuspec\Shell\BuildNuGet\Command]
-</span><span class='line'>@=&ldquo;E:\Master\Developer Tools\nuget package\build\NuGet.exe pack \&rdquo;%1\&ldquo; -o \"E:\Master\Developer Tools\nuget package\build\package\&rdquo;&ldquo;</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+Windows Registry Editor Version 5.00</p>
+
+<p>[HKEY_CLASSES_ROOT.nuspec]</p>
+
+<p>[HKEY_CLASSES_ROOT.nuspec\Shell]</p>
+
+<p>[HKEY_CLASSES_ROOT.nuspec\Shell\BuildNuGet]
+@=&ldquo;Build NuGet Package&rdquo;</p>
+
+<p>[HKEY_CLASSES_ROOT.nuspec\Shell\BuildNuGet\Command]
+@=&ldquo;E:\Master\Developer Tools\nuget package\build\NuGet.exe pack \&rdquo;%1\&ldquo; -o &#34;E:\Master\Developer Tools\nuget package\build\package\&rdquo;&ldquo;
+{% endcodeblock %}</p>
 
 <p>Pada skrip di atas tinggal sesuaikan lokasi file NuGet.exe dan folder target.</p>
 
@@ -357,8 +342,9 @@
 
 <p>Compile ulang skrip <a href="http://docs.nuget.org/docs/reference/nuspec-reference">.nuspec</a> gunakan perintah berikut :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NuGet pack &ldquo;CalculatorLib.nuspec&rdquo; -o &ldquo;D:\ServerNuGetLocal\Packages&rdquo;</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+NuGet pack &ldquo;CalculatorLib.nuspec&rdquo; -o &ldquo;D:\ServerNuGetLocal\Packages&rdquo;
+{% endcodeblock %}</p>
 
 <p>jika berhasil kita akan mempunyai file paket CalculatorLib terbaru dengan versi 1.1.0</p>
 
@@ -381,7 +367,7 @@
     <link href="http://coding4ever.net/blog/2014/03/12/menginstall-server-nuget-lokal/"/>
     <updated>2014-03-12T15:18:16+07:00</updated>
     <id>http://coding4ever.net/blog/2014/03/12/menginstall-server-nuget-lokal</id>
-    <content type="html"><![CDATA[<p><img style="float: left; margin:0 10px 10px 0;width:200px;height:70px" src="http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png" />Pada <a href="/blog/2014/03/11/nuget/">postingan</a> sebelumnya kita sudah membahas apa itu <a href="http://www.nuget.org/">NuGet</a>, cara instalasi berikut contoh penggunaannya.</p>
+    <content type="html"><![CDATA[<p><img style="float: left; margin:0 10px 10px 0;width:200px;height:70px" src="http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png" />Pada <a href="{{%20site.url%20}}/blog/2014/03/11/nuget/">postingan</a> sebelumnya kita sudah membahas apa itu <a href="http://www.nuget.org/">NuGet</a>, cara instalasi berikut contoh penggunaannya.</p>
 
 <p>Sesuai judul postingan kali ini, kita akan menginstall sendiri server <a href="http://www.nuget.org/">NuGet</a> untuk keperluan internal.</p>
 

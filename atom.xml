@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-02-11T06:05:12+07:00</updated>
+  <updated>2016-02-15T07:41:11+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,24 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Pengembangan Aplikasi Real-time Menggunakan SignalR Bagian #2]]></title>
+    <link href="http://coding4ever.net/blog/2016/02/15/pengembangan-aplikasi-real-time-menggunakan-signalr-bagian-number-2/"/>
+    <updated>2016-02-15T06:31:15+07:00</updated>
+    <id>http://coding4ever.net/blog/2016/02/15/pengembangan-aplikasi-real-time-menggunakan-signalr-bagian-number-2</id>
+    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2016/02/signalr.png" width="120" height="100">Dasar-dasar penggunaan <a href="http://signalr.net/">SignalR</a>, sudah saya bahas dipostingan <a href="http://coding4ever.net/blog/2016/02/09/pengembangan-aplikasi-real-time-menggunakan-signalr/">pertama</a>. Jadi dipostingan <a href="http://coding4ever.net/blog/2016/02/15/pengembangan-aplikasi-real-time-menggunakan-signalr-bagian-number-2/">kedua</a> ini saya hanya ingin berbagai source code lain contoh penggunaan <a href="http://signalr.net/">SignalR</a> yaitu source code untuk aplikasi pemesanan <a href="xxxx">tiket real-time</a>.</p>
+
+<p>Cara kerja aplikasi ini masih sederhana sekali yaitu hanya mengirimkan informasi nomor kursi yang dipilih oleh user ke server, kemudian server akan melakukan pengiriman (push) nomor kursi yang dipesan kepada semua client yang sudah terkoneksi ke server.</p>
+
+<!-- more -->
+
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/150216-01.png"></p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/DemoSignalR2">MENCOBA</a> :-)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Menggunakan Objek Collection Dan Transaction Pada Visual Basic 6]]></title>
@@ -3178,15 +3196,6 @@ Di bagian <code>Program/script</code> kita tentukan nama file <code>backup.cmd</
 <p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/120415-25.png"></p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/DemoCRPushModel">MENCOBA</a> :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Blog Lama Coding4ever Aktif Kembali]]></title>
-    <link href="http://coding4ever.net/blog/2015/04/11/blog-lama-coding4ever-aktif-kembali/"/>
-    <updated>2015-04-11T16:34:41+07:00</updated>
-    <id>http://coding4ever.net/blog/2015/04/11/blog-lama-coding4ever-aktif-kembali</id>
-    <content type="html"><![CDATA[<p>Blog lama coding4ever yang beralamat di <a href="http://coding4ever.wordpress.com/">http://coding4ever.wordpress.com/</a> saya aktifkan lagi dengan mode <strong>Read Only</strong> karena sudah banyak dokumentasi tanya jawabnya, agar pertanyaan yang sama tidak ditanyakan lagi di blog ini.</p>
 ]]></content>
   </entry>
   

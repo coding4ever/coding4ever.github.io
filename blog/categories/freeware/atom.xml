@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Freeware | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/freeware/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-02-11T06:05:12+07:00</updated>
+  <updated>2016-02-15T07:42:23+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -20,7 +20,7 @@
     <id>http://coding4ever.net/blog/2012/08/07/update-smart-library-school-07-08-2012</id>
     <content type="html"><![CDATA[<p>Pada update kali ini tidak ada penambahan fitur baru, hanya perbaikan bug pada saat mengimpor data siswa.</p>
 
-<p>Terima kasih kepada om <a href="/blog/2012/03/03/aplikasi-pendukung-smart-library-school/#comment-5860">dany</a> dan <a href="/blog/2012/03/03/aplikasi-pendukung-smart-library-school/#comment-5929">seto</a> yang sudah melaporkan bug ini.</p>
+<p>Terima kasih kepada om <a href="{{%20site.url%20}}/blog/2012/03/03/aplikasi-pendukung-smart-library-school/#comment-5860">dany</a> dan <a href="{{%20site.url%20}}/blog/2012/03/03/aplikasi-pendukung-smart-library-school/#comment-5929">seto</a> yang sudah melaporkan bug ini.</p>
 
 <p><a href="http://www.4shared.com/file/sbAjY96d/UpdateSLS07082012.html">Download</a></p>
 ]]></content>
@@ -35,17 +35,17 @@
 
 <p>Untuk meningkatkan layanan terhadap pengunjung perpustakaan tidak salahnya jika Anda menginstall aplikasi ini :D.</p>
 
-<p>Aplikasi ini berfungsi sebagai aplikasi untuk pencarian data-data buku selain itu juga bisa digunakan untuk mencatat data-data pengunjung, aplikasi ini sudah terintegrasi dengan <a href="/blog/2010/05/09/smart-library-school-stable-release/">Smart Library School</a> yg juga disediakan secara gratis di blog ini :).</p>
+<p>Aplikasi ini berfungsi sebagai aplikasi untuk pencarian data-data buku selain itu juga bisa digunakan untuk mencatat data-data pengunjung, aplikasi ini sudah terintegrasi dengan <a href="{{%20site.url%20}}/blog/2010/05/09/smart-library-school-stable-release/">Smart Library School</a> yg juga disediakan secara gratis di blog ini :).</p>
 
 <!-- more -->
 
 
-<p>Awalnya enggak ada niat untuk mengupload juga aplikasi ini tetapi karena akhir2x ini sy sering diuber2x oleh om <a href="/blog/2010/05/09/smart-library-school-stable-release/#comment-4019">Bimo</a> jadi dengan berat hati ha ha ha :D sy upload juga akhirnya.</p>
+<p>Awalnya enggak ada niat untuk mengupload juga aplikasi ini tetapi karena akhir2x ini sy sering diuber2x oleh om <a href="{{%20site.url%20}}/blog/2010/05/09/smart-library-school-stable-release/#comment-4019">Bimo</a> jadi dengan berat hati ha ha ha :D sy upload juga akhirnya.</p>
 
 <p>Untuk menjalankan aplikasi ini sebaiknya :</p>
 
 <ul>
-<li>Komputer server sudah terinstall aplikasi <a href="/blog/2010/05/09/smart-library-school-stable-release/">Smart Library School</a> plus <a href="http://www.4shared.com/file/IiCIjI-p/UpdateSLS15032012.html">update terakhir</a>.</li>
+<li>Komputer server sudah terinstall aplikasi <a href="{{%20site.url%20}}/blog/2010/05/09/smart-library-school-stable-release/">Smart Library School</a> plus <a href="http://www.4shared.com/file/IiCIjI-p/UpdateSLS15032012.html">update terakhir</a>.</li>
 </ul>
 
 
@@ -72,7 +72,7 @@
     <link href="http://coding4ever.net/blog/2010/08/17/update-sms-tausiyah-manager/"/>
     <updated>2010-08-17T11:00:13+07:00</updated>
     <id>http://coding4ever.net/blog/2010/08/17/update-sms-tausiyah-manager</id>
-    <content type="html"><![CDATA[<p>Terima kasih saya ucapkan kepada mas <a href="/blog/2010/07/27/sms-tausiyah-manager/#comment-717">Haerul</a> atas respon penggunaan <a href="/blog/2010/07/27/sms-tausiyah-manager/">SMS Tausiyah Manager</a> dimana pada saat mencoba program ini sms yang masuk gagal dibaca oleh aplikasi service sms tausiyah.</p>
+    <content type="html"><![CDATA[<p>Terima kasih saya ucapkan kepada mas <a href="{{%20site.url%20}}/blog/2010/07/27/sms-tausiyah-manager/#comment-717">Haerul</a> atas respon penggunaan <a href="{{%20site.url%20}}/blog/2010/07/27/sms-tausiyah-manager/">SMS Tausiyah Manager</a> dimana pada saat mencoba program ini sms yang masuk gagal dibaca oleh aplikasi service sms tausiyah.</p>
 
 <p>Berhubung saya belum pernah mencoba menggunakan hp nokia 3110c (selama ini saya selalu menggunakan hp siemens c55), saya hanya memperkirakan hp nokia 3110c belum mendukung fitur pembacaan sms dengan mode &ldquo;Any of the storages&rdquo; atau kalo dalam istilah AT COMMANDnya disebut &ldquo;MT&rdquo;</p>
 
@@ -102,7 +102,7 @@
     <id>http://coding4ever.net/blog/2010/07/27/sms-tausiyah-manager</id>
     <content type="html"><![CDATA[<p><strong>Intro</strong></p>
 
-<p>Dalam rangka menyambut bulan suci Ramadhan 1431 H saya merilis aplikasi sms gateway gratis dengan nama &ldquo;<strong>SMS Tausiyah Manager</strong>&rdquo;, aplikasi ini saya buat menggunakan Visual Basic 6 dan untuk databasenya menggunakan<a href="/blog/2010/06/14/mengenal-lebih-dekat-database-sqlite/"> SQLite</a> plus proses <a href="/blog/2009/12/31/membuat-paket-instalasi-vb-mysql-dengan-inno-setup/">instalasi</a> yang sangat mudah sehingga siapa pun bisa dengan gampang mendistribusikan dan menggunakan aplikasi ini :D</p>
+<p>Dalam rangka menyambut bulan suci Ramadhan 1431 H saya merilis aplikasi sms gateway gratis dengan nama &ldquo;<strong>SMS Tausiyah Manager</strong>&rdquo;, aplikasi ini saya buat menggunakan Visual Basic 6 dan untuk databasenya menggunakan<a href="{{%20site.url%20}}/blog/2010/06/14/mengenal-lebih-dekat-database-sqlite/"> SQLite</a> plus proses <a href="{{%20site.url%20}}/blog/2009/12/31/membuat-paket-instalasi-vb-mysql-dengan-inno-setup/">instalasi</a> yang sangat mudah sehingga siapa pun bisa dengan gampang mendistribusikan dan menggunakan aplikasi ini :D</p>
 
 <p>Jadi jika Anda mempunyai kenalan/relasi yang mempunyai agenda/kegiatan Islami selama bulan suci Ramadhan, mungkin agenda tambahan berupa layanan SMS Tausiyah gratis ini bisa dijadikan sebagai bahan pertimbangan.</p>
 
