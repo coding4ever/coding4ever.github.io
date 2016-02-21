@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-02-15T07:52:03+07:00</updated>
+  <updated>2016-02-22T06:08:35+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,655 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Repository Pattern]]></title>
+    <link href="http://coding4ever.net/blog/2016/02/22/repository-pattern/"/>
+    <updated>2016-02-22T06:04:00+07:00</updated>
+    <id>http://coding4ever.net/blog/2016/02/22/repository-pattern</id>
+    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2016/02/logo-net.png" width="130" height="130">Pada postingan kali ini saya ingin membahas salah satu <code>design pattern</code> yang sering digunakan ketika bekerja dengan database yaitu <a href="https://msdn.microsoft.com/en-us/library/ff649690.aspx">Repository Pattern</a>.</p>
+
+<p>Sebenarnya saya kurang tertarik untuk membahas tentang <a href="https://msdn.microsoft.com/en-us/library/ff649690.aspx">Repository Pattern</a> karena memang sudah banyak artikel atau tutorial yang membahas tentang masalah ini. Tetapi berhubung beberapa postingan saya kedepan membutuhkan pengetahuan tentang <a href="https://msdn.microsoft.com/en-us/library/ff649690.aspx">Repository Pattern</a>, jadi saya pikir akan lebih baik jika masalah ini juga dibahas di <a href="http://coding4ever.net">blog</a> ini, dari pada saya harus me-link ke halaman web yang lain.</p>
+
+<!-- more -->
+
+
+<p>Akses  terhadap  database  merupakan  bagian  yang  sangat  penting  dari  aplikasi  database. Penggunaan  pattern/pola  yang  sesuai  dapat  memberikan  manfaat  yang sangat  besar. Salah satu pattern  yang  sering digunakan dalam akses database adalah <a href="http://coding4ever.net/blog/2016/02/22/repository-pattern/">Repository Pattern</a>.</p>
+
+<p>Pattern/pola  ini  digunakan  untuk  menerapkan  konsep <a href="https://en.wikipedia.org/wiki/Separation_of_concerns">separation  of  concern</a>  atau  pemisahan  kode program  berdasarkan  fungsinya.  Semua  kode  untuk  akses  database  harus  dipisahkan dengan kode untuk pengaturan user inteface. Hal ini memungkinkan kode akses database yang dibuat untuk aplikasi desktop,  dengan mudah digunakan untuk aplikasi web. Selain itu penerapan  konsep  <a href="https://en.wikipedia.org/wiki/Separation_of_concerns">separation  of  concern</a>  secara  disiplin,  dapat menghasilkan  kode  program  yang  dapat  dites  secara  otomatis menggunakan  tool <a href="https://en.wikipedia.org/wiki/Unit_testing">Unit Testing</a>.</p>
+
+<p><a href="http://coding4ever.net/blog/2016/02/22/repository-pattern/">Repository Pattern</a>  berisi  semua  kode  untuk  mengakses  database.  Semua  kode  yang  sepesifik  terhadap  implementasi  akses database berhenti di sini, lapisan lebih atas tidak boleh tahu bagaimana  akses  database diterapkan,  apakah  menggunakan  ADO.NET murni atau tool ORM/Micro ORM seperti <a href="http://coding4ever.net/blog/categories/dapper-net/">Dapper.NET</a>, <a href="http://coding4ever.net/blog/categories/entity-framework/">Entity Framework</a> atau <a href="http://nhibernate.info/">NHibernate</a>. Lapisan lainya hanya perlu tahu fungsionalitas dari suatu method di dalam class Repository, tidak perlu tahu bagimana method tersebut diimplementasikan.</p>
+
+<p>Idealnya secara logic, arsitektur aplikasi yang kita gunakan seperti berikut :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/210216-01.png"></p>
+
+<p>Tetapi untuk menyederhanakan pembahasan business logic layer bisa kita gabung ke presentation layer, sehingga arsitekturnya menjadi seperti berikut :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/210216-021.png"></p>
+
+<p>Class  Repository biasanya mempunyai beberapa method <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a> standar seperti  Save,  Update, Delete,  GetById  atau  GetAll.  Untuk method-method <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a> lainnya bisa ditambahkan sesuai kebutuhan.</p>
+
+<p>Secara umum ketika menggunakan <a href="http://coding4ever.net/blog/2016/02/22/repository-pattern/">Repository Pattern</a> setiap table akan dibuatkan class model dan repositorynya.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/210216-101.png"></p>
+
+<h5>Class Model/Entity</h5>
+
+<p>Selain membuat class repository, setiap  table  juga dibuatkan  class model/entity yang merupakan representasi dari sebuah table, kemudian di dalam class ini juga kita definisikan property-property yang merupakan representasi kolom/field dari sebuah tabel.</p>
+
+<p>Jadi dengan menggunakan class model/entity kita tidak lagi berhubungan dengan baris dan kolom tetapi langsung berhubungan dengan objek dari masing-masing class entity/model. Sehingga ketika kita menuliskan objek Category kemudian diikuti dengan karakter titik (.), IDE Visual Studio bisa membantu kita dengan fasilitas IntelliSensenya untuk menampilkan daftar property apa saja yang tersedia, sehingga aktivitas mengingat nama field berikut tipe datanya sudah tidak diperlukan lagi :)</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/210216-03.png"></p>
+
+<p>Berikut contoh class model/entity dari tabel Category</p>
+
+<div><script src='https://gist.github.com/bd6bbf861f46082851c7.js'></script>
+<noscript><pre><code>namespace Northwind.Model
+{
+    public class Category
+    {
+        public int CategoryID { get; set; }
+        public string CategoryName { get; set; }
+        public string Description { get; set; }
+    }
+}</code></pre></noscript></div>
+
+
+<h5>Membuat Interface</h5>
+
+<p>Ketika berbicara tentang <a href="http://coding4ever.net/blog/2016/02/22/repository-pattern/">Repository Pattern</a>, kita tidak akan jauh-jauh dari yang namanya <a href="https://en.wikipedia.org/wiki/Interface_%28computing%29">interface</a>. Interface di sini berfungsi sebagai kontrak yang mendiskripsikan method/operasi apa saja yang harus diimplementasikan oleh sebuah class. Contoh beberapa method/operasi standar yang biasa digunakan untuk mengakses database :</p>
+
+<ul>
+<li>Menambahkan data baru (Save)</li>
+<li>Mengupdate/edit data (Update)</li>
+<li>Menghapus data (Delete)</li>
+<li>Menampilkan semua data (GetAll)</li>
+</ul>
+
+
+<p>Nah berdasarkan method standar di atas kita bisa membuat <a href="https://en.wikipedia.org/wiki/Interface_%28computing%29">interface</a> dasar yang akan digunakan oleh interface-interface yang lebih spesifik/khusus.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/210216-04.png"></p>
+
+<p>Karakter <code>T</code> pada kode di atas merupakan indikator tipe generic, artinya nilai <code>T</code> tersebut bisa diganti dengan tipe apapun selama tipe tersebut berupa class.</p>
+
+<p>Setelah membuat interface dasar, kita bisa membuat interface yang lebih spesifik/khusus.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/210216-05.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/210216-06.png"></p>
+
+<p>Pada kode di atas, nilai <code>T</code> diganti dengan class Category dan Product. Selain itu interface ICategoryRepository dan IProductRepository merupakan turunan dari interface IBaseRepository, artinya interface ICategoryRepository dan IProductRepository akan mewarisi semua method abstract dari interface IBaseRepository.</p>
+
+<p>Penggunaan interface dalam menulis program, dikenal dengan istilah <a href="http://www.artima.com/lejava/articles/designprinciples.html">Programming  to  interface</a> yang merupakan best  practice  yang  sebaiknya kita ikuti dalam  menulis  program. Interface memisahkan apa(what) dengan bagaimana(how) nantinya hal tersebut implementasikan. Dengan  menggunakan  interface,  struktur  kode  kita  menjadi  <a href="https://en.wikipedia.org/wiki/Loose_coupling">loosely-coupled</a>,  karena memungkinkan secara dinamis mengganti implementasi.</p>
+
+<h5>Membuat Class Repository</h5>
+
+<p>Setelah membuat interface repository (ICategoryRepository dan IProductRepository) kita lanjutkan dengan membuat class repository yang mengimplementasikan interface ICategoryRepository dan IProductRepository. Masing-masing class repository ini akan mengimplementasikan semua method abstract yang ada di dalam interface ICategoryRepository dan IProductRepository.</p>
+
+<div><script src='https://gist.github.com/05123acda602dd1bdc47.js'></script>
+<noscript><pre><code>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Northwind.Model;
+using Northwind.Repository.Api;
+
+namespace Northwind.Repository.Service
+{
+    public class CategoryRepository : ICategoryRepository
+    {
+        public Category GetByID(int categoryId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IList&lt;Category&gt; GetByName(string categoryName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Save(Category obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Update(Category obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Delete(Category obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IList&lt;Category&gt; GetAll()
+        {
+            throw new NotImplementedException();
+        }
+    }
+}</code></pre></noscript></div>
+
+
+
+
+<div><script src='https://gist.github.com/d876476ffa10fa9855d2.js'></script>
+<noscript><pre><code>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Northwind.Model;
+using Northwind.Repository.Api;
+
+namespace Northwind.Repository.Service
+{
+    public class ProductRepository : IProductRepository
+    {
+        public Product GetByID(int productId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IList&lt;Product&gt; GetByName(string productName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Save(Product obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Update(Product obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Delete(Product obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IList&lt;Product&gt; GetAll()
+        {
+            throw new NotImplementedException();
+        }
+    }
+}</code></pre></noscript></div>
+
+
+<p>Kemudian lengkapi kodenya seperti berikut :</p>
+
+<div><script src='https://gist.github.com/4513c85d1541f0321204.js'></script>
+<noscript><pre><code>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Northwind.Model;
+using Northwind.Repository.Api;
+using Dapper;
+
+namespace Northwind.Repository.Service
+{
+    public class CategoryRepository : ICategoryRepository
+    {
+        private IDapperContext _context;
+        private string _sql;
+
+        public Category GetByID(int categoryId)
+        {
+            Category category = null;
+
+            try
+            {
+                _sql = @&quot;SELECT CategoryID, CategoryName, Description
+                         FROM Categories
+                         WHERE CategoryID = @categoryId&quot;;
+                
+                category = _context.db.Query&lt;Category&gt;(_sql, new { categoryId })
+                                   .SingleOrDefault();
+            }
+            catch
+            {
+            }
+
+            return category;
+        }
+
+        public IList&lt;Category&gt; GetByName(string categoryName)
+        {
+            IList&lt;Category&gt; listOfCategory = new List&lt;Category&gt;();
+
+            try
+            {
+                _sql = @&quot;SELECT CategoryID, CategoryName, Description 
+                         FROM Categories
+                         WHERE CategoryName LIKE @categoryName
+                         ORDER BY CategoryName&quot;;
+                
+                categoryName = string.Format(&quot;%{0}%&quot;, categoryName);
+                listOfCategory = _context.db.Query&lt;Category&gt;(_sql, new { categoryName })
+                                         .ToList();
+            }
+            catch
+            {
+            }
+
+            return listOfCategory;
+        }
+
+        public IList&lt;Category&gt; GetAll()
+        {
+            IList&lt;Category&gt; listOfCategory = new List&lt;Category&gt;();
+
+            try
+            {
+                _sql = @&quot;SELECT CategoryID, CategoryName, Description 
+                         FROM Categories
+                         ORDER BY CategoryName&quot;;
+
+                listOfCategory = _context.db.Query&lt;Category&gt;(_sql)
+                                         .ToList();
+            }
+            catch
+            {
+            }
+
+            return listOfCategory;
+        }
+
+        public int Save(Category obj)
+        {
+            var result = 0;
+
+            try
+            {
+                _sql = @&quot;INSERT INTO Categories (CategoryID, CategoryName, Description)
+                         VALUES (@CategoryID, @CategoryName, @Description)&quot;;
+                result = _context.db.Execute(_sql, obj);
+            }
+            catch
+            {
+            }
+
+            return result;
+        }
+
+        public int Update(Category obj)
+        {
+            var result = 0;
+
+            try
+            {
+                _sql = @&quot;UPDATE Categories SET CategoryName = @CategoryName, Description = @Description)
+                         WHERE CategoryID = @CategoryID&quot;;
+                result = _context.db.Execute(_sql, obj);
+            }
+            catch
+            {
+            }
+
+            return result;
+        }
+
+        public int Delete(Category obj)
+        {
+            var result = 0;
+
+            try
+            {
+                _sql = @&quot;DELETE FROM Categories
+                         WHERE CategoryID = @CategoryID&quot;;
+                result = _context.db.Execute(_sql, obj);
+            }
+            catch
+            {
+            }
+
+            return result;
+        }        
+    }
+}</code></pre></noscript></div>
+
+
+
+
+<div><script src='https://gist.github.com/87ba9b6fe43275c1f59c.js'></script>
+<noscript><pre><code>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Northwind.Model;
+using Northwind.Repository.Api;
+using Dapper;
+
+namespace Northwind.Repository.Service
+{
+    public class ProductRepository : IProductRepository
+    {
+        private IDapperContext _context;
+        private string _sql;
+
+        private Product MappingRecordToObj(string sql, object param = null)
+        {
+            var product = _context.db.Query&lt;Product, Category, Product&gt;(_sql, (p, c) =&gt;
+            {
+                p.CategoryID = c.CategoryID; p.Category = c;
+                return p;
+            }, param, splitOn: &quot;CategoryID&quot;).SingleOrDefault();
+
+            return product;
+        }
+
+        private IList&lt;Product&gt; MappingRecordToList(string sql, object param = null)
+        {
+            var listOfProduct = _context.db.Query&lt;Product, Category, Product&gt;(_sql, (p, c) =&gt;
+            {
+                p.CategoryID = c.CategoryID; p.Category = c;
+                return p;
+            }, param, splitOn: &quot;CategoryID&quot;).ToList();
+
+            return listOfProduct;
+        }
+
+        public Product GetByID(int productId)
+        {
+            Product product = null;
+
+            try
+            {
+                _sql = @&quot;SELECT Products.ProductID, Products.ProductName, Products.QuantityPerUnit, 
+                         Products.UnitPrice, Products.UnitsInStock,
+                         Categories.CategoryID, Categories.CategoryName, Categories.Description
+                         FROM Products INNER JOIN Categories ON Categories.CategoryId = Products.CategoryId 
+                         WHERE Products.ProductID = @productId&quot;;
+
+                product = MappingRecordToObj(_sql, new { productId });
+            }
+            catch
+            {
+            }
+
+            return product;
+        }        
+
+        public IList&lt;Product&gt; GetByName(string productName)
+        {
+            IList&lt;Product&gt; listOfProduct = new List&lt;Product&gt;();
+
+            try
+            {
+                _sql = @&quot;SELECT Products.ProductID, Products.ProductName, Products.QuantityPerUnit, 
+                         Products.UnitPrice, Products.UnitsInStock,
+                         Categories.CategoryID, Categories.CategoryName, Categories.Description
+                         FROM Products INNER JOIN Categories ON Categories.CategoryId = Products.CategoryId 
+                         WHERE Products.ProductName LIKE @productName
+                         ORDER BY Products.ProductName&quot;;
+
+                productName = string.Format(&quot;%{0}%&quot;, productName);
+                listOfProduct = MappingRecordToList(_sql, new { productName });
+            }
+            catch
+            {
+            }
+
+            return listOfProduct;
+        }
+
+        public IList&lt;Product&gt; GetAll()
+        {
+            IList&lt;Product&gt; listOfProduct = new List&lt;Product&gt;();
+
+            try
+            {
+                _sql = @&quot;SELECT Products.ProductID, Products.ProductName, Products.QuantityPerUnit, 
+                         Products.UnitPrice, Products.UnitsInStock,
+                         Categories.CategoryID, Categories.CategoryName, Categories.Description
+                         FROM Products INNER JOIN Categories ON Categories.CategoryId = Products.CategoryId 
+                         ORDER BY Products.ProductName&quot;;
+
+                listOfProduct = MappingRecordToList(_sql);
+            }
+            catch
+            {
+            }
+
+            return listOfProduct;
+        }
+
+        public int Save(Product obj)
+        {
+            var result = 0;
+
+            try
+            {
+                _sql = @&quot;INSERT INTO Products (ProductID, ProductName, QuantityPerUnit, UnitPrice, UnitsInStock)
+                         VALUES (@ProductID, @ProductName, @QuantityPerUnit, @UnitPrice, @UnitsInStock)&quot;;
+                result = _context.db.Execute(_sql, obj);
+            }
+            catch
+            {
+            }
+
+            return result;
+        }
+
+        public int Update(Product obj)
+        {
+            var result = 0;
+
+            try
+            {
+                _sql = @&quot;UPDATE Products SET ProductName = @ProductName, QuantityPerUnit = @QuantityPerUnit, 
+                         UnitPrice = @UnitPrice, UnitsInStock = @UnitsInStock
+                         WHERE ProductID = @ProductID&quot;;
+                result = _context.db.Execute(_sql, obj);
+            }
+            catch
+            {
+            }
+
+            return result;
+        }
+
+        public int Delete(Product obj)
+        {
+            var result = 0;
+
+            try
+            {
+                _sql = @&quot;DELETE FROM Products
+                         WHERE ProductID = @ProductID&quot;;
+                result = _context.db.Execute(_sql, obj);
+            }
+            catch
+            {
+            }
+
+            return result;
+        }        
+    }
+}</code></pre></noscript></div>
+
+
+<h5>Membuat Class Context</h5>
+
+<p>Di dalam <a href="http://coding4ever.net/blog/2016/02/22/repository-pattern/">Repository Pattern</a>, class context adalah class yang bertanggung jawab untuk berinteraksi secara langsung dengan database. Jadi class contextlah yang bertanggungjawab untuk membuat koneksi, menjalankan perintah sql seperti insert, update, delete dan select atau objek database seperti store procedure dan function.</p>
+
+<p>Di dalam contoh ini saya tidak menggunakan library ADO.NET secara langsung untuk berinteraksi dengan database, tetapi menggunakan <a href="http://coding4ever.net/blog/categories/dapper-net/">Micro ORM Dapper.NET</a>. Jadi kita akan membuat interface dan class konkretnya dengan nama <code>IDapperContext</code> dan <code>DapperContext</code>. Berikut kode lengkapnya :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/210216-07.png"></p>
+
+<div><script src='https://gist.github.com/207b5c995e267c01d5c4.js'></script>
+<noscript><pre><code>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using System.Data;
+using System.Data.Common;
+using Northwind.Repository.Api;
+
+namespace Northwind.Repository.Service
+{
+    public class DapperContext : IDapperContext
+    {
+        private readonly string _providerName;
+        private readonly string _connectionString;
+        private IDbConnection _db;
+
+        public DapperContext()
+        {
+            var dbName = System.IO.Directory.GetCurrentDirectory() + &quot;\\Northwind.db&quot;;
+
+            _providerName = &quot;System.Data.SQLite&quot;;
+            _connectionString = &quot;Data Source=&quot; + dbName;
+        }
+
+        private IDbConnection GetOpenConnection(string providerName, string connectionString)
+        {
+            DbConnection conn = null;
+
+            try
+            {
+                DbProviderFactory provider = DbProviderFactories.GetFactory(providerName);
+                conn = provider.CreateConnection();
+                conn.ConnectionString = connectionString;
+                conn.Open();
+            }
+            catch
+            {
+            }
+
+            return conn;
+        }
+
+        public IDbConnection db
+        {
+            get { return _db ?? (_db = GetOpenConnection(_providerName, _connectionString)); }
+        }
+
+        public void Dispose()
+        {
+            if (_db != null)
+            {
+                try
+                {
+                    if (_db.State != ConnectionState.Closed)
+                        _db.Close();
+                }
+                finally
+                {
+                    _db.Dispose();
+                }
+            }
+
+            GC.SuppressFinalize(this);
+        }
+    }
+}</code></pre></noscript></div>
+
+
+<h5>Menghubungkan Class Context dan Class Repository</h5>
+
+<p>Karena class repository merupakan class yang bertanggungjawab untuk urusan <a href="XXX">CRUD</a>, tentunya  class ini membutuhkan objek dari class Context dalam prosesnya. Nah untuk melewatkan objek context ke class repository bisa dengan menggunakan property atau constructor. Untuk contoh di sini kita menggunakan constructor.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/210216-08.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/210216-09.png"></p>
+
+<h5>Testing Class Repository</h5>
+
+<p>Setelah class Repository selesai dibuat, berikutnya kita akan melakukan tes sederhana dengan menggunakan aplikasi console. Dari hasil tes ini akan terlihat bahwa aplikasi pada layer presentation (UI) akan berkerja dengan object dan collection, jadi sudah tidak ada hubungannya lagi dengan database.</p>
+
+<div><script src='https://gist.github.com/ac5519310e9154830f1c.js'></script>
+<noscript><pre><code>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Northwind.Model;
+using Northwind.Repository.Api;
+using Northwind.Repository.Service;
+
+namespace Northwind.ConsoleApp
+{
+    class CategoryRepositoryTest
+    {
+        // deklarsi objek repository
+        static ICategoryRepository _repository;
+
+        static void Main(string[] args)
+        {
+            // buat objek context
+            IDapperContext context = new DapperContext();
+
+            // buat objek repository
+            _repository = new CategoryRepository(context);
+
+            GetAllTest();
+            SaveTest();
+            UpdateTest();
+            DeleteTest();
+
+            Console.WriteLine(&quot;\nPress any key to exit ...&quot;);
+            Console.ReadKey();
+        }
+
+        static void GetAllTest()
+        {
+            var listOfCategory = _repository.GetAll();
+            foreach (var category in listOfCategory)
+            {
+                Console.WriteLine(&quot;{0}, {1}, {2}&quot;, category.CategoryID, category.CategoryName, category.Description);
+            }
+        }
+
+        static void SaveTest()
+        {
+            var category = new Category
+            {
+                CategoryName = &quot;Seafood&quot;,
+                Description = &quot;Seaweed and fish&quot;
+            };
+
+            var result = _repository.Save(category);
+            Console.WriteLine(&quot;Tambah data baru {0}&quot;, result &gt; 0 ? &quot;berhasil&quot; : &quot;gagal&quot;);
+        }
+
+        static void UpdateTest()
+        {
+            var categoryId = 20;
+            var category = _repository.GetByID(categoryId);
+
+            category.CategoryName = &quot;Seaweed and fish&quot;;
+            category.Description = &quot;Seafood&quot;;
+
+            var result = _repository.Update(category);
+            Console.WriteLine(&quot;Update data {0}&quot;, result &gt; 0 ? &quot;berhasil&quot; : &quot;gagal&quot;);
+        }
+
+        static void DeleteTest()
+        {
+            var categoryId = 20;
+            var category = _repository.GetByID(categoryId);
+
+            var result = _repository.Delete(category);
+            Console.WriteLine(&quot;Menghapus data {0}&quot;, result &gt; 0 ? &quot;berhasil&quot; : &quot;gagal&quot;);
+        }        
+    }
+}</code></pre></noscript></div>
+
+
+<p>Selamat <a href="https://github.com/k4m4r82/RepositoryPattern">MENCOBA</a> :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Pengembangan Aplikasi Real-time Menggunakan SignalR Bagian #2]]></title>
@@ -3039,163 +3688,6 @@ Di bagian <code>Program/script</code> kita tentukan nama file <code>backup.cmd</
 <p>Untuk informasi email, sebaiknya Anda isikan dengan benar jika ingin mendapatkan notifikasi ketika saya me-replay pesan Anda.</p>
 
 <p>Selamat MENCOBA :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Membuat Laporan Crystal Reports .NET Dengan Model Data-Push]]></title>
-    <link href="http://coding4ever.net/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push/"/>
-    <updated>2015-04-12T23:58:08+07:00</updated>
-    <id>http://coding4ever.net/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push</id>
-    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg" width="120" height="100">Ketika memutuskan untuk menggunakan Crystal Reports‎ sebagai tool untuk membuat laporan, ada dua model yang bisa kita gunakan untuk menampilkan data.</p>
-
-<ol>
-<li>Pull model – kita mengeset koneksi ke database, mengirimkan perintah SQL, menentukan filter dan sisanya akan langsung ditangani oleh Crystal Reports. Cara yang pertama ini adalah cara umum yang biasanya digunakan untuk menampilkan data, dan rata-rata tutorial yang beredar juga menggunakan cara ini.</li>
-<li>Push model – dengan cara yang kedua ini kita membuat tabel temporary dengan menggunakan objek DataSet kemudian mengirimkan data dengan format DataSet, DataTable, IDataReader atau IEnumerable dan sisanya akan langsung ditangani oleh Crystal Reports.</li>
-</ol>
-
-
-<!-- more -->
-
-
-<p>Nah pada postingan kali ini kita akan menggunakan cara yang kedua yaitu Push Model dengan sumber datanya berupa object collection (IEnumerable).</p>
-
-<p>Persiapan tool-tool yang akan digunakan :</p>
-
-<ol>
-<li><a href="http://www.visualstudio.com/en-us/downloads/download-visual-studio-vs#d-community">Visual Studio Community 2013</a>, Anda bisa saja menggunakan Visual Studio .NET versi sebelumnya (2010, 2012)</li>
-<li><a href="http://coding4ever.net/blog/categories/nuget/">NuGet</a>, untuk memudahkan dalam menambahkan library pihak ketiga. Adapun library pihak ketiga yang digunakan dalam sample ini adalah <a href="http://coding4ever.net/blog/categories/dapper-net/">Dapper .NET</a> dan <a href="http://www.nuget.org/packages/System.Data.SQLite.Core/">System.Data.SQLite Core</a></li>
-<li><a href="http://scn.sap.com/docs/DOC-7824">Crystal Reports SP 13</a></li>
-<li>Database <a href="http://www.sqlite.org/">SQLite</a></li>
-<li>Tipe project WinForm</li>
-</ol>
-
-
-<p>Untuk contoh postingan kali ini, kita hanya menggunakan satu buah tabel dengan struktur seperti berikut :</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/120415-01.png"></p>
-
-<p>Setelah semua tool yang dibutuhkan tersedia kita lanjutkan dengan pembuatan project :</p>
-
-<ul>
-<li>Buat project baru dengan type WinForm</li>
-</ul>
-
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/120415-02.png"></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/120415-03.png"></p>
-
-<ul>
-<li>Tambahkan empat folder baru masing-masing dengan nama DataSet, Model, Dao dan Report</li>
-</ul>
-
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/120415-04.png"></p>
-
-<p>Folder DataSet digunakan untuk mengelompokkan item-item DataSet yang berfungsi sebagai tabel temporary, folder Model untuk mengelompokkan class-class model atau entity, folder Dao untuk mengelompokkan class-class akses database (Data Acces Object) dan terakhir folder Report untuk mengelompokkan item-item Crystal Reports.</p>
-
-<h3>Class Model/Entity</h3>
-
-<p>Untuk menerapkan konsep OOP (Object-oriented programming) dalam pemrograman database kita perlu membuat sebuah class yang disebut dengan istilah class Model atau Entity. Class ini merupakan representasi dari tabel-tabel yang ada di dalam database. Tujuan dari membuat class ini adalah agar kita bisa melakukan mapping (pemetaan) baris/row dari tabel menjadi kumpulan objek (object collection).</p>
-
-<p>Pemetaan bisa dilakukan secara manual atau bisa juga secara otomatis dengan menggunakan tool-tool ORM dari pihak ketiga seperti <a href="http://coding4ever.net/blog/categories/dapper-net/">Dapper .NET</a> dan <a href="http://coding4ever.net/blog/categories/entity-framework/">Entity Framework</a>. Untuk contoh kali ini kita menggunakan <a href="http://coding4ever.net/blog/categories/dapper-net/">Dapper .NET</a>.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/120415-05.png"></p>
-
-<p>Setelah memahami apa itu class model dan bagaimana proses pemetaan record ke objek terjadi, langkah berikutnya adalah menambahkan class model Siswa yang mempunyai struktur sama persis dengan rancangan tabel di awal.</p>
-
-<p>Untuk menambahkan class Model, klik kanan Project -> Add -> New Item…</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/120415-06.png"></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/120415-07.png"></p>
-
-<p>Kemudian lengkapi kode class Siswa, seperti gambar berikut :</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/120415-08.png"></p>
-
-<h3>Class DAO (Data Access Object)</h3>
-
-<p>Class DAO adalah class yang bertugas untuk menangani operasi database yang dikenal dengan istilah operasi CRUD (Create, Read, Update dan Delete). Di dalam class inilah kita menuliskan perintah-perintah INSERT, UPDATE, DELETE dan SELECT. Sebagai contoh kode dibawah ini akan melakukan mapping (pemetaan) baris/row tabel menjadi kumpulan objek (object collection) secara otomatis.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/120415-09.png"></p>
-
-<p>Contoh pemanggilannya juga gampang :</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/120415-10.png"></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/120415-11.png"></p>
-
-<h3>DataSet</h3>
-
-<p>Dengan model data Push kita tidak langsung menghubungkan antara Crystal Reports dengan database, jadi sebagai solusinya kita menggunakan DataSet yang berfungsi sebagai tabel temporary dan menjadi sumber data bagi Crystal Reports.</p>
-
-<p>Untuk menambahkan item DataSet, klik kanan Project -> Add -> New Item…</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/120415-12.png"></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/120415-13.png"></p>
-
-<p>Setelah menambahkan item DataSet (DsSiswa), langkah berikutnya adalah menambahkan item DataTable</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/120415-14.png"></p>
-
-<p>Kemudian input informasi DataTablenya seperti gambar berikut :</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/120415-15.png"></p>
-
-<p>Khusus untuk nama field dan tipe data dari DataTable yang kita buat, harus disesuaikan dengan nama field dan tipe data tabel.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/120415-01.png"></p>
-
-<h3>Crystal Reports</h3>
-
-<p>Crystal Reports adalah tool yang kita gunakan untuk membuat laporan. Untuk menambahkan item Crystal Report, klik kanan Project -> Add -> New Item…</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/120415-16.png"></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/120415-17.png"></p>
-
-<p>Pilih &ldquo;As a Blank Report&rdquo; karena kita akan mendesain report secara manual.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/120415-18.png"></p>
-
-<p>Langkah berikutnya adalah menentukan sumber data yang kita arahkan ke item DataSet yang sudah kita buat pada langkah sebelumnya</p>
-
-<p>Klik kanan Database Fields -> Database Expert …</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/120415-19.png"></p>
-
-<p>Pilih ADO.NET DataSet Siswa</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/120415-20.png"></p>
-
-<p>Drag satu-satu field siswa (nis, nama dan alamat) ke section detail, kemudian dirapikan.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/120415-21.png"></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/120415-22.png"></p>
-
-<h3>Crystal Report Viewer</h3>
-
-<p>Setelah semua persiapan selesai, langkah berikutnya adalah menambahkan Crystal Report Viewer yang berfungsi sebagai container untuk untuk menampilkan report.</p>
-
-<p>Aktifkan form kemudian tambahkan Crystal Report Viewer</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/120415-23.png"></p>
-
-<p>Kemudian tambahkan kode berikut :</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/120415-24.png"></p>
-
-<p>Dari kode di atas kita bisa melihat tidak ada lagi kode untuk mengeset koneksi database dan perintah SQL yang akan dikirimkan. Cara ini sangat cocok digunakan ketika kita akan membangun sistem dengan arsitektur <a href="http://coding4ever.net/blog/2012/02/01/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-1/">N-Tier</a>, di mana aplikasi klien sudah tidak terkoneksi lagi secara langsung ke database.</p>
-
-<p>Jika kode di atas dijalankan, akan menghasilkan output seperti gambar di bawah ini.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/120415-25.png"></p>
-
-<p>Selamat <a href="https://github.com/k4m4r82/DemoCRPushModel">MENCOBA</a> :)</p>
 ]]></content>
   </entry>
   
