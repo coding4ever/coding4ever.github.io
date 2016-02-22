@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Repository Pattern | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/repository-pattern/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-02-22T06:08:35+07:00</updated>
+  <updated>2016-02-23T06:10:57+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -89,7 +89,7 @@
 
 <p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/210216-05.png">https://coding4ever.files.wordpress.com/2016/02/210216-05.png</a>&#8221;></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/210216-06.png">https://coding4ever.files.wordpress.com/2016/02/210216-06.png</a>&#8221;></p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/210216-061.png">https://coding4ever.files.wordpress.com/2016/02/210216-061.png</a>&#8221;></p>
 
 <p>Pada kode di atas, nilai <code>T</code> diganti dengan class Category dan Product. Selain itu interface ICategoryRepository dan IProductRepository merupakan turunan dari interface IBaseRepository, artinya interface ICategoryRepository dan IProductRepository akan mewarisi semua method abstract dari interface IBaseRepository.</p>
 
