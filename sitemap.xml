@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://coding4ever.net/blog/2016/02/24/unit-of-work-pattern/</loc>
+    <lastmod>2016-02-24T10:24:29+07:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>http://coding4ever.net/blog/2016/02/22/repository-pattern/</loc>
     <lastmod>2016-02-22T06:04:00+07:00</lastmod>
     <priority>0.8</priority>
@@ -892,31 +897,31 @@
   </url>
   <url>
     <loc>http://coding4ever.net/blog/archives/</loc>
-    <lastmod>2016-02-23T06:10:57+07:00</lastmod>
+    <lastmod>2016-02-24T10:59:56+07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>http://coding4ever.net/</loc>
-    <lastmod>2016-02-23T06:10:57+07:00</lastmod>
+    <lastmod>2016-02-24T10:59:56+07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://coding4ever.net/gudang-software/</loc>
-    <lastmod>2016-02-23T06:10:57+07:00</lastmod>
+    <lastmod>2016-02-24T10:59:56+07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>http://coding4ever.net/aplikasi-gratis/</loc>
-    <lastmod>2016-02-23T06:10:57+07:00</lastmod>
+    <lastmod>2016-02-24T10:59:56+07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>http://coding4ever.net/source-code/</loc>
-    <lastmod>2016-02-23T06:10:57+07:00</lastmod>
+    <lastmod>2016-02-24T10:59:56+07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>

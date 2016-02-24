@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-02-23T06:10:57+07:00</updated>
+  <updated>2016-02-24T10:59:56+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,151 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Unit of Work Pattern]]></title>
+    <link href="http://coding4ever.net/blog/2016/02/24/unit-of-work-pattern/"/>
+    <updated>2016-02-24T10:24:29+07:00</updated>
+    <id>http://coding4ever.net/blog/2016/02/24/unit-of-work-pattern</id>
+    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2016/02/logo-net.png" width="130" height="130">Kalau sudah membahas <a href="http://coding4ever.net/blog/categories/repository-pattern/">Repository Pattern</a> rasanya kurang <code>manteb</code> jika tidak membahas <a href="http://martinfowler.com/eaaCatalog/unitOfWork.html">Unit of Work Pattern</a>, dua pattern ini biasanya sering digunakan secara bersamaan. Kata emak-emak <em>&ldquo;ibarat sop ayam tanpa garam,  rasanya hambar&rdquo;</em> he he :D</p>
+
+<p><a href="http://coding4ever.net/blog/2016/02/24/unit-of-work-pattern/">Unit of Work Pattern</a> digunakan untuk mengelompokan satu atau beberapa operasi (biasanya operasi <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a>) ke dalam satu kesatuan transaksi. Jika salah satu operasi gagal, yang lain juga harus dibatalkan.
+Jadi cara kerja Unit of Work Pattern ini mirip dengan salah satu fitur andalan <a href="https://en.wikipedia.org/wiki/Category:Database_management_systems">DBMS</a> yaitu <a href="http://en.wikipedia.org/wiki/Database_transaction">transaction</a>.</p>
+
+<!-- more -->
+
+
+<p><a href="http://coding4ever.net/blog/2016/02/24/unit-of-work-pattern/">Unit of Work Pattern</a> sendiri merupakan salah satu pattern <code>kesukaan</code> Microsoft, ini bisa dilihat dari salah satu produk open source Microsoft yang menggunakan pattern ini yaitu <a href="http://coding4ever.net/blog/categories/entity-framework/">Entity Framework</a>. Bagi Anda yang sudah pernah mencoba <a href="http://coding4ever.net/blog/categories/entity-framework/">Entity Framework</a> mungkin sudah tidak asing lagi dengan class EF Context yang menggunakan <a href="http://coding4ever.net/blog/2016/02/24/unit-of-work-pattern/">Unit of Work Pattern</a>.</p>
+
+<h5>Membuat Interface dan Class Konkret Unit of Work</h5>
+
+<p>Sama seperti pembahasan <a href="http://coding4ever.net/blog/2016/02/22/repository-pattern/">Repository Pattern</a>, impelmentasi <a href="http://coding4ever.net/blog/2016/02/24/unit-of-work-pattern/">Unit of Work Pattern</a> juga disarankan menggunakan <a href="https://en.wikipedia.org/wiki/Interface_%28computing%29">interface</a>.</p>
+
+<p>Berdasarkan contoh project <a href="http://coding4ever.net/blog/2016/02/22/repository-pattern/">Repository Pattern</a>, kita akan menambahkan interface baru dengan nama <code>IUnitOfWork</code>. Di dalam interface ini kita membuat beberapa property dengan tipe interface repository.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/240216-01.png"></p>
+
+<p>Setelah itu kita buatkan class konkretnya.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/240216-02.png"></p>
+
+<p>Terakhir kita lengkapi kode class UnitOfWork seperti berikut :</p>
+
+<div><script src='https://gist.github.com/c21f5beec8837a044f37.js'></script>
+<noscript><pre><code>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Northwind.Repository.Api;
+using System.Data;
+
+namespace Northwind.Repository.Service
+{
+    public class UnitOfWork : IUnitOfWork
+    {
+        private IDapperContext _context;
+        private IDbTransaction _transaction;
+        private ICategoryRepository _categoryRepository;
+        private IProductRepository _productRepository;
+
+        public UnitOfWork(IDapperContext context)
+        {
+            this._context = context;            
+        }
+
+        public ICategoryRepository CategoryRepository
+        {
+            get { return _categoryRepository ?? (_categoryRepository = new CategoryRepository(_transaction, _context)); }
+        }
+
+        public IProductRepository ProductRepository
+        {
+            get { return _productRepository ?? (_productRepository = new ProductRepository(_transaction, _context)); }
+        }
+
+        public void BeginTransaction()
+        {
+            if (_transaction != null)
+                throw new NullReferenceException(&quot;Not finished previous transaction&quot;);
+
+            _transaction = _context.db.BeginTransaction();
+        }
+
+        public void Commit()
+        {
+            if (_transaction == null)
+                throw new NullReferenceException(&quot;Tryed commit not opened transaction&quot;);
+
+            _transaction.Commit();
+        }
+    }
+}</code></pre></noscript></div>
+
+
+<h5>Testing Class Unit of Work</h5>
+
+<p>Sebagai penutup kita akan melakukan tes sederhana dengan menggunakan aplikasi console. Dari hasil tes ini akan terlihat begitu mudahnya menerapkan konsep <a href="http://en.wikipedia.org/wiki/Database_transaction">transaction</a> menggunakan <a href="http://coding4ever.net">Unit of Work Pattern</a>.</p>
+
+<div><script src='https://gist.github.com/af692dd1962816fab878.js'></script>
+<noscript><pre><code>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Northwind.Model;
+using Northwind.Repository.Api;
+using Northwind.Repository.Service;
+
+namespace Northwind.ConsoleApp
+{
+    class UnitOfWorkTest
+    {
+        static void Main(string[] args)
+        {
+            using (IDapperContext context = new DapperContext())
+            {
+                // buat objek unit of work
+                IUnitOfWork uow = new UnitOfWork(context);
+
+                var result = 0;
+
+                uow.BeginTransaction(); // mulai transaction
+
+                // buat objek category
+                var category = new Category
+                {
+                    CategoryName = &quot;Condiments&quot;,
+                    Description = &quot;Sweet and savory sauces, relishes, and seasonings&quot;
+                };
+                result = uow.CategoryRepository.Save(category); // simpan data category
+                Console.WriteLine(&quot;Tambah data category {0}&quot;, result &gt; 0 ? &quot;berhasil&quot; : &quot;gagal&quot;);
+
+                // buat objek product
+                var product = new Product
+                {
+                    CategoryID = category.CategoryID,
+                    ProductName = &quot;Genen Shouyu&quot;,
+                    QuantityPerUnit = &quot;24 - 250 ml bottles&quot;,
+                    UnitPrice = 15.5,
+                    UnitsInStock = 50
+                };
+                result = uow.ProductRepository.Save(product); // simpan data product
+                Console.WriteLine(&quot;Tambah data product {0}&quot;, result &gt; 0 ? &quot;berhasil&quot; : &quot;gagal&quot;);
+
+                uow.Commit(); // commit, simpan data secara permanen ke database
+            }
+
+            Console.WriteLine(&quot;\nPress any key to exit ...&quot;);
+            Console.ReadKey();
+        }        
+    }
+}</code></pre></noscript></div>
+
+
+<p>Selamat <a href="https://github.com/k4m4r82/UnitOfWorkPattern">MENCOBA</a> :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Repository Pattern]]></title>
@@ -3666,28 +3811,6 @@ Di bagian <code>Program/script</code> kita tentukan nama file <code>backup.cmd</
 <p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/140415-11.png"></p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/DemoCrashReporterDotNET">MENCOBA</a> :-)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Comment as a Guest]]></title>
-    <link href="http://coding4ever.net/blog/2015/04/13/comment-as-a-guest/"/>
-    <updated>2015-04-13T09:13:52+07:00</updated>
-    <id>http://coding4ever.net/blog/2015/04/13/comment-as-a-guest</id>
-    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2015/04/disqus_icon.png" width="120" height="100">Blog <a href="http://coding4ever.net/">ini</a> dibangun di atas static blogging framework <a href="http://octopress.org/">Octopress</a> dan untuk berinteraksi dengan pengunjung saya menggunakan layanan <a href="https://disqus.com/">Disqus</a>.</p>
-
-<p>Jika sebelumnya Anda harus menjadi anggota dari <a href="https://disqus.com/">Disqus</a> untuk memberikan komentar, mulai sekarang Anda sudah bisa memberikan komentar tanpa harus mendaftar di <a href="https://disqus.com/">Disqus</a>.</p>
-
-<!-- more -->
-
-
-<p>Caranya adalah pada saat memberikan komentar, Anda aktifkan pilihan <strong><em>I&rsquo;d rather post as gues</em></strong>.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/disqus_comment1.png"></p>
-
-<p>Untuk informasi email, sebaiknya Anda isikan dengan benar jika ingin mendapatkan notifikasi ketika saya me-replay pesan Anda.</p>
-
-<p>Selamat MENCOBA :)</p>
 ]]></content>
   </entry>
   
