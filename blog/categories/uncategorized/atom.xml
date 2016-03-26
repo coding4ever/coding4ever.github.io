@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Uncategorized | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/uncategorized/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-02-25T14:50:27+07:00</updated>
+  <updated>2016-03-26T12:51:59+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,15 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Tesss]]></title>
+    <link href="http://coding4ever.net/blog/2016/03/26/tesss/"/>
+    <updated>2016-03-26T12:45:06+07:00</updated>
+    <id>http://coding4ever.net/blog/2016/03/26/tesss</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Comment as a Guest]]></title>
@@ -69,48 +78,6 @@
 <p>Jadi saya mohon maaf jika ada pertanyaan yang terlewatkan baik karena memang lagi males ngecek komentar :D atau karena terbatasnya ilmu.</p>
 
 <p><a href="http://coding4ever.files.wordpress.com/2014/03/comment.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/comment.jpg" alt="comment" /></a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Visual Studio Color Schemes]]></title>
-    <link href="http://coding4ever.net/blog/2011/12/20/visual-studio-color-schemes/"/>
-    <updated>2011-12-20T16:33:32+07:00</updated>
-    <id>http://coding4ever.net/blog/2011/12/20/visual-studio-color-schemes</id>
-    <content type="html"><![CDATA[<p>Enggak sengaja ketemu link <a href="http://studiostyl.es/">ini</a>, berhubung saya juga udah bosan dengan color scheme bawaan visual studio .net akhirnya ikutan coba deh.</p>
-
-<p>Di link tersebut sudah tersedia ratusan color scheme yang siap pake, saya sendiri baru mencoba color scheme dengan rating tertinggi :D.</p>
-
-<!-- more -->
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/12/20122011-1.png"><img src="http://coding4ever.files.wordpress.com/2011/12/20122011-1.png" alt="" /></a></p>
-
-<p>Untuk downloadnya tinggal klik link <a href="http://studiostyl.es/schemes/son-of-obsidian">ini</a>, sudah tersedia untuk VS 2005, 2008 dan 2010.</p>
-
-<p>Setelah download tinggal impor file schemesnya dari menu Tools -> Import and Export Settings &hellip;, selanjutnya tinggal ikuti wizard yang ada.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/12/20122011-2.png"><img src="http://coding4ever.files.wordpress.com/2011/12/20122011-2.png" alt="" /></a></p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/12/20122011-3.png"><img src="http://coding4ever.files.wordpress.com/2011/12/20122011-3.png" alt="" /></a></p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/12/20122011-4.png"><img src="http://coding4ever.files.wordpress.com/2011/12/20122011-4.png" alt="" /></a></p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/12/20122011-5.png"><img src="http://coding4ever.files.wordpress.com/2011/12/20122011-5.png" alt="" /></a></p>
-
-<p>Agar semakin manteb editornya, download juga <a href="http://www.microsoft.com/download/en/details.aspx?id=17879">Consolas Font Pack</a> dari situs resminya om Bill Gates.</p>
-
-<p>Kemudian dilanjutkan dengan merubah jenis font editor menjadi Consolas dan size = 10.</p>
-
-<p>Caranya dengan klik menu Tools -> Options</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/12/20122011-6.png"><img src="http://coding4ever.files.wordpress.com/2011/12/20122011-6.png" alt="" /></a></p>
-
-<p>Entah kenapa font jenis ini terlihat begitu indah di mata para programer he he he :D</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2011/12/20122011-7.png"><img src="http://coding4ever.files.wordpress.com/2011/12/20122011-7.png" alt="" /></a></p>
-
-<p>Selamat mencoba :)</p>
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-02-25T14:50:27+07:00</updated>
+  <updated>2016-03-26T12:51:59+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,354 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Tesss]]></title>
+    <link href="http://coding4ever.net/blog/2016/03/26/tesss/"/>
+    <updated>2016-03-26T12:45:06+07:00</updated>
+    <id>http://coding4ever.net/blog/2016/03/26/tesss</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Membuat User Function Library Pada Crystal Report .NET]]></title>
+    <link href="http://coding4ever.net/blog/2016/03/26/membuat-user-function-library-pada-crystal-report-net/"/>
+    <updated>2016-03-26T12:45:06+07:00</updated>
+    <id>http://coding4ever.net/blog/2016/03/26/membuat-user-function-library-pada-crystal-report-net</id>
+    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg" width="120" height="100">Crystal Report .NET selain memudahkan kita dalam mendesain report/laporan juga menyediakan puluhan fungsi yang siap pakai (built-in function) yang bisa mempercepat dalam pembuatan report/laporan. Tetapi ada waktunya ketika kita membutuhkan fungsi khusus yang tidak disediakan oleh Crystal Report .NET, dan kabar baiknya Crystal Report .NET juga menyediakan fasilitas untuk membuat fungsi tambahan yang dikenal dengan istilah <a href="http://scn.sap.com/community/crystal-reports-for-visual-studio/blog/2009/05/22/creating-crystal-reports-user-function-libraries-ufl-with-visual-studio-net">User Function Library (UFL)</a>.</p>
+
+<!-- more -->
+
+
+<p><a href="http://scn.sap.com/community/crystal-reports-for-visual-studio/blog/2009/05/22/creating-crystal-reports-user-function-libraries-ufl-with-visual-studio-net">User Function Library (UFL)</a> adalah class library .NET yang dibuat dengan beberapa aturan sebagai berikut :</p>
+
+<ol>
+<li>Nama project harus di beri prefix <code>CRUFL</code>. Misal kita ingin membuat project dengan nama CrystalReportHelper, nama project ini harus kita tambahkan prefix <code>CRUFL</code>, sehingga nama projectnya menjadi <strong>CRUFL</strong>CrystalReportHelper.</li>
+<li>Project harus terdiri dari interface dan class konkret</li>
+<li>Setiap interface harus mempunyai attribut COM yang mempunya tiga nilai yaitu <code>ComVisible</code>, <code>InterfaceType</code> dan <code>Guid</code></li>
+<li>Begitu juga class konkret harus mempunyai attribut COM yang mempunya tiga nilai yaitu <code>ComVisible</code>, <code>ClassInterface</code> dan <code>Guid</code></li>
+<li>Mengaktifkan pilihan <code>Register for COM interop</code> (Project -> Properties -> Build)</li>
+<li>Menginstall hasil build ke <a href="https://en.wikipedia.org/wiki/Global_Assembly_Cache">GAC(Global Assembly Cache)</a></li>
+</ol>
+
+
+<p>Oke kita langsung saja, diawali dengan membuat User Function Library Class Library.</p>
+
+<h5>Membuat UFL Class Library</h5>
+
+<ol>
+<li><p>Klik menu File ->New -> Project …</p></li>
+<li><p>Pada dialog New Project aktifkan pilihan Visual C# kemudian pada pilihan Templates pilih Class Library</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-01.png"></p>
+
+<p>Nama project harus diberi prefix <code>CRUFL</code></p></li>
+<li><p>Setelah project berhasil dibuat, klik kanan nama project -> properties</p></li>
+<li><p>Klik tab Build, kemudian aktifkan pilihan <code>Register for COM interop</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-02.png"></p>
+
+<p>Mengaktifkan pilihan <code>Register for COM interop</code> akan menyebabkan assembly secara otomatis diregister oleh utility regasm.exe, ketika project dibuild/compile. Jadi, kita tidak perlu menjalankan regasm.exe secara manual via command prompt.</p></li>
+</ol>
+
+
+<p>Setelah project berhasil dibuat, kita akan menambahkan interface dan class konkretnya. Untuk contoh kali ini kita akan membuat fungsi terbilang yang biasanya digunakan dalam pembuatan aplikasi ritel.</p>
+
+<p>Kita akan mulai dengan interface terlebih dulu.</p>
+
+<h5>Membuat Interface dengan Attribut COM</h5>
+
+<ol>
+<li><p>Hapus class default (Class1)</p></li>
+<li><p>Tambahkan sebuah interface dengan nama ITerbilang, kemudian tambahkan juga method abstractnya dengan nama TerbilangIndonesia</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-03.png"></p></li>
+<li><p>Kemudian tambahkan attribut COM</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-04.png"></p>
+
+<p>Attribut COM untuk interface terdiri dari tiga nilai yaitu <code>ComVisible</code>, <code>InterfaceType</code> dan <code>Guid</code>. Attribut ini perlu kita tambahkan agar class library yang kita buat bisa dikenali oleh Crystal Report.</p>
+
+<p>Untuk mendapatkan nilai GUID, bisa menggunakan tool GUID yang sudah disediakan oleh Visual Studio .NET. Tool ini bisa diaktifkan melalui menu <code>Tools -&gt; Create GUID</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-05.png"></p></li>
+</ol>
+
+
+<p>Setelah menyelesaikan pembuatan interface ITerbilang, kita lanjutkan dengan pembuatan class konkretnya.</p>
+
+<h5>Membuat Class dengan Attribut COM</h5>
+
+<ol>
+<li><p>Tambahkan sebuah class dengan nama Terbilang. Class harus mengimplementasikan interface ITerbilang.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-06.png"></p>
+
+<p>Karena class Terbilang mengimplementasikan interface ITerbilang, maka class Terbilang wajib mendefinisikan ulang (override) method TerbilangIndonesia.</p></li>
+<li><p>Kemudian tambahkan Attribut COM</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-07.png"></p>
+
+<p>Attribut COM untuk class  terdiri dari tiga nilai yaitu <code>ComVisible</code>, <code>ClassInterface</code> dan <code>Guid</code>. Setelah itu lengkapi kode method TerbilangIndonesia seperti berikut :</p>
+
+<p><div><script src='https://gist.github.com/34337e1baec374270fb4.js'></script>
+<noscript><pre><code>[ComVisible(true), ClassInterface(ClassInterfaceType.None), Guid(&quot;BA626A6E-0AA9-45C9-AA47-2E9674406A75&quot;)]
+public class Terbilang : ITerbilang
+{
+ public string TerbilangIndonesia(int nominal)
+ {
+     string strTot = string.Empty;
+     string urai = string.Empty;
+     string strJmlHuruf = string.Empty;
+     string bil1 = string.Empty;
+     string bil2 = string.Empty;</p>
+
+<pre><code> int y = 0;
+ int x = 0;
+ int z = 0;
+
+ strJmlHuruf = Convert.ToString(nominal);
+
+ urai = string.Empty;
+ while (x &amp;lt; strJmlHuruf.Length)
+ {
+     x++;
+     strTot = strJmlHuruf.Substring(x - 1, 1);
+     y = y + Convert.ToInt32(strTot);
+     z = strJmlHuruf.Length - x + 1;
+     switch (Convert.ToInt32(strTot))
+     {
+         case 1:
+             if ((z == 1 | z == 7 | z == 10 | z == 13))
+             {
+                 bil1 = &amp;quot;SATU &amp;quot;;
+             }
+             else if ((z == 4))
+             {
+                 if ((x == 1))
+                 {
+                     bil1 = &amp;quot;SE&amp;quot;;
+                 }
+                 else
+                 {
+                     bil1 = &amp;quot;SATU &amp;quot;;
+                 }
+             }
+             else if ((z == 2 | z == 5 | z == 8 | z == 11 | z == 14))
+             {
+                 x = x + 1;
+                 strTot = strJmlHuruf.Substring(x - 1, 1);
+                 z = strJmlHuruf.Length - x + 1;
+                 bil2 = string.Empty;
+                 switch (Convert.ToInt32(strTot))
+                 {
+                     case 0:
+                         bil1 = &amp;quot;SEPULUH &amp;quot;;
+                         break;
+                     case 1:
+                         bil1 = &amp;quot;SEBELAS &amp;quot;;
+                         break;
+                     case 2:
+                         bil1 = &amp;quot;DUA BELAS &amp;quot;;
+                         break;
+                     case 3:
+                         bil1 = &amp;quot;TIGA BELAS &amp;quot;;
+                         break;
+                     case 4:
+                         bil1 = &amp;quot;EMPAT BELAS &amp;quot;;
+                         break;
+                     case 5:
+                         bil1 = &amp;quot;LIMA BELAS &amp;quot;;
+                         break;
+                     case 6:
+                         bil1 = &amp;quot;ENAM BELAS &amp;quot;;
+                         break;
+                     case 7:
+                         bil1 = &amp;quot;TUJUH BELAS &amp;quot;;
+                         break;
+                     case 8:
+                         bil1 = &amp;quot;DELAPAN BELAS &amp;quot;;
+                         break;
+                     case 9:
+                         bil1 = &amp;quot;SEMBILAN BELAS &amp;quot;;
+                         break;
+                 }
+             }
+             else
+             {
+                 bil1 = &amp;quot;SE&amp;quot;;
+             }
+             break;
+         case 2:
+             bil1 = &amp;quot;DUA &amp;quot;;
+             break;
+         case 3:
+             bil1 = &amp;quot;TIGA &amp;quot;;
+             break;
+         case 4:
+             bil1 = &amp;quot;EMPAT &amp;quot;;
+             break;
+         case 5:
+             bil1 = &amp;quot;LIMA &amp;quot;;
+             break;
+         case 6:
+             bil1 = &amp;quot;ENAM &amp;quot;;
+             break;
+         case 7:
+             bil1 = &amp;quot;TUJUH &amp;quot;;
+             break;
+         case 8:
+             bil1 = &amp;quot;DELAPAN &amp;quot;;
+             break;
+         case 9:
+             bil1 = &amp;quot;SEMBILAN &amp;quot;;
+             break;
+         default:
+             bil1 = string.Empty;
+             break;
+     }
+
+     if ((Convert.ToInt32(strTot) &amp;gt; 0))
+     {
+         if ((z == 2 | z == 5 | z == 8 | z == 11 | z == 14))
+         {
+             bil2 = &amp;quot;PULUH &amp;quot;;
+         }
+         else if ((z == 3 | z == 6 | z == 9 | z == 12 | z == 15))
+         {
+             bil2 = &amp;quot;RATUS &amp;quot;;
+         }
+         else
+         {
+             bil2 = string.Empty;
+         }
+     }
+     else
+     {
+         bil2 = string.Empty;
+     }
+
+     if ((y &amp;gt; 0))
+     {
+         switch (z)
+         {
+             case 4:
+                 bil2 = bil2 + &amp;quot;RIBU &amp;quot;;
+                 y = 0;
+                 break;
+             case 7:
+                 bil2 = bil2 + &amp;quot;JUTA &amp;quot;;
+                 y = 0;
+                 break;
+             case 10:
+                 bil2 = bil2 + &amp;quot;MILYAR &amp;quot;;
+                 y = 0;
+                 break;
+             case 13:
+                 bil2 = bil2 + &amp;quot;TRILYUN &amp;quot;;
+                 y = 0;
+                 break;
+         }
+     }
+     urai = urai + bil1 + bil2;
+ }
+
+ return urai.ToLower() + &amp;quot;rupiah&amp;quot;;
+</code></pre>
+
+<p> }
+}</code></pre></noscript></div></p></li>
+</ol>
+
+
+<p>Langkah berikutnya adalah mengeset Strong-Name key, ini adalah peraturan berikutnya yang harus kita ikuti agar class <a href="http://scn.sap.com/community/crystal-reports-for-visual-studio/blog/2009/05/22/creating-crystal-reports-user-function-libraries-ufl-with-visual-studio-net">User Function Library (UFL)</a> yang sudah kita buat bisa di daftarkan ke <a href="https://en.wikipedia.org/wiki/Global_Assembly_Cache">GAC(Global Assembly Cache)</a>.</p>
+
+<h5>Mengeset Strong-Name key</h5>
+
+<ol>
+<li><p>Klik kanan project -> Properties</p></li>
+<li><p>Aktifkan tab signing, kemudian aktifkan pilihan <code>Sign the assembly</code></p></li>
+<li><p>Pada pilihan combo <code>Choose a string name key file</code>, pilih &lt;New…> setelah itu akan tampil dialog <code>Create Strong Name Key</code> kemudian isikan nilai input key file name, misal dengan nama <code>CRUFLCrystalReportHelperKey</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-08.png"></p></li>
+<li><p>Terakhir lakukan proses Build/Compile, melalui menu Build -> Build Solution</p></li>
+</ol>
+
+
+<h5>Mendaftarkan Assembly ke GAC(Global Assembly Cache)</h5>
+
+<p>Hasil build/compile dari project <code>CRUFLCrystalReportHelper</code>, akan menghasilkan file dengan ekstensi .dll atau yang dikenal dengan istilah file Assembly. File ini harus kita daftarkan terlebih dulu ke <a href="https://en.wikipedia.org/wiki/Global_Assembly_Cache">GAC(Global Assembly Cache)</a> agar bisa dikenali oleh Crystal Report.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-22.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-23.png"></p>
+
+<p>Berikut langkah-langkah untuk mendaftarkan file Assembly ke <a href="https://en.wikipedia.org/wiki/Global_Assembly_Cache">GAC(Global Assembly Cache)</a> :</p>
+
+<ol>
+<li><p>Aktifkan Visual Studio Command Prompt sesuai dengan versi Visual Studio .NET Anda</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-09.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-10.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-11.png"></p></li>
+<li><p>Gunakan tool <code>gacutil</code>, dengan format perintah seperti berikut</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gacutil -if &lt;Assembly Name></span></code></pre></td></tr></table></div></figure></p>
+
+<p> contoh :</p>
+
+<p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gacutil -if CRUFLCrystalReportHelper.dll</span></code></pre></td></tr></table></div></figure></p>
+
+<p> <img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-12.png"></p>
+
+<p> Jika berhasil akan tampil pesan <code>Assembly successfully added to the cache</code>.</p></li>
+</ol>
+
+
+<h5>Testing User Function Library</h5>
+
+<p>Setelah menyelesaikan project CRUFLCrystalReportHelper dan mendaftarkannya ke <a href="https://en.wikipedia.org/wiki/Global_Assembly_Cache">GAC(Global Assembly Cache)</a>, kita akan menambahkan project baru dengan tipe WinForm Application.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-13.png"></p>
+
+<p>Setelah itu tambahkan juga item Crystal Report.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-14.png"></p>
+
+<p>Kemudian desain reportnya seperti berikut :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-15.png"></p>
+
+<p>Selanjutnya kita akan menambahkan formula baru dengan nama <code>terbilang</code>, caranya dengan mengklik kanan <code>Formula Fields</code> -> New …</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-16.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-17.png"></p>
+
+<p>Setelah itu akan tampil dialog Formula Workshop</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-18.png"></p>
+
+<p>Fungsi terbilang <code>TerbilangIndonesia</code> yang sudah kita buat masuk ke dalam kelompok <code>Additional Functions</code> -> <code>COM and .NET UFLs (u212com.dll)</code>. Fungsi ini membutuhkan parameter nominal yang nilai kita isi dengan field total dari tabel Jual.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-19.png"></p>
+
+<p>Kemudian tambahkan formula <code>terbilang</code> ke dalam report.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-20.png"></p>
+
+<p>Terakhir kita running project, dan lihat hasil dari formula terbilangnya.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-21.png"></p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/DemoUFLforCR">MENCOBA</a> :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Unit of Work Pattern]]></title>
@@ -3601,216 +3949,6 @@ Berikut perintah lengkapnya :</p>
 <p>Yuph cukup sampai disini, insya Alloh akan kita lanjutkan pada kesempatan berikutnya.</p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/Calculator">MENCOBA</a> :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Membuat Jadwal Backup Database Otomatis]]></title>
-    <link href="http://coding4ever.net/blog/2015/04/30/membuat-jadwal-backup-database-otomatis/"/>
-    <updated>2015-04-30T15:33:59+07:00</updated>
-    <id>http://coding4ever.net/blog/2015/04/30/membuat-jadwal-backup-database-otomatis</id>
-    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2015/04/300415-14.png" width="100" height="100">Backup database merupakan salah satu hal penting, apalagi jika kita bekerja sebagai database administrator.</p>
-
-<p>Semakin banyaknya data-data yang tersimpan seperti data keuangan, akademik dan data penting lainnya mengharuskan kita untuk meluangkan waktu khusus untuk melakukan backup database.</p>
-
-<p>Backup secara manual tentu saja tidak disarankan, apalagi jika datanya sudah banyak, tentu saja sedikit banyaknya akan menyita waktu kita untuk melakukan hal penting lainnya.</p>
-
-<!-- more -->
-
-
-<p>Salah satu keuntungan menggunakan backup otomatis adalah, kita bisa mengset jadwal backup diluar jam-jam kantor. Misal jam 5 sore, jam 12 malam atau jam lainnya sesuai dengan kebutuhan.</p>
-
-<h3>Database MySQL</h3>
-
-<p>Adapun database yang kita gunakan untuk simulasi backup otomatis ini adalah database MySQL. Untuk membackup database MySQL kita bisa gunakan tool bawaan MySQL yaitu <code>mysqldump</code>.</p>
-
-<p>Adapun perintahnya seperti berikut :</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>' backup
-</span><span class='line'>mysqldump -uUSER_NAME -pUSER_PASSWORD --routines NAMA_DATABASE > LOKASI_FILE_BACKUP.SQL</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Parameter <code>–routines</code> ditambahkan jika database mempunyai fungsi/trigger.</p>
-
-<p>Karena data backupnya yang disimpan lebih dari satu, untuk nama database akan kita buat unik dengan format : <code>nama_database-tahun-bulan-hari_jam_menit</code>. Contoh :</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-01.png"></p>
-
-<p>Untuk mendapatkan informasi tahun, bulan, hari dan jam, kita bisa memanfaatkan batch command dengan perintah seperti berikut :</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>for /f "tokens=2-4 delims=/ " %%a in ('date /T') do set year=%%c
-</span><span class='line'>for /f "tokens=2-4 delims=/ " %%a in ('date /T') do set month=%%a
-</span><span class='line'>for /f "tokens=2-4 delims=/ " %%a in ('date /T') do set day=%%b
-</span><span class='line'> 
-</span><span class='line'>for /f "tokens=1 delims=: " %%h in ('time /T') do set hour=%%h
-</span><span class='line'>for /f "tokens=2 delims=: " %%m in ('time /T') do set minutes=%%m
-</span><span class='line'>for /f "tokens=3 delims=: " %%a in ('time /T') do set ampm=%%a
-</span><span class='line'> 
-</span><span class='line'>rem membuat file backup database dengan format nama_database-tahun-bulan-hari_jam_menit
-</span><span class='line'>set FILE_BACKUP=D:\backup\Chinook-%year%-%month%-%day%_%hour%-%minutes%-%ampm%
-</span><span class='line'> 
-</span><span class='line'>rem USER_NAME, USER_PASSWORD dan NAMA_DATABASE menyesuaikan
-</span><span class='line'>mysqldump -uroot -prahasia --routines Chinook > %FILE_BACKUP%.sql</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Setelah itu kode di atas kita simpan di folder <code>Instalasi MySQL\bin</code>, misal dengan nama <code>backup.cmd</code>.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-02.png"></p>
-
-<h3>Windows Task Scheduler</h3>
-
-<p>Agar file <code>backup.cmd</code> ini bisa dijalankan secara berulang-ulang dan otomatis, kita bisa memanfaatkan tool yang sudah tersedia di Windows yaitu <code>Windows Task Scheduler</code>.</p>
-
-<p>Untuk mengakses tool ini bisa dilakukan melalui menu Start -> Accessories -> System Tools -> Task Scheduler</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-03.png"></p>
-
-<p>Berikut langkah-langkah untuk menambahkan task baru.</p>
-
-<ol>
-<li><p>Klik <code>Create Basic Task</code> di panel Actions
-<img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-04.png">
-Kemudian isikan informasi <code>Name</code> dan <code>Description</code> kemudian klik tombol Next</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-05.png"></p></li>
-<li><p>Di dialog berikutnya kita akan menentukan kapan task ini akan di eksekusi. Contoh jika task ini akan dieksekusi setiap hari kita pilih <code>Daily</code>.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-06.png"></p></li>
-<li><p>Berikutnya kita akan menentukan jam berapa task ini akan dieksekusi</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-07.png">
-Pada gambar di atas, task ini akan dieksekusi setiap jam 5 sore.</p></li>
-<li><p>Berikutnya kita akan menentukan apa yang akan dilakukan task ini, ketika dieksekusi. Sebagai contoh task ini akan menjalankan file <code>backup.cmd</code> yang tersimpan di folder bin MySQL</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-08.png">
-<img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-09.png">
-Di bagian <code>Program/script</code> kita tentukan nama file <code>backup.cmd</code>, sedangkan untuk <code>Start in</code> kita tentukan lokasi/folder file <code>backup.cmd</code></p></li>
-<li>Terakhir klik tombol Finish</li>
-</ol>
-
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-10.png"></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-11.png"></p>
-
-<p>Untuk mencoba apakah backup berjalan dengan baik, klik kanan nama task <code>Backup Database Chinook</code> -> Run</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-12.png"></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-13.png"></p>
-
-<p>Selamat MENCOBA :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Paket NuGet Yang Wajib Dicoba Bagian #1 - CrashReporter.NET]]></title>
-    <link href="http://coding4ever.net/blog/2015/04/14/paket-nuget-yang-wajib-dicoba-bagian-number-1-crashreporter-dot-net/"/>
-    <updated>2015-04-14T14:41:34+07:00</updated>
-    <id>http://coding4ever.net/blog/2015/04/14/paket-nuget-yang-wajib-dicoba-bagian-number-1-crashreporter-dot-net</id>
-    <content type="html"><![CDATA[<p><img class="left" src="http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png" width="120" height="100">Apakah Anda percaya jika saya katakan aplikasi saya 100% bebas bug, tentu saja tidak. Seberapa keraspun kita mencoba pasti aplikasi yang kita buat ada bugnya.</p>
-
-<p>Secara teknis kita tidak bisa melakukan pengetesan sebaik yang dilakukan oleh end-user. Mereka bisa melakukan hal-hal luar biasa diluar perkiraan dan skenario kita yang bisa menyebabkan error, dan bisa saja menyebabkan mereka menjadi <code>ilfil</code> menggunakan aplikasi kita he he :-D</p>
-
-<!-- more -->
-
-
-<p>Yang jelas, kita tidak dapat memperbaiki bug sampai kita tahu penyebabnya, sayangnya end-user biasanya kurang bisa menjelaskan masalah ini dengan baik.</p>
-
-<p><a href="http://www.nuget.org/packages/CrashReporterdotNet/">CrashReporter.NET</a> adalah salah satu library gratis yang bisa menjadi solusi untuk masalah ini dengan konfigurasi mudah dan bisa mengirimkan laporan bug via email.</p>
-
-<h3>Menambahkan Library CrashReporter.NET</h3>
-
-<p>Untuk menambahkan library <a href="http://www.nuget.org/packages/CrashReporterdotNet/">CrashReporter.NET</a> bisa kita lakukan via <a href="http://coding4ever.net/blog/categories/nuget/">NuGet Package Manager</a>. Adapun caranya seperti berikut :</p>
-
-<h4>Langkah – 1</h4>
-
-<p>Klik kanan node <code>References</code> -> <code>Manage NuGet Packages...</code></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/140415-12.png"></p>
-
-<h4>Langkah – 2</h4>
-
-<p>Cari <code>CrashReporter.NET</code> dan klik tombol Install</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/140415-13.png"></p>
-
-<p>Klik tombol Close, kemudian cek node <code>References</code>, seharusnya sudah ada tambahan library <code>CrashReporter.NET</code></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/140415-14.png"></p>
-
-<h3>Cara Penggunaan Library CrashReporter.NET</h3>
-
-<p>Ada dua cara untuk menggunakan <a href="http://www.nuget.org/packages/CrashReporterdotNet/">CrashReporter.NET</a></p>
-
-<p><code>1. Global Exception</code></p>
-
-<p>Jika kita ingin semua exception dihandle oleh <a href="http://www.nuget.org/packages/CrashReporterdotNet/">CrashReporter.NET</a>, gunakan opsi ini. Caranya adalah dengan menambahkan kode konfigurasi di Main Method (Entry point dari program yang akan dijalankan pertama  kali).</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/140415-01.png"></p>
-
-<p><code>2. Individual Exception</code></p>
-
-<p>Untuk opsi yang kedua ini berarti kita menambahkan kode konfigurasi hanya pada method-method tertentu saja yang kita anggap berpotensi menimbulkan <code>error</code>.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/140415-02.png"></p>
-
-<p>Dua contoh kode di atas menggunakan class <code>ReportCrashConfig</code> yang kita bahas di bagian <em>konfigurasi CrashReporter.NET</em>.</p>
-
-<h3>Konfigurasi CrashReporter.NET</h3>
-
-<p>Untuk melakukan konfigurasi <a href="http://www.nuget.org/packages/CrashReporterdotNet/">CrashReporter.NET</a>, cukup membuat objek dari class ReportCrash dan mengeset beberapa nilai property seperti <em>FromEmail, ToEmail</em>, dan property penting lainnya.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/140415-03.png"></p>
-
-<p>Secara default <a href="http://www.nuget.org/packages/CrashReporterdotNet/">CrashReporter.NET</a>  menggunakan service <a href="https://drdump.com/crash-reporting-system">Doctor Dump</a>, untuk mengirimkan email laporan bug ke email yang sudah kita tentukan melalui property <em>ToEmail</em>.</p>
-
-<p>Jika kita ingin menggunakan email sendiri untuk mengirim laporan bug, berarti kita harus menyiapkan dua email misal dengan nama <em>pengirim.bug@gmail.com</em> dan <em>penerima.bug@gmail.com</em> yang masing-masing kita set untuk nilai property <em>FromEmail</em>, <em>ToEmail</em> dan  kemudian mengeset nilai property <em>AnalyzeWithDoctorDump = false</em>. Dan jangan lupa set property <em>UserName</em> = <em>FromEmail</em>, untuk <em>Password</em> email menyesuaikan dengan <em>FromEmail</em>.</p>
-
-<p>Agar kode konfigurasi di atas bisa digunakan berulang-ulang, mungkin bisa kita <code>bungkus</code> ke dalam sebuah class tersendiri.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/140415-04.png"></p>
-
-<p>Sehingga ketika diperlukan kita cukup memanggilnya dengan perintah <code>new ReportCrashConfig(object exception)</code></p>
-
-<h3>Demo CrashReporter.NET</h3>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/140415-05.png"></p>
-
-<p>Untuk demo disini kita akan memanfaatkan dua jenis error yaitu <em>DivideByZeroException</em> dan <em>FileNotFoundException</em>.</p>
-
-<h4>DivideByZeroException</h4>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/140415-06.png"></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/140415-07.png"></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/140415-08.png"></p>
-
-<h4>FileNotFoundException</h4>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/140415-09.png"></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/140415-10.png"></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/140415-11.png"></p>
-
-<p>Selamat <a href="https://github.com/k4m4r82/DemoCrashReporterDotNET">MENCOBA</a> :-)</p>
 ]]></content>
   </entry>
   

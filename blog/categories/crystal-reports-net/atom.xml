@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Crystal Reports .net | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/crystal-reports-net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-02-25T14:50:27+07:00</updated>
+  <updated>2016-03-26T12:51:59+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,344 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Membuat User Function Library Pada Crystal Report .NET]]></title>
+    <link href="http://coding4ever.net/blog/2016/03/26/membuat-user-function-library-pada-crystal-report-net/"/>
+    <updated>2016-03-26T12:45:06+07:00</updated>
+    <id>http://coding4ever.net/blog/2016/03/26/membuat-user-function-library-pada-crystal-report-net</id>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg">https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Crystal Report .NET selain memudahkan kita dalam mendesain report/laporan juga menyediakan puluhan fungsi yang siap pakai (built-in function) yang bisa mempercepat dalam pembuatan report/laporan. Tetapi ada waktunya ketika kita membutuhkan fungsi khusus yang tidak disediakan oleh Crystal Report .NET, dan kabar baiknya Crystal Report .NET juga menyediakan fasilitas untuk membuat fungsi tambahan yang dikenal dengan istilah <a href="http://scn.sap.com/community/crystal-reports-for-visual-studio/blog/2009/05/22/creating-crystal-reports-user-function-libraries-ufl-with-visual-studio-net">User Function Library (UFL)</a>.</p>
+
+<!-- more -->
+
+
+<p><a href="http://scn.sap.com/community/crystal-reports-for-visual-studio/blog/2009/05/22/creating-crystal-reports-user-function-libraries-ufl-with-visual-studio-net">User Function Library (UFL)</a> adalah class library .NET yang dibuat dengan beberapa aturan sebagai berikut :</p>
+
+<ol>
+<li>Nama project harus di beri prefix <code>CRUFL</code>. Misal kita ingin membuat project dengan nama CrystalReportHelper, nama project ini harus kita tambahkan prefix <code>CRUFL</code>, sehingga nama projectnya menjadi <strong>CRUFL</strong>CrystalReportHelper.</li>
+<li>Project harus terdiri dari interface dan class konkret</li>
+<li>Setiap interface harus mempunyai attribut COM yang mempunya tiga nilai yaitu <code>ComVisible</code>, <code>InterfaceType</code> dan <code>Guid</code></li>
+<li>Begitu juga class konkret harus mempunyai attribut COM yang mempunya tiga nilai yaitu <code>ComVisible</code>, <code>ClassInterface</code> dan <code>Guid</code></li>
+<li>Mengaktifkan pilihan <code>Register for COM interop</code> (Project -> Properties -> Build)</li>
+<li>Menginstall hasil build ke <a href="https://en.wikipedia.org/wiki/Global_Assembly_Cache">GAC(Global Assembly Cache)</a></li>
+</ol>
+
+
+<p>Oke kita langsung saja, diawali dengan membuat User Function Library Class Library.</p>
+
+<h5>Membuat UFL Class Library</h5>
+
+<ol>
+<li><p>Klik menu File ->New -> Project …</p></li>
+<li><p>Pada dialog New Project aktifkan pilihan Visual C# kemudian pada pilihan Templates pilih Class Library</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-01.png">https://coding4ever.files.wordpress.com/2016/03/260316-01.png</a>&#8221;></p>
+
+<p>Nama project harus diberi prefix <code>CRUFL</code></p></li>
+<li><p>Setelah project berhasil dibuat, klik kanan nama project -> properties</p></li>
+<li><p>Klik tab Build, kemudian aktifkan pilihan <code>Register for COM interop</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-02.png">https://coding4ever.files.wordpress.com/2016/03/260316-02.png</a>&#8221;></p>
+
+<p>Mengaktifkan pilihan <code>Register for COM interop</code> akan menyebabkan assembly secara otomatis diregister oleh utility regasm.exe, ketika project dibuild/compile. Jadi, kita tidak perlu menjalankan regasm.exe secara manual via command prompt.</p></li>
+</ol>
+
+
+<p>Setelah project berhasil dibuat, kita akan menambahkan interface dan class konkretnya. Untuk contoh kali ini kita akan membuat fungsi terbilang yang biasanya digunakan dalam pembuatan aplikasi ritel.</p>
+
+<p>Kita akan mulai dengan interface terlebih dulu.</p>
+
+<h5>Membuat Interface dengan Attribut COM</h5>
+
+<ol>
+<li><p>Hapus class default (Class1)</p></li>
+<li><p>Tambahkan sebuah interface dengan nama ITerbilang, kemudian tambahkan juga method abstractnya dengan nama TerbilangIndonesia</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-03.png">https://coding4ever.files.wordpress.com/2016/03/260316-03.png</a>&#8221;></p></li>
+<li><p>Kemudian tambahkan attribut COM</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-04.png">https://coding4ever.files.wordpress.com/2016/03/260316-04.png</a>&#8221;></p>
+
+<p>Attribut COM untuk interface terdiri dari tiga nilai yaitu <code>ComVisible</code>, <code>InterfaceType</code> dan <code>Guid</code>. Attribut ini perlu kita tambahkan agar class library yang kita buat bisa dikenali oleh Crystal Report.</p>
+
+<p>Untuk mendapatkan nilai GUID, bisa menggunakan tool GUID yang sudah disediakan oleh Visual Studio .NET. Tool ini bisa diaktifkan melalui menu <code>Tools -&gt; Create GUID</code>.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-05.png">https://coding4ever.files.wordpress.com/2016/03/260316-05.png</a>&#8221;></p></li>
+</ol>
+
+
+<p>Setelah menyelesaikan pembuatan interface ITerbilang, kita lanjutkan dengan pembuatan class konkretnya.</p>
+
+<h5>Membuat Class dengan Attribut COM</h5>
+
+<ol>
+<li><p>Tambahkan sebuah class dengan nama Terbilang. Class harus mengimplementasikan interface ITerbilang.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-06.png">https://coding4ever.files.wordpress.com/2016/03/260316-06.png</a>&#8221;></p>
+
+<p>Karena class Terbilang mengimplementasikan interface ITerbilang, maka class Terbilang wajib mendefinisikan ulang (override) method TerbilangIndonesia.</p></li>
+<li><p>Kemudian tambahkan Attribut COM</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-07.png">https://coding4ever.files.wordpress.com/2016/03/260316-07.png</a>&#8221;></p>
+
+<p>Attribut COM untuk class  terdiri dari tiga nilai yaitu <code>ComVisible</code>, <code>ClassInterface</code> dan <code>Guid</code>. Setelah itu lengkapi kode method TerbilangIndonesia seperti berikut :</p>
+
+<p><div><script src='https://gist.github.com/34337e1baec374270fb4.js'></script>
+<noscript><pre><code>[ComVisible(true), ClassInterface(ClassInterfaceType.None), Guid(&quot;BA626A6E-0AA9-45C9-AA47-2E9674406A75&quot;)]
+public class Terbilang : ITerbilang
+{
+    public string TerbilangIndonesia(int nominal)
+    {
+        string strTot = string.Empty;
+        string urai = string.Empty;
+        string strJmlHuruf = string.Empty;
+        string bil1 = string.Empty;
+        string bil2 = string.Empty;
+
+        int y = 0;
+        int x = 0;
+        int z = 0;
+
+        strJmlHuruf = Convert.ToString(nominal);
+
+        urai = string.Empty;
+        while (x &lt; strJmlHuruf.Length)
+        {
+            x++;
+            strTot = strJmlHuruf.Substring(x - 1, 1);
+            y = y + Convert.ToInt32(strTot);
+            z = strJmlHuruf.Length - x + 1;
+            switch (Convert.ToInt32(strTot))
+            {
+                case 1:
+                    if ((z == 1 | z == 7 | z == 10 | z == 13))
+                    {
+                        bil1 = &quot;SATU &quot;;
+                    }
+                    else if ((z == 4))
+                    {
+                        if ((x == 1))
+                        {
+                            bil1 = &quot;SE&quot;;
+                        }
+                        else
+                        {
+                            bil1 = &quot;SATU &quot;;
+                        }
+                    }
+                    else if ((z == 2 | z == 5 | z == 8 | z == 11 | z == 14))
+                    {
+                        x = x + 1;
+                        strTot = strJmlHuruf.Substring(x - 1, 1);
+                        z = strJmlHuruf.Length - x + 1;
+                        bil2 = string.Empty;
+                        switch (Convert.ToInt32(strTot))
+                        {
+                            case 0:
+                                bil1 = &quot;SEPULUH &quot;;
+                                break;
+                            case 1:
+                                bil1 = &quot;SEBELAS &quot;;
+                                break;
+                            case 2:
+                                bil1 = &quot;DUA BELAS &quot;;
+                                break;
+                            case 3:
+                                bil1 = &quot;TIGA BELAS &quot;;
+                                break;
+                            case 4:
+                                bil1 = &quot;EMPAT BELAS &quot;;
+                                break;
+                            case 5:
+                                bil1 = &quot;LIMA BELAS &quot;;
+                                break;
+                            case 6:
+                                bil1 = &quot;ENAM BELAS &quot;;
+                                break;
+                            case 7:
+                                bil1 = &quot;TUJUH BELAS &quot;;
+                                break;
+                            case 8:
+                                bil1 = &quot;DELAPAN BELAS &quot;;
+                                break;
+                            case 9:
+                                bil1 = &quot;SEMBILAN BELAS &quot;;
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        bil1 = &quot;SE&quot;;
+                    }
+                    break;
+                case 2:
+                    bil1 = &quot;DUA &quot;;
+                    break;
+                case 3:
+                    bil1 = &quot;TIGA &quot;;
+                    break;
+                case 4:
+                    bil1 = &quot;EMPAT &quot;;
+                    break;
+                case 5:
+                    bil1 = &quot;LIMA &quot;;
+                    break;
+                case 6:
+                    bil1 = &quot;ENAM &quot;;
+                    break;
+                case 7:
+                    bil1 = &quot;TUJUH &quot;;
+                    break;
+                case 8:
+                    bil1 = &quot;DELAPAN &quot;;
+                    break;
+                case 9:
+                    bil1 = &quot;SEMBILAN &quot;;
+                    break;
+                default:
+                    bil1 = string.Empty;
+                    break;
+            }
+
+            if ((Convert.ToInt32(strTot) &gt; 0))
+            {
+                if ((z == 2 | z == 5 | z == 8 | z == 11 | z == 14))
+                {
+                    bil2 = &quot;PULUH &quot;;
+                }
+                else if ((z == 3 | z == 6 | z == 9 | z == 12 | z == 15))
+                {
+                    bil2 = &quot;RATUS &quot;;
+                }
+                else
+                {
+                    bil2 = string.Empty;
+                }
+            }
+            else
+            {
+                bil2 = string.Empty;
+            }
+
+            if ((y &gt; 0))
+            {
+                switch (z)
+                {
+                    case 4:
+                        bil2 = bil2 + &quot;RIBU &quot;;
+                        y = 0;
+                        break;
+                    case 7:
+                        bil2 = bil2 + &quot;JUTA &quot;;
+                        y = 0;
+                        break;
+                    case 10:
+                        bil2 = bil2 + &quot;MILYAR &quot;;
+                        y = 0;
+                        break;
+                    case 13:
+                        bil2 = bil2 + &quot;TRILYUN &quot;;
+                        y = 0;
+                        break;
+                }
+            }
+            urai = urai + bil1 + bil2;
+        }
+
+        return urai.ToLower() + &quot;rupiah&quot;;
+    }
+}</code></pre></noscript></div>
+</p></li>
+</ol>
+
+
+<p>Langkah berikutnya adalah mengeset Strong-Name key, ini adalah peraturan berikutnya yang harus kita ikuti agar class <a href="http://scn.sap.com/community/crystal-reports-for-visual-studio/blog/2009/05/22/creating-crystal-reports-user-function-libraries-ufl-with-visual-studio-net">User Function Library (UFL)</a> yang sudah kita buat bisa di daftarkan ke <a href="https://en.wikipedia.org/wiki/Global_Assembly_Cache">GAC(Global Assembly Cache)</a>.</p>
+
+<h5>Mengeset Strong-Name key</h5>
+
+<ol>
+<li><p>Klik kanan project -> Properties</p></li>
+<li><p>Aktifkan tab signing, kemudian aktifkan pilihan <code>Sign the assembly</code></p></li>
+<li><p>Pada pilihan combo <code>Choose a string name key file</code>, pilih &lt;New…> setelah itu akan tampil dialog <code>Create Strong Name Key</code> kemudian isikan nilai input key file name, misal dengan nama <code>CRUFLCrystalReportHelperKey</code>.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-08.png">https://coding4ever.files.wordpress.com/2016/03/260316-08.png</a>&#8221;></p></li>
+<li><p>Terakhir lakukan proses Build/Compile, melalui menu Build -> Build Solution</p></li>
+</ol>
+
+
+<h5>Mendaftarkan Assembly ke GAC(Global Assembly Cache)</h5>
+
+<p>Hasil build/compile dari project <code>CRUFLCrystalReportHelper</code>, akan menghasilkan file dengan ekstensi .dll atau yang dikenal dengan istilah file Assembly. File ini harus kita daftarkan terlebih dulu ke <a href="https://en.wikipedia.org/wiki/Global_Assembly_Cache">GAC(Global Assembly Cache)</a> agar bisa dikenali oleh Crystal Report.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-22.png">https://coding4ever.files.wordpress.com/2016/03/260316-22.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-23.png">https://coding4ever.files.wordpress.com/2016/03/260316-23.png</a>&#8221;></p>
+
+<p>Berikut langkah-langkah untuk mendaftarkan file Assembly ke <a href="https://en.wikipedia.org/wiki/Global_Assembly_Cache">GAC(Global Assembly Cache)</a> :</p>
+
+<ol>
+<li><p>Aktifkan Visual Studio Command Prompt sesuai dengan versi Visual Studio .NET Anda</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-09.png">https://coding4ever.files.wordpress.com/2016/03/260316-09.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-10.png">https://coding4ever.files.wordpress.com/2016/03/260316-10.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-11.png">https://coding4ever.files.wordpress.com/2016/03/260316-11.png</a>&#8221;></p></li>
+<li><p>Gunakan tool <code>gacutil</code>, dengan format perintah seperti berikut</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gacutil -if &lt;Assembly Name></span></code></pre></td></tr></table></div></figure></p>
+
+<p>contoh :</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gacutil -if CRUFLCrystalReportHelper.dll</span></code></pre></td></tr></table></div></figure></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-12.png">https://coding4ever.files.wordpress.com/2016/03/260316-12.png</a>&#8221;></p>
+
+<p>Jika berhasil akan tampil pesan <code>Assembly successfully added to the cache</code>.</p></li>
+</ol>
+
+
+<h5>Testing User Function Library</h5>
+
+<p>Setelah menyelesaikan project CRUFLCrystalReportHelper dan mendaftarkannya ke <a href="https://en.wikipedia.org/wiki/Global_Assembly_Cache">GAC(Global Assembly Cache)</a>, kita akan menambahkan project baru dengan tipe WinForm Application.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-13.png">https://coding4ever.files.wordpress.com/2016/03/260316-13.png</a>&#8221;></p>
+
+<p>Setelah itu tambahkan juga item Crystal Report.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-14.png">https://coding4ever.files.wordpress.com/2016/03/260316-14.png</a>&#8221;></p>
+
+<p>Kemudian desain reportnya seperti berikut :</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-15.png">https://coding4ever.files.wordpress.com/2016/03/260316-15.png</a>&#8221;></p>
+
+<p>Selanjutnya kita akan menambahkan formula baru dengan nama <code>terbilang</code>, caranya dengan mengklik kanan <code>Formula Fields</code> -> New …</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-16.png">https://coding4ever.files.wordpress.com/2016/03/260316-16.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-17.png">https://coding4ever.files.wordpress.com/2016/03/260316-17.png</a>&#8221;></p>
+
+<p>Setelah itu akan tampil dialog Formula Workshop</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-18.png">https://coding4ever.files.wordpress.com/2016/03/260316-18.png</a>&#8221;></p>
+
+<p>Fungsi terbilang <code>TerbilangIndonesia</code> yang sudah kita buat masuk ke dalam kelompok <code>Additional Functions</code> -> <code>COM and .NET UFLs (u212com.dll)</code>. Fungsi ini membutuhkan parameter nominal yang nilai kita isi dengan field total dari tabel Jual.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-19.png">https://coding4ever.files.wordpress.com/2016/03/260316-19.png</a>&#8221;></p>
+
+<p>Kemudian tambahkan formula <code>terbilang</code> ke dalam report.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-20.png">https://coding4ever.files.wordpress.com/2016/03/260316-20.png</a>&#8221;></p>
+
+<p>Terakhir kita running project, dan lihat hasil dari formula terbilangnya.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-21.png">https://coding4ever.files.wordpress.com/2016/03/260316-21.png</a>&#8221;></p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/DemoUFLforCR">MENCOBA</a> :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Menghilangkan Tab Main Report Pada CrystalReportViewer]]></title>
