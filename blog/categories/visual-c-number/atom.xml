@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Visual C# | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/visual-c-number/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-03-26T12:55:19+07:00</updated>
+  <updated>2016-03-26T13:00:13+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -35,7 +35,7 @@
 </ol>
 
 
-<p>Oke kita langsung saja, diawali dengan membuat User Function Library Class Library.</p>
+<p>Oke kita langsung saja, kita awali dengan membuat User Function Library Class Library.</p>
 
 <h5>Membuat UFL Class Library</h5>
 
@@ -335,7 +335,7 @@ public class Terbilang : ITerbilang
 
 <p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-18.png">https://coding4ever.files.wordpress.com/2016/03/260316-18.png</a>&#8221;></p>
 
-<p>Fungsi terbilang <code>TerbilangIndonesia</code> yang sudah kita buat masuk ke dalam kelompok <code>Additional Functions</code> -> <code>COM and .NET UFLs (u212com.dll)</code>. Fungsi ini membutuhkan parameter nominal yang nilai kita isi dengan field total dari tabel Jual.</p>
+<p>Fungsi terbilang <code>TerbilangIndonesia</code> yang sudah kita buat masuk ke dalam kelompok <code>Additional Functions</code> -> <code>COM and .NET UFLs (u212com.dll)</code>. Fungsi ini membutuhkan parameter nominal yang nilainya kita isi dengan field total dari tabel Jual.</p>
 
 <p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-19.png">https://coding4ever.files.wordpress.com/2016/03/260316-19.png</a>&#8221;></p>
 
