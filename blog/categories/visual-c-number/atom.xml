@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Visual C# | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/visual-c-number/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-06-28T13:58:08+07:00</updated>
+  <updated>2016-06-28T14:37:04+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -186,7 +186,7 @@ namespace Northwind.Repository.Service
 
 <p>Pada gambar di atas deklarsi objek <code>categoryRepository</code> tidak langsung menggunakan tipe class repository (CategoryRepository) tetapi menggunakan interface ICategoryRepository (konsep <a href="http://stackoverflow.com/questions/2697783/what-does-program-to-interfaces-not-implementations-mean">program to interfaces</a>), tujuannya adalah untuk mempermudah kita mengganti implementasi dari class repositorynya.</p>
 
-<p>Jadi kalo seandainya terjadi perubahan implementasi dari class repositorynya, kita tinggal buat class repository yang baru, kemudian mengganti implementasi classnya di sisi client. Mudah bukan :-)</p>
+<p>Jadi kalo seandainya terjadi perubahan implementasi dari class repositorynya, kita tinggal buat class repository yang baru, kemudian mengganti implementasi classnya di sisi client. Contoh kasus class <a href="https://github.com/k4m4r82/RepositoryPattern2/blob/master/src/Northwind.Repository.Service/CategoryRepository.cs">CategoryRepository</a> di atas menggunakan <a href="/blog/categories/entity-framework/">Entity Framework</a> sebagai engine untuk Data Access Layernya, karena alasan performance akhirnya kita memutuskan untuk mengganti <a href="/blog/categories/entity-framework/">Entity Framework</a> dengan <a href="https://en.wikipedia.org/wiki/Object-relational_mapping">ORM</a> lain yang lebih ringan misal <a href="/blog/categories/dapper-net/">Dapper .NET</a>. Untuk melakukan ini kita tinggal buat class repository yang baru, misal dengan nama <a href="https://github.com/k4m4r82/RepositoryPattern2/blob/master/src/Northwind.Repository.Service/CategoryRepositoryDapper.cs">CategoryRepositoryDapper</a> kemudian mengganti implementasi classnya di sisi client. Mudah bukan :-)</p>
 
 <p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/06/280616-05.png">https://coding4ever.files.wordpress.com/2016/06/280616-05.png</a>&#8221;></p>
 
