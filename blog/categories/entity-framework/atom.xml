@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Entity Framework | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/entity-framework/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-04-28T15:03:33+07:00</updated>
+  <updated>2016-06-28T13:47:28+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,189 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Repository Pattern Bagian #2]]></title>
+    <link href="http://coding4ever.net/blog/2016/06/28/repository-pattern-bagian-number-2/"/>
+    <updated>2016-06-28T12:54:38+07:00</updated>
+    <id>http://coding4ever.net/blog/2016/06/28/repository-pattern-bagian-number-2</id>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2016/02/logo-net.png">https://coding4ever.files.wordpress.com/2016/02/logo-net.png</a>&#8221; width=&#8221;130&#8221; height=&#8221;130&#8221;>Melanjutkan pembahasan <a href="/blog/categories/repository-pattern/">Repository Pattern</a>, kali ini kita akan membahas salah satu manfaat menggunakan <a href="/blog/categories/repository-pattern/">Repository Pattern</a>. Selain digunakan untuk menerapkan konsep separation  of  concern atau pemisahan kode program berdasarkan fungsinya. Pola/pattern ini juga akan mempermudah kita untuk mengganti implementasi class secara cepat karena dari sisi client/layer presentation sudah tidak tergantung dengan layer data access, sehingga jika terjadi perubahan pada metode akses data di repsository, layer presentation sama sekali tidak perlu diubah ataupun jika terjadi perubahan hanya sedikit <code>kode</code> yang perlu kita ubah. Desain struktur seperti ini disebut <a href="https://en.wikipedia.org/wiki/Loose_coupling">lousley coupled</a>.</p>
+
+<!-- more -->
+
+
+<p>Repository mengenkapsulasi method-method untuk manipulasi dan query data dalam sebuah class yang berhubungan dengan class model/business entity. Sebuah repository biasanya memiliki method CRUD (Create, Read, Update, Delete) standar seperti : Save, Update, Delete, dan GetAll seperti yang didefenisikan di interface IBaseRepository<T> generic/umum sebagai berikut :</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/06/280616-01.png">https://coding4ever.files.wordpress.com/2016/06/280616-01.png</a>&#8221;></p>
+
+<p>Kemudian kita definisikan interface yang lebih spesifik untuk masing-masing class repository yang mewarisi interface generic IBaseRepository<T>. Contoh interface ICategoryRepository dan IProductRepository.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/06/280616-02.png">https://coding4ever.files.wordpress.com/2016/06/280616-02.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/06/280616-03.png">https://coding4ever.files.wordpress.com/2016/06/280616-03.png</a>&#8221;></p>
+
+<p>Sebagai contoh kita akan membuat aplikasi menggunakan database <a href="https://northwinddatabase.codeplex.com/">Northwind</a>, dengan menggunakan <a href="/blog/categories/entity-framework/">Entity Framework</a> sebagai engine untuk Data Access Layernya. Karena di atas kita sudah mendefinisikan interface ICategoryRepository, kita tinggal membuat class implementasinya misal dengan nama class CategoryRepository.</p>
+
+<p><div><script src='https://gist.github.com/3ce54c2191c532665f2e19c09abd901b.js'></script>
+<noscript><pre><code>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Northwind.Model;
+using Northwind.Repository.Api;
+using System.Data.Entity;
+
+namespace Northwind.Repository.Service
+{
+    public class CategoryRepository : ICategoryRepository
+    {
+        public CategoryRepository()
+        {
+        }
+
+        public Category GetByID(int categoryId)
+        {
+            Category category = null;
+
+            try
+            {
+                using (IEFContext context = new EFContext())
+                {
+                    category = context.Categories.Where(f =&gt; f.CategoryID == categoryId)
+                                      .SingleOrDefault();
+                }                
+            }
+            catch
+            {
+            }
+
+            return category;
+        }
+
+        public IList&lt;Category&gt; GetByName(string categoryName)
+        {
+            IList&lt;Category&gt; listOfCategory = new List&lt;Category&gt;();
+
+            try
+            {
+                using (IEFContext context = new EFContext())
+                {
+                    listOfCategory = context.Categories
+                                            .Where(f =&gt; f.CategoryName.ToLower().Contains(categoryName.ToLower()))
+                                            .OrderBy(f =&gt; f.CategoryName)
+                                            .ToList();
+                }                
+            }
+            catch
+            {
+            }
+
+            return listOfCategory;
+        }
+
+        public IList&lt;Category&gt; GetAll()
+        {
+            IList&lt;Category&gt; listOfCategory = new List&lt;Category&gt;();
+
+            try
+            {
+                using (IEFContext context = new EFContext())
+                {
+                    listOfCategory = context.Categories
+                                            .OrderBy(f =&gt; f.CategoryName)
+                                            .ToList();
+                }                
+            }
+            catch
+            {
+            }
+
+            return listOfCategory;
+        }
+
+        public int Save(Category obj)
+        {
+            var result = 0;            
+
+            try
+            {
+                using (IEFContext context = new EFContext())
+                {
+                    context.Entry(obj).State = EntityState.Added;
+                    context.SaveChanges();
+                }                
+
+                result = 1;
+            }
+            catch
+            {
+            }
+
+            return result;
+        }
+
+        public int Update(Category obj)
+        {
+            var result = 0;
+
+            try
+            {
+                using (IEFContext context = new EFContext())
+                {
+                    context.Entry(obj).State = EntityState.Modified;
+                    context.SaveChanges();
+                }                
+
+                result = 1;
+            }
+            catch
+            {
+            }
+
+            return result;
+        }
+
+        public int Delete(Category obj)
+        {
+            var result = 0;            
+
+            try
+            {
+                using (IEFContext context = new EFContext())
+                {
+                    context.Entry(obj).State = EntityState.Deleted;
+                    context.SaveChanges();
+                }                
+
+                result = 1;
+            }
+            catch
+            {
+            }
+
+            return result;
+        }        
+    }
+}</code></pre></noscript></div>
+</p>
+
+<p>Nah dari sisi client class-class Repository diakses lewat interfacenya. Pemrograman melalui interface ini menjadikan client tidak tergantung dengan layer data access, sehingga jika terjadi perubahan pada metode akses data di repsository, layer presentation sama sekali tidak perlu diubah ataupun jika terjadi perubahan hanya sedikit <code>kode</code> yang perlu kita ubah. Desain struktur seperti ini disebut <a href="https://en.wikipedia.org/wiki/Loose_coupling">lousley coupled</a>.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/06/280616-04.png">https://coding4ever.files.wordpress.com/2016/06/280616-04.png</a>&#8221;></p>
+
+<p>Pada gambar di atas deklarsi objek <code>categoryRepository</code> tidak langsung menggunakan tipe class repository (CategoryRepository) tetapi menggunakan interface ICategoryRepository (konsep <a href="http://stackoverflow.com/questions/2697783/what-does-program-to-interfaces-not-implementations-mean">program to interfaces</a>), tujuannya adalah untuk mempermudah kita mengganti implementasi dari class repositorynya.</p>
+
+<p>Jadi kalo seandainya terjadi perubahan implementasi dari class repositorynya, kita tinggal buat class repository yang baru, kemudian mengganti implementasi classnya di sisi client. Mudah bukan :-)</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/06/280616-05.png">https://coding4ever.files.wordpress.com/2016/06/280616-05.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/06/280616-061.png">https://coding4ever.files.wordpress.com/2016/06/280616-061.png</a>&#8221;></p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/RepositoryPattern2">MENCOBA</a> :-)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Entity Framework Part 8]]></title>
@@ -1604,91 +1787,6 @@ instance</code></li>
 <p><a href="http://coding4ever.files.wordpress.com/2014/04/3.png"><img src="http://coding4ever.files.wordpress.com/2014/04/3.png" alt="3" /></a></p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/EntityFramework5">MENCOBA</a> :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Entity Framework Part 4]]></title>
-    <link href="http://coding4ever.net/blog/2014/03/27/entity-framework-part-4/"/>
-    <updated>2014-03-27T13:27:20+07:00</updated>
-    <id>http://coding4ever.net/blog/2014/03/27/entity-framework-part-4</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="http://coding4ever.files.wordpress.com/2014/03/entity_image.png">http://coding4ever.files.wordpress.com/2014/03/entity_image.png</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Melanjutkan <a href="/blog/2014/03/26/entity-framework-part-3/">postingan</a> sebelumnya, tentang tool-tool yang bisa digunakan untuk mengenerate kode mapping secara otomatis. Tool kedua yang akan kita bahas adalah <a href="http://visualstudiogallery.msdn.microsoft.com/72a60b14-1581-4b9b-89f2-846072eff19d">Entity Framework Power Tools</a>.</p>
-
-<p>Saya sendiri lebih senang menggunakan <a href="http://visualstudiogallery.msdn.microsoft.com/72a60b14-1581-4b9b-89f2-846072eff19d">Entity Framework Power Tools</a>, dengan alasan kodenya lebih bersih dan transparan.</p>
-
-<p>Untuk saat ini <a href="http://visualstudiogallery.msdn.microsoft.com/72a60b14-1581-4b9b-89f2-846072eff19d">Entity Framework Power Tools</a> masih versi beta dan <strong>baru bisa digunakan untuk project C#</strong> :D.</p>
-
-<!-- more -->
-
-
-<p>Inilah salah satu alasan kenapa saya lebih memilih C# dibandingkan VB .NET, untuk Indonesia mungkin saja VB .NET lebih favorit dibandingkan C# tapi di luar sana sepertinya C# yang lebih diminati, ini dibuktikan dengan lebih banyaknya referensi berbahasa C# dibandingkan VB .NET.</p>
-
-<p>Secara default <a href="http://visualstudiogallery.msdn.microsoft.com/72a60b14-1581-4b9b-89f2-846072eff19d">Entity Framework Power Tools</a> menggunakan <a href="http://msdn.microsoft.com/en-us/data/jj591617.aspx">Code First’s Fluent API</a> untuk konfigurasi kode mappingnya, dan untuk mengganti konfigurasi default ini ke <a href="http://msdn.microsoft.com/en-us/data/jj591583.aspx">Data Annotations</a>, referensinya bisa Anda cek di <a href="http://romiller.com/2012/05/09/customizing-reverse-engineer-code-first-in-the-ef-power-tools/">sini</a>.</p>
-
-<p><strong>Instalasi Entity Framework Power Tools</strong></p>
-
-<p>Untuk Visual Studio .NET 2010 bisa diinstall secara langsung melalui menu <strong>Tools > Extensions and Updates</strong>, kemudian pilih <strong>Online Gallery</strong>, dan cari <em>Entity Framework Power Tools</em>.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/110.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/110.jpg" alt="1" /></a></p>
-
-<p>Dan untuk Visual Studio .NET 2012, saya belum cek apakah tool ini sudah di-includekan secara default pada saat instalasi, jika belum langkah-langkah instalasi sama seperti di atas :D.</p>
-
-<p>Sedangkan untuk Visual Studio .NET 2013 tool ini sudah include secara default pada saat instalasi.</p>
-
-<p><strong>Mencoba Entity Framework Power Tools</strong></p>
-
-<p>Setelah proses instalasi selesai kita bisa langsung mencoba <a href="http://visualstudiogallery.msdn.microsoft.com/72a60b14-1581-4b9b-89f2-846072eff19d">Entity Framework Power Tools</a> dan untuk databasenya kita masih menggunakan database <a href="/blog/2014/03/26/entity-framework-part-3/">postingan</a> sebelumnya.</p>
-
-<p>Langsung saja berikut langkah-langkahnya :</p>
-
-<ol>
-<li><p>Aktifkan Visual Studio .NET Anda</p></li>
-<li><p>Buat <strong>project C#</strong> dengan tipe Console Application. Ingat projectnya harus C#, karena untuk VB .NET belum didukung.</p></li>
-<li><p>Klik kanan project -> Entity Framework -> Reverse Engineer Code First</p></li>
-</ol>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/23.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/23.jpg" alt="2" /></a></p>
-
-<ol>
-<li>Langkah berikutnya adalah menentukan koneksi dan database.</li>
-</ol>
-
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/32.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/32.jpg" alt="3" /></a></p>
-
-<p>Setelah klik tombol Ok, tunggu beberapa saat, untuk lamanya ya tergantung jumlah tabel yang ada di database.</p>
-
-<p>Untuk progressnya bisa kita cek di bagian status bar.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/42.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/42.jpg" alt="4" /></a></p>
-
-<p>Adapun proses yang terjadi pada saat kita menggunakan <a href="http://visualstudiogallery.msdn.microsoft.com/72a60b14-1581-4b9b-89f2-846072eff19d">Entity Framework Power Tools</a> sebagai berikut :</p>
-
-<ul>
-<li><p>Menginstall paket <a href="http://www.nuget.org/packages/EntityFramework/">Entity Framework</a>, jadi jangan lupa untuk menginstall <a href="/blog/2014/03/11/nuget/">NuGet</a> terlebih dulu.</p></li>
-<li><p>Mengenerate class <a href="http://stackoverflow.com/questions/910253/what-does-poco-mean">POCO</a> (entity) untuk masing-masing tabel.</p></li>
-<li><p>Mengenerate class Context yang merupakan turunan dari class DbContext.</p></li>
-<li><p>Secara default untuk konfigurasi mapping (pemetaan) menggunakan <a href="http://msdn.microsoft.com/en-us/data/jj591617.aspx">Code First’s Fluent API</a>.</p></li>
-<li><p>Menggunakan pendekatan <em><a href="/blog/2014/03/21/entity-framework-part-2/">Code first (existing database)</a>.</em></p></li>
-</ul>
-
-
-<p>Berikut adalah contoh class entity dan mapping hasil generate menggunakan <a href="http://visualstudiogallery.msdn.microsoft.com/72a60b14-1581-4b9b-89f2-846072eff19d">Entity Framework Power Tools</a>.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/52.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/52.jpg" alt="5" /></a>Class entity</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/62.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/62.jpg" alt="6" /></a></p>
-
-<p>Class mapping</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/72.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/72.jpg" alt="7" /></a></p>
-
-<p>Class Context</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/82.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/82.jpg" alt="8" /></a></p>
-
-<p>Selamat <a href="https://github.com/k4m4r82/EntityFramework4">MENCOBA</a> :)</p>
 ]]></content>
   </entry>
   

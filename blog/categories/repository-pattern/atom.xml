@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Repository Pattern | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/repository-pattern/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-04-28T15:03:33+07:00</updated>
+  <updated>2016-06-28T13:47:28+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,189 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Repository Pattern Bagian #2]]></title>
+    <link href="http://coding4ever.net/blog/2016/06/28/repository-pattern-bagian-number-2/"/>
+    <updated>2016-06-28T12:54:38+07:00</updated>
+    <id>http://coding4ever.net/blog/2016/06/28/repository-pattern-bagian-number-2</id>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2016/02/logo-net.png">https://coding4ever.files.wordpress.com/2016/02/logo-net.png</a>&#8221; width=&#8221;130&#8221; height=&#8221;130&#8221;>Melanjutkan pembahasan <a href="/blog/categories/repository-pattern/">Repository Pattern</a>, kali ini kita akan membahas salah satu manfaat menggunakan <a href="/blog/categories/repository-pattern/">Repository Pattern</a>. Selain digunakan untuk menerapkan konsep separation  of  concern atau pemisahan kode program berdasarkan fungsinya. Pola/pattern ini juga akan mempermudah kita untuk mengganti implementasi class secara cepat karena dari sisi client/layer presentation sudah tidak tergantung dengan layer data access, sehingga jika terjadi perubahan pada metode akses data di repsository, layer presentation sama sekali tidak perlu diubah ataupun jika terjadi perubahan hanya sedikit <code>kode</code> yang perlu kita ubah. Desain struktur seperti ini disebut <a href="https://en.wikipedia.org/wiki/Loose_coupling">lousley coupled</a>.</p>
+
+<!-- more -->
+
+
+<p>Repository mengenkapsulasi method-method untuk manipulasi dan query data dalam sebuah class yang berhubungan dengan class model/business entity. Sebuah repository biasanya memiliki method CRUD (Create, Read, Update, Delete) standar seperti : Save, Update, Delete, dan GetAll seperti yang didefenisikan di interface IBaseRepository<T> generic/umum sebagai berikut :</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/06/280616-01.png">https://coding4ever.files.wordpress.com/2016/06/280616-01.png</a>&#8221;></p>
+
+<p>Kemudian kita definisikan interface yang lebih spesifik untuk masing-masing class repository yang mewarisi interface generic IBaseRepository<T>. Contoh interface ICategoryRepository dan IProductRepository.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/06/280616-02.png">https://coding4ever.files.wordpress.com/2016/06/280616-02.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/06/280616-03.png">https://coding4ever.files.wordpress.com/2016/06/280616-03.png</a>&#8221;></p>
+
+<p>Sebagai contoh kita akan membuat aplikasi menggunakan database <a href="https://northwinddatabase.codeplex.com/">Northwind</a>, dengan menggunakan <a href="/blog/categories/entity-framework/">Entity Framework</a> sebagai engine untuk Data Access Layernya. Karena di atas kita sudah mendefinisikan interface ICategoryRepository, kita tinggal membuat class implementasinya misal dengan nama class CategoryRepository.</p>
+
+<p><div><script src='https://gist.github.com/3ce54c2191c532665f2e19c09abd901b.js'></script>
+<noscript><pre><code>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Northwind.Model;
+using Northwind.Repository.Api;
+using System.Data.Entity;
+
+namespace Northwind.Repository.Service
+{
+    public class CategoryRepository : ICategoryRepository
+    {
+        public CategoryRepository()
+        {
+        }
+
+        public Category GetByID(int categoryId)
+        {
+            Category category = null;
+
+            try
+            {
+                using (IEFContext context = new EFContext())
+                {
+                    category = context.Categories.Where(f =&gt; f.CategoryID == categoryId)
+                                      .SingleOrDefault();
+                }                
+            }
+            catch
+            {
+            }
+
+            return category;
+        }
+
+        public IList&lt;Category&gt; GetByName(string categoryName)
+        {
+            IList&lt;Category&gt; listOfCategory = new List&lt;Category&gt;();
+
+            try
+            {
+                using (IEFContext context = new EFContext())
+                {
+                    listOfCategory = context.Categories
+                                            .Where(f =&gt; f.CategoryName.ToLower().Contains(categoryName.ToLower()))
+                                            .OrderBy(f =&gt; f.CategoryName)
+                                            .ToList();
+                }                
+            }
+            catch
+            {
+            }
+
+            return listOfCategory;
+        }
+
+        public IList&lt;Category&gt; GetAll()
+        {
+            IList&lt;Category&gt; listOfCategory = new List&lt;Category&gt;();
+
+            try
+            {
+                using (IEFContext context = new EFContext())
+                {
+                    listOfCategory = context.Categories
+                                            .OrderBy(f =&gt; f.CategoryName)
+                                            .ToList();
+                }                
+            }
+            catch
+            {
+            }
+
+            return listOfCategory;
+        }
+
+        public int Save(Category obj)
+        {
+            var result = 0;            
+
+            try
+            {
+                using (IEFContext context = new EFContext())
+                {
+                    context.Entry(obj).State = EntityState.Added;
+                    context.SaveChanges();
+                }                
+
+                result = 1;
+            }
+            catch
+            {
+            }
+
+            return result;
+        }
+
+        public int Update(Category obj)
+        {
+            var result = 0;
+
+            try
+            {
+                using (IEFContext context = new EFContext())
+                {
+                    context.Entry(obj).State = EntityState.Modified;
+                    context.SaveChanges();
+                }                
+
+                result = 1;
+            }
+            catch
+            {
+            }
+
+            return result;
+        }
+
+        public int Delete(Category obj)
+        {
+            var result = 0;            
+
+            try
+            {
+                using (IEFContext context = new EFContext())
+                {
+                    context.Entry(obj).State = EntityState.Deleted;
+                    context.SaveChanges();
+                }                
+
+                result = 1;
+            }
+            catch
+            {
+            }
+
+            return result;
+        }        
+    }
+}</code></pre></noscript></div>
+</p>
+
+<p>Nah dari sisi client class-class Repository diakses lewat interfacenya. Pemrograman melalui interface ini menjadikan client tidak tergantung dengan layer data access, sehingga jika terjadi perubahan pada metode akses data di repsository, layer presentation sama sekali tidak perlu diubah ataupun jika terjadi perubahan hanya sedikit <code>kode</code> yang perlu kita ubah. Desain struktur seperti ini disebut <a href="https://en.wikipedia.org/wiki/Loose_coupling">lousley coupled</a>.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/06/280616-04.png">https://coding4ever.files.wordpress.com/2016/06/280616-04.png</a>&#8221;></p>
+
+<p>Pada gambar di atas deklarsi objek <code>categoryRepository</code> tidak langsung menggunakan tipe class repository (CategoryRepository) tetapi menggunakan interface ICategoryRepository (konsep <a href="http://stackoverflow.com/questions/2697783/what-does-program-to-interfaces-not-implementations-mean">program to interfaces</a>), tujuannya adalah untuk mempermudah kita mengganti implementasi dari class repositorynya.</p>
+
+<p>Jadi kalo seandainya terjadi perubahan implementasi dari class repositorynya, kita tinggal buat class repository yang baru, kemudian mengganti implementasi classnya di sisi client. Mudah bukan :-)</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/06/280616-05.png">https://coding4ever.files.wordpress.com/2016/06/280616-05.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/06/280616-061.png">https://coding4ever.files.wordpress.com/2016/06/280616-061.png</a>&#8221;></p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/RepositoryPattern2">MENCOBA</a> :-)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Repository Pattern]]></title>

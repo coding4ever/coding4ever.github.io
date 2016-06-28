@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Dapper .net | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/dapper-net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-04-28T15:03:33+07:00</updated>
+  <updated>2016-06-28T13:47:28+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,189 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Repository Pattern Bagian #2]]></title>
+    <link href="http://coding4ever.net/blog/2016/06/28/repository-pattern-bagian-number-2/"/>
+    <updated>2016-06-28T12:54:38+07:00</updated>
+    <id>http://coding4ever.net/blog/2016/06/28/repository-pattern-bagian-number-2</id>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2016/02/logo-net.png">https://coding4ever.files.wordpress.com/2016/02/logo-net.png</a>&#8221; width=&#8221;130&#8221; height=&#8221;130&#8221;>Melanjutkan pembahasan <a href="/blog/categories/repository-pattern/">Repository Pattern</a>, kali ini kita akan membahas salah satu manfaat menggunakan <a href="/blog/categories/repository-pattern/">Repository Pattern</a>. Selain digunakan untuk menerapkan konsep separation  of  concern atau pemisahan kode program berdasarkan fungsinya. Pola/pattern ini juga akan mempermudah kita untuk mengganti implementasi class secara cepat karena dari sisi client/layer presentation sudah tidak tergantung dengan layer data access, sehingga jika terjadi perubahan pada metode akses data di repsository, layer presentation sama sekali tidak perlu diubah ataupun jika terjadi perubahan hanya sedikit <code>kode</code> yang perlu kita ubah. Desain struktur seperti ini disebut <a href="https://en.wikipedia.org/wiki/Loose_coupling">lousley coupled</a>.</p>
+
+<!-- more -->
+
+
+<p>Repository mengenkapsulasi method-method untuk manipulasi dan query data dalam sebuah class yang berhubungan dengan class model/business entity. Sebuah repository biasanya memiliki method CRUD (Create, Read, Update, Delete) standar seperti : Save, Update, Delete, dan GetAll seperti yang didefenisikan di interface IBaseRepository<T> generic/umum sebagai berikut :</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/06/280616-01.png">https://coding4ever.files.wordpress.com/2016/06/280616-01.png</a>&#8221;></p>
+
+<p>Kemudian kita definisikan interface yang lebih spesifik untuk masing-masing class repository yang mewarisi interface generic IBaseRepository<T>. Contoh interface ICategoryRepository dan IProductRepository.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/06/280616-02.png">https://coding4ever.files.wordpress.com/2016/06/280616-02.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/06/280616-03.png">https://coding4ever.files.wordpress.com/2016/06/280616-03.png</a>&#8221;></p>
+
+<p>Sebagai contoh kita akan membuat aplikasi menggunakan database <a href="https://northwinddatabase.codeplex.com/">Northwind</a>, dengan menggunakan <a href="/blog/categories/entity-framework/">Entity Framework</a> sebagai engine untuk Data Access Layernya. Karena di atas kita sudah mendefinisikan interface ICategoryRepository, kita tinggal membuat class implementasinya misal dengan nama class CategoryRepository.</p>
+
+<p><div><script src='https://gist.github.com/3ce54c2191c532665f2e19c09abd901b.js'></script>
+<noscript><pre><code>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Northwind.Model;
+using Northwind.Repository.Api;
+using System.Data.Entity;
+
+namespace Northwind.Repository.Service
+{
+    public class CategoryRepository : ICategoryRepository
+    {
+        public CategoryRepository()
+        {
+        }
+
+        public Category GetByID(int categoryId)
+        {
+            Category category = null;
+
+            try
+            {
+                using (IEFContext context = new EFContext())
+                {
+                    category = context.Categories.Where(f =&gt; f.CategoryID == categoryId)
+                                      .SingleOrDefault();
+                }                
+            }
+            catch
+            {
+            }
+
+            return category;
+        }
+
+        public IList&lt;Category&gt; GetByName(string categoryName)
+        {
+            IList&lt;Category&gt; listOfCategory = new List&lt;Category&gt;();
+
+            try
+            {
+                using (IEFContext context = new EFContext())
+                {
+                    listOfCategory = context.Categories
+                                            .Where(f =&gt; f.CategoryName.ToLower().Contains(categoryName.ToLower()))
+                                            .OrderBy(f =&gt; f.CategoryName)
+                                            .ToList();
+                }                
+            }
+            catch
+            {
+            }
+
+            return listOfCategory;
+        }
+
+        public IList&lt;Category&gt; GetAll()
+        {
+            IList&lt;Category&gt; listOfCategory = new List&lt;Category&gt;();
+
+            try
+            {
+                using (IEFContext context = new EFContext())
+                {
+                    listOfCategory = context.Categories
+                                            .OrderBy(f =&gt; f.CategoryName)
+                                            .ToList();
+                }                
+            }
+            catch
+            {
+            }
+
+            return listOfCategory;
+        }
+
+        public int Save(Category obj)
+        {
+            var result = 0;            
+
+            try
+            {
+                using (IEFContext context = new EFContext())
+                {
+                    context.Entry(obj).State = EntityState.Added;
+                    context.SaveChanges();
+                }                
+
+                result = 1;
+            }
+            catch
+            {
+            }
+
+            return result;
+        }
+
+        public int Update(Category obj)
+        {
+            var result = 0;
+
+            try
+            {
+                using (IEFContext context = new EFContext())
+                {
+                    context.Entry(obj).State = EntityState.Modified;
+                    context.SaveChanges();
+                }                
+
+                result = 1;
+            }
+            catch
+            {
+            }
+
+            return result;
+        }
+
+        public int Delete(Category obj)
+        {
+            var result = 0;            
+
+            try
+            {
+                using (IEFContext context = new EFContext())
+                {
+                    context.Entry(obj).State = EntityState.Deleted;
+                    context.SaveChanges();
+                }                
+
+                result = 1;
+            }
+            catch
+            {
+            }
+
+            return result;
+        }        
+    }
+}</code></pre></noscript></div>
+</p>
+
+<p>Nah dari sisi client class-class Repository diakses lewat interfacenya. Pemrograman melalui interface ini menjadikan client tidak tergantung dengan layer data access, sehingga jika terjadi perubahan pada metode akses data di repsository, layer presentation sama sekali tidak perlu diubah ataupun jika terjadi perubahan hanya sedikit <code>kode</code> yang perlu kita ubah. Desain struktur seperti ini disebut <a href="https://en.wikipedia.org/wiki/Loose_coupling">lousley coupled</a>.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/06/280616-04.png">https://coding4ever.files.wordpress.com/2016/06/280616-04.png</a>&#8221;></p>
+
+<p>Pada gambar di atas deklarsi objek <code>categoryRepository</code> tidak langsung menggunakan tipe class repository (CategoryRepository) tetapi menggunakan interface ICategoryRepository (konsep <a href="http://stackoverflow.com/questions/2697783/what-does-program-to-interfaces-not-implementations-mean">program to interfaces</a>), tujuannya adalah untuk mempermudah kita mengganti implementasi dari class repositorynya.</p>
+
+<p>Jadi kalo seandainya terjadi perubahan implementasi dari class repositorynya, kita tinggal buat class repository yang baru, kemudian mengganti implementasi classnya di sisi client. Mudah bukan :-)</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/06/280616-05.png">https://coding4ever.files.wordpress.com/2016/06/280616-05.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/06/280616-061.png">https://coding4ever.files.wordpress.com/2016/06/280616-061.png</a>&#8221;></p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/RepositoryPattern2">MENCOBA</a> :-)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Unit of Work Pattern]]></title>
@@ -1144,572 +1327,6 @@ namespace Northwind.ConsoleApp
 <p>Yuph saya rasa cukup untuk postingan kali ini, dan pada postingan berikutnya insyaAllah kita akan membahas bagaimana menjalankan perintah-perintah SQL lainnya seperti INSERT, UPDATE dan DELETE menggunakan library Dapper .NET.</p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/MicroORMDapperNET2">MENCOBA</a> :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Dapper .NET Micro-ORM Part 1]]></title>
-    <link href="http://coding4ever.net/blog/2013/02/07/dapper-net-micro-orm-part-1/"/>
-    <updated>2013-02-07T14:58:15+07:00</updated>
-    <id>http://coding4ever.net/blog/2013/02/07/dapper-net-micro-orm-part-1</id>
-    <content type="html"><![CDATA[<p>Sudah lama saya ingin mengembangkan aplikasi menggunakan tool-tool <a href="https://en.wikipedia.org/wiki/Object-relational_mapping">ORM</a> seperti ADO.NET Entity Framework, MyBatis, LINQ to SQL, NHibernate dan tool ORM lainnya.</p>
-
-<p>Sempat sedikit serius untuk mempelajari NHibernate tapi&hellip; dengan alasan sok sibuk :D akhirnya stop ditengah jalan :(.</p>
-
-<p>Masih belum menyerah saya pun mencoba mencari alternatif lain penggunaan tool ORM dengan melakukan pencarian  menggunakan keyword &ldquo;<strong>micro orm for .net</strong>&rdquo; dari sekian banyak pilihan micro ORM yang ada pilihan saya jatuh ke <a href="https://code.google.com/p/dapper-dot-net/">Dapper .NET</a> dengan pertimbangan micro ORM ini sudah digunakan oleh website besar seperti <a href="http://stackoverflow.com/">Stack Overflow</a>, <a href="http://www.xapfest.com/">xpfest.com</a>, <a href="http://www.jitbit.com/helpdesk-software/">helpdesk</a>, <a href="http://www.worldcitycard.com/">worldcitycard</a>, <a href="http://www.ppmroadmap.com/">roadmap</a>.</p>
-
-<!-- more -->
-
-
-<p><a href="https://code.google.com/p/dapper-dot-net/">Dapper .NET</a> sendiri dibuat oleh om <a href="http://samsaffron.com/">Sam Saffron</a> salah seorang developer berbakat yang ada di belakang <a href="http://stackoverflow.com">Stack Overflow</a>.</p>
-
-<p>Sebelum menggunakan <a href="https://code.google.com/p/dapper-dot-net/">Dapper .NET</a> kita lihat dulu bagaimana mengakses database menggunakan library ADO .NET secara langsung.</p>
-
-<p>Contoh kasusnya sederhana kita akan menampilkan data Siswa dengan menggunakan bahasa pemrograman C# dan VB.NET sedangkan untuk databasenya menggunakan Ms Access.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2013/02/07022013-2.png"><img src="http://coding4ever.files.wordpress.com/2013/02/07022013-2.png" alt="07022013-2" /></a></p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">using</span> <span class="nn">System.Data.OleDb</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">namespace</span> <span class="nn">SiswaDapperNET1</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">class</span> <span class="nc">Program</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">static</span> <span class="k">void</span> <span class="nf">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
-</span><span class='line'>            <span class="p">{</span>
-</span><span class='line'>                <span class="kt">var</span> <span class="n">strSql</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">SELECT</span> <span class="n">nis</span><span class="p">,</span> <span class="n">nama</span> <span class="n">FROM</span> <span class="n">siswa</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
-</span><span class='line'>                <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">OleDbCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
-</span><span class='line'>                <span class="p">{</span>
-</span><span class='line'>                    <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">dtr</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteReader</span><span class="p">())</span>
-</span><span class='line'>                    <span class="p">{</span>
-</span><span class='line'>                        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">NIS</span><span class="err">\</span><span class="n">tNAMA</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
-</span><span class='line'>                        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;===================================&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
-</span><span class='line'>                        <span class="k">while</span> <span class="p">(</span><span class="n">dtr</span><span class="p">.</span><span class="n">Read</span><span class="p">())</span>
-</span><span class='line'>                        <span class="p">{</span>
-</span><span class='line'>                            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">dtr</span><span class="p">[&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">nis</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;]</span> <span class="p">+</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="err">\</span><span class="n">t</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="p">+</span> <span class="n">dtr</span><span class="p">[&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">nama</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;].</span><span class="n">ToString</span><span class="p">().</span><span class="n">ToUpper</span><span class="p">());</span>
-</span><span class='line'>                        <span class="p">}</span>
-</span><span class='line'>                    <span class="p">}</span>
-</span><span class='line'>                <span class="p">}</span>
-</span><span class='line'>            <span class="p">}&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span>        <span class="n">Console</span><span class="p">.</span><span class="n">ReadKey</span><span class="p">();</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<p>atau jika Anda menggunakan VB.NET kodenya akan terlihat seperti berikut :</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Sub</span> <span class="nf">Main</span><span class="p">()</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">Using</span> <span class="n">conn</span> <span class="ow">As</span> <span class="n">OleDbConnection</span> <span class="o">=</span> <span class="n">GetOpenConnection</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">Dim</span> <span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;SELECT nis, nama FROM siswa&quot;</span>
-</span><span class='line'>    <span class="k">Using</span> <span class="n">cmd</span> <span class="o">=</span> <span class="k">New</span> <span class="n">OleDbCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
-</span><span class='line'>        <span class="k">Using</span> <span class="n">dtr</span> <span class="ow">As</span> <span class="n">OleDbDataReader</span> <span class="o">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteReader</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">&quot;NIS&quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">vbTab</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="s">&quot;NAMA&quot;</span><span class="p">)</span>
-</span><span class='line'>            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">&quot;===================================&quot;</span><span class="p">)</span>
-</span><span class='line'>            <span class="k">While</span> <span class="n">dtr</span><span class="p">.</span><span class="n">Read</span><span class="p">()</span>
-</span><span class='line'>                <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="n">dtr</span><span class="p">(</span><span class="s">&quot;nis&quot;</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">vbTab</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">dtr</span><span class="p">(</span><span class="s">&quot;nama&quot;</span><span class="p">))</span>
-</span><span class='line'>            <span class="k">End</span> <span class="k">While</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="k">End</span> <span class="k">Using</span>
-</span><span class='line'>    <span class="k">End</span> <span class="k">Using</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Using</span>
-</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Sub</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<p>Method Main di atas membutuhkan method GetOpenConnection yang digunakan untuk membuat koneksi ke database Ms Access.</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="n">OleDbConnection</span> <span class="nf">GetOpenConnection</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">OleDbConnection</span> <span class="n">conn</span> <span class="p">=</span> <span class="k">null</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">try</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">appDir</span> <span class="p">=</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">Directory</span><span class="p">.</span><span class="n">GetCurrentDirectory</span><span class="p">();</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">strConn</span> <span class="p">=</span> <span class="s">&quot;Provider=Microsoft.Jet.OLEDB.4.0;Data Source=&quot;</span> <span class="p">+</span> <span class="n">appDir</span> <span class="p">+</span> <span class="s">&quot;\\SISWA.MDB;User Id=admin;Password=;&quot;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">conn</span> <span class="p">=</span> <span class="k">new</span> <span class="n">OleDbConnection</span><span class="p">(</span><span class="n">strConn</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">conn</span><span class="p">.</span><span class="n">Open</span><span class="p">();</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">catch</span> <span class="p">(</span><span class="n">Exception</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="n">conn</span><span class="p">;</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<p>dan untuk programmer VB.NET</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Function</span> <span class="nf">GetOpenConnection</span><span class="p">()</span> <span class="ow">As</span> <span class="n">OleDbConnection</span>
-</span><span class='line'>    <span class="k">Dim</span> <span class="n">conn</span> <span class="ow">As</span> <span class="n">OleDbConnection</span> <span class="o">=</span> <span class="k">Nothing</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">Dim</span> <span class="n">appDir</span> <span class="ow">As</span> <span class="kt">String</span> <span class="o">=</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">Directory</span><span class="p">.</span><span class="n">GetCurrentDirectory</span><span class="p">()</span>
-</span><span class='line'><span class="k">Dim</span> <span class="n">strConn</span> <span class="ow">As</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">&quot;Provider=Microsoft.Jet.OLEDB.4.0;Data Source=&quot;</span> <span class="o">+</span> <span class="n">appDir</span> <span class="o">+</span> <span class="s">&quot;\SISWA.MDB;User Id=admin;Password=;&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">Try</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">conn</span> <span class="o">=</span> <span class="k">New</span> <span class="n">OleDbConnection</span><span class="p">(</span><span class="n">strConn</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">conn</span><span class="p">.</span><span class="n">Open</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">Catch</span> <span class="n">ex</span> <span class="ow">As</span> <span class="n">Exception</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">End</span> <span class="k">Try</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">Return</span> <span class="n">conn</span>
-</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Function</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<p>Selanjutnya kita akan memberikan sedikit sentuhan OOP terhadap kode di atas dengan melakukan mapping/pemetaan baris/row dari tabel menjadi objek.</p>
-
-<p>Perhatikan ilustrasi berikut :</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2013/02/26022013-31.png"><img src="http://coding4ever.files.wordpress.com/2013/02/26022013-31.png" alt="26022013-3" /></a></p>
-
-<p>Mapping bisa dilakukan secara manual atau menggunakan tool ORM (Object Relational Mapping).</p>
-
-<p>Untuk contoh di bawah ini kita melakukan mapping secara manual, tetapi sebelumnya kita harus membuat sebuah class terlebih dulu yang disebut dengan class entity/model.</p>
-
-<p>Class ini merupakan representasi dari tabel-tabel yang ada di dalam sebuah database.</p>
-
-<p>Berdasarkan tabel Siswa di atas, kita akan membuat sebuah class dengan nama Siswa, field/property dari class ini sama persis dengan field-field yang ada di tabel Siswa.</p>
-
-<p>Untuk kode lengkapnya seperti berikut :</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">Siswa</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">public</span> <span class="kt">string</span> <span class="n">Nis</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'>    <span class="k">public</span> <span class="kt">string</span> <span class="n">Nama</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<p>Jika menggunakan VB.NET kodenya terlihat lebih banyak :D</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Public</span> <span class="k">Class</span> <span class="nc">Siswa</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">Private</span> <span class="n">_nis</span> <span class="ow">As</span> <span class="kt">String</span>
-</span><span class='line'><span class="k">Public</span> <span class="k">Property</span> <span class="nf">Nis</span><span class="p">()</span> <span class="ow">As</span> <span class="kt">String</span>
-</span><span class='line'>    <span class="k">Get</span>
-</span><span class='line'>        <span class="k">Return</span> <span class="n">_nis</span>
-</span><span class='line'>    <span class="k">End</span> <span class="k">Get</span>
-</span><span class='line'>    <span class="k">Set</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">value</span> <span class="ow">As</span> <span class="kt">String</span><span class="p">)</span>
-</span><span class='line'>        <span class="n">_nis</span> <span class="o">=</span> <span class="n">value</span>
-</span><span class='line'>    <span class="k">End</span> <span class="k">Set</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Property</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">Private</span> <span class="n">_nama</span> <span class="ow">As</span> <span class="kt">String</span>
-</span><span class='line'><span class="k">Public</span> <span class="k">Property</span> <span class="nf">Nama</span><span class="p">()</span> <span class="ow">As</span> <span class="kt">String</span>
-</span><span class='line'>    <span class="k">Get</span>
-</span><span class='line'>        <span class="k">Return</span> <span class="n">_nama</span>
-</span><span class='line'>    <span class="k">End</span> <span class="k">Get</span>
-</span><span class='line'>    <span class="k">Set</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">value</span> <span class="ow">As</span> <span class="kt">String</span><span class="p">)</span>
-</span><span class='line'>        <span class="n">_nama</span> <span class="o">=</span> <span class="n">value</span>
-</span><span class='line'>    <span class="k">End</span> <span class="k">Set</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Property</span>
-</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Class</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<p>Kemudian kita juga akan menambahkan sebuah method baru dengan nama GetDataSiswa, method ini akan mengembalikan kumpulan (collection) dari data siswa.</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Siswa</span><span class="p">&gt;</span> <span class="n">GetDataSiswa</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">daftarSiswa</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Siswa</span><span class="p">&gt;();&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">strSql</span> <span class="p">=</span> <span class="s">&quot;SELECT nis, nama FROM siswa&quot;</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">OleDbCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">dtr</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteReader</span><span class="p">())</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="k">while</span> <span class="p">(</span><span class="n">dtr</span><span class="p">.</span><span class="n">Read</span><span class="p">())</span>
-</span><span class='line'>            <span class="p">{</span>
-</span><span class='line'>                <span class="c1">// proses mapping dari row ke object</span>
-</span><span class='line'>                <span class="kt">var</span> <span class="n">siswa</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Siswa</span><span class="p">();</span>
-</span><span class='line'>                <span class="n">siswa</span><span class="p">.</span><span class="n">Nis</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;nis&quot;</span><span class="p">]</span> <span class="p">==</span> <span class="k">null</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="n">dtr</span><span class="p">.</span><span class="n">GetString</span><span class="p">(</span><span class="m">0</span><span class="p">);</span>
-</span><span class='line'>                <span class="n">siswa</span><span class="p">.</span><span class="n">Nama</span> <span class="p">=</span> <span class="n">dtr</span><span class="p">[</span><span class="s">&quot;nama&quot;</span><span class="p">]</span> <span class="p">==</span> <span class="k">null</span> <span class="p">?</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">:</span> <span class="n">dtr</span><span class="p">.</span><span class="n">GetString</span><span class="p">(</span><span class="m">1</span><span class="p">).</span><span class="n">ToUpper</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>                <span class="n">daftarSiswa</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">siswa</span><span class="p">);</span>
-</span><span class='line'>            <span class="p">}</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="n">daftarSiswa</span><span class="p">;</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<p>sementara di VB.NET akan terlihat seperti berikut :</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Function</span> <span class="nf">GetDataSiswa</span><span class="p">()</span> <span class="ow">As</span> <span class="n">List</span><span class="p">(</span><span class="k">Of</span> <span class="n">Siswa</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">Dim</span> <span class="n">daftarSiswa</span> <span class="ow">As</span> <span class="k">New</span> <span class="n">List</span><span class="p">(</span><span class="k">Of</span> <span class="n">Siswa</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">Using</span> <span class="n">conn</span> <span class="ow">As</span> <span class="n">OleDbConnection</span> <span class="o">=</span> <span class="n">GetOpenConnection</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">Dim</span> <span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;SELECT nis, nama FROM siswa&quot;</span>
-</span><span class='line'>    <span class="k">Using</span> <span class="n">cmd</span> <span class="o">=</span> <span class="k">New</span> <span class="n">OleDbCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
-</span><span class='line'>        <span class="k">Using</span> <span class="n">dtr</span> <span class="ow">As</span> <span class="n">OleDbDataReader</span> <span class="o">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteReader</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="k">While</span> <span class="n">dtr</span><span class="p">.</span><span class="n">Read</span><span class="p">()</span>
-</span><span class='line'>                <span class="k">Dim</span> <span class="n">siswa</span> <span class="ow">As</span> <span class="k">New</span> <span class="n">Siswa</span><span class="p">()</span>
-</span><span class='line'>                <span class="k">With</span> <span class="n">siswa</span>
-</span><span class='line'>                    <span class="p">.</span><span class="n">Nis</span> <span class="o">=</span> <span class="n">IIf</span><span class="p">(</span><span class="n">IsDBNull</span><span class="p">(</span><span class="n">dtr</span><span class="p">(</span><span class="s">&quot;nis&quot;</span><span class="p">)),</span> <span class="kt">String</span><span class="p">.</span><span class="n">Empty</span><span class="p">,</span> <span class="n">dtr</span><span class="p">(</span><span class="s">&quot;nis&quot;</span><span class="p">).</span><span class="n">ToString</span><span class="p">())</span>
-</span><span class='line'>                    <span class="p">.</span><span class="n">Nama</span> <span class="o">=</span> <span class="n">IIf</span><span class="p">(</span><span class="n">IsDBNull</span><span class="p">(</span><span class="n">dtr</span><span class="p">(</span><span class="s">&quot;nama&quot;</span><span class="p">)),</span> <span class="kt">String</span><span class="p">.</span><span class="n">Empty</span><span class="p">,</span> <span class="n">dtr</span><span class="p">(</span><span class="s">&quot;nama&quot;</span><span class="p">).</span><span class="n">ToString</span><span class="p">())</span>
-</span><span class='line'>                <span class="k">End</span> <span class="k">With</span>
-</span><span class='line'>
-</span><span class='line'>                <span class="n">daftarSiswa</span><span class="p">.</span><span class="n">Add</span> <span class="p">(</span><span class="n">siswa</span><span class="p">)</span>
-</span><span class='line'>            <span class="k">End</span> <span class="k">While</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="k">End</span> <span class="k">Using</span>
-</span><span class='line'>    <span class="k">End</span> <span class="k">Using</span>
-</span><span class='line'><span class="k">End</span> <span class="k">Using</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">Return</span> <span class="n">daftarSiswa</span>
-</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Function</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<p>Terakhir kita akan melakukan revisi terhadap method Main diatas.</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">static</span> <span class="k">void</span> <span class="nf">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="p">/&lt;</span><span class="n">em</span><span class="p">&gt;</span>
-</span><span class='line'>    <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="kt">var</span> <span class="n">strSql</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">SELECT</span> <span class="n">nis</span><span class="p">,</span> <span class="n">nama</span> <span class="n">FROM</span> <span class="n">siswa</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
-</span><span class='line'>        <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">cmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">OleDbCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">dtr</span> <span class="p">=</span> <span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteReader</span><span class="p">())</span>
-</span><span class='line'>            <span class="p">{</span>
-</span><span class='line'>                <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">NIS</span><span class="err">\</span><span class="n">tNAMA</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
-</span><span class='line'>                <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(&amp;</span><span class="n">ldquo</span><span class="p">;===================================&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
-</span><span class='line'>                <span class="k">while</span> <span class="p">(</span><span class="n">dtr</span><span class="p">.</span><span class="n">Read</span><span class="p">())</span>
-</span><span class='line'>                <span class="p">{</span>
-</span><span class='line'>                    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">dtr</span><span class="p">[&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">nis</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;]</span> <span class="p">+</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="err">\</span><span class="n">t</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="p">+</span> <span class="n">dtr</span><span class="p">[&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">nama</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;].</span><span class="n">ToString</span><span class="p">().</span><span class="n">ToUpper</span><span class="p">());</span>
-</span><span class='line'>                <span class="p">}</span>
-</span><span class='line'>            <span class="p">}</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="p">&lt;/</span><span class="n">em</span><span class="p">&gt;/&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;NIS\tNAMA&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;===================================&quot;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="kt">var</span> <span class="n">daftarSiswa</span> <span class="p">=</span> <span class="n">GetDataSiswa</span><span class="p">();</span>
-</span><span class='line'><span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">siswa</span> <span class="k">in</span> <span class="n">daftarSiswa</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">siswa</span><span class="p">.</span><span class="n">Nis</span> <span class="p">+</span> <span class="s">&quot;\t&quot;</span> <span class="p">+</span> <span class="n">siswa</span><span class="p">.</span><span class="n">Nama</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">Console</span><span class="p">.</span><span class="n">ReadKey</span><span class="p">();</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<p>sekali lagi di VB.NET :</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Sub</span> <span class="nf">Main</span><span class="p">()</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="c">&#39;Using conn As OleDbConnection = GetOpenConnection()</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">&#39;    Dim strSql = &quot;SELECT nis, nama FROM siswa&quot;</span>
-</span><span class='line'><span class="c">&#39;    Using cmd = New OleDbCommand(strSql, conn)</span>
-</span><span class='line'><span class="c">&#39;        Using dtr As OleDbDataReader = cmd.ExecuteReader()</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">&#39;            Console.WriteLine(&quot;NIS&quot; &amp;amp; vbTab &amp;amp; &quot;NAMA&quot;)</span>
-</span><span class='line'><span class="c">&#39;            Console.WriteLine(&quot;===================================&quot;)</span>
-</span><span class='line'><span class="c">&#39;            While dtr.Read()</span>
-</span><span class='line'><span class="c">&#39;                Console.WriteLine(dtr(&quot;nis&quot;) &amp;amp; vbTab &amp;amp; dtr(&quot;nama&quot;))</span>
-</span><span class='line'><span class="c">&#39;            End While</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">&#39;        End Using</span>
-</span><span class='line'><span class="c">&#39;    End Using</span>
-</span><span class='line'><span class="c">&#39;End Using</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">&quot;NIS&quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">vbTab</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="s">&quot;NAMA&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">&quot;===================================&quot;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">Dim</span> <span class="n">daftarSiswa</span> <span class="o">=</span> <span class="n">GetDataSiswa</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">For</span> <span class="k">Each</span> <span class="n">siswa</span> <span class="ow">In</span> <span class="n">daftarSiswa</span>
-</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="n">siswa</span><span class="p">.</span><span class="n">Nis</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">vbTab</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">siswa</span><span class="p">.</span><span class="n">Nama</span><span class="p">)</span>
-</span><span class='line'><span class="k">Next</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">Console</span><span class="p">.</span><span class="n">ReadKey</span><span class="p">()</span>
-</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Sub</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<p>Jika program di atas dijalankan akan menghasilkan output seperti berikut :</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2013/02/07022013.png"><img src="http://coding4ever.files.wordpress.com/2013/02/07022013.png" alt="07022013" /></a></p>
-
-<p>Untuk penggunaan micro ORM <a href="https://code.google.com/p/dapper-dot-net/">Dapper .NET</a>, insyaAllah akan kita mulai pembahasannya pada <a href="/blog/2013/02/22/dapper-net-micro-orm-part-2/">postingan</a> berikutnya :D.</p>
-
-<p>Selamat <a href="https://github.com/k4m4r82/MicroORMDapperNET1">MENCOBA</a> :)</p>
 ]]></content>
   </entry>
   

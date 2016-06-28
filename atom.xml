@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-04-28T15:03:33+07:00</updated>
+  <updated>2016-06-28T13:47:28+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,189 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Repository Pattern Bagian #2]]></title>
+    <link href="http://coding4ever.net/blog/2016/06/28/repository-pattern-bagian-number-2/"/>
+    <updated>2016-06-28T12:54:38+07:00</updated>
+    <id>http://coding4ever.net/blog/2016/06/28/repository-pattern-bagian-number-2</id>
+    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2016/02/logo-net.png" width="130" height="130">Melanjutkan pembahasan <a href="http://coding4ever.net/blog/categories/repository-pattern/">Repository Pattern</a>, kali ini kita akan membahas salah satu manfaat menggunakan <a href="http://coding4ever.net/blog/categories/repository-pattern/">Repository Pattern</a>. Selain digunakan untuk menerapkan konsep separation  of  concern atau pemisahan kode program berdasarkan fungsinya. Pola/pattern ini juga akan mempermudah kita untuk mengganti implementasi class secara cepat karena dari sisi client/layer presentation sudah tidak tergantung dengan layer data access, sehingga jika terjadi perubahan pada metode akses data di repsository, layer presentation sama sekali tidak perlu diubah ataupun jika terjadi perubahan hanya sedikit <code>kode</code> yang perlu kita ubah. Desain struktur seperti ini disebut <a href="https://en.wikipedia.org/wiki/Loose_coupling">lousley coupled</a>.</p>
+
+<!-- more -->
+
+
+<p>Repository mengenkapsulasi method-method untuk manipulasi dan query data dalam sebuah class yang berhubungan dengan class model/business entity. Sebuah repository biasanya memiliki method CRUD (Create, Read, Update, Delete) standar seperti : Save, Update, Delete, dan GetAll seperti yang didefenisikan di interface IBaseRepository<T> generic/umum sebagai berikut :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/06/280616-01.png"></p>
+
+<p>Kemudian kita definisikan interface yang lebih spesifik untuk masing-masing class repository yang mewarisi interface generic IBaseRepository<T>. Contoh interface ICategoryRepository dan IProductRepository.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/06/280616-02.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/06/280616-03.png"></p>
+
+<p>Sebagai contoh kita akan membuat aplikasi menggunakan database <a href="https://northwinddatabase.codeplex.com/">Northwind</a>, dengan menggunakan <a href="http://coding4ever.net/blog/categories/entity-framework/">Entity Framework</a> sebagai engine untuk Data Access Layernya. Karena di atas kita sudah mendefinisikan interface ICategoryRepository, kita tinggal membuat class implementasinya misal dengan nama class CategoryRepository.</p>
+
+<div><script src='https://gist.github.com/3ce54c2191c532665f2e19c09abd901b.js'></script>
+<noscript><pre><code>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Northwind.Model;
+using Northwind.Repository.Api;
+using System.Data.Entity;
+
+namespace Northwind.Repository.Service
+{
+    public class CategoryRepository : ICategoryRepository
+    {
+        public CategoryRepository()
+        {
+        }
+
+        public Category GetByID(int categoryId)
+        {
+            Category category = null;
+
+            try
+            {
+                using (IEFContext context = new EFContext())
+                {
+                    category = context.Categories.Where(f =&gt; f.CategoryID == categoryId)
+                                      .SingleOrDefault();
+                }                
+            }
+            catch
+            {
+            }
+
+            return category;
+        }
+
+        public IList&lt;Category&gt; GetByName(string categoryName)
+        {
+            IList&lt;Category&gt; listOfCategory = new List&lt;Category&gt;();
+
+            try
+            {
+                using (IEFContext context = new EFContext())
+                {
+                    listOfCategory = context.Categories
+                                            .Where(f =&gt; f.CategoryName.ToLower().Contains(categoryName.ToLower()))
+                                            .OrderBy(f =&gt; f.CategoryName)
+                                            .ToList();
+                }                
+            }
+            catch
+            {
+            }
+
+            return listOfCategory;
+        }
+
+        public IList&lt;Category&gt; GetAll()
+        {
+            IList&lt;Category&gt; listOfCategory = new List&lt;Category&gt;();
+
+            try
+            {
+                using (IEFContext context = new EFContext())
+                {
+                    listOfCategory = context.Categories
+                                            .OrderBy(f =&gt; f.CategoryName)
+                                            .ToList();
+                }                
+            }
+            catch
+            {
+            }
+
+            return listOfCategory;
+        }
+
+        public int Save(Category obj)
+        {
+            var result = 0;            
+
+            try
+            {
+                using (IEFContext context = new EFContext())
+                {
+                    context.Entry(obj).State = EntityState.Added;
+                    context.SaveChanges();
+                }                
+
+                result = 1;
+            }
+            catch
+            {
+            }
+
+            return result;
+        }
+
+        public int Update(Category obj)
+        {
+            var result = 0;
+
+            try
+            {
+                using (IEFContext context = new EFContext())
+                {
+                    context.Entry(obj).State = EntityState.Modified;
+                    context.SaveChanges();
+                }                
+
+                result = 1;
+            }
+            catch
+            {
+            }
+
+            return result;
+        }
+
+        public int Delete(Category obj)
+        {
+            var result = 0;            
+
+            try
+            {
+                using (IEFContext context = new EFContext())
+                {
+                    context.Entry(obj).State = EntityState.Deleted;
+                    context.SaveChanges();
+                }                
+
+                result = 1;
+            }
+            catch
+            {
+            }
+
+            return result;
+        }        
+    }
+}</code></pre></noscript></div>
+
+
+<p>Nah dari sisi client class-class Repository diakses lewat interfacenya. Pemrograman melalui interface ini menjadikan client tidak tergantung dengan layer data access, sehingga jika terjadi perubahan pada metode akses data di repsository, layer presentation sama sekali tidak perlu diubah ataupun jika terjadi perubahan hanya sedikit <code>kode</code> yang perlu kita ubah. Desain struktur seperti ini disebut <a href="https://en.wikipedia.org/wiki/Loose_coupling">lousley coupled</a>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/06/280616-04.png"></p>
+
+<p>Pada gambar di atas deklarsi objek <code>categoryRepository</code> tidak langsung menggunakan tipe class repository (CategoryRepository) tetapi menggunakan interface ICategoryRepository (konsep <a href="http://stackoverflow.com/questions/2697783/what-does-program-to-interfaces-not-implementations-mean">program to interfaces</a>), tujuannya adalah untuk mempermudah kita mengganti implementasi dari class repositorynya.</p>
+
+<p>Jadi kalo seandainya terjadi perubahan implementasi dari class repositorynya, kita tinggal buat class repository yang baru, kemudian mengganti implementasi classnya di sisi client. Mudah bukan :-)</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/06/280616-05.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/06/280616-061.png"></p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/RepositoryPattern2">MENCOBA</a> :-)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Membuat User Function Library Pada Crystal Report .NET]]></title>
@@ -3940,120 +4123,6 @@ Berikut perintah lengkapnya :</p>
 <p>Yuph cukup sampai disini, insya Alloh akan kita lanjutkan pada kesempatan berikutnya.</p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/Calculator">MENCOBA</a> :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Membuat Jadwal Backup Database Otomatis]]></title>
-    <link href="http://coding4ever.net/blog/2015/04/30/membuat-jadwal-backup-database-otomatis/"/>
-    <updated>2015-04-30T15:33:59+07:00</updated>
-    <id>http://coding4ever.net/blog/2015/04/30/membuat-jadwal-backup-database-otomatis</id>
-    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2015/04/300415-14.png" width="100" height="100">Backup database merupakan salah satu hal penting, apalagi jika kita bekerja sebagai database administrator.</p>
-
-<p>Semakin banyaknya data-data yang tersimpan seperti data keuangan, akademik dan data penting lainnya mengharuskan kita untuk meluangkan waktu khusus untuk melakukan backup database.</p>
-
-<p>Backup secara manual tentu saja tidak disarankan, apalagi jika datanya sudah banyak, tentu saja sedikit banyaknya akan menyita waktu kita untuk melakukan hal penting lainnya.</p>
-
-<!-- more -->
-
-
-<p>Salah satu keuntungan menggunakan backup otomatis adalah, kita bisa mengset jadwal backup diluar jam-jam kantor. Misal jam 5 sore, jam 12 malam atau jam lainnya sesuai dengan kebutuhan.</p>
-
-<h3>Database MySQL</h3>
-
-<p>Adapun database yang kita gunakan untuk simulasi backup otomatis ini adalah database MySQL. Untuk membackup database MySQL kita bisa gunakan tool bawaan MySQL yaitu <code>mysqldump</code>.</p>
-
-<p>Adapun perintahnya seperti berikut :</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>' backup
-</span><span class='line'>mysqldump -uUSER_NAME -pUSER_PASSWORD --routines NAMA_DATABASE > LOKASI_FILE_BACKUP.SQL</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Parameter <code>–routines</code> ditambahkan jika database mempunyai fungsi/trigger.</p>
-
-<p>Karena data backupnya yang disimpan lebih dari satu, untuk nama database akan kita buat unik dengan format : <code>nama_database-tahun-bulan-hari_jam_menit</code>. Contoh :</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-01.png"></p>
-
-<p>Untuk mendapatkan informasi tahun, bulan, hari dan jam, kita bisa memanfaatkan batch command dengan perintah seperti berikut :</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>for /f "tokens=2-4 delims=/ " %%a in ('date /T') do set year=%%c
-</span><span class='line'>for /f "tokens=2-4 delims=/ " %%a in ('date /T') do set month=%%a
-</span><span class='line'>for /f "tokens=2-4 delims=/ " %%a in ('date /T') do set day=%%b
-</span><span class='line'> 
-</span><span class='line'>for /f "tokens=1 delims=: " %%h in ('time /T') do set hour=%%h
-</span><span class='line'>for /f "tokens=2 delims=: " %%m in ('time /T') do set minutes=%%m
-</span><span class='line'>for /f "tokens=3 delims=: " %%a in ('time /T') do set ampm=%%a
-</span><span class='line'> 
-</span><span class='line'>rem membuat file backup database dengan format nama_database-tahun-bulan-hari_jam_menit
-</span><span class='line'>set FILE_BACKUP=D:\backup\Chinook-%year%-%month%-%day%_%hour%-%minutes%-%ampm%
-</span><span class='line'> 
-</span><span class='line'>rem USER_NAME, USER_PASSWORD dan NAMA_DATABASE menyesuaikan
-</span><span class='line'>mysqldump -uroot -prahasia --routines Chinook > %FILE_BACKUP%.sql</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Setelah itu kode di atas kita simpan di folder <code>Instalasi MySQL\bin</code>, misal dengan nama <code>backup.cmd</code>.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-02.png"></p>
-
-<h3>Windows Task Scheduler</h3>
-
-<p>Agar file <code>backup.cmd</code> ini bisa dijalankan secara berulang-ulang dan otomatis, kita bisa memanfaatkan tool yang sudah tersedia di Windows yaitu <code>Windows Task Scheduler</code>.</p>
-
-<p>Untuk mengakses tool ini bisa dilakukan melalui menu Start -> Accessories -> System Tools -> Task Scheduler</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-03.png"></p>
-
-<p>Berikut langkah-langkah untuk menambahkan task baru.</p>
-
-<ol>
-<li><p>Klik <code>Create Basic Task</code> di panel Actions
-<img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-04.png">
-Kemudian isikan informasi <code>Name</code> dan <code>Description</code> kemudian klik tombol Next</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-05.png"></p></li>
-<li><p>Di dialog berikutnya kita akan menentukan kapan task ini akan di eksekusi. Contoh jika task ini akan dieksekusi setiap hari kita pilih <code>Daily</code>.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-06.png"></p></li>
-<li><p>Berikutnya kita akan menentukan jam berapa task ini akan dieksekusi</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-07.png">
-Pada gambar di atas, task ini akan dieksekusi setiap jam 5 sore.</p></li>
-<li><p>Berikutnya kita akan menentukan apa yang akan dilakukan task ini, ketika dieksekusi. Sebagai contoh task ini akan menjalankan file <code>backup.cmd</code> yang tersimpan di folder bin MySQL</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-08.png">
-<img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-09.png">
-Di bagian <code>Program/script</code> kita tentukan nama file <code>backup.cmd</code>, sedangkan untuk <code>Start in</code> kita tentukan lokasi/folder file <code>backup.cmd</code></p></li>
-<li>Terakhir klik tombol Finish</li>
-</ol>
-
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-10.png"></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-11.png"></p>
-
-<p>Untuk mencoba apakah backup berjalan dengan baik, klik kanan nama task <code>Backup Database Chinook</code> -> Run</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-12.png"></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/04/300415-13.png"></p>
-
-<p>Selamat MENCOBA :)</p>
 ]]></content>
   </entry>
   
