@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-07-21T07:23:53+07:00</updated>
+  <updated>2016-07-21T08:53:06+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Unit Testing Menggunakan Nunit]]></title>
+    <title type="html"><![CDATA[Unit Testing Menggunakan NUnit]]></title>
     <link href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/"/>
     <updated>2016-07-20T14:42:50+07:00</updated>
     <id>http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit</id>
@@ -27,9 +27,9 @@
 
 <p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-01.png"></p>
 
-<p>Testing gaya <code>jadul</code> ini, <code>kita</code> yang harus melakukan evaluasi terhadap hasil tesnya. Contoh tes di atas <code>5 + 2</code> kok hasilnya <code>10</code>. Bayangkan klo kita kurang teliti bakalan jadi bug di kemudian hari.</p>
+<p>Dengan testing gaya <code>jadul</code> ini, <code>kita</code> yang harus melakukan evaluasi terhadap hasil tesnya. Contoh tes di atas <code>5 + 2</code> kok hasilnya <code>10</code>. Bayangkan klo kita kurang teliti bakalan jadi bug di kemudian hari.</p>
 
-<p>Jika Anda bosan dengan gaya ini (konvensional/jadul/mahasiswa) dan ingin naik level, kita bisa menggunakan tool yang memang dibuat khusus untuk melakukan unit testing seperti  <a href="http://www.nunit.org/">Nunit</a>.</p>
+<p>Jika Anda bosan dengan gaya ini (konvensional/jadul/mahasiswa) dan ingin naik level, kita bisa menggunakan tool yang memang dibuat khusus untuk melakukan unit testing seperti  <a href="http://www.nunit.org/">NUnit</a>.</p>
 
 <p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-02.png"></p>
 
@@ -207,7 +207,7 @@ ketahui dalam menulis unit testing menggunakan <a href="http://www.nunit.org/">N
 <p>Referensi :</p>
 
 <ul>
-<li><a href="http://www.nunit.org/">Nunit</a></li>
+<li><a href="http://www.nunit.org/">NUnit</a></li>
 <li><a href="http://nunit.org/index.php?p=quickStart&amp;r=2.6.4">NUnit Quick Start</a></li>
 <li><a href="http://nunit.org/index.php?p=writingTests&amp;r=2.6.4">Writing Tests</a></li>
 </ul>
