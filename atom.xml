@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-07-21T07:18:38+07:00</updated>
+  <updated>2016-07-21T07:23:53+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -33,7 +33,7 @@
 
 <p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-02.png"></p>
 
-<p>Menggunakan tool unit testing <code>komputer</code>-lah yang melakukan evaluasi terhadap hasil tesnya. Kita tinggal duduk manis he he :-)</p>
+<p>Dengan menggunakan tool unit testing, <code>komputer</code>-lah yang melakukan evaluasi terhadap hasil tesnya. Kita tinggal duduk manis he he :-)</p>
 
 <h3>Jenis-jenis Testing</h3>
 
