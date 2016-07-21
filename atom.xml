@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-07-21T07:14:14+07:00</updated>
+  <updated>2016-07-21T07:18:38+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -18,7 +18,7 @@
     <link href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/"/>
     <updated>2016-07-20T14:42:50+07:00</updated>
     <id>http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit</id>
-    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2016/07/nunit.png">Testing merupakan salah satu fase penting yang harus dilakukan ketika membuat sebuah aplikasi. Testing biasanya dilakukan secara berbarengan pada saat menulis kode. Ada banyak <code>gaya</code> dalam melakukan testing dan yang paling favorit biasanya adalah gaya konvensional. Dengan menggunakan gaya ini programmer desktop akan menggunakan console/winform untuk melihat hasil tes dari sebuah unit (fungsi/method) sedangankan programmer web langsung menggunakan halaman web.</p>
+    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2016/07/nunit.png" width="120" height="57">Testing merupakan salah satu fase penting yang harus dilakukan ketika membuat sebuah aplikasi. Testing biasanya dilakukan secara berbarengan pada saat menulis kode. Ada banyak <code>gaya</code> dalam melakukan testing dan yang paling favorit biasanya adalah gaya konvensional. Dengan menggunakan gaya ini programmer desktop akan menggunakan console/winform untuk melihat hasil tes dari sebuah unit (fungsi/method) sedangankan programmer web langsung menggunakan halaman web.</p>
 
 <!-- more -->
 
