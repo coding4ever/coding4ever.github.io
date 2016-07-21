@@ -108,10 +108,7 @@
 
 <p>Seperti pada artikel <a href="http://coding4ever.net/blog/2010/01/01/menganalisa-dan-membuat-mesin-penjawab-otomatis-ym/">sebelumnya</a> untuk melanjutkan pembahasan ini kita harus mengetahui urutan windows parent->anak baik untuk membaca pesan yang masuk atau membalasnya.</p>
 
-<!-- more -->
-
-
-<p>Berikut adalah urutannya :</p>
+<p><!-- more -->Berikut adalah urutannya :</p>
 
 <ol>
 <li><p>Y!M 8</p></li>
@@ -130,7 +127,7 @@
 
 <p>Karena aplikasi kita kali ini akan mendukung 3 versi Y!M otomatis kita harus mempunyai sebuah fungsi untuk mengecek versi Y!M yang terinstall di komputer, salah satu cara termudah untuk mendapatkan informasi tersebut adalah via registry windows dan setelah melakukan sedikit investigasi saya mendapatkan lokasi berikut di registry windows :</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -143,12 +140,11 @@
 </span><span class='line'>
 </span><span class='line'>;Y!M 10
 </span><span class='line'>Key : HKEY_CURRENT_USER\Software\yahoo\pager
-</span><span class='line'>Name : Version</span></code></pre></td></tr></table></div></figure>
-
+</span><span class='line'>Name : Version</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Fungsinya akan terlihat seperti berikut :</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -171,38 +167,35 @@
 </span><span class='line'>    Dim ymVersion       As String
 </span><span class='line'>    Dim arrYMVersion()  As String
 </span><span class='line'>
-</span><span class='line'>    'cek key Y!M 8 dan 9
-</span><span class='line'>    ymVersion = getFromWindowsRegistry(HKEY_LOCAL_MACHINE, "SOFTWARE\Yahoo\pager", "ProductVersion")
+</span><span class='line'>    &lsquo;cek key Y!M 8 dan 9
+</span><span class='line'>    ymVersion = getFromWindowsRegistry(HKEY_LOCAL_MACHINE, &ldquo;SOFTWARE\Yahoo\pager&rdquo;, &ldquo;ProductVersion&rdquo;)
 </span><span class='line'>
 </span><span class='line'>    'Y!M 10
 </span><span class='line'>    'jika pengecekan key Y!M versi 8 dan 9 masih kosong coba cek key Y!M 10
-</span><span class='line'>    If Not (Len(ymVersion) > 0) Then ymVersion = getFromWindowsRegistry(HKEY_CURRENT_USER, "Software\yahoo\pager", "Version")
+</span><span class='line'>    If Not (Len(ymVersion) > 0) Then ymVersion = getFromWindowsRegistry(HKEY_CURRENT_USER, &ldquo;Software\yahoo\pager&rdquo;, &ldquo;Version&rdquo;)
 </span><span class='line'>
 </span><span class='line'>    If Len(ymVersion) > 0 Then
-</span><span class='line'>        arrYMVersion = Split(ymVersion, ".") ' ex : 10.0.0.1102, kita ambil mayor versionnya aja = 10
+</span><span class='line'>        arrYMVersion = Split(ymVersion, &ldquo;.&rdquo;) &rsquo; ex : 10.0.0.1102, kita ambil mayor versionnya aja = 10
 </span><span class='line'>    Else
 </span><span class='line'>        ReDim arrYMVersion(0)
 </span><span class='line'>    End If
 </span><span class='line'>
 </span><span class='line'>    getYMVersion = arrYMVersion(0)
-</span><span class='line'>End Function</span></code></pre></td></tr></table></div></figure>
-
+</span><span class='line'>End Function</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Cara yang kedua dengan memanfaatkan registry berikut :</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>HKEY_CLASSES_ROOT\ymsgr\shell\open\command</span></code></pre></td></tr></table></div></figure>
-
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>HKEY_CLASSES_ROOT\ymsgr\shell\open\command</span></code></pre></td></tr></table></div></figure></p>
 
 <p>dan jika kita lihat nilai dari key tersebut lebih kurang seperti berikut :</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>"C:\Program Files\Yahoo!\Messenger\YahooMessenger.exe" %1</span></code></pre></td></tr></table></div></figure>
-
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&ldquo;C:\Program Files\Yahoo!\Messenger\YahooMessenger.exe&rdquo; %1</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Loh mana informasi versi Y!Mnya ? Versi Y!Mnya bisa langsung kita dapatkan dari file <strong>YahooMessenger.exe</strong> jadi dengan cara kedua ini kita membutuhkan referensi Microsoft Scripting Runtime untuk membuat fungsi getYMVersion.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -227,13 +220,13 @@
 </span><span class='line'>    Dim YMExe           As String
 </span><span class='line'>    Dim arrYMVersion()  As String
 </span><span class='line'>
-</span><span class='line'>    YMExe = getFromWindowsRegistry(HKEY_CLASSES_ROOT, "ymsgr\shell\open\command", "") 'output -> "C:\Program Files\Yahoo!\Messenger\YahooMessenger.exe" %1
-</span><span class='line'>    YMExe = Replace(YMExe, " %1", "") 'hapus karakter spasi+%1
-</span><span class='line'>    YMExe = Replace(YMExe, Chr(34), "") 'hapus karakter petik "
+</span><span class='line'>    YMExe = getFromWindowsRegistry(HKEY_CLASSES_ROOT, &ldquo;ymsgr\shell\open\command&rdquo;, &ldquo;&rdquo;) &lsquo;output -> &ldquo;C:\Program Files\Yahoo!\Messenger\YahooMessenger.exe&rdquo; %1
+</span><span class='line'>    YMExe = Replace(YMExe, &ldquo; %1&rdquo;, &ldquo;&rdquo;) 'hapus karakter spasi+%1
+</span><span class='line'>    YMExe = Replace(YMExe, Chr(34), &ldquo;&rdquo;) 'hapus karakter petik &ldquo;
 </span><span class='line'>
 </span><span class='line'>    If Len(YMExe) > 0 Then
 </span><span class='line'>        Set fso = New Scripting.FileSystemObject
-</span><span class='line'>        arrYMVersion = Split(fso.GetFileVersion(YMExe), ".") ' ex : 10.0.0.1102, kita ambil mayor versionnya aja = 10
+</span><span class='line'>        arrYMVersion = Split(fso.GetFileVersion(YMExe), &rdquo;.&ldquo;) &rsquo; ex : 10.0.0.1102, kita ambil mayor versionnya aja = 10
 </span><span class='line'>        Set fso = Nothing
 </span><span class='line'>
 </span><span class='line'>    Else
@@ -241,12 +234,11 @@
 </span><span class='line'>    End If
 </span><span class='line'>
 </span><span class='line'>    getYMVersion = arrYMVersion(0)
-</span><span class='line'>End Function</span></code></pre></td></tr></table></div></figure>
-
+</span><span class='line'>End Function</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Dari 2 fungsi getYMVersion tersebut terserah Anda mau menggunakan yang mana, yang jelas hasilnya sama. Selanjutnya kita tinggal panggil fungsi tersebut seperti berikut :</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -262,13 +254,12 @@
 </span><span class='line'>
 </span><span class='line'>    ymVersion = getYMVersion
 </span><span class='line'>    If Not (Len(ymVersion) > 0) Then
-</span><span class='line'>        MsgBox "Y!M belum terinstall, aplikasi tidak bisa dilanjutkan", vbExclamation, "Peringatan"
+</span><span class='line'>        MsgBox &ldquo;Y!M belum terinstall, aplikasi tidak bisa dilanjutkan&rdquo;, vbExclamation, &ldquo;Peringatan&rdquo;
 </span><span class='line'>        End
 </span><span class='line'>    End If
 </span><span class='line'>
-</span><span class='line'>    'TODO : tampilkan form utama disini
-</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
-
+</span><span class='line'>    &lsquo;TODO : tampilkan form utama disini
+</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Oke sampai disini kita sudah punya fungsi pengecekan versi Y!M langkah berikutnya adalah mendapatkan ymID yang sedang chat dengan kita.</p>
 
@@ -277,8 +268,8 @@
 <p>Satu-satunya cara yang saat ini saya ketahui untuk mendapatkan informasi ymID adalah dengan membaca informasi Title Bar Y!M, tetapi informasi Title Bar ini tidak fix tergantung kondisi berikut :</p>
 
 <ol>
-<li><p> Versi Y!M</p></li>
-<li><p> Lawan chat sudah terdaftar Messenger List/belum</p></li>
+<li><p>Versi Y!M</p></li>
+<li><p>Lawan chat sudah terdaftar Messenger List/belum</p></li>
 </ol>
 
 
@@ -288,7 +279,7 @@
 
 <p>Berdasarkan gambar diatas kita bisa dengan mudah membuat fungsi untuk mendapatkan ymID.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -328,31 +319,30 @@
 </span><span class='line'>    GetWindowText hwndYMMainClass, titleBar, 100
 </span><span class='line'>    titleBar = Left$(titleBar, InStr(titleBar, Chr$(0)) - 1)
 </span><span class='line'>
-</span><span class='line'>    If InStr(1, titleBar, " (") > 0 Then 'lawan chat terdaftar di Messenger List
+</span><span class='line'>    If InStr(1, titleBar, &ldquo; (&rdquo;) > 0 Then &lsquo;lawan chat terdaftar di Messenger List
 </span><span class='line'>        'ex YM8    : KoKom Armag3d0n (k4m4r82) - Instant Message
-</span><span class='line'>        '   YM9/10 : KoKom Armag3d0n (k4m4r82)
+</span><span class='line'>        &rsquo;   YM9/10 : KoKom Armag3d0n (k4m4r82)
 </span><span class='line'>
-</span><span class='line'>        arrTitleBar = Split(titleBar, " (")
+</span><span class='line'>        arrTitleBar = Split(titleBar, &ldquo; (&rdquo;)
 </span><span class='line'>        ymID = arrTitleBar(0)
 </span><span class='line'>
 </span><span class='line'>    Else
 </span><span class='line'>        Select Case ymVersion
-</span><span class='line'>            Case "8" 'ex : KoKom Armag3d0n - Instant Message
-</span><span class='line'>                arrTitleBar = Split(titleBar, " - ")
+</span><span class='line'>            Case &ldquo;8&rdquo; &lsquo;ex : KoKom Armag3d0n - Instant Message
+</span><span class='line'>                arrTitleBar = Split(titleBar, &ldquo; - &rdquo;)
 </span><span class='line'>                ymID = arrTitleBar(0)
 </span><span class='line'>
-</span><span class='line'>            Case "9", "10" 'ex : KoKom Armag3d0n
+</span><span class='line'>            Case &ldquo;9&rdquo;, &ldquo;10&rdquo; 'ex : KoKom Armag3d0n
 </span><span class='line'>                ymID = titleBar
 </span><span class='line'>        End Select
 </span><span class='line'>    End If
 </span><span class='line'>
 </span><span class='line'>    getYMID = ymID
-</span><span class='line'>End Function</span></code></pre></td></tr></table></div></figure>
-
+</span><span class='line'>End Function</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Contoh penggunaan fungsi getYMID</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -370,21 +360,20 @@
 </span><span class='line'>    Dim ymID                As String
 </span><span class='line'>
 </span><span class='line'>    Select Case ymVersion
-</span><span class='line'>        Case "8": hwndYMMainClass = FindWindow("YSearchMenuWndClass", vbNullString)
-</span><span class='line'>        Case "9": hwndYMMainClass = FindWindow("ATL:007C07F0", vbNullString)
-</span><span class='line'>        Case "10": hwndYMMainClass = FindWindow("CConvWndBase", vbNullString)
+</span><span class='line'>        Case &ldquo;8&rdquo;: hwndYMMainClass = FindWindow(&ldquo;YSearchMenuWndClass&rdquo;, vbNullString)
+</span><span class='line'>        Case &ldquo;9&rdquo;: hwndYMMainClass = FindWindow(&ldquo;ATL:007C07F0&rdquo;, vbNullString)
+</span><span class='line'>        Case &ldquo;10&rdquo;: hwndYMMainClass = FindWindow(&ldquo;CConvWndBase&rdquo;, vbNullString)
 </span><span class='line'>    End Select
 </span><span class='line'>
 </span><span class='line'>    ymID = getYMID(hwndYMMainClass)
-</span><span class='line'>    MsgBox "YM ID : " & ymID
-</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
-
+</span><span class='line'>    MsgBox &ldquo;YM ID : &rdquo; &amp; ymID
+</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Fungsi berikutnya yang akan kita buat adalah fungsi untuk membaca pesan yang masuk, kondisinya juga sama seperti Title Bar informasinya tidak fix tergantung :</p>
 
 <ol>
-<li><p> Versi Y!M</p></li>
-<li><p> Lawan chat sudah terdaftar Messenger List/belum</p></li>
+<li><p>Versi Y!M</p></li>
+<li><p>Lawan chat sudah terdaftar Messenger List/belum</p></li>
 </ol>
 
 
@@ -404,7 +393,7 @@
 
 <p>Berikut adalah fungsi untuk menghandle semua variasi tersebut.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -492,35 +481,35 @@
 </span><span class='line'>    Dim i                   As Long
 </span><span class='line'>
 </span><span class='line'>    Select Case ymVersion
-</span><span class='line'>        Case "8"
-</span><span class='line'>            'urutkan kelas yg harus dilalui untuk membaca pesan yang masuk
+</span><span class='line'>        Case &ldquo;8&rdquo;
+</span><span class='line'>            &lsquo;urutkan kelas yg harus dilalui untuk membaca pesan yang masuk
 </span><span class='line'>            'YSearchMenuWndClass ->  IMClass -> YHTMLContainer -> Internet Explorer_Server
 </span><span class='line'>
 </span><span class='line'>            If hwndYMMainClass &lt;> 0 Then
 </span><span class='line'>                ymID = getYMID(hwndYMMainClass)
 </span><span class='line'>
-</span><span class='line'>                hwndIMClass = FindWindowEx(hwndYMMainClass, 0&, "IMClass", vbNullString)
-</span><span class='line'>                hwndYHTMLContainer = FindWindowEx(hwndIMClass, 0&, "YHTMLContainer", vbNullString)
-</span><span class='line'>                hwndIEServer = FindWindowEx(hwndYHTMLContainer, 0&, "Internet Explorer_Server", vbNullString)
+</span><span class='line'>                hwndIMClass = FindWindowEx(hwndYMMainClass, 0&amp;, &ldquo;IMClass&rdquo;, vbNullString)
+</span><span class='line'>                hwndYHTMLContainer = FindWindowEx(hwndIMClass, 0&amp;, &ldquo;YHTMLContainer&rdquo;, vbNullString)
+</span><span class='line'>                hwndIEServer = FindWindowEx(hwndYHTMLContainer, 0&amp;, &ldquo;Internet Explorer_Server&rdquo;, vbNullString)
 </span><span class='line'>
 </span><span class='line'>                msg = getIEText(hwndIEServer)
 </span><span class='line'>
 </span><span class='line'>                arrMsg = Split(msg, Chr(10))
 </span><span class='line'>                For i = LBound(arrMsg) To UBound(arrMsg)
 </span><span class='line'>                    If Len(arrMsg(i)) > 0 Then
-</span><span class='line'>                        If Left(arrMsg(i), Len(ymID) + 2) = ymID & ": " Then
-</span><span class='line'>                            arrValidMsg = Split(arrMsg(i), ": ")
+</span><span class='line'>                        If Left(arrMsg(i), Len(ymID) + 2) = ymID &amp; &ldquo;: &rdquo; Then
+</span><span class='line'>                            arrValidMsg = Split(arrMsg(i), &ldquo;: &rdquo;)
 </span><span class='line'>                            validMsg = arrValidMsg(UBound(arrValidMsg))
 </span><span class='line'>                            Exit For
 </span><span class='line'>                        End If
 </span><span class='line'>                    End If
 </span><span class='line'>                Next i
 </span><span class='line'>
-</span><span class='line'>                validMsg = Replace(validMsg, Chr(13), "")
+</span><span class='line'>                validMsg = Replace(validMsg, Chr(13), &ldquo;&rdquo;)
 </span><span class='line'>                getYMMessage = validMsg
 </span><span class='line'>            End If
 </span><span class='line'>
-</span><span class='line'>        Case "9", "10"
+</span><span class='line'>        Case &ldquo;9&rdquo;, &ldquo;10&rdquo;
 </span><span class='line'>            'urutkan kelas yg harus dilalui untuk membaca pesan yang masuk
 </span><span class='line'>            'Y!M 9  : ATL:007C07F0 -> YHTMLContainer -> Internet Explorer_Server
 </span><span class='line'>            'Y!M 10 : CConvWndBase -> YHTMLContainer -> Internet Explorer_Server
@@ -528,35 +517,34 @@
 </span><span class='line'>            If hwndYMMainClass &lt;> 0 Then
 </span><span class='line'>                ymID = getYMID(hwndYMMainClass)
 </span><span class='line'>
-</span><span class='line'>                hwndYHTMLContainer = FindWindowEx(hwndYMMainClass, 0&, "YHTMLContainer", vbNullString)
-</span><span class='line'>                hwndIEServer = FindWindowEx(hwndYHTMLContainer, 0&, "Internet Explorer_Server", vbNullString)
+</span><span class='line'>                hwndYHTMLContainer = FindWindowEx(hwndYMMainClass, 0&amp;, &ldquo;YHTMLContainer&rdquo;, vbNullString)
+</span><span class='line'>                hwndIEServer = FindWindowEx(hwndYHTMLContainer, 0&amp;, &ldquo;Internet Explorer_Server&rdquo;, vbNullString)
 </span><span class='line'>
 </span><span class='line'>                msg = getIEText(hwndIEServer)
 </span><span class='line'>
 </span><span class='line'>                arrMsg = Split(msg, Chr(10))
 </span><span class='line'>                For i = LBound(arrMsg) To UBound(arrMsg)
 </span><span class='line'>                    If Len(arrMsg(i)) > 0 Then
-</span><span class='line'>                        If Left(arrMsg(i), Len(ymID) + 2) = ymID & " (" Then
-</span><span class='line'>                            arrValidMsg = Split(arrMsg(i), "): ")
+</span><span class='line'>                        If Left(arrMsg(i), Len(ymID) + 2) = ymID &amp; &ldquo; (&rdquo; Then
+</span><span class='line'>                            arrValidMsg = Split(arrMsg(i), &ldquo;): &rdquo;)
 </span><span class='line'>                            validMsg = arrValidMsg(UBound(arrValidMsg))
 </span><span class='line'>                            Exit For
 </span><span class='line'>                        End If
 </span><span class='line'>                    End If
 </span><span class='line'>                Next i
 </span><span class='line'>
-</span><span class='line'>                validMsg = Replace(validMsg, Chr(13), "")
+</span><span class='line'>                validMsg = Replace(validMsg, Chr(13), &ldquo;&rdquo;)
 </span><span class='line'>                getYMMessage = validMsg
 </span><span class='line'>            End If
 </span><span class='line'>
 </span><span class='line'>        Case Else
 </span><span class='line'>            'silahkan coba sendiri versi ym yg lain
 </span><span class='line'>    End Select
-</span><span class='line'>End Function</span></code></pre></td></tr></table></div></figure>
-
+</span><span class='line'>End Function</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Contoh penggunaan fungsi getYMMessage</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -574,19 +562,18 @@
 </span><span class='line'>    Dim ymMessage           As String
 </span><span class='line'>
 </span><span class='line'>    Select Case ymVersion
-</span><span class='line'>        Case "8": hwndYMMainClass = FindWindow("YSearchMenuWndClass", vbNullString)
-</span><span class='line'>        Case "9": hwndYMMainClass = FindWindow("ATL:007C07F0", vbNullString)
-</span><span class='line'>        Case "10": hwndYMMainClass = FindWindow("CConvWndBase", vbNullString)
+</span><span class='line'>        Case &ldquo;8&rdquo;: hwndYMMainClass = FindWindow(&ldquo;YSearchMenuWndClass&rdquo;, vbNullString)
+</span><span class='line'>        Case &ldquo;9&rdquo;: hwndYMMainClass = FindWindow(&ldquo;ATL:007C07F0&rdquo;, vbNullString)
+</span><span class='line'>        Case &ldquo;10&rdquo;: hwndYMMainClass = FindWindow(&ldquo;CConvWndBase&rdquo;, vbNullString)
 </span><span class='line'>    End Select
 </span><span class='line'>
 </span><span class='line'>    ymMessage = getYMMessage(hwndYMMainClass)
-</span><span class='line'>    MsgBox "Pesan masuk : " & ymMessage
-</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
-
+</span><span class='line'>    MsgBox &ldquo;Pesan masuk : &rdquo; &amp; ymMessage
+</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Fungsi terakhir adalah fungsi untuk mengirim pesan ke lawat chat</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -617,32 +604,31 @@
 </span><span class='line'>    Dim hwndYIMInputWindow  As Long
 </span><span class='line'>
 </span><span class='line'>    Select Case ymVersion
-</span><span class='line'>        Case "8"
-</span><span class='line'>            'urutkan kelas yg harus dilalui untuk membalas pesan yang masuk
+</span><span class='line'>        Case &ldquo;8&rdquo;
+</span><span class='line'>            &lsquo;urutkan kelas yg harus dilalui untuk membalas pesan yang masuk
 </span><span class='line'>            'YSearchMenuWndClass ->  IMClass -> YIMInputWindow
 </span><span class='line'>
 </span><span class='line'>            If hwndYMMainClass &lt;> 0 Then
-</span><span class='line'>                hwndIMClass = FindWindowEx(hwndYMMainClass, 0&, "IMClass", vbNullString)
-</span><span class='line'>                hwndYIMInputWindow = FindWindowEx(hwndIMClass, 0&, "YIMInputWindow", vbNullString)
+</span><span class='line'>                hwndIMClass = FindWindowEx(hwndYMMainClass, 0&amp;, &ldquo;IMClass&rdquo;, vbNullString)
+</span><span class='line'>                hwndYIMInputWindow = FindWindowEx(hwndIMClass, 0&amp;, &ldquo;YIMInputWindow&rdquo;, vbNullString)
 </span><span class='line'>            End If
 </span><span class='line'>
-</span><span class='line'>        Case "9", "10"
+</span><span class='line'>        Case &ldquo;9&rdquo;, &ldquo;10&rdquo;
 </span><span class='line'>            'urutkan kelas yg harus dilalui untuk membalas pesan yang masuk
 </span><span class='line'>            'Y!M 9  : ATL:007C07F0 -> YIMInputWindow
 </span><span class='line'>            'Y!M 10 : CConvWndBase -> YIMInputWindow
-</span><span class='line'>            If hwndYMMainClass &lt;> 0 Then hwndYIMInputWindow = FindWindowEx(hwndYMMainClass, 0&, "YIMInputWindow", vbNullString)
+</span><span class='line'>            If hwndYMMainClass &lt;> 0 Then hwndYIMInputWindow = FindWindowEx(hwndYMMainClass, 0&amp;, &ldquo;YIMInputWindow&rdquo;, vbNullString)
 </span><span class='line'>    End Select
 </span><span class='line'>
 </span><span class='line'>    If hwndYIMInputWindow &lt;> 0 Then
-</span><span class='line'>        Call SendMessageByString(hwndYIMInputWindow, WM_SETTEXT, 0&, msgToSend)
-</span><span class='line'>        Call SendMessage(hwndYIMInputWindow, WM_KEYDOWN, VK_RETURN, 0&) 'otomatis menekan tombol Send
+</span><span class='line'>        Call SendMessageByString(hwndYIMInputWindow, WM_SETTEXT, 0&amp;, msgToSend)
+</span><span class='line'>        Call SendMessage(hwndYIMInputWindow, WM_KEYDOWN, VK_RETURN, 0&amp;) 'otomatis menekan tombol Send
 </span><span class='line'>    End If
-</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
-
+</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Contoh penggunaan fungsi ymChatSend</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -661,16 +647,15 @@
 </span><span class='line'>    Dim msg                 As String
 </span><span class='line'>
 </span><span class='line'>    Select Case ymVersion
-</span><span class='line'>        Case "8": hwndYMMainClass = FindWindow("YSearchMenuWndClass", vbNullString)
-</span><span class='line'>        Case "9": hwndYMMainClass = FindWindow("ATL:007C07F0", vbNullString)
-</span><span class='line'>        Case "10": hwndYMMainClass = FindWindow("CConvWndBase", vbNullString)
+</span><span class='line'>        Case &ldquo;8&rdquo;: hwndYMMainClass = FindWindow(&ldquo;YSearchMenuWndClass&rdquo;, vbNullString)
+</span><span class='line'>        Case &ldquo;9&rdquo;: hwndYMMainClass = FindWindow(&ldquo;ATL:007C07F0&rdquo;, vbNullString)
+</span><span class='line'>        Case &ldquo;10&rdquo;: hwndYMMainClass = FindWindow(&ldquo;CConvWndBase&rdquo;, vbNullString)
 </span><span class='line'>    End Select
 </span><span class='line'>
-</span><span class='line'>    msg = "Hallo bro gue udah selesai nih nGebuatin mesin penjawab otomatis Y!Mnya" & vbCrLf & _
-</span><span class='line'>          "Tinggal maem-maemnya ya !!!"
+</span><span class='line'>    msg = &ldquo;Hallo bro gue udah selesai nih nGebuatin mesin penjawab otomatis Y!Mnya&rdquo; &amp; vbCrLf &amp; _
+</span><span class='line'>          &ldquo;Tinggal maem-maemnya ya !!!&rdquo;
 </span><span class='line'>    Call ymChatSend(hwndYMMainClass, msg)
-</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
-
+</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Akhirnya selesai juga :) dan potongan kode diatas sudah saya susun menjadi program sederhana dengan kasus &ldquo;Tes Bahasa Inggris&rdquo; yang bisa didownload di<a href="http://www.4shared.com/file/jxBWeMZD/YMAnsweringMachine.html">sini</a>.</p>
 
@@ -788,6 +773,10 @@ Saat ini bekerja sebagai staf IT di salah satu PTS di Yogyakarta sebagai senior 
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/07/20/unit-testing-menggunakan-nunit/">Unit Testing Menggunakan Nunit</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/06/28/repository-pattern-bagian-number-2/">Repository Pattern Bagian #2</a>
       </li>
     
@@ -823,19 +812,15 @@ Saat ini bekerja sebagai staf IT di salah satu PTS di Yogyakarta sebagai senior 
         <a href="/blog/2016/01/24/membuat-laporan-crystal-reports-net-dengan-model-data-push-bagian-number-2/">Membuat Laporan Crystal Reports .NET Dengan Model Data-Push Bagian #2</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2016/01/10/paket-nuget-yang-wajib-dicoba-bagian-number-2-autoupdater-dot-net/">Paket NuGet Yang Wajib Dicoba Bagian #2 - AutoUpdater.NET</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h1>Categories</h1>
-    <ul id="category-list"><li><a href='/blog/categories/dot-net-remoting/'>.net remoting (9)</a></li><li><a href='/blog/categories/active-report/'>active report (4)</a></li><li><a href='/blog/categories/android/'>android (1)</a></li><li><a href='/blog/categories/aplikasi/'>aplikasi (4)</a></li><li><a href='/blog/categories/autoupdater-dot-net/'>autoupdater.net (1)</a></li><li><a href='/blog/categories/build-events/'>build events (3)</a></li><li><a href='/blog/categories/crashreporter-dot-net/'>crashreporter.net (1)</a></li><li><a href='/blog/categories/crystal-reports-net/'>crystal reports .net (4)</a></li><li><a href='/blog/categories/dapper-net/'>dapper .net (6)</a></li><li><a href='/blog/categories/database/'>database (2)</a></li><li><a href='/blog/categories/entity-framework/'>entity framework (9)</a></li><li><a href='/blog/categories/firebird/'>firebird (12)</a></li><li><a href='/blog/categories/freeware/'>freeware (7)</a></li><li><a href='/blog/categories/inno-setup/'>inno setup (6)</a></li><li><a href='/blog/categories/jaringan/'>jaringan (1)</a></li><li><a href='/blog/categories/mysql/'>mysql (10)</a></li><li><a href='/blog/categories/nsis/'>nsis (2)</a></li><li><a href='/blog/categories/nuget/'>nuget (5)</a></li><li><a href='/blog/categories/repository-pattern/'>repository pattern (2)</a></li><li><a href='/blog/categories/signalr/'>signalr (2)</a></li><li><a href='/blog/categories/sql-server/'>sql server (1)</a></li><li><a href='/blog/categories/sql-server-2000/'>sql server 2000 (1)</a></li><li><a href='/blog/categories/sqlite/'>sqlite (3)</a></li><li><a href='/blog/categories/testing/'>testing (1)</a></li><li><a href='/blog/categories/tools-installer/'>tools installer (8)</a></li><li><a href='/blog/categories/uncategorized/'>uncategorized (8)</a></li><li><a href='/blog/categories/unit-of-work-pattern/'>unit of work pattern (1)</a></li><li><a href='/blog/categories/visual-basic/'>visual basic (74)</a></li><li><a href='/blog/categories/visual-basic-net/'>visual basic .net (11)</a></li><li><a href='/blog/categories/visual-c-number/'>visual c# (48)</a></li><li><a href='/blog/categories/visual-studio-net/'>visual studio .net (3)</a></li><li><a href='/blog/categories/wcf/'>wcf (4)</a></li><li><a href='/blog/categories/winsock/'>winsock (6)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/dot-net-remoting/'>.net remoting (9)</a></li><li><a href='/blog/categories/active-report/'>active report (4)</a></li><li><a href='/blog/categories/android/'>android (1)</a></li><li><a href='/blog/categories/aplikasi/'>aplikasi (4)</a></li><li><a href='/blog/categories/autoupdater-dot-net/'>autoupdater.net (1)</a></li><li><a href='/blog/categories/build-events/'>build events (3)</a></li><li><a href='/blog/categories/crashreporter-dot-net/'>crashreporter.net (1)</a></li><li><a href='/blog/categories/crystal-reports-net/'>crystal reports .net (4)</a></li><li><a href='/blog/categories/dapper-net/'>dapper .net (6)</a></li><li><a href='/blog/categories/database/'>database (2)</a></li><li><a href='/blog/categories/entity-framework/'>entity framework (9)</a></li><li><a href='/blog/categories/firebird/'>firebird (12)</a></li><li><a href='/blog/categories/freeware/'>freeware (7)</a></li><li><a href='/blog/categories/inno-setup/'>inno setup (6)</a></li><li><a href='/blog/categories/jaringan/'>jaringan (1)</a></li><li><a href='/blog/categories/mysql/'>mysql (10)</a></li><li><a href='/blog/categories/nsis/'>nsis (2)</a></li><li><a href='/blog/categories/nuget/'>nuget (5)</a></li><li><a href='/blog/categories/repository-pattern/'>repository pattern (2)</a></li><li><a href='/blog/categories/signalr/'>signalr (2)</a></li><li><a href='/blog/categories/software-testing/'>software testing (2)</a></li><li><a href='/blog/categories/sql-server/'>sql server (1)</a></li><li><a href='/blog/categories/sql-server-2000/'>sql server 2000 (1)</a></li><li><a href='/blog/categories/sqlite/'>sqlite (3)</a></li><li><a href='/blog/categories/tools-installer/'>tools installer (8)</a></li><li><a href='/blog/categories/uncategorized/'>uncategorized (8)</a></li><li><a href='/blog/categories/unit-of-work-pattern/'>unit of work pattern (1)</a></li><li><a href='/blog/categories/visual-basic/'>visual basic (74)</a></li><li><a href='/blog/categories/visual-basic-net/'>visual basic .net (11)</a></li><li><a href='/blog/categories/visual-c-number/'>visual c# (48)</a></li><li><a href='/blog/categories/visual-studio-net/'>visual studio .net (3)</a></li><li><a href='/blog/categories/wcf/'>wcf (4)</a></li><li><a href='/blog/categories/winsock/'>winsock (6)</a></li></ul>
 </section>
 <section>
   <h1>Tag Cloud</h1>
-    <span id="tag-cloud"><a href='/blog/categories/dot-net-remoting' style='font-size: 107.29729729729729%'>.net remoting(9)</a> <a href='/blog/categories/active-report' style='font-size: 103.24324324324324%'>active report(4)</a> <a href='/blog/categories/android' style='font-size: 100.8108108108108%'>android(1)</a> <a href='/blog/categories/aplikasi' style='font-size: 103.24324324324324%'>aplikasi(4)</a> <a href='/blog/categories/autoupdater-dot-net' style='font-size: 100.8108108108108%'>autoupdater.net(1)</a> <a href='/blog/categories/build-events' style='font-size: 102.43243243243244%'>build events(3)</a> <a href='/blog/categories/crashreporter-dot-net' style='font-size: 100.8108108108108%'>crashreporter.net(1)</a> <a href='/blog/categories/crystal-reports-net' style='font-size: 103.24324324324324%'>crystal reports .net(4)</a> <a href='/blog/categories/dapper-net' style='font-size: 104.86486486486487%'>dapper .net(6)</a> <a href='/blog/categories/database' style='font-size: 101.62162162162163%'>database(2)</a> <a href='/blog/categories/entity-framework' style='font-size: 107.29729729729729%'>entity framework(9)</a> <a href='/blog/categories/firebird' style='font-size: 109.72972972972973%'>firebird(12)</a> <a href='/blog/categories/freeware' style='font-size: 105.67567567567568%'>freeware(7)</a> <a href='/blog/categories/inno-setup' style='font-size: 104.86486486486487%'>inno setup(6)</a> <a href='/blog/categories/jaringan' style='font-size: 100.8108108108108%'>jaringan(1)</a> <a href='/blog/categories/mysql' style='font-size: 108.10810810810811%'>mysql(10)</a> <a href='/blog/categories/nsis' style='font-size: 101.62162162162163%'>nsis(2)</a> <a href='/blog/categories/nuget' style='font-size: 104.05405405405405%'>nuget(5)</a> <a href='/blog/categories/repository-pattern' style='font-size: 101.62162162162163%'>repository pattern(2)</a> <a href='/blog/categories/signalr' style='font-size: 101.62162162162163%'>signalr(2)</a> <a href='/blog/categories/sql-server' style='font-size: 100.8108108108108%'>sql server(1)</a> <a href='/blog/categories/sql-server-2000' style='font-size: 100.8108108108108%'>sql server 2000(1)</a> <a href='/blog/categories/sqlite' style='font-size: 102.43243243243244%'>sqlite(3)</a> <a href='/blog/categories/testing' style='font-size: 100.8108108108108%'>testing(1)</a> <a href='/blog/categories/tools-installer' style='font-size: 106.48648648648648%'>tools installer(8)</a> <a href='/blog/categories/uncategorized' style='font-size: 106.48648648648648%'>uncategorized(8)</a> <a href='/blog/categories/unit-of-work-pattern' style='font-size: 100.8108108108108%'>unit of work pattern(1)</a> <a href='/blog/categories/visual-basic' style='font-size: 160.0%'>visual basic(74)</a> <a href='/blog/categories/visual-basic-net' style='font-size: 108.91891891891892%'>visual basic .net(11)</a> <a href='/blog/categories/visual-c-number' style='font-size: 138.9189189189189%'>visual c#(48)</a> <a href='/blog/categories/visual-studio-net' style='font-size: 102.43243243243244%'>visual studio .net(3)</a> <a href='/blog/categories/wcf' style='font-size: 103.24324324324324%'>wcf(4)</a> <a href='/blog/categories/winsock' style='font-size: 104.86486486486487%'>winsock(6)</a> </span>
+    <span id="tag-cloud"><a href='/blog/categories/dot-net-remoting' style='font-size: 107.29729729729729%'>.net remoting(9)</a> <a href='/blog/categories/active-report' style='font-size: 103.24324324324324%'>active report(4)</a> <a href='/blog/categories/android' style='font-size: 100.8108108108108%'>android(1)</a> <a href='/blog/categories/aplikasi' style='font-size: 103.24324324324324%'>aplikasi(4)</a> <a href='/blog/categories/autoupdater-dot-net' style='font-size: 100.8108108108108%'>autoupdater.net(1)</a> <a href='/blog/categories/build-events' style='font-size: 102.43243243243244%'>build events(3)</a> <a href='/blog/categories/crashreporter-dot-net' style='font-size: 100.8108108108108%'>crashreporter.net(1)</a> <a href='/blog/categories/crystal-reports-net' style='font-size: 103.24324324324324%'>crystal reports .net(4)</a> <a href='/blog/categories/dapper-net' style='font-size: 104.86486486486487%'>dapper .net(6)</a> <a href='/blog/categories/database' style='font-size: 101.62162162162163%'>database(2)</a> <a href='/blog/categories/entity-framework' style='font-size: 107.29729729729729%'>entity framework(9)</a> <a href='/blog/categories/firebird' style='font-size: 109.72972972972973%'>firebird(12)</a> <a href='/blog/categories/freeware' style='font-size: 105.67567567567568%'>freeware(7)</a> <a href='/blog/categories/inno-setup' style='font-size: 104.86486486486487%'>inno setup(6)</a> <a href='/blog/categories/jaringan' style='font-size: 100.8108108108108%'>jaringan(1)</a> <a href='/blog/categories/mysql' style='font-size: 108.10810810810811%'>mysql(10)</a> <a href='/blog/categories/nsis' style='font-size: 101.62162162162163%'>nsis(2)</a> <a href='/blog/categories/nuget' style='font-size: 104.05405405405405%'>nuget(5)</a> <a href='/blog/categories/repository-pattern' style='font-size: 101.62162162162163%'>repository pattern(2)</a> <a href='/blog/categories/signalr' style='font-size: 101.62162162162163%'>signalr(2)</a> <a href='/blog/categories/software-testing' style='font-size: 101.62162162162163%'>software testing(2)</a> <a href='/blog/categories/sql-server' style='font-size: 100.8108108108108%'>sql server(1)</a> <a href='/blog/categories/sql-server-2000' style='font-size: 100.8108108108108%'>sql server 2000(1)</a> <a href='/blog/categories/sqlite' style='font-size: 102.43243243243244%'>sqlite(3)</a> <a href='/blog/categories/tools-installer' style='font-size: 106.48648648648648%'>tools installer(8)</a> <a href='/blog/categories/uncategorized' style='font-size: 106.48648648648648%'>uncategorized(8)</a> <a href='/blog/categories/unit-of-work-pattern' style='font-size: 100.8108108108108%'>unit of work pattern(1)</a> <a href='/blog/categories/visual-basic' style='font-size: 160.0%'>visual basic(74)</a> <a href='/blog/categories/visual-basic-net' style='font-size: 108.91891891891892%'>visual basic .net(11)</a> <a href='/blog/categories/visual-c-number' style='font-size: 138.9189189189189%'>visual c#(48)</a> <a href='/blog/categories/visual-studio-net' style='font-size: 102.43243243243244%'>visual studio .net(3)</a> <a href='/blog/categories/wcf' style='font-size: 103.24324324324324%'>wcf(4)</a> <a href='/blog/categories/winsock' style='font-size: 104.86486486486487%'>winsock(6)</a> </span>
 </section>
 
 <section>

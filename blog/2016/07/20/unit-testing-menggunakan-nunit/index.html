@@ -1,0 +1,526 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Unit Testing Menggunakan Nunit - Coding4ever&#8217;s Blog</title>
+  <meta name="author" content="Admin">
+
+  
+  <meta name="description" content="Testing merupakan salah satu fase penting yang harus dilakukan ketika membuat sebuah aplikasi. Testing biasanya dilakukan secara berbarengan pada &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Coding4ever's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50866618-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Coding4ever&#8217;s Blog</a></h1>
+  
+    <h2>Just coding&#8230; coding&#8230; and coding&#8230; because coding should be fun :)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:coding4ever.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/gudang-software">Gudang Software</a></li>
+  <li><a href="/source-code">Source Code</a></li>  
+  <li><a href="/aplikasi-gratis">Aplikasi Gratis</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Unit Testing Menggunakan Nunit</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-07-20T14:42:50+07:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:42 pm</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img class="left" src="https://coding4ever.files.wordpress.com/2016/07/nunit.png" width="110" height="47">Testing merupakan salah satu fase penting yang harus dilakukan ketika membuat sebuah aplikasi. Testing biasanya dilakukan secara berbarengan pada saat menulis kode. Ada banyak <code>gaya</code> dalam melakukan testing dan yang paling favorit biasanya adalah gaya konvensional. Dengan menggunakan gaya ini programmer desktop akan menggunakan console/winform untuk melihat hasil tes dari sebuah unit (fungsi/method) sedangankan programmer web langsung menggunakan halaman web.</p>
+
+<!-- more -->
+
+
+<p>Ini adalah gaya lama yang kita pelajari dari jaman Majapahit <strong>#eh</strong>, maksudnya masa-masa kuliah dulu :-D, kan enggak keren banget udah jadi programmer pro (programmer yang udah kerja) tapi testingnya masih bergaya <code>mahasiswa</code> :-D</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-01.png"></p>
+
+<p>Testing gaya <code>jadul</code> ini, <code>kita</code> yang harus melakukan evaluasi terhadap hasil tesnya. Contoh tes di atas <code>5 + 2</code> kok hasilnya <code>10</code>. Bayangkan klo kita kurang teliti bakalan jadi bug di kemudian hari.</p>
+
+<p>Jika Anda bosan dengan gaya ini (konvensional/jadul/mahasiswa) dan ingin naik level, kita bisa menggunakan tool yang memang dibuat khusus untuk melakukan unit testing seperti  <a href="http://www.nunit.org/">Nunit</a>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-02.png"></p>
+
+<p>Menggunakan tool unit testing <code>komputer</code>-lah yang melakukan evaluasi terhadap hasil tesnya. Kita tinggal duduk manis he he :-)</p>
+
+<h3>Jenis-jenis Testing</h3>
+
+<p>Sebenarnya ada banyak jenis-jenis testing, tetapi karena keterbatasan waktu dan ilmu, saya hanya membahas jenis-jenis testing berikut :</p>
+
+<ul>
+<li><a href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/">Unit Testing</a></li>
+<li>Coverage Testing</li>
+<li>Integration Testing</li>
+<li><a href="http://coding4ever.net/blog/2015/10/20/performance-test-menggunakan-jmeter/">Performance Testing</a></li>
+</ul>
+
+
+<p>Jadi kita akan membahas <a href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/">Unit Testing</a> terlebih dulu.</p>
+
+<h3>Unit testing</h3>
+
+<p>Unit testing adalah testing di level paling detail dari aplikasi. Artinya, testing di level method/function. Tes ini biasanya dilakukan oleh programmer dan bukan oleh tester, karena membutuhkan pengetahuan yang rinci tentang desain aplikasi dan kode yang ditulis.
+Ada beberapa tool yg bisa digunakan untuk keperluan ini tergantung dari bahasa pemrograman yang kita gunakan. Misal di .NET (NUnit), Java (JUnit) dan PHP (PHPUnit).</p>
+
+<p>Di postingan ini kita akan menggunakan <a href="http://nunit.org/">NUnit</a> sebagai tool untuk melakukan unit testing. <a href="http://www.nunit.org/">NUnit</a> adalah framework unit testing yang digunakan untuk bahasa pemrograman .NET. <a href="http://www.nunit.org/">NUnit</a> sendiri merupakan hasil portingan dari <a href="http://junit.org/">JUnit</a>.
+Sebelum menggunakan NUnit tentunya harus kita <a href="http://www.nunit.org/index.php?p=download">download</a> dan kemudian menginstallnya.</p>
+
+<h3>Membuat Project</h3>
+
+<p>Untuk uji coba <a href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/">unit testing</a> ada dua project yang akan kita buat yaitu :</p>
+
+<ol>
+<li><p>Project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorLib">CalculatorLib</a> – Ini adalah project target yang akan kita tes untuk setiap unitnya (fungsi/method).</p></li>
+<li><p>Project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorUnitTest">CalculatorUnitTest</a> – Ini adalah project <a href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/">unit testing</a> yang digunakan untuk mengetes project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorLib">CalculatorLib</a>.</p></li>
+</ol>
+
+
+<h3>Membuat Project CalculatorLib</h3>
+
+<p>Project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorLib">CalculatorLib</a> adalah project yang akan kita buatkan unit testingnya, project ini bertipe <code>Class Library</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-03.png"></p>
+
+<p>Nah di project ini, kita akan membuat class baru dengan nama <code>Calculator</code> kemudian menambahkan empat method yaitu <code>Tambah</code>, <code>Kurang</code>, <code>Kali</code> dan <code>Bagi</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-04.png"></p>
+
+<p>Coba perhatikan gambar di atas, method <code>Tambah</code> sengaja dibuat salah dengan menggunakan operator kali (*), biar nanti keliatan efeknya ketika dites menggunakan <a href="http://www.nunit.org/">NUnit</a>.</p>
+
+<p>Setelah project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorLib">CalculatorLib</a> selesai kita lanjut dengan membuat project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorUnitTest">CalculatorUnitTest</a>.</p>
+
+<h3>Membuat Project CalculatorUnitTest</h3>
+
+<p>Project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorUnitTest">CalculatorUnitTest</a> adalah project unit testing yang digunakan untuk mengetes project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorLib">CalculatorLib</a>, project ini juga bertipe <code>Class Library</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-05.png"></p>
+
+<p>Di project ini, kita akan menambahkan class baru dengan nama <code>CalculatorTest</code> yang mempunyai empat method yaitu <code>TambahTest</code>, <code>KurangTest</code>, <code>KaliTest</code> dan <code>BagiTest</code>. Jadi konvensi penamaannya adalah untuk nama class di tambah akhiran <code>Test</code>. Contoh class <code>Calculator</code> menjadi <code>CalculatorTest</code>. Untuk method juga sama, misal method <code>Tambah</code> menjadi <code>TambahTest</code>, method <code>Kurang</code> menjadi <code>KurangTest</code> begitu seterusnya.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-06.png"></p>
+
+<p>Method-method yang ada di class unit testingnya, biasanya bersifat <code>independent</code> artinya masing-masing method ini bisa dijalankan/eksekusi secara mandiri (tidak tergantung dengan method yang lain) sehingga kita bisa menjalankan unit testing secara berulang.</p>
+
+<h3>Menambahkan Referensi Project CalculatorLib</h3>
+
+<p>Agar project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorUnitTest">CalculatorUnitTest</a> bisa mengakses semua class dan method yang ada di project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorLib">CalculatorLib</a>, kita terlebih dulu harus menambahkan referensi CalculatorLib. Caranya seperti berikut :</p>
+
+<ol>
+<li><p>Klik kanan node References -> Add Reference…</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-07.png"></p></li>
+<li><p>Aktifkan panel Solution kemudian pilih project CalculatorLib</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-08.png"></p></li>
+<li><p>Klik tombol Ok, kemudian cek lagi node References, seharusnya sudah ada tambahan library CalculatorLib</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-09.png"></p></li>
+</ol>
+
+
+<p>Kemudian lengkapi kode class <a href="https://github.com/k4m4r82/DemoUnitTesting/blob/master/src/CalculatorUnitTest/CalculatorTest.cs">CalculatorTest</a>, seperti gambar di bawah ini.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-10.png"></p>
+
+<h3>Menambahkan Library Unit Testing</h3>
+
+<p>Seperti penjelasan saya di awal postingan, untuk contoh unit testing ini kita akan menggunakan <a href="http://www.nunit.org/">NUnit</a>. Berikut langkah-langkah menambahkan library <a href="http://www.nunit.org/">NUnit</a></p>
+
+<ol>
+<li><p>Klik kanan node References -> Add Reference…</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-11.png"></p></li>
+<li><p>Setelah tampil dialog Reference Manager, aktifkan panel Assemblies -> Extensions kemudian aktifkan pilihan nunit.framework</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-12.png"></p></li>
+<li><p>Klik tombol Ok, kemudian cek lagi node References, seharusnya sudah ada tambahan library nunit.framework</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-13.png"></p></li>
+</ol>
+
+
+<h3>Menulis Unit Testing</h3>
+
+<p>Setelah menambahkan library unit testing, project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorUnitTest">CalculatorUnitTest</a> tidak otomatis langsung dikenali oleh  tool unit testing, ada hal-hal lainnya yang perlu kita
+ketahui dalam menulis unit testing menggunakan <a href="http://www.nunit.org/">Nunit</a> yaitu :</p>
+
+<ul>
+<li><a href="http://www.nunit.org/index.php?p=attributes&amp;r=2.4">Attributes</a></li>
+<li><a href="http://www.nunit.org/index.php?p=assertions&amp;r=2.2.10">Assertions</a></li>
+</ul>
+
+
+<h4>Attributes</h4>
+
+<p>Digunakan untuk memberi tag/penanda  class dan method yang akan dites. Ada dua attribut yang sering digunakan yaitu attribut <code>[TestFixture]</code> untuk menandai <code>class</code> dan attribut <code>[Test]</code> untuk menandai method. Contoh :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-14.png"></p>
+
+<p>Selain itu ada attribut lain yang digunakan untuk menandai method yang berfungsi sebagai method inisialisasi yaitu attribut <code>[SetUp]</code>. Contoh :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-15.png"></p>
+
+<p>Jadi method <code>Init</code> di atas akan dijalankan terlebih dulu sebelum tool <a href="http://www.nunit.org/">Nunit</a> menjalankan method-method lain yang ditandai dengan attribut <code>[Test]</code>.</p>
+
+<h4>Assertions</h4>
+
+<p>Merupakan sekumpulan method static yang digunakan untuk mengevaluasi method yang akan dites.  Jadi method-method assertions akan mengembalikan nilai boolean (true/false). Contoh :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-16.png"></p>
+
+<p>Pada gambar di atas kita menggunakan salah satu method <code>Assertions</code> yaitu method <code>AreEqual</code> untuk membandingkan dua buah nilai, yaitu nilai yang di harapkan (expected) dan nilai aktual. Nilai expected  kita inputkan secara manual sedangkan nilai aktual dihasilkan dari pemanggilan method. Coba perhatikan potongan kode berikut :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-17.png"></p>
+
+<p>Dari hasil pemanggilan method Tambah(5, 2), jika menghasilkan nilai 7 maka method <code>AreEqual</code> akan mengembalikan nilai true yang artinya tes berhasil karena sesuai dengan nilai yang diharapkan yaitu <code>7</code> selain itu akan mengembalikan nilai false/gagal.</p>
+
+<p>Untuk referensi method-method <code>Assertions</code> lainnya bisa dicek di<a href="http://www.nunit.org/index.php?p=assertions&amp;r=2.5.10">sini</a>.</p>
+
+<h3>NUnit GUI Runner</h3>
+
+<p>Merupakan tool GUI bawaan NUnit yang digunakan untuk menjalankan project unit testing. Tool ini membutuhkan file assembly (dll) dari project unit testing. Jadi project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorUnitTest">CalculatorUnitTest</a> harus kita <code>build</code> terlebih dulu untuk menghasilkan file assembly(CalculatorUnitTest.dll), kemudian kita buka menggunakan tool <code>NUnit GUI Runner</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-18.png"></p>
+
+<p>Caranya dari menu File -> Open Project kemudian cari hasil build project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorUnitTest">CalculatorUnitTest</a> (CalculatorUnitTest.dll).</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-25.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-19.png"></p>
+
+<p>Untuk memulai tes, klik tombol <code>Run</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-20.png"></p>
+
+<p>Dari gambar di atas hanya method <code>Tambah</code> yang gagal melewati unit testing, coba kita cek kode unit testnya.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-21.png"></p>
+
+<p>Dari kode di atas <code>5 + 2</code> seharusnya menghasilkan nilai <code>7</code> (nilai expected/diharapkan), tetapi dari hasil unit testingnya malah menghasilkan nilai <code>10</code>, dari mana datangnya nilai <code>10</code> ini ?</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-22.png"></p>
+
+<p>Dari sini kita sudah bisa menebak ada yang salah dengan method Tambahnya, coba kita cek lagi method Tambah dari class Calculator.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-23.png"></p>
+
+<p>Ops!!! ternyata benar ada <code>kesalahan logic</code> yaitu salah operator di method Tambah yang seharusnya menggunakan operator tambah (+) malah menggunakan operator kali (*), sehingga wajar <code>5 * 2</code> menghasilkan nilai <code>10</code> bukannya <code>7</code>. Jadi harus kita benarin dulu operatornya kemudian build ulang.</p>
+
+<p>Setelah itu kita cek lagi hasil unit testingnya</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-24.png"></p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/DemoUnitTesting">MENCOBA</a> :-)</p>
+
+<p>Referensi :</p>
+
+<ul>
+<li><a href="http://www.nunit.org/">Nunit</a></li>
+<li><a href="http://nunit.org/index.php?p=quickStart&amp;r=2.6.4">NUnit Quick Start</a></li>
+<li><a href="http://nunit.org/index.php?p=writingTests&amp;r=2.6.4">Writing Tests</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Admin</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-07-20T14:42:50+07:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:42 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/software-testing/'>software testing</a>
+  
+</span>
+
+
+    </p>
+    
+      <h2>Tentang Penulis</h2>
+<p class="meta">
+<img class="left" src="https://coding4ever.files.wordpress.com/2015/07/avatar-blog-mini.png">Software developer yang fokus mengembangkan aplikasi di atas platform .NET (Desktop, ASP.NET MVC, Web Service) dan Android. Senang mempelajari teknologi baru terutama di bidang OOP, Design Pattern, ORM dan Database.
+<br/>
+Saat ini bekerja sebagai staf IT di salah satu PTS di Yogyakarta sebagai senior software developer. Di waktu luang insya Alloh akan terus berbagi pengalaman di blog <a href="http://coding4ever.net" target="_blank">ini</a> :)
+</p>
+<div class="sharing">
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/06/28/repository-pattern-bagian-number-2/" title="Previous Post: Repository Pattern Bagian #2">&laquo; Repository Pattern Bagian #2</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Admin</h1>
+  
+  <a href="http://www.facebook.com/abu.anas.1232" title="Admin" target="_blank"><img src="https://coding4ever.files.wordpress.com/2015/04/avatar-blog.png" border="0" alt="Admin" /></a><br/>
+  
+  <p>Software developer yang berasal dari Riau, tepatnya di <a href="http://id.wikipedia.org/wiki/Kabupaten_Indragiri_Hilir" title="Negeri Seribu Parit" target="_blank">Negeri Seribu Parit</a> dan saat ini berdomisili di Yogyakarta.</p>
+  
+  <p>Pernah mengajar di salah satu perguruan tinggi swasta (PTS) di Yogyakarta.<br>
+     Saat ini bekerja sebagai staf IT di PTS yang sama sebagai senior software developer.</p>
+  
+  <p>Fokus mengembangkan aplikasi di atas platform .NET (Desktop, ASP.NET MVC, Web Service) dan Android. Di waktu luang insya Alloh akan terus berbagi pengalaman di blog <a href="http://coding4ever.net" target="_blank">ini</a>.</p>    
+</section><section>
+  <h1>Info</h1>
+    <ul>		
+		<li>			
+			<a href="https://www.facebook.com/Asytar2013" title="Asytar Collection" target="_blank">Asytar Collection</a>
+		</li>				
+	</ul>
+	
+  <h1>Contacts</h1>
+    <ul>		
+		<li>			
+			<a href="mailto:coding4ever.net@gmail.com" title="GMail" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/gmail-small2.png" border="0" alt="GMail" /></a>
+		</li>		
+		<li>			
+			<a href="https://github.com/k4m4r82?tab=repositories" title="GitHub" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/github-small2.png" border="0" alt="GitHub" /></a>
+		</li>
+		<li>
+			<a href="http://www.facebook.com/abu.anas.1232" title="Facebook" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/fb-small2.png" border="0" alt="Facebook" /></a>
+		</li>				
+		<li>
+			<img src="https://coding4ever.files.wordpress.com/2016/01/bbm-pin1.png" border="0" alt="BBM PIN" />
+		</li>
+	</ul>
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/20/unit-testing-menggunakan-nunit/">Unit Testing Menggunakan Nunit</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/06/28/repository-pattern-bagian-number-2/">Repository Pattern Bagian #2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/03/26/membuat-user-function-library-pada-crystal-report-net/">Membuat User Function Library Pada Crystal Report .NET</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/24/unit-of-work-pattern/">Unit of Work Pattern</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/22/repository-pattern/">Repository Pattern</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/15/pengembangan-aplikasi-real-time-menggunakan-signalr-bagian-number-2/">Pengembangan Aplikasi Real-time Menggunakan SignalR Bagian #2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/11/menggunakan-objek-collection-dan-transaction-pada-visual-basic-6/">Menggunakan Objek Collection Dan Transaction Pada Visual Basic 6</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/09/pengembangan-aplikasi-real-time-menggunakan-signalr/">Pengembangan Aplikasi Real-time Menggunakan SignalR</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/27/menghilangkan-tab-main-report-pada-crystalreportviewer/">Menghilangkan Tab Main Report Pada CrystalReportViewer</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/24/membuat-laporan-crystal-reports-net-dengan-model-data-push-bagian-number-2/">Membuat Laporan Crystal Reports .NET Dengan Model Data-Push Bagian #2</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+    <ul id="category-list"><li><a href='/blog/categories/dot-net-remoting/'>.net remoting (9)</a></li><li><a href='/blog/categories/active-report/'>active report (4)</a></li><li><a href='/blog/categories/android/'>android (1)</a></li><li><a href='/blog/categories/aplikasi/'>aplikasi (4)</a></li><li><a href='/blog/categories/autoupdater-dot-net/'>autoupdater.net (1)</a></li><li><a href='/blog/categories/build-events/'>build events (3)</a></li><li><a href='/blog/categories/crashreporter-dot-net/'>crashreporter.net (1)</a></li><li><a href='/blog/categories/crystal-reports-net/'>crystal reports .net (4)</a></li><li><a href='/blog/categories/dapper-net/'>dapper .net (6)</a></li><li><a href='/blog/categories/database/'>database (2)</a></li><li><a href='/blog/categories/entity-framework/'>entity framework (9)</a></li><li><a href='/blog/categories/firebird/'>firebird (12)</a></li><li><a href='/blog/categories/freeware/'>freeware (7)</a></li><li><a href='/blog/categories/inno-setup/'>inno setup (6)</a></li><li><a href='/blog/categories/jaringan/'>jaringan (1)</a></li><li><a href='/blog/categories/mysql/'>mysql (10)</a></li><li><a href='/blog/categories/nsis/'>nsis (2)</a></li><li><a href='/blog/categories/nuget/'>nuget (5)</a></li><li><a href='/blog/categories/repository-pattern/'>repository pattern (2)</a></li><li><a href='/blog/categories/signalr/'>signalr (2)</a></li><li><a href='/blog/categories/software-testing/'>software testing (2)</a></li><li><a href='/blog/categories/sql-server/'>sql server (1)</a></li><li><a href='/blog/categories/sql-server-2000/'>sql server 2000 (1)</a></li><li><a href='/blog/categories/sqlite/'>sqlite (3)</a></li><li><a href='/blog/categories/tools-installer/'>tools installer (8)</a></li><li><a href='/blog/categories/uncategorized/'>uncategorized (8)</a></li><li><a href='/blog/categories/unit-of-work-pattern/'>unit of work pattern (1)</a></li><li><a href='/blog/categories/visual-basic/'>visual basic (74)</a></li><li><a href='/blog/categories/visual-basic-net/'>visual basic .net (11)</a></li><li><a href='/blog/categories/visual-c-number/'>visual c# (48)</a></li><li><a href='/blog/categories/visual-studio-net/'>visual studio .net (3)</a></li><li><a href='/blog/categories/wcf/'>wcf (4)</a></li><li><a href='/blog/categories/winsock/'>winsock (6)</a></li></ul>
+</section>
+<section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/blog/categories/dot-net-remoting' style='font-size: 107.29729729729729%'>.net remoting(9)</a> <a href='/blog/categories/active-report' style='font-size: 103.24324324324324%'>active report(4)</a> <a href='/blog/categories/android' style='font-size: 100.8108108108108%'>android(1)</a> <a href='/blog/categories/aplikasi' style='font-size: 103.24324324324324%'>aplikasi(4)</a> <a href='/blog/categories/autoupdater-dot-net' style='font-size: 100.8108108108108%'>autoupdater.net(1)</a> <a href='/blog/categories/build-events' style='font-size: 102.43243243243244%'>build events(3)</a> <a href='/blog/categories/crashreporter-dot-net' style='font-size: 100.8108108108108%'>crashreporter.net(1)</a> <a href='/blog/categories/crystal-reports-net' style='font-size: 103.24324324324324%'>crystal reports .net(4)</a> <a href='/blog/categories/dapper-net' style='font-size: 104.86486486486487%'>dapper .net(6)</a> <a href='/blog/categories/database' style='font-size: 101.62162162162163%'>database(2)</a> <a href='/blog/categories/entity-framework' style='font-size: 107.29729729729729%'>entity framework(9)</a> <a href='/blog/categories/firebird' style='font-size: 109.72972972972973%'>firebird(12)</a> <a href='/blog/categories/freeware' style='font-size: 105.67567567567568%'>freeware(7)</a> <a href='/blog/categories/inno-setup' style='font-size: 104.86486486486487%'>inno setup(6)</a> <a href='/blog/categories/jaringan' style='font-size: 100.8108108108108%'>jaringan(1)</a> <a href='/blog/categories/mysql' style='font-size: 108.10810810810811%'>mysql(10)</a> <a href='/blog/categories/nsis' style='font-size: 101.62162162162163%'>nsis(2)</a> <a href='/blog/categories/nuget' style='font-size: 104.05405405405405%'>nuget(5)</a> <a href='/blog/categories/repository-pattern' style='font-size: 101.62162162162163%'>repository pattern(2)</a> <a href='/blog/categories/signalr' style='font-size: 101.62162162162163%'>signalr(2)</a> <a href='/blog/categories/software-testing' style='font-size: 101.62162162162163%'>software testing(2)</a> <a href='/blog/categories/sql-server' style='font-size: 100.8108108108108%'>sql server(1)</a> <a href='/blog/categories/sql-server-2000' style='font-size: 100.8108108108108%'>sql server 2000(1)</a> <a href='/blog/categories/sqlite' style='font-size: 102.43243243243244%'>sqlite(3)</a> <a href='/blog/categories/tools-installer' style='font-size: 106.48648648648648%'>tools installer(8)</a> <a href='/blog/categories/uncategorized' style='font-size: 106.48648648648648%'>uncategorized(8)</a> <a href='/blog/categories/unit-of-work-pattern' style='font-size: 100.8108108108108%'>unit of work pattern(1)</a> <a href='/blog/categories/visual-basic' style='font-size: 160.0%'>visual basic(74)</a> <a href='/blog/categories/visual-basic-net' style='font-size: 108.91891891891892%'>visual basic .net(11)</a> <a href='/blog/categories/visual-c-number' style='font-size: 138.9189189189189%'>visual c#(48)</a> <a href='/blog/categories/visual-studio-net' style='font-size: 102.43243243243244%'>visual studio .net(3)</a> <a href='/blog/categories/wcf' style='font-size: 103.24324324324324%'>wcf(4)</a> <a href='/blog/categories/winsock' style='font-size: 104.86486486486487%'>winsock(6)</a> </span>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'k4m4r82',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p align="center">
+  Copyright &copy; 2009 - 2016 - Admin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'coding4ever';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/';
+        var disqus_url = 'http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

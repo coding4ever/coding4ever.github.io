@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Signalr | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/signalr/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-07-11T17:02:51+07:00</updated>
+  <updated>2016-07-21T07:04:51+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -18,14 +18,14 @@
     <link href="http://coding4ever.net/blog/2016/02/15/pengembangan-aplikasi-real-time-menggunakan-signalr-bagian-number-2/"/>
     <updated>2016-02-15T07:49:15+07:00</updated>
     <id>http://coding4ever.net/blog/2016/02/15/pengembangan-aplikasi-real-time-menggunakan-signalr-bagian-number-2</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2016/02/signalr.png">https://coding4ever.files.wordpress.com/2016/02/signalr.png</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Dasar-dasar penggunaan <a href="http://signalr.net/">SignalR</a>, sudah saya bahas dipostingan <a href="/blog/2016/02/09/pengembangan-aplikasi-real-time-menggunakan-signalr/">pertama</a>. Jadi dipostingan <a href="/blog/2016/02/15/pengembangan-aplikasi-real-time-menggunakan-signalr-bagian-number-2/">kedua</a> ini saya hanya ingin berbagai source code lain contoh penggunaan <a href="http://signalr.net/">SignalR</a> yaitu source code untuk aplikasi pemesanan <a href="/blog/2016/02/15/pengembangan-aplikasi-real-time-menggunakan-signalr-bagian-number-2/">tiket real-time</a>.</p>
+    <content type="html"><![CDATA[<p>{% img left <a href="https://coding4ever.files.wordpress.com/2016/02/signalr.png">https://coding4ever.files.wordpress.com/2016/02/signalr.png</a> 120 100 %}Dasar-dasar penggunaan <a href="http://signalr.net/">SignalR</a>, sudah saya bahas dipostingan <a href="{{%20site.url%20}}/blog/2016/02/09/pengembangan-aplikasi-real-time-menggunakan-signalr/">pertama</a>. Jadi dipostingan <a href="{{%20site.url%20}}/blog/2016/02/15/pengembangan-aplikasi-real-time-menggunakan-signalr-bagian-number-2/">kedua</a> ini saya hanya ingin berbagai source code lain contoh penggunaan <a href="http://signalr.net/">SignalR</a> yaitu source code untuk aplikasi pemesanan <a href="{{%20site.url%20}}/blog/2016/02/15/pengembangan-aplikasi-real-time-menggunakan-signalr-bagian-number-2/">tiket real-time</a>.</p>
 
 <p>Cara kerja aplikasi ini masih sederhana sekali yaitu hanya mengirimkan informasi nomor kursi yang dipilih oleh user ke server, kemudian server akan melakukan pengiriman (push) nomor kursi yang dipesan kepada semua client yang sudah terkoneksi ke server.</p>
 
 <!-- more -->
 
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/150216-01.png">https://coding4ever.files.wordpress.com/2016/02/150216-01.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/150216-01.png">https://coding4ever.files.wordpress.com/2016/02/150216-01.png</a> %}</p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/DemoSignalR2">MENCOBA</a> :-)</p>
 ]]></content>
@@ -36,7 +36,7 @@
     <link href="http://coding4ever.net/blog/2016/02/09/pengembangan-aplikasi-real-time-menggunakan-signalr/"/>
     <updated>2016-02-09T11:17:00+07:00</updated>
     <id>http://coding4ever.net/blog/2016/02/09/pengembangan-aplikasi-real-time-menggunakan-signalr</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2016/02/signalr.png">https://coding4ever.files.wordpress.com/2016/02/signalr.png</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;><a href="http://signalr.net/">ASP.NET  SignalR</a> atau  dapat  disingkat  menjadi  <a href="http://signalr.net/">SignalR</a>  adalah  library yang memudahkan kita untuk menambahkan fungsi komunikasi <code>real-time</code> pada aplikasi yang kita kembangkan. Fungsi <code>real-time</code> di sini adalah kemampuan server melakukan pengiriman (push) konten atau data kepada client yang  sudah  terkoneksi  ke  server, sehingga  server  tidak  perlu  menunggu  client  untuk melakukan permintaan (request) data terbaru.</p>
+    <content type="html"><![CDATA[<p>{% img left <a href="https://coding4ever.files.wordpress.com/2016/02/signalr.png">https://coding4ever.files.wordpress.com/2016/02/signalr.png</a> 120 100 %}<a href="http://signalr.net/">ASP.NET  SignalR</a> atau  dapat  disingkat  menjadi  <a href="http://signalr.net/">SignalR</a>  adalah  library yang memudahkan kita untuk menambahkan fungsi komunikasi <code>real-time</code> pada aplikasi yang kita kembangkan. Fungsi <code>real-time</code> di sini adalah kemampuan server melakukan pengiriman (push) konten atau data kepada client yang  sudah  terkoneksi  ke  server, sehingga  server  tidak  perlu  menunggu  client  untuk melakukan permintaan (request) data terbaru.</p>
 
 <p><a href="http://signalr.net/">SignalR</a> selain digunakan untuk pengembangan aplikasi web, juga bisa digunakan untuk platform lainnya seperti desktop (console dan windows form) ataupun mobile (windows phone, android dan iOS).</p>
 
@@ -45,9 +45,9 @@
 
 <p><a href="http://signalr.net/">SignalR</a> menyediakan API yang memungkinkan server memanggil fungsi/method yang dimiliki oleh client atau pun sebaliknya. Proses memanggil method secara remote ini dikenal dengan istilah <code>remote procedure call (RPC)</code>.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-01.png">https://coding4ever.files.wordpress.com/2016/02/090216-01.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-01.png">https://coding4ever.files.wordpress.com/2016/02/090216-01.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-02.png">https://coding4ever.files.wordpress.com/2016/02/090216-02.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-02.png">https://coding4ever.files.wordpress.com/2016/02/090216-02.png</a> %}</p>
 
 <p style="text-align:center">Sumber - <a href=" http://www.asp.net/signalr/overview/getting-started/introduction-to-signalr" target="_blank">Introduction to SignalR</a></p>
 
@@ -56,7 +56,7 @@
 
 <p>Sebagai contoh penggunaan SignalR, kita akan membuat aplikasi sederhana tanpa database. Di contoh ini kita akan melihat bagaimana cara server dan client berbagi data secara <code>real-time</code>.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-03.png">https://coding4ever.files.wordpress.com/2016/02/090216-03.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-03.png">https://coding4ever.files.wordpress.com/2016/02/090216-03.png</a> %}</p>
 
 <p>Aplikasi di atas terdiri dari tiga project yaitu :</p>
 
@@ -72,17 +72,17 @@
 
 <p>Terakhir adalah project DemoSignalR.Model, project ini bertipe Class Library yang isinya hanya berupa class model. Objek dari class model inilah nantinya akan dishare secara <code>real-time</code> dari server ke client atau sebaliknya.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-04.png">https://coding4ever.files.wordpress.com/2016/02/090216-04.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-04.png">https://coding4ever.files.wordpress.com/2016/02/090216-04.png</a> %}</p>
 
 <p>Berikutnya kita akan bahas satu persatu ketiga project di atas.</p>
 
 <h5>1. DemoSignalR.WinFormServer</h5>
 
-<p>Project ini berfungsi sebagai server dari SignalR. Untuk menggunakan SignalR kita perlu menambahkan beberapa library yang bisa kita install via <a href="/blog/2014/03/11/nuget/">NuGet</a>.</p>
+<p>Project ini berfungsi sebagai server dari SignalR. Untuk menggunakan SignalR kita perlu menambahkan beberapa library yang bisa kita install via <a href="{{%20site.url%20}}/blog/2014/03/11/nuget/">NuGet</a>.</p>
 
-<p>Berikut adalah daftar paket <a href="/blog/2014/03/11/nuget/">NuGet</a> yang perlu kita tambahkan untuk project server.</p>
+<p>Berikut adalah daftar paket <a href="{{%20site.url%20}}/blog/2014/03/11/nuget/">NuGet</a> yang perlu kita tambahkan untuk project server.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-05.png">https://coding4ever.files.wordpress.com/2016/02/090216-05.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-05.png">https://coding4ever.files.wordpress.com/2016/02/090216-05.png</a> %}</p>
 
 <h6>SignalR Hubs API</h6>
 
@@ -90,15 +90,15 @@
 
 <p>Di server kita mendefinisikan method yang bisa langsung dipanggil oleh client, kemudian di dalam method ini akan memanggil method yang dijalankan oleh client. Contoh :</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-06.png">https://coding4ever.files.wordpress.com/2016/02/090216-06.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-06.png">https://coding4ever.files.wordpress.com/2016/02/090216-06.png</a> %}</p>
 
 <p>Coba perhatikan kode di atas, method <code>AddCustomer</code> adalah method server yang kita definisikan dan bisa langsung dipanggil oleh client. Nah di dalam method ini juga ada perintah <code>Clients.All.RefreshData(customer)</code>. Method <code>RefreshData</code> setelah property <code>All</code> adalah <code>dynamic method</code>, sehingga kita bebas menentukan sendiri nama methodnya. Dan jangan lupa method <code>RefreshData</code> ini juga harus kita definisikan ulang di bagian client.</p>
 
 <p>Untuk menggunakan fitur SignalR Hubs API kita cukup membuat sebuah class yang merupakan turunan dari class <code>Microsoft.AspNet.SignalR.Hub</code>. Misal kita membuat sebuah class dengan nama <code>ServerHub</code>, class ini harus turunan dari class <code>Microsoft.AspNet.SignalR.Hub</code>. Untuk kode lengkapnya seperti berikut :</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-07.png">https://coding4ever.files.wordpress.com/2016/02/090216-07.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-07.png">https://coding4ever.files.wordpress.com/2016/02/090216-07.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-08.png">https://coding4ever.files.wordpress.com/2016/02/090216-08.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-08.png">https://coding4ever.files.wordpress.com/2016/02/090216-08.png</a> %}</p>
 
 <h6>Mendaftarkan SignalR</h6>
 
@@ -114,97 +114,17 @@ Ada beberapa cara yang bisa digunakan untuk menempatkan SignalR ke dalam wadahny
 
 <p>Karena contoh Server SignalR yang kita buat di atas bertipe Windows Application, berarti kita menggunakan cara <code>Self hosting</code> untuk meng-hostkan SignalR. Untuk mengaktifkan fitur <code>Self hosting</code> kita perlu menambahkan library <code>Microsoft.AspNet.SignalR.SelfHost</code> dan <code>Microsoft.AspNet.Cors</code>, kemudian kita buat class baru dengan nama <code>Startup</code>. Untuk kode lengkapnya seperti berikut :</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-09.png">https://coding4ever.files.wordpress.com/2016/02/090216-09.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-09.png">https://coding4ever.files.wordpress.com/2016/02/090216-09.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-10.png">https://coding4ever.files.wordpress.com/2016/02/090216-10.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-10.png">https://coding4ever.files.wordpress.com/2016/02/090216-10.png</a> %}</p>
 
 <p>Setelah membuat class <code>ServerHub</code> dan <code>Startup</code> kita lanjutkan dengan form utama (FrmServer). Untuk desain UInya seperti berikut :</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-11.png">https://coding4ever.files.wordpress.com/2016/02/090216-11.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-11.png">https://coding4ever.files.wordpress.com/2016/02/090216-11.png</a> %}</p>
 
 <p>Untuk kode lengkapnya seperti berikut :</p>
 
-<p><div><script src='https://gist.github.com/63391d8f511049303b20.js'></script>
-<noscript><pre><code>using Microsoft.Owin.Hosting;
-
-namespace DemoSignalR.WinFormServer
-{
-    public partial class FrmServer : Form
-    {
-        private IDisposable signalR { get; set; }
-        private const string SERVER_URL = &quot;http://192.168.56.1:8282&quot;;
-
-        public FrmServer()
-        {
-            InitializeComponent();
-        }
-
-        private void btnStart_Click(object sender, EventArgs e)
-        {
-            WriteToConsole(&quot;Starting server...&quot;);
-
-            btnStart.Enabled = false;
-            Task.Run(() =&gt; StartServer());
-        }
-
-        private void btnStop_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-
-        /// &lt;summary&gt;
-        /// Starts the server and checks for error thrown when another server is already 
-        /// running. This method is called asynchronously from Button_Start.
-        /// &lt;/summary&gt;
-        private void StartServer()
-        {
-            try
-            {
-                signalR = WebApp.Start(SERVER_URL);
-            }
-            catch (TargetInvocationException)
-            {
-                WriteToConsole(&quot;Server failed to start. A server is already running on &quot; + SERVER_URL);
-
-                //Re-enable button to let user try to start server again
-                this.Invoke((Action)(() =&gt; btnStart.Enabled = true));
-                return;
-            }
-
-            this.Invoke((Action)(() =&gt; btnStop.Enabled = true));
-            WriteToConsole(&quot;Server started at &quot; + SERVER_URL);
-        }
-
-        /// &lt;summary&gt;
-        /// This method adds a line to the RichTextBoxConsole control, using Invoke if used
-        /// from a SignalR hub thread rather than the UI thread.
-        /// &lt;/summary&gt;
-        /// &lt;param name=&quot;message&quot;&gt;&lt;/param&gt;
-        internal void WriteToConsole(String message)
-        {
-            if (lstConsole.InvokeRequired)
-            {
-                this.Invoke((Action)(() =&gt;
-                    WriteToConsole(message)
-                ));
-
-                return;
-            }
-
-            lstConsole.Items.Add(message);
-        }       
-
-        private void FrmServer_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (signalR != null)
-            {
-                signalR.Dispose();
-            }
-        }
-    }
-}
-</code></pre></noscript></div>
-</p>
+<p>{% gist 63391d8f511049303b20 %}</p>
 
 <p>Setelah menyelesaikan project Server (DemoSignalR.WinFormServer) kita lanjutkan dengan project DemoSignalR.Model.</p>
 
@@ -212,9 +132,9 @@ namespace DemoSignalR.WinFormServer
 
 <p>Project ini hanya berisi class-class model. Data atau objek dari class-class model inilah yang nantinya akan dishare oleh server dan client secara <code>real-time</code>. Sebagai contoh di project ini kita hanya menambahkan satu class model yaitu <code>Customer</code>.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-12.png">https://coding4ever.files.wordpress.com/2016/02/090216-12.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-12.png">https://coding4ever.files.wordpress.com/2016/02/090216-12.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-13.png">https://coding4ever.files.wordpress.com/2016/02/090216-13.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-13.png">https://coding4ever.files.wordpress.com/2016/02/090216-13.png</a> %}</p>
 
 <p>Class Customer di atas masuk dalam kategori  <code>complex types</code> sehingga objek dari class Customer tersebut tidak bisa langsung dikirim dari client ke server atau sebaliknya. Perlu diketahui untuk tipe-tipe data primitif seperti integer, long, boolean termasuk string (pengecualian untuk string bukan tipe data primitif) bisa langsung dikirim dari client ke server atau sebaliknya. Khusus untuk objek dari <code>complex types</code> perlu kita konversi terlebih dulu datanya dalam format json.</p>
 
@@ -222,9 +142,9 @@ namespace DemoSignalR.WinFormServer
 
 <ul>
 <li><p>Menambahkan atribut <code>JsonProperty</code> pada property class
-<img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-14.png">https://coding4ever.files.wordpress.com/2016/02/090216-14.png</a>&#8221;></p></li>
+{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-14.png">https://coding4ever.files.wordpress.com/2016/02/090216-14.png</a> %}</p></li>
 <li><p>Atau mengkonversi secara langsung objek class ke dalam format json<br/>
-<img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-15.png">https://coding4ever.files.wordpress.com/2016/02/090216-15.png</a>&#8221;></p></li>
+{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-15.png">https://coding4ever.files.wordpress.com/2016/02/090216-15.png</a> %}</p></li>
 </ul>
 
 
@@ -234,124 +154,21 @@ namespace DemoSignalR.WinFormServer
 
 <p>Project terakhir yang akan kita bahas adalah <code>DemoSignalR.WinFormClient</code> ini adalah project untuk Client SignalR, tipenya juga sama seperti project Server SignalR yaitu Windows Application.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-16.png">https://coding4ever.files.wordpress.com/2016/02/090216-16.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-16.png">https://coding4ever.files.wordpress.com/2016/02/090216-16.png</a> %}</p>
 
-<p>Untuk menggunakan SignalR di sisi client kita perlu menambahkan beberapa library yang bisa kita install via <a href="/blog/2014/03/11/nuget/">NuGet</a>.</p>
+<p>Untuk menggunakan SignalR di sisi client kita perlu menambahkan beberapa library yang bisa kita install via <a href="{{%20site.url%20}}/blog/2014/03/11/nuget/">NuGet</a>.</p>
 
-<p>Berikut adalah daftar paket <a href="/blog/2014/03/11/nuget/">NuGet</a> yang perlu kita tambahkan di project client.</p>
+<p>Berikut adalah daftar paket <a href="{{%20site.url%20}}/blog/2014/03/11/nuget/">NuGet</a> yang perlu kita tambahkan di project client.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-17.png">https://coding4ever.files.wordpress.com/2016/02/090216-17.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-17.png">https://coding4ever.files.wordpress.com/2016/02/090216-17.png</a> %}</p>
 
 <p>Untuk kode lengkapnya seperti berikut :</p>
 
-<p><div><script src='https://gist.github.com/ded6ca2911696e0b752e.js'></script>
-<noscript><pre><code>using Microsoft.AspNet.SignalR.Client;
-using DemoSignalR.Model;
-
-namespace DemoSignalR.WinFormClient
-{
-    public partial class FrmClient : Form
-    {
-        private const string SERVER_URL = &quot;http://192.168.56.1:8282&quot;;
-
-        private HubConnection hubConnection;
-        private IHubProxy hubProxy;
-
-        public FrmClient()
-        {
-            InitializeComponent();
-
-            InisialisasiListView();
-
-            hubConnection = new HubConnection(SERVER_URL);
-            
-            // membuat objek proxy dari class hub yang ada di server
-            hubProxy = hubConnection.CreateHubProxy(&quot;ServerHub&quot;);
-
-            // set mode listen untuk method RefreshData
-            // method RefreshData sebelumnya harus didefinisikan di server
-            hubProxy.On&lt;Customer&gt;(&quot;RefreshData&quot;, (customer) =&gt; RefreshData(customer));
-            ConnectAsync();
-        }
-
-        private void RefreshData(Customer customer)
-        {
-            lvwCustomer.Invoke(new MethodInvoker(() =&gt; FillToListView(customer)));
-        }
-
-        /// &lt;summary&gt;
-        /// Creates and connects the hub connection and hub proxy.
-        /// &lt;/summary&gt;
-        private async void ConnectAsync()
-        {
-            try
-            {
-                await hubConnection.Start();
-                btnSave.Enabled = true;
-            }
-            catch
-            {
-                MessageBox.Show(&quot;Unable to connect to server: Start server before connecting clients.&quot;);
-                return;
-            }
-
-        }
-
-        // pengaturan propery listview
-        private void InisialisasiListView()
-        {
-            lvwCustomer.View = System.Windows.Forms.View.Details;
-            lvwCustomer.FullRowSelect = true;
-            lvwCustomer.GridLines = true;
-
-            lvwCustomer.Columns.Add(&quot;No.&quot;, 30, HorizontalAlignment.Center);
-            lvwCustomer.Columns.Add(&quot;Customer Id&quot;, 70, HorizontalAlignment.Left);
-            lvwCustomer.Columns.Add(&quot;Company Name&quot;, 150, HorizontalAlignment.Left);
-            lvwCustomer.Columns.Add(&quot;Contact Name&quot;, 155, HorizontalAlignment.Left);
-        }
-
-        // method untuk menampilkan data customer ke listview
-        private void FillToListView(Customer customer)
-        {
-            int noUrut = lvwCustomer.Items.Count + 1;
-
-            ListViewItem item = new ListViewItem(noUrut.ToString());
-            item.SubItems.Add(customer.CustomerId);
-            item.SubItems.Add(customer.CompanyName);
-            item.SubItems.Add(customer.ContactName);
-
-            lvwCustomer.Items.Add(item);
-        }
-
-        private void FrmClient_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (hubConnection != null)
-            {
-                hubConnection.Stop();
-                hubConnection.Dispose();
-            }
-        }
-
-        private void btnSave_Click(object sender, EventArgs e)
-        {
-            var customer = new Customer
-            {
-                CustomerId = txtCustomerId.Text,
-                CompanyName = txtCompanyName.Text,
-                ContactName = txtContactName.Text
-            };
-
-            // invoking a server function: 
-            hubProxy.Invoke(&quot;AddCustomer&quot;, customer);
-        }
-    }
-}
-</code></pre></noscript></div>
-</p>
+<p>{% gist ded6ca2911696e0b752e %}</p>
 
 <p>Dan hasilnya adalah seperti berikut :</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/090216-03.png">https://coding4ever.files.wordpress.com/2016/02/090216-03.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/090216-03.png">https://coding4ever.files.wordpress.com/2016/02/090216-03.png</a> %}</p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/DemoSignalR">MENCOBA</a> :-)</p>
 

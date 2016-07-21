@@ -106,16 +106,13 @@
 
 <p>Rencananya software yang kita buat akan diinstall dibeberapa komputer misal 1 server dengan 10 klien, yang jadi pertanyaan dimanakah donglenya akan dipasang ? Di komputer server ? Komputer klien ? Ganti-gantian ? Atau semua komputer akan dipasang dongle :lol:</p>
 
-<!-- more -->
-
-
-<p>Jelas solusi yang terbaik dan tidak akan dibantah klien kita adalah cukup dipasang di komputer server, kalo begitu aplikasi klien harus mempunyai cara untuk mengetahui apakah status dongle di server dipasang/tidak atau donglenya valid/tidak.</p>
+<p><!-- more -->Jelas solusi yang terbaik dan tidak akan dibantah klien kita adalah cukup dipasang di komputer server, kalo begitu aplikasi klien harus mempunyai cara untuk mengetahui apakah status dongle di server dipasang/tidak atau donglenya valid/tidak.</p>
 
 <p>Saat ini ada 2 cara yang mungkin bisa kita lakukan :</p>
 
 <ol>
-<li><p> Status donglenya kita simpan di database, dengan cara ini kita mungkin akan membuat program tambahan yang sifatnya realtime mengecek status dongle kemudian menyimpannya ke database, sehingga hal ini memungkinkan klien mengetahui status terakhir dongle.</p></li>
-<li><p> Status dongle hanya akan dicek jika ada request dari klien, jelas ini cara yang lebih efektif jadi enggak perlu harus realtime mengecek status dongle dan tentunya hal ini akan lebih menghemat memory.</p></li>
+<li><p>Status donglenya kita simpan di database, dengan cara ini kita mungkin akan membuat program tambahan yang sifatnya realtime mengecek status dongle kemudian menyimpannya ke database, sehingga hal ini memungkinkan klien mengetahui status terakhir dongle.</p></li>
+<li><p>Status dongle hanya akan dicek jika ada request dari klien, jelas ini cara yang lebih efektif jadi enggak perlu harus realtime mengecek status dongle dan tentunya hal ini akan lebih menghemat memory.</p></li>
 </ol>
 
 
@@ -130,7 +127,7 @@
 
 <p>Intinya aplikasi ini hanya menerima koneksi masuk, melakukan pengecekan dongle kemudian memberikan balasanke klien (true|false). Data yang masuk divalidasi terlebih dahulu jika bernilai string &ldquo;reqStatusDongle&rdquo; baru diproses.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -165,26 +162,25 @@
 </span><span class='line'>
 </span><span class='line'>    On Error GoTo errHandle
 </span><span class='line'>
-</span><span class='line'>    ' Grab the data from the specified Winsock object, and pass it to the parent.
+</span><span class='line'>    &lsquo; Grab the data from the specified Winsock object, and pass it to the parent.
 </span><span class='line'>    Call Socket(Index).GetData(strData)
 </span><span class='line'>    DoEvents
 </span><span class='line'>
-</span><span class='line'>    'hanya data dengan string 'reqStatusDongle' yg akan diproses
-</span><span class='line'>    If strData = "reqStatusDongle" Then
+</span><span class='line'>    'hanya data dengan string 'reqStatusDongle&rsquo; yg akan diproses
+</span><span class='line'>    If strData = &ldquo;reqStatusDongle&rdquo; Then
 </span><span class='line'>        If isValidDongle Then
-</span><span class='line'>            statusDongle = "true"
+</span><span class='line'>            statusDongle = &ldquo;true&rdquo;
 </span><span class='line'>        Else
-</span><span class='line'>            statusDongle = "false"
+</span><span class='line'>            statusDongle = &ldquo;false&rdquo;
 </span><span class='line'>        End If
 </span><span class='line'>
-</span><span class='line'>        ret = send(Index, statusDongle) 'kirim status dongle ke klien
+</span><span class='line'>        ret = send(Index, statusDongle) &lsquo;kirim status dongle ke klien
 </span><span class='line'>    End If
 </span><span class='line'>
 </span><span class='line'>    Exit Sub
 </span><span class='line'>errHandle:
 </span><span class='line'>   Call Socket(Index).Close
-</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
-
+</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure></p>
 
 <p><a href="http://coding4ever.files.wordpress.com/2010/02/10022010-1.jpg"><img src="http://coding4ever.files.wordpress.com/2010/02/10022010-1.jpg?w=300" alt="" /></a></p>
 
@@ -197,7 +193,7 @@
 
 <p>Aplikasi klien ditambahkan 1 form khusus untuk merequest status dongle</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -227,15 +223,15 @@
 <span class='line-number'>28</span>
 <span class='line-number'>29</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub Form_Load()
-</span><span class='line'>    If startConnect("127.0.0.1") Then
-</span><span class='line'>        'ingat hanya string 'reqStatusDongle' yang akan diproses oleh server
-</span><span class='line'>        If Not send("reqStatusDongle") Then
-</span><span class='line'>            MsgBox "Aplikasi Toekang Cek Doengle belum aktif", vbExclamation, "Warning"
+</span><span class='line'>    If startConnect(&ldquo;127.0.0.1&rdquo;) Then
+</span><span class='line'>        &lsquo;ingat hanya string 'reqStatusDongle&rsquo; yang akan diproses oleh server
+</span><span class='line'>        If Not send(&ldquo;reqStatusDongle&rdquo;) Then
+</span><span class='line'>            MsgBox &ldquo;Aplikasi Toekang Cek Doengle belum aktif&rdquo;, vbExclamation, &ldquo;Warning&rdquo;
 </span><span class='line'>            Unload Me
 </span><span class='line'>        End If
 </span><span class='line'>
 </span><span class='line'>    Else
-</span><span class='line'>        MsgBox "Aplikasi Toekang Cek Doengle belum aktif", vbExclamation, "Warning"
+</span><span class='line'>        MsgBox &ldquo;Aplikasi Toekang Cek Doengle belum aktif&rdquo;, vbExclamation, &ldquo;Warning&rdquo;
 </span><span class='line'>        Unload Me
 </span><span class='line'>    End If
 </span><span class='line'>End Sub
@@ -243,19 +239,18 @@
 </span><span class='line'>Private Sub Socket_DataArrival(ByVal bytesTotal As Long)
 </span><span class='line'>    Dim dataMasuk   As String
 </span><span class='line'>
-</span><span class='line'>    'On Error Resume Next
+</span><span class='line'>    &lsquo;On Error Resume Next
 </span><span class='line'>
 </span><span class='line'>    Socket.GetData dataMasuk
-</span><span class='line'>    If dataMasuk = "true" Then 'dongle sudah terpasang dan valid
-</span><span class='line'>        MsgBox "dongle valid"
+</span><span class='line'>    If dataMasuk = &ldquo;true&rdquo; Then 'dongle sudah terpasang dan valid
+</span><span class='line'>        MsgBox &ldquo;dongle valid&rdquo;
 </span><span class='line'>        'TODO : tampilkan form utama disini
 </span><span class='line'>    Else
-</span><span class='line'>        MsgBox "Maaf dongle belum terpasang, aplikasi tidak bisa dilanjutkan", vbExclamation, "Peringatan"
+</span><span class='line'>        MsgBox &ldquo;Maaf dongle belum terpasang, aplikasi tidak bisa dilanjutkan&rdquo;, vbExclamation, &ldquo;Peringatan&rdquo;
 </span><span class='line'>    End If
 </span><span class='line'>
 </span><span class='line'>    Unload Me
-</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
-
+</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Oke mungkin itu saja yang bisa saya bahas, sample program bisa didownload di<a href="https://github.com/k4m4r82/AktivasiDongle2">sini</a>.</p>
 
@@ -361,6 +356,10 @@ Saat ini bekerja sebagai staf IT di salah satu PTS di Yogyakarta sebagai senior 
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/07/20/unit-testing-menggunakan-nunit/">Unit Testing Menggunakan Nunit</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/06/28/repository-pattern-bagian-number-2/">Repository Pattern Bagian #2</a>
       </li>
     
@@ -396,19 +395,15 @@ Saat ini bekerja sebagai staf IT di salah satu PTS di Yogyakarta sebagai senior 
         <a href="/blog/2016/01/24/membuat-laporan-crystal-reports-net-dengan-model-data-push-bagian-number-2/">Membuat Laporan Crystal Reports .NET Dengan Model Data-Push Bagian #2</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2016/01/10/paket-nuget-yang-wajib-dicoba-bagian-number-2-autoupdater-dot-net/">Paket NuGet Yang Wajib Dicoba Bagian #2 - AutoUpdater.NET</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h1>Categories</h1>
-    <ul id="category-list"><li><a href='/blog/categories/dot-net-remoting/'>.net remoting (9)</a></li><li><a href='/blog/categories/active-report/'>active report (4)</a></li><li><a href='/blog/categories/android/'>android (1)</a></li><li><a href='/blog/categories/aplikasi/'>aplikasi (4)</a></li><li><a href='/blog/categories/autoupdater-dot-net/'>autoupdater.net (1)</a></li><li><a href='/blog/categories/build-events/'>build events (3)</a></li><li><a href='/blog/categories/crashreporter-dot-net/'>crashreporter.net (1)</a></li><li><a href='/blog/categories/crystal-reports-net/'>crystal reports .net (4)</a></li><li><a href='/blog/categories/dapper-net/'>dapper .net (6)</a></li><li><a href='/blog/categories/database/'>database (2)</a></li><li><a href='/blog/categories/entity-framework/'>entity framework (9)</a></li><li><a href='/blog/categories/firebird/'>firebird (12)</a></li><li><a href='/blog/categories/freeware/'>freeware (7)</a></li><li><a href='/blog/categories/inno-setup/'>inno setup (6)</a></li><li><a href='/blog/categories/jaringan/'>jaringan (1)</a></li><li><a href='/blog/categories/mysql/'>mysql (10)</a></li><li><a href='/blog/categories/nsis/'>nsis (2)</a></li><li><a href='/blog/categories/nuget/'>nuget (5)</a></li><li><a href='/blog/categories/repository-pattern/'>repository pattern (2)</a></li><li><a href='/blog/categories/signalr/'>signalr (2)</a></li><li><a href='/blog/categories/sql-server/'>sql server (1)</a></li><li><a href='/blog/categories/sql-server-2000/'>sql server 2000 (1)</a></li><li><a href='/blog/categories/sqlite/'>sqlite (3)</a></li><li><a href='/blog/categories/testing/'>testing (1)</a></li><li><a href='/blog/categories/tools-installer/'>tools installer (8)</a></li><li><a href='/blog/categories/uncategorized/'>uncategorized (8)</a></li><li><a href='/blog/categories/unit-of-work-pattern/'>unit of work pattern (1)</a></li><li><a href='/blog/categories/visual-basic/'>visual basic (74)</a></li><li><a href='/blog/categories/visual-basic-net/'>visual basic .net (11)</a></li><li><a href='/blog/categories/visual-c-number/'>visual c# (48)</a></li><li><a href='/blog/categories/visual-studio-net/'>visual studio .net (3)</a></li><li><a href='/blog/categories/wcf/'>wcf (4)</a></li><li><a href='/blog/categories/winsock/'>winsock (6)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/dot-net-remoting/'>.net remoting (9)</a></li><li><a href='/blog/categories/active-report/'>active report (4)</a></li><li><a href='/blog/categories/android/'>android (1)</a></li><li><a href='/blog/categories/aplikasi/'>aplikasi (4)</a></li><li><a href='/blog/categories/autoupdater-dot-net/'>autoupdater.net (1)</a></li><li><a href='/blog/categories/build-events/'>build events (3)</a></li><li><a href='/blog/categories/crashreporter-dot-net/'>crashreporter.net (1)</a></li><li><a href='/blog/categories/crystal-reports-net/'>crystal reports .net (4)</a></li><li><a href='/blog/categories/dapper-net/'>dapper .net (6)</a></li><li><a href='/blog/categories/database/'>database (2)</a></li><li><a href='/blog/categories/entity-framework/'>entity framework (9)</a></li><li><a href='/blog/categories/firebird/'>firebird (12)</a></li><li><a href='/blog/categories/freeware/'>freeware (7)</a></li><li><a href='/blog/categories/inno-setup/'>inno setup (6)</a></li><li><a href='/blog/categories/jaringan/'>jaringan (1)</a></li><li><a href='/blog/categories/mysql/'>mysql (10)</a></li><li><a href='/blog/categories/nsis/'>nsis (2)</a></li><li><a href='/blog/categories/nuget/'>nuget (5)</a></li><li><a href='/blog/categories/repository-pattern/'>repository pattern (2)</a></li><li><a href='/blog/categories/signalr/'>signalr (2)</a></li><li><a href='/blog/categories/software-testing/'>software testing (2)</a></li><li><a href='/blog/categories/sql-server/'>sql server (1)</a></li><li><a href='/blog/categories/sql-server-2000/'>sql server 2000 (1)</a></li><li><a href='/blog/categories/sqlite/'>sqlite (3)</a></li><li><a href='/blog/categories/tools-installer/'>tools installer (8)</a></li><li><a href='/blog/categories/uncategorized/'>uncategorized (8)</a></li><li><a href='/blog/categories/unit-of-work-pattern/'>unit of work pattern (1)</a></li><li><a href='/blog/categories/visual-basic/'>visual basic (74)</a></li><li><a href='/blog/categories/visual-basic-net/'>visual basic .net (11)</a></li><li><a href='/blog/categories/visual-c-number/'>visual c# (48)</a></li><li><a href='/blog/categories/visual-studio-net/'>visual studio .net (3)</a></li><li><a href='/blog/categories/wcf/'>wcf (4)</a></li><li><a href='/blog/categories/winsock/'>winsock (6)</a></li></ul>
 </section>
 <section>
   <h1>Tag Cloud</h1>
-    <span id="tag-cloud"><a href='/blog/categories/dot-net-remoting' style='font-size: 107.29729729729729%'>.net remoting(9)</a> <a href='/blog/categories/active-report' style='font-size: 103.24324324324324%'>active report(4)</a> <a href='/blog/categories/android' style='font-size: 100.8108108108108%'>android(1)</a> <a href='/blog/categories/aplikasi' style='font-size: 103.24324324324324%'>aplikasi(4)</a> <a href='/blog/categories/autoupdater-dot-net' style='font-size: 100.8108108108108%'>autoupdater.net(1)</a> <a href='/blog/categories/build-events' style='font-size: 102.43243243243244%'>build events(3)</a> <a href='/blog/categories/crashreporter-dot-net' style='font-size: 100.8108108108108%'>crashreporter.net(1)</a> <a href='/blog/categories/crystal-reports-net' style='font-size: 103.24324324324324%'>crystal reports .net(4)</a> <a href='/blog/categories/dapper-net' style='font-size: 104.86486486486487%'>dapper .net(6)</a> <a href='/blog/categories/database' style='font-size: 101.62162162162163%'>database(2)</a> <a href='/blog/categories/entity-framework' style='font-size: 107.29729729729729%'>entity framework(9)</a> <a href='/blog/categories/firebird' style='font-size: 109.72972972972973%'>firebird(12)</a> <a href='/blog/categories/freeware' style='font-size: 105.67567567567568%'>freeware(7)</a> <a href='/blog/categories/inno-setup' style='font-size: 104.86486486486487%'>inno setup(6)</a> <a href='/blog/categories/jaringan' style='font-size: 100.8108108108108%'>jaringan(1)</a> <a href='/blog/categories/mysql' style='font-size: 108.10810810810811%'>mysql(10)</a> <a href='/blog/categories/nsis' style='font-size: 101.62162162162163%'>nsis(2)</a> <a href='/blog/categories/nuget' style='font-size: 104.05405405405405%'>nuget(5)</a> <a href='/blog/categories/repository-pattern' style='font-size: 101.62162162162163%'>repository pattern(2)</a> <a href='/blog/categories/signalr' style='font-size: 101.62162162162163%'>signalr(2)</a> <a href='/blog/categories/sql-server' style='font-size: 100.8108108108108%'>sql server(1)</a> <a href='/blog/categories/sql-server-2000' style='font-size: 100.8108108108108%'>sql server 2000(1)</a> <a href='/blog/categories/sqlite' style='font-size: 102.43243243243244%'>sqlite(3)</a> <a href='/blog/categories/testing' style='font-size: 100.8108108108108%'>testing(1)</a> <a href='/blog/categories/tools-installer' style='font-size: 106.48648648648648%'>tools installer(8)</a> <a href='/blog/categories/uncategorized' style='font-size: 106.48648648648648%'>uncategorized(8)</a> <a href='/blog/categories/unit-of-work-pattern' style='font-size: 100.8108108108108%'>unit of work pattern(1)</a> <a href='/blog/categories/visual-basic' style='font-size: 160.0%'>visual basic(74)</a> <a href='/blog/categories/visual-basic-net' style='font-size: 108.91891891891892%'>visual basic .net(11)</a> <a href='/blog/categories/visual-c-number' style='font-size: 138.9189189189189%'>visual c#(48)</a> <a href='/blog/categories/visual-studio-net' style='font-size: 102.43243243243244%'>visual studio .net(3)</a> <a href='/blog/categories/wcf' style='font-size: 103.24324324324324%'>wcf(4)</a> <a href='/blog/categories/winsock' style='font-size: 104.86486486486487%'>winsock(6)</a> </span>
+    <span id="tag-cloud"><a href='/blog/categories/dot-net-remoting' style='font-size: 107.29729729729729%'>.net remoting(9)</a> <a href='/blog/categories/active-report' style='font-size: 103.24324324324324%'>active report(4)</a> <a href='/blog/categories/android' style='font-size: 100.8108108108108%'>android(1)</a> <a href='/blog/categories/aplikasi' style='font-size: 103.24324324324324%'>aplikasi(4)</a> <a href='/blog/categories/autoupdater-dot-net' style='font-size: 100.8108108108108%'>autoupdater.net(1)</a> <a href='/blog/categories/build-events' style='font-size: 102.43243243243244%'>build events(3)</a> <a href='/blog/categories/crashreporter-dot-net' style='font-size: 100.8108108108108%'>crashreporter.net(1)</a> <a href='/blog/categories/crystal-reports-net' style='font-size: 103.24324324324324%'>crystal reports .net(4)</a> <a href='/blog/categories/dapper-net' style='font-size: 104.86486486486487%'>dapper .net(6)</a> <a href='/blog/categories/database' style='font-size: 101.62162162162163%'>database(2)</a> <a href='/blog/categories/entity-framework' style='font-size: 107.29729729729729%'>entity framework(9)</a> <a href='/blog/categories/firebird' style='font-size: 109.72972972972973%'>firebird(12)</a> <a href='/blog/categories/freeware' style='font-size: 105.67567567567568%'>freeware(7)</a> <a href='/blog/categories/inno-setup' style='font-size: 104.86486486486487%'>inno setup(6)</a> <a href='/blog/categories/jaringan' style='font-size: 100.8108108108108%'>jaringan(1)</a> <a href='/blog/categories/mysql' style='font-size: 108.10810810810811%'>mysql(10)</a> <a href='/blog/categories/nsis' style='font-size: 101.62162162162163%'>nsis(2)</a> <a href='/blog/categories/nuget' style='font-size: 104.05405405405405%'>nuget(5)</a> <a href='/blog/categories/repository-pattern' style='font-size: 101.62162162162163%'>repository pattern(2)</a> <a href='/blog/categories/signalr' style='font-size: 101.62162162162163%'>signalr(2)</a> <a href='/blog/categories/software-testing' style='font-size: 101.62162162162163%'>software testing(2)</a> <a href='/blog/categories/sql-server' style='font-size: 100.8108108108108%'>sql server(1)</a> <a href='/blog/categories/sql-server-2000' style='font-size: 100.8108108108108%'>sql server 2000(1)</a> <a href='/blog/categories/sqlite' style='font-size: 102.43243243243244%'>sqlite(3)</a> <a href='/blog/categories/tools-installer' style='font-size: 106.48648648648648%'>tools installer(8)</a> <a href='/blog/categories/uncategorized' style='font-size: 106.48648648648648%'>uncategorized(8)</a> <a href='/blog/categories/unit-of-work-pattern' style='font-size: 100.8108108108108%'>unit of work pattern(1)</a> <a href='/blog/categories/visual-basic' style='font-size: 160.0%'>visual basic(74)</a> <a href='/blog/categories/visual-basic-net' style='font-size: 108.91891891891892%'>visual basic .net(11)</a> <a href='/blog/categories/visual-c-number' style='font-size: 138.9189189189189%'>visual c#(48)</a> <a href='/blog/categories/visual-studio-net' style='font-size: 102.43243243243244%'>visual studio .net(3)</a> <a href='/blog/categories/wcf' style='font-size: 103.24324324324324%'>wcf(4)</a> <a href='/blog/categories/winsock' style='font-size: 104.86486486486487%'>winsock(6)</a> </span>
 </section>
 
 <section>

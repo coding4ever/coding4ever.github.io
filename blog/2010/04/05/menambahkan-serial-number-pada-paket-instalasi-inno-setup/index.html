@@ -108,15 +108,12 @@
 
 <p>Silahkan Anda download <a href="http://www.mjfreelancing.com/IKG.htm">IKG</a> dari situs resminya atau bisa juga download di<a href="http://dc196.4shared.com/download/257069716/702b80a7">sini</a> tetapi saya lebih menyarankan Anda untuk  mendownload dari link ke <a href="http://dc196.4shared.com/download/257069716/702b80a7">dua</a> saja :D karena sudah saya seleksi file-file apa saja yang dibutuhkan.</p>
 
-<!-- more -->
-
-
-<p>Jika sudah selesai downloadnya silahkan Anda ekstrak file IKG.rarnya, berikut adalah penjelasan singkat tentang file-file yang ada di dalam file IKG.rar</p>
+<p><!-- more -->Jika sudah selesai downloadnya silahkan Anda ekstrak file IKG.rarnya, berikut adalah penjelasan singkat tentang file-file yang ada di dalam file IKG.rar</p>
 
 <ol>
-<li><p> <strong>ISID.dll</strong>, file ini dibutuhkan untuk melakukan validasi serial number/unlock code yang diinputkan pada saat proses instalasi, otomatis harus kita sertakan pada saat pembuatan paket instalasi.</p></li>
-<li><p> <strong>IKG.exe</strong> adalah tool untuk mengenerate file Inno Key yang berisi informasi user + serial number valid yang sudah terenkripsi,<del> jadi setiap paket instalasi yang kita buat membutuhkan file inno key yang unik (huhhhh report juga ya) namanya juga mau aman (walaupun tidak 100%) report sedikitkan engga pa2 kan</del> (ralat 1 public key inno bisa untuk beberapa user name yg berbeda).</p></li>
-<li><p> <strong>IKGHelp.pdf</strong>, klo yang ini kayaxnya enggak perlu saya jelasin.</p></li>
+<li><p><strong>ISID.dll</strong>, file ini dibutuhkan untuk melakukan validasi serial number/unlock code yang diinputkan pada saat proses instalasi, otomatis harus kita sertakan pada saat pembuatan paket instalasi.</p></li>
+<li><p><strong>IKG.exe</strong> adalah tool untuk mengenerate file Inno Key yang berisi informasi user + serial number valid yang sudah terenkripsi,<del> jadi setiap paket instalasi yang kita buat membutuhkan file inno key yang unik (huhhhh report juga ya) namanya juga mau aman (walaupun tidak 100%) report sedikitkan engga pa2 kan</del> (ralat 1 public key inno bisa untuk beberapa user name yg berbeda).</p></li>
+<li><p><strong>IKGHelp.pdf</strong>, klo yang ini kayaxnya enggak perlu saya jelasin.</p></li>
 </ol>
 
 
@@ -137,10 +134,10 @@
 <p>Untuk menyederhanakan pembahasan, informasi yang akan kita tambahkan pada saat instalasi kita batasi sebagai berikut :</p>
 
 <ol>
-<li><p> Registered Name</p></li>
-<li><p> Registered Company</p></li>
-<li><p> Registration Code</p></li>
-<li><p> Private Key</p></li>
+<li><p>Registered Name</p></li>
+<li><p>Registered Company</p></li>
+<li><p>Registration Code</p></li>
+<li><p>Private Key</p></li>
 </ol>
 
 
@@ -160,7 +157,7 @@
 
 <p>Sampai disini kita akan memasuki bagian yang paling menyenangkan yaitu coding :D. Kita akan menambahkan beberapa baris kode pada bagian <strong>[Files]</strong> dan <strong>[Code]</strong>.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -273,10 +270,10 @@
 </span><span class='line'>
 </span><span class='line'>[Code]
 </span><span class='line'>function ValidateSerialNumber(InnoKeyFile, User, Orgn, ProdCode, HDD, MAC, PrivateKey, Serial: String): Boolean;
-</span><span class='line'>external 'ValidateSerialNumber@files:ISID.dll stdcall';
+</span><span class='line'>external &lsquo;ValidateSerialNumber@files:ISID.dll stdcall&rsquo;;
 </span><span class='line'>
 </span><span class='line'>const
-</span><span class='line'>    INNO_KEY = 'klien-1.iky';
+</span><span class='line'>    INNO_KEY = &lsquo;klien-1.iky&rsquo;;
 </span><span class='line'>
 </span><span class='line'>var
 </span><span class='line'>  UserPage   : TInputQueryWizardPage;
@@ -285,38 +282,38 @@
 </span><span class='line'>procedure InitializeWizard();
 </span><span class='line'>begin
 </span><span class='line'>  { create the custom page }
-</span><span class='line'>    UserPage := CreateInputQueryPage(wpInfoBefore, 'Informasi Registrasi', 'Anda memerlukan user yang valid agar bisa melanjutkan proses instalasi',
-</span><span class='line'>      'Masukkan informasi registrasi (case sensitive), kemudian klik tombol Lanjut >.');
+</span><span class='line'>    UserPage := CreateInputQueryPage(wpInfoBefore, &lsquo;Informasi Registrasi&rsquo;, &lsquo;Anda memerlukan user yang valid agar bisa melanjutkan proses instalasi&rsquo;,
+</span><span class='line'>      &lsquo;Masukkan informasi registrasi (case sensitive), kemudian klik tombol Lanjut >.&rsquo;);
 </span><span class='line'>
-</span><span class='line'>  UserPage.Add('Registered Name:', False);
-</span><span class='line'>  UserPage.Add('Registered Company:', False);
-</span><span class='line'>  UserPage.Add('Registration Code:', False);
-</span><span class='line'>  UserPage.Add('Private Key:', False);
+</span><span class='line'>  UserPage.Add(&lsquo;Registered Name:&rsquo;, False);
+</span><span class='line'>  UserPage.Add(&lsquo;Registered Company:&rsquo;, False);
+</span><span class='line'>  UserPage.Add(&lsquo;Registration Code:&rsquo;, False);
+</span><span class='line'>  UserPage.Add(&lsquo;Private Key:&rsquo;, False);
 </span><span class='line'>
 </span><span class='line'>  { Set default values }
 </span><span class='line'>      SetArrayLength(UserValues, 4);
-</span><span class='line'>      RegQueryStringValue(HKLM, 'Software\Microsoft\Windows\CurrentVersion', 'RegisteredOwner', UserValues[0]);
-</span><span class='line'>      RegQueryStringValue(HKLM, 'Software\Microsoft\Windows\CurrentVersion', 'RegisteredOrganization', UserValues[1]);
-</span><span class='line'>      if (UserValues[0] = '') and (UserValues[1] = '') then begin
-</span><span class='line'>      RegQueryStringValue(HKCU, 'Software\Microsoft\MS Setup (ACME)\User Info', 'DefName', UserValues[0]);
-</span><span class='line'>      RegQueryStringValue(HKCU, 'Software\Microsoft\MS Setup (ACME)\User Info', 'DefCompany', UserValues[1]);
+</span><span class='line'>      RegQueryStringValue(HKLM, &lsquo;Software\Microsoft\Windows\CurrentVersion&rsquo;, &lsquo;RegisteredOwner&rsquo;, UserValues[0]);
+</span><span class='line'>      RegQueryStringValue(HKLM, &lsquo;Software\Microsoft\Windows\CurrentVersion&rsquo;, &lsquo;RegisteredOrganization&rsquo;, UserValues[1]);
+</span><span class='line'>      if (UserValues[0] = &lsquo;&rsquo;) and (UserValues[1] = &lsquo;&rsquo;) then begin
+</span><span class='line'>      RegQueryStringValue(HKCU, &lsquo;Software\Microsoft\MS Setup (ACME)\User Info&rsquo;, &lsquo;DefName&rsquo;, UserValues[0]);
+</span><span class='line'>      RegQueryStringValue(HKCU, &lsquo;Software\Microsoft\MS Setup (ACME)\User Info&rsquo;, &lsquo;DefCompany&rsquo;, UserValues[1]);
 </span><span class='line'>      end;
 </span><span class='line'>
 </span><span class='line'>      { Try to find the settings that were stored last time (also see below). }
-</span><span class='line'>      UserPage.Values[0] := GetPreviousData('Name', UserValues[0]);
-</span><span class='line'>      UserPage.Values[1] := GetPreviousData('Company', UserValues[1]);
-</span><span class='line'>      UserPage.Values[2] := GetPreviousData('Unlock', UserValues[2]);
-</span><span class='line'>      UserPage.Values[3] := GetPreviousData('Private', UserValues[3]);
+</span><span class='line'>      UserPage.Values[0] := GetPreviousData(&lsquo;Name&rsquo;, UserValues[0]);
+</span><span class='line'>      UserPage.Values[1] := GetPreviousData(&lsquo;Company&rsquo;, UserValues[1]);
+</span><span class='line'>      UserPage.Values[2] := GetPreviousData(&lsquo;Unlock&rsquo;, UserValues[2]);
+</span><span class='line'>      UserPage.Values[3] := GetPreviousData(&lsquo;Private&rsquo;, UserValues[3]);
 </span><span class='line'>
 </span><span class='line'>end;
 </span><span class='line'>
 </span><span class='line'>procedure RegisterPreviousData(PreviousDataKey: Integer);
 </span><span class='line'>begin
 </span><span class='line'>  { Store the settings so we can restore them next time }
-</span><span class='line'>  SetPreviousData(PreviousDataKey, 'Name', UserPage.Values[0]);
-</span><span class='line'>  SetPreviousData(PreviousDataKey, 'Company', UserPage.Values[1]);
-</span><span class='line'>  SetPreviousData(PreviousDataKey, 'Unlock', UserPage.Values[2]);
-</span><span class='line'>  SetPreviousData(PreviousDataKey, 'Private', UserPage.Values[3]);
+</span><span class='line'>  SetPreviousData(PreviousDataKey, &lsquo;Name&rsquo;, UserPage.Values[0]);
+</span><span class='line'>  SetPreviousData(PreviousDataKey, &lsquo;Company&rsquo;, UserPage.Values[1]);
+</span><span class='line'>  SetPreviousData(PreviousDataKey, &lsquo;Unlock&rsquo;, UserPage.Values[2]);
+</span><span class='line'>  SetPreviousData(PreviousDataKey, &lsquo;Private&rsquo;, UserPage.Values[3]);
 </span><span class='line'>end;
 </span><span class='line'>
 </span><span class='line'>function ScriptDlgPages(CurPage: Integer; BackClicked: Boolean): Boolean;
@@ -330,7 +327,7 @@
 </span><span class='line'>  begin
 </span><span class='line'>        ExtractTemporaryFile(INNO_KEY);       { the public key file }
 </span><span class='line'>
-</span><span class='line'>      ExpPath := ExpandConstant('{tmp}\' + INNO_KEY);
+</span><span class='line'>      ExpPath := ExpandConstant(&lsquo;{tmp}\&rsquo; + INNO_KEY);
 </span><span class='line'>
 </span><span class='line'>      Result := False;
 </span><span class='line'>
@@ -339,14 +336,14 @@
 </span><span class='line'>      UserValues[2] := UserPage.Values[2];
 </span><span class='line'>      UserValues[3] := UserPage.Values[3];
 </span><span class='line'>
-</span><span class='line'>      if (UserValues[0] = '') or (UserValues[1] = '') or (UserValues[2] = '') or (UserValues[3] = '') then
-</span><span class='line'>          MsgBox('No fields can be blank !', mbError, MB_OK)
+</span><span class='line'>      if (UserValues[0] = &lsquo;&rsquo;) or (UserValues[1] = &lsquo;&rsquo;) or (UserValues[2] = &lsquo;&rsquo;) or (UserValues[3] = &lsquo;&rsquo;) then
+</span><span class='line'>          MsgBox(&lsquo;No fields can be blank !&rsquo;, mbError, MB_OK)
 </span><span class='line'>      else
 </span><span class='line'>      begin
-</span><span class='line'>          Result := ValidateSerialNumber(ExpPath, UserValues[0], UserValues[1], '', '', '', UserValues[3], UserValues[2]);
+</span><span class='line'>          Result := ValidateSerialNumber(ExpPath, UserValues[0], UserValues[1], &lsquo;&rsquo;, &lsquo;&rsquo;, &lsquo;&rsquo;, UserValues[3], UserValues[2]);
 </span><span class='line'>
 </span><span class='line'>          if (not Result) then
-</span><span class='line'>              MsgBox('Invalid Entry !', mbError, MB_OK);
+</span><span class='line'>              MsgBox(&lsquo;Invalid Entry !&rsquo;, mbError, MB_OK);
 </span><span class='line'>
 </span><span class='line'>      end
 </span><span class='line'>  end
@@ -365,14 +362,13 @@
 </span><span class='line'>function HasHtmlHelp(): Boolean;
 </span><span class='line'>begin
 </span><span class='line'>  { HHCTRL.OCX GUID }
-</span><span class='line'>  Result := RegValueExists(HKCR, 'CLSID\{4662DAB0-D393-11D0-9A56-00C04FB68B66}\InprocServer32', '');
+</span><span class='line'>  Result := RegValueExists(HKCR, &lsquo;CLSID{4662DAB0-D393-11D0-9A56-00C04FB68B66}\InprocServer32&rsquo;, &lsquo;&rsquo;);
 </span><span class='line'>end;
 </span><span class='line'>
 </span><span class='line'>function HasNoHtmlHelp(): Boolean;
 </span><span class='line'>begin
 </span><span class='line'>  Result := not HasHtmlHelp;
-</span><span class='line'>end;</span></code></pre></td></tr></table></div></figure>
-
+</span><span class='line'>end;</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Jika sudah selesai silahkan compile (CTRL+F9) skrip inno setup Anda, dan ingat skrip diatas hanya potongan skrip inno setup. Contoh skrip yang lengkap bisa Anda lihat di<a href="http://coding4ever.net/blog/2009/12/31/membuat-paket-instalasi-vb-mysql-dengan-inno-setup/">sini</a> dan <a href="http://coding4ever.net/blog/2010/01/05/membuat-paket-instalasi-vb-firebird-dengan-inno-setup/">sini</a>.</p>
 
@@ -484,6 +480,10 @@ Saat ini bekerja sebagai staf IT di salah satu PTS di Yogyakarta sebagai senior 
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/07/20/unit-testing-menggunakan-nunit/">Unit Testing Menggunakan Nunit</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/06/28/repository-pattern-bagian-number-2/">Repository Pattern Bagian #2</a>
       </li>
     
@@ -519,19 +519,15 @@ Saat ini bekerja sebagai staf IT di salah satu PTS di Yogyakarta sebagai senior 
         <a href="/blog/2016/01/24/membuat-laporan-crystal-reports-net-dengan-model-data-push-bagian-number-2/">Membuat Laporan Crystal Reports .NET Dengan Model Data-Push Bagian #2</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2016/01/10/paket-nuget-yang-wajib-dicoba-bagian-number-2-autoupdater-dot-net/">Paket NuGet Yang Wajib Dicoba Bagian #2 - AutoUpdater.NET</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h1>Categories</h1>
-    <ul id="category-list"><li><a href='/blog/categories/dot-net-remoting/'>.net remoting (9)</a></li><li><a href='/blog/categories/active-report/'>active report (4)</a></li><li><a href='/blog/categories/android/'>android (1)</a></li><li><a href='/blog/categories/aplikasi/'>aplikasi (4)</a></li><li><a href='/blog/categories/autoupdater-dot-net/'>autoupdater.net (1)</a></li><li><a href='/blog/categories/build-events/'>build events (3)</a></li><li><a href='/blog/categories/crashreporter-dot-net/'>crashreporter.net (1)</a></li><li><a href='/blog/categories/crystal-reports-net/'>crystal reports .net (4)</a></li><li><a href='/blog/categories/dapper-net/'>dapper .net (6)</a></li><li><a href='/blog/categories/database/'>database (2)</a></li><li><a href='/blog/categories/entity-framework/'>entity framework (9)</a></li><li><a href='/blog/categories/firebird/'>firebird (12)</a></li><li><a href='/blog/categories/freeware/'>freeware (7)</a></li><li><a href='/blog/categories/inno-setup/'>inno setup (6)</a></li><li><a href='/blog/categories/jaringan/'>jaringan (1)</a></li><li><a href='/blog/categories/mysql/'>mysql (10)</a></li><li><a href='/blog/categories/nsis/'>nsis (2)</a></li><li><a href='/blog/categories/nuget/'>nuget (5)</a></li><li><a href='/blog/categories/repository-pattern/'>repository pattern (2)</a></li><li><a href='/blog/categories/signalr/'>signalr (2)</a></li><li><a href='/blog/categories/sql-server/'>sql server (1)</a></li><li><a href='/blog/categories/sql-server-2000/'>sql server 2000 (1)</a></li><li><a href='/blog/categories/sqlite/'>sqlite (3)</a></li><li><a href='/blog/categories/testing/'>testing (1)</a></li><li><a href='/blog/categories/tools-installer/'>tools installer (8)</a></li><li><a href='/blog/categories/uncategorized/'>uncategorized (8)</a></li><li><a href='/blog/categories/unit-of-work-pattern/'>unit of work pattern (1)</a></li><li><a href='/blog/categories/visual-basic/'>visual basic (74)</a></li><li><a href='/blog/categories/visual-basic-net/'>visual basic .net (11)</a></li><li><a href='/blog/categories/visual-c-number/'>visual c# (48)</a></li><li><a href='/blog/categories/visual-studio-net/'>visual studio .net (3)</a></li><li><a href='/blog/categories/wcf/'>wcf (4)</a></li><li><a href='/blog/categories/winsock/'>winsock (6)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/dot-net-remoting/'>.net remoting (9)</a></li><li><a href='/blog/categories/active-report/'>active report (4)</a></li><li><a href='/blog/categories/android/'>android (1)</a></li><li><a href='/blog/categories/aplikasi/'>aplikasi (4)</a></li><li><a href='/blog/categories/autoupdater-dot-net/'>autoupdater.net (1)</a></li><li><a href='/blog/categories/build-events/'>build events (3)</a></li><li><a href='/blog/categories/crashreporter-dot-net/'>crashreporter.net (1)</a></li><li><a href='/blog/categories/crystal-reports-net/'>crystal reports .net (4)</a></li><li><a href='/blog/categories/dapper-net/'>dapper .net (6)</a></li><li><a href='/blog/categories/database/'>database (2)</a></li><li><a href='/blog/categories/entity-framework/'>entity framework (9)</a></li><li><a href='/blog/categories/firebird/'>firebird (12)</a></li><li><a href='/blog/categories/freeware/'>freeware (7)</a></li><li><a href='/blog/categories/inno-setup/'>inno setup (6)</a></li><li><a href='/blog/categories/jaringan/'>jaringan (1)</a></li><li><a href='/blog/categories/mysql/'>mysql (10)</a></li><li><a href='/blog/categories/nsis/'>nsis (2)</a></li><li><a href='/blog/categories/nuget/'>nuget (5)</a></li><li><a href='/blog/categories/repository-pattern/'>repository pattern (2)</a></li><li><a href='/blog/categories/signalr/'>signalr (2)</a></li><li><a href='/blog/categories/software-testing/'>software testing (2)</a></li><li><a href='/blog/categories/sql-server/'>sql server (1)</a></li><li><a href='/blog/categories/sql-server-2000/'>sql server 2000 (1)</a></li><li><a href='/blog/categories/sqlite/'>sqlite (3)</a></li><li><a href='/blog/categories/tools-installer/'>tools installer (8)</a></li><li><a href='/blog/categories/uncategorized/'>uncategorized (8)</a></li><li><a href='/blog/categories/unit-of-work-pattern/'>unit of work pattern (1)</a></li><li><a href='/blog/categories/visual-basic/'>visual basic (74)</a></li><li><a href='/blog/categories/visual-basic-net/'>visual basic .net (11)</a></li><li><a href='/blog/categories/visual-c-number/'>visual c# (48)</a></li><li><a href='/blog/categories/visual-studio-net/'>visual studio .net (3)</a></li><li><a href='/blog/categories/wcf/'>wcf (4)</a></li><li><a href='/blog/categories/winsock/'>winsock (6)</a></li></ul>
 </section>
 <section>
   <h1>Tag Cloud</h1>
-    <span id="tag-cloud"><a href='/blog/categories/dot-net-remoting' style='font-size: 107.29729729729729%'>.net remoting(9)</a> <a href='/blog/categories/active-report' style='font-size: 103.24324324324324%'>active report(4)</a> <a href='/blog/categories/android' style='font-size: 100.8108108108108%'>android(1)</a> <a href='/blog/categories/aplikasi' style='font-size: 103.24324324324324%'>aplikasi(4)</a> <a href='/blog/categories/autoupdater-dot-net' style='font-size: 100.8108108108108%'>autoupdater.net(1)</a> <a href='/blog/categories/build-events' style='font-size: 102.43243243243244%'>build events(3)</a> <a href='/blog/categories/crashreporter-dot-net' style='font-size: 100.8108108108108%'>crashreporter.net(1)</a> <a href='/blog/categories/crystal-reports-net' style='font-size: 103.24324324324324%'>crystal reports .net(4)</a> <a href='/blog/categories/dapper-net' style='font-size: 104.86486486486487%'>dapper .net(6)</a> <a href='/blog/categories/database' style='font-size: 101.62162162162163%'>database(2)</a> <a href='/blog/categories/entity-framework' style='font-size: 107.29729729729729%'>entity framework(9)</a> <a href='/blog/categories/firebird' style='font-size: 109.72972972972973%'>firebird(12)</a> <a href='/blog/categories/freeware' style='font-size: 105.67567567567568%'>freeware(7)</a> <a href='/blog/categories/inno-setup' style='font-size: 104.86486486486487%'>inno setup(6)</a> <a href='/blog/categories/jaringan' style='font-size: 100.8108108108108%'>jaringan(1)</a> <a href='/blog/categories/mysql' style='font-size: 108.10810810810811%'>mysql(10)</a> <a href='/blog/categories/nsis' style='font-size: 101.62162162162163%'>nsis(2)</a> <a href='/blog/categories/nuget' style='font-size: 104.05405405405405%'>nuget(5)</a> <a href='/blog/categories/repository-pattern' style='font-size: 101.62162162162163%'>repository pattern(2)</a> <a href='/blog/categories/signalr' style='font-size: 101.62162162162163%'>signalr(2)</a> <a href='/blog/categories/sql-server' style='font-size: 100.8108108108108%'>sql server(1)</a> <a href='/blog/categories/sql-server-2000' style='font-size: 100.8108108108108%'>sql server 2000(1)</a> <a href='/blog/categories/sqlite' style='font-size: 102.43243243243244%'>sqlite(3)</a> <a href='/blog/categories/testing' style='font-size: 100.8108108108108%'>testing(1)</a> <a href='/blog/categories/tools-installer' style='font-size: 106.48648648648648%'>tools installer(8)</a> <a href='/blog/categories/uncategorized' style='font-size: 106.48648648648648%'>uncategorized(8)</a> <a href='/blog/categories/unit-of-work-pattern' style='font-size: 100.8108108108108%'>unit of work pattern(1)</a> <a href='/blog/categories/visual-basic' style='font-size: 160.0%'>visual basic(74)</a> <a href='/blog/categories/visual-basic-net' style='font-size: 108.91891891891892%'>visual basic .net(11)</a> <a href='/blog/categories/visual-c-number' style='font-size: 138.9189189189189%'>visual c#(48)</a> <a href='/blog/categories/visual-studio-net' style='font-size: 102.43243243243244%'>visual studio .net(3)</a> <a href='/blog/categories/wcf' style='font-size: 103.24324324324324%'>wcf(4)</a> <a href='/blog/categories/winsock' style='font-size: 104.86486486486487%'>winsock(6)</a> </span>
+    <span id="tag-cloud"><a href='/blog/categories/dot-net-remoting' style='font-size: 107.29729729729729%'>.net remoting(9)</a> <a href='/blog/categories/active-report' style='font-size: 103.24324324324324%'>active report(4)</a> <a href='/blog/categories/android' style='font-size: 100.8108108108108%'>android(1)</a> <a href='/blog/categories/aplikasi' style='font-size: 103.24324324324324%'>aplikasi(4)</a> <a href='/blog/categories/autoupdater-dot-net' style='font-size: 100.8108108108108%'>autoupdater.net(1)</a> <a href='/blog/categories/build-events' style='font-size: 102.43243243243244%'>build events(3)</a> <a href='/blog/categories/crashreporter-dot-net' style='font-size: 100.8108108108108%'>crashreporter.net(1)</a> <a href='/blog/categories/crystal-reports-net' style='font-size: 103.24324324324324%'>crystal reports .net(4)</a> <a href='/blog/categories/dapper-net' style='font-size: 104.86486486486487%'>dapper .net(6)</a> <a href='/blog/categories/database' style='font-size: 101.62162162162163%'>database(2)</a> <a href='/blog/categories/entity-framework' style='font-size: 107.29729729729729%'>entity framework(9)</a> <a href='/blog/categories/firebird' style='font-size: 109.72972972972973%'>firebird(12)</a> <a href='/blog/categories/freeware' style='font-size: 105.67567567567568%'>freeware(7)</a> <a href='/blog/categories/inno-setup' style='font-size: 104.86486486486487%'>inno setup(6)</a> <a href='/blog/categories/jaringan' style='font-size: 100.8108108108108%'>jaringan(1)</a> <a href='/blog/categories/mysql' style='font-size: 108.10810810810811%'>mysql(10)</a> <a href='/blog/categories/nsis' style='font-size: 101.62162162162163%'>nsis(2)</a> <a href='/blog/categories/nuget' style='font-size: 104.05405405405405%'>nuget(5)</a> <a href='/blog/categories/repository-pattern' style='font-size: 101.62162162162163%'>repository pattern(2)</a> <a href='/blog/categories/signalr' style='font-size: 101.62162162162163%'>signalr(2)</a> <a href='/blog/categories/software-testing' style='font-size: 101.62162162162163%'>software testing(2)</a> <a href='/blog/categories/sql-server' style='font-size: 100.8108108108108%'>sql server(1)</a> <a href='/blog/categories/sql-server-2000' style='font-size: 100.8108108108108%'>sql server 2000(1)</a> <a href='/blog/categories/sqlite' style='font-size: 102.43243243243244%'>sqlite(3)</a> <a href='/blog/categories/tools-installer' style='font-size: 106.48648648648648%'>tools installer(8)</a> <a href='/blog/categories/uncategorized' style='font-size: 106.48648648648648%'>uncategorized(8)</a> <a href='/blog/categories/unit-of-work-pattern' style='font-size: 100.8108108108108%'>unit of work pattern(1)</a> <a href='/blog/categories/visual-basic' style='font-size: 160.0%'>visual basic(74)</a> <a href='/blog/categories/visual-basic-net' style='font-size: 108.91891891891892%'>visual basic .net(11)</a> <a href='/blog/categories/visual-c-number' style='font-size: 138.9189189189189%'>visual c#(48)</a> <a href='/blog/categories/visual-studio-net' style='font-size: 102.43243243243244%'>visual studio .net(3)</a> <a href='/blog/categories/wcf' style='font-size: 103.24324324324324%'>wcf(4)</a> <a href='/blog/categories/winsock' style='font-size: 104.86486486486487%'>winsock(6)</a> </span>
 </section>
 
 <section>

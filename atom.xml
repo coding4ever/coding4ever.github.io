@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-07-11T17:02:51+07:00</updated>
+  <updated>2016-07-21T07:03:19+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,208 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Unit Testing Menggunakan Nunit]]></title>
+    <link href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/"/>
+    <updated>2016-07-20T14:42:50+07:00</updated>
+    <id>http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit</id>
+    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2016/07/nunit.png" width="110" height="47">Testing merupakan salah satu fase penting yang harus dilakukan ketika membuat sebuah aplikasi. Testing biasanya dilakukan secara berbarengan pada saat menulis kode. Ada banyak <code>gaya</code> dalam melakukan testing dan yang paling favorit biasanya adalah gaya konvensional. Dengan menggunakan gaya ini programmer desktop akan menggunakan console/winform untuk melihat hasil tes dari sebuah unit (fungsi/method) sedangankan programmer web langsung menggunakan halaman web.</p>
+
+<!-- more -->
+
+
+<p>Ini adalah gaya lama yang kita pelajari dari jaman Majapahit <strong>#eh</strong>, maksudnya masa-masa kuliah dulu :-D, kan enggak keren banget udah jadi programmer pro (programmer yang udah kerja) tapi testingnya masih bergaya <code>mahasiswa</code> :-D</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-01.png"></p>
+
+<p>Testing gaya <code>jadul</code> ini, <code>kita</code> yang harus melakukan evaluasi terhadap hasil tesnya. Contoh tes di atas <code>5 + 2</code> kok hasilnya <code>10</code>. Bayangkan klo kita kurang teliti bakalan jadi bug di kemudian hari.</p>
+
+<p>Jika Anda bosan dengan gaya ini (konvensional/jadul/mahasiswa) dan ingin naik level, kita bisa menggunakan tool yang memang dibuat khusus untuk melakukan unit testing seperti  <a href="http://www.nunit.org/">Nunit</a>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-02.png"></p>
+
+<p>Menggunakan tool unit testing <code>komputer</code>-lah yang melakukan evaluasi terhadap hasil tesnya. Kita tinggal duduk manis he he :-)</p>
+
+<h3>Jenis-jenis Testing</h3>
+
+<p>Sebenarnya ada banyak jenis-jenis testing, tetapi karena keterbatasan waktu dan ilmu, saya hanya membahas jenis-jenis testing berikut :</p>
+
+<ul>
+<li><a href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/">Unit Testing</a></li>
+<li>Coverage Testing</li>
+<li>Integration Testing</li>
+<li><a href="http://coding4ever.net/blog/2015/10/20/performance-test-menggunakan-jmeter/">Performance Testing</a></li>
+</ul>
+
+
+<p>Jadi kita akan membahas <a href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/">Unit Testing</a> terlebih dulu.</p>
+
+<h3>Unit testing</h3>
+
+<p>Unit testing adalah testing di level paling detail dari aplikasi. Artinya, testing di level method/function. Tes ini biasanya dilakukan oleh programmer dan bukan oleh tester, karena membutuhkan pengetahuan yang rinci tentang desain aplikasi dan kode yang ditulis.
+Ada beberapa tool yg bisa digunakan untuk keperluan ini tergantung dari bahasa pemrograman yang kita gunakan. Misal di .NET (NUnit), Java (JUnit) dan PHP (PHPUnit).</p>
+
+<p>Di postingan ini kita akan menggunakan <a href="http://nunit.org/">NUnit</a> sebagai tool untuk melakukan unit testing. <a href="http://www.nunit.org/">NUnit</a> adalah framework unit testing yang digunakan untuk bahasa pemrograman .NET. <a href="http://www.nunit.org/">NUnit</a> sendiri merupakan hasil portingan dari <a href="http://junit.org/">JUnit</a>.
+Sebelum menggunakan NUnit tentunya harus kita <a href="http://www.nunit.org/index.php?p=download">download</a> dan kemudian menginstallnya.</p>
+
+<h3>Membuat Project</h3>
+
+<p>Untuk uji coba <a href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/">unit testing</a> ada dua project yang akan kita buat yaitu :</p>
+
+<ol>
+<li><p>Project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorLib">CalculatorLib</a> – Ini adalah project target yang akan kita tes untuk setiap unitnya (fungsi/method).</p></li>
+<li><p>Project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorUnitTest">CalculatorUnitTest</a> – Ini adalah project <a href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/">unit testing</a> yang digunakan untuk mengetes project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorLib">CalculatorLib</a>.</p></li>
+</ol>
+
+
+<h3>Membuat Project CalculatorLib</h3>
+
+<p>Project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorLib">CalculatorLib</a> adalah project yang akan kita buatkan unit testingnya, project ini bertipe <code>Class Library</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-03.png"></p>
+
+<p>Nah di project ini, kita akan membuat class baru dengan nama <code>Calculator</code> kemudian menambahkan empat method yaitu <code>Tambah</code>, <code>Kurang</code>, <code>Kali</code> dan <code>Bagi</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-04.png"></p>
+
+<p>Coba perhatikan gambar di atas, method <code>Tambah</code> sengaja dibuat salah dengan menggunakan operator kali (*), biar nanti keliatan efeknya ketika dites menggunakan <a href="http://www.nunit.org/">NUnit</a>.</p>
+
+<p>Setelah project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorLib">CalculatorLib</a> selesai kita lanjut dengan membuat project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorUnitTest">CalculatorUnitTest</a>.</p>
+
+<h3>Membuat Project CalculatorUnitTest</h3>
+
+<p>Project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorUnitTest">CalculatorUnitTest</a> adalah project unit testing yang digunakan untuk mengetes project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorLib">CalculatorLib</a>, project ini juga bertipe <code>Class Library</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-05.png"></p>
+
+<p>Di project ini, kita akan menambahkan class baru dengan nama <code>CalculatorTest</code> yang mempunyai empat method yaitu <code>TambahTest</code>, <code>KurangTest</code>, <code>KaliTest</code> dan <code>BagiTest</code>. Jadi konvensi penamaannya adalah untuk nama class di tambah akhiran <code>Test</code>. Contoh class <code>Calculator</code> menjadi <code>CalculatorTest</code>. Untuk method juga sama, misal method <code>Tambah</code> menjadi <code>TambahTest</code>, method <code>Kurang</code> menjadi <code>KurangTest</code> begitu seterusnya.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-06.png"></p>
+
+<p>Method-method yang ada di class unit testingnya, biasanya bersifat <code>independent</code> artinya masing-masing method ini bisa dijalankan/eksekusi secara mandiri (tidak tergantung dengan method yang lain) sehingga kita bisa menjalankan unit testing secara berulang.</p>
+
+<h3>Menambahkan Referensi Project CalculatorLib</h3>
+
+<p>Agar project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorUnitTest">CalculatorUnitTest</a> bisa mengakses semua class dan method yang ada di project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorLib">CalculatorLib</a>, kita terlebih dulu harus menambahkan referensi CalculatorLib. Caranya seperti berikut :</p>
+
+<ol>
+<li><p>Klik kanan node References -> Add Reference…</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-07.png"></p></li>
+<li><p>Aktifkan panel Solution kemudian pilih project CalculatorLib</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-08.png"></p></li>
+<li><p>Klik tombol Ok, kemudian cek lagi node References, seharusnya sudah ada tambahan library CalculatorLib</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-09.png"></p></li>
+</ol>
+
+
+<p>Kemudian lengkapi kode class <a href="https://github.com/k4m4r82/DemoUnitTesting/blob/master/src/CalculatorUnitTest/CalculatorTest.cs">CalculatorTest</a>, seperti gambar di bawah ini.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-10.png"></p>
+
+<h3>Menambahkan Library Unit Testing</h3>
+
+<p>Seperti penjelasan saya di awal postingan, untuk contoh unit testing ini kita akan menggunakan <a href="http://www.nunit.org/">NUnit</a>. Berikut langkah-langkah menambahkan library <a href="http://www.nunit.org/">NUnit</a></p>
+
+<ol>
+<li><p>Klik kanan node References -> Add Reference…</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-11.png"></p></li>
+<li><p>Setelah tampil dialog Reference Manager, aktifkan panel Assemblies -> Extensions kemudian aktifkan pilihan nunit.framework</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-12.png"></p></li>
+<li><p>Klik tombol Ok, kemudian cek lagi node References, seharusnya sudah ada tambahan library nunit.framework</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-13.png"></p></li>
+</ol>
+
+
+<h3>Menulis Unit Testing</h3>
+
+<p>Setelah menambahkan library unit testing, project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorUnitTest">CalculatorUnitTest</a> tidak otomatis langsung dikenali oleh  tool unit testing, ada hal-hal lainnya yang perlu kita
+ketahui dalam menulis unit testing menggunakan <a href="http://www.nunit.org/">Nunit</a> yaitu :</p>
+
+<ul>
+<li><a href="http://www.nunit.org/index.php?p=attributes&amp;r=2.4">Attributes</a></li>
+<li><a href="http://www.nunit.org/index.php?p=assertions&amp;r=2.2.10">Assertions</a></li>
+</ul>
+
+
+<h4>Attributes</h4>
+
+<p>Digunakan untuk memberi tag/penanda  class dan method yang akan dites. Ada dua attribut yang sering digunakan yaitu attribut <code>[TestFixture]</code> untuk menandai <code>class</code> dan attribut <code>[Test]</code> untuk menandai method. Contoh :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-14.png"></p>
+
+<p>Selain itu ada attribut lain yang digunakan untuk menandai method yang berfungsi sebagai method inisialisasi yaitu attribut <code>[SetUp]</code>. Contoh :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-15.png"></p>
+
+<p>Jadi method <code>Init</code> di atas akan dijalankan terlebih dulu sebelum tool <a href="http://www.nunit.org/">Nunit</a> menjalankan method-method lain yang ditandai dengan attribut <code>[Test]</code>.</p>
+
+<h4>Assertions</h4>
+
+<p>Merupakan sekumpulan method static yang digunakan untuk mengevaluasi method yang akan dites.  Jadi method-method assertions akan mengembalikan nilai boolean (true/false). Contoh :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-16.png"></p>
+
+<p>Pada gambar di atas kita menggunakan salah satu method <code>Assertions</code> yaitu method <code>AreEqual</code> untuk membandingkan dua buah nilai, yaitu nilai yang di harapkan (expected) dan nilai aktual. Nilai expected  kita inputkan secara manual sedangkan nilai aktual dihasilkan dari pemanggilan method. Coba perhatikan potongan kode berikut :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-17.png"></p>
+
+<p>Dari hasil pemanggilan method Tambah(5, 2), jika menghasilkan nilai 7 maka method <code>AreEqual</code> akan mengembalikan nilai true yang artinya tes berhasil karena sesuai dengan nilai yang diharapkan yaitu <code>7</code> selain itu akan mengembalikan nilai false/gagal.</p>
+
+<p>Untuk referensi method-method <code>Assertions</code> lainnya bisa dicek di<a href="http://www.nunit.org/index.php?p=assertions&amp;r=2.5.10">sini</a>.</p>
+
+<h3>NUnit GUI Runner</h3>
+
+<p>Merupakan tool GUI bawaan NUnit yang digunakan untuk menjalankan project unit testing. Tool ini membutuhkan file assembly (dll) dari project unit testing. Jadi project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorUnitTest">CalculatorUnitTest</a> harus kita <code>build</code> terlebih dulu untuk menghasilkan file assembly(CalculatorUnitTest.dll), kemudian kita buka menggunakan tool <code>NUnit GUI Runner</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-18.png"></p>
+
+<p>Caranya dari menu File -> Open Project kemudian cari hasil build project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorUnitTest">CalculatorUnitTest</a> (CalculatorUnitTest.dll).</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-25.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-19.png"></p>
+
+<p>Untuk memulai tes, klik tombol <code>Run</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-20.png"></p>
+
+<p>Dari gambar di atas hanya method <code>Tambah</code> yang gagal melewati unit testing, coba kita cek kode unit testnya.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-21.png"></p>
+
+<p>Dari kode di atas <code>5 + 2</code> seharusnya menghasilkan nilai <code>7</code> (nilai expected/diharapkan), tetapi dari hasil unit testingnya malah menghasilkan nilai <code>10</code>, dari mana datangnya nilai <code>10</code> ini ?</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-22.png"></p>
+
+<p>Dari sini kita sudah bisa menebak ada yang salah dengan method Tambahnya, coba kita cek lagi method Tambah dari class Calculator.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-23.png"></p>
+
+<p>Ops!!! ternyata benar ada <code>kesalahan logic</code> yaitu salah operator di method Tambah yang seharusnya menggunakan operator tambah (+) malah menggunakan operator kali (*), sehingga wajar <code>5 * 2</code> menghasilkan nilai <code>10</code> bukannya <code>7</code>. Jadi harus kita benarin dulu operatornya kemudian build ulang.</p>
+
+<p>Setelah itu kita cek lagi hasil unit testingnya</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-24.png"></p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/DemoUnitTesting">MENCOBA</a> :-)</p>
+
+<p>Referensi :</p>
+
+<ul>
+<li><a href="http://www.nunit.org/">Nunit</a></li>
+<li><a href="http://nunit.org/index.php?p=quickStart&amp;r=2.6.4">NUnit Quick Start</a></li>
+<li><a href="http://nunit.org/index.php?p=writingTests&amp;r=2.6.4">Writing Tests</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Repository Pattern Bagian #2]]></title>
@@ -1391,7 +1593,7 @@ namespace Northwind.ConsoleApp
 <p>Nah class-class model ini biasanya mempunyai beberapa property yang juga merupakan representasi field-field yang ada di dalam tabel.</p>
 
 <div><script src='https://gist.github.com/b374ccae1ccd75e58f17.js'></script>
-<noscript><pre><code>' tambahkan referensi Microsoft Scripting Runtime
+<noscript><pre><code>&#39; tambahkan referensi Microsoft Scripting Runtime
 Option Explicit
 
 Private mOrderID            As Long
@@ -1517,9 +1719,9 @@ Public Function Save(ByVal objOrder As Order) As Integer
     
     On Error GoTo errHandle
 
-    conn.BeginTrans ' begin transaction
+    conn.BeginTrans &#39; begin transaction
     
-    ' insert header
+    &#39; insert header
     strSql = &quot;INSERT INTO Orders (OrderID, CustomerID, OrderDate, ShipName, ShipAddress) &quot; &amp; _
              &quot;VALUES (?, ?, ?, ?, ?)&quot;
     Set cmd = New ADODB.Command
@@ -1539,13 +1741,13 @@ Public Function Save(ByVal objOrder As Order) As Integer
     End With
     Set cmd = Nothing
 
-    ' insert detail
+    &#39; insert detail
     strSql = &quot;INSERT INTO OrderDetails (OrderID, ProductID, UnitPrice, Quantity, Discount) &quot; &amp; _
              &quot;VALUES (?, ?, ?, ?, ?)&quot;
 
     For Each key In objOrder.listOfOrderDetail
         
-        ' ekstrak objek item order
+        &#39; ekstrak objek item order
         Set objItemOrder = objOrder.listOfOrderDetail.Item(key)
 
         Set cmd = New ADODB.Command
@@ -1566,14 +1768,14 @@ Public Function Save(ByVal objOrder As Order) As Integer
         Set cmd = Nothing
     Next
 
-    conn.CommitTrans ' commit transaction
+    conn.CommitTrans &#39; commit transaction
     
     Save = 1
     
     Exit Function
 
 errHandle:
-    conn.RollbackTrans ' error, rollback transaction
+    conn.RollbackTrans &#39; error, rollback transaction
     Save = 0
 End Function
 
@@ -1605,7 +1807,7 @@ Public Function GetOpenConnection() As ADODB.Connection
     
     Exit Function
 errHandle:
-    ' do nothing
+    &#39; do nothing
 End Function
 
 Public Sub CloseConnection(ByVal conn As ADODB.Connection)
@@ -1622,7 +1824,7 @@ End Sub</code></pre></noscript></div>
 <noscript><pre><code>Option Explicit
 
 Public Sub Main()
-    ' buat objek Order
+    &#39; buat objek Order
     Dim objOrder As New Order
     
     With objOrder
@@ -1633,8 +1835,8 @@ Public Sub Main()
         .shipAddress = &quot;Rua da Panificadora, 12&quot;
     End With
     
-    ' buat objek OrderDetail
-    ' objek #1
+    &#39; buat objek OrderDetail
+    &#39; objek #1
     Dim objItemOrder1 As New OrderDetail
     With objItemOrder1
         .productID = 11
@@ -1643,7 +1845,7 @@ Public Sub Main()
         .discount = 0
     End With
     
-    ' objek #2
+    &#39; objek #2
     Dim objItemOrder2 As New OrderDetail
     With objItemOrder2
         .productID = 65
@@ -1652,7 +1854,7 @@ Public Sub Main()
         .discount = 0.15
     End With
     
-    ' objek #3
+    &#39; objek #3
     Dim objItemOrder3 As New OrderDetail
     With objItemOrder3
         .productID = 212
@@ -1661,7 +1863,7 @@ Public Sub Main()
         .discount = 0.25
     End With
     
-    ' hubungkan objek item order ke objek order
+    &#39; hubungkan objek item order ke objek order
     objOrder.listOfOrderDetail = New Scripting.Dictionary
     objOrder.listOfOrderDetail.Add 1, objItemOrder1
     objOrder.listOfOrderDetail.Add 2, objItemOrder2
@@ -3991,142 +4193,6 @@ Berikut perintah lengkapnya :</p>
 <p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-20.png"></p>
 
 <p>Yuph sampai disini saja untuk postingan kali ini, insyaAlloh akan kita lanjutkan pada kesempatan berikutnya.</p>
-
-<p>Selamat <a href="https://github.com/k4m4r82/Calculator">MENCOBA</a> :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Tutorial WCF Service Bagian #1]]></title>
-    <link href="http://coding4ever.net/blog/2015/05/02/tutorial-wcf-service-bagian-number-1/"/>
-    <updated>2015-05-02T10:15:26+07:00</updated>
-    <id>http://coding4ever.net/blog/2015/05/02/tutorial-wcf-service-bagian-number-1</id>
-    <content type="html"><![CDATA[<h3>Apa itu WCF</h3>
-
-<p><img class="left" src="https://coding4ever.files.wordpress.com/2015/05/020515-16.png" width="100" height="100">WCF singkatan dari Windows Communication Foundation, merupakan salah satu teknologi Microsoft untuk membangun aplikasi berbasis layanan (service-oriented applications). Dengan kata lain WCF itu merupakan salah satu alternatif untuk membangun <a href="http://www.techopedia.com/definition/1622/web-service-net">web service</a> dan <a href="http://en.wikipedia.org/wiki/Distributed_computing">sistem terdistribusi</a> lainnya menggunakan teknologi Microsoft .NET.</p>
-
-<blockquote><p>Dalam tutorial ini kita akan lebih banyak membahas hal-hal teknis untuk membuat web service menggunakan WCF. Untuk referensi lebih lanjut mengenai WCF bisa langsung Anda cari menggunakan layanan search engine favorit Anda :-)</p></blockquote>
-
-<!-- more -->
-
-
-<p>WCF merupakan gabungan dari beberapa teknologi <a href="http://en.wikipedia.org/wiki/Remote_procedure_call">RPC</a> lainnya seperti Web Service, <a href="http://coding4ever.net/blog/categories/dot-net-remoting/">.NET Remoting</a>, MSMQ dan COM+</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/020515-01.png"></p>
-
-<p style="text-align:center">Sumber - <a href="http://wcftutorial.net/Introduction-to-WCF.aspx" target="_blank">WCF Tutorial</a></p>
-
-
-<p>Sebagai langkah awal kita akan membuat aplikasi sederhana yang akan menerapkan teknologi WCF. Aplikasi yang akan kita buat yaitu Calculator, walaupun sederhana tetapi aplikasi ini membutuhkan 3 project untuk membuatnya.</p>
-
-<ol>
-<li><p><code>CalculatorLib</code> – Project CalculatorLib dibuat dengan memanfaatkan project bertipe Class Library yang isinya hanya berupa interface ICalculator dengan 4 buah method abstract yaitu : <code>Penambahan</code>, <code>Pengurangan</code>, <code>Perkalian</code> dan <code>Pembagian</code>.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/020515-02.png"></p>
-
-<p>Project ini nantinya akan dicompile menjadi file dengan ekstensi .dll (CalculatorLib.dll), file CalculatorLib.dll ini akan dishare atau ditambahkan sebagai referensi untuk aplikasi CalculatorServer dan CalculatorClient.</p>
-
-<p>Teknik ini dikenal dengan istilah <code>Shared Assembly</code> tujuannya adalah agar aplikasi server dan klien bisa berkomunikasi dengan cara yang sama.</p></li>
-<li><p><code>CalculatorServer</code> – Project CalculatorServer dibuat dengan memanfaatkan project bertipe Class Library. Project ini akan dicompile menjadi file dengan ekstensi .dll (CalculatorServer.dll).</p>
-
-<p>Project ini nantinya akan mengimplementasikan semua method-method abstract dari project CalculatorLib.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/020515-03.png"></p>
-
-<p>Agar class ini (CalculatorServer.dll) bisa dikenali sebagai WCF service, kita perlu meng-host-kannya terlebih dulu dengan beberapa cara yaitu :</p>
-
-<ul>
-<li>Hosting in Internet Information Services(IIS)</li>
-<li>Hosting in Windows Activation Services(WAS)</li>
-<li>Hosting in a Console or Desktop application(Self hosting)</li>
-<li>Hosting in a Windows Service <br/>
-<br></li>
-</ul>
-</li>
-<li><p><code>CalculatorClient</code> – Project CalculatorClient dibuat dengan memanfaatkan project bertipe Windows Application, aplikasi ini hanya memanggil method-method abstract dari project CalculatorLib dengan memanfaatkan objek proxy sehingga method tersebut akan dieksekusi secara remote (dijalankan di sisi server).</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/020515-04.png"></p>
-
-<p><p style="text-align:center">Sumber - <a href="http://www.topwcftutorials.net/2014/06/3-ways-generate-proxy-wcf-service.html" target="_blank">Top WCF Tutorial</a></p></p>
-
-<p>Berikut gambaran lengkap project yang akan kita buat</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/020515-05.png"></p></li>
-</ol>
-
-
-<p>Oke kita sudahi dulu obrolannya dan kita langsung saja mulai dengan pembuatan project CalculatorLib, jangan lupa untuk mengaktifkan terlebih dulu Visual Studio .NET Anda.</p>
-
-<h3>Membuat Project CalculatorLib</h3>
-
-<ol>
-<li><p>Klik menu File ->New -> Project …</p></li>
-<li><p>Pada dialog New Project aktifkan pilihan Visual C# kemudian pada pilihan Templates pilih Class Library</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/020515-06.png"></p>
-
-<p>Pada isian Name isikan CalculatorLib, setelah itu klik tombol Ok.</p>
-
-<p>Secara default pada saat pembuatan project sudah otomatis disediakan 1 buah class kosong dengan nama Class1, karena kita akan menambahkan class baru jadi class ini dihapus saja.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/020515-07.png"></p></li>
-</ol>
-
-
-<h3>Menambahkan Interface ICalculator</h3>
-
-<ol>
-<li><p>Klik kanan project CalculatorLib -> Add -> New Item…</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/020515-08.png"></p></li>
-<li><p>Pada dialog add new item, pilih Interface dan untuk isian Name diisi ICalculator</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/020515-09.png"></p>
-
-<p>Setelah itu akan tampil editor code interface ICalculator</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/020515-10.png"></p>
-
-<p>Jangan lupa untuk menambahkan access modifier <code>public</code>.</p>
-
-<p>Selanjutnya kita tinggal menambahkan 4 method abstractnya yaitu <code>Penambahan</code>, <code>Pengurangan</code>, <code>Perkalian</code> dan <code>Pembagian</code>.</p>
-
-<p>Berikut kode lengkapnya :</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/020515-11.png"></p>
-
-<p>Jika kita perhatikan kode di atas, ada tambahan attribute <code>ServiceContract</code> dan <code>OperationContract</code> pada nama interface dan method abstractnya.</p>
-
-<p><code>ServiceContract</code> memberikan informasi service/layanan apa saja yang tersedia untuk bisa diakses sedangkan <code>OperationContract</code>  digunakan untuk memberikan tanda bahwa method tersebut merupakan operasi atau bagian dari <code>ServiceContract</code>.</p>
-
-<p>Bagaimana jika kita lupa menambahkan attribut <code>ServiceContract</code> dan <code>OperationContract</code> ? Ya otomatis interface ICalculator berikut method tidak bisa diakses oleh client.</p>
-
-<p>Untuk menambahkan attribut <code>ServiceContract</code> dan <code>OperationContract</code> kita perlu menambahkan referensi <code>System.ServiceModel</code>.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/020515-12.png"></p>
-
-<p>Kemudian mendaftarkannya di bagian using</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/020515-13.png"></p></li>
-</ol>
-
-
-<h3>Mengcompile project CalculatorLib</h3>
-
-<p>Tujuannya adalah agar project CalculatorLib ini bisa digunakan sebagai referensi oleh aplikasi CalculatorServer dan CalculatorClient</p>
-
-<ol>
-<li><p>Klik kanan project CalculatorLib -> Build</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/020515-14.png"></p>
-
-<p>Setelah itu akan tampil hasil output dari proses Build</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/020515-15.png"></p></li>
-</ol>
-
-
-<p>Yuph cukup sampai disini, insya Alloh akan kita lanjutkan pada kesempatan berikutnya.</p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/Calculator">MENCOBA</a> :)</p>
 ]]></content>

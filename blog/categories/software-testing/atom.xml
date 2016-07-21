@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Software Testing | Coding4ever's Blog]]></title>
+  <link href="http://coding4ever.net/blog/categories/software-testing/atom.xml" rel="self"/>
+  <link href="http://coding4ever.net/"/>
+  <updated>2016-07-21T07:04:51+07:00</updated>
+  <id>http://coding4ever.net/</id>
+  <author>
+    <name><![CDATA[Admin]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Unit Testing Menggunakan Nunit]]></title>
+    <link href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/"/>
+    <updated>2016-07-20T14:42:50+07:00</updated>
+    <id>http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit</id>
+    <content type="html"><![CDATA[<p>{% img left <a href="https://coding4ever.files.wordpress.com/2016/07/nunit.png">https://coding4ever.files.wordpress.com/2016/07/nunit.png</a> 110 47 %}Testing merupakan salah satu fase penting yang harus dilakukan ketika membuat sebuah aplikasi. Testing biasanya dilakukan secara berbarengan pada saat menulis kode. Ada banyak <code>gaya</code> dalam melakukan testing dan yang paling favorit biasanya adalah gaya konvensional. Dengan menggunakan gaya ini programmer desktop akan menggunakan console/winform untuk melihat hasil tes dari sebuah unit (fungsi/method) sedangankan programmer web langsung menggunakan halaman web.</p>
+
+<!-- more -->
+
+
+<p>Ini adalah gaya lama yang kita pelajari dari jaman Majapahit <strong>#eh</strong>, maksudnya masa-masa kuliah dulu :-D, kan enggak keren banget udah jadi programmer pro (programmer yang udah kerja) tapi testingnya masih bergaya <code>mahasiswa</code> :-D</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/07/200716-01.png">https://coding4ever.files.wordpress.com/2016/07/200716-01.png</a> %}</p>
+
+<p>Testing gaya <code>jadul</code> ini, <code>kita</code> yang harus melakukan evaluasi terhadap hasil tesnya. Contoh tes di atas <code>5 + 2</code> kok hasilnya <code>10</code>. Bayangkan klo kita kurang teliti bakalan jadi bug di kemudian hari.</p>
+
+<p>Jika Anda bosan dengan gaya ini (konvensional/jadul/mahasiswa) dan ingin naik level, kita bisa menggunakan tool yang memang dibuat khusus untuk melakukan unit testing seperti  <a href="http://www.nunit.org/">Nunit</a>.</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/07/200716-02.png">https://coding4ever.files.wordpress.com/2016/07/200716-02.png</a> %}</p>
+
+<p>Menggunakan tool unit testing <code>komputer</code>-lah yang melakukan evaluasi terhadap hasil tesnya. Kita tinggal duduk manis he he :-)</p>
+
+<h3>Jenis-jenis Testing</h3>
+
+<p>Sebenarnya ada banyak jenis-jenis testing, tetapi karena keterbatasan waktu dan ilmu, saya hanya membahas jenis-jenis testing berikut :</p>
+
+<ul>
+<li><a href="{{%20site.url%20}}/blog/2016/07/20/unit-testing-menggunakan-nunit/">Unit Testing</a></li>
+<li>Coverage Testing</li>
+<li>Integration Testing</li>
+<li><a href="{{%20site.url%20}}/blog/2015/10/20/performance-test-menggunakan-jmeter/">Performance Testing</a></li>
+</ul>
+
+
+<p>Jadi kita akan membahas <a href="{{%20site.url%20}}/blog/2016/07/20/unit-testing-menggunakan-nunit/">Unit Testing</a> terlebih dulu.</p>
+
+<h3>Unit testing</h3>
+
+<p>Unit testing adalah testing di level paling detail dari aplikasi. Artinya, testing di level method/function. Tes ini biasanya dilakukan oleh programmer dan bukan oleh tester, karena membutuhkan pengetahuan yang rinci tentang desain aplikasi dan kode yang ditulis.
+Ada beberapa tool yg bisa digunakan untuk keperluan ini tergantung dari bahasa pemrograman yang kita gunakan. Misal di .NET (NUnit), Java (JUnit) dan PHP (PHPUnit).</p>
+
+<p>Di postingan ini kita akan menggunakan <a href="http://nunit.org/">NUnit</a> sebagai tool untuk melakukan unit testing. <a href="http://www.nunit.org/">NUnit</a> adalah framework unit testing yang digunakan untuk bahasa pemrograman .NET. <a href="http://www.nunit.org/">NUnit</a> sendiri merupakan hasil portingan dari <a href="http://junit.org/">JUnit</a>.
+Sebelum menggunakan NUnit tentunya harus kita <a href="http://www.nunit.org/index.php?p=download">download</a> dan kemudian menginstallnya.</p>
+
+<h3>Membuat Project</h3>
+
+<p>Untuk uji coba <a href="{{%20site.url%20}}/blog/2016/07/20/unit-testing-menggunakan-nunit/">unit testing</a> ada dua project yang akan kita buat yaitu :</p>
+
+<ol>
+<li><p>Project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorLib">CalculatorLib</a> – Ini adalah project target yang akan kita tes untuk setiap unitnya (fungsi/method).</p></li>
+<li><p>Project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorUnitTest">CalculatorUnitTest</a> – Ini adalah project <a href="{{%20site.url%20}}/blog/2016/07/20/unit-testing-menggunakan-nunit/">unit testing</a> yang digunakan untuk mengetes project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorLib">CalculatorLib</a>.</p></li>
+</ol>
+
+
+<h3>Membuat Project CalculatorLib</h3>
+
+<p>Project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorLib">CalculatorLib</a> adalah project yang akan kita buatkan unit testingnya, project ini bertipe <code>Class Library</code>.</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/07/200716-03.png">https://coding4ever.files.wordpress.com/2016/07/200716-03.png</a> %}</p>
+
+<p>Nah di project ini, kita akan membuat class baru dengan nama <code>Calculator</code> kemudian menambahkan empat method yaitu <code>Tambah</code>, <code>Kurang</code>, <code>Kali</code> dan <code>Bagi</code>.</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/07/200716-04.png">https://coding4ever.files.wordpress.com/2016/07/200716-04.png</a> %}</p>
+
+<p>Coba perhatikan gambar di atas, method <code>Tambah</code> sengaja dibuat salah dengan menggunakan operator kali (*), biar nanti keliatan efeknya ketika dites menggunakan <a href="http://www.nunit.org/">NUnit</a>.</p>
+
+<p>Setelah project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorLib">CalculatorLib</a> selesai kita lanjut dengan membuat project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorUnitTest">CalculatorUnitTest</a>.</p>
+
+<h3>Membuat Project CalculatorUnitTest</h3>
+
+<p>Project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorUnitTest">CalculatorUnitTest</a> adalah project unit testing yang digunakan untuk mengetes project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorLib">CalculatorLib</a>, project ini juga bertipe <code>Class Library</code>.</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/07/200716-05.png">https://coding4ever.files.wordpress.com/2016/07/200716-05.png</a> %}</p>
+
+<p>Di project ini, kita akan menambahkan class baru dengan nama <code>CalculatorTest</code> yang mempunyai empat method yaitu <code>TambahTest</code>, <code>KurangTest</code>, <code>KaliTest</code> dan <code>BagiTest</code>. Jadi konvensi penamaannya adalah untuk nama class di tambah akhiran <code>Test</code>. Contoh class <code>Calculator</code> menjadi <code>CalculatorTest</code>. Untuk method juga sama, misal method <code>Tambah</code> menjadi <code>TambahTest</code>, method <code>Kurang</code> menjadi <code>KurangTest</code> begitu seterusnya.</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/07/200716-06.png">https://coding4ever.files.wordpress.com/2016/07/200716-06.png</a> %}</p>
+
+<p>Method-method yang ada di class unit testingnya, biasanya bersifat <code>independent</code> artinya masing-masing method ini bisa dijalankan/eksekusi secara mandiri (tidak tergantung dengan method yang lain) sehingga kita bisa menjalankan unit testing secara berulang.</p>
+
+<h3>Menambahkan Referensi Project CalculatorLib</h3>
+
+<p>Agar project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorUnitTest">CalculatorUnitTest</a> bisa mengakses semua class dan method yang ada di project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorLib">CalculatorLib</a>, kita terlebih dulu harus menambahkan referensi CalculatorLib. Caranya seperti berikut :</p>
+
+<ol>
+<li><p>Klik kanan node References -> Add Reference…</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/07/200716-07.png">https://coding4ever.files.wordpress.com/2016/07/200716-07.png</a> %}</p></li>
+<li><p>Aktifkan panel Solution kemudian pilih project CalculatorLib</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/07/200716-08.png">https://coding4ever.files.wordpress.com/2016/07/200716-08.png</a> %}</p></li>
+<li><p>Klik tombol Ok, kemudian cek lagi node References, seharusnya sudah ada tambahan library CalculatorLib</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/07/200716-09.png">https://coding4ever.files.wordpress.com/2016/07/200716-09.png</a> %}</p></li>
+</ol>
+
+
+<p>Kemudian lengkapi kode class <a href="https://github.com/k4m4r82/DemoUnitTesting/blob/master/src/CalculatorUnitTest/CalculatorTest.cs">CalculatorTest</a>, seperti gambar di bawah ini.</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/07/200716-10.png">https://coding4ever.files.wordpress.com/2016/07/200716-10.png</a> %}</p>
+
+<h3>Menambahkan Library Unit Testing</h3>
+
+<p>Seperti penjelasan saya di awal postingan, untuk contoh unit testing ini kita akan menggunakan <a href="http://www.nunit.org/">NUnit</a>. Berikut langkah-langkah menambahkan library <a href="http://www.nunit.org/">NUnit</a></p>
+
+<ol>
+<li><p>Klik kanan node References -> Add Reference…</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/07/200716-11.png">https://coding4ever.files.wordpress.com/2016/07/200716-11.png</a> %}</p></li>
+<li><p>Setelah tampil dialog Reference Manager, aktifkan panel Assemblies -> Extensions kemudian aktifkan pilihan nunit.framework</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/07/200716-12.png">https://coding4ever.files.wordpress.com/2016/07/200716-12.png</a> %}</p></li>
+<li><p>Klik tombol Ok, kemudian cek lagi node References, seharusnya sudah ada tambahan library nunit.framework</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/07/200716-13.png">https://coding4ever.files.wordpress.com/2016/07/200716-13.png</a> %}</p></li>
+</ol>
+
+
+<h3>Menulis Unit Testing</h3>
+
+<p>Setelah menambahkan library unit testing, project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorUnitTest">CalculatorUnitTest</a> tidak otomatis langsung dikenali oleh  tool unit testing, ada hal-hal lainnya yang perlu kita
+ketahui dalam menulis unit testing menggunakan <a href="http://www.nunit.org/">Nunit</a> yaitu :</p>
+
+<ul>
+<li><a href="http://www.nunit.org/index.php?p=attributes&amp;r=2.4">Attributes</a></li>
+<li><a href="http://www.nunit.org/index.php?p=assertions&amp;r=2.2.10">Assertions</a></li>
+</ul>
+
+
+<h4>Attributes</h4>
+
+<p>Digunakan untuk memberi tag/penanda  class dan method yang akan dites. Ada dua attribut yang sering digunakan yaitu attribut <code>[TestFixture]</code> untuk menandai <code>class</code> dan attribut <code>[Test]</code> untuk menandai method. Contoh :</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/07/200716-14.png">https://coding4ever.files.wordpress.com/2016/07/200716-14.png</a> %}</p>
+
+<p>Selain itu ada attribut lain yang digunakan untuk menandai method yang berfungsi sebagai method inisialisasi yaitu attribut <code>[SetUp]</code>. Contoh :</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/07/200716-15.png">https://coding4ever.files.wordpress.com/2016/07/200716-15.png</a> %}</p>
+
+<p>Jadi method <code>Init</code> di atas akan dijalankan terlebih dulu sebelum tool <a href="http://www.nunit.org/">Nunit</a> menjalankan method-method lain yang ditandai dengan attribut <code>[Test]</code>.</p>
+
+<h4>Assertions</h4>
+
+<p>Merupakan sekumpulan method static yang digunakan untuk mengevaluasi method yang akan dites.  Jadi method-method assertions akan mengembalikan nilai boolean (true/false). Contoh :</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/07/200716-16.png">https://coding4ever.files.wordpress.com/2016/07/200716-16.png</a> %}</p>
+
+<p>Pada gambar di atas kita menggunakan salah satu method <code>Assertions</code> yaitu method <code>AreEqual</code> untuk membandingkan dua buah nilai, yaitu nilai yang di harapkan (expected) dan nilai aktual. Nilai expected  kita inputkan secara manual sedangkan nilai aktual dihasilkan dari pemanggilan method. Coba perhatikan potongan kode berikut :</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/07/200716-17.png">https://coding4ever.files.wordpress.com/2016/07/200716-17.png</a> %}</p>
+
+<p>Dari hasil pemanggilan method Tambah(5, 2), jika menghasilkan nilai 7 maka method <code>AreEqual</code> akan mengembalikan nilai true yang artinya tes berhasil karena sesuai dengan nilai yang diharapkan yaitu <code>7</code> selain itu akan mengembalikan nilai false/gagal.</p>
+
+<p>Untuk referensi method-method <code>Assertions</code> lainnya bisa dicek di<a href="http://www.nunit.org/index.php?p=assertions&amp;r=2.5.10">sini</a>.</p>
+
+<h3>NUnit GUI Runner</h3>
+
+<p>Merupakan tool GUI bawaan NUnit yang digunakan untuk menjalankan project unit testing. Tool ini membutuhkan file assembly (dll) dari project unit testing. Jadi project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorUnitTest">CalculatorUnitTest</a> harus kita <code>build</code> terlebih dulu untuk menghasilkan file assembly(CalculatorUnitTest.dll), kemudian kita buka menggunakan tool <code>NUnit GUI Runner</code>.</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/07/200716-18.png">https://coding4ever.files.wordpress.com/2016/07/200716-18.png</a> %}</p>
+
+<p>Caranya dari menu File -> Open Project kemudian cari hasil build project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorUnitTest">CalculatorUnitTest</a> (CalculatorUnitTest.dll).</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/07/200716-25.png">https://coding4ever.files.wordpress.com/2016/07/200716-25.png</a> %}</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/07/200716-19.png">https://coding4ever.files.wordpress.com/2016/07/200716-19.png</a> %}</p>
+
+<p>Untuk memulai tes, klik tombol <code>Run</code></p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/07/200716-20.png">https://coding4ever.files.wordpress.com/2016/07/200716-20.png</a> %}</p>
+
+<p>Dari gambar di atas hanya method <code>Tambah</code> yang gagal melewati unit testing, coba kita cek kode unit testnya.</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/07/200716-21.png">https://coding4ever.files.wordpress.com/2016/07/200716-21.png</a> %}</p>
+
+<p>Dari kode di atas <code>5 + 2</code> seharusnya menghasilkan nilai <code>7</code> (nilai expected/diharapkan), tetapi dari hasil unit testingnya malah menghasilkan nilai <code>10</code>, dari mana datangnya nilai <code>10</code> ini ?</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/07/200716-22.png">https://coding4ever.files.wordpress.com/2016/07/200716-22.png</a> %}</p>
+
+<p>Dari sini kita sudah bisa menebak ada yang salah dengan method Tambahnya, coba kita cek lagi method Tambah dari class Calculator.</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/07/200716-23.png">https://coding4ever.files.wordpress.com/2016/07/200716-23.png</a> %}</p>
+
+<p>Ops!!! ternyata benar ada <code>kesalahan logic</code> yaitu salah operator di method Tambah yang seharusnya menggunakan operator tambah (+) malah menggunakan operator kali (*), sehingga wajar <code>5 * 2</code> menghasilkan nilai <code>10</code> bukannya <code>7</code>. Jadi harus kita benarin dulu operatornya kemudian build ulang.</p>
+
+<p>Setelah itu kita cek lagi hasil unit testingnya</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/07/200716-24.png">https://coding4ever.files.wordpress.com/2016/07/200716-24.png</a> %}</p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/DemoUnitTesting">MENCOBA</a> :-)</p>
+
+<p>Referensi :</p>
+
+<ul>
+<li><a href="http://www.nunit.org/">Nunit</a></li>
+<li><a href="http://nunit.org/index.php?p=quickStart&amp;r=2.6.4">NUnit Quick Start</a></li>
+<li><a href="http://nunit.org/index.php?p=writingTests&amp;r=2.6.4">Writing Tests</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Performance Test Menggunakan JMeter]]></title>
+    <link href="http://coding4ever.net/blog/2015/10/20/performance-test-menggunakan-jmeter/"/>
+    <updated>2015-10-20T09:26:38+07:00</updated>
+    <id>http://coding4ever.net/blog/2015/10/20/performance-test-menggunakan-jmeter</id>
+    <content type="html"><![CDATA[<p>{% img left <a href="https://coding4ever.files.wordpress.com/2015/10/apache-jmeter.png">https://coding4ever.files.wordpress.com/2015/10/apache-jmeter.png</a> 100 100 %}Aktivitas saya di kantor akhir-akhir ini, lebih sering ngoding untuk backend/web service. Nah untuk membuat service ini, saya biasanya menggunakan teknologi <a href="{{%20site.url%20}}/blog/categories/wcf/">WCF</a>, hanya saja untuk <code>kekinian</code> :-D saya juga menggunakan <a href="http://www.asp.net/web-api">ASP.NET Web Api</a>.</p>
+
+<p>Untuk tahapan testing wajib yang saya lakukan adalah minimal <a href="https://en.wikipedia.org/wiki/Unit_testing">unit test</a>. <a href="https://en.wikipedia.org/wiki/Unit_testing">Unit test</a> yang dilakukan biasanya di level DAL (Data Access Layer) dan Controller.</p>
+
+<!-- more -->
+
+
+<p><a href="https://en.wikipedia.org/wiki/Unit_testing">Unit testing</a> ini merupakan bagian dari <code>white box testing</code> karena testing ini dieksekusi langsung oleh programmer. Sedangkan untuk <code>black box testing</code> bisa dilakukan menggunakan aplikasi sejenis <a href="http://www.telerik.com/fiddler">Fiddler</a> atau menggunakan add-ons yang dimiliki oleh browser-browser seperti Mozilla Firefox dan Google Chrome.</p>
+
+<p>Karena service ini nantinya akan digunakan oleh banyak client dan user, tentu akan <code>ngeri-ngeri sedap</code>  :-D jika testingnya masih dilakukan secara manual. Jadi sebaiknya kita menggunakan <a href="http://www.softwaretestinghelp.com/performance-testing-tools-load-testing-tools/">Performance Test Tool</a> untuk proses ini.</p>
+
+<p>Ada banyak <a href="http://www.softwaretestinghelp.com/performance-testing-tools-load-testing-tools/">Performance Test Tool</a> yang tersedia baik yang gratis maupun yang berbayar. Untuk postingan kali ini saya menggunakan <a href="http://jmeter.apache.org/">JMeter</a>.</p>
+
+<p>Apa itu <a href="http://jmeter.apache.org/">JMeter</a> ?</p>
+
+<blockquote><p>The Apache JMeter™ application is open source software, a 100% pure Java application designed to load test functional behavior and measure performance. It was originally designed for testing Web Applications but has since expanded to other test functions</p></blockquote>
+
+<p>Berikut langkah-langkah menggunakan <a href="http://jmeter.apache.org/">JMeter</a> :</p>
+
+<h5>1. Download <a href="http://jmeter.apache.org/download_jmeter.cgi">JMeter</a> kemudian ekstrak, misal di drive C:\</h5>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-1.png">https://coding4ever.files.wordpress.com/2015/10/201015-1.png</a> %}</p>
+
+<h5>2. Untuk menjalankan <a href="http://jmeter.apache.org/">JMeter</a>, klik ganda file <code>jmeter.bat</code> yang ada di folder <code>bin</code></h5>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-2.png">https://coding4ever.files.wordpress.com/2015/10/201015-2.png</a> %}</p>
+
+<p>Tunggu beberapa saat sampai tampil, aplikasi <a href="http://jmeter.apache.org/">JMeter</a></p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-3.png">https://coding4ever.files.wordpress.com/2015/10/201015-3.png</a> %}</p>
+
+<p>Kemudian ganti informasi Name, sesuai kebutuhan. Misal <code>Performance Test Web Service Presensi</code>.</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-4.png">https://coding4ever.files.wordpress.com/2015/10/201015-4.png</a> %}</p>
+
+<h5>3. Menambahkan User Defined Variables</h5>
+
+<p>Di node ini kita akan menambahkan informasi global yang sering digunakan pada saat testing seperti informasi <code>host</code> dan <code>port</code>.</p>
+
+<p>Untuk menambahkan node <code>User Defined Variables</code> klik kanan node Test Plan (Performance Test Web Service Presensi) -> Add -> Config Element -> User Defined Variables.</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-5.png">https://coding4ever.files.wordpress.com/2015/10/201015-5.png</a> %}</p>
+
+<p>Kemudian lakukan pengaturan <code>User Defined Variables</code> seperti gambar berikut :</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-6.png">https://coding4ever.files.wordpress.com/2015/10/201015-6.png</a> %}</p>
+
+<p>Pada gambar di atas kita menambahkan dua variabel yaitu <code>host</code> dan <code>port</code>. Nah variabel-variabel ini nantinya akan digunakan pada langkah-langkah berikutnya.</p>
+
+<h5>4. Menambahkan HTTP Header Manager</h5>
+
+<p>Setelah menambahkan node <code>User Defined Variables</code>, kita lanjutkan dengan menambahkan node <code>HTTP Header Manager</code>. Langkah-langkahnya sama seperti menambahkan node <code>User Defined Variables</code>, hanya saja yang dipilih adalah <code>HTTP Header Manager</code>.</p>
+
+<p>Di node ini kita akan menambahkan informasi apa saja yang dikirimkan <a href="http://jmeter.apache.org/">JMeter</a> ke HTTP request header.</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-7.png">https://coding4ever.files.wordpress.com/2015/10/201015-7.png</a> %}</p>
+
+<h5>5. Menambahkan HTTP Request Defaults</h5>
+
+<p>Langkah berikutnya adalah menambahkan node <code>HTTP Request Defaults</code>, caranya juga sama seperti sebelumnya hanya saja yang dipilih node <code>HTTP Request Defaults</code>.</p>
+
+<p>Di node ini kita cukup mengeset informasi nama server/ip address, port dan protocol.</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-8.png">https://coding4ever.files.wordpress.com/2015/10/201015-8.png</a> %}</p>
+
+<p>Karena sebelumnya kita sudah mendefinisikan nama host dan port di node <code>User Defined Variables</code>, di node ini kita tinggal panggil variabel tersebut dengan format : ${<strong>NAMA_VARIABEL</strong>}.</p>
+
+<h5>6. Menambahkan Thread Group</h5>
+
+<p>Node ini digunakan untuk mengelompokan service yang akan di tes. Misal kita mempunyai service Mahasiswa dan Dosen, kedua service ini sebaiknya dibuatkan <code>Thread Group</code> masing-masing.</p>
+
+<p>Untuk menambahkan node <code>Thread Group</code> klik kanan node Test Plan (Performance Test Web Service Presensi) -> Add -> Threads (Users) -> Thread Group.</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-9.png">https://coding4ever.files.wordpress.com/2015/10/201015-9.png</a> %}</p>
+
+<p>Kemudian atur settingnya seperti berikut :</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-10.png">https://coding4ever.files.wordpress.com/2015/10/201015-10.png</a> %}</p>
+
+<p>Dari setting di atas, kita akan membuat skenario <code>performance test</code> seperti berikut :</p>
+
+<ul>
+<li>Jumlah user sebanyak 50 orang</li>
+<li>Setiap 2 detik (100/50), akan mengirimkan 6 request ke server.</li>
+<li>Total jumlah sample = 300 (50 x 6)</li>
+</ul>
+
+
+<p>Skenario <code>performance test</code> ini bisa diganti-ganti nilainya sesuai kebutuhan.</p>
+
+<h5>7. Menambahkan HTTP Request</h5>
+
+<p>Setelah menentukan skenario <code>performance test</code>, langkah berikutnya adalah menambahkan node <code>HTTP Request</code>. Di node inilah kita akan menentukan web service yang akan di tes. Misal web service mahasiswa mempunyai dua layanan yaitu <code>GetByID</code> dan <code>GetByName</code>. Nah dua layanan ini akan kita tambahkan sebagi bagian dari <code>HTTP Request</code>.</p>
+
+<p>Untuk menambahkan node <code>HTTP Request</code> klik kanan node Thread Group (Web Service Mahasiswa) -> Add -> Sampler -> HTTP Request.</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-11.png">https://coding4ever.files.wordpress.com/2015/10/201015-11.png</a> %}</p>
+
+<p>Kemudian atur settingnya seperti berikut :</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-12.png">https://coding4ever.files.wordpress.com/2015/10/201015-12.png</a> %}</p>
+
+<p>Dari gambar di atas, informasi web servicenya sebagai berikut :</p>
+
+<ul>
+<li>Nama service : <code>GetById</code></li>
+<li>Path/Url : <code>/Api/Mahasiswa/GetById</code></li>
+<li>Service ini mempunyai satu parameter yaitu <code>id</code>, yang kita set nilainya <code>09.01.2488</code></li>
+<li>Informasi server name/ip dan port number tidak perlu di set, karena sudah kita set nilainya di node <code>HTTP Request Defaults</code></li>
+</ul>
+
+
+<p>Ulangi langkah sebelumnya untuk menambahkan service yang lain.</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-13.png">https://coding4ever.files.wordpress.com/2015/10/201015-13.png</a> %}</p>
+
+<h5>8. Menambahkan report untuk menampilkan hasil Performance test</h5>
+
+<p>Ada beberapa format laporan yang digunakan untuk menampilkan hasil performance test yaitu :</p>
+
+<ul>
+<li>View Results in Table</li>
+<li>View Results Tree</li>
+<li>Response Times Over Time</li>
+<li>Transactions per Second</li>
+<li>Statistical Aggregate Report</li>
+<li>Summary Report</li>
+</ul>
+
+
+<p>Untuk menambahkan semua format laporan di atas klik kanan node Thread Group (Web Service Mahasiswa) -> Add -> Listener -> Pilih jenis laporan.</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-14.png">https://coding4ever.files.wordpress.com/2015/10/201015-14.png</a> %}</p>
+
+<h5>9. Menjalankan Performance test</h5>
+
+<p>Untuk menjalankan performance test, kita tinggal mengklik toolbar <code>Start</code></p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-15.png">https://coding4ever.files.wordpress.com/2015/10/201015-15.png</a> %}</p>
+
+<p><code>Performance test</code> ini di jalankan menggunakan <code>Environment Test</code> sebagai berikut :</p>
+
+<h5>Server Web Service :</h5>
+
+<ul>
+<li>Sistem Operasi : Windows Server 2008 64 Bit</li>
+<li>Web Server : IIS 7</li>
+<li>Teknologi/framwork REST Service : ASP.NET Web API 2</li>
+<li>Processor : Intel Xeon X5570 2.93 Ghz</li>
+<li>RAM : 12 GB</li>
+</ul>
+
+
+<h5>Server Database :</h5>
+
+<ul>
+<li>Sistem Operasi : Windows Server 2012 64 Bit</li>
+<li>Database : SQL Server 2014</li>
+<li>Processor : Intel Xeon E5-2620 v2 2.10 Ghz</li>
+<li>RAM : 24 Gb</li>
+</ul>
+
+
+<h5>10. Contoh Hasil Performance Test</h5>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-16.png">https://coding4ever.files.wordpress.com/2015/10/201015-16.png</a> %}</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-17.png">https://coding4ever.files.wordpress.com/2015/10/201015-17.png</a> %}</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-18.png">https://coding4ever.files.wordpress.com/2015/10/201015-18.png</a> %}</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-19.png">https://coding4ever.files.wordpress.com/2015/10/201015-19.png</a> %}</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-20.png">https://coding4ever.files.wordpress.com/2015/10/201015-20.png</a> %}</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/10/201015-21.png">https://coding4ever.files.wordpress.com/2015/10/201015-21.png</a> %}</p>
+
+<p>Sebagai penutup saya belum menemukan referensi yang tepat bagaimana cara menganalisa hasil dari <code>performance test</code> di atas, tetapi biasanya yang saya jadikan acuan adalah hasil yang bisa dilihat melalui node <code>View Results in Table</code> kolom Status, dari node ini kelihatan apakah ada request service yang berstatus <code>Warning</code>. Jika ada mungkin ini bisa menjadi bahan acuan apakah service kita masih perlu di-<code>improve</code> lagi atau skenario <code>performance test</code> yang perlu diganti atau karena faktor lainnya seperti kondisi jaringan yang lagi <code>enggak fit</code> pada saat melakukan tes :-D.</p>
+
+<p>Selamat mencoba :-)</p>
+]]></content>
+  </entry>
+  
+</feed>
