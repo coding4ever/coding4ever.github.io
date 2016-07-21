@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Crystal Reports .net | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/crystal-reports-net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-07-21T07:04:51+07:00</updated>
+  <updated>2016-07-21T07:14:14+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -18,7 +18,7 @@
     <link href="http://coding4ever.net/blog/2016/03/26/membuat-user-function-library-pada-crystal-report-net/"/>
     <updated>2016-03-26T12:45:06+07:00</updated>
     <id>http://coding4ever.net/blog/2016/03/26/membuat-user-function-library-pada-crystal-report-net</id>
-    <content type="html"><![CDATA[<p>{% img left <a href="https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg">https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg</a> 120 100 %}Crystal Report .NET selain memudahkan kita dalam mendesain report/laporan juga menyediakan puluhan fungsi yang siap pakai (built-in function) yang bisa mempercepat dalam pembuatan report/laporan. Tetapi ada waktunya ketika kita membutuhkan fungsi khusus yang tidak disediakan oleh Crystal Report .NET, dan kabar baiknya Crystal Report .NET juga menyediakan fasilitas untuk membuat fungsi tambahan yang dikenal dengan istilah <a href="http://scn.sap.com/community/crystal-reports-for-visual-studio/blog/2009/05/22/creating-crystal-reports-user-function-libraries-ufl-with-visual-studio-net">User Function Library (UFL)</a>.</p>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg">https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Crystal Report .NET selain memudahkan kita dalam mendesain report/laporan juga menyediakan puluhan fungsi yang siap pakai (built-in function) yang bisa mempercepat dalam pembuatan report/laporan. Tetapi ada waktunya ketika kita membutuhkan fungsi khusus yang tidak disediakan oleh Crystal Report .NET, dan kabar baiknya Crystal Report .NET juga menyediakan fasilitas untuk membuat fungsi tambahan yang dikenal dengan istilah <a href="http://scn.sap.com/community/crystal-reports-for-visual-studio/blog/2009/05/22/creating-crystal-reports-user-function-libraries-ufl-with-visual-studio-net">User Function Library (UFL)</a>.</p>
 
 <!-- more -->
 
@@ -43,13 +43,13 @@
 <li><p>Klik menu File ->New -> Project …</p></li>
 <li><p>Pada dialog New Project aktifkan pilihan Visual C# kemudian pada pilihan Templates pilih Class Library</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/03/260316-01.png">https://coding4ever.files.wordpress.com/2016/03/260316-01.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-01.png">https://coding4ever.files.wordpress.com/2016/03/260316-01.png</a>&#8221;></p>
 
 <p>Nama project harus diberi prefix <code>CRUFL</code></p></li>
 <li><p>Setelah project berhasil dibuat, klik kanan nama project -> properties</p></li>
 <li><p>Klik tab Build, kemudian aktifkan pilihan <code>Register for COM interop</code></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/03/260316-02.png">https://coding4ever.files.wordpress.com/2016/03/260316-02.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-02.png">https://coding4ever.files.wordpress.com/2016/03/260316-02.png</a>&#8221;></p>
 
 <p>Mengaktifkan pilihan <code>Register for COM interop</code> akan menyebabkan assembly secara otomatis diregister oleh utility regasm.exe, ketika project dibuild/compile. Jadi, kita tidak perlu menjalankan regasm.exe secara manual via command prompt.</p></li>
 </ol>
@@ -65,16 +65,16 @@
 <li><p>Hapus class default (Class1)</p></li>
 <li><p>Tambahkan sebuah interface dengan nama ITerbilang, kemudian tambahkan juga method abstractnya dengan nama TerbilangIndonesia</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/03/260316-03.png">https://coding4ever.files.wordpress.com/2016/03/260316-03.png</a> %}</p></li>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-03.png">https://coding4ever.files.wordpress.com/2016/03/260316-03.png</a>&#8221;></p></li>
 <li><p>Kemudian tambahkan attribut COM</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/03/260316-04.png">https://coding4ever.files.wordpress.com/2016/03/260316-04.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-04.png">https://coding4ever.files.wordpress.com/2016/03/260316-04.png</a>&#8221;></p>
 
 <p>Attribut COM untuk interface terdiri dari tiga nilai yaitu <code>ComVisible</code>, <code>InterfaceType</code> dan <code>Guid</code>. Attribut ini perlu kita tambahkan agar class library yang kita buat bisa dikenali oleh Crystal Report.</p>
 
 <p>Untuk mendapatkan nilai GUID, bisa menggunakan tool GUID yang sudah disediakan oleh Visual Studio .NET. Tool ini bisa diaktifkan melalui menu <code>Tools -&gt; Create GUID</code>.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/03/260316-05.png">https://coding4ever.files.wordpress.com/2016/03/260316-05.png</a> %}</p></li>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-05.png">https://coding4ever.files.wordpress.com/2016/03/260316-05.png</a>&#8221;></p></li>
 </ol>
 
 
@@ -85,16 +85,181 @@
 <ol>
 <li><p>Tambahkan sebuah class dengan nama Terbilang. Class harus mengimplementasikan interface ITerbilang.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/03/260316-06.png">https://coding4ever.files.wordpress.com/2016/03/260316-06.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-06.png">https://coding4ever.files.wordpress.com/2016/03/260316-06.png</a>&#8221;></p>
 
 <p>Karena class Terbilang mengimplementasikan interface ITerbilang, maka class Terbilang wajib mendefinisikan ulang (override) method TerbilangIndonesia.</p></li>
 <li><p>Kemudian tambahkan Attribut COM</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/03/260316-07.png">https://coding4ever.files.wordpress.com/2016/03/260316-07.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-07.png">https://coding4ever.files.wordpress.com/2016/03/260316-07.png</a>&#8221;></p>
 
 <p>Attribut COM untuk class  terdiri dari tiga nilai yaitu <code>ComVisible</code>, <code>ClassInterface</code> dan <code>Guid</code>. Setelah itu lengkapi kode method TerbilangIndonesia seperti berikut :</p>
 
-<p>{% gist 34337e1baec374270fb4 %}</p></li>
+<p><div><script src='https://gist.github.com/34337e1baec374270fb4.js'></script>
+<noscript><pre><code>[ComVisible(true), ClassInterface(ClassInterfaceType.None), Guid(&quot;BA626A6E-0AA9-45C9-AA47-2E9674406A75&quot;)]
+public class Terbilang : ITerbilang
+{
+    public string TerbilangIndonesia(int nominal)
+    {
+        string strTot = string.Empty;
+        string urai = string.Empty;
+        string strJmlHuruf = string.Empty;
+        string bil1 = string.Empty;
+        string bil2 = string.Empty;
+
+        int y = 0;
+        int x = 0;
+        int z = 0;
+
+        strJmlHuruf = Convert.ToString(nominal);
+
+        urai = string.Empty;
+        while (x &lt; strJmlHuruf.Length)
+        {
+            x++;
+            strTot = strJmlHuruf.Substring(x - 1, 1);
+            y = y + Convert.ToInt32(strTot);
+            z = strJmlHuruf.Length - x + 1;
+            switch (Convert.ToInt32(strTot))
+            {
+                case 1:
+                    if ((z == 1 | z == 7 | z == 10 | z == 13))
+                    {
+                        bil1 = &quot;SATU &quot;;
+                    }
+                    else if ((z == 4))
+                    {
+                        if ((x == 1))
+                        {
+                            bil1 = &quot;SE&quot;;
+                        }
+                        else
+                        {
+                            bil1 = &quot;SATU &quot;;
+                        }
+                    }
+                    else if ((z == 2 | z == 5 | z == 8 | z == 11 | z == 14))
+                    {
+                        x = x + 1;
+                        strTot = strJmlHuruf.Substring(x - 1, 1);
+                        z = strJmlHuruf.Length - x + 1;
+                        bil2 = string.Empty;
+                        switch (Convert.ToInt32(strTot))
+                        {
+                            case 0:
+                                bil1 = &quot;SEPULUH &quot;;
+                                break;
+                            case 1:
+                                bil1 = &quot;SEBELAS &quot;;
+                                break;
+                            case 2:
+                                bil1 = &quot;DUA BELAS &quot;;
+                                break;
+                            case 3:
+                                bil1 = &quot;TIGA BELAS &quot;;
+                                break;
+                            case 4:
+                                bil1 = &quot;EMPAT BELAS &quot;;
+                                break;
+                            case 5:
+                                bil1 = &quot;LIMA BELAS &quot;;
+                                break;
+                            case 6:
+                                bil1 = &quot;ENAM BELAS &quot;;
+                                break;
+                            case 7:
+                                bil1 = &quot;TUJUH BELAS &quot;;
+                                break;
+                            case 8:
+                                bil1 = &quot;DELAPAN BELAS &quot;;
+                                break;
+                            case 9:
+                                bil1 = &quot;SEMBILAN BELAS &quot;;
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        bil1 = &quot;SE&quot;;
+                    }
+                    break;
+                case 2:
+                    bil1 = &quot;DUA &quot;;
+                    break;
+                case 3:
+                    bil1 = &quot;TIGA &quot;;
+                    break;
+                case 4:
+                    bil1 = &quot;EMPAT &quot;;
+                    break;
+                case 5:
+                    bil1 = &quot;LIMA &quot;;
+                    break;
+                case 6:
+                    bil1 = &quot;ENAM &quot;;
+                    break;
+                case 7:
+                    bil1 = &quot;TUJUH &quot;;
+                    break;
+                case 8:
+                    bil1 = &quot;DELAPAN &quot;;
+                    break;
+                case 9:
+                    bil1 = &quot;SEMBILAN &quot;;
+                    break;
+                default:
+                    bil1 = string.Empty;
+                    break;
+            }
+
+            if ((Convert.ToInt32(strTot) &gt; 0))
+            {
+                if ((z == 2 | z == 5 | z == 8 | z == 11 | z == 14))
+                {
+                    bil2 = &quot;PULUH &quot;;
+                }
+                else if ((z == 3 | z == 6 | z == 9 | z == 12 | z == 15))
+                {
+                    bil2 = &quot;RATUS &quot;;
+                }
+                else
+                {
+                    bil2 = string.Empty;
+                }
+            }
+            else
+            {
+                bil2 = string.Empty;
+            }
+
+            if ((y &gt; 0))
+            {
+                switch (z)
+                {
+                    case 4:
+                        bil2 = bil2 + &quot;RIBU &quot;;
+                        y = 0;
+                        break;
+                    case 7:
+                        bil2 = bil2 + &quot;JUTA &quot;;
+                        y = 0;
+                        break;
+                    case 10:
+                        bil2 = bil2 + &quot;MILYAR &quot;;
+                        y = 0;
+                        break;
+                    case 13:
+                        bil2 = bil2 + &quot;TRILYUN &quot;;
+                        y = 0;
+                        break;
+                }
+            }
+            urai = urai + bil1 + bil2;
+        }
+
+        return urai.ToLower() + &quot;rupiah&quot;;
+    }
+}</code></pre></noscript></div>
+</p></li>
 </ol>
 
 
@@ -107,7 +272,7 @@
 <li><p>Aktifkan tab signing, kemudian aktifkan pilihan <code>Sign the assembly</code></p></li>
 <li><p>Pada pilihan combo <code>Choose a string name key file</code>, pilih &lt;New…> setelah itu akan tampil dialog <code>Create Strong Name Key</code> kemudian isikan nilai input key file name, misal dengan nama <code>CRUFLCrystalReportHelperKey</code>.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/03/260316-08.png">https://coding4ever.files.wordpress.com/2016/03/260316-08.png</a> %}</p></li>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-08.png">https://coding4ever.files.wordpress.com/2016/03/260316-08.png</a>&#8221;></p></li>
 <li><p>Terakhir lakukan proses Build/Compile, melalui menu Build -> Build Solution</p></li>
 </ol>
 
@@ -116,33 +281,31 @@
 
 <p>Hasil build/compile dari project <code>CRUFLCrystalReportHelper</code>, akan menghasilkan file dengan ekstensi .dll atau yang dikenal dengan istilah file Assembly. File ini harus kita daftarkan terlebih dulu ke <a href="https://en.wikipedia.org/wiki/Global_Assembly_Cache">GAC(Global Assembly Cache)</a> agar bisa dikenali oleh Crystal Report.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/03/260316-22.png">https://coding4ever.files.wordpress.com/2016/03/260316-22.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-22.png">https://coding4ever.files.wordpress.com/2016/03/260316-22.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/03/260316-23.png">https://coding4ever.files.wordpress.com/2016/03/260316-23.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-23.png">https://coding4ever.files.wordpress.com/2016/03/260316-23.png</a>&#8221;></p>
 
 <p>Berikut langkah-langkah untuk mendaftarkan file Assembly ke <a href="https://en.wikipedia.org/wiki/Global_Assembly_Cache">GAC(Global Assembly Cache)</a> :</p>
 
 <ol>
 <li><p>Aktifkan Visual Studio Command Prompt sesuai dengan versi Visual Studio .NET Anda</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/03/260316-09.png">https://coding4ever.files.wordpress.com/2016/03/260316-09.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-09.png">https://coding4ever.files.wordpress.com/2016/03/260316-09.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/03/260316-10.png">https://coding4ever.files.wordpress.com/2016/03/260316-10.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-10.png">https://coding4ever.files.wordpress.com/2016/03/260316-10.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/03/260316-11.png">https://coding4ever.files.wordpress.com/2016/03/260316-11.png</a> %}</p></li>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-11.png">https://coding4ever.files.wordpress.com/2016/03/260316-11.png</a>&#8221;></p></li>
 <li><p>Gunakan tool <code>gacutil</code>, dengan format perintah seperti berikut</p>
 
-<p>{% codeblock %}
-gacutil -if <Assembly Name>
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gacutil -if &lt;Assembly Name></span></code></pre></td></tr></table></div></figure></p>
 
 <p>contoh :</p>
 
-<p>{% codeblock %}
-gacutil -if CRUFLCrystalReportHelper.dll
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gacutil -if CRUFLCrystalReportHelper.dll</span></code></pre></td></tr></table></div></figure></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/03/260316-12.png">https://coding4ever.files.wordpress.com/2016/03/260316-12.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-12.png">https://coding4ever.files.wordpress.com/2016/03/260316-12.png</a>&#8221;></p>
 
 <p>Jika berhasil akan tampil pesan <code>Assembly successfully added to the cache</code>.</p></li>
 </ol>
@@ -152,37 +315,37 @@ gacutil -if CRUFLCrystalReportHelper.dll
 
 <p>Setelah menyelesaikan project CRUFLCrystalReportHelper dan mendaftarkannya ke <a href="https://en.wikipedia.org/wiki/Global_Assembly_Cache">GAC(Global Assembly Cache)</a>, kita akan menambahkan project baru dengan tipe WinForm Application.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/03/260316-13.png">https://coding4ever.files.wordpress.com/2016/03/260316-13.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-13.png">https://coding4ever.files.wordpress.com/2016/03/260316-13.png</a>&#8221;></p>
 
 <p>Setelah itu tambahkan juga item Crystal Report.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/03/260316-14.png">https://coding4ever.files.wordpress.com/2016/03/260316-14.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-14.png">https://coding4ever.files.wordpress.com/2016/03/260316-14.png</a>&#8221;></p>
 
 <p>Kemudian desain reportnya seperti berikut :</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/03/260316-15.png">https://coding4ever.files.wordpress.com/2016/03/260316-15.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-15.png">https://coding4ever.files.wordpress.com/2016/03/260316-15.png</a>&#8221;></p>
 
 <p>Selanjutnya kita akan menambahkan formula baru dengan nama <code>terbilang</code>, caranya dengan mengklik kanan <code>Formula Fields</code> -> New …</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/03/260316-16.png">https://coding4ever.files.wordpress.com/2016/03/260316-16.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-16.png">https://coding4ever.files.wordpress.com/2016/03/260316-16.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/03/260316-17.png">https://coding4ever.files.wordpress.com/2016/03/260316-17.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-17.png">https://coding4ever.files.wordpress.com/2016/03/260316-17.png</a>&#8221;></p>
 
 <p>Setelah itu akan tampil dialog Formula Workshop</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/03/260316-18.png">https://coding4ever.files.wordpress.com/2016/03/260316-18.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-18.png">https://coding4ever.files.wordpress.com/2016/03/260316-18.png</a>&#8221;></p>
 
 <p>Fungsi terbilang <code>TerbilangIndonesia</code> yang sudah kita buat masuk ke dalam kelompok <code>Additional Functions</code> -> <code>COM and .NET UFLs (u212com.dll)</code>. Fungsi ini membutuhkan parameter nominal yang nilainya kita isi dengan field total dari tabel Jual.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/03/260316-19.png">https://coding4ever.files.wordpress.com/2016/03/260316-19.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-19.png">https://coding4ever.files.wordpress.com/2016/03/260316-19.png</a>&#8221;></p>
 
 <p>Kemudian tambahkan formula <code>terbilang</code> ke dalam report.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/03/260316-20.png">https://coding4ever.files.wordpress.com/2016/03/260316-20.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-20.png">https://coding4ever.files.wordpress.com/2016/03/260316-20.png</a>&#8221;></p>
 
 <p>Terakhir kita running project, dan lihat hasil dari formula terbilangnya.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/03/260316-21.png">https://coding4ever.files.wordpress.com/2016/03/260316-21.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/03/260316-21.png">https://coding4ever.files.wordpress.com/2016/03/260316-21.png</a>&#8221;></p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/DemoUFLforCR">MENCOBA</a> :)</p>
 ]]></content>
@@ -193,14 +356,14 @@ gacutil -if CRUFLCrystalReportHelper.dll
     <link href="http://coding4ever.net/blog/2016/01/27/menghilangkan-tab-main-report-pada-crystalreportviewer/"/>
     <updated>2016-01-27T15:00:58+07:00</updated>
     <id>http://coding4ever.net/blog/2016/01/27/menghilangkan-tab-main-report-pada-crystalreportviewer</id>
-    <content type="html"><![CDATA[<p>{% img left <a href="https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg">https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg</a> 120 100 %}Bagi Anda penggemar Crystal Reports .NET tentu sudah tidak asing lagi dengan tab <code>Main Report</code> yang tampil pada saat menampilkan laporan. Bagi sebagian orang seperti saya <em>tab</em> ini lumayan mengganggu karena biasanya report yang kita buat adalah report tunggal (report yang tidak me-link kehalaman yang lain).</p>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg">https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Bagi Anda penggemar Crystal Reports .NET tentu sudah tidak asing lagi dengan tab <code>Main Report</code> yang tampil pada saat menampilkan laporan. Bagi sebagian orang seperti saya <em>tab</em> ini lumayan mengganggu karena biasanya report yang kita buat adalah report tunggal (report yang tidak me-link kehalaman yang lain).</p>
 
 <p>Masih bingung ? Coba lihat gambar berikut.</p>
 
 <!-- more -->
 
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/270116-01.png">https://coding4ever.files.wordpress.com/2016/01/270116-01.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/270116-01.png">https://coding4ever.files.wordpress.com/2016/01/270116-01.png</a>&#8221;></p>
 
 <p>Ada beberapa cara untuk menghilangkan tab tersebut, bisa dengan membuat sebuah <em>method biasa</em> atau dengan membuat <a href="https://msdn.microsoft.com/en-us//library/bb383977.aspx"><em>extension method</em></a>.</p>
 
@@ -208,11 +371,11 @@ gacutil -if CRUFLCrystalReportHelper.dll
 
 <p>Nah cara pertama adalah dengan membuat sebuah method, misal dengan nama <code>RemoveMainTab</code>.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/270116-02.png">https://coding4ever.files.wordpress.com/2016/01/270116-02.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/270116-02.png">https://coding4ever.files.wordpress.com/2016/01/270116-02.png</a>&#8221;></p>
 
 <p>kemudian method di atas kita panggil setelah pengesetan nilai property <code>ReportSource</code></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/270116-03.png">https://coding4ever.files.wordpress.com/2016/01/270116-03.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/270116-03.png">https://coding4ever.files.wordpress.com/2016/01/270116-03.png</a>&#8221;></p>
 
 <h5>Extension method</h5>
 
@@ -222,23 +385,23 @@ gacutil -if CRUFLCrystalReportHelper.dll
 
 <p>Untuk membuat <a href="https://msdn.microsoft.com/en-us//library/bb383977.aspx">extension method</a> kita harus menambahkan class baru misal dengan nama <code>CrystalReportViewerExtension</code>.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/270116-04.png">https://coding4ever.files.wordpress.com/2016/01/270116-04.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/270116-04.png">https://coding4ever.files.wordpress.com/2016/01/270116-04.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/270116-05.png">https://coding4ever.files.wordpress.com/2016/01/270116-05.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/270116-05.png">https://coding4ever.files.wordpress.com/2016/01/270116-05.png</a>&#8221;></p>
 
 <p>kemudian classnya harus static, setelah itu kita tambahkan method <code>RemoveMainTab</code></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/270116-06.png">https://coding4ever.files.wordpress.com/2016/01/270116-06.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/270116-06.png">https://coding4ever.files.wordpress.com/2016/01/270116-06.png</a>&#8221;></p>
 
 <p>Nah coba perhatikan method <code>RemoveMainTab</code> di atas, selain harus <code>static</code> parameternya juga harus ditambahkan keyword <code>this</code>.</p>
 
 <p>Jika berhasil objek dari class <code>CrystalReportViewer</code> akan ketambahan method baru dengan nama <code>RemoveMainTab</code>.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/270116-07.png">https://coding4ever.files.wordpress.com/2016/01/270116-07.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/270116-07.png">https://coding4ever.files.wordpress.com/2016/01/270116-07.png</a>&#8221;></p>
 
 <p>Terakhir kita cek reportnya apakah tab Main Report sudah hilang ?</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/270116-08.png">https://coding4ever.files.wordpress.com/2016/01/270116-08.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/270116-08.png">https://coding4ever.files.wordpress.com/2016/01/270116-08.png</a>&#8221;></p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/RemoveMainReportTabOnCRViewer">MENCOBA</a> :)</p>
 ]]></content>
@@ -249,24 +412,24 @@ gacutil -if CRUFLCrystalReportHelper.dll
     <link href="http://coding4ever.net/blog/2016/01/24/membuat-laporan-crystal-reports-net-dengan-model-data-push-bagian-number-2/"/>
     <updated>2016-01-24T15:25:29+07:00</updated>
     <id>http://coding4ever.net/blog/2016/01/24/membuat-laporan-crystal-reports-net-dengan-model-data-push-bagian-number-2</id>
-    <content type="html"><![CDATA[<p>{% img left <a href="https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg">https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg</a> 120 100 %}Melanjutkan pembahasan tentang bagaimana cara mendesain laporan menggunakan Crystal Reports‎ .NET tanpa terhubung langsung ke database dengan memanfaatkan objek ADO.NET DataSet atau yang dikenal dengan istilah <a href="{{%20site.url%20}}/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push/">Push model</a>.</p>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg">https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Melanjutkan pembahasan tentang bagaimana cara mendesain laporan menggunakan Crystal Reports‎ .NET tanpa terhubung langsung ke database dengan memanfaatkan objek ADO.NET DataSet atau yang dikenal dengan istilah <a href="/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push/">Push model</a>.</p>
 
 <!-- more -->
 
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-01.png">https://coding4ever.files.wordpress.com/2016/01/240116-01.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-01.png">https://coding4ever.files.wordpress.com/2016/01/240116-01.png</a>&#8221;></p>
 
-<p>Jika pada postingan <a href="{{%20site.url%20}}/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push/">sebelumnya</a> kita hanya menampilkan data dari sebuah tabel maka untuk <a href="{{%20site.url%20}}/blog/2016/01/24/membuat-laporan-crystal-reports-net-dengan-model-data-push-bagian-number-2/">postingan</a> kali ini kita menampilkan data dari tiga buah tabel yang saling berhubungan.</p>
+<p>Jika pada postingan <a href="/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push/">sebelumnya</a> kita hanya menampilkan data dari sebuah tabel maka untuk <a href="/blog/2016/01/24/membuat-laporan-crystal-reports-net-dengan-model-data-push-bagian-number-2/">postingan</a> kali ini kita menampilkan data dari tiga buah tabel yang saling berhubungan.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-02.png">https://coding4ever.files.wordpress.com/2016/01/240116-02.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-02.png">https://coding4ever.files.wordpress.com/2016/01/240116-02.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-03.png">https://coding4ever.files.wordpress.com/2016/01/240116-03.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-03.png">https://coding4ever.files.wordpress.com/2016/01/240116-03.png</a>&#8221;></p>
 
 <p>Persiapan tool-tool yang akan digunakan :</p>
 
 <ol>
 <li><a href="http://www.visualstudio.com/en-us/downloads/download-visual-studio-vs#d-community">Visual Studio Community 2013</a>, Anda bisa saja menggunakan Visual Studio .NET versi sebelumnya (2010, 2012)</li>
-<li><a href="{{%20site.url%20}}/blog/categories/nuget/">NuGet</a>, untuk memudahkan dalam menambahkan library pihak ketiga. Adapun library pihak ketiga yang digunakan dalam sample ini adalah <a href="{{%20site.url%20}}/blog/categories/dapper-net/">Dapper .NET</a> dan <a href="http://www.nuget.org/packages/System.Data.SQLite.Core/">System.Data.SQLite Core</a></li>
+<li><a href="/blog/categories/nuget/">NuGet</a>, untuk memudahkan dalam menambahkan library pihak ketiga. Adapun library pihak ketiga yang digunakan dalam sample ini adalah <a href="/blog/categories/dapper-net/">Dapper .NET</a> dan <a href="http://www.nuget.org/packages/System.Data.SQLite.Core/">System.Data.SQLite Core</a></li>
 <li><a href="http://scn.sap.com/docs/DOC-7824">Crystal Reports SP 13</a></li>
 <li>Database <a href="http://www.sqlite.org/">SQLite</a></li>
 </ol>
@@ -277,10 +440,10 @@ gacutil -if CRUFLCrystalReportHelper.dll
 <ol>
 <li><p>Buat project baru dengan type WinForm</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-04.png">https://coding4ever.files.wordpress.com/2016/01/240116-04.png</a> %}</p></li>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-04.png">https://coding4ever.files.wordpress.com/2016/01/240116-04.png</a>&#8221;></p></li>
 <li><p>Tambahkan empat folder baru masing-masing dengan nama DataSet, Model, Repository dan Report</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-05.png">https://coding4ever.files.wordpress.com/2016/01/240116-05.png</a> %}</p></li>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-05.png">https://coding4ever.files.wordpress.com/2016/01/240116-05.png</a>&#8221;></p></li>
 </ol>
 
 
@@ -290,83 +453,83 @@ gacutil -if CRUFLCrystalReportHelper.dll
 
 <p>Untuk menerapkan konsep OOP (Object-oriented programming) dalam pemrograman database kita perlu membuat sebuah class yang disebut dengan istilah class Model atau Entity. Class ini merupakan representasi dari tabel-tabel yang ada di dalam database. Tujuan dari membuat class ini adalah agar kita bisa melakukan mapping (pemetaan) baris/row dari tabel menjadi kumpulan objek (object collection).</p>
 
-<p>Pemetaan bisa dilakukan secara manual atau bisa juga secara otomatis dengan menggunakan tool-tool ORM dari pihak ketiga seperti <a href="{{%20site.url%20}}/blog/categories/dapper-net/">Dapper .NET</a> dan <a href="]({{%20site.url%20}}/blog/categories/entity-framework/">Entity Framework</a>. Untuk contoh kali ini kita menggunakan <a href="{{%20site.url%20}}/blog/categories/dapper-net/">Dapper .NET</a>.</p>
+<p>Pemetaan bisa dilakukan secara manual atau bisa juga secara otomatis dengan menggunakan tool-tool ORM dari pihak ketiga seperti <a href="/blog/categories/dapper-net/">Dapper .NET</a> dan <a href="](/blog/categories/entity-framework/">Entity Framework</a>. Untuk contoh kali ini kita menggunakan <a href="/blog/categories/dapper-net/">Dapper .NET</a>.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-06.png">https://coding4ever.files.wordpress.com/2016/01/240116-06.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-06.png">https://coding4ever.files.wordpress.com/2016/01/240116-06.png</a>&#8221;></p>
 
 <p>Setelah memahami apa itu class model dan bagaimana proses pemetaan record ke objek terjadi, langkah berikutnya adalah menambahkan class model <em>Category, Product</em> dan <em>Supplier</em> yang mempunyai struktur sama persis dengan rancangan tabel di atas.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-07.png">https://coding4ever.files.wordpress.com/2016/01/240116-07.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-07.png">https://coding4ever.files.wordpress.com/2016/01/240116-07.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-08.png">https://coding4ever.files.wordpress.com/2016/01/240116-08.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-08.png">https://coding4ever.files.wordpress.com/2016/01/240116-08.png</a>&#8221;></p>
 
 <h5>Class Repository</h5>
 
 <p>Class <a href="https://msdn.microsoft.com/en-us/library/ff649690.aspx">repository</a> adalah class yang bertugas untuk menangani operasi database yang dikenal dengan istilah operasi CRUD (Create, Read, Update dan Delete). Di dalam class inilah kita menuliskan perintah-perintah INSERT, UPDATE, DELETE dan SELECT.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-09.png">https://coding4ever.files.wordpress.com/2016/01/240116-09.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-09.png">https://coding4ever.files.wordpress.com/2016/01/240116-09.png</a>&#8221;></p>
 
 <p>Sebagai contoh kode dibawah ini akan melakukan mapping (pemetaan) baris/row tabel menjadi kumpulan objek (object collection) secara otomatis.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-10.png">https://coding4ever.files.wordpress.com/2016/01/240116-10.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-10.png">https://coding4ever.files.wordpress.com/2016/01/240116-10.png</a>&#8221;></p>
 
-<p>Kode di atas menggunakan <a href="{{%20site.url%20}}/blog/categories/dapper-net/">Micro ORM</a> <a href="{{%20site.url%20}}/blog/categories/dapper-net/">Dapper.NET</a> untuk melakukan mapping/pemetaan hasil query ke objek collection.</p>
+<p>Kode di atas menggunakan <a href="/blog/categories/dapper-net/">Micro ORM</a> <a href="/blog/categories/dapper-net/">Dapper.NET</a> untuk melakukan mapping/pemetaan hasil query ke objek collection.</p>
 
 <p>Kemudian kita panggil seperti berikut :</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-11.png">https://coding4ever.files.wordpress.com/2016/01/240116-11.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-11.png">https://coding4ever.files.wordpress.com/2016/01/240116-11.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-12.png">https://coding4ever.files.wordpress.com/2016/01/240116-12.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-12.png">https://coding4ever.files.wordpress.com/2016/01/240116-12.png</a>&#8221;></p>
 
 <h5>DataSet</h5>
 
-<p>Dengan model <a href="{{%20site.url%20}}/blog/categories/crystal-reports-net/">data Push</a> kita tidak langsung menghubungkan antara Crystal Reports dengan database, jadi sebagai solusinya kita menggunakan DataSet yang berfungsi sebagai tabel temporary dan menjadi sumber data bagi Crystal Reports.</p>
+<p>Dengan model <a href="/blog/categories/crystal-reports-net/">data Push</a> kita tidak langsung menghubungkan antara Crystal Reports dengan database, jadi sebagai solusinya kita menggunakan DataSet yang berfungsi sebagai tabel temporary dan menjadi sumber data bagi Crystal Reports.</p>
 
 <p>Untuk menambahkan item DataSet, klik kanan Project -> Add -> New Item…</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-13.png">https://coding4ever.files.wordpress.com/2016/01/240116-13.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-13.png">https://coding4ever.files.wordpress.com/2016/01/240116-13.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-14.png">https://coding4ever.files.wordpress.com/2016/01/240116-14.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-14.png">https://coding4ever.files.wordpress.com/2016/01/240116-14.png</a>&#8221;></p>
 
 <p>Setelah menambahkan item DataSet (DsNorthwind), langkah berikutnya adalah menambahkan item DataTable</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-15.png">https://coding4ever.files.wordpress.com/2016/01/240116-15.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-15.png">https://coding4ever.files.wordpress.com/2016/01/240116-15.png</a>&#8221;></p>
 
 <p>Kemudian input informasi DataTablenya seperti gambar berikut :</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-16.png">https://coding4ever.files.wordpress.com/2016/01/240116-16.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-16.png">https://coding4ever.files.wordpress.com/2016/01/240116-16.png</a>&#8221;></p>
 
 <p>Ulangi langkah sebelumnya untuk menambahkan DataTable lainnya.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-17.png">https://coding4ever.files.wordpress.com/2016/01/240116-17.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-17.png">https://coding4ever.files.wordpress.com/2016/01/240116-17.png</a>&#8221;></p>
 
 <h5>Crystal Reports</h5>
 
 <p>Crystal Reports adalah tool yang kita gunakan untuk membuat laporan. Untuk menambahkan item Crystal Report, klik kanan Project -> Add -> New Item…</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-18.png">https://coding4ever.files.wordpress.com/2016/01/240116-18.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-18.png">https://coding4ever.files.wordpress.com/2016/01/240116-18.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-19.png">https://coding4ever.files.wordpress.com/2016/01/240116-19.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-19.png">https://coding4ever.files.wordpress.com/2016/01/240116-19.png</a>&#8221;></p>
 
 <p>Pilih “As a Blank Report” karena kita akan mendesain report secara manual.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-20.png">https://coding4ever.files.wordpress.com/2016/01/240116-20.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-20.png">https://coding4ever.files.wordpress.com/2016/01/240116-20.png</a>&#8221;></p>
 
 <p>Langkah berikutnya adalah menentukan sumber data yang kita arahkan ke item DataSet yang sudah kita buat pada langkah sebelumnya</p>
 
 <p>Klik kanan Database Fields -> Database Expert &hellip;</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-21.png">https://coding4ever.files.wordpress.com/2016/01/240116-21.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-21.png">https://coding4ever.files.wordpress.com/2016/01/240116-21.png</a>&#8221;></p>
 
 <p>Pilih ADO.NET DataSet</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-22.png">https://coding4ever.files.wordpress.com/2016/01/240116-22.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-22.png">https://coding4ever.files.wordpress.com/2016/01/240116-22.png</a>&#8221;></p>
 
 <p>Drag satu-satu field ke section detail, kemudian dirapikan.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-23.png">https://coding4ever.files.wordpress.com/2016/01/240116-23.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-23.png">https://coding4ever.files.wordpress.com/2016/01/240116-23.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-24.png">https://coding4ever.files.wordpress.com/2016/01/240116-24.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-24.png">https://coding4ever.files.wordpress.com/2016/01/240116-24.png</a>&#8221;></p>
 
 <h5>Crystal Report Viewer</h5>
 
@@ -374,17 +537,17 @@ gacutil -if CRUFLCrystalReportHelper.dll
 
 <p>Aktifkan form kemudian tambahkan Crystal Report Viewer</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-25.png">https://coding4ever.files.wordpress.com/2016/01/240116-25.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-25.png">https://coding4ever.files.wordpress.com/2016/01/240116-25.png</a>&#8221;></p>
 
 <p>Kemudian tambahkan kode berikut :</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-26.png">https://coding4ever.files.wordpress.com/2016/01/240116-26.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-26.png">https://coding4ever.files.wordpress.com/2016/01/240116-26.png</a>&#8221;></p>
 
-<p>Dari kode di atas kita bisa melihat tidak ada lagi kode untuk mengeset koneksi database dan perintah SQL yang akan dikirimkan. Cara ini sangat cocok digunakan ketika kita akan membangun sistem dengan arsitektur <a href="{{%20site.url%20}}/blog/2012/02/01/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-1/">N-Tier</a>, di mana aplikasi klien sudah tidak terkoneksi lagi secara langsung ke database.</p>
+<p>Dari kode di atas kita bisa melihat tidak ada lagi kode untuk mengeset koneksi database dan perintah SQL yang akan dikirimkan. Cara ini sangat cocok digunakan ketika kita akan membangun sistem dengan arsitektur <a href="/blog/2012/02/01/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-1/">N-Tier</a>, di mana aplikasi klien sudah tidak terkoneksi lagi secara langsung ke database.</p>
 
 <p>Jika kode di atas dijalankan, akan menghasilkan output seperti gambar di bawah ini.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/240116-27.png">https://coding4ever.files.wordpress.com/2016/01/240116-27.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/240116-27.png">https://coding4ever.files.wordpress.com/2016/01/240116-27.png</a>&#8221;></p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/DemoCRPushModel2">MENCOBA</a> :)</p>
 ]]></content>
@@ -395,7 +558,7 @@ gacutil -if CRUFLCrystalReportHelper.dll
     <link href="http://coding4ever.net/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push/"/>
     <updated>2015-04-12T23:58:08+07:00</updated>
     <id>http://coding4ever.net/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push</id>
-    <content type="html"><![CDATA[<p>{% img left <a href="https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg">https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg</a> 120 100 %}Ketika memutuskan untuk menggunakan Crystal Reports‎ sebagai tool untuk membuat laporan, ada dua model yang bisa kita gunakan untuk menampilkan data.</p>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg">https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Ketika memutuskan untuk menggunakan Crystal Reports‎ sebagai tool untuk membuat laporan, ada dua model yang bisa kita gunakan untuk menampilkan data.</p>
 
 <ol>
 <li>Pull model – kita mengeset koneksi ke database, mengirimkan perintah SQL, menentukan filter dan sisanya akan langsung ditangani oleh Crystal Reports. Cara yang pertama ini adalah cara umum yang biasanya digunakan untuk menampilkan data, dan rata-rata tutorial yang beredar juga menggunakan cara ini.</li>
@@ -412,7 +575,7 @@ gacutil -if CRUFLCrystalReportHelper.dll
 
 <ol>
 <li><a href="http://www.visualstudio.com/en-us/downloads/download-visual-studio-vs#d-community">Visual Studio Community 2013</a>, Anda bisa saja menggunakan Visual Studio .NET versi sebelumnya (2010, 2012)</li>
-<li><a href="{{%20site.url%20}}/blog/categories/nuget/">NuGet</a>, untuk memudahkan dalam menambahkan library pihak ketiga. Adapun library pihak ketiga yang digunakan dalam sample ini adalah <a href="{{%20site.url%20}}/blog/categories/dapper-net/">Dapper .NET</a> dan <a href="http://www.nuget.org/packages/System.Data.SQLite.Core/">System.Data.SQLite Core</a></li>
+<li><a href="/blog/categories/nuget/">NuGet</a>, untuk memudahkan dalam menambahkan library pihak ketiga. Adapun library pihak ketiga yang digunakan dalam sample ini adalah <a href="/blog/categories/dapper-net/">Dapper .NET</a> dan <a href="http://www.nuget.org/packages/System.Data.SQLite.Core/">System.Data.SQLite Core</a></li>
 <li><a href="http://scn.sap.com/docs/DOC-7824">Crystal Reports SP 13</a></li>
 <li>Database <a href="http://www.sqlite.org/">SQLite</a></li>
 <li>Tipe project WinForm</li>
@@ -421,7 +584,7 @@ gacutil -if CRUFLCrystalReportHelper.dll
 
 <p>Untuk contoh postingan kali ini, kita hanya menggunakan satu buah tabel dengan struktur seperti berikut :</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-01.png">https://coding4ever.files.wordpress.com/2015/04/120415-01.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-01.png">https://coding4ever.files.wordpress.com/2015/04/120415-01.png</a>&#8221;></p>
 
 <p>Setelah semua tool yang dibutuhkan tersedia kita lanjutkan dengan pembuatan project :</p>
 
@@ -430,16 +593,16 @@ gacutil -if CRUFLCrystalReportHelper.dll
 </ul>
 
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-02.png">https://coding4ever.files.wordpress.com/2015/04/120415-02.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-02.png">https://coding4ever.files.wordpress.com/2015/04/120415-02.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-03.png">https://coding4ever.files.wordpress.com/2015/04/120415-03.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-03.png">https://coding4ever.files.wordpress.com/2015/04/120415-03.png</a>&#8221;></p>
 
 <ul>
 <li>Tambahkan empat folder baru masing-masing dengan nama DataSet, Model, Dao dan Report</li>
 </ul>
 
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-04.png">https://coding4ever.files.wordpress.com/2015/04/120415-04.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-04.png">https://coding4ever.files.wordpress.com/2015/04/120415-04.png</a>&#8221;></p>
 
 <p>Folder DataSet digunakan untuk mengelompokkan item-item DataSet yang berfungsi sebagai tabel temporary, folder Model untuk mengelompokkan class-class model atau entity, folder Dao untuk mengelompokkan class-class akses database (Data Acces Object) dan terakhir folder Report untuk mengelompokkan item-item Crystal Reports.</p>
 
@@ -447,33 +610,33 @@ gacutil -if CRUFLCrystalReportHelper.dll
 
 <p>Untuk menerapkan konsep OOP (Object-oriented programming) dalam pemrograman database kita perlu membuat sebuah class yang disebut dengan istilah class Model atau Entity. Class ini merupakan representasi dari tabel-tabel yang ada di dalam database. Tujuan dari membuat class ini adalah agar kita bisa melakukan mapping (pemetaan) baris/row dari tabel menjadi kumpulan objek (object collection).</p>
 
-<p>Pemetaan bisa dilakukan secara manual atau bisa juga secara otomatis dengan menggunakan tool-tool ORM dari pihak ketiga seperti <a href="{{%20site.url%20}}/blog/categories/dapper-net/">Dapper .NET</a> dan <a href="{{%20site.url%20}}/blog/categories/entity-framework/">Entity Framework</a>. Untuk contoh kali ini kita menggunakan <a href="{{%20site.url%20}}/blog/categories/dapper-net/">Dapper .NET</a>.</p>
+<p>Pemetaan bisa dilakukan secara manual atau bisa juga secara otomatis dengan menggunakan tool-tool ORM dari pihak ketiga seperti <a href="/blog/categories/dapper-net/">Dapper .NET</a> dan <a href="/blog/categories/entity-framework/">Entity Framework</a>. Untuk contoh kali ini kita menggunakan <a href="/blog/categories/dapper-net/">Dapper .NET</a>.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-05.png">https://coding4ever.files.wordpress.com/2015/04/120415-05.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-05.png">https://coding4ever.files.wordpress.com/2015/04/120415-05.png</a>&#8221;></p>
 
 <p>Setelah memahami apa itu class model dan bagaimana proses pemetaan record ke objek terjadi, langkah berikutnya adalah menambahkan class model Siswa yang mempunyai struktur sama persis dengan rancangan tabel di awal.</p>
 
 <p>Untuk menambahkan class Model, klik kanan Project -> Add -> New Item…</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-06.png">https://coding4ever.files.wordpress.com/2015/04/120415-06.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-06.png">https://coding4ever.files.wordpress.com/2015/04/120415-06.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-07.png">https://coding4ever.files.wordpress.com/2015/04/120415-07.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-07.png">https://coding4ever.files.wordpress.com/2015/04/120415-07.png</a>&#8221;></p>
 
 <p>Kemudian lengkapi kode class Siswa, seperti gambar berikut :</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-08.png">https://coding4ever.files.wordpress.com/2015/04/120415-08.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-08.png">https://coding4ever.files.wordpress.com/2015/04/120415-08.png</a>&#8221;></p>
 
 <h3>Class DAO (Data Access Object)</h3>
 
 <p>Class DAO adalah class yang bertugas untuk menangani operasi database yang dikenal dengan istilah operasi CRUD (Create, Read, Update dan Delete). Di dalam class inilah kita menuliskan perintah-perintah INSERT, UPDATE, DELETE dan SELECT. Sebagai contoh kode dibawah ini akan melakukan mapping (pemetaan) baris/row tabel menjadi kumpulan objek (object collection) secara otomatis.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-09.png">https://coding4ever.files.wordpress.com/2015/04/120415-09.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-09.png">https://coding4ever.files.wordpress.com/2015/04/120415-09.png</a>&#8221;></p>
 
 <p>Contoh pemanggilannya juga gampang :</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-10.png">https://coding4ever.files.wordpress.com/2015/04/120415-10.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-10.png">https://coding4ever.files.wordpress.com/2015/04/120415-10.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-11.png">https://coding4ever.files.wordpress.com/2015/04/120415-11.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-11.png">https://coding4ever.files.wordpress.com/2015/04/120415-11.png</a>&#8221;></p>
 
 <h3>DataSet</h3>
 
@@ -481,49 +644,49 @@ gacutil -if CRUFLCrystalReportHelper.dll
 
 <p>Untuk menambahkan item DataSet, klik kanan Project -> Add -> New Item…</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-12.png">https://coding4ever.files.wordpress.com/2015/04/120415-12.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-12.png">https://coding4ever.files.wordpress.com/2015/04/120415-12.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-13.png">https://coding4ever.files.wordpress.com/2015/04/120415-13.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-13.png">https://coding4ever.files.wordpress.com/2015/04/120415-13.png</a>&#8221;></p>
 
 <p>Setelah menambahkan item DataSet (DsSiswa), langkah berikutnya adalah menambahkan item DataTable</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-14.png">https://coding4ever.files.wordpress.com/2015/04/120415-14.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-14.png">https://coding4ever.files.wordpress.com/2015/04/120415-14.png</a>&#8221;></p>
 
 <p>Kemudian input informasi DataTablenya seperti gambar berikut :</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-15.png">https://coding4ever.files.wordpress.com/2015/04/120415-15.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-15.png">https://coding4ever.files.wordpress.com/2015/04/120415-15.png</a>&#8221;></p>
 
 <p>Khusus untuk nama field dan tipe data dari DataTable yang kita buat, harus disesuaikan dengan nama field dan tipe data tabel.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-01.png">https://coding4ever.files.wordpress.com/2015/04/120415-01.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-01.png">https://coding4ever.files.wordpress.com/2015/04/120415-01.png</a>&#8221;></p>
 
 <h3>Crystal Reports</h3>
 
 <p>Crystal Reports adalah tool yang kita gunakan untuk membuat laporan. Untuk menambahkan item Crystal Report, klik kanan Project -> Add -> New Item…</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-16.png">https://coding4ever.files.wordpress.com/2015/04/120415-16.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-16.png">https://coding4ever.files.wordpress.com/2015/04/120415-16.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-17.png">https://coding4ever.files.wordpress.com/2015/04/120415-17.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-17.png">https://coding4ever.files.wordpress.com/2015/04/120415-17.png</a>&#8221;></p>
 
 <p>Pilih &ldquo;As a Blank Report&rdquo; karena kita akan mendesain report secara manual.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-18.png">https://coding4ever.files.wordpress.com/2015/04/120415-18.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-18.png">https://coding4ever.files.wordpress.com/2015/04/120415-18.png</a>&#8221;></p>
 
 <p>Langkah berikutnya adalah menentukan sumber data yang kita arahkan ke item DataSet yang sudah kita buat pada langkah sebelumnya</p>
 
 <p>Klik kanan Database Fields -> Database Expert …</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-19.png">https://coding4ever.files.wordpress.com/2015/04/120415-19.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-19.png">https://coding4ever.files.wordpress.com/2015/04/120415-19.png</a>&#8221;></p>
 
 <p>Pilih ADO.NET DataSet Siswa</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-20.png">https://coding4ever.files.wordpress.com/2015/04/120415-20.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-20.png">https://coding4ever.files.wordpress.com/2015/04/120415-20.png</a>&#8221;></p>
 
 <p>Drag satu-satu field siswa (nis, nama dan alamat) ke section detail, kemudian dirapikan.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-21.png">https://coding4ever.files.wordpress.com/2015/04/120415-21.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-21.png">https://coding4ever.files.wordpress.com/2015/04/120415-21.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-22.png">https://coding4ever.files.wordpress.com/2015/04/120415-22.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-22.png">https://coding4ever.files.wordpress.com/2015/04/120415-22.png</a>&#8221;></p>
 
 <h3>Crystal Report Viewer</h3>
 
@@ -531,17 +694,17 @@ gacutil -if CRUFLCrystalReportHelper.dll
 
 <p>Aktifkan form kemudian tambahkan Crystal Report Viewer</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-23.png">https://coding4ever.files.wordpress.com/2015/04/120415-23.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-23.png">https://coding4ever.files.wordpress.com/2015/04/120415-23.png</a>&#8221;></p>
 
 <p>Kemudian tambahkan kode berikut :</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-24.png">https://coding4ever.files.wordpress.com/2015/04/120415-24.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-24.png">https://coding4ever.files.wordpress.com/2015/04/120415-24.png</a>&#8221;></p>
 
-<p>Dari kode di atas kita bisa melihat tidak ada lagi kode untuk mengeset koneksi database dan perintah SQL yang akan dikirimkan. Cara ini sangat cocok digunakan ketika kita akan membangun sistem dengan arsitektur <a href="{{%20site.url%20}}/blog/2012/02/01/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-1/">N-Tier</a>, di mana aplikasi klien sudah tidak terkoneksi lagi secara langsung ke database.</p>
+<p>Dari kode di atas kita bisa melihat tidak ada lagi kode untuk mengeset koneksi database dan perintah SQL yang akan dikirimkan. Cara ini sangat cocok digunakan ketika kita akan membangun sistem dengan arsitektur <a href="/blog/2012/02/01/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-1/">N-Tier</a>, di mana aplikasi klien sudah tidak terkoneksi lagi secara langsung ke database.</p>
 
 <p>Jika kode di atas dijalankan, akan menghasilkan output seperti gambar di bawah ini.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/120415-25.png">https://coding4ever.files.wordpress.com/2015/04/120415-25.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/120415-25.png">https://coding4ever.files.wordpress.com/2015/04/120415-25.png</a>&#8221;></p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/DemoCRPushModel">MENCOBA</a> :)</p>
 ]]></content>
