@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Software Testing | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/software-testing/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-07-21T13:00:34+07:00</updated>
+  <updated>2016-07-22T22:16:33+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,183 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Coverage Testing Menggunakan NUnit, OpenCover Dan Report Generator]]></title>
+    <link href="http://coding4ever.net/blog/2016/07/22/coverage-testing-menggunakan-nunit-opencover-reportgenerator/"/>
+    <updated>2016-07-22T20:23:16+07:00</updated>
+    <id>http://coding4ever.net/blog/2016/07/22/coverage-testing-menggunakan-nunit-opencover-reportgenerator</id>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2016/07/nunit.png">https://coding4ever.files.wordpress.com/2016/07/nunit.png</a>&#8221; width=&#8221;120&#8221; height=&#8221;57&#8221;>Sudah menggunakan <a href="/blog/2016/07/20/unit-testing-menggunakan-nunit/">unit testing</a> ? Klo belum mampir ke <a href="/blog/2016/07/20/unit-testing-menggunakan-nunit/">sini</a> dulu ya :-)</p>
+
+<p>Kali ini kita akan membahas tentang <a href="/blog/2016/07/22/coverage-testing-menggunakan-nunit-opencover-reportgenerator/">coverage testing</a> yaitu pengetesan yang dilakukan untuk mengecek apakah <a href="/blog/2016/07/20/unit-testing-menggunakan-nunit/">unit testing</a> yang dibuat telah meng-cover semua kode yang perlu dites. Jika <a href="/blog/2016/07/20/unit-testing-menggunakan-nunit/">unit testingnya</a> terlalu sedikit atau waktu membuat <a href="/blog/2016/07/20/unit-testing-menggunakan-nunit/">unit testingnya</a> asal-asalan biasanya <a href="/blog/2016/07/22/coverage-testing-menggunakan-nunit-opencover-reportgenerator/">coverage testingnya</a> akan gagal.</p>
+
+<!-- more -->
+
+
+<p>Mengecek satu-persatu unit testing yang dibuat oleh programmer apakah sudah sesuai dengan kode yang perlu dites jelas tidak mungkin, untungnya sudah tersedia banyak tool yang bisa melakukkannya secara otomatis.</p>
+
+<p>Berikut beberapa tool yang bisa digunakan untuk melakukan <a href="/blog/2016/07/22/coverage-testing-menggunakan-nunit-opencover-reportgenerator/">coverage testing</a> di dunia .NET yaitu :</p>
+
+<ol>
+<li><a href="http://nunit.org/">NUnit</a></li>
+<li><a href="https://github.com/OpenCover/opencover/releases">OpenCover</a></li>
+<li><a href="https://github.com/danielpalme/ReportGenerator/releases">Report Generator</a></li>
+</ol>
+
+
+<p>Duet maut ketiga tool di atas bisa kita gunakan untuk melakukan prosedur <a href="/blog/2016/07/22/coverage-testing-menggunakan-nunit-opencover-reportgenerator/">coverage testing</a>. Untuk mendownloadnya Anda tinggal klik link di atas, khusus untuk <a href="https://www.nuget.org/packages/OpenCover/">OpenCover</a> dan <a href="https://www.nuget.org/packages/ReportGenerator/">Report Generator</a> sebaiknya disimpan di folder yang sama.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/07/220716-01.png">https://coding4ever.files.wordpress.com/2016/07/220716-01.png</a>&#8221;></p>
+
+<h3>Proses Coverage Testing</h3>
+
+<p>Secara umum proses <a href="/blog/2016/07/22/coverage-testing-menggunakan-nunit-opencover-reportgenerator/">coverage testing</a> menggunakan ke tiga tool di atas bisa di gambarkan seperti berikut</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/07/220716-02.png">https://coding4ever.files.wordpress.com/2016/07/220716-02.png</a>&#8221;></p>
+
+<p>Keterangan gambar :</p>
+
+<ol>
+<li>NUnit tool menjalankan prosedur unit testing terhadap file library yang sudah ditentukan</li>
+<li>Dari proses poin 1 akan digunakan OpenCover untuk mengenerate file coverage.xml</li>
+<li>Terakhir Report Generator digunakan untuk membuat laporan format HTML yang lebih mudah dibaca berdasarkan file coverage.xml</li>
+</ol>
+
+
+<p>Berdasarkan keterangan di atas kita bisa menuliskan batch command untuk prosedur <a href="/blog/2016/07/22/coverage-testing-menggunakan-nunit-opencover-reportgenerator/">coverage testing</a> seperti berikut :</p>
+
+<h4>Tahapan poin 1 dan 2</h4>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>echo menjalankan OpenCover untuk mengenerate file CodeCoverageResult.xml&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>OpenCover.Console.exe -target:nunit-console.exe -targetargs:&ldquo;/nologo /noshadow &rdquo;&ldquo;Library.NUnitTest.dll&rdquo;&ldquo;&rdquo; -filter:+[&lt;em>]&lt;/em> -register:user -output: CodeCoverageResult.xml</span></code></pre></td></tr></table></div></figure></p>
+
+<h4>Tahapan poin 3</h4>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>echo menjalankan ReportGenerator untuk mengenerate laporan format HTML yang lebih mudah dibaca berdasarkan file CodeCoverageResult.xml&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>ReportGenerator.exe -reports CodeCoverageResult.xml -targetdir: _CodeCoverageReport</span></code></pre></td></tr></table></div></figure></p>
+
+<h3>Persiapan Coverage Testing</h3>
+
+<p>Seperti pada pembahasan <a href="/blog/2016/07/20/unit-testing-menggunakan-nunit/">unit testing</a> kita juga membutuhkan dua project yaitu project target dan project unit testing. Untuk contoh disini kita sudah punya dua project yaitu <a href="https://github.com/k4m4r82/DemoCoverageTesting/tree/master/src/KRSoftwareLib">KRSoftwareLib</a> dan <a href="https://github.com/k4m4r82/DemoCoverageTesting/tree/master/src/KRSoftwareLibUnitTest">KRSoftwareLibUnitTest</a>.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/07/220716-03.png">https://coding4ever.files.wordpress.com/2016/07/220716-03.png</a>&#8221;></p>
+
+<p>Project <a href="https://github.com/k4m4r82/DemoCoverageTesting/tree/master/src/KRSoftwareLib">KRSoftwareLib</a> mempunyai sebuah class yaitu <a href="https://github.com/k4m4r82/DemoCoverageTesting/blob/master/src/KRSoftwareLib/DayHelper.cs">DayHelper</a> dan mempunyai dua method <code>GetIndonesianDay</code> dan <code>Weekday</code> yang akan kita buatkan <a href="https://github.com/k4m4r82/DemoCoverageTesting/blob/master/src/KRSoftwareLibUnitTest/DayHelperTest.cs">unit testingnya</a>.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/07/220716-04.png">https://coding4ever.files.wordpress.com/2016/07/220716-04.png</a>&#8221;></p>
+
+<p>Nah ini <a href="https://github.com/k4m4r82/DemoCoverageTesting/blob/master/src/KRSoftwareLibUnitTest/DayHelperTest.cs">unit testing</a> dari method <code>GetIndonesianDay</code>.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/07/220716-05.png">https://coding4ever.files.wordpress.com/2016/07/220716-05.png</a>&#8221;></p>
+
+<p>Kemudian project <code>KRSoftwareLibUnitTest</code> nya kita build, setelah itu kita jalankan prosedur coverage testing :</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>echo menjalankan OpenCover untuk mengenerate file CodeCoverageResult.xml&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>&ldquo;C:\CoverageTesting\opencover.4.6.519&rdquo;\OpenCover.Console.exe -target:&ldquo;C:\Program Files (x86)\NUnit 2.6.4\bin&rdquo;\nunit-console.exe -targetargs:&ldquo;/nologo /noshadow &rdquo;&ldquo;C:\CoverageTesting\KRSoftwareLibUnitTest\bin\Debug\KRSoftwareLibUnitTest.dll&rdquo;&ldquo;&rdquo; -filter:&ldquo;+["KRSoftwareLib&rdquo;]*&ldquo; -register:user -output:"CodeCoverageResult.xml&rdquo;</span></code></pre></td></tr></table></div></figure></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/07/220716-06.png">https://coding4ever.files.wordpress.com/2016/07/220716-06.png</a>&#8221;></p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>echo menjalankan ReportGenerator untuk mengenerate laporan format HTML yang lebih mudah dibaca berdasarkan file CodeCoverageResult.xml&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>&ldquo;C:\CoverageTesting\ReportGenerator_2.4.5.0\bin&rdquo;\ReportGenerator.exe -reports:&ldquo;CodeCoverageResult.xml&rdquo; -targetdir:&ldquo;_CodeCoverageReport&rdquo;</span></code></pre></td></tr></table></div></figure></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/07/220716-07.png">https://coding4ever.files.wordpress.com/2016/07/220716-07.png</a>&#8221;></p>
+
+<p>Dari proses coverage test di atas akan menghasilkan coverage test yang bagus, karena semua kondisi sudah dites. Berikut adalah hasil coverage testnya:</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/07/220716-08.png">https://coding4ever.files.wordpress.com/2016/07/220716-08.png</a>&#8221;></p>
+
+<p>Coba perhatikan kolom <code>Line coverage</code> dan <code>Branch coverage</code> nilainya 100% (warna hijaunya penuh). Kita juga bisa melihat detail coverage test dari class DayHelper.cs :</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/07/220716-09.png">https://coding4ever.files.wordpress.com/2016/07/220716-09.png</a>&#8221;></p>
+
+<p>Nah sekarang kita coba menonaktifkan beberapa baris kode tesnya untuk melihat perbedaan nilai kolom <code>Line coverage</code> dan <code>Branch coverage</code> seperti ini :</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/07/220716-10.png">https://coding4ever.files.wordpress.com/2016/07/220716-10.png</a>&#8221;></p>
+
+<p>Hasil coverage testingnya jadi jelek alias gagal :</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/07/220716-11.png">https://coding4ever.files.wordpress.com/2016/07/220716-11.png</a>&#8221;></p>
+
+<p>Dari detail coverage testnya class DayHelper.cs juga kelihatan baris/kondisi yang belum di tes:</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/07/220716-12.png">https://coding4ever.files.wordpress.com/2016/07/220716-12.png</a>&#8221;></p>
+
+<p>Nah mudah bukan ? Dengan coverage testing ini, kita jadi mudah untuk mendeteksi tingkat keseriusan programmer dalam membuat <a href="/blog/2016/07/20/unit-testing-menggunakan-nunit/">unit testing</a>.</p>
+
+<h3>Build Events</h3>
+
+<p>Sebenarnya pembahasan <a href="/blog/2016/07/22/coverage-testing-menggunakan-nunit-opencover-reportgenerator/">coverage testingnya</a> sudah selesai, tapi berhubungan prosedur <a href="/blog/2016/07/22/coverage-testing-menggunakan-nunit-opencover-reportgenerator/">coverage testing</a> di atas masih dijalankan secara manual via command prompt tentu akan menyulitkan kita untuk mengecek <a href="/blog/2016/07/20/unit-testing-menggunakan-nunit/">unit testingnya</a> setiap ada perubahan.
+Salah satu solusinya adalah dengan memanfaatkan fasilitas <a href="/blog/categories/build-events/">Build Events</a> yang sudah disediakan oleh Visual Studio .NET.</p>
+
+<p>Nah berikut skrip <a href="/blog/categories/build-events/">Build Events</a> yang harus kita buat untuk menjalankan prosedur <a href="/blog/2016/07/22/coverage-testing-menggunakan-nunit-opencover-reportgenerator/">coverage testing</a> di atas secara otomatis, setiap kali project unit testingnya di build.</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>echo &ldquo;set lokasi tool coverage testing&rdquo;
+</span><span class='line'>set OpenCoverDir=&ldquo;C:\CoverageTesting\opencover.4.6.519&rdquo;
+</span><span class='line'>set NUnitRunnerDir=&ldquo;C:\Program Files (x86)\NUnit 2.6.4\bin&rdquo;
+</span><span class='line'>set ReportGeneratorDir=&ldquo;C:\CoverageTesting\ReportGenerator_2.4.5.0\bin&rdquo;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>echo &ldquo;set coverage xml&rdquo;
+</span><span class='line'>set CodeCoverageResult=&ldquo;CodeCoverageResult.xml&rdquo;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>echo &ldquo;set target library yang mau dites, misal KRSoftwareLib&rdquo;
+</span><span class='line'>set TargetLib=&ldquo;KRSoftwareLib&rdquo;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>echo &ldquo;generate coverage result xml format&rdquo;
+</span><span class='line'>call %OpenCoverDir%\OpenCover.Console.exe -target:%NUnitRunnerDir%\nunit-console.exe -targetargs:&ldquo;/nologo /noshadow $(TargetFileName)&rdquo; -filter:&ldquo;+[%TargetLib%]*&rdquo; -register:user -output:%CodeCoverageResult%&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>echo &ldquo;generate coverage result html format&rdquo;
+</span><span class='line'>call %ReportGeneratorDir%\ReportGenerator.exe -reports:%CodeCoverageResult% -targetdir:_CodeCoverageReport</span></code></pre></td></tr></table></div></figure></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/07/220716-13.png">https://coding4ever.files.wordpress.com/2016/07/220716-13.png</a>&#8221;></p>
+
+<p>Jadi setiap kita melakukan build project, prosedur <a href="/blog/2016/07/22/coverage-testing-menggunakan-nunit-opencover-reportgenerator/">coverage testing</a> otomatis akan dijalankan.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/07/220716-14.png">https://coding4ever.files.wordpress.com/2016/07/220716-14.png</a>&#8221;></p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/DemoCoverageTesting">MENCOBA</a> :-)</p>
+
+<p>Referensi :</p>
+
+<ul>
+<li><a href="http://www.nunit.org/">Nunit</a></li>
+<li><a href="https://github.com/opencover/opencover">OpenCover</a></li>
+<li><a href="https://github.com/danielpalme/ReportGenerator">Report Generator</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Unit Testing Menggunakan NUnit]]></title>

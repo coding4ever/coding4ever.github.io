@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-07-21T13:00:34+07:00</updated>
+  <updated>2016-07-22T22:16:33+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,188 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Coverage Testing Menggunakan NUnit, OpenCover Dan Report Generator]]></title>
+    <link href="http://coding4ever.net/blog/2016/07/22/coverage-testing-menggunakan-nunit-opencover-reportgenerator/"/>
+    <updated>2016-07-22T20:23:16+07:00</updated>
+    <id>http://coding4ever.net/blog/2016/07/22/coverage-testing-menggunakan-nunit-opencover-reportgenerator</id>
+    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2016/07/nunit.png" width="120" height="57">Sudah menggunakan <a href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/">unit testing</a> ? Klo belum mampir ke <a href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/">sini</a> dulu ya :-)</p>
+
+<p>Kali ini kita akan membahas tentang <a href="http://coding4ever.net/blog/2016/07/22/coverage-testing-menggunakan-nunit-opencover-reportgenerator/">coverage testing</a> yaitu pengetesan yang dilakukan untuk mengecek apakah <a href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/">unit testing</a> yang dibuat telah meng-cover semua kode yang perlu dites. Jika <a href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/">unit testingnya</a> terlalu sedikit atau waktu membuat <a href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/">unit testingnya</a> asal-asalan biasanya <a href="http://coding4ever.net/blog/2016/07/22/coverage-testing-menggunakan-nunit-opencover-reportgenerator/">coverage testingnya</a> akan gagal.</p>
+
+<!-- more -->
+
+
+<p>Mengecek satu-persatu unit testing yang dibuat oleh programmer apakah sudah sesuai dengan kode yang perlu dites jelas tidak mungkin, untungnya sudah tersedia banyak tool yang bisa melakukkannya secara otomatis.</p>
+
+<p>Berikut beberapa tool yang bisa digunakan untuk melakukan <a href="http://coding4ever.net/blog/2016/07/22/coverage-testing-menggunakan-nunit-opencover-reportgenerator/">coverage testing</a> di dunia .NET yaitu :</p>
+
+<ol>
+<li><a href="http://nunit.org/">NUnit</a></li>
+<li><a href="https://github.com/OpenCover/opencover/releases">OpenCover</a></li>
+<li><a href="https://github.com/danielpalme/ReportGenerator/releases">Report Generator</a></li>
+</ol>
+
+
+<p>Duet maut ketiga tool di atas bisa kita gunakan untuk melakukan prosedur <a href="http://coding4ever.net/blog/2016/07/22/coverage-testing-menggunakan-nunit-opencover-reportgenerator/">coverage testing</a>. Untuk mendownloadnya Anda tinggal klik link di atas, khusus untuk <a href="https://www.nuget.org/packages/OpenCover/">OpenCover</a> dan <a href="https://www.nuget.org/packages/ReportGenerator/">Report Generator</a> sebaiknya disimpan di folder yang sama.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/220716-01.png"></p>
+
+<h3>Proses Coverage Testing</h3>
+
+<p>Secara umum proses <a href="http://coding4ever.net/blog/2016/07/22/coverage-testing-menggunakan-nunit-opencover-reportgenerator/">coverage testing</a> menggunakan ke tiga tool di atas bisa di gambarkan seperti berikut</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/220716-02.png"></p>
+
+<p>Keterangan gambar :</p>
+
+<ol>
+<li>NUnit tool menjalankan prosedur unit testing terhadap file library yang sudah ditentukan</li>
+<li>Dari proses poin 1 akan digunakan OpenCover untuk mengenerate file coverage.xml</li>
+<li>Terakhir Report Generator digunakan untuk membuat laporan format HTML yang lebih mudah dibaca berdasarkan file coverage.xml</li>
+</ol>
+
+
+<p>Berdasarkan keterangan di atas kita bisa menuliskan batch command untuk prosedur <a href="http://coding4ever.net/blog/2016/07/22/coverage-testing-menggunakan-nunit-opencover-reportgenerator/">coverage testing</a> seperti berikut :</p>
+
+<h4>Tahapan poin 1 dan 2</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>echo menjalankan OpenCover untuk mengenerate file CodeCoverageResult.xml
+</span><span class='line'>
+</span><span class='line'>OpenCover.Console.exe -target:nunit-console.exe -targetargs:"/nologo /noshadow ""Library.NUnitTest.dll""" -filter:+[*]* -register:user -output: CodeCoverageResult.xml</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Tahapan poin 3</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>echo menjalankan ReportGenerator untuk mengenerate laporan format HTML yang lebih mudah dibaca berdasarkan file CodeCoverageResult.xml
+</span><span class='line'>
+</span><span class='line'>ReportGenerator.exe -reports CodeCoverageResult.xml -targetdir: _CodeCoverageReport</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Persiapan Coverage Testing</h3>
+
+<p>Seperti pada pembahasan <a href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/">unit testing</a> kita juga membutuhkan dua project yaitu project target dan project unit testing. Untuk contoh disini kita sudah punya dua project yaitu <a href="https://github.com/k4m4r82/DemoCoverageTesting/tree/master/src/KRSoftwareLib">KRSoftwareLib</a> dan <a href="https://github.com/k4m4r82/DemoCoverageTesting/tree/master/src/KRSoftwareLibUnitTest">KRSoftwareLibUnitTest</a>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/220716-03.png"></p>
+
+<p>Project <a href="https://github.com/k4m4r82/DemoCoverageTesting/tree/master/src/KRSoftwareLib">KRSoftwareLib</a> mempunyai sebuah class yaitu <a href="https://github.com/k4m4r82/DemoCoverageTesting/blob/master/src/KRSoftwareLib/DayHelper.cs">DayHelper</a> dan mempunyai dua method <code>GetIndonesianDay</code> dan <code>Weekday</code> yang akan kita buatkan <a href="https://github.com/k4m4r82/DemoCoverageTesting/blob/master/src/KRSoftwareLibUnitTest/DayHelperTest.cs">unit testingnya</a>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/220716-04.png"></p>
+
+<p>Nah ini <a href="https://github.com/k4m4r82/DemoCoverageTesting/blob/master/src/KRSoftwareLibUnitTest/DayHelperTest.cs">unit testing</a> dari method <code>GetIndonesianDay</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/220716-05.png"></p>
+
+<p>Kemudian project <code>KRSoftwareLibUnitTest</code> nya kita build, setelah itu kita jalankan prosedur coverage testing :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>echo menjalankan OpenCover untuk mengenerate file CodeCoverageResult.xml
+</span><span class='line'>
+</span><span class='line'>"C:\CoverageTesting\opencover.4.6.519"\OpenCover.Console.exe -target:"C:\Program Files (x86)\NUnit 2.6.4\bin"\nunit-console.exe -targetargs:"/nologo /noshadow ""C:\CoverageTesting\KRSoftwareLibUnitTest\bin\Debug\KRSoftwareLibUnitTest.dll""" -filter:"+["KRSoftwareLib"]*" -register:user -output:"CodeCoverageResult.xml"</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/220716-06.png"></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>echo menjalankan ReportGenerator untuk mengenerate laporan format HTML yang lebih mudah dibaca berdasarkan file CodeCoverageResult.xml
+</span><span class='line'>
+</span><span class='line'>"C:\CoverageTesting\ReportGenerator_2.4.5.0\bin"\ReportGenerator.exe -reports:"CodeCoverageResult.xml" -targetdir:"_CodeCoverageReport"</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/220716-07.png"></p>
+
+<p>Dari proses coverage test di atas akan menghasilkan coverage test yang bagus, karena semua kondisi sudah dites. Berikut adalah hasil coverage testnya:</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/220716-08.png"></p>
+
+<p>Coba perhatikan kolom <code>Line coverage</code> dan <code>Branch coverage</code> nilainya 100% (warna hijaunya penuh). Kita juga bisa melihat detail coverage test dari class DayHelper.cs :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/220716-09.png"></p>
+
+<p>Nah sekarang kita coba menonaktifkan beberapa baris kode tesnya untuk melihat perbedaan nilai kolom <code>Line coverage</code> dan <code>Branch coverage</code> seperti ini :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/220716-10.png"></p>
+
+<p>Hasil coverage testingnya jadi jelek alias gagal :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/220716-11.png"></p>
+
+<p>Dari detail coverage testnya class DayHelper.cs juga kelihatan baris/kondisi yang belum di tes:</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/220716-12.png"></p>
+
+<p>Nah mudah bukan ? Dengan coverage testing ini, kita jadi mudah untuk mendeteksi tingkat keseriusan programmer dalam membuat <a href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/">unit testing</a>.</p>
+
+<h3>Build Events</h3>
+
+<p>Sebenarnya pembahasan <a href="http://coding4ever.net/blog/2016/07/22/coverage-testing-menggunakan-nunit-opencover-reportgenerator/">coverage testingnya</a> sudah selesai, tapi berhubungan prosedur <a href="http://coding4ever.net/blog/2016/07/22/coverage-testing-menggunakan-nunit-opencover-reportgenerator/">coverage testing</a> di atas masih dijalankan secara manual via command prompt tentu akan menyulitkan kita untuk mengecek <a href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/">unit testingnya</a> setiap ada perubahan.
+Salah satu solusinya adalah dengan memanfaatkan fasilitas <a href="http://coding4ever.net/blog/categories/build-events/">Build Events</a> yang sudah disediakan oleh Visual Studio .NET.</p>
+
+<p>Nah berikut skrip <a href="http://coding4ever.net/blog/categories/build-events/">Build Events</a> yang harus kita buat untuk menjalankan prosedur <a href="http://coding4ever.net/blog/2016/07/22/coverage-testing-menggunakan-nunit-opencover-reportgenerator/">coverage testing</a> di atas secara otomatis, setiap kali project unit testingnya di build.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>echo "set lokasi tool coverage testing"
+</span><span class='line'>set OpenCoverDir="C:\CoverageTesting\opencover.4.6.519"
+</span><span class='line'>set NUnitRunnerDir="C:\Program Files (x86)\NUnit 2.6.4\bin"
+</span><span class='line'>set ReportGeneratorDir="C:\CoverageTesting\ReportGenerator_2.4.5.0\bin"
+</span><span class='line'>
+</span><span class='line'>echo "set coverage xml"
+</span><span class='line'>set CodeCoverageResult="CodeCoverageResult.xml"
+</span><span class='line'>
+</span><span class='line'>echo "set target library yang mau dites, misal KRSoftwareLib"
+</span><span class='line'>set TargetLib="KRSoftwareLib"
+</span><span class='line'>
+</span><span class='line'>echo "generate coverage result xml format"
+</span><span class='line'>call %OpenCoverDir%\OpenCover.Console.exe -target:%NUnitRunnerDir%\nunit-console.exe -targetargs:"/nologo /noshadow $(TargetFileName)" -filter:"+[%TargetLib%]*" -register:user -output:%CodeCoverageResult%
+</span><span class='line'>
+</span><span class='line'>echo "generate coverage result html format"
+</span><span class='line'>call %ReportGeneratorDir%\ReportGenerator.exe -reports:%CodeCoverageResult% -targetdir:_CodeCoverageReport</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/220716-13.png"></p>
+
+<p>Jadi setiap kita melakukan build project, prosedur <a href="http://coding4ever.net/blog/2016/07/22/coverage-testing-menggunakan-nunit-opencover-reportgenerator/">coverage testing</a> otomatis akan dijalankan.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/220716-14.png"></p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/DemoCoverageTesting">MENCOBA</a> :-)</p>
+
+<p>Referensi :</p>
+
+<ul>
+<li><a href="http://www.nunit.org/">Nunit</a></li>
+<li><a href="https://github.com/opencover/opencover">OpenCover</a></li>
+<li><a href="https://github.com/danielpalme/ReportGenerator">Report Generator</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Unit Testing Menggunakan NUnit]]></title>
@@ -4045,152 +4227,6 @@ Berikut perintah lengkapnya :</p>
 <p>Tampilan jika diakses dari <code>WCF Test Client</code></p>
 
 <p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-19.png"></p>
-
-<p>Yuph sampai disini saja untuk postingan kali ini, insyaAlloh akan kita lanjutkan pada kesempatan berikutnya.</p>
-
-<p>Selamat <a href="https://github.com/k4m4r82/Calculator">MENCOBA</a> :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Tutorial WCF Service Bagian #2]]></title>
-    <link href="http://coding4ever.net/blog/2015/05/09/tutorial-wcf-service-bagian-number-2/"/>
-    <updated>2015-05-09T09:34:34+07:00</updated>
-    <id>http://coding4ever.net/blog/2015/05/09/tutorial-wcf-service-bagian-number-2</id>
-    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2015/05/020515-16.png" width="100" height="100">Melanjutkan pembahasan <a href="http://coding4ever.net/blog/2015/05/02/tutorial-wcf-service-bagian-number-1/">postingan</a> sebelumnya yaitu tentang pembuatan web service menggunakan teknologi <a href="http://coding4ever.net/blog/categories/wcf/">WCF</a>.</p>
-
-<p>Kita sudah menyelesaikan project pertama yaitu pembuatan project <a href="http://coding4ever.net/blog/2015/05/02/tutorial-wcf-service-bagian-number-1/">CalculatorLib</a> dan kita lanjutkan dengan pembuatan project CalculatorServer.</p>
-
-<!-- more -->
-
-
-<p>Sebagai review CalculatorServer adalah project yang akan mengimplementasikan semua method abstract yang ada pada interface ICalculator (project <a href="https://github.com/k4m4r82/Calculator">CalculatorLib</a> selain itu project CalculatorServer juga akan kita <code>hostkan</code> sehingga bisa menjadi web service. Apa yang dimaksud dengan <code>host</code> disini, silahkan baca postingan <a href="http://coding4ever.net/blog/2015/05/02/tutorial-wcf-service-bagian-number-1/">Tutorial WCF Service Bagian #1</a>.</p>
-
-<p>Aktifkan kembali solution <a href="https://github.com/k4m4r82/Calculator">Calculator</a> yang di dalamnya sudah ada project CalculatorLib.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/020515-02.png"></p>
-
-<p>Kita akan menambahkan project CalculatorServer masih di solution yang sama</p>
-
-<h3>Menambahkan Project CalculatorServer</h3>
-
-<ol>
-<li><p>Klik kanan Solution Calculator -> Add -> New Project</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-01.png"></p></li>
-<li><p>Pada dialog Add New Project aktifkan pilihan Visual C# kemudian pilih Templates Class Library</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-02.png"></p>
-
-<p>Pada isian Name isikan CalculatorServer untuk isian Location dibiarkan saja setelah itu klik Ok. Jika langkah sebelumnya berhasil maka pada solution Calculator akan ketambahan 1 project baru yaitu CalculatorServer.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-03.png"></p>
-
-<p>Kemudian hapus class <code>Class1</code></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-04.png"></p></li>
-</ol>
-
-
-<h3>Menambahkan Class Calculator</h3>
-
-<p>Class Calculator adalah class yang akan mengimplementasikan semua method abstract dari interface ICalculator yang sudah kita buat pada project sebelumnya (<a href="http://coding4ever.net/blog/2015/05/02/tutorial-wcf-service-bagian-number-1/">CalculatorLib</a>).</p>
-
-<ol>
-<li><p>Klik kanan project CalculatorServer -> Add -> Class…</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-05.png"></p>
-
-<p>Pada isian Name diisi <code>Calculator</code></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-06.png"></p>
-
-<p>Setelah itu akan tampil editor code class Calculator</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-07.png"></p>
-
-<p>Jangan lupa untuk menambahkan access modifier <code>public</code>.</p>
-
-<p>Sebelum kita melengkapi kode class Calculator di atas, terlebih dulu kita harus menambahkan referensi <a href="https://github.com/k4m4r82/Calculator">CalculatorLib</a> yang sudah kita buat pada project sebelumnya, tujuannya adalah agar class Calculator bisa mengakses interface ICalculator dan mengimplementasikan semua method abstractnya.</p></li>
-<li><p>Klik kanan node References -> Add Reference…</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-08.png"></p></li>
-<li><p>Aktifkan panel Solution kemudian pilih project CalculatorLib</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-09.png"></p>
-
-<p>Jika langkah sebelumnya berhasil akan ketambahan 1 buah node dengan nama CalculatorLib pada node References</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-10.png"></p>
-
-<p>Selanjutnya kita lengkapi kode class Calculator di atas, seperti di bawah ini.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-11.png"></p>
-
-<p>Sampai disini kita sudah bisa mencoba untuk meng-compile project CalculatorServer dengan cara klik kanan project <code>CalculatorServer</code> -> <code>Build</code></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-12.png"></p>
-
-<p>Apa yang terjadi ??? Masih error bukan ?</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-13.png"></p>
-
-<p>Error ini terjadi karena class Calculator mengimplementasikan interface ICalculator sedangkan method-method abstractnya (Penambahan, Pengurangan, Perkalian dan Pembagian) belum kita definisikan ulang / override di class Calculator.</p></li>
-</ol>
-
-
-<h3>Mengimplementasikan Method Abastract Interface ICalculator secara Otomatis</h3>
-
-<p>Untuk mengatasi error pada langkah sebelumnya kita tinggal klik kanan pada tulisan interface ICalculator ->Implement Interface -> Implement Interface</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-14.png"></p>
-
-<p>Kemudian secara otomatis semua implementasi method abstract dari interface ICalculator akan ditambahkan.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-15.png"></p>
-
-<p>Setelah itu kita tinggal melengkapi kode untuk masing-masing method diatas.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-16.png"></p>
-
-<p>Sekarang kita coba lagi untuk meng-compile ulang project CalculatorServer dengan cara klik kanan project <code>CalculatorServer</code> -> <code>Build</code></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-12.png"></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-17.png"></p>
-
-<h3>WCF Service Behavior</h3>
-
-<p>WCF service behavior digunakan untuk mengatur behavior atau prilaku WCF service ketika menangani request atau permintaan dari klien.</p>
-
-<p>Jika kita mempunyai behavior atau tingkah laku yang baik, otomatis kita juga bisa menjadi orang yang lebih baik, benar atau tidak ? :-D</p>
-
-<p>Begitu juga dengan WCF Service Behavior, dengan attribut ini kita bisa mengatur hal-hal yang berhubungan dengan :</p>
-
-<ul>
-<li>Concurrency</li>
-<li>Throttling</li>
-<li>Transaction</li>
-<li>Instance Context/Session Management</li>
-<li>Thread Behavior</li>
-</ul>
-
-
-<p>Untuk informasi yang lebih lengkap tentang WCF Service Behavior, silahkan baca artikel <a href="http://www.codeproject.com/Articles/443576/Implementing-WCF-Service-Behaviors">Implementing WCF Service Behaviors</a> dan <a href="http://www.codeproject.com/Articles/89858/WCF-Concurrency-Single-Multiple-and-Reentrant-and">WCF Concurrency (Single, Multiple, and Reentrant) and Throttling</a>.</p>
-
-<p>Sebagi contoh kita akan mengeset behavior untuk <code>Concurrency</code> dan <code>Instance Context</code> dengan model Concurrency = Single dan Instance Context = Per Call via attribute WCF service behavior.</p>
-
-<p>Untuk menggunakan attribute WCF service behavior, tambahkan terlebih dulu referensi <code>System.ServiceModel</code></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-18.png"></p>
-
-<p>Kemudian tambahkan juga di bagian <code>using</code></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-19.png"></p>
-
-<p>Setelah itu revisi class Calculator menjadi seperti berikut :</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/05/090515-20.png"></p>
 
 <p>Yuph sampai disini saja untuk postingan kali ini, insyaAlloh akan kita lanjutkan pada kesempatan berikutnya.</p>
 
