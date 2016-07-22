@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-07-23T01:02:23+07:00</updated>
+  <updated>2016-07-23T01:19:34+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Coverage Testing Menggunakan NUnit, OpenCover Dan Report Generator]]></title>
+    <title type="html"><![CDATA[Coverage Testing Menggunakan NUnit, OpenCover Dan ReportGenerator]]></title>
     <link href="http://coding4ever.net/blog/2016/07/22/coverage-testing-menggunakan-nunit-opencover-reportgenerator/"/>
     <updated>2016-07-22T20:23:16+07:00</updated>
     <id>http://coding4ever.net/blog/2016/07/22/coverage-testing-menggunakan-nunit-opencover-reportgenerator</id>
