@@ -109,6 +109,8 @@
 <!-- more -->
 
 
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/220716-15.jpg"></p>
+
 <p>Mengecek satu-persatu unit testing yang dibuat oleh programmer apakah sudah sesuai dengan kode yang perlu dites jelas tidak mungkin, untungnya sudah tersedia banyak tool yang bisa melakukkannya secara otomatis.</p>
 
 <p>Berikut beberapa tool yang bisa digunakan untuk melakukan <a href="http://coding4ever.net/blog/2016/07/22/coverage-testing-menggunakan-nunit-opencover-reportgenerator/">coverage testing</a> di dunia .NET yaitu :</p>
@@ -134,8 +136,8 @@
 
 <ol>
 <li>NUnit tool menjalankan prosedur unit testing terhadap file library yang sudah ditentukan</li>
-<li>Dari proses poin 1 akan digunakan OpenCover untuk mengenerate file coverage.xml</li>
-<li>Terakhir Report Generator digunakan untuk membuat laporan format HTML yang lebih mudah dibaca berdasarkan file coverage.xml</li>
+<li>Dari proses poin 1 akan digunakan OpenCover untuk mengenerate file hasil coverage test dalam format xml. Karena file hasil generatenya dalam format xml, tentu akan menyulitkan kita untuk membacanya, makanya kita butuh tool terakhir yaitu Report Generator</li>
+<li>Report Generator digunakan untuk membuat laporan format HTML yang lebih <code>manusiawi</code> sehingga mudah dibaca berdasarkan file coverage.xml</li>
 </ol>
 
 
@@ -146,7 +148,7 @@
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>echo menjalankan OpenCover untuk mengenerate file CodeCoverageResult.xml
+</pre></td><td class='code'><pre><code class=''><span class='line'>'1. menjalankan OpenCover untuk mengenerate file CodeCoverageResult.xml
 </span><span class='line'>
 </span><span class='line'>OpenCover.Console.exe -target:nunit-console.exe -targetargs:"/nologo /noshadow ""Library.NUnitTest.dll""" -filter:+[*]* -register:user -output: CodeCoverageResult.xml</span></code></pre></td></tr></table></div></figure>
 
@@ -156,7 +158,7 @@
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>echo menjalankan ReportGenerator untuk mengenerate laporan format HTML yang lebih mudah dibaca berdasarkan file CodeCoverageResult.xml
+</pre></td><td class='code'><pre><code class=''><span class='line'>'2. menjalankan ReportGenerator untuk mengenerate laporan format HTML yang lebih mudah dibaca berdasarkan file CodeCoverageResult.xml
 </span><span class='line'>
 </span><span class='line'>ReportGenerator.exe -reports CodeCoverageResult.xml -targetdir: _CodeCoverageReport</span></code></pre></td></tr></table></div></figure>
 
@@ -175,12 +177,12 @@
 
 <p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/220716-05.png"></p>
 
-<p>Kemudian project <code>KRSoftwareLibUnitTest</code>-nya kita build, setelah itu kita jalankan prosedur coverage testing :</p>
+<p>Setelah project <code>KRSoftwareLibUnitTest</code>-nya selesai, kemudian dilanjutkan dengan proses build project, baru kita jalankan prosedur coverage testing :</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>echo menjalankan OpenCover untuk mengenerate file CodeCoverageResult.xml
+</pre></td><td class='code'><pre><code class=''><span class='line'>'1. menjalankan OpenCover untuk mengenerate file CodeCoverageResult.xml
 </span><span class='line'>
 </span><span class='line'>"C:\CoverageTesting\opencover.4.6.519"\OpenCover.Console.exe -target:"C:\Program Files (x86)\NUnit 2.6.4\bin"\nunit-console.exe -targetargs:"/nologo /noshadow ""C:\CoverageTesting\KRSoftwareLibUnitTest\bin\Debug\KRSoftwareLibUnitTest.dll""" -filter:"+["KRSoftwareLib"]*" -register:user -output:"CodeCoverageResult.xml"</span></code></pre></td></tr></table></div></figure>
 
@@ -190,7 +192,7 @@
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>echo menjalankan ReportGenerator untuk mengenerate laporan format HTML yang lebih mudah dibaca berdasarkan file CodeCoverageResult.xml
+</pre></td><td class='code'><pre><code class=''><span class='line'>'2. echo menjalankan ReportGenerator untuk mengenerate laporan format HTML yang lebih mudah dibaca berdasarkan file CodeCoverageResult.xml
 </span><span class='line'>
 </span><span class='line'>"C:\CoverageTesting\ReportGenerator_2.4.5.0\bin"\ReportGenerator.exe -reports:"CodeCoverageResult.xml" -targetdir:"_CodeCoverageReport"</span></code></pre></td></tr></table></div></figure>
 
@@ -201,7 +203,11 @@
 
 <p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/220716-08.png"></p>
 
-<p>Coba perhatikan kolom <code>Line coverage</code> dan <code>Branch coverage</code> nilainya 100% (warna hijaunya penuh). Kita juga bisa melihat detail coverage test dari class DayHelper.cs :</p>
+<p>Coba perhatikan kolom <code>Line coverage</code> dan <code>Branch coverage</code> nilainya 100% (warna hijaunya penuh).</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/220716-16.jpg"></p>
+
+<p>Kita juga bisa melihat detail coverage test dari class DayHelper.cs :</p>
 
 <p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/220716-09.png"></p>
 
@@ -209,7 +215,7 @@
 
 <p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/220716-10.png"></p>
 
-<p>Hasil coverage testingnya jadi jelek alias gagal :</p>
+<p>Hasil coverage testingnya jadi jelek alias gagal karena hanya dua kondisi yang di tes yaitu hari <code>Senin</code> dan <code>Selasa</code>.</p>
 
 <p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/220716-11.png"></p>
 
