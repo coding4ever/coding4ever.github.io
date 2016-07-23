@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Software Testing | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/software-testing/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-07-23T09:02:50+07:00</updated>
+  <updated>2016-07-23T10:30:47+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -135,7 +135,7 @@
 
 <p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/07/220716-12.png">https://coding4ever.files.wordpress.com/2016/07/220716-12.png</a>&#8221;></p>
 
-<p>Nah mudah bukan ? Dengan coverage testing ini, kita jadi mudah untuk mendeteksi tingkat keseriusan programmer dalam membuat <a href="/blog/2016/07/20/unit-testing-menggunakan-nunit/">unit testing</a>.</p>
+<p>Gampang bukan ? Dengan coverage testing ini, kita jadi mudah untuk mendeteksi tingkat keseriusan programmer dalam membuat <a href="/blog/2016/07/20/unit-testing-menggunakan-nunit/">unit testing</a>.</p>
 
 <h3>Build Events</h3>
 
