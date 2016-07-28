@@ -4,7 +4,7 @@
   <title><![CDATA[Category: crashreporter.net | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/crashreporter-dot-net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-07-24T16:26:07+07:00</updated>
+  <updated>2016-07-28T12:45:26+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -18,7 +18,7 @@
     <link href="http://coding4ever.net/blog/2015/04/14/paket-nuget-yang-wajib-dicoba-bagian-number-1-crashreporter-dot-net/"/>
     <updated>2015-04-14T14:41:34+07:00</updated>
     <id>http://coding4ever.net/blog/2015/04/14/paket-nuget-yang-wajib-dicoba-bagian-number-1-crashreporter-dot-net</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png">http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Apakah Anda percaya jika saya katakan aplikasi saya 100% bebas bug, tentu saja tidak. Seberapa keraspun kita mencoba pasti aplikasi yang kita buat ada bugnya.</p>
+    <content type="html"><![CDATA[<p>{% img left <a href="http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png">http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png</a> 120 100 %}Apakah Anda percaya jika saya katakan aplikasi saya 100% bebas bug, tentu saja tidak. Seberapa keraspun kita mencoba pasti aplikasi yang kita buat ada bugnya.</p>
 
 <p>Secara teknis kita tidak bisa melakukan pengetesan sebaik yang dilakukan oleh end-user. Mereka bisa melakukan hal-hal luar biasa diluar perkiraan dan skenario kita yang bisa menyebabkan error, dan bisa saja menyebabkan mereka menjadi <code>ilfil</code> menggunakan aplikasi kita he he :-D</p>
 
@@ -31,23 +31,23 @@
 
 <h3>Menambahkan Library CrashReporter.NET</h3>
 
-<p>Untuk menambahkan library <a href="http://www.nuget.org/packages/CrashReporterdotNet/">CrashReporter.NET</a> bisa kita lakukan via <a href="/blog/categories/nuget/">NuGet Package Manager</a>. Adapun caranya seperti berikut :</p>
+<p>Untuk menambahkan library <a href="http://www.nuget.org/packages/CrashReporterdotNet/">CrashReporter.NET</a> bisa kita lakukan via <a href="{{%20site.url%20}}/blog/categories/nuget/">NuGet Package Manager</a>. Adapun caranya seperti berikut :</p>
 
 <h4>Langkah – 1</h4>
 
 <p>Klik kanan node <code>References</code> -> <code>Manage NuGet Packages...</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-12.png">https://coding4ever.files.wordpress.com/2015/04/140415-12.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-12.png">https://coding4ever.files.wordpress.com/2015/04/140415-12.png</a> %}</p>
 
 <h4>Langkah – 2</h4>
 
 <p>Cari <code>CrashReporter.NET</code> dan klik tombol Install</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-13.png">https://coding4ever.files.wordpress.com/2015/04/140415-13.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-13.png">https://coding4ever.files.wordpress.com/2015/04/140415-13.png</a> %}</p>
 
 <p>Klik tombol Close, kemudian cek node <code>References</code>, seharusnya sudah ada tambahan library <code>CrashReporter.NET</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-14.png">https://coding4ever.files.wordpress.com/2015/04/140415-14.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-14.png">https://coding4ever.files.wordpress.com/2015/04/140415-14.png</a> %}</p>
 
 <h3>Cara Penggunaan Library CrashReporter.NET</h3>
 
@@ -57,13 +57,13 @@
 
 <p>Jika kita ingin semua exception dihandle oleh <a href="http://www.nuget.org/packages/CrashReporterdotNet/">CrashReporter.NET</a>, gunakan opsi ini. Caranya adalah dengan menambahkan kode konfigurasi di Main Method (Entry point dari program yang akan dijalankan pertama  kali).</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-01.png">https://coding4ever.files.wordpress.com/2015/04/140415-01.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-01.png">https://coding4ever.files.wordpress.com/2015/04/140415-01.png</a> %}</p>
 
 <p><code>2. Individual Exception</code></p>
 
 <p>Untuk opsi yang kedua ini berarti kita menambahkan kode konfigurasi hanya pada method-method tertentu saja yang kita anggap berpotensi menimbulkan <code>error</code>.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-02.png">https://coding4ever.files.wordpress.com/2015/04/140415-02.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-02.png">https://coding4ever.files.wordpress.com/2015/04/140415-02.png</a> %}</p>
 
 <p>Dua contoh kode di atas menggunakan class <code>ReportCrashConfig</code> yang kita bahas di bagian <em>konfigurasi CrashReporter.NET</em>.</p>
 
@@ -71,7 +71,7 @@
 
 <p>Untuk melakukan konfigurasi <a href="http://www.nuget.org/packages/CrashReporterdotNet/">CrashReporter.NET</a>, cukup membuat objek dari class ReportCrash dan mengeset beberapa nilai property seperti <em>FromEmail, ToEmail</em>, dan property penting lainnya.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-03.png">https://coding4ever.files.wordpress.com/2015/04/140415-03.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-03.png">https://coding4ever.files.wordpress.com/2015/04/140415-03.png</a> %}</p>
 
 <p>Secara default <a href="http://www.nuget.org/packages/CrashReporterdotNet/">CrashReporter.NET</a>  menggunakan service <a href="https://drdump.com/crash-reporting-system">Doctor Dump</a>, untuk mengirimkan email laporan bug ke email yang sudah kita tentukan melalui property <em>ToEmail</em>.</p>
 
@@ -79,31 +79,31 @@
 
 <p>Agar kode konfigurasi di atas bisa digunakan berulang-ulang, mungkin bisa kita <code>bungkus</code> ke dalam sebuah class tersendiri.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-04.png">https://coding4ever.files.wordpress.com/2015/04/140415-04.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-04.png">https://coding4ever.files.wordpress.com/2015/04/140415-04.png</a> %}</p>
 
 <p>Sehingga ketika diperlukan kita cukup memanggilnya dengan perintah <code>new ReportCrashConfig(object exception)</code></p>
 
 <h3>Demo CrashReporter.NET</h3>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-05.png">https://coding4ever.files.wordpress.com/2015/04/140415-05.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-05.png">https://coding4ever.files.wordpress.com/2015/04/140415-05.png</a> %}</p>
 
 <p>Untuk demo disini kita akan memanfaatkan dua jenis error yaitu <em>DivideByZeroException</em> dan <em>FileNotFoundException</em>.</p>
 
 <h4>DivideByZeroException</h4>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-06.png">https://coding4ever.files.wordpress.com/2015/04/140415-06.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-06.png">https://coding4ever.files.wordpress.com/2015/04/140415-06.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-07.png">https://coding4ever.files.wordpress.com/2015/04/140415-07.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-07.png">https://coding4ever.files.wordpress.com/2015/04/140415-07.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-08.png">https://coding4ever.files.wordpress.com/2015/04/140415-08.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-08.png">https://coding4ever.files.wordpress.com/2015/04/140415-08.png</a> %}</p>
 
 <h4>FileNotFoundException</h4>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-09.png">https://coding4ever.files.wordpress.com/2015/04/140415-09.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-09.png">https://coding4ever.files.wordpress.com/2015/04/140415-09.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-10.png">https://coding4ever.files.wordpress.com/2015/04/140415-10.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-10.png">https://coding4ever.files.wordpress.com/2015/04/140415-10.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/140415-11.png">https://coding4ever.files.wordpress.com/2015/04/140415-11.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/140415-11.png">https://coding4ever.files.wordpress.com/2015/04/140415-11.png</a> %}</p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/DemoCrashReporterDotNET">MENCOBA</a> :-)</p>
 ]]></content>

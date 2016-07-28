@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Entity Framework Part 2 - Coding4ever&#8217;s Blog</title>
+  <title>Integration Testing Menggunakan NUnit - Coding4ever&#8217;s Blog</title>
   <meta name="author" content="Admin">
 
   
-  <meta name="description" content="Melanjutkan postingan sebelumnya, saya sudah mendemokan begitu mudahnya mengakses data di dalam sebuah database menggunakan Entity Framework. Entity &hellip;">
+  <meta name="description" content="Dasar-dasar unit testing sudah kita pelajari, dilanjutkan dengan coverage testing untuk mengecek tingkat keseriusan programmer dalam membuat unit &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://coding4ever.net/blog/2014/03/21/entity-framework-part-2">
+  <link rel="canonical" href="http://coding4ever.net/blog/2016/07/28/integration-testing-menggunakan-nunit">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Coding4ever's Blog" type="application/atom+xml">
@@ -83,7 +83,7 @@
   
   <header>
     
-      <h1 class="entry-title">Entity Framework Part 2</h1>
+      <h1 class="entry-title">Integration Testing Menggunakan NUnit</h1>
     
     
       <p class="meta">
@@ -92,7 +92,7 @@
 
 
 
-<time class='entry-date' datetime='2014-03-21T10:40:20+07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2014</span></span> <span class='time'>10:40 am</span></time>
+<time class='entry-date' datetime='2016-07-28T11:19:59+07:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>11:19 am</span></time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://coding4ever.net">Comments</a>
@@ -102,144 +102,103 @@
   </header>
 
 
-<div class="entry-content"><p><img class="left" src="http://coding4ever.files.wordpress.com/2014/03/entity_image.png" width="120" height="100">Melanjutkan <a href="http://coding4ever.net/blog/2014/03/18/entity-framework-part-1/">postingan</a> sebelumnya, saya sudah mendemokan begitu mudahnya mengakses data di dalam sebuah database menggunakan <a href="http://msdn.microsoft.com/en-us/data/aa937723">Entity Framework</a>.</p>
-
-<p>Entity Framework bertugas mengambil alih semua pekerjaan yang biasa kita lakukan dalam pembuatan aplikasi database, seperti mengambil data (SELECT), menambah data (INSERT), mengupdate data (UPDATE) dan menghapus data (DELETE).</p>
-
-<p>Sehingga dengan menggunakan Entity Framework kita sudah tidak lagi berhubungan secara langsung dengan perintah SQL, dan sebagai gantinya kita menggunakan <a href="msdn.microsoft.com/en-us/library/bb397926.aspx">LINQ</a>.</p>
+<div class="entry-content"><p><img class="left" src="https://coding4ever.files.wordpress.com/2016/07/nunit.png" width="120" height="57">Dasar-dasar <a href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/">unit testing</a> sudah kita pelajari, dilanjutkan dengan <a href="http://coding4ever.net/blog/2016/07/22/coverage-testing-menggunakan-nunit-opencover-reportgenerator/">coverage testing</a> untuk mengecek tingkat keseriusan programmer dalam membuat <a href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/">unit testing</a>. Semakin sedikit <a href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/">unit testing</a> yang dibuat atau asal-asalan pada saat membuat <a href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/">unit testing</a> bakalan dijamin <a href="http://coding4ever.net/blog/2016/07/22/coverage-testing-menggunakan-nunit-opencover-reportgenerator/">coverage testingnya</a> akan gagal.</p>
 
 <!-- more -->
 
 
-<p>Ketika bekerja dengan <a href="http://msdn.microsoft.com/en-us/data/aa937723">Entity Framework</a> ada beberapa pendekatan yang bisa kita lakukan sesuai dengan kebiasaan kita dalam mengembangkan aplikasi.</p>
+<p>Pada postingan kali ini kita akan membahas tentang <a href="http://coding4ever.net/blog/2016/07/28/integration-testing-menggunakan-nunit/">integration testing</a> yaitu tes yang dilakukan secara berkelompok. Sebagai contoh, dalam pengembangan aplikasi bisnis hampir bisa dipastikan 100% akan menggunakan database.  Sehingga perlu kita tes apakah kode program yang kita buat dapat berinteraksi dengan database sesuai harapan atau tidak. Jadi kita tidak perlu lagi melakukan pengetesan secara <code>serius</code> di level UI (console, winform atau halaman web) karena sudah di lakukan pengetesan  melalui <a href="http://coding4ever.net/blog/2016/07/28/integration-testing-menggunakan-nunit/">integration testing</a>.</p>
 
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/ef-workflow.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/ef-workflow.jpg" alt="EF Workflow" /></a></p>
+<p>Contoh kita punya dua method <a href="https://github.com/k4m4r82/DemoIntegrationTesting/blob/master/src/SimPeg.Repository.Service/PegawaiRepository.cs">CRUD</a> seperti berikut :</p>
 
-<p>Karena saya lebih senang membuat database terlebih dulu, baru dilanjutkan dengan menulis kode, makanya pendekatan yang saya pilih adalah &ldquo;Code first (existing database)&rdquo; yaitu membuat class-class entity (model) berdasarkan database yang sudah ada.</p>
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/280716-01.png"></p>
 
-<p>Untuk informasi lebih lengkap tentang pendekatan yang bisa kita lakukan ketika bekerja dengan Entity Framework bisa langsung dicek di <a href="http://msdn.microsoft.com/en-us/data/jj590134">sini</a> :D</p>
+<p>Kemudian kita buatkan <a href="https://github.com/k4m4r82/DemoIntegrationTesting/blob/master/src/SimPeg.Repository.Service.UnitTest/PegawaiRepositoryTest.cs">unit testingnya</a> seperti ini :</p>
 
-<p>Fokus pada postingan kali ini adalah melakukan mapping (pemetaan) antara tabel yang ada di database dengan class entity. Class entity adalah class yang merupakan representatif dari tabel-tabel yang ada di dalam database. Jadi kalo kita mempunyai tabel Supplier, berarti kita juga harus membuat class dengan nama yang sama dengan nama tabelnya.</p>
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/280716-02.png"></p>
 
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/12.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/12.jpg" alt="1" /></a>Struktur Tabel Supplier</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/21.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/21.jpg" alt="2" /></a>Class Entity Supplier</p>
-
-<p>Mapping (pemetaan) merupakan inti dari ORM seperti Entity Framework. Mapping bisa dilakukan secara manual seperti yang akan kita bahas pada postingan kali ini, maupun secara otomatis menggunakan tools pembantu seperti <a href="http://msdn.microsoft.com/en-us/library/vstudio/cc716685%28v=vs.100%29.aspx">ADO.NET Entity Data Model Designer</a> dan <a href="http://visualstudiogallery.msdn.microsoft.com/72a60b14-1581-4b9b-89f2-846072eff19d">Entity Framework Power Tools</a>.</p>
-
-<p>Sebagai contoh kita melakukan mapping antara tabel supplier dan class entity supplier seperti gambar di atas. Adapun langkah-langkah seperti berikut :</p>
+<p>Unit testing pertama yang akan kita tes adalah method <code>GetByID</code>, method ini mempunyai satu parameter yaitu <code>nik</code> yang nilainya kita isi dengan <code>12345</code>. Setelah pemanggilan method <code>GetByID</code> (baris 30) <code>seharusnya</code> objek <code>pegawai</code> akan terisi dengan data pegawai dengan nik <code>12345</code>. Setelah itu kita membuat skenario pengetesan seperti berikut :</p>
 
 <ol>
-<li><p>Buat project baru dengan tipe Console Application</p></li>
-<li><p>Tambahkan class baru dengan nama Supplier</p></li>
+<li>Objek pegawai tidak boleh null (baris 32)</li>
+<li>Nik pegawai harus sama dengan <code>12345</code> (baris 33)</li>
+<li>Nama pegawai harus sama dengan <code>Janoe Hendarto, S.Kom</code> (baris 34)</li>
+<li>Untuk alamat dan kota nilainya juga harus sama dengan gambar di atas (baris 35 – 36)</li>
 </ol>
 
 
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/3.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/3.jpg" alt="3" /></a>kemudian lengkapi kodenya seperti berikut :</p>
+<p>Setelah itu kita jalankan <a href="https://github.com/k4m4r82/DemoIntegrationTesting/blob/master/src/SimPeg.Repository.Service.UnitTest/PegawaiRepositoryTest.cs">unit testingnya</a> menggunakan <code>NUnit GUI Runner</code>, dan hasilnya adalah …</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">Supplier</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">public</span> <span class="kt">int</span> <span class="n">SupplierID</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'>    <span class="k">public</span> <span class="kt">string</span> <span class="n">NamaSupplier</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'>    <span class="k">public</span> <span class="kt">string</span> <span class="n">Jalan</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'>    <span class="k">public</span> <span class="kt">string</span> <span class="n">Kota</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/280716-03.png"></p>
 
-
-<p>Class Supplier di atas merupakan representatif dari tabel Supplier yang ada di dalam database. Setiap objek dari class Supplier akan mewakili satu baris/record tabel Supplier dan setiap field akan dipetakan ke masing-masing property objeknya.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/4.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/4.jpg" alt="4" /></a></p>
+<p><a href="https://github.com/k4m4r82/DemoIntegrationTesting/blob/master/src/SimPeg.Repository.Service.UnitTest/PegawaiRepositoryTest.cs">Unit testingnya</a> ternyata gagal karena kondisi yang sudah kita tentukan di baris 32 bahwa objek pegawainya tidak boleh null tidak terpenuhi. Ada dua kemungkinan penyebab kegagalan ini yaitu :</p>
 
 <ol>
-<li>Menambahkan referensi <a href="http://msdn.microsoft.com/en-us/data/aa937723">Entity Framework</a> via <a href="http://coding4ever.net/blog/2014/03/11/nuget/">NuGet</a>, caranya dengan klik kanan node References kemudian pilih Manage NuGet Packages.</li>
+<li>Kita salah mengeset nilai niknya, jadi kemungkinan niknya bukan <code>12345</code> atau ..</li>
+<li>Datanya memang belum ada</li>
 </ol>
 
 
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/5.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/5.jpg" alt="5" /></a>selanjutnya akan tampil dialog Manage NuGet Packages kemudian pilih EntityFramework dan klik Install.</p>
+<p>Jadi kita akan cek dulu kemungkinan yang nomor 2 yaitu dengan melihat isi tabel Pegawai</p>
 
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/6.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/6.jpg" alt="6" /></a></p>
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/280716-04.png"></p>
+
+<p>Ternyata memang benar datanya yang belum ada he he :-D, berarti harus kita tambahkan dulu data pegawai dengan nik <code>12345</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/280716-05.png"></p>
+
+<p>Setelah itu kita cek lagi <a href="https://github.com/k4m4r82/DemoIntegrationTesting/blob/master/src/SimPeg.Repository.Service.UnitTest/PegawaiRepositoryTest.cs">unit testingnya</a>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/280716-06.png"></p>
+
+<p>Ternyata masih gagal tapi dengan kondisi yang berbeda, dari gambar di atas terlihat nilai yang kita harapkan adalah <code>Janoe Hendarto, S.Kom</code> sedangkan yang ada di database adalah <code>Janoe Hendarto, M.Kom</code> beda di gelarnya yaitu <code>S.Kom</code> dan <code>M.Kom</code>, berarti kegagalan kedua ini kita yang salah mengeset kondisi <a href="https://github.com/k4m4r82/DemoIntegrationTesting/blob/master/src/SimPeg.Repository.Service.UnitTest/PegawaiRepositoryTest.cs">unit testingnya</a>. Solusinya kita tinggal ganti <code>S.Kom</code> menjadi <code>M.Kom</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/280716-07.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/280716-08.png"></p>
+
+<p>Kemudian kita cek lagi <a href="https://github.com/k4m4r82/DemoIntegrationTesting/blob/master/src/SimPeg.Repository.Service.UnitTest/PegawaiRepositoryTest.cs">unit testingnya</a></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/280716-09.png"></p>
+
+<p>Akhirnya tes pertama berhasil :-)</p>
+
+<p>Gimana ? Lebih <code>cepat</code> dan <code>gampang</code> bukan dari pada melakukan pengetesan dengan cara <code>jadul</code> via console, winform, atau halaman web he he just kidding :-D</p>
+
+<p>Berikutnya kita akan tes method yang kedua yaitu <code>GetAll</code>, kode pengetesannya seperti ini :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/280716-10.png"></p>
+
+<p>Method <code>GetAll</code> di atas akan mengembalikan kumpulan/collection dari objek pegawai. Setelah itu kita membuat skenario pengetesan seperti berikut :</p>
 
 <ol>
-<li>Pilih &ldquo;I Accept&rdquo; ketika ada konfirmasi, setelah itu tunggu beberapa detik sampai paket EntityFramework selesai diinstall. Kemudian cek seharusnya library EntityFramework sudah ditambahkan di bagian node References.</li>
+<li>Jumlah pegawainya ada 3 orang/record (baris 43)</li>
+<li>Di baris 46 kita membuat objek <code>pegawai</code> kemudian mengeset datanya dengan data pegawai terakhir (index = 2)</li>
+<li>Mulai baris 48 – 52, kita melakukan pengetesan seperti pengetesan method <code>GetByID</code></li>
 </ol>
 
 
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/7.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/7.jpg" alt="7" /></a>selain itu ada tambahan file baru yaitu &ldquo;packages.config&rdquo; yang berisi informasi paket apa saja yang sudah ditambahkan via <a href="http://coding4ever.net/blog/2014/03/11/nuget/">NuGet</a>.</p>
+<p>Untuk keperluan tes ini kita tambahkan lagi dua record data pegawai, sehingga totalnya adalah 3 record sesuai dengan skenario nomor 1 di atas.</p>
 
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/8.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/8.jpg" alt="8" /></a></p>
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/280716-11.png"></p>
 
-<p><strong>Konfigurasi Pemetaan (mapping)</strong></p>
+<p>Setelah itu kita jalankan <a href="https://github.com/k4m4r82/DemoIntegrationTesting/blob/master/src/SimPeg.Repository.Service.UnitTest/PegawaiRepositoryTest.cs">unit testingnya</a>.</p>
 
-<p>Ada dua pilihan ketika kita ingin melakukan mapping :</p>
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/280716-12.png"></p>
 
-<ul>
-<li><p><a href="http://msdn.microsoft.com/en-us/data/jj591583.aspx">Data Annotations</a></p></li>
-<li><p><a href="http://msdn.microsoft.com/en-us/data/jj591617.aspx">Code First’s Fluent API</a></p></li>
-</ul>
+<p>Karena kondisi pengetesan (unit testing) sudah sesuai dengan data riil database, pengetesanpun langsung berhasil.</p>
 
+<p>Nah sampai di sini sudah dua method <a href="https://github.com/k4m4r82/DemoIntegrationTesting/blob/master/src/SimPeg.Repository.Service/PegawaiRepository.cs">CRUD</a> yang selesai kita tes, dan untuk contoh pengetesan method <a href="https://github.com/k4m4r82/DemoIntegrationTesting/blob/master/src/SimPeg.Repository.Service/PegawaiRepository.cs">CRUD</a> lainnya seperti Save, Update dan Delete kodenya lebih kurang seperti berikut:</p>
 
-<p><strong>Data Annotations</strong>
-Data Annotations adalah atribut yang kita tambahkan secara langsung dibagian class atau properties. Untuk menggunakan Data Annotations kita harus menambahkan namespace System.ComponentModel.DataAnnotations. Contoh :</p>
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/280716-13.png"></p>
 
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/92.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/92.jpg" alt="9" /></a></p>
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/280716-14.png"></p>
 
-<p>Atribut Tabel hanya ditambahkan jika nama tabel dan class berbeda, begitu juga untuk atribut Column hanya ditambahkan jika nama field berbeda dengan nama property.</p>
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/280716-15.png"></p>
 
-<p><strong>Code First’s Fluent API</strong>
-Jika ingin class entity kita tetap bersih dari atribut-atribut di atas, kita bisa menggunakan Code First’s Fluent API untuk konfigurasi mappingnya.</p>
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/280716-161.png"></p>
 
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/10.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/111.jpg" alt="11" /></a></p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/10.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/10.jpg" alt="10" /></a></p>
-
-<p>Jadi terserah Anda ingin menggunakan cara yang mana untuk konfigurasi mappingnya.</p>
-
-<p><strong>DbContext</strong>
-Setelah proses mapping selesai, langkah berikutnya adalah menambahkan sebuah class dengan nama RetailContext, class ini harus turunan dari DbContext.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/121.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/121.jpg" alt="12" /></a></p>
-
-<p>Penamaan class RetailContext, disesuaikan dengan nama project yang kita buat. Jika nama project kita adalah SmartLibrary (aplikasi perpustakaan), mungkin penamaan class SmartLibraryContext bisa menjadi pertimbangan untuk nama class Contextnya.</p>
-
-<p>DbContext adalah class yang bertanggung jawab untuk berinteraksi dengan data (yang diambil dari database) yang sudah dirubah bentuknya menjadi objek atau sebaliknya dari objek kemudian dirubah lagi menjadi data yang bisa disimpan ke dalam database.</p>
-
-<p>Berikut adalah kode lengkap untuk class RetailContext di atas :</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/16.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/16.jpg" alt="16" /></a></p>
-
-<p>Dibagian constructor ada perintah base(&ldquo;Name=RetailContext&rdquo;), penulisan keyword base disini adalah untuk memanggil constructor class induk dari class RetailContext yaitu DbContext. Kemudian &ldquo;Name=RetailContext&rdquo;, RetailContext disini adalah nama dari koneksi yang kita set nilainya via file App.config.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/17.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/17.jpg" alt="17" /></a><a href="http://coding4ever.files.wordpress.com/2014/03/18.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/18.jpg" alt="18" /></a></p>
-
-<p>Berikutnya tujuan dari deklarasi property Suppliers dengan tipe DbSet<Supplier> adalah agar class RetailContext bisa mengakses dan memodifikasi objek Supplier.</p>
-
-<p>Percaya atau tidak dengan sedikit konfigurasi di atas, tanpa melibatkan perintah SQL seperti SELECT, kita bisa langsung mengakses data Supplier yang sudah berubah bentuk menjadi objek.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/4.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/4.jpg" alt="4" /></a></p>
-
-<p>Oke langsung saja kita buktikan dengan membuka file Program.cs kemudian kita lengkapi method Mainnya dengan kode berikut :</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/14.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/14.jpg" alt="14" /></a></p>
-
-<p>Langkah pertama yang kita lakukan adalah membuat objek dari RetailContext dengan nama db. Karena RetailContext mengimplementasikan interface IDisposable, kita bisa menggunakan keyword using agar objek db langsung dihapus dari memory setelah blok usingnya selesai dijalankan.</p>
-
-<p>Selanjutnya kita membuat objek daftarSupplier untuk menampung data supplier yang di-SELECT dari database kemudian dirubah bentuknya menjadi kumpulan objek dari class entity Supplier yang disimpan di dalam sebuah wadah dengan tipe class collection List.</p>
-
-<p>Terakhir kita gunakan perulangan foreach untuk mengekstrak objek Supplier yang ada di dalam objek daftarSupplier.</p>
-
-<p>Jika kode di atas dijalankan, akan menghasilkan output seperti berikut :</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2014/03/15.jpg"><img src="http://coding4ever.files.wordpress.com/2014/03/15.jpg" alt="15" /></a></p>
-
-<p>Selamat <a href="https://github.com/k4m4r82/EntityFramework2">MENCOBA</a> :)</p>
+<p>Selamat <a href="https://github.com/k4m4r82/DemoIntegrationTesting">MENCOBA</a> :-)</p>
 </div>
 
 
@@ -255,12 +214,12 @@ Setelah proses mapping selesai, langkah berikutnya adalah menambahkan sebuah cla
 
 
 
-<time class='entry-date' datetime='2014-03-21T10:40:20+07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2014</span></span> <span class='time'>10:40 am</span></time>
+<time class='entry-date' datetime='2016-07-28T11:19:59+07:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>11:19 am</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/entity-framework/'>entity framework</a>, <a class='category' href='/blog/categories/visual-c-number/'>visual c#</a>
+    <a class='category' href='/blog/categories/software-testing/'>software testing</a>
   
 </span>
 
@@ -283,10 +242,8 @@ Saat ini bekerja sebagai staf IT di salah satu PTS di Yogyakarta sebagai senior 
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/03/18/entity-framework-part-1/" title="Previous Post: Entity Framework Part 1">&laquo; Entity Framework Part 1</a>
+        <a class="basic-alignment left" href="/blog/2016/07/22/coverage-testing-menggunakan-nunit-opencover-reportgenerator/" title="Previous Post: Coverage Testing Menggunakan NUnit, OpenCover dan ReportGenerator">&laquo; Coverage Testing Menggunakan NUnit, OpenCover dan ReportGenerator</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/03/26/entity-framework-part-3/" title="Next Post: Entity Framework Part 3">Entity Framework Part 3 &raquo;</a>
       
     </p>
   </footer>
@@ -438,8 +395,8 @@ Saat ini bekerja sebagai staf IT di salah satu PTS di Yogyakarta sebagai senior 
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://coding4ever.net/blog/2014/03/21/entity-framework-part-2/';
-        var disqus_url = 'http://coding4ever.net/blog/2014/03/21/entity-framework-part-2/';
+        var disqus_identifier = 'http://coding4ever.net/blog/2016/07/28/integration-testing-menggunakan-nunit/';
+        var disqus_url = 'http://coding4ever.net/blog/2016/07/28/integration-testing-menggunakan-nunit/';
         var disqus_script = 'embed.js';
       
     (function () {

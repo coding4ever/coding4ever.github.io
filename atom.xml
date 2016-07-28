@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-07-24T16:26:07+07:00</updated>
+  <updated>2016-07-28T12:43:18+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,111 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Integration Testing Menggunakan NUnit]]></title>
+    <link href="http://coding4ever.net/blog/2016/07/28/integration-testing-menggunakan-nunit/"/>
+    <updated>2016-07-28T11:19:59+07:00</updated>
+    <id>http://coding4ever.net/blog/2016/07/28/integration-testing-menggunakan-nunit</id>
+    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2016/07/nunit.png" width="120" height="57">Dasar-dasar <a href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/">unit testing</a> sudah kita pelajari, dilanjutkan dengan <a href="http://coding4ever.net/blog/2016/07/22/coverage-testing-menggunakan-nunit-opencover-reportgenerator/">coverage testing</a> untuk mengecek tingkat keseriusan programmer dalam membuat <a href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/">unit testing</a>. Semakin sedikit <a href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/">unit testing</a> yang dibuat atau asal-asalan pada saat membuat <a href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/">unit testing</a> bakalan dijamin <a href="http://coding4ever.net/blog/2016/07/22/coverage-testing-menggunakan-nunit-opencover-reportgenerator/">coverage testingnya</a> akan gagal.</p>
+
+<!-- more -->
+
+
+<p>Pada postingan kali ini kita akan membahas tentang <a href="http://coding4ever.net/blog/2016/07/28/integration-testing-menggunakan-nunit/">integration testing</a> yaitu tes yang dilakukan secara berkelompok. Sebagai contoh, dalam pengembangan aplikasi bisnis hampir bisa dipastikan 100% akan menggunakan database.  Sehingga perlu kita tes apakah kode program yang kita buat dapat berinteraksi dengan database sesuai harapan atau tidak. Jadi kita tidak perlu lagi melakukan pengetesan secara <code>serius</code> di level UI (console, winform atau halaman web) karena sudah di lakukan pengetesan  melalui <a href="http://coding4ever.net/blog/2016/07/28/integration-testing-menggunakan-nunit/">integration testing</a>.</p>
+
+<p>Contoh kita punya dua method <a href="https://github.com/k4m4r82/DemoIntegrationTesting/blob/master/src/SimPeg.Repository.Service/PegawaiRepository.cs">CRUD</a> seperti berikut :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/280716-01.png"></p>
+
+<p>Kemudian kita buatkan <a href="https://github.com/k4m4r82/DemoIntegrationTesting/blob/master/src/SimPeg.Repository.Service.UnitTest/PegawaiRepositoryTest.cs">unit testingnya</a> seperti ini :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/280716-02.png"></p>
+
+<p>Unit testing pertama yang akan kita tes adalah method <code>GetByID</code>, method ini mempunyai satu parameter yaitu <code>nik</code> yang nilainya kita isi dengan <code>12345</code>. Setelah pemanggilan method <code>GetByID</code> (baris 30) <code>seharusnya</code> objek <code>pegawai</code> akan terisi dengan data pegawai dengan nik <code>12345</code>. Setelah itu kita membuat skenario pengetesan seperti berikut :</p>
+
+<ol>
+<li>Objek pegawai tidak boleh null (baris 32)</li>
+<li>Nik pegawai harus sama dengan <code>12345</code> (baris 33)</li>
+<li>Nama pegawai harus sama dengan <code>Janoe Hendarto, S.Kom</code> (baris 34)</li>
+<li>Untuk alamat dan kota nilainya juga harus sama dengan gambar di atas (baris 35 – 36)</li>
+</ol>
+
+
+<p>Setelah itu kita jalankan <a href="https://github.com/k4m4r82/DemoIntegrationTesting/blob/master/src/SimPeg.Repository.Service.UnitTest/PegawaiRepositoryTest.cs">unit testingnya</a> menggunakan <code>NUnit GUI Runner</code>, dan hasilnya adalah …</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/280716-03.png"></p>
+
+<p><a href="https://github.com/k4m4r82/DemoIntegrationTesting/blob/master/src/SimPeg.Repository.Service.UnitTest/PegawaiRepositoryTest.cs">Unit testingnya</a> ternyata gagal karena kondisi yang sudah kita tentukan di baris 32 bahwa objek pegawainya tidak boleh null tidak terpenuhi. Ada dua kemungkinan penyebab kegagalan ini yaitu :</p>
+
+<ol>
+<li>Kita salah mengeset nilai niknya, jadi kemungkinan niknya bukan <code>12345</code> atau ..</li>
+<li>Datanya memang belum ada</li>
+</ol>
+
+
+<p>Jadi kita akan cek dulu kemungkinan yang nomor 2 yaitu dengan melihat isi tabel Pegawai</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/280716-04.png"></p>
+
+<p>Ternyata memang benar datanya yang belum ada he he :-D, berarti harus kita tambahkan dulu data pegawai dengan nik <code>12345</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/280716-05.png"></p>
+
+<p>Setelah itu kita cek lagi <a href="https://github.com/k4m4r82/DemoIntegrationTesting/blob/master/src/SimPeg.Repository.Service.UnitTest/PegawaiRepositoryTest.cs">unit testingnya</a>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/280716-06.png"></p>
+
+<p>Ternyata masih gagal tapi dengan kondisi yang berbeda, dari gambar di atas terlihat nilai yang kita harapkan adalah <code>Janoe Hendarto, S.Kom</code> sedangkan yang ada di database adalah <code>Janoe Hendarto, M.Kom</code> beda di gelarnya yaitu <code>S.Kom</code> dan <code>M.Kom</code>, berarti kegagalan kedua ini kita yang salah mengeset kondisi <a href="https://github.com/k4m4r82/DemoIntegrationTesting/blob/master/src/SimPeg.Repository.Service.UnitTest/PegawaiRepositoryTest.cs">unit testingnya</a>. Solusinya kita tinggal ganti <code>S.Kom</code> menjadi <code>M.Kom</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/280716-07.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/280716-08.png"></p>
+
+<p>Kemudian kita cek lagi <a href="https://github.com/k4m4r82/DemoIntegrationTesting/blob/master/src/SimPeg.Repository.Service.UnitTest/PegawaiRepositoryTest.cs">unit testingnya</a></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/280716-09.png"></p>
+
+<p>Akhirnya tes pertama berhasil :-)</p>
+
+<p>Gimana ? Lebih <code>cepat</code> dan <code>gampang</code> bukan dari pada melakukan pengetesan dengan cara <code>jadul</code> via console, winform, atau halaman web he he just kidding :-D</p>
+
+<p>Berikutnya kita akan tes method yang kedua yaitu <code>GetAll</code>, kode pengetesannya seperti ini :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/280716-10.png"></p>
+
+<p>Method <code>GetAll</code> di atas akan mengembalikan kumpulan/collection dari objek pegawai. Setelah itu kita membuat skenario pengetesan seperti berikut :</p>
+
+<ol>
+<li>Jumlah pegawainya ada 3 orang/record (baris 43)</li>
+<li>Di baris 46 kita membuat objek <code>pegawai</code> kemudian mengeset datanya dengan data pegawai terakhir (index = 2)</li>
+<li>Mulai baris 48 – 52, kita melakukan pengetesan seperti pengetesan method <code>GetByID</code></li>
+</ol>
+
+
+<p>Untuk keperluan tes ini kita tambahkan lagi dua record data pegawai, sehingga totalnya adalah 3 record sesuai dengan skenario nomor 1 di atas.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/280716-11.png"></p>
+
+<p>Setelah itu kita jalankan <a href="https://github.com/k4m4r82/DemoIntegrationTesting/blob/master/src/SimPeg.Repository.Service.UnitTest/PegawaiRepositoryTest.cs">unit testingnya</a>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/280716-12.png"></p>
+
+<p>Karena kondisi pengetesan (unit testing) sudah sesuai dengan data riil database, pengetesanpun langsung berhasil.</p>
+
+<p>Nah sampai di sini sudah dua method <a href="https://github.com/k4m4r82/DemoIntegrationTesting/blob/master/src/SimPeg.Repository.Service/PegawaiRepository.cs">CRUD</a> yang selesai kita tes, dan untuk contoh pengetesan method <a href="https://github.com/k4m4r82/DemoIntegrationTesting/blob/master/src/SimPeg.Repository.Service/PegawaiRepository.cs">CRUD</a> lainnya seperti Save, Update dan Delete kodenya lebih kurang seperti berikut:</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/280716-13.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/280716-14.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/280716-15.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/280716-161.png"></p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/DemoIntegrationTesting">MENCOBA</a> :-)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Coverage Testing Menggunakan NUnit, OpenCover Dan ReportGenerator]]></title>
@@ -230,7 +335,7 @@ Salah satu solusinya adalah dengan memanfaatkan fasilitas <a href="http://coding
 <ul>
 <li><a href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/">Unit Testing</a></li>
 <li><a href="http://coding4ever.net/blog/2016/07/22/coverage-testing-menggunakan-nunit-opencover-reportgenerator/">Coverage Testing</a></li>
-<li>Integration Testing</li>
+<li><a href="http://coding4ever.net/blog/2016/07/28/integration-testing-menggunakan-nunit/">Integration Testing</a></li>
 <li><a href="http://coding4ever.net/blog/2015/10/20/performance-test-menggunakan-jmeter/">Performance Testing</a></li>
 </ul>
 
@@ -4029,212 +4134,6 @@ Berikut perintah lengkapnya :</p>
 <p>Jika kode di atas dijalankan akan menghasilkan output seperti berikut</p>
 
 <p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/200615-21.png"></p>
-
-<p>Selamat <a href="https://github.com/k4m4r82/Calculator">MENCOBA</a> :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Tutorial WCF Service Bagian #3]]></title>
-    <link href="http://coding4ever.net/blog/2015/06/05/tutorial-wcf-service-bagian-number-3/"/>
-    <updated>2015-06-05T13:14:33+07:00</updated>
-    <id>http://coding4ever.net/blog/2015/06/05/tutorial-wcf-service-bagian-number-3</id>
-    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2015/05/020515-16.png" width="100" height="100">Web service itu seperti parasit, tidak bisa hidup mandiri sehingga membutuhkan sebuah wadah (host) untuk kelangsungan hidupnya. Begitu juga dengan web service yang dibuat menggunakan WCF tetap membutuhkan sebuah wadah (host).</p>
-
-<!-- more -->
-
-
-<p>Ada beberapa cara yang bisa digunakan untuk menempatkan web service ke dalam wadahnya (host) yaitu :</p>
-
-<ul>
-<li>Hosting in Internet Information Services (IIS)</li>
-<li>Hosting in Windows Activation Services (WAS)</li>
-<li>Hosting in a Console or Desktop application (Self hosting)</li>
-<li>Hosting in a Windows Service</li>
-</ul>
-
-
-<p>Kita akan menggunakan cara yang pertama yaitu, <code>hosting WCF service di IIS</code>, berikut langkah-langkahnya :</p>
-
-<p><strong>1. Install Internet Information Services (IIS)</strong></p>
-
-<p>Untuk langkah-langkahnya bisa Anda ikuti di<a href="http://www.codeproject.com/Tips/365704/Install-IIS-on-Windows">sini</a></p>
-
-<p><strong>2. Membuat Folder Baru di wwwroot</strong></p>
-
-<p>Tambahkan folder baru di <code>C:\ C:\inetpub\wwwroot</code>, dengan nama <code>Calculator</code>, kemudian tambahkan juga folder <code>bin</code> di dalamnya</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-011.png"></p>
-
-<p>Folder <code>wwwroot</code> sama seperti folder <code>htdocs</code>-nya Apache.</p>
-
-<p><strong>3. Build Project CalculatorServer</strong></p>
-
-<p>Aktifkan kembali project <a href="https://github.com/k4m4r82/Calculator">Calculator</a>, kemudian lakukan proses <code>Build</code> project <code>CalculatorServer</code></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-02.png"></p>
-
-<p>Cek hasil build di bagian <code>Output</code></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-03.png"></p>
-
-<p>Kemudian buka folder hasil build</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-04.png"></p>
-
-<p>Di dalamnya ada dua file dengan tipe DLL yaitu <code>CalculatorLib.dll</code> dan <code>CalculatorServer.dll</code>. File <code>CalculatorLib.dll</code> di hasilkan dari project <code>CalculatorLib</code> sedangkan file <code>CalculatorServer.dll</code> dihasilkan dari project <code>CalculatorServer</code></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-05.png"></p>
-
-<p>Dua file ini akan kita copykan ke folder <code>C:\inetpub\wwwroot\Calculator\bin</code></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-06.png"></p>
-
-<p><strong>4. Membuat File Text dengan Format .svc</strong></p>
-
-<p>File .svc merupakan file text biasa yang mirip dengan file .asmx (ASP.NET web service). Dengan kata lain WCF service yang di-host-kan ke dalam IIS direpresentasikan oleh sebuah file khusus dengan format .svc.</p>
-
-<p>File ini berisi informasi agar WCF service bisa berjalan dengan sukses. Adapun informasinya terdiri dari :</p>
-
-<ul>
-<li>Pilihan bahasa (C# atau VB)</li>
-<li>Nama service (namaspace + class)</li>
-<li>Lokasi kode service</li>
-</ul>
-
-
-<p>Contoh isi file .svc</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%@ ServiceHost Language="C#" Service="CalculatorServer.Calculator" %></span></code></pre></td></tr></table></div></figure>
-
-
-<p>Setelah mengetahui fungsi dari file .svc, berikutnya kita akan membuat file .svc dengan nama <code>ServiceCalculator.svc</code> di folder <code>C:\inetpub\wwwroot\Calculator</code></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-07.png"></p>
-
-<p>Kemudian copas skrip berikut :</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%@ ServiceHost Language="C#" Service="CalculatorServer.Calculator" %></span></code></pre></td></tr></table></div></figure>
-
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-08.png"></p>
-
-<p>Dari skrip di atas, coba perhatikan bagian <code>Service="CalculatorServer.Calculator"</code></p>
-
-<p>CalculatorServer adalah nama namespace, sedangkan Calculator adalah nama class servicenya. Informasi ini kita dapatkan dari struktur project <code>CalculatorServer</code></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-09.png"></p>
-
-<p><strong>5. Membuat File web.config</strong></p>
-
-<p>File web.config adalah file xml yang berisi konfigurasi dari aplikasi web berbasis ASP.NET. Karena WCF service ini akan kita host-kan ke dalam IIS, jadi kita juga perlu membuat file web.config untuk menyimpan konfigurasi dari web service.</p>
-
-<p>File web.config  ini akan kita buat di folder <code>C:\inetpub\wwwroot\Calculator</code>, satu folder dengan file <code>ServiceCalculator.svc</code></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-10.png"></p>
-
-<p>Kemudian copas skrip berikut</p>
-
-<div><script src='https://gist.github.com/f62303ed21a209b24de5.js'></script>
-<noscript><pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
-
-&lt;configuration&gt;
-    
-    &lt;system.web&gt;
-        &lt;compilation debug=&quot;false&quot; targetFramework=&quot;4.0&quot; /&gt;
-    &lt;/system.web&gt;    
-    
-  &lt;system.serviceModel&gt;
-    
-    &lt;services&gt;      
-      &lt;service name=&quot;CalculatorServer.Calculator&quot; behaviorConfiguration=&quot;DefaultBehavior&quot;&gt;                        
-        &lt;endpoint binding=&quot;basicHttpBinding&quot; bindingConfiguration=&quot;BasicHttpBindingConfig&quot; contract=&quot;CalculatorLib.ICalculator&quot; /&gt;
-      &lt;/service&gt;                            
-    &lt;/services&gt;        
-        
-    &lt;bindings&gt;
-      &lt;basicHttpBinding&gt;
-        &lt;binding name=&quot;BasicHttpBindingConfig&quot;&gt;
-          &lt;security mode=&quot;None&quot; /&gt;
-        &lt;/binding&gt;
-      &lt;/basicHttpBinding&gt;
-    &lt;/bindings&gt;
-    
-    &lt;behaviors&gt;
-      &lt;serviceBehaviors&gt;
-        &lt;behavior name=&quot;DefaultBehavior&quot;&gt;
-          &lt;serviceMetadata httpGetEnabled=&quot;true&quot; /&gt;
-          &lt;serviceDebug includeExceptionDetailInFaults=&quot;false&quot; /&gt;
-        &lt;/behavior&gt;
-      &lt;/serviceBehaviors&gt;
-    &lt;/behaviors&gt;
-    
-  &lt;/system.serviceModel&gt;
-  
-&lt;/configuration&gt;</code></pre></noscript></div>
-
-
-<p>Dari skrip di atas, coba perhatikan bagian <code>&lt;services&gt;</code></p>
-
-<div><script src='https://gist.github.com/3e306818c5096e2a860b.js'></script>
-<noscript><pre><code>&lt;services&gt;      
-  &lt;service name=&quot;CalculatorServer.Calculator&quot; behaviorConfiguration=&quot;DefaultBehavior&quot;&gt;                        
-    &lt;endpoint binding=&quot;basicHttpBinding&quot; bindingConfiguration=&quot;BasicHttpBindingConfig&quot; contract=&quot;CalculatorLib.ICalculator&quot; /&gt;
-  &lt;/service&gt;                            
-&lt;/services&gt;</code></pre></noscript></div>
-
-
-<p>Di bagian ini kita mendaftarkan service apa saja yang bisa diakses oleh aplikasi klien.</p>
-
-<ul>
-<li>Service name = diisi dengan nama service</li>
-<li>Contract = diisi dengan interface dari nama service</li>
-</ul>
-
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-11.png"></p>
-
-<p>Di dalam WCF, bagian ini dikenal dengan istilah <a href="http://wcftutorial.net/EndPoint.aspx">EndPoint</a>, dan berhubung di postingan ini tidak membahas masalah <a href="http://wcftutorial.net/EndPoint.aspx">EndPoint</a>, sebagai referensi bisa Anda baca di<a href="http://wcftutorial.net/EndPoint.aspx">sini</a>.</p>
-
-<p><strong>6. Mendaftarkan Service Calculator ke IIS</strong></p>
-
-<p>Sebagai langkah terakhir, kita aktifkan Internet Information Services(IIS), kemudian expand node Sites -> Default Web Site</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-12.png"></p>
-
-<p>Kemudian klik kanan <code>Calculator</code> -> Convert to Application</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-13.png"></p>
-
-<p>Setelah itu akan tampil window <code>Add Application</code> kemudian klik tombol <code>Select</code></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-14.png"></p>
-
-<p>Pilih ASP.NET v4.0</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-15.png"></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-16.png"></p>
-
-<p>Jika berhasil icon folder Calculator akan berganti menjadi <img src="https://coding4ever.files.wordpress.com/2015/06/050615-20.png"></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-17.png"></p>
-
-<p><strong>7. Testing Web Service Calculator</strong></p>
-
-<p>Untuk mengetes apakah service Calculator ini berjalan dengan sukses, silahkan akses alamat : <a href="http://localhost/Calculator/ServiceCalculator.svc">http://localhost/Calculator/ServiceCalculator.svc</a></p>
-
-<p>Seharusnya anda mendapatkan tampilan seperti berikut yang menandakan konfigurasi WCF service berhasil.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-18.png"></p>
-
-<p>Tampilan jika diakses dari <code>WCF Test Client</code></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/050615-19.png"></p>
-
-<p>Yuph sampai disini saja untuk postingan kali ini, insyaAlloh akan kita lanjutkan pada kesempatan berikutnya.</p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/Calculator">MENCOBA</a> :)</p>
 ]]></content>
