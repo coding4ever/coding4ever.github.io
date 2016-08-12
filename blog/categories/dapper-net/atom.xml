@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Dapper .net | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/dapper-net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-07-28T12:45:26+07:00</updated>
+  <updated>2016-08-12T11:00:21+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -18,42 +18,185 @@
     <link href="http://coding4ever.net/blog/2016/06/28/repository-pattern-bagian-number-2/"/>
     <updated>2016-06-28T12:54:38+07:00</updated>
     <id>http://coding4ever.net/blog/2016/06/28/repository-pattern-bagian-number-2</id>
-    <content type="html"><![CDATA[<p>{% img left <a href="https://coding4ever.files.wordpress.com/2016/02/logo-net.png">https://coding4ever.files.wordpress.com/2016/02/logo-net.png</a> 130 130 %}Melanjutkan pembahasan <a href="{{%20site.url%20}}/blog/categories/repository-pattern/">Repository Pattern</a>, kali ini kita akan membahas salah satu manfaat menggunakan <a href="{{%20site.url%20}}/blog/categories/repository-pattern/">Repository Pattern</a>. Selain digunakan untuk menerapkan konsep separation  of  concern atau pemisahan kode program berdasarkan fungsinya. Pola/pattern ini juga akan mempermudah kita untuk mengganti implementasi class secara cepat karena dari sisi client/layer presentation sudah tidak tergantung dengan layer data access, sehingga jika terjadi perubahan pada metode akses data di repsository, layer presentation sama sekali tidak perlu diubah ataupun jika terjadi perubahan hanya sedikit <code>kode</code> yang perlu kita ubah. Desain struktur seperti ini disebut <a href="https://en.wikipedia.org/wiki/Loose_coupling">lousley coupled</a>.</p>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2016/02/logo-net.png">https://coding4ever.files.wordpress.com/2016/02/logo-net.png</a>&#8221; width=&#8221;130&#8221; height=&#8221;130&#8221;>Melanjutkan pembahasan <a href="/blog/categories/repository-pattern/">Repository Pattern</a>, kali ini kita akan membahas salah satu manfaat menggunakan <a href="/blog/categories/repository-pattern/">Repository Pattern</a>. Selain digunakan untuk menerapkan konsep separation  of  concern atau pemisahan kode program berdasarkan fungsinya. Pola/pattern ini juga akan mempermudah kita untuk mengganti implementasi class secara cepat karena dari sisi client/layer presentation sudah tidak tergantung dengan layer data access, sehingga jika terjadi perubahan pada metode akses data di repsository, layer presentation sama sekali tidak perlu diubah ataupun jika terjadi perubahan hanya sedikit <code>kode</code> yang perlu kita ubah. Desain struktur seperti ini disebut <a href="https://en.wikipedia.org/wiki/Loose_coupling">lousley coupled</a>.</p>
 
 <!-- more -->
 
 
 <p>Repository mengenkapsulasi method-method untuk manipulasi dan query data dalam sebuah class yang berhubungan dengan class model/business entity. Sebuah repository biasanya memiliki method CRUD (Create, Read, Update, Delete) standar seperti : Save, Update, Delete, dan GetAll seperti yang didefenisikan di interface IBaseRepository<T> generic/umum sebagai berikut :</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/06/280616-01.png">https://coding4ever.files.wordpress.com/2016/06/280616-01.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/06/280616-01.png">https://coding4ever.files.wordpress.com/2016/06/280616-01.png</a>&#8221;></p>
 
 <p>Kemudian kita definisikan interface yang lebih spesifik untuk masing-masing class repository yang mewarisi interface generic IBaseRepository<T>. Contoh interface ICategoryRepository dan IProductRepository.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/06/280616-02.png">https://coding4ever.files.wordpress.com/2016/06/280616-02.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/06/280616-02.png">https://coding4ever.files.wordpress.com/2016/06/280616-02.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/06/280616-03.png">https://coding4ever.files.wordpress.com/2016/06/280616-03.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/06/280616-03.png">https://coding4ever.files.wordpress.com/2016/06/280616-03.png</a>&#8221;></p>
 
-<p>Sebagai contoh kita akan membuat aplikasi menggunakan database <a href="https://northwinddatabase.codeplex.com/">Northwind</a>, dengan menggunakan <a href="{{%20site.url%20}}/blog/categories/entity-framework/">Entity Framework</a> sebagai engine untuk Data Access Layernya. Karena di atas kita sudah mendefinisikan interface ICategoryRepository, kita tinggal membuat class implementasinya misal dengan nama class CategoryRepository.</p>
+<p>Sebagai contoh kita akan membuat aplikasi menggunakan database <a href="https://northwinddatabase.codeplex.com/">Northwind</a>, dengan menggunakan <a href="/blog/categories/entity-framework/">Entity Framework</a> sebagai engine untuk Data Access Layernya. Karena di atas kita sudah mendefinisikan interface ICategoryRepository, kita tinggal membuat class implementasinya misal dengan nama class CategoryRepository.</p>
 
-<p>{% gist 3ce54c2191c532665f2e19c09abd901b %}</p>
+<p><div><script src='https://gist.github.com/3ce54c2191c532665f2e19c09abd901b.js'></script>
+<noscript><pre><code>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Northwind.Model;
+using Northwind.Repository.Api;
+using System.Data.Entity;
+
+namespace Northwind.Repository.Service
+{
+    public class CategoryRepository : ICategoryRepository
+    {
+        public CategoryRepository()
+        {
+        }
+
+        public Category GetByID(int categoryId)
+        {
+            Category category = null;
+
+            try
+            {
+                using (IEFContext context = new EFContext())
+                {
+                    category = context.Categories.Where(f =&gt; f.CategoryID == categoryId)
+                                      .SingleOrDefault();
+                }                
+            }
+            catch
+            {
+            }
+
+            return category;
+        }
+
+        public IList&lt;Category&gt; GetByName(string categoryName)
+        {
+            IList&lt;Category&gt; listOfCategory = new List&lt;Category&gt;();
+
+            try
+            {
+                using (IEFContext context = new EFContext())
+                {
+                    listOfCategory = context.Categories
+                                            .Where(f =&gt; f.CategoryName.ToLower().Contains(categoryName.ToLower()))
+                                            .OrderBy(f =&gt; f.CategoryName)
+                                            .ToList();
+                }                
+            }
+            catch
+            {
+            }
+
+            return listOfCategory;
+        }
+
+        public IList&lt;Category&gt; GetAll()
+        {
+            IList&lt;Category&gt; listOfCategory = new List&lt;Category&gt;();
+
+            try
+            {
+                using (IEFContext context = new EFContext())
+                {
+                    listOfCategory = context.Categories
+                                            .OrderBy(f =&gt; f.CategoryName)
+                                            .ToList();
+                }                
+            }
+            catch
+            {
+            }
+
+            return listOfCategory;
+        }
+
+        public int Save(Category obj)
+        {
+            var result = 0;            
+
+            try
+            {
+                using (IEFContext context = new EFContext())
+                {
+                    context.Entry(obj).State = EntityState.Added;
+                    context.SaveChanges();
+                }                
+
+                result = 1;
+            }
+            catch
+            {
+            }
+
+            return result;
+        }
+
+        public int Update(Category obj)
+        {
+            var result = 0;
+
+            try
+            {
+                using (IEFContext context = new EFContext())
+                {
+                    context.Entry(obj).State = EntityState.Modified;
+                    context.SaveChanges();
+                }                
+
+                result = 1;
+            }
+            catch
+            {
+            }
+
+            return result;
+        }
+
+        public int Delete(Category obj)
+        {
+            var result = 0;            
+
+            try
+            {
+                using (IEFContext context = new EFContext())
+                {
+                    context.Entry(obj).State = EntityState.Deleted;
+                    context.SaveChanges();
+                }                
+
+                result = 1;
+            }
+            catch
+            {
+            }
+
+            return result;
+        }        
+    }
+}</code></pre></noscript></div>
+</p>
 
 <p>Nah dari sisi client class-class Repository diakses lewat interfacenya. Pemrograman melalui interface ini menjadikan client tidak tergantung dengan layer data access, sehingga jika terjadi perubahan pada metode akses data di repsository, layer presentation sama sekali tidak perlu diubah ataupun jika terjadi perubahan hanya sedikit <code>kode</code> yang perlu kita ubah. Desain struktur seperti ini disebut <a href="https://en.wikipedia.org/wiki/Loose_coupling">lousley coupled</a>.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/06/280616-04.png">https://coding4ever.files.wordpress.com/2016/06/280616-04.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/06/280616-04.png">https://coding4ever.files.wordpress.com/2016/06/280616-04.png</a>&#8221;></p>
 
 <p>Pada gambar di atas deklarsi objek <code>categoryRepository</code> tidak langsung menggunakan tipe class repository (CategoryRepository) tetapi menggunakan interface ICategoryRepository (konsep <a href="http://stackoverflow.com/questions/2697783/what-does-program-to-interfaces-not-implementations-mean">program to interfaces</a>), tujuannya adalah untuk mempermudah kita mengganti implementasi dari class repositorynya.</p>
 
-<p>Jadi kalo seandainya terjadi perubahan implementasi dari class repositorynya, kita tinggal buat class repository yang baru, kemudian mengganti implementasi classnya di sisi client. Contoh kasus class <a href="https://github.com/k4m4r82/RepositoryPattern2/blob/master/src/Northwind.Repository.Service/CategoryRepository.cs">CategoryRepository</a> di atas menggunakan <a href="{{%20site.url%20}}/blog/categories/entity-framework/">Entity Framework</a> sebagai engine untuk Data Access Layernya, karena alasan performance akhirnya kita memutuskan untuk mengganti <a href="{{%20site.url%20}}/blog/categories/entity-framework/">Entity Framework</a> dengan <a href="https://en.wikipedia.org/wiki/Object-relational_mapping">ORM</a> lain yang lebih ringan misal <a href="{{%20site.url%20}}/blog/categories/dapper-net/">Dapper .NET</a>. Untuk melakukan ini kita tinggal buat class repository yang baru, misal dengan nama <a href="https://github.com/k4m4r82/RepositoryPattern2/blob/master/src/Northwind.Repository.Service/CategoryRepositoryDapper.cs">CategoryRepositoryDapper</a> kemudian mengganti implementasi classnya di sisi client. Mudah bukan :-)</p>
+<p>Jadi kalo seandainya terjadi perubahan implementasi dari class repositorynya, kita tinggal buat class repository yang baru, kemudian mengganti implementasi classnya di sisi client. Contoh kasus class <a href="https://github.com/k4m4r82/RepositoryPattern2/blob/master/src/Northwind.Repository.Service/CategoryRepository.cs">CategoryRepository</a> di atas menggunakan <a href="/blog/categories/entity-framework/">Entity Framework</a> sebagai engine untuk Data Access Layernya, karena alasan performance akhirnya kita memutuskan untuk mengganti <a href="/blog/categories/entity-framework/">Entity Framework</a> dengan <a href="https://en.wikipedia.org/wiki/Object-relational_mapping">ORM</a> lain yang lebih ringan misal <a href="/blog/categories/dapper-net/">Dapper .NET</a>. Untuk melakukan ini kita tinggal buat class repository yang baru, misal dengan nama <a href="https://github.com/k4m4r82/RepositoryPattern2/blob/master/src/Northwind.Repository.Service/CategoryRepositoryDapper.cs">CategoryRepositoryDapper</a> kemudian mengganti implementasi classnya di sisi client. Mudah bukan :-)</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/06/280616-05.png">https://coding4ever.files.wordpress.com/2016/06/280616-05.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/06/280616-05.png">https://coding4ever.files.wordpress.com/2016/06/280616-05.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/06/280616-061.png">https://coding4ever.files.wordpress.com/2016/06/280616-061.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/06/280616-061.png">https://coding4ever.files.wordpress.com/2016/06/280616-061.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/06/280616-07.png">https://coding4ever.files.wordpress.com/2016/06/280616-07.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/06/280616-07.png">https://coding4ever.files.wordpress.com/2016/06/280616-07.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/06/280616-08.png">https://coding4ever.files.wordpress.com/2016/06/280616-08.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/06/280616-08.png">https://coding4ever.files.wordpress.com/2016/06/280616-08.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/06/280616-09.png">https://coding4ever.files.wordpress.com/2016/06/280616-09.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/06/280616-09.png">https://coding4ever.files.wordpress.com/2016/06/280616-09.png</a>&#8221;></p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/RepositoryPattern2">MENCOBA</a> :-)</p>
 ]]></content>
@@ -64,37 +207,141 @@
     <link href="http://coding4ever.net/blog/2016/02/24/unit-of-work-pattern/"/>
     <updated>2016-02-24T10:24:29+07:00</updated>
     <id>http://coding4ever.net/blog/2016/02/24/unit-of-work-pattern</id>
-    <content type="html"><![CDATA[<p>{% img left <a href="https://coding4ever.files.wordpress.com/2016/02/logo-net.png">https://coding4ever.files.wordpress.com/2016/02/logo-net.png</a> 130 130 %}Kalau sudah membahas <a href="{{%20site.url%20}}/blog/categories/repository-pattern/">Repository Pattern</a> rasanya kurang <code>manteb</code> jika tidak membahas <a href="http://martinfowler.com/eaaCatalog/unitOfWork.html">Unit of Work Pattern</a>, dua pattern ini biasanya sering digunakan secara bersamaan. Kata emak-emak <em>&ldquo;ibarat sop ayam tanpa garam,  rasanya hambar&rdquo;</em> he he :D</p>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2016/02/logo-net.png">https://coding4ever.files.wordpress.com/2016/02/logo-net.png</a>&#8221; width=&#8221;130&#8221; height=&#8221;130&#8221;>Kalau sudah membahas <a href="/blog/categories/repository-pattern/">Repository Pattern</a> rasanya kurang <code>manteb</code> jika tidak membahas <a href="http://martinfowler.com/eaaCatalog/unitOfWork.html">Unit of Work Pattern</a>, dua pattern ini biasanya sering digunakan secara bersamaan. Kata emak-emak <em>&ldquo;ibarat sop ayam tanpa garam,  rasanya hambar&rdquo;</em> he he :D</p>
 
-<p><a href="{{%20site.url%20}}/blog/2016/02/24/unit-of-work-pattern/">Unit of Work Pattern</a> digunakan untuk mengelompokan satu atau beberapa operasi (biasanya operasi <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a>) ke dalam satu kesatuan transaksi. Jika salah satu operasi gagal, yang lain juga harus dibatalkan.
-Jadi cara kerja <a href="{{%20site.url%20}}/blog/2016/02/24/unit-of-work-pattern/">Unit of Work Pattern</a> ini mirip dengan salah satu fitur andalan <a href="https://en.wikipedia.org/wiki/Category:Database_management_systems">DBMS</a> yaitu <a href="http://en.wikipedia.org/wiki/Database_transaction">transaction</a>.</p>
+<p><a href="/blog/2016/02/24/unit-of-work-pattern/">Unit of Work Pattern</a> digunakan untuk mengelompokan satu atau beberapa operasi (biasanya operasi <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a>) ke dalam satu kesatuan transaksi. Jika salah satu operasi gagal, yang lain juga harus dibatalkan.
+Jadi cara kerja <a href="/blog/2016/02/24/unit-of-work-pattern/">Unit of Work Pattern</a> ini mirip dengan salah satu fitur andalan <a href="https://en.wikipedia.org/wiki/Category:Database_management_systems">DBMS</a> yaitu <a href="http://en.wikipedia.org/wiki/Database_transaction">transaction</a>.</p>
 
 <!-- more -->
 
 
-<p><a href="{{%20site.url%20}}/blog/2016/02/24/unit-of-work-pattern/">Unit of Work Pattern</a> sendiri merupakan salah satu pattern <code>kesukaan</code> Microsoft, ini bisa dilihat dari salah satu produk open source Microsoft yang menggunakan pattern ini yaitu <a href="{{%20site.url%20}}/blog/categories/entity-framework/">Entity Framework</a>. Bagi Anda yang sudah pernah mencoba <a href="{{%20site.url%20}}/blog/categories/entity-framework/">Entity Framework</a> mungkin sudah tidak asing lagi dengan class EF Context yang menggunakan <a href="{{%20site.url%20}}/blog/2016/02/24/unit-of-work-pattern/">Unit of Work Pattern</a>.</p>
+<p><a href="/blog/2016/02/24/unit-of-work-pattern/">Unit of Work Pattern</a> sendiri merupakan salah satu pattern <code>kesukaan</code> Microsoft, ini bisa dilihat dari salah satu produk open source Microsoft yang menggunakan pattern ini yaitu <a href="/blog/categories/entity-framework/">Entity Framework</a>. Bagi Anda yang sudah pernah mencoba <a href="/blog/categories/entity-framework/">Entity Framework</a> mungkin sudah tidak asing lagi dengan class EF Context yang menggunakan <a href="/blog/2016/02/24/unit-of-work-pattern/">Unit of Work Pattern</a>.</p>
 
 <h5>Membuat Interface dan Class Konkret Unit of Work</h5>
 
-<p>Sama seperti pembahasan <a href="{{%20site.url%20}}/blog/2016/02/22/repository-pattern/">Repository Pattern</a>, impelmentasi <a href="{{%20site.url%20}}/blog/2016/02/24/unit-of-work-pattern/">Unit of Work Pattern</a> juga disarankan menggunakan <a href="https://en.wikipedia.org/wiki/Interface_%28computing%29">interface</a>.</p>
+<p>Sama seperti pembahasan <a href="/blog/2016/02/22/repository-pattern/">Repository Pattern</a>, impelmentasi <a href="/blog/2016/02/24/unit-of-work-pattern/">Unit of Work Pattern</a> juga disarankan menggunakan <a href="https://en.wikipedia.org/wiki/Interface_%28computing%29">interface</a>.</p>
 
-<p>Berdasarkan contoh project <a href="{{%20site.url%20}}/blog/2016/02/22/repository-pattern/">Repository Pattern</a>, kita akan menambahkan interface baru dengan nama <code>IUnitOfWork</code>. Di dalam interface ini kita membuat beberapa property dengan tipe interface repository.</p>
+<p>Berdasarkan contoh project <a href="/blog/2016/02/22/repository-pattern/">Repository Pattern</a>, kita akan menambahkan interface baru dengan nama <code>IUnitOfWork</code>. Di dalam interface ini kita membuat beberapa property dengan tipe interface repository.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/240216-01.png">https://coding4ever.files.wordpress.com/2016/02/240216-01.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/240216-01.png">https://coding4ever.files.wordpress.com/2016/02/240216-01.png</a>&#8221;></p>
 
 <p>Setelah itu kita buatkan class konkretnya dengan nama <code>UnitOfWork</code>, dan ingat class ini harus mengimplementasikan interface <code>IUnitOfWork</code>.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/240216-02.png">https://coding4ever.files.wordpress.com/2016/02/240216-02.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/240216-02.png">https://coding4ever.files.wordpress.com/2016/02/240216-02.png</a>&#8221;></p>
 
 <p>Terakhir kita lengkapi kode class UnitOfWork seperti berikut :</p>
 
-<p>{% gist c21f5beec8837a044f37 %}</p>
+<p><div><script src='https://gist.github.com/c21f5beec8837a044f37.js'></script>
+<noscript><pre><code>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Northwind.Repository.Api;
+using System.Data;
+
+namespace Northwind.Repository.Service
+{
+    public class UnitOfWork : IUnitOfWork
+    {
+        private IDapperContext _context;
+        private IDbTransaction _transaction;
+        private ICategoryRepository _categoryRepository;
+        private IProductRepository _productRepository;
+
+        public UnitOfWork(IDapperContext context)
+        {
+            this._context = context;            
+        }
+
+        public ICategoryRepository CategoryRepository
+        {
+            get { return _categoryRepository ?? (_categoryRepository = new CategoryRepository(_transaction, _context)); }
+        }
+
+        public IProductRepository ProductRepository
+        {
+            get { return _productRepository ?? (_productRepository = new ProductRepository(_transaction, _context)); }
+        }
+
+        public void BeginTransaction()
+        {
+            if (_transaction != null)
+                throw new NullReferenceException(&quot;Not finished previous transaction&quot;);
+
+            _transaction = _context.db.BeginTransaction();
+        }
+
+        public void Commit()
+        {
+            if (_transaction == null)
+                throw new NullReferenceException(&quot;Tryed commit not opened transaction&quot;);
+
+            _transaction.Commit();
+        }
+    }
+}</code></pre></noscript></div>
+</p>
 
 <h5>Testing Class Unit of Work</h5>
 
-<p>Sebagai penutup kita akan melakukan tes sederhana dengan menggunakan aplikasi console. Dari hasil tes ini akan terlihat begitu mudahnya menerapkan konsep <a href="http://en.wikipedia.org/wiki/Database_transaction">transaction</a> menggunakan <a href="{{%20site.url%20}}">Unit of Work Pattern</a>.</p>
+<p>Sebagai penutup kita akan melakukan tes sederhana dengan menggunakan aplikasi console. Dari hasil tes ini akan terlihat begitu mudahnya menerapkan konsep <a href="http://en.wikipedia.org/wiki/Database_transaction">transaction</a> menggunakan <a href="">Unit of Work Pattern</a>.</p>
 
-<p>{% gist af692dd1962816fab878 %}</p>
+<p><div><script src='https://gist.github.com/af692dd1962816fab878.js'></script>
+<noscript><pre><code>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Northwind.Model;
+using Northwind.Repository.Api;
+using Northwind.Repository.Service;
+
+namespace Northwind.ConsoleApp
+{
+    class UnitOfWorkTest
+    {
+        static void Main(string[] args)
+        {
+            using (IDapperContext context = new DapperContext())
+            {
+                // buat objek unit of work
+                IUnitOfWork uow = new UnitOfWork(context);
+
+                var result = 0;
+
+                uow.BeginTransaction(); // mulai transaction
+
+                // buat objek category
+                var category = new Category
+                {
+                    CategoryName = &quot;Condiments&quot;,
+                    Description = &quot;Sweet and savory sauces, relishes, and seasonings&quot;
+                };
+                result = uow.CategoryRepository.Save(category); // simpan data category
+                Console.WriteLine(&quot;Tambah data category {0}&quot;, result &gt; 0 ? &quot;berhasil&quot; : &quot;gagal&quot;);
+
+                // buat objek product
+                var product = new Product
+                {
+                    CategoryID = category.CategoryID,
+                    ProductName = &quot;Genen Shouyu&quot;,
+                    QuantityPerUnit = &quot;24 - 250 ml bottles&quot;,
+                    UnitPrice = 15.5,
+                    UnitsInStock = 50
+                };
+                result = uow.ProductRepository.Save(product); // simpan data product
+                Console.WriteLine(&quot;Tambah data product {0}&quot;, result &gt; 0 ? &quot;berhasil&quot; : &quot;gagal&quot;);
+
+                uow.Commit(); // commit, simpan data secara permanen ke database
+            }
+
+            Console.WriteLine(&quot;\nPress any key to exit ...&quot;);
+            Console.ReadKey();
+        }        
+    }
+}</code></pre></noscript></div>
+</p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/UnitOfWorkPattern">MENCOBA</a> :)</p>
 ]]></content>
@@ -105,32 +352,32 @@ Jadi cara kerja <a href="{{%20site.url%20}}/blog/2016/02/24/unit-of-work-pattern
     <link href="http://coding4ever.net/blog/2016/02/22/repository-pattern/"/>
     <updated>2016-02-22T06:04:00+07:00</updated>
     <id>http://coding4ever.net/blog/2016/02/22/repository-pattern</id>
-    <content type="html"><![CDATA[<p>{% img left <a href="https://coding4ever.files.wordpress.com/2016/02/logo-net.png">https://coding4ever.files.wordpress.com/2016/02/logo-net.png</a> 130 130 %}Pada postingan kali ini saya ingin membahas salah satu <code>design pattern</code> yang sering digunakan ketika bekerja dengan database yaitu <a href="https://msdn.microsoft.com/en-us/library/ff649690.aspx">Repository Pattern</a>.</p>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2016/02/logo-net.png">https://coding4ever.files.wordpress.com/2016/02/logo-net.png</a>&#8221; width=&#8221;130&#8221; height=&#8221;130&#8221;>Pada postingan kali ini saya ingin membahas salah satu <code>design pattern</code> yang sering digunakan ketika bekerja dengan database yaitu <a href="https://msdn.microsoft.com/en-us/library/ff649690.aspx">Repository Pattern</a>.</p>
 
-<p>Sebenarnya saya kurang tertarik untuk membahas tentang <a href="https://msdn.microsoft.com/en-us/library/ff649690.aspx">Repository Pattern</a> karena memang sudah banyak artikel atau tutorial yang membahas tentang masalah ini. Tetapi berhubung beberapa postingan saya kedepan membutuhkan pengetahuan tentang <a href="https://msdn.microsoft.com/en-us/library/ff649690.aspx">Repository Pattern</a>, jadi saya pikir akan lebih baik jika masalah ini juga dibahas di <a href="{{%20site.url%20}}">blog</a> ini, dari pada saya harus me-link ke halaman web yang lain.</p>
+<p>Sebenarnya saya kurang tertarik untuk membahas tentang <a href="https://msdn.microsoft.com/en-us/library/ff649690.aspx">Repository Pattern</a> karena memang sudah banyak artikel atau tutorial yang membahas tentang masalah ini. Tetapi berhubung beberapa postingan saya kedepan membutuhkan pengetahuan tentang <a href="https://msdn.microsoft.com/en-us/library/ff649690.aspx">Repository Pattern</a>, jadi saya pikir akan lebih baik jika masalah ini juga dibahas di <a href="">blog</a> ini, dari pada saya harus me-link ke halaman web yang lain.</p>
 
 <!-- more -->
 
 
-<p>Akses  terhadap  database  merupakan  bagian  yang  sangat  penting  dari  aplikasi  database. Penggunaan  pattern/pola  yang  sesuai  dapat  memberikan  manfaat  yang sangat  besar. Salah satu pattern  yang  sering digunakan dalam akses database adalah <a href="{{%20site.url%20}}/blog/2016/02/22/repository-pattern/">Repository Pattern</a>.</p>
+<p>Akses  terhadap  database  merupakan  bagian  yang  sangat  penting  dari  aplikasi  database. Penggunaan  pattern/pola  yang  sesuai  dapat  memberikan  manfaat  yang sangat  besar. Salah satu pattern  yang  sering digunakan dalam akses database adalah <a href="/blog/2016/02/22/repository-pattern/">Repository Pattern</a>.</p>
 
 <p>Pattern/pola  ini  digunakan  untuk  menerapkan  konsep <a href="https://en.wikipedia.org/wiki/Separation_of_concerns">separation  of  concern</a>  atau  pemisahan  kode program  berdasarkan  fungsinya.  Semua  kode  untuk  akses  database  harus  dipisahkan dengan kode untuk pengaturan user inteface. Hal ini memungkinkan kode akses database yang dibuat untuk aplikasi desktop,  dengan mudah digunakan untuk aplikasi web. Selain itu penerapan  konsep  <a href="https://en.wikipedia.org/wiki/Separation_of_concerns">separation  of  concern</a>  secara  disiplin,  dapat menghasilkan  kode  program  yang  dapat  dites  secara  otomatis menggunakan  tool <a href="https://en.wikipedia.org/wiki/Unit_testing">Unit Testing</a>.</p>
 
-<p><a href="{{%20site.url%20}}/blog/2016/02/22/repository-pattern/">Repository Pattern</a>  berisi  semua  kode  untuk  mengakses  database.  Semua  kode  yang  sepesifik  terhadap  implementasi  akses database berhenti di sini, lapisan lebih atas tidak boleh tahu bagaimana  akses  database diterapkan,  apakah  menggunakan  ADO.NET murni atau tool ORM/Micro ORM seperti <a href="{{%20site.url%20}}/blog/categories/dapper-net/">Dapper.NET</a>, <a href="{{%20site.url%20}}/blog/categories/entity-framework/">Entity Framework</a> atau <a href="http://nhibernate.info/">NHibernate</a>. Lapisan lainya hanya perlu tahu fungsionalitas dari suatu method di dalam class Repository, tidak perlu tahu bagimana method tersebut diimplementasikan.</p>
+<p><a href="/blog/2016/02/22/repository-pattern/">Repository Pattern</a>  berisi  semua  kode  untuk  mengakses  database.  Semua  kode  yang  sepesifik  terhadap  implementasi  akses database berhenti di sini, lapisan lebih atas tidak boleh tahu bagaimana  akses  database diterapkan,  apakah  menggunakan  ADO.NET murni atau tool ORM/Micro ORM seperti <a href="/blog/categories/dapper-net/">Dapper.NET</a>, <a href="/blog/categories/entity-framework/">Entity Framework</a> atau <a href="http://nhibernate.info/">NHibernate</a>. Lapisan lainya hanya perlu tahu fungsionalitas dari suatu method di dalam class Repository, tidak perlu tahu bagimana method tersebut diimplementasikan.</p>
 
 <p>Idealnya secara logic, arsitektur aplikasi yang kita gunakan seperti berikut :</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/210216-01.png">https://coding4ever.files.wordpress.com/2016/02/210216-01.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/210216-01.png">https://coding4ever.files.wordpress.com/2016/02/210216-01.png</a>&#8221;></p>
 
 <p>Tetapi untuk menyederhanakan pembahasan business logic layer bisa kita gabung ke presentation layer, sehingga arsitekturnya menjadi seperti berikut :</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/210216-021.png">https://coding4ever.files.wordpress.com/2016/02/210216-021.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/210216-021.png">https://coding4ever.files.wordpress.com/2016/02/210216-021.png</a>&#8221;></p>
 
 <p>Class  Repository biasanya mempunyai beberapa method <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a> standar seperti  Save,  Update, Delete,  GetById  atau  GetAll.  Untuk method-method <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a> lainnya bisa ditambahkan sesuai kebutuhan.</p>
 
-<p>Secara umum ketika menggunakan <a href="{{%20site.url%20}}/blog/2016/02/22/repository-pattern/">Repository Pattern</a> setiap table akan dibuatkan class model dan repositorynya.</p>
+<p>Secara umum ketika menggunakan <a href="/blog/2016/02/22/repository-pattern/">Repository Pattern</a> setiap table akan dibuatkan class model dan repositorynya.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/210216-101.png">https://coding4ever.files.wordpress.com/2016/02/210216-101.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/210216-101.png">https://coding4ever.files.wordpress.com/2016/02/210216-101.png</a>&#8221;></p>
 
 <h5>Class Model/Entity</h5>
 
@@ -138,15 +385,25 @@ Jadi cara kerja <a href="{{%20site.url%20}}/blog/2016/02/24/unit-of-work-pattern
 
 <p>Jadi dengan menggunakan class model/entity kita tidak lagi berhubungan dengan baris dan kolom tetapi langsung berhubungan dengan objek dari masing-masing class entity/model. Sehingga ketika kita menuliskan objek Category kemudian diikuti dengan karakter titik (.), IDE Visual Studio bisa membantu kita dengan fasilitas IntelliSensenya untuk menampilkan daftar property apa saja yang tersedia, sehingga aktivitas mengingat nama field berikut tipe datanya sudah tidak diperlukan lagi :)</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/210216-03.png">https://coding4ever.files.wordpress.com/2016/02/210216-03.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/210216-03.png">https://coding4ever.files.wordpress.com/2016/02/210216-03.png</a>&#8221;></p>
 
 <p>Berikut contoh class model/entity dari tabel Category</p>
 
-<p>{% gist bd6bbf861f46082851c7 %}</p>
+<p><div><script src='https://gist.github.com/bd6bbf861f46082851c7.js'></script>
+<noscript><pre><code>namespace Northwind.Model
+{
+    public class Category
+    {
+        public int CategoryID { get; set; }
+        public string CategoryName { get; set; }
+        public string Description { get; set; }
+    }
+}</code></pre></noscript></div>
+</p>
 
 <h5>Membuat Interface</h5>
 
-<p>Ketika berbicara tentang <a href="{{%20site.url%20}}/blog/2016/02/22/repository-pattern/">Repository Pattern</a>, kita tidak akan jauh-jauh dari yang namanya <a href="https://en.wikipedia.org/wiki/Interface_%28computing%29">interface</a>. Interface di sini berfungsi sebagai kontrak yang mendiskripsikan method/operasi apa saja yang harus diimplementasikan oleh sebuah class. Contoh beberapa method/operasi standar yang biasa digunakan untuk mengakses database :</p>
+<p>Ketika berbicara tentang <a href="/blog/2016/02/22/repository-pattern/">Repository Pattern</a>, kita tidak akan jauh-jauh dari yang namanya <a href="https://en.wikipedia.org/wiki/Interface_%28computing%29">interface</a>. Interface di sini berfungsi sebagai kontrak yang mendiskripsikan method/operasi apa saja yang harus diimplementasikan oleh sebuah class. Contoh beberapa method/operasi standar yang biasa digunakan untuk mengakses database :</p>
 
 <ul>
 <li>Menambahkan data baru (Save)</li>
@@ -158,15 +415,15 @@ Jadi cara kerja <a href="{{%20site.url%20}}/blog/2016/02/24/unit-of-work-pattern
 
 <p>Nah berdasarkan method standar di atas kita bisa membuat <a href="https://en.wikipedia.org/wiki/Interface_%28computing%29">interface</a> dasar yang akan digunakan oleh interface-interface yang lebih spesifik/khusus.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/210216-04.png">https://coding4ever.files.wordpress.com/2016/02/210216-04.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/210216-04.png">https://coding4ever.files.wordpress.com/2016/02/210216-04.png</a>&#8221;></p>
 
 <p>Karakter <code>T</code> pada kode di atas merupakan indikator tipe generic, artinya nilai <code>T</code> tersebut bisa diganti dengan tipe apapun selama tipe tersebut berupa class.</p>
 
 <p>Setelah membuat interface dasar, kita bisa membuat interface yang lebih spesifik/khusus.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/210216-05.png">https://coding4ever.files.wordpress.com/2016/02/210216-05.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/210216-05.png">https://coding4ever.files.wordpress.com/2016/02/210216-05.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/210216-061.png">https://coding4ever.files.wordpress.com/2016/02/210216-061.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/210216-061.png">https://coding4ever.files.wordpress.com/2016/02/210216-061.png</a>&#8221;></p>
 
 <p>Pada kode di atas, nilai <code>T</code> diganti dengan class Category dan Product. Selain itu interface ICategoryRepository dan IProductRepository merupakan turunan dari interface IBaseRepository, artinya interface ICategoryRepository dan IProductRepository akan mewarisi semua method abstract dari interface IBaseRepository.</p>
 
@@ -176,39 +433,560 @@ Jadi cara kerja <a href="{{%20site.url%20}}/blog/2016/02/24/unit-of-work-pattern
 
 <p>Setelah membuat interface repository (ICategoryRepository dan IProductRepository) kita lanjutkan dengan membuat class repository yang mengimplementasikan interface ICategoryRepository dan IProductRepository. Masing-masing class repository ini akan mengimplementasikan semua method abstract yang ada di dalam interface ICategoryRepository dan IProductRepository.</p>
 
-<p>{% gist 05123acda602dd1bdc47 %}</p>
+<p><div><script src='https://gist.github.com/05123acda602dd1bdc47.js'></script>
+<noscript><pre><code>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
-<p>{% gist d876476ffa10fa9855d2 %}</p>
+using Northwind.Model;
+using Northwind.Repository.Api;
+
+namespace Northwind.Repository.Service
+{
+    public class CategoryRepository : ICategoryRepository
+    {
+        public Category GetByID(int categoryId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IList&lt;Category&gt; GetByName(string categoryName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Save(Category obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Update(Category obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Delete(Category obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IList&lt;Category&gt; GetAll()
+        {
+            throw new NotImplementedException();
+        }
+    }
+}</code></pre></noscript></div>
+</p>
+
+<p><div><script src='https://gist.github.com/d876476ffa10fa9855d2.js'></script>
+<noscript><pre><code>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Northwind.Model;
+using Northwind.Repository.Api;
+
+namespace Northwind.Repository.Service
+{
+    public class ProductRepository : IProductRepository
+    {
+        public Product GetByID(int productId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IList&lt;Product&gt; GetByName(string productName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Save(Product obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Update(Product obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Delete(Product obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IList&lt;Product&gt; GetAll()
+        {
+            throw new NotImplementedException();
+        }
+    }
+}</code></pre></noscript></div>
+</p>
 
 <p>Kemudian lengkapi kodenya seperti berikut :</p>
 
-<p>{% gist 4513c85d1541f0321204 %}</p>
+<p><div><script src='https://gist.github.com/4513c85d1541f0321204.js'></script>
+<noscript><pre><code>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
-<p>{% gist 87ba9b6fe43275c1f59c %}</p>
+using Northwind.Model;
+using Northwind.Repository.Api;
+using Dapper;
+
+namespace Northwind.Repository.Service
+{
+    public class CategoryRepository : ICategoryRepository
+    {
+        private IDapperContext _context;
+        private string _sql;
+
+        public Category GetByID(int categoryId)
+        {
+            Category category = null;
+
+            try
+            {
+                _sql = @&quot;SELECT CategoryID, CategoryName, Description
+                         FROM Categories
+                         WHERE CategoryID = @categoryId&quot;;
+                
+                category = _context.db.Query&lt;Category&gt;(_sql, new { categoryId })
+                                   .SingleOrDefault();
+            }
+            catch
+            {
+            }
+
+            return category;
+        }
+
+        public IList&lt;Category&gt; GetByName(string categoryName)
+        {
+            IList&lt;Category&gt; listOfCategory = new List&lt;Category&gt;();
+
+            try
+            {
+                _sql = @&quot;SELECT CategoryID, CategoryName, Description 
+                         FROM Categories
+                         WHERE CategoryName LIKE @categoryName
+                         ORDER BY CategoryName&quot;;
+                
+                categoryName = string.Format(&quot;%{0}%&quot;, categoryName);
+                listOfCategory = _context.db.Query&lt;Category&gt;(_sql, new { categoryName })
+                                         .ToList();
+            }
+            catch
+            {
+            }
+
+            return listOfCategory;
+        }
+
+        public IList&lt;Category&gt; GetAll()
+        {
+            IList&lt;Category&gt; listOfCategory = new List&lt;Category&gt;();
+
+            try
+            {
+                _sql = @&quot;SELECT CategoryID, CategoryName, Description 
+                         FROM Categories
+                         ORDER BY CategoryName&quot;;
+
+                listOfCategory = _context.db.Query&lt;Category&gt;(_sql)
+                                         .ToList();
+            }
+            catch
+            {
+            }
+
+            return listOfCategory;
+        }
+
+        public int Save(Category obj)
+        {
+            var result = 0;
+
+            try
+            {
+                _sql = @&quot;INSERT INTO Categories (CategoryID, CategoryName, Description)
+                         VALUES (@CategoryID, @CategoryName, @Description)&quot;;
+                result = _context.db.Execute(_sql, obj);
+            }
+            catch
+            {
+            }
+
+            return result;
+        }
+
+        public int Update(Category obj)
+        {
+            var result = 0;
+
+            try
+            {
+                _sql = @&quot;UPDATE Categories SET CategoryName = @CategoryName, Description = @Description)
+                         WHERE CategoryID = @CategoryID&quot;;
+                result = _context.db.Execute(_sql, obj);
+            }
+            catch
+            {
+            }
+
+            return result;
+        }
+
+        public int Delete(Category obj)
+        {
+            var result = 0;
+
+            try
+            {
+                _sql = @&quot;DELETE FROM Categories
+                         WHERE CategoryID = @CategoryID&quot;;
+                result = _context.db.Execute(_sql, obj);
+            }
+            catch
+            {
+            }
+
+            return result;
+        }        
+    }
+}</code></pre></noscript></div>
+</p>
+
+<p><div><script src='https://gist.github.com/87ba9b6fe43275c1f59c.js'></script>
+<noscript><pre><code>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Northwind.Model;
+using Northwind.Repository.Api;
+using Dapper;
+
+namespace Northwind.Repository.Service
+{
+    public class ProductRepository : IProductRepository
+    {
+        private IDapperContext _context;
+        private string _sql;
+
+        private Product MappingRecordToObj(string sql, object param = null)
+        {
+            var product = _context.db.Query&lt;Product, Category, Product&gt;(_sql, (p, c) =&gt;
+            {
+                p.CategoryID = c.CategoryID; p.Category = c;
+                return p;
+            }, param, splitOn: &quot;CategoryID&quot;).SingleOrDefault();
+
+            return product;
+        }
+
+        private IList&lt;Product&gt; MappingRecordToList(string sql, object param = null)
+        {
+            var listOfProduct = _context.db.Query&lt;Product, Category, Product&gt;(_sql, (p, c) =&gt;
+            {
+                p.CategoryID = c.CategoryID; p.Category = c;
+                return p;
+            }, param, splitOn: &quot;CategoryID&quot;).ToList();
+
+            return listOfProduct;
+        }
+
+        public Product GetByID(int productId)
+        {
+            Product product = null;
+
+            try
+            {
+                _sql = @&quot;SELECT Products.ProductID, Products.ProductName, Products.QuantityPerUnit, 
+                         Products.UnitPrice, Products.UnitsInStock,
+                         Categories.CategoryID, Categories.CategoryName, Categories.Description
+                         FROM Products INNER JOIN Categories ON Categories.CategoryId = Products.CategoryId 
+                         WHERE Products.ProductID = @productId&quot;;
+
+                product = MappingRecordToObj(_sql, new { productId });
+            }
+            catch
+            {
+            }
+
+            return product;
+        }        
+
+        public IList&lt;Product&gt; GetByName(string productName)
+        {
+            IList&lt;Product&gt; listOfProduct = new List&lt;Product&gt;();
+
+            try
+            {
+                _sql = @&quot;SELECT Products.ProductID, Products.ProductName, Products.QuantityPerUnit, 
+                         Products.UnitPrice, Products.UnitsInStock,
+                         Categories.CategoryID, Categories.CategoryName, Categories.Description
+                         FROM Products INNER JOIN Categories ON Categories.CategoryId = Products.CategoryId 
+                         WHERE Products.ProductName LIKE @productName
+                         ORDER BY Products.ProductName&quot;;
+
+                productName = string.Format(&quot;%{0}%&quot;, productName);
+                listOfProduct = MappingRecordToList(_sql, new { productName });
+            }
+            catch
+            {
+            }
+
+            return listOfProduct;
+        }
+
+        public IList&lt;Product&gt; GetAll()
+        {
+            IList&lt;Product&gt; listOfProduct = new List&lt;Product&gt;();
+
+            try
+            {
+                _sql = @&quot;SELECT Products.ProductID, Products.ProductName, Products.QuantityPerUnit, 
+                         Products.UnitPrice, Products.UnitsInStock,
+                         Categories.CategoryID, Categories.CategoryName, Categories.Description
+                         FROM Products INNER JOIN Categories ON Categories.CategoryId = Products.CategoryId 
+                         ORDER BY Products.ProductName&quot;;
+
+                listOfProduct = MappingRecordToList(_sql);
+            }
+            catch
+            {
+            }
+
+            return listOfProduct;
+        }
+
+        public int Save(Product obj)
+        {
+            var result = 0;
+
+            try
+            {
+                _sql = @&quot;INSERT INTO Products (ProductID, ProductName, QuantityPerUnit, UnitPrice, UnitsInStock)
+                         VALUES (@ProductID, @ProductName, @QuantityPerUnit, @UnitPrice, @UnitsInStock)&quot;;
+                result = _context.db.Execute(_sql, obj);
+            }
+            catch
+            {
+            }
+
+            return result;
+        }
+
+        public int Update(Product obj)
+        {
+            var result = 0;
+
+            try
+            {
+                _sql = @&quot;UPDATE Products SET ProductName = @ProductName, QuantityPerUnit = @QuantityPerUnit, 
+                         UnitPrice = @UnitPrice, UnitsInStock = @UnitsInStock
+                         WHERE ProductID = @ProductID&quot;;
+                result = _context.db.Execute(_sql, obj);
+            }
+            catch
+            {
+            }
+
+            return result;
+        }
+
+        public int Delete(Product obj)
+        {
+            var result = 0;
+
+            try
+            {
+                _sql = @&quot;DELETE FROM Products
+                         WHERE ProductID = @ProductID&quot;;
+                result = _context.db.Execute(_sql, obj);
+            }
+            catch
+            {
+            }
+
+            return result;
+        }        
+    }
+}</code></pre></noscript></div>
+</p>
 
 <h5>Membuat Class Context</h5>
 
-<p>Di dalam <a href="{{%20site.url%20}}/blog/2016/02/22/repository-pattern/">Repository Pattern</a>, class context adalah class yang bertanggung jawab untuk berinteraksi secara langsung dengan database. Jadi class contextlah yang bertanggungjawab untuk membuat koneksi, menjalankan perintah sql seperti insert, update, delete dan select atau objek database seperti store procedure dan function.</p>
+<p>Di dalam <a href="/blog/2016/02/22/repository-pattern/">Repository Pattern</a>, class context adalah class yang bertanggung jawab untuk berinteraksi secara langsung dengan database. Jadi class contextlah yang bertanggungjawab untuk membuat koneksi, menjalankan perintah sql seperti insert, update, delete dan select atau objek database seperti store procedure dan function.</p>
 
-<p>Di dalam contoh ini saya tidak menggunakan library ADO.NET secara langsung untuk berinteraksi dengan database, tetapi menggunakan <a href="{{%20site.url%20}}/blog/categories/dapper-net/">Micro ORM Dapper.NET</a>. Jadi kita akan membuat interface dan class konkretnya dengan nama <code>IDapperContext</code> dan <code>DapperContext</code>. Berikut kode lengkapnya :</p>
+<p>Di dalam contoh ini saya tidak menggunakan library ADO.NET secara langsung untuk berinteraksi dengan database, tetapi menggunakan <a href="/blog/categories/dapper-net/">Micro ORM Dapper.NET</a>. Jadi kita akan membuat interface dan class konkretnya dengan nama <code>IDapperContext</code> dan <code>DapperContext</code>. Berikut kode lengkapnya :</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/210216-07.png">https://coding4ever.files.wordpress.com/2016/02/210216-07.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/210216-07.png">https://coding4ever.files.wordpress.com/2016/02/210216-07.png</a>&#8221;></p>
 
-<p>{% gist 207b5c995e267c01d5c4 %}</p>
+<p><div><script src='https://gist.github.com/207b5c995e267c01d5c4.js'></script>
+<noscript><pre><code>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using System.Data;
+using System.Data.Common;
+using Northwind.Repository.Api;
+
+namespace Northwind.Repository.Service
+{
+    public class DapperContext : IDapperContext
+    {
+        private readonly string _providerName;
+        private readonly string _connectionString;
+        private IDbConnection _db;
+
+        public DapperContext()
+        {
+            var dbName = System.IO.Directory.GetCurrentDirectory() + &quot;\\Northwind.db&quot;;
+
+            _providerName = &quot;System.Data.SQLite&quot;;
+            _connectionString = &quot;Data Source=&quot; + dbName;
+        }
+
+        private IDbConnection GetOpenConnection(string providerName, string connectionString)
+        {
+            DbConnection conn = null;
+
+            try
+            {
+                DbProviderFactory provider = DbProviderFactories.GetFactory(providerName);
+                conn = provider.CreateConnection();
+                conn.ConnectionString = connectionString;
+                conn.Open();
+            }
+            catch
+            {
+            }
+
+            return conn;
+        }
+
+        public IDbConnection db
+        {
+            get { return _db ?? (_db = GetOpenConnection(_providerName, _connectionString)); }
+        }
+
+        public void Dispose()
+        {
+            if (_db != null)
+            {
+                try
+                {
+                    if (_db.State != ConnectionState.Closed)
+                        _db.Close();
+                }
+                finally
+                {
+                    _db.Dispose();
+                }
+            }
+
+            GC.SuppressFinalize(this);
+        }
+    }
+}</code></pre></noscript></div>
+</p>
 
 <h5>Menghubungkan Class Context dan Class Repository</h5>
 
 <p>Karena class repository merupakan class yang bertanggungjawab untuk urusan <a href="XXX">CRUD</a>, tentunya  class ini membutuhkan objek dari class Context dalam prosesnya. Nah untuk melewatkan objek context ke class repository bisa dengan menggunakan property atau constructor. Untuk contoh di sini kita menggunakan constructor.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/210216-08.png">https://coding4ever.files.wordpress.com/2016/02/210216-08.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/210216-08.png">https://coding4ever.files.wordpress.com/2016/02/210216-08.png</a>&#8221;></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/02/210216-09.png">https://coding4ever.files.wordpress.com/2016/02/210216-09.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/02/210216-09.png">https://coding4ever.files.wordpress.com/2016/02/210216-09.png</a>&#8221;></p>
 
 <h5>Testing Class Repository</h5>
 
 <p>Setelah class Repository selesai dibuat, berikutnya kita akan melakukan tes sederhana dengan menggunakan aplikasi console. Dari hasil tes ini akan terlihat bahwa aplikasi pada layer presentation (UI) akan berkerja dengan object dan collection, jadi sudah tidak ada hubungannya lagi dengan database.</p>
 
-<p>{% gist ac5519310e9154830f1c %}</p>
+<p><div><script src='https://gist.github.com/ac5519310e9154830f1c.js'></script>
+<noscript><pre><code>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Northwind.Model;
+using Northwind.Repository.Api;
+using Northwind.Repository.Service;
+
+namespace Northwind.ConsoleApp
+{
+    class CategoryRepositoryTest
+    {
+        // deklarsi objek repository
+        static ICategoryRepository _repository;
+
+        static void Main(string[] args)
+        {
+            // buat objek context
+            IDapperContext context = new DapperContext();
+
+            // buat objek repository
+            _repository = new CategoryRepository(context);
+
+            GetAllTest();
+            SaveTest();
+            UpdateTest();
+            DeleteTest();
+
+            Console.WriteLine(&quot;\nPress any key to exit ...&quot;);
+            Console.ReadKey();
+        }
+
+        static void GetAllTest()
+        {
+            var listOfCategory = _repository.GetAll();
+            foreach (var category in listOfCategory)
+            {
+                Console.WriteLine(&quot;{0}, {1}, {2}&quot;, category.CategoryID, category.CategoryName, category.Description);
+            }
+        }
+
+        static void SaveTest()
+        {
+            var category = new Category
+            {
+                CategoryName = &quot;Seafood&quot;,
+                Description = &quot;Seaweed and fish&quot;
+            };
+
+            var result = _repository.Save(category);
+            Console.WriteLine(&quot;Tambah data baru {0}&quot;, result &gt; 0 ? &quot;berhasil&quot; : &quot;gagal&quot;);
+        }
+
+        static void UpdateTest()
+        {
+            var categoryId = 20;
+            var category = _repository.GetByID(categoryId);
+
+            category.CategoryName = &quot;Seaweed and fish&quot;;
+            category.Description = &quot;Seafood&quot;;
+
+            var result = _repository.Update(category);
+            Console.WriteLine(&quot;Update data {0}&quot;, result &gt; 0 ? &quot;berhasil&quot; : &quot;gagal&quot;);
+        }
+
+        static void DeleteTest()
+        {
+            var categoryId = 20;
+            var category = _repository.GetByID(categoryId);
+
+            var result = _repository.Delete(category);
+            Console.WriteLine(&quot;Menghapus data {0}&quot;, result &gt; 0 ? &quot;berhasil&quot; : &quot;gagal&quot;);
+        }        
+    }
+}</code></pre></noscript></div>
+</p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/RepositoryPattern">MENCOBA</a> :)</p>
 ]]></content>
@@ -219,11 +997,11 @@ Jadi cara kerja <a href="{{%20site.url%20}}/blog/2016/02/24/unit-of-work-pattern
     <link href="http://coding4ever.net/blog/2013/03/29/dapper-net-micro-orm-part-3/"/>
     <updated>2013-03-29T14:44:04+07:00</updated>
     <id>http://coding4ever.net/blog/2013/03/29/dapper-net-micro-orm-part-3</id>
-    <content type="html"><![CDATA[<p>Pada <a href="{{%20site.url%20}}/blog/2013/02/22/dapper-net-micro-orm-part-2/">postingan</a> sebelumnya, kita sudah mencoba mengimplementasikan salah satu perintah SQL yaitu SELECT dengan menggunakan library Dapper .NET.</p>
+    <content type="html"><![CDATA[<p>Pada <a href="/blog/2013/02/22/dapper-net-micro-orm-part-2/">postingan</a> sebelumnya, kita sudah mencoba mengimplementasikan salah satu perintah SQL yaitu SELECT dengan menggunakan library Dapper .NET.</p>
 
 <p>Dan pada postingan kali ini kita akan mencoba mengimplementasikan perintah-perintah SQL lainnya seperti INSERT, UPDATE dan DELETE.</p>
 
-<p>Langsung saja aktifkan kembali project <a href="{{%20site.url%20}}/blog/2013/02/22/dapper-net-micro-orm-part-2/">postingan</a> sebelumnya.</p>
+<p>Langsung saja aktifkan kembali project <a href="/blog/2013/02/22/dapper-net-micro-orm-part-2/">postingan</a> sebelumnya.</p>
 
 <!-- more -->
 
@@ -234,21 +1012,27 @@ Jadi cara kerja <a href="{{%20site.url%20}}/blog/2016/02/24/unit-of-work-pattern
 
 <p>Untuk menambahkan data terlebih dulu kita membuat sebuah objek, misal objek siswa.</p>
 
-<p>{% codeblock lang:c# %}
-// membuat object siswa
-var siswa = new Siswa();
-siswa.Nis = &ldquo;9991&rdquo;;
-siswa.Nama = &ldquo;Bagus&rdquo;;
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="c1">// membuat object siswa</span>
+</span><span class='line'><span class="kt">var</span> <span class="n">siswa</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Siswa</span><span class="p">();</span>
+</span><span class='line'><span class="n">siswa</span><span class="p">.</span><span class="n">Nis</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="m">9991</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
+</span><span class='line'><span class="n">siswa</span><span class="p">.</span><span class="n">Nama</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Bagus</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Sejak .NET Framework 3.x ditambahkan fitur baru yg disebut dengan object initializer yang memungkinkan pengesetan nilai property pada saat pembuatan objek.</p>
 
-<p>{% codeblock lang:c# %}
-var siswa = new Siswa
-{
-    Nis = &ldquo;9991&rdquo;, Nama = &ldquo;Bagus&rdquo;
-};
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="kt">var</span> <span class="n">siswa</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Siswa</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">Nis</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="m">9991</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">Nama</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Bagus</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Gimana jadi lebih simple bukan ? :)</p>
 
@@ -256,66 +1040,103 @@ var siswa = new Siswa
 
 <p>Berikut kode lengkapnya :</p>
 
-<p>{% codeblock lang:c# %}
-var siswa = new Siswa
-{
-    Nis = &ldquo;9991&rdquo;, Nama = &ldquo;Bagus&rdquo;
-};</p>
-
-<p>using (var conn = GetOpenConnection())
-{
-    strSql = &ldquo;INSERT INTO siswa (nis, nama) VALUES (@Nis, @Nama)&rdquo;;
-    result = conn.Execute(strSql, siswa);
-}
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="kt">var</span> <span class="n">siswa</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Siswa</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">Nis</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="m">9991</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">Nama</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Bagus</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'><span class="p">};&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">strSql</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">siswa</span> <span class="p">(</span><span class="n">nis</span><span class="p">,</span> <span class="n">nama</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="n">@Nis</span><span class="p">,</span> <span class="n">@Nama</span><span class="p">)&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
+</span><span class='line'>    <span class="n">result</span> <span class="p">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">Execute</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">siswa</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Parameter @Nis dan @Nama harus sama dengan property class, jika tidak sama kita bisa menggunakan cara yang kedua. Misal untuk nama parameternya kita set @NomorInduk dan @NamaSiswa.</p>
 
-<p>{% codeblock lang:c# %}
-var siswa = new Siswa
-{
-    Nis = &ldquo;9991&rdquo;, Nama = &ldquo;Bagus&rdquo;
-};</p>
-
-<p>using (var conn = GetOpenConnection())
-{
-    strSql = &ldquo;INSERT INTO siswa (nis, nama) VALUES (@NomorInduk, @NamaSiswa)&rdquo;;
-    result = conn.Execute(strSql, new { NomorInduk = siswa.Nis, NamaSiswa = siswa.Nama });
-}
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="kt">var</span> <span class="n">siswa</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Siswa</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">Nis</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="m">9991</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">Nama</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Bagus</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'><span class="p">};&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">strSql</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">siswa</span> <span class="p">(</span><span class="n">nis</span><span class="p">,</span> <span class="n">nama</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="n">@NomorInduk</span><span class="p">,</span> <span class="n">@NamaSiswa</span><span class="p">)&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
+</span><span class='line'>    <span class="n">result</span> <span class="p">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">Execute</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="k">new</span> <span class="p">{</span> <span class="n">NomorInduk</span> <span class="p">=</span> <span class="n">siswa</span><span class="p">.</span><span class="n">Nis</span><span class="p">,</span> <span class="n">NamaSiswa</span> <span class="p">=</span> <span class="n">siswa</span><span class="p">.</span><span class="n">Nama</span> <span class="p">});</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p><strong>2. UPDATE</strong></p>
 
-<p>{% codeblock lang:c# %}
-var siswa = new Siswa
-{
-    Nis = &ldquo;9991&rdquo;,
-    Nama = &ldquo;Bagus Wicaksono&rdquo;
-};</p>
-
-<p>using (var conn = GetOpenConnection())
-{
-    strSql = &ldquo;UPDATE siswa SET nama = @Nama WHERE nis = @Nis&rdquo;;
-    result = conn.Execute(strSql, siswa);
-}
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="kt">var</span> <span class="n">siswa</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Siswa</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">Nis</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="m">9991</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span>
+</span><span class='line'>    <span class="n">Nama</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Bagus</span> <span class="n">Wicaksono</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'><span class="p">};&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">strSql</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">UPDATE</span> <span class="n">siswa</span> <span class="n">SET</span> <span class="n">nama</span> <span class="p">=</span> <span class="n">@Nama</span> <span class="n">WHERE</span> <span class="n">nis</span> <span class="p">=</span> <span class="n">@Nis</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
+</span><span class='line'>    <span class="n">result</span> <span class="p">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">Execute</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">siswa</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>dan terakhir &hellip;</p>
 
 <p><strong>3. DELETE</strong></p>
 
-<p>{% codeblock lang:c# %}
-var siswa = new Siswa
-{
-    Nis = &ldquo;9991&rdquo;
-};</p>
-
-<p>using (var conn = GetOpenConnection())
-{
-    strSql = &ldquo;DELETE FROM siswa WHERE nis = @Nis&rdquo;;
-    result = conn.Execute(strSql, siswa);
-}
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="kt">var</span> <span class="n">siswa</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Siswa</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">Nis</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="m">9991</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'><span class="p">};&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">conn</span> <span class="p">=</span> <span class="n">GetOpenConnection</span><span class="p">())</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">strSql</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">DELETE</span> <span class="n">FROM</span> <span class="n">siswa</span> <span class="n">WHERE</span> <span class="n">nis</span> <span class="p">=</span> <span class="n">@Nis</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
+</span><span class='line'>    <span class="n">result</span> <span class="p">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">Execute</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">siswa</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/MicroORMDapperNET3">MENCOBA</a> :)</p>
 ]]></content>
@@ -326,55 +1147,82 @@ var siswa = new Siswa
     <link href="http://coding4ever.net/blog/2013/02/22/dapper-net-micro-orm-part-2/"/>
     <updated>2013-02-22T10:38:14+07:00</updated>
     <id>http://coding4ever.net/blog/2013/02/22/dapper-net-micro-orm-part-2</id>
-    <content type="html"><![CDATA[<p>Melanjutkan pembahasan <a href="{{%20site.url%20}}/blog/2013/02/07/dapper-net-micro-orm-part-1/">Dapper .NET</a>, kali ini saya akan mendemokan bagaimana mudahnya melakukan proses mapping record ke object dengan memanfaatkan library <a href="https://code.google.com/p/dapper-dot-net/">Dapper .NET</a>.</p>
+    <content type="html"><![CDATA[<p>Melanjutkan pembahasan <a href="/blog/2013/02/07/dapper-net-micro-orm-part-1/">Dapper .NET</a>, kali ini saya akan mendemokan bagaimana mudahnya melakukan proses mapping record ke object dengan memanfaatkan library <a href="https://code.google.com/p/dapper-dot-net/">Dapper .NET</a>.</p>
 
-<p>Masih menggunakan kasus yang sama dengan <a href="{{%20site.url%20}}/blog/2013/02/07/dapper-net-micro-orm-part-1/">postingan</a> sebelumnya, kita sudah mempunyai tabel siswa berikut class entitynya, biar lebih mudah saya copas aja ke sini.</p>
+<p>Masih menggunakan kasus yang sama dengan <a href="/blog/2013/02/07/dapper-net-micro-orm-part-1/">postingan</a> sebelumnya, kita sudah mempunyai tabel siswa berikut class entitynya, biar lebih mudah saya copas aja ke sini.</p>
 
 <!-- more -->
 
 
 <p><a href="http://coding4ever.files.wordpress.com/2013/02/07022013-2.png"><img src="http://coding4ever.files.wordpress.com/2013/02/07022013-2.png" alt="07022013-2" /></a></p>
 
-<p>{% codeblock lang:c# %}
-public class Siswa
-{
-    public string Nis { get; set; }
-    public string Nama { get; set; }
-}
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">Siswa</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="kt">string</span> <span class="n">Nis</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="k">public</span> <span class="kt">string</span> <span class="n">Nama</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>dan untuk VB.NET coder kodenya terlihat lebih banyak :D</p>
 
-<p>{% codeblock lang:vbnet %}
-Public Class Siswa</p>
-
-<pre><code>Private _nis As String
-Public Property Nis() As String
-    Get
-        Return _nis
-    End Get
-    Set(ByVal value As String)
-        _nis = value
-    End Set
-End Property
-
-Private _nama As String
-Public Property Nama() As String
-    Get
-        Return _nama
-    End Get
-    Set(ByVal value As String)
-        _nama = value
-    End Set
-End Property
-</code></pre>
-
-<p>End Class
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Public</span> <span class="k">Class</span> <span class="nc">Siswa</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">Private</span> <span class="n">_nis</span> <span class="ow">As</span> <span class="kt">String</span>
+</span><span class='line'><span class="k">Public</span> <span class="k">Property</span> <span class="nf">Nis</span><span class="p">()</span> <span class="ow">As</span> <span class="kt">String</span>
+</span><span class='line'>    <span class="k">Get</span>
+</span><span class='line'>        <span class="k">Return</span> <span class="n">_nis</span>
+</span><span class='line'>    <span class="k">End</span> <span class="k">Get</span>
+</span><span class='line'>    <span class="k">Set</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">value</span> <span class="ow">As</span> <span class="kt">String</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">_nis</span> <span class="o">=</span> <span class="n">value</span>
+</span><span class='line'>    <span class="k">End</span> <span class="k">Set</span>
+</span><span class='line'><span class="k">End</span> <span class="k">Property</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">Private</span> <span class="n">_nama</span> <span class="ow">As</span> <span class="kt">String</span>
+</span><span class='line'><span class="k">Public</span> <span class="k">Property</span> <span class="nf">Nama</span><span class="p">()</span> <span class="ow">As</span> <span class="kt">String</span>
+</span><span class='line'>    <span class="k">Get</span>
+</span><span class='line'>        <span class="k">Return</span> <span class="n">_nama</span>
+</span><span class='line'>    <span class="k">End</span> <span class="k">Get</span>
+</span><span class='line'>    <span class="k">Set</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">value</span> <span class="ow">As</span> <span class="kt">String</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">_nama</span> <span class="o">=</span> <span class="n">value</span>
+</span><span class='line'>    <span class="k">End</span> <span class="k">Set</span>
+</span><span class='line'><span class="k">End</span> <span class="k">Property</span>
+</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Class</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Sebelum kita beraksi jangan lupa untuk mendownload terlebih dulu library Dapper .NET di<a href="https://www.box.com/s/cey4lt613heunjcnodqq">sini</a> (dotNetFx35) dan di<a href="https://www.box.com/s/i72nqtpun9c0fah495nl">sini</a> (dotNetFx40). Jadi silahkan download sesuai dengan versi dot NET Framework Anda.</p>
 
-<p>Langkah berikutnya adalah mengaktifkan kembali <a href="https://www.box.com/s/tzeyatmfyoemfdhjdod6">project</a> yang sudah kita bahas pada <a href="{{%20site.url%20}}/blog/2013/02/07/dapper-net-micro-orm-part-1/">postingan</a> sebelumnya.</p>
+<p>Langkah berikutnya adalah mengaktifkan kembali <a href="https://www.box.com/s/tzeyatmfyoemfdhjdod6">project</a> yang sudah kita bahas pada <a href="/blog/2013/02/07/dapper-net-micro-orm-part-1/">postingan</a> sebelumnya.</p>
 
 <p><a href="http://coding4ever.files.wordpress.com/2013/02/21022013-1.png"><img src="http://coding4ever.files.wordpress.com/2013/02/21022013-1.png" alt="21022013-1" /></a></p>
 
@@ -406,15 +1254,15 @@ End Property
 
 <p>sekarang coba tambahkan namespace Dapper;</p>
 
-<p>{% codeblock lang:c# %}
-using Dapper;
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">using</span> <span class="nn">Dapper</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>di VB.NET kita menggunakan keyword Imports</p>
 
-<p>{% codeblock lang:vbnet %}
-Imports Dapper
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Imports</span> <span class="nn">Dapper</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>maka secara otomatis objek conn akan mempunyai tambahan beberapa method baru seperti <strong>Execute</strong>, <strong>Query</strong> dan <strong>QueryMultiple</strong>.</p>
 
@@ -432,15 +1280,15 @@ Imports Dapper
 
 <p>pada kode di atas kita bisa melihat tanpa melakukan proses mapping sedikit pun, objek daftarSiswa akan terisi dengan kumpulan (collection) dari objek siswa, hanya dengan perintah sederhana berikut:</p>
 
-<p>{% codeblock lang:c# %}
-daftarSiswa = conn.Query(strSql, null).ToList();
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="n">daftarSiswa</span> <span class="p">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">Query</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="k">null</span><span class="p">).</span><span class="n">ToList</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>kode yang sama untuk VB.NET</p>
 
-<p>{% codeblock lang:vbnet %}
-daftarSiswa = conn.Query(Of Siswa)(strSql, Nothing).ToList()
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="n">daftarSiswa</span> <span class="o">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">Query</span><span class="p">(</span><span class="k">Of</span> <span class="n">Siswa</span><span class="p">)(</span><span class="n">strSql</span><span class="p">,</span> <span class="k">Nothing</span><span class="p">).</span><span class="n">ToList</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Tapi ada syaratnya yaitu nama-nama field yang ada di dalam tabel harus sama dengan nama-nama property yang ada di dalam class entity.</p>
 
@@ -460,20 +1308,25 @@ daftarSiswa = conn.Query(Of Siswa)(strSql, Nothing).ToList()
 
 <p>Setelah itu tinggal ditampilkan hasilnya :</p>
 
-<p>{% codeblock lang:c# %}
-foreach (var siswa in daftarSiswa)
-{
-    Console.WriteLine(siswa.Nis + &ldquo;\t&rdquo; + siswa.Nama);
-}
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">siswa</span> <span class="k">in</span> <span class="n">daftarSiswa</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">siswa</span><span class="p">.</span><span class="n">Nis</span> <span class="p">+</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="err">\</span><span class="n">t</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="p">+</span> <span class="n">siswa</span><span class="p">.</span><span class="n">Nama</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>sekali lagi di VB.NET</p>
 
-<p>{% codeblock lang:vbnet %}
-For Each siswa In daftarSiswa
-    Console.WriteLine (siswa.Nis &amp; vbTab &amp; siswa.Nama)
-Next
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">For</span> <span class="k">Each</span> <span class="n">siswa</span> <span class="ow">In</span> <span class="n">daftarSiswa</span>
+</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="n">siswa</span><span class="p">.</span><span class="n">Nis</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">vbTab</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">siswa</span><span class="p">.</span><span class="n">Nama</span><span class="p">)</span>
+</span><span class='line'><span class="k">Next</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p><a href="http://coding4ever.files.wordpress.com/2013/02/07022013.png"><img src="http://coding4ever.files.wordpress.com/2013/02/07022013.png" alt="07022013" /></a></p>
 
