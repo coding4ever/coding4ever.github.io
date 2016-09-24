@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-08-12T11:00:21+07:00</updated>
+  <updated>2016-09-24T16:18:20+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,163 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Persiapan Membangun Server CI (Continuous Integration) Pada Windows Untuk Platform .NET Bagian #1]]></title>
+    <link href="http://coding4ever.net/blog/2016/09/24/persiapan-membangun-server-ci-continuous-integration-pada-windows-untuk-platform-net-bagian-number-1/"/>
+    <updated>2016-09-24T16:18:00+07:00</updated>
+    <id>http://coding4ever.net/blog/2016/09/24/persiapan-membangun-server-ci-continuous-integration-pada-windows-untuk-platform-net-bagian-number-1</id>
+    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2016/09/logo-git1.png" width="120" height="57"><a href="https://en.wikipedia.org/wiki/Continuous_integration">Continuous Integration</a>, biar gampang nyebutnya kita sebut <code>CI</code> aja ya, yang merupakan salah satu kegiatan untuk meningkatkan produktivitas dalam pengembangan aplikasi di mana seluruh hasil kerja (source code) dari masing-masing developer digabungkan (push) ke dalam satu wadah (server repository source code). Bisa sekali sehari, bisa juga beberapa kali dalam sehari. Setiap penggabungan source code akan diverifikasi secara otomatis oleh server CI, yang memungkinkan tim untuk mendeteksi secara dini jika ada masalah/konflik/error pada saat penggabungan source code.</p>
+
+<!-- more -->
+
+
+<p>Sebenarnya membangun server CI itu gambang, hanya melakukan instalasi dilanjutkan dengan konfigurasi plus menuliskan beberapa skrip sederhana (batch commands) kita sudah bisa membangun server CI. Hanya saja ada beberapa tool/software yang perlu kita ketahui cara penggunaannya  agar proses membangun server CInya jadi lebih gampang.</p>
+
+<p>Berikut adalah daftarnya :</p>
+
+<ul>
+<li><a href="https://git-scm.com/">Git</a> – ini merupakan tool untuk source/version control, kita bisa saja menggunakan version control lainnya seperti <a href="https://subversion.apache.org/">svn</a>.</li>
+<li><a href="https://tortoisegit.org/">TortoiseGit</a> – aplikasi git client berbasis windows, kita bisa saja menggunakan aplikasi git client lainnya.</li>
+<li><a href="https://bonobogitserver.com/">Bonobo Git Server</a> – aplikasi web gratis untuk membangun server repository Git berbasis Windows/IIS</li>
+<li><a href="http://coding4ever.net/blog/categories/nuget/">NuGet</a> - package manager untuk mempermudah kita menginstall library pihak ketiga</li>
+<li><a href="http://nunit.org/">NUnit</a> – untuk keperluan <a href="http://coding4ever.net/blog/categories/software-testing/">testing otomatis</a></li>
+<li><a href="https://www.microsoft.com/en-us/download/details.aspx?id=48159">MSBuild</a> – untuk keperluan proses build</li>
+<li><a href="http://coding4ever.net/blog/categories/tools-installer/">Package Installer</a> – untuk keperluan proses deploy/pembuatan paket installer, kita bisa menggunakan yang gratis seperti <a href="http://coding4ever.net/blog/categories/inno-setup/">Inno Setup</a> atau <a href="http://coding4ever.net/blog/categories/nsis/">NSIS</a></li>
+</ul>
+
+
+<p>Untuk <a href="http://coding4ever.net/blog/2016/09/24/persiapan-membangun-server-ci-continuous-integration-pada-windows-untuk-platform-net-bagian-number-1/">bagian #1</a> ini kita bahas terlebih dulu tentang <a href="https://bonobogitserver.com/">Bonobo Git Server</a>.</p>
+
+<p>Kita sebagai software developer tentu sudah tidak asing lagi dengan namanya <a href="https://about.gitlab.com/">GitLab</a>, <a href="https://github.com/">GitHub</a> dan <a href="https://bitbucket.org/">Bitbucket</a>. Ketiga website ini memberikan layanan untuk menghosting-kan repository git secara online/cloud. <a href="https://git-scm.com/">Git</a> sendiri merupakan salah satu version control seperti halnya <a href="https://subversion.apache.org/download.cgi">svn</a>.</p>
+
+<p>Dipostingan kali saya tidak akan membahas secara detil apa itu <a href="https://git-scm.com/">Git</a>, apa bedanya dengan version control lainnya seperti <a href="https://subversion.apache.org/download.cgi">svn</a>, bagaimana cara menginstallnya dan bagaimana cara menggunakannya, sekali lagi tidak. Karena sudah banyak referensi di internet yang membahas masalah ini.</p>
+
+<p>Tapi dipostingan kali ini kita akan membahas solusi jika ingin punya hosting/server sendiri untuk repository Git. Setelah mencoba beberapa  software gratis untuk membuat server repository Git di lingkungan Windows, akhirnya pilihan saya jatuh ke <a href="https://bonobogitserver.com/">Bonobo Git Server</a>. <a href="https://bonobogitserver.com/">Bonobo Git Server</a> adalah layanan repository Git berbasis web, selain gratis <a href="https://bonobogitserver.com/">Bonobo Git Server</a> juga bersifat open source dibuat menggunakan ASP.NET MVC. Jadi untuk menjalankan <a href="https://bonobogitserver.com/">Bonobo Git Server</a> dibutuhkan web server IIS. <a href="https://bonobogitserver.com/">Bonobo Git Server</a> sampai saat ini baru mendukung dua jenis database yaitu SQLite dan SQL Server. Untuk petunjuk instalasinya bisa Anda cek di <a href="https://bonobogitserver.com/install/">sini</a>.</p>
+
+<h3>Tool yang digunakan</h3>
+
+<p>Berikut adalah tool yang digunakan untuk uji coba <a href="https://bonobogitserver.com/">Bonobo Git Server</a></p>
+
+<ul>
+<li><a href="https://bonobogitserver.com/">Bonobo Git Server</a> - aplikasi web gratis untuk membangun server repository Git berbasis Windows/IIS</li>
+<li><a href="https://git-scm.com/">Git</a> – tool untuk source/version control</li>
+<li><a href="https://tortoisegit.org/">TortoiseGit</a> – aplikasi git klien berbasis windows</li>
+</ul>
+
+
+<h3>Membuat Repository</h3>
+
+<p>Setelah instalasi <a href="https://bonobogitserver.com/">Bonobo Git Server</a>, kita bisa langsung mengakses alamat <a href="https://bonobogitserver.com/">Bonobo Git Server</a>, sebagai contoh alamat/url yang saya gunakan adalah <a href="http://192.168.56.2/git-server">http://192.168.56.2/git-server</a></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/240916-01.png"></p>
+
+<p>Untuk Username dan Password defaultnya adalah <code>admin</code>. Setelah login berhasil kita bisa melakukan beberapa konfigurasi seperti mengganti password default, membuat team, user dan repository.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/240916-02.png"></p>
+
+<p>Untuk membuat repository klik link <code>Create new repository</code>, setelah itu lengkapi input halaman <code>New Repository</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/240916-03.png"></p>
+
+<p>Pada saat membuat repository selain menentukan nama, group dan deskripsi repository, kita juga perlu mengatur role, user dan team (optional) yang berhak mengakses repository. Ada tiga jenis role yang disediakan oleh <a href="https://bonobogitserver.com/">Bonobo Git Server</a>  yaitu :</p>
+
+<ul>
+<li>Anonymous - setiap user bisa melihat, melakukan pull atau clone</li>
+<li>Contributors - setiap user bisa melihat, melakukan push, pull atau clone</li>
+<li>Administrators – akses penuh, termasuk menghapus repository</li>
+</ul>
+
+
+<p>Terakhir klik tombol <code>Create</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/240916-04.png"></p>
+
+<p>Kemudian klik link <code>Go to repository : Northwind</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/240916-05.png"></p>
+
+<p>Perhatikan keterangan <code>General Url</code>, link tersebut akan kita gunakan pada saat melakukan proses <code>push</code>.</p>
+
+<h3>Push Source Code ke Server Repository Git</h3>
+
+<p>Sebelum menyimpan source code ke repository Git, ada beberapa hal atau langkah-langkah yang perlu kita lakukan yaitu :</p>
+
+<p><strong>Langkah 1</strong>: Membuat repository lokal – Git termasuk dalam kategori Distributed Version Control System, jadi selain mempunyai repository pusat/server juga mempunyai repository lokal. Bisa jadi hal ini yang menjadi salah satu daya tarik git, yang memungkinkan kita untuk melakukan <code>commit</code> tanpa harus terkoneksi ke Server Repository Git. Untuk membuat repository lokal, tinggal klik kanan folder project (folder kerja) -> Git Create repository here&hellip;</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/240916-06.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/240916-07.png"></p>
+
+<p>Non aktifkan pilihan <code>Make it Bare …</code> kemudian pilih Ok</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/240916-08.png"></p>
+
+<p><strong>Langkah 2</strong>: Menambahkan file <code>.gitignore</code> - Dalam mengerjakan project, ada file-file yang ada di folder kerja, tapi tidak kita masukkan ke repository. Misalnya file hasil kompilasi, setting IDE, dan sebagainya. File dan folder hasil generate ini biasanya kita daftarkan di ignore list, supaya tidak ikut dicommit ke repository.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/240916-09.png"></p>
+
+<p>Untuk contoh file <code>.gitignore</code>, bisa Anda cek di<a href="https://github.com/k4m4r82/RepositoryPattern2/blob/master/.gitignore">sini</a></p>
+
+<p><strong>Langkah 3</strong>: Add – Menambahkan perubahan dalam folder kerja ke staging area (index) repository lokal, sebelum melakukan proses commit. Caranya klik kanan folder kerja -> Git Add..</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/240916-10.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/240916-11.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/240916-12.png"></p>
+
+<p><strong>Langkah 4</strong>: Commit – Untuk menyimpan perubahan (staging area) ke repository lokal. Caranya klik kanan folder kerja -> Git Commit -> ..</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/240916-13.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/240916-14.png"></p>
+
+<p><strong>Langkah 4</strong>: Push – Untuk mengirim/menguplod perubahan repository lokal ke server/remote repository. Caranya klik kanan folder kerja -> Git Push..</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/240916-15.png"></p>
+
+<p>Sebelum melakukan proses <code>push</code>, kita harus mendaftarkan terlebih dulu alamat dari repository server dengan mengklik tombol <code>Manage</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/240916-16.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/240916-17.png"></p>
+
+<p>Link URL : <a href="http://192.168.56.2/git-server/Northwind.git">http://192.168.56.2/git-server/Northwind.git</a> di atas kita dapatkan pada saat <a href="https://coding4ever.files.wordpress.com/2016/09/240916-05.png">membuat repository</a>. Setelah klik tombol Ok, kita akan kembali ke dialog push …</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/240916-18.png"></p>
+
+<p>Langsung saja klik tombol Ok, jika kita belum pernah melakukan push/clone biasanya akan diminta untuk menginputkan user dan password login <a href="https://bonobogitserver.com/">Bonobo Git Server</a></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/240916-19.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/240916-20.png"></p>
+
+<p>Yuph, push source code berhasil :-)</p>
+
+<h3>Mengecek Hasil Push Source Code</h3>
+
+<p>Akses link server <a href="https://bonobogitserver.com/">Bonobo Git Server</a>, kemudian login.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/240916-21.png"></p>
+
+<p>Kemudian klik link repository</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/240916-22.png"></p>
+
+<p>Lanjutkan dengan mengklik link Commits</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/240916-23.png"></p>
+
+<p>Setelah itu akan tampil histori commit</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/240916-24.png"></p>
+
+<p>Untuk melihat detil masing-masing commit, kita tinggal klik link komentar seperti gambar di atas.</p>
+
+<p>Selamat Mencoba :-)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Integration Testing Menggunakan NUnit Dan NDbUnit]]></title>
@@ -3958,106 +4115,6 @@ Berikut perintah lengkapnya :</p>
 <p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/260615-12.png"></p>
 
 <p>Selamat MENCOBA :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Cara Mudah Mengelola Versi Aplikasi]]></title>
-    <link href="http://coding4ever.net/blog/2015/06/23/cara-mudah-mengelola-versi-aplikasi/"/>
-    <updated>2015-06-23T11:06:50+07:00</updated>
-    <id>http://coding4ever.net/blog/2015/06/23/cara-mudah-mengelola-versi-aplikasi</id>
-    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2015/06/230615-00.png" width="100" height="100">Oke jadi ceritanya seperti ini, saya punya kebiasaan dan saya enggak tau apakah ini kebiasaan baik atau buruk :D</p>
-
-<p>Untuk menerapkan konsep <code>separation of concerns</code> dalam pengembangan aplikasi, saya biasanya memisahkan modul-modul aplikasi menjadi beberapa project (satu solution dengan banyak project/assemblies). Contoh :</p>
-
-<!-- more -->
-
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-01.png"></p>
-
-<p>Dari gambar di atas klo kita build akan menghasilkan beberapa file assembly seperti berikut :</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-02.png"></p>
-
-<p>Kebiasaan saya yang lain adalah setiap <code>assembly</code>, apakah itu berupa file <a href="https://en.wikipedia.org/wiki/Dynamic-link_library">dll</a> atau exe, harus mempunyai versi yang sama. Misalkan kalo rilis pertama, saya set versinya = 1.0.0 maka semua <code>assembly</code>-nya harus punya versi yang sama.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-03.png"></p>
-
-<p>Klo rilis berikutnya versinya = 1.2.0, maka semua versi <code>assembly</code>-nya juga harus sama</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-04.png"></p>
-
-<p>Kan jadi enggak lucu klo versi <code>assembly</code>-nya ada yang beda he he :D</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-05.png"></p>
-
-<p><strong>Merubah Versi Assembly</strong></p>
-
-<p>Kalo cara biasa, misal kita punya empat project, berarti kita juga harus merubah versi <code>assembly</code> di empat lokasi yang berbeda</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-06.png"></p>
-
-<p>Dari gambar di atas kita bisa melihat informasi versi <code>assembly</code> tersimpan di file <code>AssemblyInfo.cs</code> masing-masing project. Klo penasaran ini nih isinya he he :D</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-07.png"></p>
-
-<p>Nah ini yang sedikit merepotkan dan kadang-kadang sedikit melelahkan :D, sudah di<code>build</code> eh ada <code>assembly</code> yang lupa diganti versinya, jadi <code>build</code> ulang deh he he :D</p>
-
-<p>Trus solusinya gimana ? Cara yang saya gunakan adalah dengan membuat <code>Global Version</code> misal dengan nama <code>VersionInfo</code>. File <code>VersionInfo</code> ini merupakan file dari <code>Solution</code> jadi scopenya sama dengan project.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-08.png"></p>
-
-<p>Nah untuk menambahkan file <code>VersionInfo</code> di atas caranya juga gampang, berikut langkah-langkahnya :</p>
-
-<ol>
-<li><p>Klik kanan Solution -> Add -> New Item…</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-09.png"></p></li>
-<li><p>Pilih item Visual C#/Basic Class</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-10.png"></p></li>
-<li><p>Jika berhasil file <code>VersionInfo</code> akan tersimpan di folder <code>Solution Items</code></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-11.png"></p>
-
-<p>Kemudian hapus semua isi file <code>VersionInfo</code></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-12.png"></p></li>
-<li><p>Setelah itu copy <code>sebagian</code> informasi salah satu file <code>AssemblyInfo.cs</code> ke <code>VersionInfo</code></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-13.png"></p></li>
-<li><p>Kemudian edit <code>sebagian</code> isi file <code>AssemblyInfo.cs</code> masing-masing project (cek yang ada komentar // di nonaktifkan)</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-14.png"></p></li>
-<li><p>Terakhir masing-masing project menambahkan link ke file <code>VersionInfo</code></p>
-
-<ul>
-<li><p>Klik kanan Project -> Add -> Existing Item…</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-15.png"></p></li>
-<li><p>Pilih file <code>VersionInfo</code> kemudian <code>Add As Link</code></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-16.png"></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-17.png"></p></li>
-</ul>
-
-
-<p>Kemudian ulangi langkah-langkah sebelumnya untuk menambahkan link file <code>VersionInfo</code> ke project lainnya</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-18.png"></p></li>
-</ol>
-
-
-<p>Nah Sampai di sini tugas kita sudah selesai, sehingga ketika ada perubahan versi kita cukup merubah di satu file yaitu file <code>VersionInfo</code> yang ada di <code>Solution Items</code>.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-19.png"></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/06/230615-20.png"></p>
-
-<p>Selamat MENCOBA :)</p>
-
-<p>Referensi : <a href="http://www.codeproject.com/Articles/328977/The-Right-Way-to-Version-Your-Assemblies">The Right Way to Version Your Assemblies</a></p>
 ]]></content>
   </entry>
   

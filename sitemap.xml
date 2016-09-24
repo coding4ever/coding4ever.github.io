@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://coding4ever.net/blog/2016/09/24/persiapan-membangun-server-ci-continuous-integration-pada-windows-untuk-platform-net-bagian-number-1/</loc>
+<lastmod>2016-09-24T16:18:00+07:00</lastmod>
+</url>
+<url>
 <loc>http://coding4ever.net/blog/2016/08/12/integration-testing-menggunakan-nunit-dan-ndbunit/</loc>
 <lastmod>2016-08-12T10:13:09+07:00</lastmod>
 </url>
@@ -853,5 +857,14 @@
 </url>
 <url>
 <loc>http://coding4ever.net/blog/categories/unit-of-work-pattern/</loc>
+</url>
+<url>
+<loc>http://coding4ever.net/blog/categories/continuous-integration/</loc>
+</url>
+<url>
+<loc>http://coding4ever.net/blog/categories/version-control/</loc>
+</url>
+<url>
+<loc>http://coding4ever.net/blog/categories/source-control/</loc>
 </url>
 </urlset>
