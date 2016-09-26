@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Continuous Integration | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/continuous-integration/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-09-26T10:49:49+07:00</updated>
+  <updated>2016-09-26T10:56:00+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Persiapan Membangun Server CI (Continuous Integration) Di Windows Untuk Platform .NET Bagian #2]]></title>
     <link href="http://coding4ever.net/blog/2016/09/26/persiapan-membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-bagian-number-2/"/>
-    <updated>2016-09-26T10:22:00+07:00</updated>
+    <updated>2016-09-26T10:54:00+07:00</updated>
     <id>http://coding4ever.net/blog/2016/09/26/persiapan-membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-bagian-number-2</id>
     <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2016/09/logo-ci1.png">https://coding4ever.files.wordpress.com/2016/09/logo-ci1.png</a>&#8221; width=&#8221;109&#8221; height=&#8221;106&#8221;>Persiapan <a href="http://coding4ever.net/blog/2016/09/24/persiapan-membangun-server-ci-continuous-integration-pada-windows-untuk-platform-net-bagian-number-1/">awal</a> untuk membangun Server CI (Continuous Integration) sudah kita selesaikan yaitu <a href="http://coding4ever.net/blog/2016/09/24/persiapan-membangun-server-ci-continuous-integration-pada-windows-untuk-platform-net-bagian-number-1/">membuat sendiri server repository Git</a> untuk keperluan internal kantor yang berfungsi sebagai wadah untuk menampung source code dari masing-masing developer.</p>
 
