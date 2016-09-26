@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Continuous Integration | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/continuous-integration/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-09-25T20:54:27+07:00</updated>
+  <updated>2016-09-26T10:49:49+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -14,11 +14,118 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Persiapan Membangun Server CI (Continuous Integration) Di Windows Untuk Platform .NET Bagian #2]]></title>
+    <link href="http://coding4ever.net/blog/2016/09/26/persiapan-membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-bagian-number-2/"/>
+    <updated>2016-09-26T10:22:00+07:00</updated>
+    <id>http://coding4ever.net/blog/2016/09/26/persiapan-membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-bagian-number-2</id>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2016/09/logo-ci1.png">https://coding4ever.files.wordpress.com/2016/09/logo-ci1.png</a>&#8221; width=&#8221;109&#8221; height=&#8221;106&#8221;>Persiapan <a href="http://coding4ever.net/blog/2016/09/24/persiapan-membangun-server-ci-continuous-integration-pada-windows-untuk-platform-net-bagian-number-1/">awal</a> untuk membangun Server CI (Continuous Integration) sudah kita selesaikan yaitu <a href="http://coding4ever.net/blog/2016/09/24/persiapan-membangun-server-ci-continuous-integration-pada-windows-untuk-platform-net-bagian-number-1/">membuat sendiri server repository Git</a> untuk keperluan internal kantor yang berfungsi sebagai wadah untuk menampung source code dari masing-masing developer.</p>
+
+<p>Masih tersisa beberapa tool yang harus kita pelajari penggunaannya agar proses membangun server CInya berjalan mulus yaitu :</p>
+
+<!-- more -->
+
+
+<ul>
+<li><a href="http://coding4ever.net/blog/categories/tools-installer/">Package Installer</a></li>
+<li><a href="http://nunit.org/">NUnit</a></li>
+<li><a href="https://www.nuget.org/">NuGet</a></li>
+<li><a href="https://msdn.microsoft.com/en-us/library/dd393574.aspx">MSBuild</a></li>
+</ul>
+
+
+<h3>Package Installer</h3>
+
+<p>Tool ini digunakan untuk membuat <a href="http://coding4ever.net/blog/categories/tools-installer/">paket instalasi</a> biasanya digunakan untuk aplikasi desktop seperti winform, console atau windows service. Tujuannya jelas untuk mempermudah distribusi/instalasi aplikasi ke klien. <a href="http://coding4ever.net/blog/categories/tools-installer/">Package Installer</a> ini nantinya digunakan untuk proses <code>deploy</code> yang dilakukan secara otomatis oleh server CI.</p>
+
+<p>Jadi alurnya adalah ketika kita mem-push source code ke server repository git, ini akan men-trigger server CI untuk melakukan build, menjalankan tes otomatis (jika ada) kemudian membuat paket instalasi  untuk aplikasi desktop atau rilis/upload kode ke server produksi untuk aplikasi web.</p>
+
+<p>Untuk membuat <a href="http://coding4ever.net/blog/categories/tools-installer/">paket instalasi</a>, kita bisa menggunakan yang gratis seperti <a href="http://coding4ever.net/blog/categories/inno-setup/">Inno Setup</a> atau <a href="http://coding4ever.net/blog/categories/nsis/">NSIS</a>.</p>
+
+<h3>NUnit</h3>
+
+<p>Tool ini digunakan untuk keperluan <a href="http://coding4ever.net/blog/categories/software-testing/">testing otomatis</a>, saya sudah membahas penggunaan tool ini di kategori <a href="http://coding4ever.net/blog/categories/software-testing/">Software Testing</a>.</p>
+
+<h3>MSBuild</h3>
+
+<p>Dari nama toolnya aja udah jelas, klo tool ini digunakan untuk proses <a href="https://www.techopedia.com/definition/3759/build">build</a> solution/project yang sedang kita kembangkan. Sadar atau tidak sebenarnya kita <code>sudah sering</code> menggunakan MSBuild ketika menggunakan IDE Visual Studio .NET untuk menulis kode. Setelah selesai menulis kode, biasanya kitakan menekan tombol F5 (Start Debugging) atau Ctrl+F5 (Start Without Debugging) untuk menjalankan/mengetes kode yang baru selesai kita tulis. Nah pada saat kita menekan tombol F5/Ctrl+F5, IDE Visual Studio .NET akan menjalankan/mengeksekusi MSBuild sesuai dengan pengaturan yang sudah kita set di bagian <code>Configuration Manager</code> atau <code>Project -&gt; Properties -&gt; Build</code>.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260916-01.png">https://coding4ever.files.wordpress.com/2016/09/260916-01.png</a>&#8221;></p>
+
+<p style="text-align:center;"> Configuration Manager</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260916-02.png">https://coding4ever.files.wordpress.com/2016/09/260916-02.png</a>&#8221;></p>
+
+<p style="text-align:center;"> Setting Build di Project Properties</p>
+
+<p>Menekan tombol F5/Ctrl+F5 inikan dari sisi developer ketika akan mem-<a href="https://www.techopedia.com/definition/3759/build">build</a> solution/project sedangkan dari sisi server (server CI) karena kita tidak menginstall Visual Studio.NET, kita cukup menginstall tool <a href="https://www.microsoft.com/en-us/download/details.aspx?id=48159">MSBuild</a> secara terpisah. Sehingga untuk menjalankan tool <a href="https://www.microsoft.com/en-us/download/details.aspx?id=48159">MSBuild</a> kita lakukan via command prompt. Tapi untuk contoh di sini kita akan menggunakan Visual Studio .NET Command Prompt untuk menjalankan tool <a href="https://www.microsoft.com/en-us/download/details.aspx?id=48159">MSBuild</a>, caranya adalah dengan mengaktifkan Visual Studio .NET Command Prompt sesuai dengan versi Visual Studio .NET Anda.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260916-03.png">https://coding4ever.files.wordpress.com/2016/09/260916-03.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260916-04.png">https://coding4ever.files.wordpress.com/2016/09/260916-04.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260916-05.png">https://coding4ever.files.wordpress.com/2016/09/260916-05.png</a>&#8221;></p>
+
+<p>Kemudian ketik perintah MSBuild dengan format seperti berikut:</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>MSBuild.exe [Switches] [ProjectFile]</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Contoh :</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>MSBuild.exe /t:Clean,Build /p:Configuration=Release /p:Platform=&ldquo;Any CPU&rdquo; &ldquo;D:\DemoContinuousIntegration\src\Northwind.sln&rdquo;</span></code></pre></td></tr></table></div></figure></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260916-06.png">https://coding4ever.files.wordpress.com/2016/09/260916-06.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260916-07.png">https://coding4ever.files.wordpress.com/2016/09/260916-07.png</a>&#8221;></p>
+
+<p>Untuk referensi lengkap MSBuild Command, bisa Anda cek di <a href="https://msdn.microsoft.com/en-us/library/ms164311.aspx">sini</a>.</p>
+
+<p>Di server CI kita akan menuliskan perintah MSBuild seperti di atas untuk keperluan <code>build</code> otomatis.</p>
+
+<h3>NuGet</h3>
+
+<p><a href="http://coding4ever.net/blog/categories/nuget/">NuGet</a> adalah tool package manager yang berfungsi untuk mempermudah kita menginstall library pihak ketiga (3rd party libraries), seperti <a href="https://www.nuget.org/packages/Dapper/">Dapper .NET</a>, <a href="https://www.nuget.org/packages/EntityFramework/">Entity Framework</a>, <a href="https://www.nuget.org/packages/Newtonsoft.Json/">Json .NET</a> dan masih banyak lagi library pihak ketiga yang memang sudah terbukti ampuh dan bermanfaat untuk project yang kita kembangkan.</p>
+
+<p>Penggunaan tool ini juga sudah saya bahas di kategori <a href="http://coding4ever.net/blog/categories/nuget/">NuGet</a> tetapi pembahasannya dari sisi developer sedangkan untuk sisi server (server CI), <a href="http://coding4ever.net/blog/categories/nuget/">NuGet</a> digunakan untuk me-restore library nuget yang digunakan oleh project/aplikasi yang kita kembangkan, karena jika tidak di-restore, server CI akan <code>gagal</code> melakukan proses build.</p>
+
+<p>Sebagai contoh kita akan mem-build ulang project <a href="https://github.com/k4m4r82/Northwind">Northwind</a> di atas, tetapi dengan menghapus library nugetnya terlebih dulu yang ada di dalam folder lib.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260916-08.png">https://coding4ever.files.wordpress.com/2016/09/260916-08.png</a>&#8221;></p>
+
+<p>Kemudian kita build ulang</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260916-09.png">https://coding4ever.files.wordpress.com/2016/09/260916-09.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260916-10.png">https://coding4ever.files.wordpress.com/2016/09/260916-10.png</a>&#8221;></p>
+
+<p>Nah dari gambar di atas kan terlihat hasil buildnya gagal karena project Northwindnya membutuhkan library <code>Dapper</code> dan <code>System.Data.SQLite.Core</code>.</p>
+
+<p>Sekarang kita coba menambahkan perintah untuk me-restore library nugetnya terlebih dulu sebelum melakukan proses build, tapi sebelumnya download terlebih dulu tool nugetnya di <a href="https://dist.nuget.org/index.html">sini</a> kemudian simpan di folder misal dengan nama <code>D:\Development Tools</code>, kemudian ketik perintah berikut :</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&ldquo;D:\Development Tools\nuget.exe&rdquo; restore &ldquo;D:\DemoContinuousIntegration\src&rdquo;</span></code></pre></td></tr></table></div></figure></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260916-111.png">https://coding4ever.files.wordpress.com/2016/09/260916-111.png</a>&#8221;></p>
+
+<p>Setelah me-restore library nugetnya berhasil, baru kita build ulang</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260916-12.png">https://coding4ever.files.wordpress.com/2016/09/260916-12.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260916-13.png">https://coding4ever.files.wordpress.com/2016/09/260916-13.png</a>&#8221;></p>
+
+<p>Sampai di sini persiapan untuk membangun Server CI (Continuous Integration) sudah selesai, insya Allah di postingan berikutnya kita akan membahas &ldquo;Bagaimana Membangun Server CI (Continuous Integration) di Windows untuk Platform .NET Menggunakan Jenkins&rdquo;.</p>
+
+<p>Selamat Mencoba :-)</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Persiapan Membangun Server CI (Continuous Integration) Di Windows Untuk Platform .NET Bagian #1]]></title>
     <link href="http://coding4ever.net/blog/2016/09/24/persiapan-membangun-server-ci-continuous-integration-pada-windows-untuk-platform-net-bagian-number-1/"/>
     <updated>2016-09-24T16:18:00+07:00</updated>
     <id>http://coding4ever.net/blog/2016/09/24/persiapan-membangun-server-ci-continuous-integration-pada-windows-untuk-platform-net-bagian-number-1</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2016/09/logo-git1.png">https://coding4ever.files.wordpress.com/2016/09/logo-git1.png</a>&#8221; width=&#8221;120&#8221; height=&#8221;57&#8221;><a href="https://en.wikipedia.org/wiki/Continuous_integration">Continuous Integration</a>, biar gampang nyebutnya kita sebut <code>CI</code> aja ya, yang merupakan salah satu kegiatan untuk meningkatkan produktivitas dalam pengembangan aplikasi di mana seluruh hasil kerja (source code) dari masing-masing developer digabungkan (push) ke dalam satu wadah (server repository source code). Bisa sekali sehari, bisa juga beberapa kali dalam sehari. Setiap penggabungan source code akan diverifikasi secara otomatis oleh server CI, yang memungkinkan tim untuk mendeteksi secara dini jika ada masalah/konflik/error pada saat penggabungan source code.</p>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2016/09/logo-ci1.png">https://coding4ever.files.wordpress.com/2016/09/logo-ci1.png</a>&#8221; width=&#8221;109&#8221; height=&#8221;106&#8221;><a href="https://en.wikipedia.org/wiki/Continuous_integration">Continuous Integration</a>, biar gampang nyebutnya kita sebut <code>CI</code> aja ya, yang merupakan salah satu kegiatan untuk meningkatkan produktivitas dalam pengembangan aplikasi di mana seluruh hasil kerja (source code) dari masing-masing developer digabungkan (push) ke dalam satu wadah (server repository source code). Bisa sekali sehari, bisa juga beberapa kali dalam sehari. Setiap penggabungan source code akan diverifikasi secara otomatis oleh server CI, yang memungkinkan tim untuk mendeteksi secara dini jika ada masalah/konflik/error pada saat penggabungan source code.</p>
 
 <!-- more -->
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Version Control | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/version-control/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-09-25T20:54:27+07:00</updated>
+  <updated>2016-09-26T10:49:49+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -18,7 +18,7 @@
     <link href="http://coding4ever.net/blog/2016/09/24/persiapan-membangun-server-ci-continuous-integration-pada-windows-untuk-platform-net-bagian-number-1/"/>
     <updated>2016-09-24T16:18:00+07:00</updated>
     <id>http://coding4ever.net/blog/2016/09/24/persiapan-membangun-server-ci-continuous-integration-pada-windows-untuk-platform-net-bagian-number-1</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2016/09/logo-git1.png">https://coding4ever.files.wordpress.com/2016/09/logo-git1.png</a>&#8221; width=&#8221;120&#8221; height=&#8221;57&#8221;><a href="https://en.wikipedia.org/wiki/Continuous_integration">Continuous Integration</a>, biar gampang nyebutnya kita sebut <code>CI</code> aja ya, yang merupakan salah satu kegiatan untuk meningkatkan produktivitas dalam pengembangan aplikasi di mana seluruh hasil kerja (source code) dari masing-masing developer digabungkan (push) ke dalam satu wadah (server repository source code). Bisa sekali sehari, bisa juga beberapa kali dalam sehari. Setiap penggabungan source code akan diverifikasi secara otomatis oleh server CI, yang memungkinkan tim untuk mendeteksi secara dini jika ada masalah/konflik/error pada saat penggabungan source code.</p>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2016/09/logo-ci1.png">https://coding4ever.files.wordpress.com/2016/09/logo-ci1.png</a>&#8221; width=&#8221;109&#8221; height=&#8221;106&#8221;><a href="https://en.wikipedia.org/wiki/Continuous_integration">Continuous Integration</a>, biar gampang nyebutnya kita sebut <code>CI</code> aja ya, yang merupakan salah satu kegiatan untuk meningkatkan produktivitas dalam pengembangan aplikasi di mana seluruh hasil kerja (source code) dari masing-masing developer digabungkan (push) ke dalam satu wadah (server repository source code). Bisa sekali sehari, bisa juga beberapa kali dalam sehari. Setiap penggabungan source code akan diverifikasi secara otomatis oleh server CI, yang memungkinkan tim untuk mendeteksi secara dini jika ada masalah/konflik/error pada saat penggabungan source code.</p>
 
 <!-- more -->
 

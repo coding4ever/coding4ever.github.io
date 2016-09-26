@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Membuat Animasi Sederhana Menggunakan Objek Timer - Coding4ever&#8217;s Blog</title>
+  <title>Persiapan Membangun Server CI (Continuous Integration) Di Windows Untuk Platform .NET Bagian #2 - Coding4ever&#8217;s Blog</title>
   <meta name="author" content="Admin">
 
   
-  <meta name="description" content="Objek timer selain digunakan untuk menampilkan tanggal dan jam secara realtime, juga bisa digunakan untuk membuat animasi sederhana salah satunya &hellip;">
+  <meta name="description" content="Persiapan awal untuk membangun Server CI (Continuous Integration) sudah kita selesaikan yaitu membuat sendiri server repository Git untuk keperluan &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://coding4ever.net/blog/2010/01/08/membuat-animasi-sederhana-menggunakan-objek-timer">
+  <link rel="canonical" href="http://coding4ever.net/blog/2016/09/26/persiapan-membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-bagian-number-2">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Coding4ever's Blog" type="application/atom+xml">
@@ -83,7 +83,7 @@
   
   <header>
     
-      <h1 class="entry-title">Membuat Animasi Sederhana Menggunakan Objek Timer</h1>
+      <h1 class="entry-title">Persiapan Membangun Server CI (Continuous Integration) Di Windows Untuk Platform .NET Bagian #2</h1>
     
     
       <p class="meta">
@@ -92,7 +92,7 @@
 
 
 
-<time class='entry-date' datetime='2010-01-08T20:52:20+07:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>8:52 pm</span></time>
+<time class='entry-date' datetime='2016-09-26T10:22:00+07:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:22 am</span></time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://coding4ever.net">Comments</a>
@@ -102,124 +102,108 @@
   </header>
 
 
-<div class="entry-content"><p>Objek timer selain digunakan untuk menampilkan tanggal dan jam secara realtime, juga bisa digunakan untuk membuat animasi sederhana salah satunya dengan memanfaatkan objek label. Silahkan buat rancangan form seperti berikut :</p>
+<div class="entry-content"><p><img class="left" src="https://coding4ever.files.wordpress.com/2016/09/logo-ci1.png" width="109" height="106">Persiapan <a href="http://coding4ever.net/blog/2016/09/24/persiapan-membangun-server-ci-continuous-integration-pada-windows-untuk-platform-net-bagian-number-1/">awal</a> untuk membangun Server CI (Continuous Integration) sudah kita selesaikan yaitu <a href="http://coding4ever.net/blog/2016/09/24/persiapan-membangun-server-ci-continuous-integration-pada-windows-untuk-platform-net-bagian-number-1/">membuat sendiri server repository Git</a> untuk keperluan internal kantor yang berfungsi sebagai wadah untuk menampung source code dari masing-masing developer.</p>
 
-<p><a href="http://coding4ever.files.wordpress.com/2010/01/08012010-1.jpg"><img src="http://coding4ever.files.wordpress.com/2010/01/08012010-1.jpg?w=300" alt="" /></a></p>
-
-<p>copy paste kode berikut :</p>
+<p>Masih tersisa beberapa tool yang harus kita pelajari penggunaannya agar proses membangun server CInya berjalan mulus yaitu :</p>
 
 <!-- more -->
 
 
+<ul>
+<li><a href="http://coding4ever.net/blog/categories/tools-installer/">Package Installer</a></li>
+<li><a href="http://nunit.org/">NUnit</a></li>
+<li><a href="https://www.nuget.org/">NuGet</a></li>
+<li><a href="https://msdn.microsoft.com/en-us/library/dd393574.aspx">MSBuild</a></li>
+</ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Option Explicit
-</span><span class='line'>
-</span><span class='line'>Dim x           As Integer
-</span><span class='line'>Dim gerakX      As Integer
-</span><span class='line'>Dim gerakY      As Integer
-</span><span class='line'>Dim zigZagX     As Integer
-</span><span class='line'>Dim zigZagY     As Integer
-</span><span class='line'>Dim i           As Integer
-</span><span class='line'>
-</span><span class='line'>Private Sub Form_Load()
-</span><span class='line'>    gerakY = 20
-</span><span class='line'>    x = 20
-</span><span class='line'>    zigZagX = 20
-</span><span class='line'>    zigZagY = 20
-</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
+<h3>Package Installer</h3>
 
+<p>Tool ini digunakan untuk membuat <a href="http://coding4ever.net/blog/categories/tools-installer/">paket instalasi</a> biasanya digunakan untuk aplikasi desktop seperti winform, console atau windows service. Tujuannya jelas untuk mempermudah distribusi/instalasi aplikasi ke klien. <a href="http://coding4ever.net/blog/categories/tools-installer/">Package Installer</a> ini nantinya digunakan untuk proses <code>deploy</code> yang dilakukan secara otomatis oleh server CI.</p>
 
-<p>Source code untuk event _Timer (gunakan salah satu atau solusi lain objek timernya dijadikan array kemudian tinggal seleksi berdasarkan index array)
-1. Teks berjalan dari kiri ke kanan</p>
+<p>Jadi alurnya adalah ketika kita mem-push source code ke server repository git, ini akan men-trigger server CI untuk melakukan build, menjalankan tes otomatis (jika ada) kemudian membuat paket instalasi  untuk aplikasi desktop atau rilis/upload kode ke server produksi untuk aplikasi web.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>lblAnimasi.Move lblAnimasi.Left - 15
-</span><span class='line'>If lblAnimasi.Left &lt; -lblAnimasi.Width Then lblAnimasi.Left = picPanel.Width</span></code></pre></td></tr></table></div></figure>
+<p>Untuk membuat <a href="http://coding4ever.net/blog/categories/tools-installer/">paket instalasi</a>, kita bisa menggunakan yang gratis seperti <a href="http://coding4ever.net/blog/categories/inno-setup/">Inno Setup</a> atau <a href="http://coding4ever.net/blog/categories/nsis/">NSIS</a>.</p>
 
+<h3>NUnit</h3>
 
-<ol>
-<li>Teks mantul dari kiri ke kanan</li>
-</ol>
+<p>Tool ini digunakan untuk keperluan <a href="http://coding4ever.net/blog/categories/software-testing/">testing otomatis</a>, saya sudah membahas penggunaan tool ini di kategori <a href="http://coding4ever.net/blog/categories/software-testing/">Software Testing</a>.</p>
 
+<h3>MSBuild</h3>
+
+<p>Dari nama toolnya aja udah jelas, klo tool ini digunakan untuk proses <a href="https://www.techopedia.com/definition/3759/build">build</a> solution/project yang sedang kita kembangkan. Sadar atau tidak sebenarnya kita <code>sudah sering</code> menggunakan MSBuild ketika menggunakan IDE Visual Studio .NET untuk menulis kode. Setelah selesai menulis kode, biasanya kitakan menekan tombol F5 (Start Debugging) atau Ctrl+F5 (Start Without Debugging) untuk menjalankan/mengetes kode yang baru selesai kita tulis. Nah pada saat kita menekan tombol F5/Ctrl+F5, IDE Visual Studio .NET akan menjalankan/mengeksekusi MSBuild sesuai dengan pengaturan yang sudah kita set di bagian <code>Configuration Manager</code> atau <code>Project -&gt; Properties -&gt; Build</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260916-01.png"></p>
+
+<p style="text-align:center;"> Configuration Manager</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260916-02.png"></p>
+
+<p style="text-align:center;"> Setting Build di Project Properties</p>
+
+<p>Menekan tombol F5/Ctrl+F5 inikan dari sisi developer ketika akan mem-<a href="https://www.techopedia.com/definition/3759/build">build</a> solution/project sedangkan dari sisi server (server CI) karena kita tidak menginstall Visual Studio.NET, kita cukup menginstall tool <a href="https://www.microsoft.com/en-us/download/details.aspx?id=48159">MSBuild</a> secara terpisah. Sehingga untuk menjalankan tool <a href="https://www.microsoft.com/en-us/download/details.aspx?id=48159">MSBuild</a> kita lakukan via command prompt. Tapi untuk contoh di sini kita akan menggunakan Visual Studio .NET Command Prompt untuk menjalankan tool <a href="https://www.microsoft.com/en-us/download/details.aspx?id=48159">MSBuild</a>, caranya adalah dengan mengaktifkan Visual Studio .NET Command Prompt sesuai dengan versi Visual Studio .NET Anda.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260916-03.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260916-04.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260916-05.png"></p>
+
+<p>Kemudian ketik perintah MSBuild dengan format seperti berikut:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>lblAnimasi.Move lblAnimasi.Left - x
-</span><span class='line'>If lblAnimasi.Left &lt; picPanel.ScaleLeft Then
-</span><span class='line'>    x = -20
-</span><span class='line'>ElseIf lblAnimasi.Left + lblAnimasi.Width > picPanel.ScaleWidth + picPanel.ScaleLeft Then
-</span><span class='line'>    x = 20
-</span><span class='line'>End If</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>MSBuild.exe [Switches] [ProjectFile]</span></code></pre></td></tr></table></div></figure>
 
 
-<ol>
-<li>Teks mantul dari atas ke bawah</li>
-</ol>
-
+<p>Contoh :</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>lblAnimasi.Move lblAnimasi.Left + gerakX, lblAnimasi.Top + gerakY
-</span><span class='line'>If lblAnimasi.Top &lt; picPanel.ScaleTop Then
-</span><span class='line'>    gerakY = 20
-</span><span class='line'>ElseIf lblAnimasi.Top + lblAnimasi.Height > picPanel.ScaleHeight + picPanel.ScaleTop Then
-</span><span class='line'>    gerakY = -20
-</span><span class='line'>End If</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>MSBuild.exe /t:Clean,Build /p:Configuration=Release /p:Platform="Any CPU" "D:\DemoContinuousIntegration\src\Northwind.sln"</span></code></pre></td></tr></table></div></figure>
 
 
-<ol>
-<li>Teks zig zag</li>
-</ol>
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260916-06.png"></p>
 
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260916-07.png"></p>
+
+<p>Untuk referensi lengkap MSBuild Command, bisa Anda cek di <a href="https://msdn.microsoft.com/en-us/library/ms164311.aspx">sini</a>.</p>
+
+<p>Di server CI kita akan menuliskan perintah MSBuild seperti di atas untuk keperluan <code>build</code> otomatis.</p>
+
+<h3>NuGet</h3>
+
+<p><a href="http://coding4ever.net/blog/categories/nuget/">NuGet</a> adalah tool package manager yang berfungsi untuk mempermudah kita menginstall library pihak ketiga (3rd party libraries), seperti <a href="https://www.nuget.org/packages/Dapper/">Dapper .NET</a>, <a href="https://www.nuget.org/packages/EntityFramework/">Entity Framework</a>, <a href="https://www.nuget.org/packages/Newtonsoft.Json/">Json .NET</a> dan masih banyak lagi library pihak ketiga yang memang sudah terbukti ampuh dan bermanfaat untuk project yang kita kembangkan.</p>
+
+<p>Penggunaan tool ini juga sudah saya bahas di kategori <a href="http://coding4ever.net/blog/categories/nuget/">NuGet</a> tetapi pembahasannya dari sisi developer sedangkan untuk sisi server (server CI), <a href="http://coding4ever.net/blog/categories/nuget/">NuGet</a> digunakan untuk me-restore library nuget yang digunakan oleh project/aplikasi yang kita kembangkan, karena jika tidak di-restore, server CI akan <code>gagal</code> melakukan proses build.</p>
+
+<p>Sebagai contoh kita akan mem-build ulang project <a href="https://github.com/k4m4r82/Northwind">Northwind</a> di atas, tetapi dengan menghapus library nugetnya terlebih dulu yang ada di dalam folder lib.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260916-08.png"></p>
+
+<p>Kemudian kita build ulang</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260916-09.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260916-10.png"></p>
+
+<p>Nah dari gambar di atas kan terlihat hasil buildnya gagal karena project Northwindnya membutuhkan library <code>Dapper</code> dan <code>System.Data.SQLite.Core</code>.</p>
+
+<p>Sekarang kita coba menambahkan perintah untuk me-restore library nugetnya terlebih dulu sebelum melakukan proses build, tapi sebelumnya download terlebih dulu tool nugetnya di <a href="https://dist.nuget.org/index.html">sini</a> kemudian simpan di folder misal dengan nama <code>D:\Development Tools</code>, kemudian ketik perintah berikut :</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>lblAnimasi.Move lblAnimasi.Left + zigZagX, lblAnimasi.Top + zigZagY
-</span><span class='line'>If lblAnimasi.Left &lt; picPanel.ScaleLeft Then
-</span><span class='line'>    zigZagX = 20
-</span><span class='line'>ElseIf lblAnimasi.Left + lblAnimasi.Width > picPanel.ScaleWidth + picPanel.ScaleLeft Then
-</span><span class='line'>    zigZagX = -20
-</span><span class='line'>ElseIf lblAnimasi.Top &lt; picPanel.ScaleTop Then
-</span><span class='line'>    zigZagY = 20
-</span><span class='line'>ElseIf lblAnimasi.Top + lblAnimasi.Height > picPanel.ScaleHeight + picPanel.ScaleTop Then
-</span><span class='line'>    zigZagY = -20
-</span><span class='line'>End If</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>"D:\Development Tools\nuget.exe" restore "D:\DemoContinuousIntegration\src"</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Contoh source code bisa didownload di<a href="https://github.com/k4m4r82/AnimasiTeks">sini</a>. Selamat mencoba :)</p>
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260916-111.png"></p>
+
+<p>Setelah me-restore library nugetnya berhasil, baru kita build ulang</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260916-12.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260916-13.png"></p>
+
+<p>Sampai di sini persiapan untuk membangun Server CI (Continuous Integration) sudah selesai, insya Allah di postingan berikutnya kita akan membahas &ldquo;Bagaimana Membangun Server CI (Continuous Integration) di Windows untuk Platform .NET Menggunakan Jenkins&rdquo;.</p>
+
+<p>Selamat Mencoba :-)</p>
 </div>
 
 
@@ -235,12 +219,12 @@
 
 
 
-<time class='entry-date' datetime='2010-01-08T20:52:20+07:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>8:52 pm</span></time>
+<time class='entry-date' datetime='2016-09-26T10:22:00+07:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:22 am</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/visual-basic/'>visual basic</a>
+    <a class='category' href='/blog/categories/continuous-integration/'>continuous integration</a>
   
 </span>
 
@@ -263,10 +247,8 @@ Saat ini bekerja sebagai staf IT di salah satu PTS di Yogyakarta sebagai senior 
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2010/01/08/mudah-dan-cepat-membentuk-form-sesuai-keinginan/" title="Previous Post: Mudah dan cepat membentuk form sesuai keinginan">&laquo; Mudah dan cepat membentuk form sesuai keinginan</a>
+        <a class="basic-alignment left" href="/blog/2016/09/24/persiapan-membangun-server-ci-continuous-integration-pada-windows-untuk-platform-net-bagian-number-1/" title="Previous Post: Persiapan Membangun Server CI (Continuous Integration) di Windows untuk Platform .NET Bagian #1">&laquo; Persiapan Membangun Server CI (Continuous Integration) di Windows untuk Platform .NET Bagian #1</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2010/01/09/mengoptimalkan-penggunaan-fungsi-shell/" title="Next Post: Mengoptimalkan penggunaan fungsi Shell">Mengoptimalkan penggunaan fungsi Shell &raquo;</a>
       
     </p>
   </footer>
@@ -418,8 +400,8 @@ Saat ini bekerja sebagai staf IT di salah satu PTS di Yogyakarta sebagai senior 
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://coding4ever.net/blog/2010/01/08/membuat-animasi-sederhana-menggunakan-objek-timer/';
-        var disqus_url = 'http://coding4ever.net/blog/2010/01/08/membuat-animasi-sederhana-menggunakan-objek-timer/';
+        var disqus_identifier = 'http://coding4ever.net/blog/2016/09/26/persiapan-membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-bagian-number-2/';
+        var disqus_url = 'http://coding4ever.net/blog/2016/09/26/persiapan-membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-bagian-number-2/';
         var disqus_script = 'embed.js';
       
     (function () {
