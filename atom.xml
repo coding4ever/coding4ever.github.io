@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-09-26T11:01:35+07:00</updated>
+  <updated>2016-09-29T14:47:07+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,253 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Membangun Server CI (Continuous Integration) Di Windows Untuk Platform .NET Menggunakan Jenkins Bagian #1]]></title>
+    <link href="http://coding4ever.net/blog/2016/09/29/membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-menggunakan-jenkins-bagian-number-1/"/>
+    <updated>2016-09-29T14:46:00+07:00</updated>
+    <id>http://coding4ever.net/blog/2016/09/29/membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-menggunakan-jenkins-bagian-number-1</id>
+    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2016/09/logo-ci1.png" width="109" height="106">Melanjutkan pembahasan tentang <a href="http://coding4ever.net/blog/categories/continuous-integration/">Server CI (Continuous Integration)</a>, di mana persiapan awal sudah saya bahas di postingan saya yang berjudul &ldquo;Persiapan Membangun Server CI (Continuous Integration) di Windows untuk Platform .NET&rdquo; bagian <a href="http://coding4ever.net/blog/2016/09/24/persiapan-membangun-server-ci-continuous-integration-pada-windows-untuk-platform-net-bagian-number-1/">satu</a> dan <a href="http://coding4ever.net/blog/2016/09/26/persiapan-membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-bagian-number-2/">dua</a>.</p>
+
+<p><a href="http://coding4ever.net/blog/categories/continuous-integration/">Continuous Integration</a>, untuk selanjutnya kita sebut CI saja, merupakan salah satu kegiatan untuk meningkatkan produktivitas dalam pengembangan aplikasi di mana seluruh hasil kerja (source code) dari masing-masing developer digabungkan (push) ke dalam satu wadah (server repository source code). Bisa sekali sehari, bisa juga beberapa kali dalam sehari. Setiap penggabungan source code akan diverifikasi secara otomatis oleh server CI, yang memungkinkan tim untuk mendeteksi secara dini jika ada masalah/konflik/error pada saat penggabungan source code.</p>
+
+<!-- more -->
+
+
+<p>Setelah penggabungan hasil kerja (source code) selesai, server CI otomatis akan melakukan proses <code>build</code> untuk memastikan tidak ada kode yang merusak/membuat proses <code>build</code> gagal. Jadi semakin cepat kegagalan <code>build</code> ini diketahui semakin cepat pula kita meresponnya.  Dan jika proses <code>build</code>-nya berhasil akan dilanjutkan dengan proses <code>deploy</code>. Selain itu server CI juga bisa dikonfigurasi untuk melakukan proses lain seperti menjalankan <a href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/">unit testing</a>, <a href="http://coding4ever.net/blog/2016/07/28/integration-testing-menggunakan-nunit/">integration testing</a> dan <a href="http://coding4ever.net/blog/categories/software-testing/">testing otomatis</a> lainnya.</p>
+
+<p>Sebagai .NET developer kita sudah biasa melakukan proses <code>build</code> dengan menekan tombol F5 (Start Debugging) atau Ctrl+F5 (Start Without Debugging) baik pada waktu development atau perbaikan bug. Sedangkan untuk contoh <code>deploy</code> anggap saja seperti kita membuat paket installer yang akan didistribusikan ke komputer/server klien. Nah dengan menggunakan CI semua proses ini bisa dilakukan secara otomatis dan terpusat, sehingga kita mempunyai arsip hasil <code>build</code> dan <code>deploy</code> dari waktu ke waktu. Jadi untuk mencari file setup/paket installer terakhir enggak usah lagi nanya ke developer karena bisa langsung kita download dari server CI-nya.</p>
+
+<p>Proses <code>build</code> ini selain bisa dibuat otomatis setiap kita mem-<code>push</code> source code ke server repository bisa juga kita buatkan jadwalnya, misal pas jam makan siang atau jam pulang kantor. Jadi di kantor dibuat kesepakatan/aturan klo ada yang merusak <code>build</code> pas jam makan siang enggak boleh makan siang sampai proses <code>build</code>-nya berhasil atau yang merusak <code>build</code> pas jam pulang kantor enggak boleh pulang sampai proses <code>build</code>-nya  berhasil :-D</p>
+
+<p>Jadi dengan menggunakan CI, alur kerja kita lebih kurang seperti berikut :</p>
+
+<ul>
+<li>Menulis kode, build dan tes di komputer masing-masing (seperti biasa).</li>
+<li>Commit dan push kode ke server repository/source control seperti GIT atau SVN.
+Di masing-masing repository kita pasang <code>hook script</code> untuk memanggil job/project yang sudah kita buat dan konfigurasi di server CI.</li>
+<li>Server CI akan meng-clone repository kemudian melakukan build, menjalankan <a href="http://coding4ever.net/blog/categories/software-testing/">tes otomatis</a> (jika ada) dan deploy secara otomatis. Jika buildnya gagal ulangi lagi langkah pertama</li>
+</ul>
+
+
+<p>Cukup ya intronya, berikutnya akan kita bahas tool/software yang bisa kita gunakan untuk mengimplementasikan CI, salah satunya adalah <a href="https://jenkins.io">Jenkins</a>.</p>
+
+<p><a href="https://jenkins.io">Jenkins</a> adalah salah satu software continuous integration (CI) open source yang dibuat menggunakan Java. Untuk sejarah <a href="https://jenkins.io">Jenkins</a> silahkan digoogle sendiri ya :-)</p>
+
+<p>Selain <a href="https://jenkins.io">Jenkins</a>, ada tool-tool lain yang harus kita siapkan agar implementasi CI menggunakan <a href="https://jenkins.io">Jenkins</a> ini bisa berhasil. Berikut daftar lengkapnya :</p>
+
+<ul>
+<li><a href="https://jenkins.io">Jenkins</a></li>
+<li><a href="https://www.microsoft.com/en-us/download/details.aspx?id=48159">MSBuild</a> – untuk keperluan proses build</li>
+<li><a href="https://dist.nuget.org/index.html">NuGet</a> – untuk merestore package nuget sebelum proses build dijalankan</li>
+<li>Source Control menggunakan <a href="https://git-scm.com/downloads">Git</a>, Anda bisa juga menggunakan <a href="https://subversion.apache.org/download.cgi">SVN</a></li>
+<li><a href="https://tortoisegit.org/">TortoiseGit</a> – aplikasi git client</li>
+<li><a href="https://bonobogitserver.com/">Bonobo Git Server</a> (server Git gratis berbasis Windows/IIS)</li>
+<li><a href="http://www.jrsoftware.org/">Inno Setup</a> atau <a href="http://nsis.sourceforge.net/">NSIS</a> – untuk keperluan proses deploy/pembuatan paket installer</li>
+</ul>
+
+
+<p>Tool-tool di atas selain perlu disiapkan juga harus tau cara penggunaannya, klo belum ya silahkan mampir dulu ke <a href="http://coding4ever.net/blog/2016/09/24/persiapan-membangun-server-ci-continuous-integration-pada-windows-untuk-platform-net-bagian-number-1/">sini</a> dan <a href="http://coding4ever.net/blog/2016/09/26/persiapan-membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-bagian-number-2/">sini</a>.</p>
+
+<p>Sebelum kita lanjut ke pembahasan, kita lihat tool/software untuk <code>Environment Test</code> yang saya gunakan baik di sisi server (Server CI) dan client (developer).</p>
+
+<h3>Environment Test Server</h3>
+
+<ul>
+<li>Windows Server 2008 R2</li>
+<li>Automation server <a href="https://jenkins.io/">Jenkins</a></li>
+<li>.NET Framework 4.0, 4.5.x</li>
+<li><a href="https://www.microsoft.com/en-us/download/details.aspx?id=48159">Microsoft Build 2015</a></li>
+<li>Source/version control <a href="https://git-scm.com/">Git</a></li>
+<li><a href="https://bonobogitserver.com/">Server Repository Git</a></li>
+<li>Package Installer <a href="http://coding4ever.net/blog/categories/inno-setup/">Inno Setup</a></li>
+<li><a href="https://dist.nuget.org/index.html">NuGet</a></li>
+</ul>
+
+
+<h3>Environment Test Client</h3>
+
+<ul>
+<li>Visual Studio .NET 2013 Community Edition</li>
+<li>Source/version control <a href="https://git-scm.com/">Git</a></li>
+<li><a href="https://tortoisegit.org/">TortoiseGit</a></li>
+</ul>
+
+
+<h3>Fokus Pembahasan</h3>
+
+<p>Untuk postingan pertama ini, kita akan membahas:</p>
+
+<ul>
+<li>Konfigurasi <a href="https://jenkins.io">Jenkins</a></li>
+<li>Plugin tambahan yang perlu diinstall</li>
+<li>Pembuatan Project (Job)</li>
+<li>Tes clone repository, restore library nuget dan  build dalam satu langkah/klik</li>
+</ul>
+
+
+<h3>Instalasi Jenkins</h3>
+
+<p>Download dan install Jenkins di <a href="https://jenkins-ci.org/">sini</a>, setelah instalasi <a href="https://jenkins-ci.org/">Jenkins</a> bisa diakses di link <a href="http://localhost:8080">http://localhost:8080</a></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260929-01.png"></p>
+
+<h3>Konfigurasi Jenkins</h3>
+
+<p><a href="https://jenkins.io">Jenkins</a> mempunyai banyak plugin yang mudah dikonfigurasi seperti plugin Git, MSBuild dan lainnya. Berikut adalah daftar plugin yang akan kita install.</p>
+
+<ul>
+<li>Git plugin</li>
+<li>MSBuild plugin</li>
+<li>NUnit plugin</li>
+<li>Cobertura plugin</li>
+<li>PowerShell plugin</li>
+</ul>
+
+
+<p>Sebagai contoh kita akan menginstall plugin Git dan MSBuild, berikut langkah-langkahnya :</p>
+
+<h5>Menginstall plugin Git</h5>
+
+<ul>
+<li>Akses link : <a href="http://localhost:8080/">http://localhost:8080/</a></li>
+<li>Klik link Manage Jenkins, pilih Manage Plugins</li>
+<li>Aktifkan tab <code>Available</code>, ketik <code>Git plugin</code> di filter box, dari daftar pilihan plugin yang tersedia pilih <code>Git plugin</code></li>
+<li>Klik tombol <code>Install without restart</code></li>
+</ul>
+
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260929-02.png"></p>
+
+<h5>Menginstall plugin MSBuild</h5>
+
+<p>Masih sama dengan langkah-langkah sebelumnya, hanya saja kali ini plugin yang perlu difilter adalah <code>MSBuild</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260929-03.png"></p>
+
+<p>Ulangi langkah-langkah di atas untuk menginstall plugin lainnya seperti NUnit, Cobertura dan PowerShell.</p>
+
+<h5>Konfigurasi Git dan MSBuild</h5>
+
+<p>Setelah instalasi plugin Git dan MSBuild, kita perlu menambahkan konfigurasinya di halaman <code>Global Tool Configuration</code>, berikut langkah-langkahnya :</p>
+
+<ul>
+<li>Akses link : <a href="http://localhost:8080/">http://localhost:8080/</a></li>
+<li>Klik link Manage Jenkins, pilih Global Tool Configuration</li>
+<li><p>Scroll ke bawah sampai menemukan tulisan <code>Git/Git installations</code>, untuk isian <code>Path to Git executable</code> isikan lokasi instalasi git secara absolute</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260929-04.png"></p>
+
+<p>Untuk lokasi Git disesuaikan dengan lokasi instalasi Git di mesin Anda.</p></li>
+<li>Kemudian scroll kebawah lagi sampai menemukan tulisan <code>MSBuild</code>, kemudian klik tombol <code>Add MSBuild</code></li>
+<li><p>Isikan konfigurasinya seperti gambar berikut :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260929-05.png"></p>
+
+<p>Untuk lokasi MSBuild juga disesuaikan dengan lokasi instalasi MSBuild di mesin Anda. Terakhir klik tombol Save.</p></li>
+</ul>
+
+
+<h3>Pembuatan Project (Job)</h3>
+
+<p>Berikutnya kita akan membuat project sederhana untuk mencoba proses build, berikut langkah-langkahnya:</p>
+
+<ul>
+<li>Akses link : <a href="http://localhost:8080/">http://localhost:8080/</a></li>
+<li>Klik link New Item</li>
+<li>Isikan nama project, misal northwind-build</li>
+<li>Pilih Freestyle project</li>
+<li><p>Pilih Ok</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260929-06.png"></p></li>
+<li><p>Aktifkan tab <code>Source Code Management</code>, kemudian pilih <code>Git</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260929-07.png"></p></li>
+<li><p>Kemudian lengkapi isian <code>Repository URL</code> dan <code>Credentials</code> seperti contoh berikut:</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260929-08.png"></p>
+
+<p>Untuk contoh di atas dengan asumsi instalasi <a href="https://jenkins.io">Jenkins</a> dan <a href="http://coding4ever.net/blog/2016/09/24/persiapan-membangun-server-ci-continuous-integration-pada-windows-untuk-platform-net-bagian-number-1/">server repository Git</a> di mesin yang sama.</p>
+
+<p><a href="https://jenkins.io">Jenkins</a> selalu bekerja dengan <code>branch</code> dan secara default menggunakan branch <code>master</code>.</p></li>
+<li><p>Berikutnya aktifkan tab <code>Build</code>, klik <code>Add build step</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260929-09.png"></p></li>
+<li><p>Pilih <code>Build a Visual Studio project or solution using MSBuild</code></p>
+
+<p>Disini kita perlu mengisikan beberapa nilai:</p>
+
+<ul>
+<li>MSBuild Version diisi dengan <code>MSBuild</code> (yang sudah kita konfigurasi pada langkah sebelumnya)</li>
+<li>MSBuild Build File diisi dengan nama solution atau project</li>
+<li>Command Line Arguments (optional) diisi dengan parameter MSBuild
+<img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260929-10.png"></li>
+</ul>
+</li>
+<li><p>Karena project kita menggunakan library NuGet, kita juga perlu menambahkan konfigurasi untuk me-restore library NuGet. Masih di tab Build, klik <code>Add build step</code> kemudian pilih <code>Execute Windows batch command</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260929-11.png"></p>
+
+<p>Untuk isian <code>Command</code> isikan perintah/skrip seperti berikut:</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260929-12.png"></p>
+
+<p>Perintah/skrip di atas dengan asumsi Anda sudah mendownload tool <a href="https://dist.nuget.org/index.html">NuGet</a> dan menyimpannya di folder <code>D:\Development Tools</code>.</p>
+
+<p>Seperti yang sudah pernah saya bahas di postingan <a href="xx">Persiapan Membangun Server CI Bagian #2</a>, proses <code>build</code> dilakukan setelah me-restore library nuget. Jadi kita harus merubah urutan prioritas agar konfigurasi &ldquo;Execute Windows batch command&rdquo; dijalankan terlebih dulu sebelum konfigurasi &ldquo;Build a Visual Studio project or solution using MSBuild&rdquo; dengan cara men-drag-nya ke atas.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260929-13.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260929-14.png"></p>
+
+<p>Pada gambar di atas terlihat konfigurasi &ldquo;Execute Windows batch command&rdquo; dan &ldquo;Build a Visual Studio project or solution using MSBuild&rdquo; sudah berganti posisi. Terakhir klik tombol Save</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260929-15.png"></p></li>
+</ul>
+
+
+<h3>Testing Build</h3>
+
+<p>Setelah menyelesaikan beberapa konfigurasi, saatnya melakukan pengetesan apakah konfigurasi sebelumnya sudah benar. Berikut langkah-langkahnya :</p>
+
+<ul>
+<li><p>Klik link project <code>northwind-build</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260929-16.png"></p></li>
+<li><p>Di halaman project <code>northwind-build</code>, klik link <code>Build Now</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260929-17.png"></p></li>
+<li><p>Di informasi <code>Build History</code> akan terlihat progress build dengan nama <code>#1</code>, <code>#2</code>,&hellip; dst</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260929-18.png"></p></li>
+<li><p>Jika proses build-nya sukses penanda <code>bulat</code>-nya berwarna biru, jika warna merah berarti gagal</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260929-19.png"></p></li>
+<li><p>Untuk melihat detil <code>build</code>, klik link build number, misal <code>#1</code>, <code>#2</code>,&hellip; dst</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260929-20.png"></p></li>
+<li><p>Kemudian klik link <code>Console Output</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260929-211.png"></p>
+
+<p>Catatan penting dari <code>output</code> di atas adalah lokasi dari <code>workspace</code> di mana source code/hasil clone dari repository dan proses build dilakukan. Informasi ini tentu akan sangat membantu kita dalam melakukan <code>debuging</code> konfigurasi/setup CI.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260929-22.png"></p></li>
+</ul>
+
+
+<p>Kesimpulan dari proses build di atas dan tentunya berdasarkan konfigurasi yang kita lakukan, jenkins melakukan hal-hal berikut :</p>
+
+<ol>
+<li>Meng-clone repository git</li>
+<li>Me-restore library nuget</li>
+<li>Melakukan proses build</li>
+</ol>
+
+
+<p>Selamat Mencoba :-)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Persiapan Membangun Server CI (Continuous Integration) Di Windows Untuk Platform .NET Bagian #2]]></title>
@@ -117,7 +364,7 @@
 
 <p><img class="center" src="https://coding4ever.files.wordpress.com/2016/09/260916-13.png"></p>
 
-<p>Sampai di sini persiapan untuk membangun Server CI (Continuous Integration) sudah selesai, insya Allah di postingan berikutnya kita akan membahas &ldquo;Bagaimana Membangun Server CI (Continuous Integration) di Windows untuk Platform .NET Menggunakan Jenkins&rdquo;.</p>
+<p>Sampai di sini persiapan untuk membangun Server CI (Continuous Integration) sudah selesai, insya Allah di postingan berikutnya kita akan membahas <a href="http://coding4ever.net/blog/2016/09/29/membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-menggunakan-jenkins-bagian-number-1/">Bagaimana Membangun Server CI (Continuous Integration) di Windows untuk Platform .NET Menggunakan Jenkins</a>.</p>
 
 <p>Selamat Mencoba :-)</p>
 ]]></content>
@@ -3759,390 +4006,6 @@ Berikut perintah lengkapnya :</p>
 <p><img class="center" src="https://coding4ever.files.wordpress.com/2015/07/050715-141.png"></p>
 
 <p><img class="center" src="https://coding4ever.files.wordpress.com/2015/07/050715-161.png"></p>
-
-<p>Selamat MENCOBA :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[The Power of Visual Studio .NET Build Events Part #2]]></title>
-    <link href="http://coding4ever.net/blog/2015/07/01/the-power-of-visual-studio-net-build-events-part-number-2/"/>
-    <updated>2015-07-01T10:20:30+07:00</updated>
-    <id>http://coding4ever.net/blog/2015/07/01/the-power-of-visual-studio-net-build-events-part-number-2</id>
-    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2015/06/260615-00.png" width="130" height="130">Melanjutkan pembahasan <a href="http://coding4ever.net/blog/2015/06/25/the-power-of-visual-studio-net-build-events-part-number-1/">postingan</a> sebelumnya yaitu tentang fitur <code>Build Events</code> yang dimiliki oleh Visual Studio .NET.</p>
-
-<p>Di postingan <a href="http://coding4ever.net/blog/2015/06/25/the-power-of-visual-studio-net-build-events-part-number-1/">bagian #1</a> kita memanfaatkan fitur ini untuk melakukan proses copy file (exe, dll, config) secara otomatis setelah proses build project selesai.</p>
-
-<p>Nah di <a href="http://coding4ever.net/blog/2015/07/01/the-power-of-visual-studio-net-build-events-part-number-2/">postingan</a> kali ini kita akan menambahkan perintah untuk mengcompile skrip <a href="http://coding4ever.net/blog/categories/inno-setup/">Inno Setup</a> sehingga proses pembuatan paket installer pun jadi otomatis.</p>
-
-<!-- more -->
-
-
-<p><strong>Inno Setup</strong></p>
-
-<p><a href="http://jrsoftware.org/">Inno Setup</a> adalah salah satu software favorit untuk membuat paket installer berbasis windows. Selain gratis software ini juga didukung oleh dokumentasi yang lengkap sehingga memudahkan kita untuk mempelajarinya. Saya juga ada menulis beberapa postingan tentang <a href="http://coding4ever.net/blog/categories/inno-setup/">Inno Setup</a> yang bisa anda baca di<a href="http://coding4ever.net/blog/categories/inno-setup/">sini</a>.</p>
-
-<p>Jadi untuk melanjutkan pembahasan ini, saya mengasumsikan Anda sudah pernah menggunakan <a href="http://jrsoftware.org/">Inno Setup</a> untuk membuat paket installer.</p>
-
-<p>Untuk membuat skrip <a href="http://coding4ever.net/blog/categories/inno-setup/">Inno Setup</a> itu gampang, contohnya seperti berikut :</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-<span class='line-number'>91</span>
-<span class='line-number'>92</span>
-<span class='line-number'>93</span>
-<span class='line-number'>94</span>
-<span class='line-number'>95</span>
-<span class='line-number'>96</span>
-<span class='line-number'>97</span>
-<span class='line-number'>98</span>
-<span class='line-number'>99</span>
-<span class='line-number'>100</span>
-<span class='line-number'>101</span>
-<span class='line-number'>102</span>
-<span class='line-number'>103</span>
-<span class='line-number'>104</span>
-<span class='line-number'>105</span>
-<span class='line-number'>106</span>
-<span class='line-number'>107</span>
-<span class='line-number'>108</span>
-<span class='line-number'>109</span>
-<span class='line-number'>110</span>
-<span class='line-number'>111</span>
-<span class='line-number'>112</span>
-<span class='line-number'>113</span>
-<span class='line-number'>114</span>
-<span class='line-number'>115</span>
-<span class='line-number'>116</span>
-<span class='line-number'>117</span>
-<span class='line-number'>118</span>
-<span class='line-number'>119</span>
-<span class='line-number'>120</span>
-<span class='line-number'>121</span>
-<span class='line-number'>122</span>
-<span class='line-number'>123</span>
-<span class='line-number'>124</span>
-<span class='line-number'>125</span>
-<span class='line-number'>126</span>
-<span class='line-number'>127</span>
-<span class='line-number'>128</span>
-<span class='line-number'>129</span>
-<span class='line-number'>130</span>
-<span class='line-number'>131</span>
-<span class='line-number'>132</span>
-<span class='line-number'>133</span>
-<span class='line-number'>134</span>
-<span class='line-number'>135</span>
-<span class='line-number'>136</span>
-<span class='line-number'>137</span>
-<span class='line-number'>138</span>
-<span class='line-number'>139</span>
-<span class='line-number'>140</span>
-<span class='line-number'>141</span>
-<span class='line-number'>142</span>
-<span class='line-number'>143</span>
-<span class='line-number'>144</span>
-<span class='line-number'>145</span>
-<span class='line-number'>146</span>
-<span class='line-number'>147</span>
-<span class='line-number'>148</span>
-<span class='line-number'>149</span>
-<span class='line-number'>150</span>
-<span class='line-number'>151</span>
-<span class='line-number'>152</span>
-<span class='line-number'>153</span>
-<span class='line-number'>154</span>
-<span class='line-number'>155</span>
-<span class='line-number'>156</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[Setup]
-</span><span class='line'>AppName={code:GetAppName}
-</span><span class='line'>AppVerName={code:GetAppName} Versi {code:GetAppVersion}
-</span><span class='line'>AppPublisher={code:GetVendorName}
-</span><span class='line'>AppVersion={code:GetAppVersion}
-</span><span class='line'>AllowCancelDuringInstall = yes
-</span><span class='line'>DefaultDirName={pf}\KRSchool
-</span><span class='line'>DefaultGroupName={code:GetAppName}
-</span><span class='line'>Compression = lzma
-</span><span class='line'>SolidCompression = yes
-</span><span class='line'>OutputBaseFilename=SetupKRSchool
-</span><span class='line'>AllowNoIcons = yes
-</span><span class='line'>AlwaysRestart = no
-</span><span class='line'>AlwaysShowComponentsList = no
-</span><span class='line'>DisableProgramGroupPage = yes
-</span><span class='line'>AppendDefaultDirName = yes
-</span><span class='line'>CreateUninstallRegKey = yes
-</span><span class='line'>DisableStartupPrompt = yes
-</span><span class='line'>LanguageDetectionMethod=none
-</span><span class='line'>ShowLanguageDialog=no
-</span><span class='line'>UsePreviousLanguage=no
-</span><span class='line'>Uninstallable = yes
-</span><span class='line'>UninstallFilesDir={app}\uninst
-</span><span class='line'>UninstallDisplayIcon={app}\KRSchool.exe,0
-</span><span class='line'>UninstallDisplayName={code:GetAppName}
-</span><span class='line'>WindowVisible = no
-</span><span class='line'>AppCopyright=Copyright © 2015. {code:GetVendorName}
-</span><span class='line'>FlatComponentsList = yes
-</span><span class='line'>PrivilegesRequired = admin
-</span><span class='line'>VersionInfoVersion=1.0.0.0
-</span><span class='line'>SetupIconFile=E:\Master\Developer Tools\Package\Setup.ico
-</span><span class='line'>WizardImageFile=E:\Master\Developer Tools\Inno Setup\WizardImages\Modern\SetupModern16.bmp
-</span><span class='line'>WizardSmallImageFile=E:\Master\Developer Tools\Inno Setup\WizardImages\Modern\Small\SetupModernSmall26.bmp
-</span><span class='line'>
-</span><span class='line'>[Languages]
-</span><span class='line'>Name: ina; MessagesFile: compiler:Indonesia.isl
-</span><span class='line'>Name: en; MessagesFile: compiler:Default.isl
-</span><span class='line'>
-</span><span class='line'>[Tasks]
-</span><span class='line'>Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: checkedonce
-</span><span class='line'>Name: quicklaunchicon; Description: {cm:CreateQuickLaunchIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
-</span><span class='line'>
-</span><span class='line'>[Files]
-</span><span class='line'>;My Application Runtime
-</span><span class='line'>Source: *.*; DestDir: {app}; Flags: ignoreversion
-</span><span class='line'>
-</span><span class='line'>; .net framework
-</span><span class='line'>Source: "E:\Master\Developer Tools\dotNET Framework\dotNetFx40_Full_x86_x64.exe"; DestDir: {tmp}; Flags: deleteafterinstall; Check: FrameworkIsNotInstalled 
-</span><span class='line'>
-</span><span class='line'>;skin
-</span><span class='line'>Source: E:\Master\Developer Tools\Package\dll&ocx\ISSkin.dll; DestDir: {app}; Flags: dontcopy
-</span><span class='line'>Source: E:\Master\Developer Tools\Package\dll&ocx\Office2007.cjstyles; DestDir: {tmp}; Flags: dontcopy
-</span><span class='line'>
-</span><span class='line'>[Icons]
-</span><span class='line'>Name: {group}\{code:GetAppName}; Filename: {app}\KRSchool.exe; WorkingDir: {app}; IconFilename: {app}\main.ico
-</span><span class='line'>Name: {userdesktop}\{code:GetAppName}; Filename: {app}\KRSchool.exe; WorkingDir: {app}; IconFilename: {app}\main.ico; Tasks: desktopicon
-</span><span class='line'>
-</span><span class='line'>[Registry]
-</span><span class='line'>;INSTALL DIR
-</span><span class='line'>Root: HKCU; Subkey: "Software\{code:GetVendorName}\{code:GetAppName}"; ValueName: "installDir"; ValueType: String; ValueData: {app}; Flags: uninsdeletevalue
-</span><span class='line'>
-</span><span class='line'>[Run]
-</span><span class='line'>Filename: {tmp}\dotNetFx40_Full_x86_x64.exe; Parameters: "/q:a /c:""install /l /q"""; Check: FrameworkIsNotInstalled; StatusMsg: "Sedang menginstall Microsoft Framework 4.0 ..."
-</span><span class='line'>
-</span><span class='line'>[Code]
-</span><span class='line'>const
-</span><span class='line'>  AppName = 'KR School';
-</span><span class='line'>  AppVersion = '1.0.0';
-</span><span class='line'>  VendorName = 'KR Software';
-</span><span class='line'>
-</span><span class='line'>// Importing LoadSkin API from ISSkin.DLL
-</span><span class='line'>procedure LoadSkin(lpszPath: String; lpszIniFileName: String);
-</span><span class='line'>external 'LoadSkin@files:isskin.dll stdcall';
-</span><span class='line'>
-</span><span class='line'>// Importing UnloadSkin API from ISSkin.DLL
-</span><span class='line'>procedure UnloadSkin();
-</span><span class='line'>external 'UnloadSkin@files:isskin.dll stdcall';
-</span><span class='line'>
-</span><span class='line'>// Importing ShowWindow Windows API from User32.DLL
-</span><span class='line'>function ShowWindow(hWnd: Integer; uType: Integer): Integer;
-</span><span class='line'>external 'ShowWindow@user32.dll stdcall';
-</span><span class='line'>
-</span><span class='line'>function IsDotNetDetected(version: string; service: cardinal): boolean;
-</span><span class='line'>// Indicates whether the specified version and service pack of the .NET Framework is installed.
-</span><span class='line'>//
-</span><span class='line'>// version -- Specify one of these strings for the required .NET Framework version:
-</span><span class='line'>//    'v1.1.4322'     .NET Framework 1.1
-</span><span class='line'>//    'v2.0.50727'    .NET Framework 2.0
-</span><span class='line'>//    'v3.0'          .NET Framework 3.0
-</span><span class='line'>//    'v3.5'          .NET Framework 3.5
-</span><span class='line'>//    'v4\Client'     .NET Framework 4.0 Client Profile
-</span><span class='line'>//    'v4\Full'       .NET Framework 4.0 Full Installation
-</span><span class='line'>//
-</span><span class='line'>// service -- Specify any non-negative integer for the required service pack level:
-</span><span class='line'>//    0               No service packs required
-</span><span class='line'>//    1, 2, etc.      Service pack 1, 2, etc. required
-</span><span class='line'>var
-</span><span class='line'>    key: string;
-</span><span class='line'>    install, serviceCount: cardinal;
-</span><span class='line'>    success: boolean;
-</span><span class='line'>begin
-</span><span class='line'>    key := 'SOFTWARE\Microsoft\NET Framework Setup\NDP\' + version;
-</span><span class='line'>
-</span><span class='line'>    // .NET 3.0 uses value InstallSuccess in subkey Setup
-</span><span class='line'>    if Pos('v3.0', version) = 1 then begin
-</span><span class='line'>        success := RegQueryDWordValue(HKLM, key + '\Setup', 'InstallSuccess', install);
-</span><span class='line'>    end else begin
-</span><span class='line'>        success := RegQueryDWordValue(HKLM, key, 'Install', install);
-</span><span class='line'>    end;
-</span><span class='line'>
-</span><span class='line'>    // .NET 4.0 uses value Servicing instead of SP
-</span><span class='line'>    if Pos('v4', version) = 1 then begin
-</span><span class='line'>        success := success and RegQueryDWordValue(HKLM, key, 'Servicing', serviceCount);
-</span><span class='line'>    end else begin
-</span><span class='line'>        success := success and RegQueryDWordValue(HKLM, key, 'SP', serviceCount);
-</span><span class='line'>    end;
-</span><span class='line'>
-</span><span class='line'>    result := success and (install = 1) and (serviceCount >= service);
-</span><span class='line'>end;
-</span><span class='line'>
-</span><span class='line'>function FrameworkIsNotInstalled: Boolean;
-</span><span class='line'>begin
-</span><span class='line'>    Result := not IsDotNetDetected('v4\Full', 0);
-</span><span class='line'>end;
-</span><span class='line'>
-</span><span class='line'>function GetVendorName(Param: string): string;
-</span><span class='line'>begin
-</span><span class='line'>  Result := VendorName;
-</span><span class='line'>end;
-</span><span class='line'>
-</span><span class='line'>function GetAppVersion(Param: string): string;
-</span><span class='line'>begin
-</span><span class='line'>  Result := AppVersion;
-</span><span class='line'>end;
-</span><span class='line'>
-</span><span class='line'>function GetAppName(Param: string): string;
-</span><span class='line'>begin
-</span><span class='line'>  Result := AppName;
-</span><span class='line'>end;
-</span><span class='line'>
-</span><span class='line'>function InitializeSetup(): Boolean;
-</span><span class='line'>begin
-</span><span class='line'>
-</span><span class='line'>  ExtractTemporaryFile('Office2007.cjstyles');
-</span><span class='line'>  LoadSkin(ExpandConstant('{tmp}\Office2007.cjstyles'), 'NormalAqua.ini');
-</span><span class='line'>      
-</span><span class='line'>  Result := True;
-</span><span class='line'>end;
-</span><span class='line'>
-</span><span class='line'>procedure DeinitializeSetup();
-</span><span class='line'>begin
-</span><span class='line'>  // Hide Window before unloading skin so user does not get
-</span><span class='line'>  // a glimse of an unskinned window before it is closed.
-</span><span class='line'>  ShowWindow(StrToInt(ExpandConstant('{wizardhwnd}')), 0);
-</span><span class='line'>  UnloadSkin();
-</span><span class='line'>end;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Kemudian skrip di atas kita simpan di folder <code>Rilis</code> misal dengan nama <code>SetupKRSchool.iss</code></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/07/010715-01.png"></p>
-
-<p>File <code>SetupKRSchool.iss</code> di atas akan kita compile menggunakan tool bawaan <a href="http://jrsoftware.org/">Inno Setup</a> yaitu <code>ISCC.exe</code>. Untuk contoh penggunaanya seperti ini :</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>iscc "c:\rilis\SetupKRSchool.iss"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Nah perintah di atas akan kita panggil melalui Dialog Build Events</p>
-
-<p><strong>Revisi Perintah Build Event</strong></p>
-
-<p>Pada <a href="http://coding4ever.net/blog/2015/06/25/the-power-of-visual-studio-net-build-events-part-number-1/">postingan</a> sebelumnya kita sudah menulis perintah sederhana di dialog Build Events</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/07/010715-02.png"></p>
-
-<p>Kita akan merivisi perintah diatas untuk menjalankan  tool bawaan <a href="http://jrsoftware.org/">Inno Setup</a> yaitu <code>ISCC.exe</code>. Dengan tool ini kita bisa langsung mengcompile skrip <a href="http://jrsoftware.org/">Inno Setup</a>.</p>
-
-<p>Berikut perintah lengkapnya.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/07/010715-03.png"></p>
-
-<p>Pada perintah di atas saya menambahkan kondisi</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if "$(ConfigurationName)" == "Debug" goto skip</span></code></pre></td></tr></table></div></figure>
-
-
-<p>yang artinya perintah build event di atas hanya akan dijalankan jika <code>Solution Configuration</code> atau  <code>Configuration Manager</code> di set <code>Release</code>.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/07/010715-04.png"></p>
-
-<p>Setelah itu lakukan proses <code>build -&gt; project</code>, maka semua file dll atau exe yang ada di folder <code>bin\Debug</code> atau <code>bin\Release</code> akan dicopykan ke folder <code>C:\Rilis</code>, kemudian akan dilanjutkan dengan mengcompile skrip <a href="http://jrsoftware.org/">Inno Setup</a>.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/07/010715-05.png"></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/07/010715-06.png"></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/07/010715-07.png"></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2015/07/010715-08.png"></p>
 
 <p>Selamat MENCOBA :)</p>
 ]]></content>

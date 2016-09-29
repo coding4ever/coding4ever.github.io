@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Continuous Integration | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/continuous-integration/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-09-26T11:01:35+07:00</updated>
+  <updated>2016-09-29T14:47:07+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,253 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Membangun Server CI (Continuous Integration) Di Windows Untuk Platform .NET Menggunakan Jenkins Bagian #1]]></title>
+    <link href="http://coding4ever.net/blog/2016/09/29/membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-menggunakan-jenkins-bagian-number-1/"/>
+    <updated>2016-09-29T14:46:00+07:00</updated>
+    <id>http://coding4ever.net/blog/2016/09/29/membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-menggunakan-jenkins-bagian-number-1</id>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2016/09/logo-ci1.png">https://coding4ever.files.wordpress.com/2016/09/logo-ci1.png</a>&#8221; width=&#8221;109&#8221; height=&#8221;106&#8221;>Melanjutkan pembahasan tentang <a href="/blog/categories/continuous-integration/">Server CI (Continuous Integration)</a>, di mana persiapan awal sudah saya bahas di postingan saya yang berjudul &ldquo;Persiapan Membangun Server CI (Continuous Integration) di Windows untuk Platform .NET&rdquo; bagian <a href="/blog/2016/09/24/persiapan-membangun-server-ci-continuous-integration-pada-windows-untuk-platform-net-bagian-number-1/">satu</a> dan <a href="/blog/2016/09/26/persiapan-membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-bagian-number-2/">dua</a>.</p>
+
+<p><a href="/blog/categories/continuous-integration/">Continuous Integration</a>, untuk selanjutnya kita sebut CI saja, merupakan salah satu kegiatan untuk meningkatkan produktivitas dalam pengembangan aplikasi di mana seluruh hasil kerja (source code) dari masing-masing developer digabungkan (push) ke dalam satu wadah (server repository source code). Bisa sekali sehari, bisa juga beberapa kali dalam sehari. Setiap penggabungan source code akan diverifikasi secara otomatis oleh server CI, yang memungkinkan tim untuk mendeteksi secara dini jika ada masalah/konflik/error pada saat penggabungan source code.</p>
+
+<!-- more -->
+
+
+<p>Setelah penggabungan hasil kerja (source code) selesai, server CI otomatis akan melakukan proses <code>build</code> untuk memastikan tidak ada kode yang merusak/membuat proses <code>build</code> gagal. Jadi semakin cepat kegagalan <code>build</code> ini diketahui semakin cepat pula kita meresponnya.  Dan jika proses <code>build</code>-nya berhasil akan dilanjutkan dengan proses <code>deploy</code>. Selain itu server CI juga bisa dikonfigurasi untuk melakukan proses lain seperti menjalankan <a href="/blog/2016/07/20/unit-testing-menggunakan-nunit/">unit testing</a>, <a href="/blog/2016/07/28/integration-testing-menggunakan-nunit/">integration testing</a> dan <a href="/blog/categories/software-testing/">testing otomatis</a> lainnya.</p>
+
+<p>Sebagai .NET developer kita sudah biasa melakukan proses <code>build</code> dengan menekan tombol F5 (Start Debugging) atau Ctrl+F5 (Start Without Debugging) baik pada waktu development atau perbaikan bug. Sedangkan untuk contoh <code>deploy</code> anggap saja seperti kita membuat paket installer yang akan didistribusikan ke komputer/server klien. Nah dengan menggunakan CI semua proses ini bisa dilakukan secara otomatis dan terpusat, sehingga kita mempunyai arsip hasil <code>build</code> dan <code>deploy</code> dari waktu ke waktu. Jadi untuk mencari file setup/paket installer terakhir enggak usah lagi nanya ke developer karena bisa langsung kita download dari server CI-nya.</p>
+
+<p>Proses <code>build</code> ini selain bisa dibuat otomatis setiap kita mem-<code>push</code> source code ke server repository bisa juga kita buatkan jadwalnya, misal pas jam makan siang atau jam pulang kantor. Jadi di kantor dibuat kesepakatan/aturan klo ada yang merusak <code>build</code> pas jam makan siang enggak boleh makan siang sampai proses <code>build</code>-nya berhasil atau yang merusak <code>build</code> pas jam pulang kantor enggak boleh pulang sampai proses <code>build</code>-nya  berhasil :-D</p>
+
+<p>Jadi dengan menggunakan CI, alur kerja kita lebih kurang seperti berikut :</p>
+
+<ul>
+<li>Menulis kode, build dan tes di komputer masing-masing (seperti biasa).</li>
+<li>Commit dan push kode ke server repository/source control seperti GIT atau SVN.
+Di masing-masing repository kita pasang <code>hook script</code> untuk memanggil job/project yang sudah kita buat dan konfigurasi di server CI.</li>
+<li>Server CI akan meng-clone repository kemudian melakukan build, menjalankan <a href="/blog/categories/software-testing/">tes otomatis</a> (jika ada) dan deploy secara otomatis. Jika buildnya gagal ulangi lagi langkah pertama</li>
+</ul>
+
+
+<p>Cukup ya intronya, berikutnya akan kita bahas tool/software yang bisa kita gunakan untuk mengimplementasikan CI, salah satunya adalah <a href="https://jenkins.io">Jenkins</a>.</p>
+
+<p><a href="https://jenkins.io">Jenkins</a> adalah salah satu software continuous integration (CI) open source yang dibuat menggunakan Java. Untuk sejarah <a href="https://jenkins.io">Jenkins</a> silahkan digoogle sendiri ya :-)</p>
+
+<p>Selain <a href="https://jenkins.io">Jenkins</a>, ada tool-tool lain yang harus kita siapkan agar implementasi CI menggunakan <a href="https://jenkins.io">Jenkins</a> ini bisa berhasil. Berikut daftar lengkapnya :</p>
+
+<ul>
+<li><a href="https://jenkins.io">Jenkins</a></li>
+<li><a href="https://www.microsoft.com/en-us/download/details.aspx?id=48159">MSBuild</a> – untuk keperluan proses build</li>
+<li><a href="https://dist.nuget.org/index.html">NuGet</a> – untuk merestore package nuget sebelum proses build dijalankan</li>
+<li>Source Control menggunakan <a href="https://git-scm.com/downloads">Git</a>, Anda bisa juga menggunakan <a href="https://subversion.apache.org/download.cgi">SVN</a></li>
+<li><a href="https://tortoisegit.org/">TortoiseGit</a> – aplikasi git client</li>
+<li><a href="https://bonobogitserver.com/">Bonobo Git Server</a> (server Git gratis berbasis Windows/IIS)</li>
+<li><a href="http://www.jrsoftware.org/">Inno Setup</a> atau <a href="http://nsis.sourceforge.net/">NSIS</a> – untuk keperluan proses deploy/pembuatan paket installer</li>
+</ul>
+
+
+<p>Tool-tool di atas selain perlu disiapkan juga harus tau cara penggunaannya, klo belum ya silahkan mampir dulu ke <a href="/blog/2016/09/24/persiapan-membangun-server-ci-continuous-integration-pada-windows-untuk-platform-net-bagian-number-1/">sini</a> dan <a href="/blog/2016/09/26/persiapan-membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-bagian-number-2/">sini</a>.</p>
+
+<p>Sebelum kita lanjut ke pembahasan, kita lihat tool/software untuk <code>Environment Test</code> yang saya gunakan baik di sisi server (Server CI) dan client (developer).</p>
+
+<h3>Environment Test Server</h3>
+
+<ul>
+<li>Windows Server 2008 R2</li>
+<li>Automation server <a href="https://jenkins.io/">Jenkins</a></li>
+<li>.NET Framework 4.0, 4.5.x</li>
+<li><a href="https://www.microsoft.com/en-us/download/details.aspx?id=48159">Microsoft Build 2015</a></li>
+<li>Source/version control <a href="https://git-scm.com/">Git</a></li>
+<li><a href="https://bonobogitserver.com/">Server Repository Git</a></li>
+<li>Package Installer <a href="/blog/categories/inno-setup/">Inno Setup</a></li>
+<li><a href="https://dist.nuget.org/index.html">NuGet</a></li>
+</ul>
+
+
+<h3>Environment Test Client</h3>
+
+<ul>
+<li>Visual Studio .NET 2013 Community Edition</li>
+<li>Source/version control <a href="https://git-scm.com/">Git</a></li>
+<li><a href="https://tortoisegit.org/">TortoiseGit</a></li>
+</ul>
+
+
+<h3>Fokus Pembahasan</h3>
+
+<p>Untuk postingan pertama ini, kita akan membahas:</p>
+
+<ul>
+<li>Konfigurasi <a href="https://jenkins.io">Jenkins</a></li>
+<li>Plugin tambahan yang perlu diinstall</li>
+<li>Pembuatan Project (Job)</li>
+<li>Tes clone repository, restore library nuget dan  build dalam satu langkah/klik</li>
+</ul>
+
+
+<h3>Instalasi Jenkins</h3>
+
+<p>Download dan install Jenkins di <a href="https://jenkins-ci.org/">sini</a>, setelah instalasi <a href="https://jenkins-ci.org/">Jenkins</a> bisa diakses di link <a href="http://localhost:8080">http://localhost:8080</a></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260929-01.png">https://coding4ever.files.wordpress.com/2016/09/260929-01.png</a>&#8221;></p>
+
+<h3>Konfigurasi Jenkins</h3>
+
+<p><a href="https://jenkins.io">Jenkins</a> mempunyai banyak plugin yang mudah dikonfigurasi seperti plugin Git, MSBuild dan lainnya. Berikut adalah daftar plugin yang akan kita install.</p>
+
+<ul>
+<li>Git plugin</li>
+<li>MSBuild plugin</li>
+<li>NUnit plugin</li>
+<li>Cobertura plugin</li>
+<li>PowerShell plugin</li>
+</ul>
+
+
+<p>Sebagai contoh kita akan menginstall plugin Git dan MSBuild, berikut langkah-langkahnya :</p>
+
+<h5>Menginstall plugin Git</h5>
+
+<ul>
+<li>Akses link : <a href="http://localhost:8080/">http://localhost:8080/</a></li>
+<li>Klik link Manage Jenkins, pilih Manage Plugins</li>
+<li>Aktifkan tab <code>Available</code>, ketik <code>Git plugin</code> di filter box, dari daftar pilihan plugin yang tersedia pilih <code>Git plugin</code></li>
+<li>Klik tombol <code>Install without restart</code></li>
+</ul>
+
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260929-02.png">https://coding4ever.files.wordpress.com/2016/09/260929-02.png</a>&#8221;></p>
+
+<h5>Menginstall plugin MSBuild</h5>
+
+<p>Masih sama dengan langkah-langkah sebelumnya, hanya saja kali ini plugin yang perlu difilter adalah <code>MSBuild</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260929-03.png">https://coding4ever.files.wordpress.com/2016/09/260929-03.png</a>&#8221;></p>
+
+<p>Ulangi langkah-langkah di atas untuk menginstall plugin lainnya seperti NUnit, Cobertura dan PowerShell.</p>
+
+<h5>Konfigurasi Git dan MSBuild</h5>
+
+<p>Setelah instalasi plugin Git dan MSBuild, kita perlu menambahkan konfigurasinya di halaman <code>Global Tool Configuration</code>, berikut langkah-langkahnya :</p>
+
+<ul>
+<li>Akses link : <a href="http://localhost:8080/">http://localhost:8080/</a></li>
+<li>Klik link Manage Jenkins, pilih Global Tool Configuration</li>
+<li><p>Scroll ke bawah sampai menemukan tulisan <code>Git/Git installations</code>, untuk isian <code>Path to Git executable</code> isikan lokasi instalasi git secara absolute</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260929-04.png">https://coding4ever.files.wordpress.com/2016/09/260929-04.png</a>&#8221;></p>
+
+<p>Untuk lokasi Git disesuaikan dengan lokasi instalasi Git di mesin Anda.</p></li>
+<li>Kemudian scroll kebawah lagi sampai menemukan tulisan <code>MSBuild</code>, kemudian klik tombol <code>Add MSBuild</code></li>
+<li><p>Isikan konfigurasinya seperti gambar berikut :</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260929-05.png">https://coding4ever.files.wordpress.com/2016/09/260929-05.png</a>&#8221;></p>
+
+<p>Untuk lokasi MSBuild juga disesuaikan dengan lokasi instalasi MSBuild di mesin Anda. Terakhir klik tombol Save.</p></li>
+</ul>
+
+
+<h3>Pembuatan Project (Job)</h3>
+
+<p>Berikutnya kita akan membuat project sederhana untuk mencoba proses build, berikut langkah-langkahnya:</p>
+
+<ul>
+<li>Akses link : <a href="http://localhost:8080/">http://localhost:8080/</a></li>
+<li>Klik link New Item</li>
+<li>Isikan nama project, misal northwind-build</li>
+<li>Pilih Freestyle project</li>
+<li><p>Pilih Ok</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260929-06.png">https://coding4ever.files.wordpress.com/2016/09/260929-06.png</a>&#8221;></p></li>
+<li><p>Aktifkan tab <code>Source Code Management</code>, kemudian pilih <code>Git</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260929-07.png">https://coding4ever.files.wordpress.com/2016/09/260929-07.png</a>&#8221;></p></li>
+<li><p>Kemudian lengkapi isian <code>Repository URL</code> dan <code>Credentials</code> seperti contoh berikut:</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260929-08.png">https://coding4ever.files.wordpress.com/2016/09/260929-08.png</a>&#8221;></p>
+
+<p>Untuk contoh di atas dengan asumsi instalasi <a href="https://jenkins.io">Jenkins</a> dan <a href="/blog/2016/09/24/persiapan-membangun-server-ci-continuous-integration-pada-windows-untuk-platform-net-bagian-number-1/">server repository Git</a> di mesin yang sama.</p>
+
+<p><a href="https://jenkins.io">Jenkins</a> selalu bekerja dengan <code>branch</code> dan secara default menggunakan branch <code>master</code>.</p></li>
+<li><p>Berikutnya aktifkan tab <code>Build</code>, klik <code>Add build step</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260929-09.png">https://coding4ever.files.wordpress.com/2016/09/260929-09.png</a>&#8221;></p></li>
+<li><p>Pilih <code>Build a Visual Studio project or solution using MSBuild</code></p>
+
+<p>Disini kita perlu mengisikan beberapa nilai:</p>
+
+<ul>
+<li>MSBuild Version diisi dengan <code>MSBuild</code> (yang sudah kita konfigurasi pada langkah sebelumnya)</li>
+<li>MSBuild Build File diisi dengan nama solution atau project</li>
+<li>Command Line Arguments (optional) diisi dengan parameter MSBuild
+<img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260929-10.png">https://coding4ever.files.wordpress.com/2016/09/260929-10.png</a>&#8221;></li>
+</ul>
+</li>
+<li><p>Karena project kita menggunakan library NuGet, kita juga perlu menambahkan konfigurasi untuk me-restore library NuGet. Masih di tab Build, klik <code>Add build step</code> kemudian pilih <code>Execute Windows batch command</code>.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260929-11.png">https://coding4ever.files.wordpress.com/2016/09/260929-11.png</a>&#8221;></p>
+
+<p>Untuk isian <code>Command</code> isikan perintah/skrip seperti berikut:</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260929-12.png">https://coding4ever.files.wordpress.com/2016/09/260929-12.png</a>&#8221;></p>
+
+<p>Perintah/skrip di atas dengan asumsi Anda sudah mendownload tool <a href="https://dist.nuget.org/index.html">NuGet</a> dan menyimpannya di folder <code>D:\Development Tools</code>.</p>
+
+<p>Seperti yang sudah pernah saya bahas di postingan <a href="xx">Persiapan Membangun Server CI Bagian #2</a>, proses <code>build</code> dilakukan setelah me-restore library nuget. Jadi kita harus merubah urutan prioritas agar konfigurasi &ldquo;Execute Windows batch command&rdquo; dijalankan terlebih dulu sebelum konfigurasi &ldquo;Build a Visual Studio project or solution using MSBuild&rdquo; dengan cara men-drag-nya ke atas.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260929-13.png">https://coding4ever.files.wordpress.com/2016/09/260929-13.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260929-14.png">https://coding4ever.files.wordpress.com/2016/09/260929-14.png</a>&#8221;></p>
+
+<p>Pada gambar di atas terlihat konfigurasi &ldquo;Execute Windows batch command&rdquo; dan &ldquo;Build a Visual Studio project or solution using MSBuild&rdquo; sudah berganti posisi. Terakhir klik tombol Save</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260929-15.png">https://coding4ever.files.wordpress.com/2016/09/260929-15.png</a>&#8221;></p></li>
+</ul>
+
+
+<h3>Testing Build</h3>
+
+<p>Setelah menyelesaikan beberapa konfigurasi, saatnya melakukan pengetesan apakah konfigurasi sebelumnya sudah benar. Berikut langkah-langkahnya :</p>
+
+<ul>
+<li><p>Klik link project <code>northwind-build</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260929-16.png">https://coding4ever.files.wordpress.com/2016/09/260929-16.png</a>&#8221;></p></li>
+<li><p>Di halaman project <code>northwind-build</code>, klik link <code>Build Now</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260929-17.png">https://coding4ever.files.wordpress.com/2016/09/260929-17.png</a>&#8221;></p></li>
+<li><p>Di informasi <code>Build History</code> akan terlihat progress build dengan nama <code>#1</code>, <code>#2</code>,&hellip; dst</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260929-18.png">https://coding4ever.files.wordpress.com/2016/09/260929-18.png</a>&#8221;></p></li>
+<li><p>Jika proses build-nya sukses penanda <code>bulat</code>-nya berwarna biru, jika warna merah berarti gagal</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260929-19.png">https://coding4ever.files.wordpress.com/2016/09/260929-19.png</a>&#8221;></p></li>
+<li><p>Untuk melihat detil <code>build</code>, klik link build number, misal <code>#1</code>, <code>#2</code>,&hellip; dst</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260929-20.png">https://coding4ever.files.wordpress.com/2016/09/260929-20.png</a>&#8221;></p></li>
+<li><p>Kemudian klik link <code>Console Output</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260929-211.png">https://coding4ever.files.wordpress.com/2016/09/260929-211.png</a>&#8221;></p>
+
+<p>Catatan penting dari <code>output</code> di atas adalah lokasi dari <code>workspace</code> di mana source code/hasil clone dari repository dan proses build dilakukan. Informasi ini tentu akan sangat membantu kita dalam melakukan <code>debuging</code> konfigurasi/setup CI.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260929-22.png">https://coding4ever.files.wordpress.com/2016/09/260929-22.png</a>&#8221;></p></li>
+</ul>
+
+
+<p>Kesimpulan dari proses build di atas dan tentunya berdasarkan konfigurasi yang kita lakukan, jenkins melakukan hal-hal berikut :</p>
+
+<ol>
+<li>Meng-clone repository git</li>
+<li>Me-restore library nuget</li>
+<li>Melakukan proses build</li>
+</ol>
+
+
+<p>Selamat Mencoba :-)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Persiapan Membangun Server CI (Continuous Integration) Di Windows Untuk Platform .NET Bagian #2]]></title>
@@ -114,7 +361,7 @@
 
 <p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260916-13.png">https://coding4ever.files.wordpress.com/2016/09/260916-13.png</a>&#8221;></p>
 
-<p>Sampai di sini persiapan untuk membangun Server CI (Continuous Integration) sudah selesai, insya Allah di postingan berikutnya kita akan membahas &ldquo;Bagaimana Membangun Server CI (Continuous Integration) di Windows untuk Platform .NET Menggunakan Jenkins&rdquo;.</p>
+<p>Sampai di sini persiapan untuk membangun Server CI (Continuous Integration) sudah selesai, insya Allah di postingan berikutnya kita akan membahas <a href="/blog/2016/09/29/membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-menggunakan-jenkins-bagian-number-1/">Bagaimana Membangun Server CI (Continuous Integration) di Windows untuk Platform .NET Menggunakan Jenkins</a>.</p>
 
 <p>Selamat Mencoba :-)</p>
 ]]></content>
