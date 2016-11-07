@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-11-07T09:46:40+07:00</updated>
+  <updated>2016-11-07T10:04:42+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -27,7 +27,7 @@
 
 <p><img class="center" src="https://coding4ever.files.wordpress.com/2016/11/261107-01.png"></p>
 
-<p>Pada gambar di atas, saya menambahkan file <code>hook script</code> dengan nama <code>post-receive</code>, file ini akan dieksekusi secara otomatis seteleh proses <code>push</code> selesai. Berikut contoh isi dari file <code>post-receive</code>.</p>
+<p>Pada gambar di atas, saya menambahkan file <a href="https://git-scm.com/docs/githooks">hook script</a> dengan nama <code>post-receive</code>, file ini akan dieksekusi secara otomatis seteleh proses <code>push</code> selesai. Berikut contoh isi dari file <code>post-receive</code>.</p>
 
 <p><img class="center" src="https://coding4ever.files.wordpress.com/2016/11/261107-021.png"></p>
 
