@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Jenkins | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/jenkins/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-10-01T22:38:21+07:00</updated>
+  <updated>2016-11-07T09:46:40+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,99 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Membangun Server CI (Continuous Integration) Di Windows Untuk Platform .NET Menggunakan Jenkins Bagian #3]]></title>
+    <link href="http://coding4ever.net/blog/2016/11/07/membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-menggunakan-jenkins-bagian-number-3/"/>
+    <updated>2016-11-07T09:44:00+07:00</updated>
+    <id>http://coding4ever.net/blog/2016/11/07/membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-menggunakan-jenkins-bagian-number-3</id>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2016/09/logo-ci1.png">https://coding4ever.files.wordpress.com/2016/09/logo-ci1.png</a>&#8221; width=&#8221;109&#8221; height=&#8221;106&#8221;>Melanjutkan pembahasan tentang <a href="/blog/categories/continuous-integration/">Server CI (Continuous Integration)</a>. Kita sudah berhasil membuat project/job untuk melakukan proses <code>build</code> dan <code>deploy</code> secara otomatis dan terpusat di satu server. Hanya saja, ada sedikit yang kurang yaitu project/job ini harus kita jalankan/eksekusi secara manual setelah proses <code>push</code> source code ke server repository kita lakukan, dan tentunya akan sangat merepotkan jika harus bolak-balik mengeksekusi project/job setiap selesai melakukan proses <code>push</code>.</p>
+
+<!-- more -->
+
+
+<p>Nah untuk solusi masalah ini, kita akan menambahkan sedikit skrip agar proses eksekusi project/job ini bisa berjalan secara otomatis setelah selesai melakukan proses <code>push</code>. Skrip ini dikenal dengan nama <code>hook script</code>. Jadi source control seperti Git, mempunyai sekumpulan skrip (hook script ) dengan nama tertentu yang akan di eksekusi oleh git sebelum atau sesudah event-event tertentu, seperti: commit, push, receive dan event-event lainnya. <code>Hook script</code> ini disimpan di folder <code>hooks</code> masing-masing folder repository.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/11/261107-01.png">https://coding4ever.files.wordpress.com/2016/11/261107-01.png</a>&#8221;></p>
+
+<p>Pada gambar di atas, saya menambahkan file <code>hook script</code> dengan nama <code>post-receive</code>, file ini akan dieksekusi secara otomatis seteleh proses <code>push</code> selesai. Berikut contoh isi dari file <code>post-receive</code>.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/11/261107-021.png">https://coding4ever.files.wordpress.com/2016/11/261107-021.png</a>&#8221;></p>
+
+<p>Skrip <code>post-receive</code> di atas akan mengakses URL/alamat yang di gunakan untuk proses <code>build</code> dan <code>deploy</code> yaitu :</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>JENKINS_URL/job/JOB_NAME/build?token=TOKEN_NAME</span></code></pre></td></tr></table></div></figure></p>
+
+<ul>
+<li><code>JENKINS_URL</code> diisi dengan alamat dari server jenkins misal <code>http://localhost:8080</code></li>
+<li><code>JOB_NAME</code> diisi dengan nama project/job jenkins misal  <code>northwind-build</code></li>
+<li><code>TOKEN_NAME</code> diisi dengan sembarang nilai token, misal <code>cnwlhaUq6g5Uwzvg6ePI</code></li>
+</ul>
+
+
+<p>Selain itu untuk mengakses URL ini juga dibutuhkan informasi user dan APInya, misal menggunakan user <code>admin</code> dengan apinya <code>94a0428ca9d8d1d6c2e229fe1183f98</code>. Selain menggunakan user API kita juga bisa menggunakan langsung password dari user tapi tentunya cara yang kedua ini tidak disarankan.</p>
+
+<h3>Mendapatkan Informasi User API</h3>
+
+<p>Informasi user API bisa diakses melalui menu <code>Manage Jenkins</code> -> <code>Manage Users</code> -> <code>Configure</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/11/261107-03.png">https://coding4ever.files.wordpress.com/2016/11/261107-03.png</a>&#8221;></p>
+
+<p>Kemudian klik tombol <code>Show API Token…</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/11/261107-04.png">https://coding4ever.files.wordpress.com/2016/11/261107-04.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/11/261107-05.png">https://coding4ever.files.wordpress.com/2016/11/261107-05.png</a>&#8221;></p>
+
+<h3>Mengaktifkan Project/Job Authentication Token</h3>
+
+<p>Untuk bisa mengakses URL  <strong>JENKINS_URL/job/JOB_NAME/build?token=TOKEN_NAME</strong> selain membutuhkan <code>User</code> dan <code>User API</code>, kita juga perlu mengaktifkan project/job Authentication Token melalui link <code>Project</code> -> <code>Configure</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/11/261107-06.png">https://coding4ever.files.wordpress.com/2016/11/261107-06.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/11/261107-07.png">https://coding4ever.files.wordpress.com/2016/11/261107-07.png</a>&#8221;></p>
+
+<p>Kemudian aktifkan pilihan <code>Trigger builds remotely</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/11/261107-08.png">https://coding4ever.files.wordpress.com/2016/11/261107-08.png</a>&#8221;></p>
+
+<p>Untuk nilai <code>Authentication Token</code> diisi sesuai keinginan, kalo saya biasanya menggunakan tool <a href="/blog/2014/05/21/manajemen-password-menggunakan-keepass/">KeePass</a> untuk mengenerate nilai tokennya.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/11/261107-091.png">https://coding4ever.files.wordpress.com/2016/11/261107-091.png</a>&#8221;></p>
+
+<h3>Testing Build Otomatis</h3>
+
+<p>Setelah menyelesaikan konfigurasi di atas, saatnya melakukan pengetesan apakah konfigurasinya sudah benar atau belum. Berikut langkah-langkahnya :</p>
+
+<ul>
+<li>Aktifkan project <a href="https://github.com/k4m4r82/Northwind">Northwind</a></li>
+<li><p>Tambahkan method abstract baru di interface <a href="https://github.com/k4m4r82/Northwind/blob/master/src/Northwind.Repository.Api/IProductRepository.cs">IProductRepository</a>, misal dengan nama <code>GetByCategoryName</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/11/261107-10.png">https://coding4ever.files.wordpress.com/2016/11/261107-10.png</a>&#8221;></p></li>
+<li><p>Kemudian lengkapi implementasinya method abstractnya di class <a href="https://github.com/k4m4r82/Northwind/blob/master/src/Northwind.Repository.Service/ProductRepositoryDapper.cs">ProductRepositoryDapper</a></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/11/261107-11.png">https://coding4ever.files.wordpress.com/2016/11/261107-11.png</a>&#8221;></p></li>
+<li><p>Terakhir lakukan <code>commit</code> dan <code>push</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/11/261107-12.png">https://coding4ever.files.wordpress.com/2016/11/261107-12.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/11/261107-13.png">https://coding4ever.files.wordpress.com/2016/11/261107-13.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/11/261107-14.png">https://coding4ever.files.wordpress.com/2016/11/261107-14.png</a>&#8221;></p></li>
+<li><p>Dan secara otomatis proses <code>build</code> dan <code>deploy</code> di server CI akan dijalankan</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/11/261107-15.png">https://coding4ever.files.wordpress.com/2016/11/261107-15.png</a>&#8221;></p></li>
+</ul>
+
+
+<h3>Kesimpulan</h3>
+
+<p>Dengan memanfaatkan <code>hook script</code> proses <code>build</code> dan <code>deploy</code> bisa dibuat otomatis pada event- event-event tertentu, seperti: commit, push, receive dan event-event lainnya.</p>
+
+<p>Selamat Mencoba :-)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Membangun Server CI (Continuous Integration) Di Windows Untuk Platform .NET Menggunakan Jenkins Bagian #2]]></title>

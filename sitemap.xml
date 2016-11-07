@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://coding4ever.net/blog/2016/11/07/membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-menggunakan-jenkins-bagian-number-3/</loc>
+<lastmod>2016-11-07T09:44:00+07:00</lastmod>
+</url>
+<url>
 <loc>http://coding4ever.net/blog/2016/10/01/membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-menggunakan-jenkins-bagian-number-2/</loc>
 <lastmod>2016-10-01T22:35:57+07:00</lastmod>
 </url>
