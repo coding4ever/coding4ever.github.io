@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Jenkins | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/jenkins/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-12-14T06:44:59+07:00</updated>
+  <updated>2016-12-14T06:50:31+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -50,7 +50,6 @@
 <li>Web Server IIS 7</li>
 <li>.NET Framework 4.0, 4.5.x</li>
 <li><a href="https://www.iis.net/downloads/microsoft/web-deploy">Web Deploy 3.6</a></li>
-<li>.NET Framework 4.0, 4.5.x</li>
 </ul>
 
 
@@ -67,7 +66,7 @@
 
 <p>Berikut langkah-langkahnya:</p>
 
-<p><strong>Langkah 1</strong>: Aktifkan fitur Management Service (Server Manager -> Role -> Web Server (IIS))</p>
+<p><strong>Langkah 1</strong>: Aktifkan role Management Service (Server Manager -> Role -> Web Server (IIS))</p>
 
 <p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-01.png">https://coding4ever.files.wordpress.com/2016/12/261213-01.png</a>&#8221;></p>
 
