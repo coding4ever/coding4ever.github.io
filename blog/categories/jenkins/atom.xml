@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Jenkins | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/jenkins/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-11-07T10:04:42+07:00</updated>
+  <updated>2016-12-14T06:44:59+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,158 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Membangun Server CI (Continuous Integration) Di Windows Untuk Platform .NET Menggunakan Jenkins Bagian #4]]></title>
+    <link href="http://coding4ever.net/blog/2016/12/14/membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-menggunakan-jenkins-bagian-number-4/"/>
+    <updated>2016-12-14T06:44:25+07:00</updated>
+    <id>http://coding4ever.net/blog/2016/12/14/membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-menggunakan-jenkins-bagian-number-4</id>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2016/09/logo-ci1.png">https://coding4ever.files.wordpress.com/2016/09/logo-ci1.png</a>&#8221; width=&#8221;109&#8221; height=&#8221;106&#8221;>Masih membahas tentang  manfaat dari <a href="/blog/categories/continuous-integration/">Server CI (Continuous Integration)</a> untuk kemudahan dalam melakukan proses build dan deploy secara terpusat. Jika dipostingan <a href="/blog/categories/jenkins/">sebelumnya</a> saya menggunakan contoh <a href="https://github.com/k4m4r82/Northwind">aplikasi desktop</a> maka kali ini kita akan membahas proses build dan deploy untuk aplikasi berbasis web seperti ASP.NET, ASP.NET MVC dan <a href="https://github.com/k4m4r82/NorthwindWebApi">ASP.NET  WEB API</a>.</p>
+
+<!-- more -->
+
+
+<p>Untuk kemudahan proses deploy ke web server IIS, Microsoft sudah menyediakan tool khusus untuk melakukan ini yaitu <a href="https://www.iis.net/downloads/microsoft/web-deploy">Web Deploy</a>. Tool ini akan kita kombinasikan dengan tool <a href="https://www.microsoft.com/en-us/download/details.aspx?id=48159">Microsoft Build</a>.</p>
+
+<h3>Environment Test</h3>
+
+<p>Untuk keperluan postingan kali ini, saya menggunakan environment test sebagai berikut:</p>
+
+<h5>Server CI (Continuous Integration)</h5>
+
+<ul>
+<li>Windows Server 2008 R2</li>
+<li>Software CI (Continuous Integration) menggunakan <a href="https://jenkins.io/">Jenkins</a></li>
+<li>.NET Framework 4.0, 4.5.x</li>
+<li><a href="https://www.microsoft.com/en-us/download/details.aspx?id=48159">Microsoft Build 2015</a></li>
+<li><a href="https://www.iis.net/downloads/microsoft/web-deploy">Web Deploy 3.6</a></li>
+<li>Source/version control <a href="https://git-scm.com/">Git</a></li>
+<li>Repository Git menggunakan <a href="https://bonobogitserver.com/">Bonobo Git Server</a></li>
+<li><a href="https://www.nuget.org/">NuGet</a></li>
+</ul>
+
+
+<h5>Server Development/Production</h5>
+
+<ul>
+<li>Windows Server 2008 R2</li>
+<li>Web Server IIS 7</li>
+<li>.NET Framework 4.0, 4.5.x</li>
+<li><a href="https://www.iis.net/downloads/microsoft/web-deploy">Web Deploy 3.6</a></li>
+<li>.NET Framework 4.0, 4.5.x</li>
+</ul>
+
+
+<h5>PC/Laptop Development</h5>
+
+<ul>
+<li>Visual Studio .NET 2013 <a href="https://www.visualstudio.com/vs/community/">Community Edition</a></li>
+<li>Source/version control <a href="https://git-scm.com/">Git</a></li>
+<li><a href="https://tortoisegit.org/">TortoiseGit</a></li>
+</ul>
+
+
+<h3>Konfigurasi Server Development/Production</h3>
+
+<p>Berikut langkah-langkahnya:</p>
+
+<p><strong>Langkah 1</strong>: Aktifkan fitur Management Service (Server Manager -> Role -> Web Server (IIS))</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-01.png">https://coding4ever.files.wordpress.com/2016/12/261213-01.png</a>&#8221;></p>
+
+<p>Setelah selesai dilanjutkan dengan pembuatan user windows/local user.</p>
+
+<p><strong>Langkah 2</strong>: Menambahkan user windows/local non-admin untuk keperluan deploy (Server Manager -> Configuration -> Local Users and Groups -> Users</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-02.png">https://coding4ever.files.wordpress.com/2016/12/261213-02.png</a>&#8221;></p>
+
+<p><strong>Langkah 3</strong>: <a href="https://www.iis.net/downloads/microsoft/web-deploy">Download</a> dan Install <a href="https://www.iis.net/downloads/microsoft/web-deploy">Web Deploy</a>. Pada saat instalasi pilih custome kemudian aktifkan semua pilihan.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-03.png">https://coding4ever.files.wordpress.com/2016/12/261213-03.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-04.png">https://coding4ever.files.wordpress.com/2016/12/261213-04.png</a>&#8221;></p>
+
+<p><strong>Langkah 4</strong>: Konfigurasi Web Deploy Publishing (IIS Manager -> Site -> Deploy -> Configure Web Deploy Publishing …)</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-05.png">https://coding4ever.files.wordpress.com/2016/12/261213-05.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-06.png">https://coding4ever.files.wordpress.com/2016/12/261213-06.png</a>&#8221;></p>
+
+<p><code>tukang_deploy</code> di atas adalah user windows/local <code>non-admin</code> yang sudah kita buat pada langkah sebelumnya.</p>
+
+<p><strong>Langkah 5</strong>: Selesai</p>
+
+<h3>Konfigurasi PC/Laptop Development</h3>
+
+<p>Untuk konfigurasi pc/laptop development dilakukan dengan cara membuat <code>publish profile</code>.  Berikut langkah-langkahnya:</p>
+
+<p><strong>Langkah 1:</strong> Aktifkan project Visual Studio.net, sebagai contoh bisa didownload di <a href="https://github.com/k4m4r82/NorthwindWebApi">sini</a></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-07.png">https://coding4ever.files.wordpress.com/2016/12/261213-07.png</a>&#8221;></p>
+
+<p><strong>Langkah 2:</strong> Klik kanan project Web API -> Publish&hellip;, setelah itu akan tampil dialog publish web</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-08.png">https://coding4ever.files.wordpress.com/2016/12/261213-08.png</a>&#8221;></p>
+
+<p><strong>Langkah 3:</strong> Kemudian pada tab Profile pilih Custome</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-09.png">https://coding4ever.files.wordpress.com/2016/12/261213-09.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-101.png">https://coding4ever.files.wordpress.com/2016/12/261213-101.png</a>&#8221;></p>
+
+<p>Isikan nama profile</p>
+
+<p><strong>Langkah 4:</strong> Pada tab Connection isikan konfigurasinya seperti berikut</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-112.png">https://coding4ever.files.wordpress.com/2016/12/261213-112.png</a>&#8221;></p>
+
+<p>Contoh konfigurasi di atas menggunakan ip <code>192.168.56.2</code> untuk server development, jadi nilainya tinggal disesuaikan. Untuk user dan password dikosongkan dulu aja, nanti kita set pada saat proses <code>build</code> dan <code>deploy</code> di job/project jenkins.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-122.png">https://coding4ever.files.wordpress.com/2016/12/261213-122.png</a>&#8221;></p>
+
+<p><strong>Langkah 5:</strong> Selanjutnya tinggal di Next aja</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-13.png">https://coding4ever.files.wordpress.com/2016/12/261213-13.png</a>&#8221;></p>
+
+<p><strong>Langkah 6:</strong> Terakhir klik tombol Close</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-14.png">https://coding4ever.files.wordpress.com/2016/12/261213-14.png</a>&#8221;></p>
+
+<h3>Konfigurasi Server CI (Continuous Integration)</h3>
+
+<p>Dipostingan kali ini saya tidak lagi menjelaskan secara rinci bagaimana membuat dan melakukan konfigurasi job/project jenkins karena sudah saya bahas dipostingan <a href="/blog/categories/jenkins/">sebelumnya</a>. Berikut langkah-langkahnya:</p>
+
+<p><strong>Langkah 1:</strong> Buat job/project baru, misal dengan nama <code>northwind-web-api-deploy</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-15.png">https://coding4ever.files.wordpress.com/2016/12/261213-15.png</a>&#8221;></p>
+
+<p><strong>Langkah 2:</strong> Setting repository git</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-16.png">https://coding4ever.files.wordpress.com/2016/12/261213-16.png</a>&#8221;></p>
+
+<p><strong>Langkah 3:</strong> Setting restore nuget package</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-17.png">https://coding4ever.files.wordpress.com/2016/12/261213-17.png</a>&#8221;></p>
+
+<p><strong>Langkah 4:</strong> Setting MSBuild</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-181.png">https://coding4ever.files.wordpress.com/2016/12/261213-181.png</a>&#8221;></p>
+
+<p><strong>Langkah 5:</strong> Terakhir tes build dan deploy</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-19.png">https://coding4ever.files.wordpress.com/2016/12/261213-19.png</a>&#8221;></p>
+
+<p>Jika proses <code>build</code> dan <code>deploy</code> selesai, kita tinggal cek hasilnya di IIS Manager</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-201.png">https://coding4ever.files.wordpress.com/2016/12/261213-201.png</a>&#8221;></p>
+
+<p>Setelah itu kita juga bisa langsung mencoba web servicenya menggunakan web browser.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-21.png">https://coding4ever.files.wordpress.com/2016/12/261213-21.png</a>&#8221;></p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/NorthwindWebApi">MENCOBA</a> :-)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Membangun Server CI (Continuous Integration) Di Windows Untuk Platform .NET Menggunakan Jenkins Bagian #3]]></title>

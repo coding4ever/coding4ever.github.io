@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Continuous Integration | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/continuous-integration/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-11-07T10:04:42+07:00</updated>
+  <updated>2016-12-14T06:44:59+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,158 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Membangun Server CI (Continuous Integration) Di Windows Untuk Platform .NET Menggunakan Jenkins Bagian #4]]></title>
+    <link href="http://coding4ever.net/blog/2016/12/14/membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-menggunakan-jenkins-bagian-number-4/"/>
+    <updated>2016-12-14T06:44:25+07:00</updated>
+    <id>http://coding4ever.net/blog/2016/12/14/membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-menggunakan-jenkins-bagian-number-4</id>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2016/09/logo-ci1.png">https://coding4ever.files.wordpress.com/2016/09/logo-ci1.png</a>&#8221; width=&#8221;109&#8221; height=&#8221;106&#8221;>Masih membahas tentang  manfaat dari <a href="/blog/categories/continuous-integration/">Server CI (Continuous Integration)</a> untuk kemudahan dalam melakukan proses build dan deploy secara terpusat. Jika dipostingan <a href="/blog/categories/jenkins/">sebelumnya</a> saya menggunakan contoh <a href="https://github.com/k4m4r82/Northwind">aplikasi desktop</a> maka kali ini kita akan membahas proses build dan deploy untuk aplikasi berbasis web seperti ASP.NET, ASP.NET MVC dan <a href="https://github.com/k4m4r82/NorthwindWebApi">ASP.NET  WEB API</a>.</p>
+
+<!-- more -->
+
+
+<p>Untuk kemudahan proses deploy ke web server IIS, Microsoft sudah menyediakan tool khusus untuk melakukan ini yaitu <a href="https://www.iis.net/downloads/microsoft/web-deploy">Web Deploy</a>. Tool ini akan kita kombinasikan dengan tool <a href="https://www.microsoft.com/en-us/download/details.aspx?id=48159">Microsoft Build</a>.</p>
+
+<h3>Environment Test</h3>
+
+<p>Untuk keperluan postingan kali ini, saya menggunakan environment test sebagai berikut:</p>
+
+<h5>Server CI (Continuous Integration)</h5>
+
+<ul>
+<li>Windows Server 2008 R2</li>
+<li>Software CI (Continuous Integration) menggunakan <a href="https://jenkins.io/">Jenkins</a></li>
+<li>.NET Framework 4.0, 4.5.x</li>
+<li><a href="https://www.microsoft.com/en-us/download/details.aspx?id=48159">Microsoft Build 2015</a></li>
+<li><a href="https://www.iis.net/downloads/microsoft/web-deploy">Web Deploy 3.6</a></li>
+<li>Source/version control <a href="https://git-scm.com/">Git</a></li>
+<li>Repository Git menggunakan <a href="https://bonobogitserver.com/">Bonobo Git Server</a></li>
+<li><a href="https://www.nuget.org/">NuGet</a></li>
+</ul>
+
+
+<h5>Server Development/Production</h5>
+
+<ul>
+<li>Windows Server 2008 R2</li>
+<li>Web Server IIS 7</li>
+<li>.NET Framework 4.0, 4.5.x</li>
+<li><a href="https://www.iis.net/downloads/microsoft/web-deploy">Web Deploy 3.6</a></li>
+<li>.NET Framework 4.0, 4.5.x</li>
+</ul>
+
+
+<h5>PC/Laptop Development</h5>
+
+<ul>
+<li>Visual Studio .NET 2013 <a href="https://www.visualstudio.com/vs/community/">Community Edition</a></li>
+<li>Source/version control <a href="https://git-scm.com/">Git</a></li>
+<li><a href="https://tortoisegit.org/">TortoiseGit</a></li>
+</ul>
+
+
+<h3>Konfigurasi Server Development/Production</h3>
+
+<p>Berikut langkah-langkahnya:</p>
+
+<p><strong>Langkah 1</strong>: Aktifkan fitur Management Service (Server Manager -> Role -> Web Server (IIS))</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-01.png">https://coding4ever.files.wordpress.com/2016/12/261213-01.png</a>&#8221;></p>
+
+<p>Setelah selesai dilanjutkan dengan pembuatan user windows/local user.</p>
+
+<p><strong>Langkah 2</strong>: Menambahkan user windows/local non-admin untuk keperluan deploy (Server Manager -> Configuration -> Local Users and Groups -> Users</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-02.png">https://coding4ever.files.wordpress.com/2016/12/261213-02.png</a>&#8221;></p>
+
+<p><strong>Langkah 3</strong>: <a href="https://www.iis.net/downloads/microsoft/web-deploy">Download</a> dan Install <a href="https://www.iis.net/downloads/microsoft/web-deploy">Web Deploy</a>. Pada saat instalasi pilih custome kemudian aktifkan semua pilihan.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-03.png">https://coding4ever.files.wordpress.com/2016/12/261213-03.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-04.png">https://coding4ever.files.wordpress.com/2016/12/261213-04.png</a>&#8221;></p>
+
+<p><strong>Langkah 4</strong>: Konfigurasi Web Deploy Publishing (IIS Manager -> Site -> Deploy -> Configure Web Deploy Publishing …)</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-05.png">https://coding4ever.files.wordpress.com/2016/12/261213-05.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-06.png">https://coding4ever.files.wordpress.com/2016/12/261213-06.png</a>&#8221;></p>
+
+<p><code>tukang_deploy</code> di atas adalah user windows/local <code>non-admin</code> yang sudah kita buat pada langkah sebelumnya.</p>
+
+<p><strong>Langkah 5</strong>: Selesai</p>
+
+<h3>Konfigurasi PC/Laptop Development</h3>
+
+<p>Untuk konfigurasi pc/laptop development dilakukan dengan cara membuat <code>publish profile</code>.  Berikut langkah-langkahnya:</p>
+
+<p><strong>Langkah 1:</strong> Aktifkan project Visual Studio.net, sebagai contoh bisa didownload di <a href="https://github.com/k4m4r82/NorthwindWebApi">sini</a></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-07.png">https://coding4ever.files.wordpress.com/2016/12/261213-07.png</a>&#8221;></p>
+
+<p><strong>Langkah 2:</strong> Klik kanan project Web API -> Publish&hellip;, setelah itu akan tampil dialog publish web</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-08.png">https://coding4ever.files.wordpress.com/2016/12/261213-08.png</a>&#8221;></p>
+
+<p><strong>Langkah 3:</strong> Kemudian pada tab Profile pilih Custome</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-09.png">https://coding4ever.files.wordpress.com/2016/12/261213-09.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-101.png">https://coding4ever.files.wordpress.com/2016/12/261213-101.png</a>&#8221;></p>
+
+<p>Isikan nama profile</p>
+
+<p><strong>Langkah 4:</strong> Pada tab Connection isikan konfigurasinya seperti berikut</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-112.png">https://coding4ever.files.wordpress.com/2016/12/261213-112.png</a>&#8221;></p>
+
+<p>Contoh konfigurasi di atas menggunakan ip <code>192.168.56.2</code> untuk server development, jadi nilainya tinggal disesuaikan. Untuk user dan password dikosongkan dulu aja, nanti kita set pada saat proses <code>build</code> dan <code>deploy</code> di job/project jenkins.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-122.png">https://coding4ever.files.wordpress.com/2016/12/261213-122.png</a>&#8221;></p>
+
+<p><strong>Langkah 5:</strong> Selanjutnya tinggal di Next aja</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-13.png">https://coding4ever.files.wordpress.com/2016/12/261213-13.png</a>&#8221;></p>
+
+<p><strong>Langkah 6:</strong> Terakhir klik tombol Close</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-14.png">https://coding4ever.files.wordpress.com/2016/12/261213-14.png</a>&#8221;></p>
+
+<h3>Konfigurasi Server CI (Continuous Integration)</h3>
+
+<p>Dipostingan kali ini saya tidak lagi menjelaskan secara rinci bagaimana membuat dan melakukan konfigurasi job/project jenkins karena sudah saya bahas dipostingan <a href="/blog/categories/jenkins/">sebelumnya</a>. Berikut langkah-langkahnya:</p>
+
+<p><strong>Langkah 1:</strong> Buat job/project baru, misal dengan nama <code>northwind-web-api-deploy</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-15.png">https://coding4ever.files.wordpress.com/2016/12/261213-15.png</a>&#8221;></p>
+
+<p><strong>Langkah 2:</strong> Setting repository git</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-16.png">https://coding4ever.files.wordpress.com/2016/12/261213-16.png</a>&#8221;></p>
+
+<p><strong>Langkah 3:</strong> Setting restore nuget package</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-17.png">https://coding4ever.files.wordpress.com/2016/12/261213-17.png</a>&#8221;></p>
+
+<p><strong>Langkah 4:</strong> Setting MSBuild</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-181.png">https://coding4ever.files.wordpress.com/2016/12/261213-181.png</a>&#8221;></p>
+
+<p><strong>Langkah 5:</strong> Terakhir tes build dan deploy</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-19.png">https://coding4ever.files.wordpress.com/2016/12/261213-19.png</a>&#8221;></p>
+
+<p>Jika proses <code>build</code> dan <code>deploy</code> selesai, kita tinggal cek hasilnya di IIS Manager</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-201.png">https://coding4ever.files.wordpress.com/2016/12/261213-201.png</a>&#8221;></p>
+
+<p>Setelah itu kita juga bisa langsung mencoba web servicenya menggunakan web browser.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261213-21.png">https://coding4ever.files.wordpress.com/2016/12/261213-21.png</a>&#8221;></p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/NorthwindWebApi">MENCOBA</a> :-)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Membangun Server CI (Continuous Integration) Di Windows Untuk Platform .NET Menggunakan Jenkins Bagian #3]]></title>
@@ -719,163 +871,6 @@ Di masing-masing repository kita pasang <code>hook script</code> untuk memanggil
 <p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260916-13.png">https://coding4ever.files.wordpress.com/2016/09/260916-13.png</a>&#8221;></p>
 
 <p>Sampai di sini persiapan untuk membangun Server CI (Continuous Integration) sudah selesai, insya Allah di postingan berikutnya kita akan membahas <a href="/blog/2016/09/29/membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-menggunakan-jenkins-bagian-number-1/">Bagaimana Membangun Server CI (Continuous Integration) di Windows untuk Platform .NET Menggunakan Jenkins</a>.</p>
-
-<p>Selamat Mencoba :-)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Persiapan Membangun Server CI (Continuous Integration) Di Windows Untuk Platform .NET Bagian #1]]></title>
-    <link href="http://coding4ever.net/blog/2016/09/24/persiapan-membangun-server-ci-continuous-integration-pada-windows-untuk-platform-net-bagian-number-1/"/>
-    <updated>2016-09-24T16:18:00+07:00</updated>
-    <id>http://coding4ever.net/blog/2016/09/24/persiapan-membangun-server-ci-continuous-integration-pada-windows-untuk-platform-net-bagian-number-1</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2016/09/logo-ci1.png">https://coding4ever.files.wordpress.com/2016/09/logo-ci1.png</a>&#8221; width=&#8221;109&#8221; height=&#8221;106&#8221;><a href="https://en.wikipedia.org/wiki/Continuous_integration">Continuous Integration</a>, biar gampang nyebutnya kita sebut <code>CI</code> aja ya, yang merupakan salah satu kegiatan untuk meningkatkan produktivitas dalam pengembangan aplikasi di mana seluruh hasil kerja (source code) dari masing-masing developer digabungkan (push) ke dalam satu wadah (server repository source code). Bisa sekali sehari, bisa juga beberapa kali dalam sehari. Setiap penggabungan source code akan diverifikasi secara otomatis oleh server CI, yang memungkinkan tim untuk mendeteksi secara dini jika ada masalah/konflik/error pada saat penggabungan source code.</p>
-
-<!-- more -->
-
-
-<p>Sebenarnya membangun server CI itu gambang, hanya melakukan instalasi dilanjutkan dengan konfigurasi plus menuliskan beberapa skrip sederhana (batch commands) kita sudah bisa membangun server CI. Hanya saja ada beberapa tool/software yang perlu kita ketahui cara penggunaannya  agar proses membangun server CInya jadi lebih gampang.</p>
-
-<p>Berikut adalah daftarnya :</p>
-
-<ul>
-<li><a href="https://git-scm.com/">Git</a> – ini merupakan tool untuk source/version control, kita bisa saja menggunakan version control lainnya seperti <a href="https://subversion.apache.org/">svn</a>.</li>
-<li><a href="https://tortoisegit.org/">TortoiseGit</a> – aplikasi git client berbasis windows, kita bisa saja menggunakan aplikasi git client lainnya.</li>
-<li><a href="https://bonobogitserver.com/">Bonobo Git Server</a> – aplikasi web gratis untuk membangun server repository Git berbasis Windows/IIS</li>
-<li><a href="/blog/categories/nuget/">NuGet</a> - package manager untuk mempermudah kita menginstall library pihak ketiga</li>
-<li><a href="http://nunit.org/">NUnit</a> – untuk keperluan <a href="/blog/categories/software-testing/">testing otomatis</a></li>
-<li><a href="https://www.microsoft.com/en-us/download/details.aspx?id=48159">MSBuild</a> – untuk keperluan proses build</li>
-<li><a href="/blog/categories/tools-installer/">Package Installer</a> – untuk keperluan proses deploy/pembuatan paket installer, kita bisa menggunakan yang gratis seperti <a href="/blog/categories/inno-setup/">Inno Setup</a> atau <a href="/blog/categories/nsis/">NSIS</a></li>
-</ul>
-
-
-<p>Untuk <a href="/blog/2016/09/24/persiapan-membangun-server-ci-continuous-integration-pada-windows-untuk-platform-net-bagian-number-1/">bagian #1</a> ini kita bahas terlebih dulu tentang <a href="https://bonobogitserver.com/">Bonobo Git Server</a>.</p>
-
-<p>Kita sebagai software developer tentu sudah tidak asing lagi dengan namanya <a href="https://about.gitlab.com/">GitLab</a>, <a href="https://github.com/">GitHub</a> dan <a href="https://bitbucket.org/">Bitbucket</a>. Ketiga website ini memberikan layanan untuk menghosting-kan repository git secara online/cloud. <a href="https://git-scm.com/">Git</a> sendiri merupakan salah satu version control seperti halnya <a href="https://subversion.apache.org/download.cgi">svn</a>.</p>
-
-<p>Dipostingan kali saya tidak akan membahas secara detil apa itu <a href="https://git-scm.com/">Git</a>, apa bedanya dengan version control lainnya seperti <a href="https://subversion.apache.org/download.cgi">svn</a>, bagaimana cara menginstallnya dan bagaimana cara menggunakannya, sekali lagi tidak. Karena sudah banyak referensi di internet yang membahas masalah ini.</p>
-
-<p>Tapi dipostingan kali ini kita akan membahas solusi jika ingin punya hosting/server sendiri untuk repository Git. Setelah mencoba beberapa  software gratis untuk membuat server repository Git di lingkungan Windows, akhirnya pilihan saya jatuh ke <a href="https://bonobogitserver.com/">Bonobo Git Server</a>. <a href="https://bonobogitserver.com/">Bonobo Git Server</a> adalah layanan repository Git berbasis web, selain gratis <a href="https://bonobogitserver.com/">Bonobo Git Server</a> juga bersifat open source dibuat menggunakan ASP.NET MVC. Jadi untuk menjalankan <a href="https://bonobogitserver.com/">Bonobo Git Server</a> dibutuhkan web server IIS. <a href="https://bonobogitserver.com/">Bonobo Git Server</a> sampai saat ini baru mendukung dua jenis database yaitu SQLite dan SQL Server. Untuk petunjuk instalasinya bisa Anda cek di <a href="https://bonobogitserver.com/install/">sini</a>.</p>
-
-<h3>Tool yang digunakan</h3>
-
-<p>Berikut adalah tool yang digunakan untuk uji coba <a href="https://bonobogitserver.com/">Bonobo Git Server</a></p>
-
-<ul>
-<li><a href="https://bonobogitserver.com/">Bonobo Git Server</a> - aplikasi web gratis untuk membangun server repository Git berbasis Windows/IIS</li>
-<li><a href="https://git-scm.com/">Git</a> – tool untuk source/version control</li>
-<li><a href="https://tortoisegit.org/">TortoiseGit</a> – aplikasi git klien berbasis windows</li>
-</ul>
-
-
-<h3>Membuat Repository</h3>
-
-<p>Setelah instalasi <a href="https://bonobogitserver.com/">Bonobo Git Server</a>, kita bisa langsung mengakses alamat <a href="https://bonobogitserver.com/">Bonobo Git Server</a>, sebagai contoh alamat/url yang saya gunakan adalah <a href="http://192.168.56.2/git-server">http://192.168.56.2/git-server</a></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/240916-01.png">https://coding4ever.files.wordpress.com/2016/09/240916-01.png</a>&#8221;></p>
-
-<p>Untuk Username dan Password defaultnya adalah <code>admin</code>. Setelah login berhasil kita bisa melakukan beberapa konfigurasi seperti mengganti password default, membuat team, user dan repository.</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/240916-02.png">https://coding4ever.files.wordpress.com/2016/09/240916-02.png</a>&#8221;></p>
-
-<p>Untuk membuat repository klik link <code>Create new repository</code>, setelah itu lengkapi input halaman <code>New Repository</code></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/240916-03.png">https://coding4ever.files.wordpress.com/2016/09/240916-03.png</a>&#8221;></p>
-
-<p>Pada saat membuat repository selain menentukan nama, group dan deskripsi repository, kita juga perlu mengatur role, user dan team (optional) yang berhak mengakses repository. Ada tiga jenis role yang disediakan oleh <a href="https://bonobogitserver.com/">Bonobo Git Server</a>  yaitu :</p>
-
-<ul>
-<li>Anonymous - setiap user bisa melihat, melakukan pull atau clone</li>
-<li>Contributors - setiap user bisa melihat, melakukan push, pull atau clone</li>
-<li>Administrators – akses penuh, termasuk menghapus repository</li>
-</ul>
-
-
-<p>Terakhir klik tombol <code>Create</code></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/240916-04.png">https://coding4ever.files.wordpress.com/2016/09/240916-04.png</a>&#8221;></p>
-
-<p>Kemudian klik link <code>Go to repository : Northwind</code></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/240916-05.png">https://coding4ever.files.wordpress.com/2016/09/240916-05.png</a>&#8221;></p>
-
-<p>Perhatikan keterangan <code>General Url</code>, link tersebut akan kita gunakan pada saat melakukan proses <code>push</code>.</p>
-
-<h3>Push Source Code ke Server Repository Git</h3>
-
-<p>Sebelum menyimpan source code ke repository Git, ada beberapa hal atau langkah-langkah yang perlu kita lakukan yaitu :</p>
-
-<p><strong>Langkah 1</strong>: Membuat repository lokal – Git termasuk dalam kategori Distributed Version Control System, jadi selain mempunyai repository pusat/server juga mempunyai repository lokal. Bisa jadi hal ini yang menjadi salah satu daya tarik git, yang memungkinkan kita untuk melakukan <code>commit</code> tanpa harus terkoneksi ke Server Repository Git. Untuk membuat repository lokal, tinggal klik kanan folder project (folder kerja) -> Git Create repository here&hellip;</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/240916-06.png">https://coding4ever.files.wordpress.com/2016/09/240916-06.png</a>&#8221;></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/240916-07.png">https://coding4ever.files.wordpress.com/2016/09/240916-07.png</a>&#8221;></p>
-
-<p>Non aktifkan pilihan <code>Make it Bare …</code> kemudian pilih Ok</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/240916-08.png">https://coding4ever.files.wordpress.com/2016/09/240916-08.png</a>&#8221;></p>
-
-<p><strong>Langkah 2</strong>: Menambahkan file <code>.gitignore</code> - Dalam mengerjakan project, ada file-file yang ada di folder kerja, tapi tidak kita masukkan ke repository. Misalnya file hasil kompilasi, setting IDE, dan sebagainya. File dan folder hasil generate ini biasanya kita daftarkan di ignore list, supaya tidak ikut dicommit ke repository.</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/240916-09.png">https://coding4ever.files.wordpress.com/2016/09/240916-09.png</a>&#8221;></p>
-
-<p>Untuk contoh file <code>.gitignore</code>, bisa Anda cek di<a href="https://github.com/k4m4r82/RepositoryPattern2/blob/master/.gitignore">sini</a></p>
-
-<p><strong>Langkah 3</strong>: Add – Menambahkan perubahan dalam folder kerja ke staging area (index) repository lokal, sebelum melakukan proses commit. Caranya klik kanan folder kerja -> Git Add..</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/240916-10.png">https://coding4ever.files.wordpress.com/2016/09/240916-10.png</a>&#8221;></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/240916-11.png">https://coding4ever.files.wordpress.com/2016/09/240916-11.png</a>&#8221;></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/240916-12.png">https://coding4ever.files.wordpress.com/2016/09/240916-12.png</a>&#8221;></p>
-
-<p><strong>Langkah 4</strong>: Commit – Untuk menyimpan perubahan (staging area) ke repository lokal. Caranya klik kanan folder kerja -> Git Commit -> ..</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/240916-13.png">https://coding4ever.files.wordpress.com/2016/09/240916-13.png</a>&#8221;></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/240916-14.png">https://coding4ever.files.wordpress.com/2016/09/240916-14.png</a>&#8221;></p>
-
-<p><strong>Langkah 4</strong>: Push – Untuk mengirim/menguplod perubahan repository lokal ke server/remote repository. Caranya klik kanan folder kerja -> Git Push..</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/240916-15.png">https://coding4ever.files.wordpress.com/2016/09/240916-15.png</a>&#8221;></p>
-
-<p>Sebelum melakukan proses <code>push</code>, kita harus mendaftarkan terlebih dulu alamat dari repository server dengan mengklik tombol <code>Manage</code>.</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/240916-16.png">https://coding4ever.files.wordpress.com/2016/09/240916-16.png</a>&#8221;></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/240916-17.png">https://coding4ever.files.wordpress.com/2016/09/240916-17.png</a>&#8221;></p>
-
-<p>Link URL : <a href="http://192.168.56.2/git-server/Northwind.git">http://192.168.56.2/git-server/Northwind.git</a> di atas kita dapatkan pada saat <a href="https://coding4ever.files.wordpress.com/2016/09/240916-05.png">membuat repository</a>. Setelah klik tombol Ok, kita akan kembali ke dialog push …</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/240916-18.png">https://coding4ever.files.wordpress.com/2016/09/240916-18.png</a>&#8221;></p>
-
-<p>Langsung saja klik tombol Ok, jika kita belum pernah melakukan push/clone biasanya akan diminta untuk menginputkan user dan password login <a href="https://bonobogitserver.com/">Bonobo Git Server</a></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/240916-19.png">https://coding4ever.files.wordpress.com/2016/09/240916-19.png</a>&#8221;></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/240916-20.png">https://coding4ever.files.wordpress.com/2016/09/240916-20.png</a>&#8221;></p>
-
-<p>Yuph, push source code berhasil :-)</p>
-
-<h3>Mengecek Hasil Push Source Code</h3>
-
-<p>Akses link server <a href="https://bonobogitserver.com/">Bonobo Git Server</a>, kemudian login.</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/240916-21.png">https://coding4ever.files.wordpress.com/2016/09/240916-21.png</a>&#8221;></p>
-
-<p>Kemudian klik link repository</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/240916-22.png">https://coding4ever.files.wordpress.com/2016/09/240916-22.png</a>&#8221;></p>
-
-<p>Lanjutkan dengan mengklik link Commits</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/240916-23.png">https://coding4ever.files.wordpress.com/2016/09/240916-23.png</a>&#8221;></p>
-
-<p>Setelah itu akan tampil histori commit</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/240916-24.png">https://coding4ever.files.wordpress.com/2016/09/240916-24.png</a>&#8221;></p>
-
-<p>Untuk melihat detil masing-masing commit, kita tinggal klik link komentar seperti gambar di atas.</p>
 
 <p>Selamat Mencoba :-)</p>
 ]]></content>
