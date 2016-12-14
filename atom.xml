@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-12-14T06:50:31+07:00</updated>
+  <updated>2016-12-14T07:01:04+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -127,6 +127,14 @@
 <p><strong>Langkah 6:</strong> Terakhir klik tombol Close</p>
 
 <p><img class="center" src="https://coding4ever.files.wordpress.com/2016/12/261213-14.png"></p>
+
+<p>Setelah proses ini selesai akan dibuatkan file <code>PublishProfiles</code> yang tersimpan di node <code>Properties</code> -> <code>PublishProfiles</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/12/261213-221.png"></p>
+
+<p>File <code>PublishProfiles</code> ini nantinya akan kita gunakan pada saat proses <code>build</code> dan <code>deploy</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/12/261213-23.png"></p>
 
 <h3>Konfigurasi Server CI (Continuous Integration)</h3>
 
