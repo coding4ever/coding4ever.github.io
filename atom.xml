@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-12-14T07:01:04+07:00</updated>
+  <updated>2016-12-14T07:06:38+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -18,7 +18,7 @@
     <link href="http://coding4ever.net/blog/2016/12/14/membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-menggunakan-jenkins-bagian-number-4/"/>
     <updated>2016-12-14T06:44:25+07:00</updated>
     <id>http://coding4ever.net/blog/2016/12/14/membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-menggunakan-jenkins-bagian-number-4</id>
-    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2016/09/logo-ci1.png" width="109" height="106">Masih membahas tentang  manfaat dari <a href="http://coding4ever.net/blog/categories/continuous-integration/">Server CI (Continuous Integration)</a> untuk kemudahan dalam melakukan proses build dan deploy secara terpusat. Jika dipostingan <a href="http://coding4ever.net/blog/categories/jenkins/">sebelumnya</a> saya menggunakan contoh <a href="https://github.com/k4m4r82/Northwind">aplikasi desktop</a> maka kali ini kita akan membahas proses build dan deploy untuk aplikasi berbasis web seperti ASP.NET, ASP.NET MVC dan <a href="https://github.com/k4m4r82/NorthwindWebApi">ASP.NET  WEB API</a>.</p>
+    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2016/09/logo-ci1.png" width="109" height="106">Masih membahas tentang  manfaat dari <a href="http://coding4ever.net/blog/categories/continuous-integration/">Server CI (Continuous Integration)</a> untuk kemudahan dalam melakukan proses <code>build</code> dan <code>deploy</code> secara terpusat. Jika dipostingan <a href="http://coding4ever.net/blog/categories/jenkins/">sebelumnya</a> saya menggunakan contoh <a href="https://github.com/k4m4r82/Northwind">aplikasi desktop</a> maka kali ini kita akan membahas proses build dan deploy untuk aplikasi berbasis web seperti ASP.NET, ASP.NET MVC dan <a href="https://github.com/k4m4r82/NorthwindWebApi">ASP.NET  WEB API</a>.</p>
 
 <!-- more -->
 
