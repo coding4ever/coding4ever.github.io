@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-12-26T09:58:38+07:00</updated>
+  <updated>2016-12-26T10:02:39+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Build Otomatis Project Visual Basic 6 Menggunakan Jenkins]]></title>
     <link href="http://coding4ever.net/blog/2016/12/26/build-otomatis-project-visual-basic-6-menggunakan-jenkins/"/>
-    <updated>2016-12-26T08:11:18+07:00</updated>
+    <updated>2016-12-26T10:02:21+07:00</updated>
     <id>http://coding4ever.net/blog/2016/12/26/build-otomatis-project-visual-basic-6-menggunakan-jenkins</id>
     <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2016/09/logo-ci1.png" width="109" height="106">Mas kalo di tempat saya masih menggunakan tool jadul seperti Visual Basic 6 untuk pengembangan aplikasinya, apakah masih bisa menggunakan <a href="https://jenkins.io/">Jenkins</a> sebagai software <a href="http://coding4ever.net/blog/categories/continuous-integration/">CInya</a> ? Jawabannya bisa, walaupun secara plugin, di <a href="https://jenkins.io/">Jenkins</a> belum ada plugin khusus untuk keperluan &ldquo;build otomatis project Visual Basic 6&rdquo; seperti halnya di .NET yang sudah tersedia <a href="https://wiki.jenkins-ci.org/display/JENKINS/MSBuild+Plugin">plugin MSBuild</a>. Sebagai solusinya kita bisa menggunakan skrip <a href="https://github.com/psake/psake">psake</a>  yang ditulis menggunakan bahasa <a href="https://en.wikipedia.org/wiki/PowerShell">PowerShell</a>. Kalo masih bingung dengan skrip <a href="https://github.com/psake/psake">psake</a>, skrip ini mirip dengan skrip rake yang dibuat menggunakan bahasa Ruby.</p>
 
