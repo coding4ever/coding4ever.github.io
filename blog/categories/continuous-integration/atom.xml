@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Continuous Integration | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/continuous-integration/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-12-14T07:09:09+07:00</updated>
+  <updated>2016-12-26T09:58:38+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,342 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Build Otomatis Project Visual Basic 6 Menggunakan Jenkins]]></title>
+    <link href="http://coding4ever.net/blog/2016/12/26/build-otomatis-project-visual-basic-6-menggunakan-jenkins/"/>
+    <updated>2016-12-26T08:11:18+07:00</updated>
+    <id>http://coding4ever.net/blog/2016/12/26/build-otomatis-project-visual-basic-6-menggunakan-jenkins</id>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2016/09/logo-ci1.png">https://coding4ever.files.wordpress.com/2016/09/logo-ci1.png</a>&#8221; width=&#8221;109&#8221; height=&#8221;106&#8221;>Mas kalo di tempat saya masih menggunakan tool jadul seperti Visual Basic 6 untuk pengembangan aplikasinya, apakah masih bisa menggunakan <a href="https://jenkins.io/">Jenkins</a> sebagai software <a href="/blog/categories/continuous-integration/">CInya</a> ? Jawabannya bisa, walaupun secara plugin, di <a href="https://jenkins.io/">Jenkins</a> belum ada plugin khusus untuk keperluan &ldquo;build otomatis project Visual Basic 6&rdquo; seperti halnya di .NET yang sudah tersedia <a href="https://wiki.jenkins-ci.org/display/JENKINS/MSBuild+Plugin">plugin MSBuild</a>. Sebagai solusinya kita bisa menggunakan skrip <a href="https://github.com/psake/psake">psake</a>  yang ditulis menggunakan bahasa <a href="https://en.wikipedia.org/wiki/PowerShell">PowerShell</a>. Kalo masih bingung dengan skrip <a href="https://github.com/psake/psake">psake</a>, skrip ini mirip dengan skrip rake yang dibuat menggunakan bahasa Ruby.</p>
+
+<!-- more -->
+
+
+<h3>Environment Test</h3>
+
+<p>Untuk keperluan postingan kali ini, saya menggunakan environment test sebagai berikut:</p>
+
+<h5>Server CI (Continuous Integration)</h5>
+
+<ul>
+<li>Windows Server 2008 R2</li>
+<li>Software CI (Continuous Integration) menggunakan <a href="https://jenkins.io/">Jenkins</a></li>
+<li>Source/version control Git</li>
+<li>Server Repository Git menggunakan <a href="https://bonobogitserver.com/">Bonobo Git Server</a></li>
+<li>Microsoft Visual Studio/Basic 6.0</li>
+<li>Library (dll/ocx) pihak ketiga</li>
+<li>Skrip <a href="https://github.com/psake/psake">psake</a> - psake is a build automation tool written in PowerShell</li>
+<li><a href="https://upx.github.io/">UPX</a> - UPX is a free, portable, extendable, high-performance executable packer for several executable formats</li>
+</ul>
+
+
+<h3>PC/Laptop Development</h3>
+
+<ul>
+<li>Microsoft Visual Studio/Basic 6.0</li>
+<li>Source/version control Git</li>
+<li>TortoiseGit</li>
+</ul>
+
+
+<h3>Skrip Build Otomatis Project Visual Basic 6</h3>
+
+<p>Secara plugin di <a href="https://jenkins.io/">Jenkins</a> memang belum tersedia plugin khusus untuk keperluan &ldquo;build project Visual Basic 6&rdquo; tapi sebagai solusinya kita bisa menggunakan skrip <a href="https://github.com/psake/psake">psake</a> untuk keperluan ini. Contoh skrip  <a href="https://github.com/psake/psake">psake</a> untuk keperluan <a href="/blog/2016/12/26/build-otomatis-project-visual-basic-6-menggunakan-jenkins/">build otomatis project Visual Basic 6</a> bisa Anda download di <a href="https://github.com/k4m4r82/NorthwindVB6/blob/master/build.ps1">sini</a>.</p>
+
+<p>Berikut contoh skripnya:</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;h1&gt;This build assumes the following directory structure&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="no">Script</span> <span class="n">assumes</span> <span class="n">all</span> <span class="n">directories</span> <span class="n">exists</span><span class="p">,</span> <span class="n">initialized</span> <span class="n">by</span> <span class="n">a</span> <span class="n">parent</span> <span class="n">script</span><span class="o">&lt;</span><span class="sr">/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;#&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="p">\</span><span class="n">build_artifact</span> <span class="o">-</span> <span class="no">This</span> <span class="n">folder</span> <span class="n">is</span> <span class="n">created</span> <span class="k">if</span> <span class="n">it</span> <span class="n">is</span> <span class="n">missing</span> <span class="ow">and</span> <span class="n">contains</span> <span class="n">output</span> <span class="n">of</span> <span class="n">the</span> <span class="n">build</span><span class="o">&lt;</span><span class="sr">/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;h1&gt;\build_log      - This folder is created if it is missing and contains log of the build&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="p">\</span><span class="n">src</span>            <span class="o">-</span> <span class="no">This</span> <span class="n">folder</span> <span class="n">contains</span> <span class="n">the</span> <span class="n">source</span> <span class="n">code</span> <span class="ow">or</span> <span class="n">project</span> <span class="n">you</span> <span class="n">want</span> <span class="n">to</span> <span class="n">build</span><span class="o">&lt;</span><span class="sr">/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;h1&gt;run : .\psake.ps1 build.ps1&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">properties</span> <span class="n">that</span> <span class="n">is</span> <span class="n">used</span> <span class="n">by</span> <span class="n">the</span> <span class="n">script</span><span class="o">&lt;</span><span class="sr">/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;properties {                  &lt;br/</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="vg">$vb6bin</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="ss">C</span><span class="p">:\</span><span class="no">Program</span> <span class="no">Files</span> <span class="p">(</span><span class="n">x86</span><span class="p">)\</span><span class="no">Microsoft</span> <span class="no">Visual</span> <span class="no">Studio</span><span class="p">\</span><span class="no">VB98</span><span class="p">\</span><span class="no">VB6</span><span class="o">.</span><span class="n">EXE</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;$build_dir = Split-Path $psake.build_script_file        </span>
+</span><span class='line'><span class="sr">$src_dir = &quot;$build_dir\src&quot;</span>
+</span><span class='line'><span class="sr">$build_artifact_dir = &quot;$build_dir\build_artifact&quot;</span>
+</span><span class='line'><span class="sr">$build_log_dir = &quot;$build_dir\build_log&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">$project_name = &quot;Northwind.vbp&quot;</span>
+</span><span class='line'><span class="sr">$project = &quot;$src_dir\$project_name&quot;             </span>
+</span><span class='line'><span class="sr">$logfile = &quot;$build_log_dir\$project_name.log&quot;</span>
+</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;}&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="n">function</span> <span class="no">NormalizeOutDir</span><span class="p">(</span><span class="vg">$outdir</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">-</span><span class="ow">not</span> <span class="p">(</span><span class="vg">$outdir</span><span class="o">.</span><span class="n">EndsWith</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;\</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;)))</span> <span class="p">{</span>
+</span><span class='line'>        <span class="vg">$outdir</span> <span class="o">+=</span> <span class="o">&amp;</span><span class="n">lsquo</span><span class="p">;\</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;if ($outdir.Contains(&quot; &quot;)) {</span>
+</span><span class='line'><span class="sr">    $outdir = $outdir + &quot;\&quot;</span>
+</span><span class='line'><span class="sr">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">return $outdir</span>
+</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;}&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="n">function</span> <span class="no">HasFailed</span><span class="p">(</span><span class="vg">$logFile</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">((</span><span class="no">Select</span><span class="o">-</span><span class="nb">String</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">failed</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="vg">$logfile</span> <span class="o">-</span><span class="no">Quiet</span><span class="p">)</span> <span class="o">-</span><span class="ow">or</span> <span class="p">(</span><span class="no">Select</span><span class="o">-</span><span class="nb">String</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="ow">not</span> <span class="n">found</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="vg">$logfile</span> <span class="o">-</span><span class="no">Quiet</span><span class="p">))</span>
+</span><span class='line'><span class="p">}</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;function HasSucceeded($logFile) {</span>
+</span><span class='line'><span class="sr">    return (Select-String &amp;ldquo;succeeded&amp;rdquo; $logFile -Quiet)</span>
+</span><span class='line'><span class="sr">}&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="no">FormatTaskName</span> <span class="p">((</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="o">-&amp;</span><span class="n">rdquo</span><span class="p">;</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="mi">25</span><span class="p">)</span> <span class="o">+</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="o">[</span><span class="p">{</span><span class="mi">0</span><span class="p">}</span><span class="o">]&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="o">+</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="o">-&amp;</span><span class="n">rdquo</span><span class="p">;</span><span class="o">&lt;</span><span class="sr">/em&gt;25))&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="no">Task</span> <span class="no">Default</span> <span class="o">-</span><span class="no">Depends</span> <span class="no">Build</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;Task Build -Depends CreateLogFile {           &lt;br/</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="vg">$outdir</span> <span class="o">=</span> <span class="no">NormalizeOutDir</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="vg">$build_artifact_dir</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;)</span>
+</span><span class='line'>    <span class="vg">$failed</span> <span class="o">=</span> <span class="vg">$false</span>
+</span><span class='line'>    <span class="vg">$retries</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="vg">$succeeded</span> <span class="o">=</span> <span class="vg">$false</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;Write-Host &quot;Building $name&quot; -ForegroundColor Green</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">try {</span>
+</span><span class='line'><span class="sr">    Exec {&amp;amp; $vb6bin /m</span> <span class="vg">$project</span> <span class="sr">/out $logfile /ou</span><span class="n">tdir</span> <span class="vg">$outdir</span><span class="p">}</span>
+</span><span class='line'><span class="p">}</span> <span class="kp">catch</span> <span class="p">{</span>
+</span><span class='line'>    <span class="vg">$failed</span> <span class="o">=</span> <span class="vg">$true</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="vg">$failed</span> <span class="o">-</span><span class="ow">or</span> <span class="vg">$succeeded</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>    <span class="no">Write</span><span class="o">-</span><span class="no">Host</span> <span class="o">-</span><span class="no">NoNewline</span> <span class="s2">&quot;.&quot;</span>
+</span><span class='line'>    <span class="no">Start</span><span class="o">-</span><span class="no">Sleep</span> <span class="o">-</span><span class="n">s</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="vg">$failed</span> <span class="o">=</span> <span class="no">HasFailed</span><span class="p">(</span><span class="vg">$logfile</span><span class="p">)</span>
+</span><span class='line'>    <span class="vg">$succeeded</span> <span class="o">=</span> <span class="no">HasSucceeded</span><span class="p">(</span><span class="vg">$logfile</span><span class="p">)</span>
+</span><span class='line'>    <span class="vg">$retries</span> <span class="o">=</span> <span class="vg">$retries</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="vg">$failed</span> <span class="o">=</span> <span class="p">(</span><span class="vg">$failed</span> <span class="o">-</span><span class="ow">or</span> <span class="p">(</span><span class="vg">$retries</span> <span class="o">-</span><span class="n">eq</span> <span class="mi">60</span><span class="p">))</span> <span class="o">-</span><span class="ow">and</span> <span class="o">!</span><span class="vg">$succeeded</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="vg">$failed</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="no">Type</span> <span class="vg">$logfile</span>
+</span><span class='line'>    <span class="kp">throw</span> <span class="s2">&quot;Unable to build $name&quot;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="no">Type</span> <span class="vg">$logfile</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;Task CreateLogFile {</span>
+</span><span class='line'><span class="sr">    If (!(Test-Path $build_artifact_dir))</span>
+</span><span class='line'><span class="sr">    {</span>
+</span><span class='line'><span class="sr">        New-Item -Path $build_artifact_dir -ItemType Directory</span>
+</span><span class='line'><span class="sr">    }&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="no">If</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="no">Test</span><span class="o">-</span><span class="no">Path</span> <span class="vg">$build_log_dir</span><span class="p">))</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="no">New</span><span class="o">-</span><span class="no">Item</span> <span class="o">-</span><span class="no">Path</span> <span class="vg">$build_log_dir</span> <span class="o">-</span><span class="no">ItemType</span> <span class="no">Directory</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Write</span><span class="o">-</span><span class="n">host</span>  <span class="p">(</span><span class="s2">&quot;Build dir : {0}&quot;</span> <span class="o">-</span><span class="n">f</span> <span class="vg">$build_dir</span><span class="p">)</span>
+</span><span class='line'><span class="no">Write</span><span class="o">-</span><span class="n">host</span>  <span class="p">(</span><span class="s2">&quot;Src dir : {0}&quot;</span> <span class="o">-</span><span class="n">f</span> <span class="vg">$src_dir</span><span class="p">)</span>
+</span><span class='line'><span class="no">Write</span><span class="o">-</span><span class="n">host</span>  <span class="p">(</span><span class="s2">&quot;Artifact dir : {0}&quot;</span> <span class="o">-</span><span class="n">f</span> <span class="vg">$build_artifact_dir</span><span class="p">)</span>
+</span><span class='line'><span class="no">Write</span><span class="o">-</span><span class="n">host</span>  <span class="p">(</span><span class="s2">&quot;Log dir : {0}&quot;</span> <span class="o">-</span><span class="n">f</span> <span class="vg">$logfile</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="no">Test</span><span class="o">-</span><span class="no">Path</span> <span class="vg">$logfile</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="no">Remove</span><span class="o">-</span><span class="no">Item</span> <span class="vg">$logfile</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="vg">$path</span> <span class="o">=</span> <span class="o">[</span><span class="no">IO</span><span class="o">.</span><span class="n">Path</span><span class="o">]::</span><span class="no">GetFullPath</span><span class="p">(</span><span class="vg">$logfile</span><span class="p">)</span>
+</span><span class='line'><span class="no">New</span><span class="o">-</span><span class="no">Item</span> <span class="o">-</span><span class="no">ItemType</span> <span class="n">file</span>  <span class="vg">$path</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Kemudian skrip di atas disimpan di lokasi yang sama dengan folder <code>src</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261226-01.png">https://coding4ever.files.wordpress.com/2016/12/261226-01.png</a>&#8221;></p>
+
+<p>Untuk contoh project Visual Basic 6-nya bisa Anda download di <a href="https://github.com/k4m4r82/NorthwindVB6">sini</a>.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261226-02.png">https://coding4ever.files.wordpress.com/2016/12/261226-02.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261226-03.png">https://coding4ever.files.wordpress.com/2016/12/261226-03.png</a>&#8221;></p>
+
+<h3>Konfigurasi Server CI (Continuous Integration)</h3>
+
+<p>Dipostingan kali ini saya sudah tidak lagi menjelaskan lagi secara rinci bagaimana membuat dan melakukan konfigurasi job/project jenkins karena sudah saya bahas dipostingan
+<a href="/blog/categories/jenkins/">sebelumnya</a>. Berikut langkah-langkahnya :</p>
+
+<p><strong>Langkah 1</strong>: Buat job/project baru, misal dengan nama <code>northwind-vb6-build</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261226-04.png">https://coding4ever.files.wordpress.com/2016/12/261226-04.png</a>&#8221;></p>
+
+<p><strong>Langkah 2</strong>: Setting repository git</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261226-05.png">https://coding4ever.files.wordpress.com/2016/12/261226-05.png</a>&#8221;></p>
+
+<p><strong>Langkah 3</strong>: Setting Execute Windows batch command untuk menjalankan skrip <a href="https://github.com/k4m4r82/NorthwindVB6/blob/master/build.ps1">build.ps1</a></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261226-06.png">https://coding4ever.files.wordpress.com/2016/12/261226-06.png</a>&#8221;></p>
+
+<p>Skrip di atas akan menjalankan file <a href="https://github.com/k4m4r82/NorthwindVB6/blob/master/build.ps1">build.ps1</a> yang akan menghasilkan file exe dari project <a href="https://github.com/k4m4r82/NorthwindVB6">Visual Basic 6</a></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261226-09.png">https://coding4ever.files.wordpress.com/2016/12/261226-09.png</a>&#8221;></p>
+
+<p>Hasil <code>compile</code> Visual Basic 6 biasanya ukuran filenya belum dioptimasi, sehingga kita bisa menambahkan skrip untuk melakukan compress menggunakan tool <a href="https://upx.github.io/">UPX</a>.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261226-07.png">https://coding4ever.files.wordpress.com/2016/12/261226-07.png</a>&#8221;></p>
+
+<p>Lumayan hasil compressnya bisa mencapai 30%-an sendiri.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261226-111.png">https://coding4ever.files.wordpress.com/2016/12/261226-111.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261226-101.png">https://coding4ever.files.wordpress.com/2016/12/261226-101.png</a>&#8221;></p>
+
+<p>Kita juga bisa menambahkan skrip <a href="http://www.jrsoftware.org/">Inno Setup</a> untuk membuat paket installer secara otomatis setelah proses <code>build</code> selesai, caranya gimana bisa Anda cek di <a href="/blog/2016/10/01/membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-menggunakan-jenkins-bagian-number-2/">sini</a>.</p>
+
+<p><strong>Langkah 4</strong>: Terakhir tes build</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261226-08.png">https://coding4ever.files.wordpress.com/2016/12/261226-08.png</a>&#8221;></p>
+
+<p>Jika proses build selesai, kita tinggal cek hasilnya compilenya di folder job</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/12/261226-09.png">https://coding4ever.files.wordpress.com/2016/12/261226-09.png</a>&#8221;></p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/NorthwindVB6">MENCOBA</a> :-)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Membangun Server CI (Continuous Integration) Di Windows Untuk Platform .NET Menggunakan Jenkins Bagian #4]]></title>
@@ -771,113 +1107,6 @@ Di masing-masing repository kita pasang <code>hook script</code> untuk memanggil
 <li>Melakukan proses build</li>
 </ol>
 
-
-<p>Selamat Mencoba :-)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Persiapan Membangun Server CI (Continuous Integration) Di Windows Untuk Platform .NET Bagian #2]]></title>
-    <link href="http://coding4ever.net/blog/2016/09/26/persiapan-membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-bagian-number-2/"/>
-    <updated>2016-09-26T11:01:00+07:00</updated>
-    <id>http://coding4ever.net/blog/2016/09/26/persiapan-membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-bagian-number-2</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2016/09/logo-ci1.png">https://coding4ever.files.wordpress.com/2016/09/logo-ci1.png</a>&#8221; width=&#8221;109&#8221; height=&#8221;106&#8221;>Persiapan <a href="/blog/2016/09/24/persiapan-membangun-server-ci-continuous-integration-pada-windows-untuk-platform-net-bagian-number-1/">awal</a> untuk membangun Server CI (Continuous Integration) sudah kita selesaikan yaitu <a href="/blog/2016/09/24/persiapan-membangun-server-ci-continuous-integration-pada-windows-untuk-platform-net-bagian-number-1/">membuat sendiri server repository Git</a> untuk keperluan internal kantor yang berfungsi sebagai wadah untuk menampung source code dari masing-masing developer.</p>
-
-<p>Masih tersisa beberapa tool yang harus kita pelajari penggunaannya agar proses membangun server CInya berjalan mulus yaitu :</p>
-
-<!-- more -->
-
-
-<ul>
-<li><a href="/blog/categories/tools-installer/">Package Installer</a></li>
-<li><a href="http://nunit.org/">NUnit</a></li>
-<li><a href="https://www.nuget.org/">NuGet</a></li>
-<li><a href="https://msdn.microsoft.com/en-us/library/dd393574.aspx">MSBuild</a></li>
-</ul>
-
-
-<h3>Package Installer</h3>
-
-<p>Tool ini digunakan untuk membuat <a href="/blog/categories/tools-installer/">paket instalasi</a> biasanya digunakan untuk aplikasi desktop seperti winform, console atau windows service. Tujuannya jelas untuk mempermudah distribusi/instalasi aplikasi ke klien. <a href="/blog/categories/tools-installer/">Package Installer</a> ini nantinya digunakan untuk proses <code>deploy</code> yang dilakukan secara otomatis oleh server CI.</p>
-
-<p>Jadi alurnya adalah ketika kita mem-push source code ke server repository git, ini akan men-trigger server CI untuk melakukan build, menjalankan tes otomatis (jika ada) kemudian membuat paket instalasi  untuk aplikasi desktop atau rilis/upload kode ke server produksi untuk aplikasi web.</p>
-
-<p>Untuk membuat <a href="/blog/categories/tools-installer/">paket instalasi</a>, kita bisa menggunakan yang gratis seperti <a href="/blog/categories/inno-setup/">Inno Setup</a> atau <a href="/blog/categories/nsis/">NSIS</a>.</p>
-
-<h3>NUnit</h3>
-
-<p>Tool ini digunakan untuk keperluan <a href="/blog/categories/software-testing/">testing otomatis</a>, saya sudah membahas penggunaan tool ini di kategori <a href="/blog/categories/software-testing/">Software Testing</a>.</p>
-
-<h3>MSBuild</h3>
-
-<p>Dari nama toolnya aja udah jelas, klo tool ini digunakan untuk proses <a href="https://www.techopedia.com/definition/3759/build">build</a> solution/project yang sedang kita kembangkan. Sadar atau tidak sebenarnya kita <code>sudah sering</code> menggunakan MSBuild ketika menggunakan IDE Visual Studio .NET untuk menulis kode. Setelah selesai menulis kode, biasanya kitakan menekan tombol F5 (Start Debugging) atau Ctrl+F5 (Start Without Debugging) untuk menjalankan/mengetes kode yang baru selesai kita tulis. Nah pada saat kita menekan tombol F5/Ctrl+F5, IDE Visual Studio .NET akan menjalankan/mengeksekusi MSBuild sesuai dengan pengaturan yang sudah kita set di bagian <code>Configuration Manager</code> atau <code>Project -&gt; Properties -&gt; Build</code>.</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260916-01.png">https://coding4ever.files.wordpress.com/2016/09/260916-01.png</a>&#8221;></p>
-
-<p style="text-align:center;"> Configuration Manager</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260916-02.png">https://coding4ever.files.wordpress.com/2016/09/260916-02.png</a>&#8221;></p>
-
-<p style="text-align:center;"> Setting Build di Project Properties</p>
-
-<p>Menekan tombol F5/Ctrl+F5 inikan dari sisi developer ketika akan mem-<a href="https://www.techopedia.com/definition/3759/build">build</a> solution/project sedangkan dari sisi server (server CI) karena kita tidak menginstall Visual Studio.NET, kita cukup menginstall tool <a href="https://www.microsoft.com/en-us/download/details.aspx?id=48159">MSBuild</a> secara terpisah. Sehingga untuk menjalankan tool <a href="https://www.microsoft.com/en-us/download/details.aspx?id=48159">MSBuild</a> kita lakukan via command prompt. Tapi untuk contoh di sini kita akan menggunakan Visual Studio .NET Command Prompt untuk menjalankan tool <a href="https://www.microsoft.com/en-us/download/details.aspx?id=48159">MSBuild</a>, caranya adalah dengan mengaktifkan Visual Studio .NET Command Prompt sesuai dengan versi Visual Studio .NET Anda.</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260916-03.png">https://coding4ever.files.wordpress.com/2016/09/260916-03.png</a>&#8221;></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260916-04.png">https://coding4ever.files.wordpress.com/2016/09/260916-04.png</a>&#8221;></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260916-05.png">https://coding4ever.files.wordpress.com/2016/09/260916-05.png</a>&#8221;></p>
-
-<p>Kemudian ketik perintah MSBuild dengan format seperti berikut:</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>MSBuild.exe [Switches] [ProjectFile]</span></code></pre></td></tr></table></div></figure></p>
-
-<p>Contoh :</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>MSBuild.exe /t:Clean,Build /p:Configuration=Release /p:Platform=&ldquo;Any CPU&rdquo; &ldquo;D:\DemoContinuousIntegration\src\Northwind.sln&rdquo;</span></code></pre></td></tr></table></div></figure></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260916-06.png">https://coding4ever.files.wordpress.com/2016/09/260916-06.png</a>&#8221;></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260916-07.png">https://coding4ever.files.wordpress.com/2016/09/260916-07.png</a>&#8221;></p>
-
-<p>Untuk referensi lengkap MSBuild Command, bisa Anda cek di <a href="https://msdn.microsoft.com/en-us/library/ms164311.aspx">sini</a>.</p>
-
-<p>Di server CI kita akan menuliskan perintah MSBuild seperti di atas untuk keperluan <code>build</code> otomatis.</p>
-
-<h3>NuGet</h3>
-
-<p><a href="/blog/categories/nuget/">NuGet</a> adalah tool package manager yang berfungsi untuk mempermudah kita menginstall library pihak ketiga (3rd party libraries), seperti <a href="https://www.nuget.org/packages/Dapper/">Dapper .NET</a>, <a href="https://www.nuget.org/packages/EntityFramework/">Entity Framework</a>, <a href="https://www.nuget.org/packages/Newtonsoft.Json/">Json .NET</a> dan masih banyak lagi library pihak ketiga yang memang sudah terbukti ampuh dan bermanfaat untuk project yang kita kembangkan.</p>
-
-<p>Penggunaan tool ini juga sudah saya bahas di kategori <a href="/blog/categories/nuget/">NuGet</a> tetapi pembahasannya dari sisi developer sedangkan untuk sisi server (server CI), <a href="/blog/categories/nuget/">NuGet</a> digunakan untuk me-restore library nuget yang digunakan oleh project/aplikasi yang kita kembangkan, karena jika tidak di-restore, server CI akan <code>gagal</code> melakukan proses build.</p>
-
-<p>Sebagai contoh kita akan mem-build ulang project <a href="https://github.com/k4m4r82/Northwind">Northwind</a> di atas, tetapi dengan menghapus library nugetnya terlebih dulu yang ada di dalam folder lib.</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260916-08.png">https://coding4ever.files.wordpress.com/2016/09/260916-08.png</a>&#8221;></p>
-
-<p>Kemudian kita build ulang</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260916-09.png">https://coding4ever.files.wordpress.com/2016/09/260916-09.png</a>&#8221;></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260916-10.png">https://coding4ever.files.wordpress.com/2016/09/260916-10.png</a>&#8221;></p>
-
-<p>Nah dari gambar di atas kan terlihat hasil buildnya gagal karena project Northwindnya membutuhkan library <code>Dapper</code> dan <code>System.Data.SQLite.Core</code>.</p>
-
-<p>Sekarang kita coba menambahkan perintah untuk me-restore library nugetnya terlebih dulu sebelum melakukan proses build, tapi sebelumnya download terlebih dulu tool nugetnya di <a href="https://dist.nuget.org/index.html">sini</a> kemudian simpan di folder misal dengan nama <code>D:\Development Tools</code>, kemudian ketik perintah berikut :</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&ldquo;D:\Development Tools\nuget.exe&rdquo; restore &ldquo;D:\DemoContinuousIntegration\src&rdquo;</span></code></pre></td></tr></table></div></figure></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260916-111.png">https://coding4ever.files.wordpress.com/2016/09/260916-111.png</a>&#8221;></p>
-
-<p>Setelah me-restore library nugetnya berhasil, baru kita build ulang</p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260916-12.png">https://coding4ever.files.wordpress.com/2016/09/260916-12.png</a>&#8221;></p>
-
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/09/260916-13.png">https://coding4ever.files.wordpress.com/2016/09/260916-13.png</a>&#8221;></p>
-
-<p>Sampai di sini persiapan untuk membangun Server CI (Continuous Integration) sudah selesai, insya Allah di postingan berikutnya kita akan membahas <a href="/blog/2016/09/29/membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-menggunakan-jenkins-bagian-number-1/">Bagaimana Membangun Server CI (Continuous Integration) di Windows untuk Platform .NET Menggunakan Jenkins</a>.</p>
 
 <p>Selamat Mencoba :-)</p>
 ]]></content>

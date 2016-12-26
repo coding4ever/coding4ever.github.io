@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Custom MsgBox Function - Coding4ever&#8217;s Blog</title>
+  <title>Build Otomatis Project Visual Basic 6 Menggunakan Jenkins - Coding4ever&#8217;s Blog</title>
   <meta name="author" content="Admin">
 
   
-  <meta name="description" content="Fungsi MsgBox digunakan untuk menampilkan pesan/informasi kepada user dan fungsi MsgBox sendiri mempunyai beberapa style yang mana style ini &hellip;">
+  <meta name="description" content="Mas kalo di tempat saya masih menggunakan tool jadul seperti Visual Basic 6 untuk pengembangan aplikasinya, apakah masih bisa menggunakan Jenkins &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://coding4ever.net/blog/2010/01/19/custom-msgbox-function">
+  <link rel="canonical" href="http://coding4ever.net/blog/2016/12/26/build-otomatis-project-visual-basic-6-menggunakan-jenkins">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Coding4ever's Blog" type="application/atom+xml">
@@ -83,7 +83,7 @@
   
   <header>
     
-      <h1 class="entry-title">Custom MsgBox Function</h1>
+      <h1 class="entry-title">Build Otomatis Project Visual Basic 6 Menggunakan Jenkins</h1>
     
     
       <p class="meta">
@@ -92,7 +92,7 @@
 
 
 
-<time class='entry-date' datetime='2010-01-19T20:39:54+07:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>8:39 pm</span></time>
+<time class='entry-date' datetime='2016-12-26T08:11:18+07:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:11 am</span></time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://coding4ever.net">Comments</a>
@@ -102,20 +102,43 @@
   </header>
 
 
-<div class="entry-content"><p>Fungsi MsgBox digunakan untuk menampilkan pesan/informasi kepada user dan fungsi MsgBox sendiri mempunyai beberapa style yang mana style ini berpengaruh terhadap pilihan tombol yang ditampilkan.</p>
-
-<p>Kita ambil contoh beberapa style yang sering digunakan, lihat gambar :</p>
+<div class="entry-content"><p><img class="left" src="https://coding4ever.files.wordpress.com/2016/09/logo-ci1.png" width="109" height="106">Mas kalo di tempat saya masih menggunakan tool jadul seperti Visual Basic 6 untuk pengembangan aplikasinya, apakah masih bisa menggunakan <a href="https://jenkins.io/">Jenkins</a> sebagai software <a href="http://coding4ever.net/blog/categories/continuous-integration/">CInya</a> ? Jawabannya bisa, walaupun secara plugin, di <a href="https://jenkins.io/">Jenkins</a> belum ada plugin khusus untuk keperluan &ldquo;build otomatis project Visual Basic 6&rdquo; seperti halnya di .NET yang sudah tersedia <a href="https://wiki.jenkins-ci.org/display/JENKINS/MSBuild+Plugin">plugin MSBuild</a>. Sebagai solusinya kita bisa menggunakan skrip <a href="https://github.com/psake/psake">psake</a>  yang ditulis menggunakan bahasa <a href="https://en.wikipedia.org/wiki/PowerShell">PowerShell</a>. Kalo masih bingung dengan skrip <a href="https://github.com/psake/psake">psake</a>, skrip ini mirip dengan skrip rake yang dibuat menggunakan bahasa Ruby.</p>
 
 <!-- more -->
 
 
-<p><a href="http://coding4ever.files.wordpress.com/2010/01/19012009-1.jpg"><img src="http://coding4ever.files.wordpress.com/2010/01/19012009-1.jpg?w=300" alt="" /></a></p>
+<h3>Environment Test</h3>
 
-<p>Kemudian kita akan mencoba mengganti pesan YesNo -> YaTidak dan OkCancel -> OkBatal :</p>
+<p>Untuk keperluan postingan kali ini, saya menggunakan environment test sebagai berikut:</p>
 
-<p><a href="http://coding4ever.files.wordpress.com/2010/01/19012009-2.jpg"><img src="http://coding4ever.files.wordpress.com/2010/01/19012009-2.jpg?w=300" alt="" /></a></p>
+<h5>Server CI (Continuous Integration)</h5>
 
-<p>Penasaran dengan kodenya seperti apa, langsung saja tambahkan sebuah modul kemudian copy paste kode berikut :</p>
+<ul>
+<li>Windows Server 2008 R2</li>
+<li>Software CI (Continuous Integration) menggunakan <a href="https://jenkins.io/">Jenkins</a></li>
+<li>Source/version control Git</li>
+<li>Server Repository Git menggunakan <a href="https://bonobogitserver.com/">Bonobo Git Server</a></li>
+<li>Microsoft Visual Studio/Basic 6.0</li>
+<li>Library (dll/ocx) pihak ketiga</li>
+<li>Skrip <a href="https://github.com/psake/psake">psake</a> - psake is a build automation tool written in PowerShell</li>
+<li><a href="https://upx.github.io/">UPX</a> - UPX is a free, portable, extendable, high-performance executable packer for several executable formats</li>
+</ul>
+
+
+<h3>PC/Laptop Development</h3>
+
+<ul>
+<li>Microsoft Visual Studio/Basic 6.0</li>
+<li>Source/version control Git</li>
+<li>TortoiseGit</li>
+</ul>
+
+
+<h3>Skrip Build Otomatis Project Visual Basic 6</h3>
+
+<p>Secara plugin di <a href="https://jenkins.io/">Jenkins</a> memang belum tersedia plugin khusus untuk keperluan &ldquo;build project Visual Basic 6&rdquo; tapi sebagai solusinya kita bisa menggunakan skrip <a href="https://github.com/psake/psake">psake</a> untuk keperluan ini. Contoh skrip  <a href="https://github.com/psake/psake">psake</a> untuk keperluan <a href="http://coding4ever.net/blog/2016/12/26/build-otomatis-project-visual-basic-6-menggunakan-jenkins/">build otomatis project Visual Basic 6</a> bisa Anda download di <a href="https://github.com/k4m4r82/NorthwindVB6/blob/master/build.ps1">sini</a>.</p>
+
+<p>Berikut contoh skripnya:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -177,91 +200,205 @@
 <span class='line-number'>58</span>
 <span class='line-number'>59</span>
 <span class='line-number'>60</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Option Explicit
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="c1"># This build assumes the following directory structure</span>
+</span><span class='line'><span class="c1"># Script assumes all directories exists, initialized by a parent script</span>
+</span><span class='line'><span class="c1">#</span>
+</span><span class='line'><span class="c1"># \build_artifact - This folder is created if it is missing and contains output of the build</span>
+</span><span class='line'><span class="c1"># \build_log      - This folder is created if it is missing and contains log of the build</span>
+</span><span class='line'><span class="c1"># \src            - This folder contains the source code or project you want to build</span>
 </span><span class='line'>
-</span><span class='line'>Public Const IDOK = 1
-</span><span class='line'>Public Const IDCANCEL = 2
-</span><span class='line'>Public Const IDYES = 6
-</span><span class='line'>Public Const IDNO = 7
+</span><span class='line'><span class="c1"># run : .\psake.ps1 build.ps1</span>
 </span><span class='line'>
-</span><span class='line'>Private Const IDPROMPT = &HFFFF&
+</span><span class='line'><span class="c1"># properties that is used by the script</span>
+</span><span class='line'><span class="n">properties</span> <span class="p">{</span>                    
+</span><span class='line'>  <span class="vg">$vb6bin</span> <span class="o">=</span> <span class="s2">&quot;C:\Program Files (x86)\Microsoft Visual Studio\VB98\VB6.EXE&quot;</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="vg">$build_dir</span> <span class="o">=</span> <span class="no">Split</span><span class="o">-</span><span class="no">Path</span> <span class="vg">$psake</span><span class="o">.</span><span class="n">build_script_file</span>
+</span><span class='line'>  <span class="vg">$src_dir</span> <span class="o">=</span> <span class="s2">&quot;$build_dir</span><span class="se">\s</span><span class="s2">rc&quot;</span>
+</span><span class='line'>  <span class="vg">$build_artifact_dir</span> <span class="o">=</span> <span class="s2">&quot;$build_dir</span><span class="se">\b</span><span class="s2">uild_artifact&quot;</span>
+</span><span class='line'>  <span class="vg">$build_log_dir</span> <span class="o">=</span> <span class="s2">&quot;$build_dir</span><span class="se">\b</span><span class="s2">uild_log&quot;</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="vg">$project_name</span> <span class="o">=</span> <span class="s2">&quot;Northwind.vbp&quot;</span>
+</span><span class='line'>  <span class="vg">$project</span> <span class="o">=</span> <span class="s2">&quot;$src_dir\$project_name&quot;</span>        
+</span><span class='line'>  <span class="vg">$logfile</span> <span class="o">=</span> <span class="s2">&quot;$build_log_dir\$project_name.log&quot;</span>
+</span><span class='line'><span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>Private Const WH_CBT = 5
-</span><span class='line'>Private Const GWL_HINSTANCE = (-6)
-</span><span class='line'>Private Const HCBT_ACTIVATE = 5
+</span><span class='line'><span class="n">function</span> <span class="no">NormalizeOutDir</span><span class="p">(</span><span class="vg">$outdir</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">-</span><span class="ow">not</span> <span class="p">(</span><span class="vg">$outdir</span><span class="o">.</span><span class="n">EndsWith</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">))) {</span>
+</span><span class='line'><span class="s2">     $outdir += &#39;</span><span class="se">\&#39;</span><span class="s2"></span>
+</span><span class='line'><span class="s2"> }</span>
 </span><span class='line'>
-</span><span class='line'>Private Type MSGBOX_HOOK_PARAMS
-</span><span class='line'>    hwndOwner   As Long
-</span><span class='line'>    hHook       As Long
-</span><span class='line'>End Type
+</span><span class='line'><span class="s2"> if ($outdir.Contains(&quot;</span> <span class="s2">&quot;)) {</span>
+</span><span class='line'><span class="s2">     $outdir = $outdir + &quot;</span><span class="p">\</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="s2"> }</span>
 </span><span class='line'>
-</span><span class='line'>Private MSGHOOK As MSGBOX_HOOK_PARAMS
+</span><span class='line'><span class="s2"> return $outdir</span>
+</span><span class='line'><span class="s2">}</span>
 </span><span class='line'>
-</span><span class='line'>Private Declare Function GetCurrentThreadId Lib "kernel32" () As Long
-</span><span class='line'>Private Declare Function GetWindowLong Lib "user32" Alias "GetWindowLongA" (ByVal hwnd As Long, ByVal nIndex As Long) As Long
-</span><span class='line'>Private Declare Function MessageBox Lib "user32" Alias "MessageBoxA" (ByVal hwnd As Long, ByVal lpText As String, ByVal lpCaption As String, ByVal wType As Long) As Long
-</span><span class='line'>Private Declare Function SetDlgItemText Lib "user32" Alias "SetDlgItemTextA" (ByVal hDlg As Long, ByVal nIDDlgItem As Long, ByVal lpString As String) As Long
-</span><span class='line'>Private Declare Function SetWindowsHookEx Lib "user32" Alias "SetWindowsHookExA" (ByVal idHook As Long, ByVal lpfn As Long, ByVal hmod As Long, ByVal dwThreadId As Long) As Long
-</span><span class='line'>Private Declare Function SetWindowText Lib "user32" Alias "SetWindowTextA" (ByVal hwnd As Long, ByVal lpString As String) As Long
-</span><span class='line'>Private Declare Function UnhookWindowsHookEx Lib "user32" (ByVal hHook As Long) As Long
+</span><span class='line'><span class="s2">function HasFailed($logFile) {</span>
+</span><span class='line'><span class="s2"> return ((Select-String &quot;</span><span class="n">failed</span><span class="s2">&quot; $logfile -Quiet) -or (Select-String &quot;</span><span class="ow">not</span> <span class="n">found</span><span class="s2">&quot; $logfile -Quiet))</span>
+</span><span class='line'><span class="s2">}</span>
 </span><span class='line'>
-</span><span class='line'>Private Function MsgBoxHookProc(ByVal uMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
-</span><span class='line'>    If uMsg = HCBT_ACTIVATE Then
-</span><span class='line'>        SetWindowText wParam, "Konfirmasi"
+</span><span class='line'><span class="s2">function HasSucceeded($logFile) {</span>
+</span><span class='line'><span class="s2"> return (Select-String &quot;</span><span class="n">succeeded</span><span class="s2">&quot; $logFile -Quiet)</span>
+</span><span class='line'><span class="s2">}</span>
 </span><span class='line'>
-</span><span class='line'>        SetDlgItemText wParam, IDYES, "Ya"
-</span><span class='line'>        SetDlgItemText wParam, IDNO, "Tidak"
+</span><span class='line'><span class="s2">FormatTaskName ((&quot;</span><span class="o">-</span><span class="s2">&quot;*25) + &quot;</span><span class="o">[</span><span class="p">{</span><span class="mi">0</span><span class="p">}</span><span class="o">]</span><span class="s2">&quot; + (&quot;</span><span class="o">-</span><span class="s2">&quot;*25))</span>
 </span><span class='line'>
-</span><span class='line'>        SetDlgItemText wParam, IDOK, "Oke"
-</span><span class='line'>        SetDlgItemText wParam, IDCANCEL, "Batal"
+</span><span class='line'><span class="s2">Task Default -Depends Build</span>
 </span><span class='line'>
-</span><span class='line'>        SetDlgItemText wParam, IDPROMPT, "Apakah Anda ingin keluar ?"
+</span><span class='line'><span class="s2">Task Build -Depends CreateLogFile {              </span>
+</span><span class='line'><span class="s2">    $outdir = NormalizeOutDir(&quot;</span><span class="vg">$build_artifact_dir</span><span class="s2">&quot;)</span>
+</span><span class='line'><span class="s2">    $failed = $false</span>
+</span><span class='line'><span class="s2">    $retries = 0</span>
+</span><span class='line'><span class="s2">    $succeeded = $false</span>
+</span><span class='line'><span class="s2"> </span>
+</span><span class='line'><span class="s2">    Write-Host &quot;</span><span class="no">Building</span> <span class="vg">$name</span><span class="s2">&quot; -ForegroundColor Green</span>
+</span><span class='line'><span class="s2"> </span>
+</span><span class='line'><span class="s2"> try {</span>
+</span><span class='line'><span class="s2">     Exec {&amp; $vb6bin /m $project /out $logfile /outdir $outdir}</span>
+</span><span class='line'><span class="s2"> } catch {</span>
+</span><span class='line'><span class="s2">     $failed = $true</span>
+</span><span class='line'><span class="s2"> }</span>
 </span><span class='line'>
-</span><span class='line'>        UnhookWindowsHookEx MSGHOOK.hHook
-</span><span class='line'>    End If
+</span><span class='line'><span class="s2">    while (!($failed -or $succeeded)) {</span>
+</span><span class='line'><span class="s2">        Write-Host -NoNewline &quot;</span><span class="o">.</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="s2">        Start-Sleep -s 1</span>
+</span><span class='line'><span class="s2">        $failed = HasFailed($logfile)</span>
+</span><span class='line'><span class="s2">        $succeeded = HasSucceeded($logfile)</span>
+</span><span class='line'><span class="s2">        $retries = $retries + 1</span>
+</span><span class='line'><span class="s2">        $failed = ($failed -or ($retries -eq 60)) -and !$succeeded</span>
+</span><span class='line'><span class="s2">    }</span>
 </span><span class='line'>
-</span><span class='line'>    MsgBoxHookProc = False
-</span><span class='line'>End Function
+</span><span class='line'><span class="s2">    if ($failed)</span>
+</span><span class='line'><span class="s2">    {</span>
+</span><span class='line'><span class="s2">        Type $logfile</span>
+</span><span class='line'><span class="s2">        throw &quot;</span><span class="no">Unable</span> <span class="n">to</span> <span class="n">build</span> <span class="vg">$name</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="s2">    }</span>
+</span><span class='line'><span class="s2">    Type $logfile</span>
+</span><span class='line'><span class="s2">}</span>
 </span><span class='line'>
-</span><span class='line'>Public Function MessageBoxH(ByVal hwndThreadOwner As Long, ByVal hwndOwner As Long, ByVal button As VbMsgBoxStyle) As Long
-</span><span class='line'>   Dim hInstance As Long
-</span><span class='line'>   Dim hThreadId As Long
-</span><span class='line'>
-</span><span class='line'>   hInstance = GetWindowLong(hwndThreadOwner, GWL_HINSTANCE)
-</span><span class='line'>   hThreadId = GetCurrentThreadId()
-</span><span class='line'>
-</span><span class='line'>   With MSGHOOK
-</span><span class='line'>      .hwndOwner = hwndOwner
-</span><span class='line'>      .hHook = SetWindowsHookEx(WH_CBT, AddressOf MsgBoxHookProc, hInstance, hThreadId)
-</span><span class='line'>   End With
-</span><span class='line'>
-</span><span class='line'>   MessageBoxH = MessageBox(hwndOwner, Space$(40), Space$(40), vbQuestion + button)
-</span><span class='line'>End Function</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="s2">Task CreateLogFile {</span>
+</span><span class='line'><span class="s2"> If (!(Test-Path $build_artifact_dir)) </span>
+</span><span class='line'><span class="s2"> {</span>
+</span><span class='line'><span class="s2">     New-Item -Path $build_artifact_dir -ItemType Directory</span>
+</span><span class='line'><span class="s2"> }</span>
+</span><span class='line'><span class="s2"> </span>
+</span><span class='line'><span class="s2"> If (!(Test-Path $build_log_dir)) </span>
+</span><span class='line'><span class="s2"> {</span>
+</span><span class='line'><span class="s2">     New-Item -Path $build_log_dir -ItemType Directory</span>
+</span><span class='line'><span class="s2"> }</span>
+</span><span class='line'><span class="s2"> </span>
+</span><span class='line'><span class="s2"> Write-host  (&quot;</span><span class="no">Build</span> <span class="n">dir</span> <span class="p">:</span> <span class="p">{</span><span class="mi">0</span><span class="p">}</span><span class="s2">&quot; -f $build_dir)</span>
+</span><span class='line'><span class="s2"> Write-host  (&quot;</span><span class="no">Src</span> <span class="n">dir</span> <span class="p">:</span> <span class="p">{</span><span class="mi">0</span><span class="p">}</span><span class="s2">&quot; -f $src_dir)</span>
+</span><span class='line'><span class="s2"> Write-host  (&quot;</span><span class="no">Artifact</span> <span class="n">dir</span> <span class="p">:</span> <span class="p">{</span><span class="mi">0</span><span class="p">}</span><span class="s2">&quot; -f $build_artifact_dir) </span>
+</span><span class='line'><span class="s2"> Write-host  (&quot;</span><span class="no">Log</span> <span class="n">dir</span> <span class="p">:</span> <span class="p">{</span><span class="mi">0</span><span class="p">}</span><span class="s2">&quot; -f $logfile)</span>
+</span><span class='line'><span class="s2"> </span>
+</span><span class='line'><span class="s2">    if (Test-Path $logfile)</span>
+</span><span class='line'><span class="s2">    {</span>
+</span><span class='line'><span class="s2">        Remove-Item $logfile</span>
+</span><span class='line'><span class="s2">    }</span>
+</span><span class='line'><span class="s2"> </span>
+</span><span class='line'><span class="s2">    $path = [IO.Path]::GetFullPath($logfile)</span>
+</span><span class='line'><span class="s2">    New-Item -ItemType file  $path</span>
+</span><span class='line'><span class="s2">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Untuk contoh penggunaan tambahkan objek CommandButton, kemudian ketik kode berikut :</p>
+<p>Kemudian skrip di atas disimpan di lokasi yang sama dengan folder <code>src</code></p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Private Sub cmdDemoCustomeMsgBox_Click()
-</span><span class='line'>    Select Case MessageBoxH(Me.hwnd, Me.hwnd, vbOKCancel)
-</span><span class='line'>        Case IDYES: Debug.Print "Anda mengklik tombol Ya"
-</span><span class='line'>        Case IDNO: Debug.Print "Anda mengklik tombol Tidak"
-</span><span class='line'>        Case IDOK: Debug.Print "Anda mengklik tombol Oke"
-</span><span class='line'>        Case IDCANCEL: Debug.Print "Anda mengklik tombol Batal"
-</span><span class='line'>    End Select
-</span><span class='line'>End Sub</span></code></pre></td></tr></table></div></figure>
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/12/261226-01.png"></p>
 
+<p>Untuk contoh project Visual Basic 6-nya bisa Anda download di <a href="https://github.com/k4m4r82/NorthwindVB6">sini</a>.</p>
 
-<p>Referensi : <a href="http://vbnet.mvps.org/index.html?code/hooks/messageboxhook.htm">http://vbnet.mvps.org</a></p>
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/12/261226-02.png"></p>
 
-<p>Selamat mencoba :)</p>
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/12/261226-03.png"></p>
+
+<h3>Konfigurasi Server CI (Continuous Integration)</h3>
+
+<p>Dipostingan kali ini saya sudah tidak lagi menjelaskan lagi secara rinci bagaimana membuat dan melakukan konfigurasi job/project jenkins karena sudah saya bahas dipostingan
+<a href="http://coding4ever.net/blog/categories/jenkins/">sebelumnya</a>. Berikut langkah-langkahnya :</p>
+
+<p><strong>Langkah 1</strong>: Buat job/project baru, misal dengan nama <code>northwind-vb6-build</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/12/261226-04.png"></p>
+
+<p><strong>Langkah 2</strong>: Setting repository git</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/12/261226-05.png"></p>
+
+<p><strong>Langkah 3</strong>: Setting Execute Windows batch command untuk menjalankan skrip <a href="https://github.com/k4m4r82/NorthwindVB6/blob/master/build.ps1">build.ps1</a></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/12/261226-06.png"></p>
+
+<p>Skrip di atas akan menjalankan file <a href="https://github.com/k4m4r82/NorthwindVB6/blob/master/build.ps1">build.ps1</a> yang akan menghasilkan file exe dari project <a href="https://github.com/k4m4r82/NorthwindVB6">Visual Basic 6</a></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/12/261226-09.png"></p>
+
+<p>Hasil <code>compile</code> Visual Basic 6 biasanya ukuran filenya belum dioptimasi, sehingga kita bisa menambahkan skrip untuk melakukan compress menggunakan tool <a href="https://upx.github.io/">UPX</a>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/12/261226-07.png"></p>
+
+<p>Lumayan hasil compressnya bisa mencapai 30%-an sendiri.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/12/261226-111.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/12/261226-101.png"></p>
+
+<p>Kita juga bisa menambahkan skrip <a href="http://www.jrsoftware.org/">Inno Setup</a> untuk membuat paket installer secara otomatis setelah proses <code>build</code> selesai, caranya gimana bisa Anda cek di <a href="http://coding4ever.net/blog/2016/10/01/membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-menggunakan-jenkins-bagian-number-2/">sini</a>.</p>
+
+<p><strong>Langkah 4</strong>: Terakhir tes build</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/12/261226-08.png"></p>
+
+<p>Jika proses build selesai, kita tinggal cek hasilnya compilenya di folder job</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/12/261226-09.png"></p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/NorthwindVB6">MENCOBA</a> :-)</p>
 </div>
 
 
@@ -277,12 +414,12 @@
 
 
 
-<time class='entry-date' datetime='2010-01-19T20:39:54+07:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>8:39 pm</span></time>
+<time class='entry-date' datetime='2016-12-26T08:11:18+07:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:11 am</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/visual-basic/'>visual basic</a>
+    <a class='category' href='/blog/categories/continuous-integration/'>continuous integration</a>, <a class='category' href='/blog/categories/jenkins/'>jenkins</a>
   
 </span>
 
@@ -305,10 +442,8 @@ Saat ini bekerja sebagai staf IT di salah satu PTS di Yogyakarta sebagai senior 
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2010/01/18/objek-treeview-sebagai-alternatif-membuat-menu/" title="Previous Post: Objek TreeView sebagai alternatif membuat menu">&laquo; Objek TreeView sebagai alternatif membuat menu</a>
+        <a class="basic-alignment left" href="/blog/2016/12/14/membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-menggunakan-jenkins-bagian-number-4/" title="Previous Post: Membangun Server CI (Continuous Integration) di Windows untuk Platform .NET Menggunakan Jenkins Bagian #4">&laquo; Membangun Server CI (Continuous Integration) di Windows untuk Platform .NET Menggunakan Jenkins Bagian #4</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2010/01/22/membuat-menu-samping-dengan-komponen-vbaccelerator-vb6-explorer-bar/" title="Next Post: Membuat menu samping dengan komponen vbAccelerator VB6 Explorer Bar">Membuat menu samping dengan komponen vbAccelerator VB6 Explorer Bar &raquo;</a>
       
     </p>
   </footer>
@@ -460,8 +595,8 @@ Saat ini bekerja sebagai staf IT di salah satu PTS di Yogyakarta sebagai senior 
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://coding4ever.net/blog/2010/01/19/custom-msgbox-function/';
-        var disqus_url = 'http://coding4ever.net/blog/2010/01/19/custom-msgbox-function/';
+        var disqus_identifier = 'http://coding4ever.net/blog/2016/12/26/build-otomatis-project-visual-basic-6-menggunakan-jenkins/';
+        var disqus_url = 'http://coding4ever.net/blog/2016/12/26/build-otomatis-project-visual-basic-6-menggunakan-jenkins/';
         var disqus_script = 'embed.js';
       
     (function () {
