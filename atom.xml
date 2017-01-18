@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2016-12-26T10:02:39+07:00</updated>
+  <updated>2017-01-18T10:51:42+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,302 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Manajemen Perubahan Struktur Database Menggunakan Liquibase]]></title>
+    <link href="http://coding4ever.net/blog/2017/01/18/manajemen-perubahan-struktur-database-menggunakan-liquibase/"/>
+    <updated>2017-01-18T09:43:57+07:00</updated>
+    <id>http://coding4ever.net/blog/2017/01/18/manajemen-perubahan-struktur-database-menggunakan-liquibase</id>
+    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2017/01/logo-lb.png" width="105" height="72">Dalam pembuatan aplikasi perubahan struktur/schema database merupakan hal yang wajar, baik pada fase development maupun setelah masuk ke fase implementasi (production/live). Ada banyak alasan kenapa kita perlu melakukan perubahan struktur database, contoh:</p>
+
+<!-- more -->
+
+
+<ul>
+<li>Penambahan fitur baru yang membutuhan penambahan attribut/field di tabel yang sudah ada atau malah menambahkan tabel yang baru.</li>
+<li>Perbaikan bug yang menyebabkan perubahan nama atau jenis data dalam database.</li>
+<li>Issue kinerja sistem yang memerlukan tambahan index dalam database.</li>
+</ul>
+
+
+<p>Perubahan-perubahan ini tentunya <code>wajib</code> kita catat baik secara manual maupun menggunakan tool khusus yang bisa dengan mudah membuat log perubahan struktur database dari waktu ke waktu, karena jika tidak bisa berpotensi menjadi bug di kemudian hari.</p>
+
+<p>Beberapa tool database management seperti <a href="https://www.webyog.com/">SQLyog</a> versi <a href="https://www.webyog.com/product/sqlyogFeatureListExpanded">Enterprise/Ultimate</a> atau <a href="http://www.sqlmanager.net/en/">EMS SQL Manager</a> versi berbayarnya memang menyediakan fitur untuk melakukan sinkronisasi struktur database dengan mudah, tapi bagi Anda yang mempunyai anggaran terbatas untuk membeli lisensinya ada alternatif tool gratis dan open source yang bisa kita gunakan salah satunya yaitu  <a href="http://www.liquibase.org/">Liquibase</a>.</p>
+
+<p>Pernah kebayang nggak ngoding tanpa <a href="https://en.wikipedia.org/wiki/Version_control">source/version control</a> seperti <a href="https://git-scm.com/">Git</a> atau <a href="https://subversion.apache.org/">SVN</a> kalo dulu mungkin iya, kalo sekarang <a href="https://en.wikipedia.org/wiki/Version_control">source/version control</a> merupakan hal yang <code>wajib</code> kita gunakan untuk memberikan rasa aman saat ber-coding ria :-D. <a href="https://en.wikipedia.org/wiki/Version_control">Source/version control</a> ini digunakan untuk mencatat perubahan kode dari waktu ke waktu, apalagi kalo ngodingnya bareng-bareng, hanya orang-orang <code>kreatif</code> saja yang bisa melakukannya tanpa  <a href="https://en.wikipedia.org/wiki/Version_control">source/version control</a> :-D. Dengan mengusung tema <code>Source Control for Your Database</code> <a href="http://www.liquibase.org/">Liquibase</a> juga bisa kita fungsikan sebagai <a href="https://en.wikipedia.org/wiki/Version_control">source/version control</a> untuk mencatat perubahan struktur/schema database.</p>
+
+<h3>Instalasi  Liquibase</h3>
+
+<p><a href="http://www.liquibase.org/">Liquibase</a> tidak memerlukan instalasi khusus, kita tinggal download filenya di web site resmi <a href="http://www.liquibase.org/download/index.html">Liquibase</a> kemudian mengekstraknya.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/01/180117-01.png"></p>
+
+<p>Selain itu ada tool lain yang perlu kita siapkan yaitu:</p>
+
+<ul>
+<li><a href="http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html">JRE</a> atau <a href="http://www.oracle.com/technetwork/java/javase/downloads/index-jsp-138363.html">JDK</a> karena <a href="http://www.liquibase.org/">Liquibase</a> ditulis menggunakan Java.</li>
+<li>JDBC driver disesuaikan dengan database yang digunakan, untuk contoh di sini saya menggunakan database <a href="https://www.postgresql.org/">PostgreSQL</a>. Setelah didownload kita copykan ke folder lib</li>
+</ul>
+
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/01/180117-02.png"></p>
+
+<h3>Membuat Changelog</h3>
+
+<p>Struktur database dalam <a href="http://www.liquibase.org/">Liquibase</a> ditulis dalam format XML, disebut dengan istilah <code>changelog</code>. Ada beberapa <a href="http://www.liquibase.org/documentation/command_line.html">perintah</a> yang bisa digunakan untuk menghasilkan <code>changelog</code>, tentunya disesuaikan dengan kebutuhan.</p>
+
+<h5>generateChangelog</h5>
+
+<p>Perintah ini digunakan untuk membuat <code>changelog</code> dari struktur database secara lengkap jadi mirip dengan perintah dump/export ke sql. Biasanya kita gunakan pada saat implementasi awal sistem untuk mengopykan struktur database kosongan dari server development ke server production/live. Misal di awal implementasi sistem kita mempunyai struktur database seperti berikut :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/01/180117-03.png"></p>
+
+<p>Dari gambar di atas kita baru mempunyai dua buah tabel yaitu <code>m_customer</code> dan <code>m_supplier</code>.</p>
+
+<p>Kemudian kita jalankan perintah <code>generateChangelog</code>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>liquibase --url<span class="o">=</span><span class="s2">&quot;jdbc:postgresql://localhost:5432/db-develop&quot;</span> --username<span class="o">=</span>postgres --password<span class="o">=</span>masterkey --changeLogFile<span class="o">=</span>output/db.changelog-1.0.xml generateChangeLog
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/01/180117-04.png"></p>
+
+<p>Akan menghasilkan file <code>changelog</code> seperti berikut:</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/01/180117-05.png"></p>
+
+<div><script src='https://gist.github.com/f1b99d6a19c05b241367caa332a11ed5.js'></script>
+<noscript><pre><code>&lt;?xml version=&quot;1.1&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;
+&lt;databaseChangeLog xmlns=&quot;http://www.liquibase.org/xml/ns/dbchangelog&quot; xmlns:ext=&quot;http://www.liquibase.org/xml/ns/dbchangelog-ext&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd&quot;&gt;
+    &lt;changeSet author=&quot;Administrator (generated)&quot; id=&quot;1484639745890-1&quot;&gt;
+        &lt;createTable tableName=&quot;m_customer&quot;&gt;
+            &lt;column name=&quot;customer_id&quot; type=&quot;CHAR(36)&quot;&gt;
+                &lt;constraints nullable=&quot;false&quot;/&gt;
+            &lt;/column&gt;
+            &lt;column name=&quot;nama_customer&quot; type=&quot;VARCHAR(50)&quot;/&gt;
+            &lt;column name=&quot;alamat&quot; type=&quot;VARCHAR(100)&quot;/&gt;
+            &lt;column name=&quot;kontak&quot; type=&quot;VARCHAR(50)&quot;/&gt;
+            &lt;column name=&quot;telepon&quot; type=&quot;VARCHAR(20)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;plafon_piutang&quot; type=&quot;numeric(15, 2)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;total_piutang&quot; type=&quot;numeric(15, 2)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;total_pembayaran_piutang&quot; type=&quot;numeric(15, 2)&quot;/&gt;
+        &lt;/createTable&gt;
+    &lt;/changeSet&gt;
+    &lt;changeSet author=&quot;Administrator (generated)&quot; id=&quot;1484639745890-2&quot;&gt;
+        &lt;createTable tableName=&quot;m_supplier&quot;&gt;
+            &lt;column name=&quot;supplier_id&quot; type=&quot;CHAR(36)&quot;&gt;
+                &lt;constraints nullable=&quot;false&quot;/&gt;
+            &lt;/column&gt;
+            &lt;column name=&quot;nama_supplier&quot; type=&quot;VARCHAR(50)&quot;/&gt;
+            &lt;column name=&quot;alamat&quot; type=&quot;VARCHAR(100)&quot;/&gt;
+            &lt;column name=&quot;kontak&quot; type=&quot;VARCHAR(50)&quot;/&gt;
+            &lt;column name=&quot;telepon&quot; type=&quot;VARCHAR(20)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;total_hutang&quot; type=&quot;numeric(15, 2)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;total_pembayaran_hutang&quot; type=&quot;numeric(15, 2)&quot;/&gt;
+        &lt;/createTable&gt;
+    &lt;/changeSet&gt;
+&lt;/databaseChangeLog&gt;
+</code></pre></noscript></div>
+
+
+<p>Mungkin tidak perlu dijelaskan lagi ya, karena isi dari file <a href="https://gist.github.com/k4m4r82/f1b99d6a19c05b241367caa332a11ed5#file-db-changelog-1-0-xml">db.changelog-1.0.xml</a> di atas hanya menjelaskan struktur dari tabel <code>m_customer</code> dan <code>m_supplier</code> dalam format XML.</p>
+
+<p>Setelah itu kita jalankan perintah <code>update</code> agar <code>changelog</code> yang dihasilkan dari perintah <code>generateChangelog</code> di atas dieksekusi ke database target (db production/live).</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>liquibase --url<span class="o">=</span><span class="s2">&quot;jdbc:postgresql://localhost:5432/db-production&quot;</span> --username<span class="o">=</span>postgres --password<span class="o">=</span>masterkey --changeLogFile<span class="o">=</span>output/db.changelog-1.0.xml update   
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/01/180117-06.png"></p>
+
+<p>Dari gambar di bawah ini terlihat kondisi database production sebelum (sebelah kiri) dan sesudah dijalankan perintah <code>update</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/01/180117-07.png"></p>
+
+<p>Pada saat pertama kali <a href="http://www.liquibase.org/">Liquibase</a> dijalankan untuk database target, <a href="http://www.liquibase.org/">Liquibase</a> akan membuat dua buah tabel sistem yaitu <a href="http://www.liquibase.org/documentation/databasechangelog_table.html">databasechangelog</a> dan <a href="http://www.liquibase.org/documentation/databasechangeloglock_table.html">databasechangeloglock</a> kedua tabel ini digunakan untuk mencatat hasil eksekusi <code>changelog</code> dari waktu ke waktu. Jadi perlu diperhatikan kedua tabel ini jangan dihapus.</p>
+
+<h5>diffChangeLog</h5>
+
+<p>Selama fase development maupun setelah masuk ke fase implementasi (production/live) kadang-kadang terjadi perubahan struktur database, sehingga kita perlu mengetahui perbedaan dari struktur lama dan baru, untuk melakukan ini kita menggunakan perintah <code>diffChangeLog</code>.</p>
+
+<p>Misal seperti penjelasan gambar di bawah ini, yang sebelah kiri adalah struktur awal database yang hanya mempunyai dua buah tabel yaitu <code>m_customer</code> dan <code>m_supplier</code>, selama proses development berlangsung terjadi penambahan beberapa tabel baru yaitu <code>m_golongan</code>, <code>m_produk</code> dan tabel baru lainnya.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/01/180117-08.png"></p>
+
+<p>Nah untuk menghasilkan <code>changelog</code>, yang isinya adalah perbedaan struktur lama dan baru kita gunakan perintah <code>diffChangeLog</code>.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>liquibase --url<span class="o">=</span><span class="s2">&quot;jdbc:postgresql://localhost:5432/db-production&quot;</span> --username<span class="o">=</span>postgres --password<span class="o">=</span>masterkey --referenceUrl<span class="o">=</span><span class="s2">&quot;jdbc:postgresql://localhost:5432/db-develop&quot;</span> --referenceUsername<span class="o">=</span>postgres --referencePassword<span class="o">=</span>masterkey  --changeLogFile<span class="o">=</span>output/db.changelog-1.1.xml diffChangeLog
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/01/180117-09.png"></p>
+
+<p>Contoh file <code>changelog</code> yang dihasilkan:</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/01/180117-10.png"></p>
+
+<div><script src='https://gist.github.com/e66ba9f2bff96f9ba50406d34864d87e.js'></script>
+<noscript><pre><code>&lt;?xml version=&quot;1.1&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;
+&lt;databaseChangeLog xmlns=&quot;http://www.liquibase.org/xml/ns/dbchangelog&quot; xmlns:ext=&quot;http://www.liquibase.org/xml/ns/dbchangelog-ext&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd&quot;&gt;
+    &lt;changeSet author=&quot;Administrator (generated)&quot; id=&quot;1484641393235-1&quot;&gt;
+        &lt;createTable tableName=&quot;m_alasan_penyesuaian_stok&quot;&gt;
+            &lt;column name=&quot;alasan_penyesuaian_stok_id&quot; type=&quot;CHAR(36)&quot;&gt;
+                &lt;constraints nullable=&quot;false&quot;/&gt;
+            &lt;/column&gt;
+            &lt;column name=&quot;alasan&quot; type=&quot;VARCHAR(100)&quot;/&gt;
+        &lt;/createTable&gt;
+    &lt;/changeSet&gt;
+    &lt;changeSet author=&quot;Administrator (generated)&quot; id=&quot;1484641393235-2&quot;&gt;
+        &lt;createTable tableName=&quot;m_golongan&quot;&gt;
+            &lt;column name=&quot;golongan_id&quot; type=&quot;CHAR(36)&quot;&gt;
+                &lt;constraints nullable=&quot;false&quot;/&gt;
+            &lt;/column&gt;
+            &lt;column name=&quot;nama_golongan&quot; type=&quot;VARCHAR(50)&quot;/&gt;
+        &lt;/createTable&gt;
+    &lt;/changeSet&gt;
+    &lt;changeSet author=&quot;Administrator (generated)&quot; id=&quot;1484641393235-3&quot;&gt;
+        &lt;createTable tableName=&quot;m_produk&quot;&gt;
+            &lt;column name=&quot;produk_id&quot; type=&quot;CHAR(36)&quot;&gt;
+                &lt;constraints nullable=&quot;false&quot;/&gt;
+            &lt;/column&gt;
+            &lt;column name=&quot;kode_barcode&quot; type=&quot;VARCHAR(15)&quot;/&gt;
+            &lt;column name=&quot;nama_produk&quot; type=&quot;VARCHAR(50)&quot;/&gt;
+            &lt;column name=&quot;satuan&quot; type=&quot;VARCHAR(20)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;stok&quot; type=&quot;numeric(5, 2)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;harga_beli&quot; type=&quot;numeric(10, 2)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;harga_jual&quot; type=&quot;numeric(10, 2)&quot;/&gt;
+            &lt;column name=&quot;golongan_id&quot; type=&quot;CHAR(36)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;minimal_stok&quot; type=&quot;numeric(5, 2)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;stok_gudang&quot; type=&quot;numeric(5, 2)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;minimal_stok_gudang&quot; type=&quot;numeric(5, 2)&quot;/&gt;
+        &lt;/createTable&gt;
+    &lt;/changeSet&gt;
+    &lt;changeSet author=&quot;Administrator (generated)&quot; id=&quot;1484641393235-4&quot;&gt;
+        &lt;createTable tableName=&quot;t_penyesuaian_stok&quot;&gt;
+            &lt;column name=&quot;penyesuaian_stok_id&quot; type=&quot;CHAR(36)&quot;&gt;
+                &lt;constraints nullable=&quot;false&quot;/&gt;
+            &lt;/column&gt;
+            &lt;column name=&quot;produk_id&quot; type=&quot;CHAR(36)&quot;/&gt;
+            &lt;column name=&quot;alasan_penyesuaian_id&quot; type=&quot;CHAR(36)&quot;/&gt;
+            &lt;column name=&quot;tanggal&quot; type=&quot;date&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;penambahan_stok&quot; type=&quot;numeric(5, 2)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;pengurangan_stok&quot; type=&quot;numeric(5, 2)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;penambahan_stok_gudang&quot; type=&quot;numeric(5, 2)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;pengurangan_stok_gudang&quot; type=&quot;numeric(5, 2)&quot;/&gt;
+            &lt;column name=&quot;keterangan&quot; type=&quot;VARCHAR(100)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;now()&quot; name=&quot;tanggal_sistem&quot; type=&quot;TIMESTAMP(6) WITHOUT TIME ZONE&quot;/&gt;
+        &lt;/createTable&gt;
+    &lt;/changeSet&gt;
+&lt;/databaseChangeLog&gt;</code></pre></noscript></div>
+
+
+<p>Kemudian kita jalankan lagi perintah <code>update</code>. Perintah <code>update</code> ini melakukan <code>patch</code> ke database target (database production/live).</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>liquibase --url<span class="o">=</span><span class="s2">&quot;jdbc:postgresql://localhost:5432/db-production&quot;</span> --username<span class="o">=</span>postgres --password<span class="o">=</span>masterkey --changeLogFile<span class="o">=</span>output/db.changelog-1.1.xml update
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Setelah itu kita cek lagi struktur database productionnya.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/01/180117-11.png"></p>
+
+<p>Gampang bukan :-), dengan menggunakan <a href="http://www.liquibase.org/">Liquibase</a> proses migrasi struktur database pun menjadi lebih mudah.</p>
+
+<h3>File Liquibase Properties</h3>
+
+<p>Untuk menyingkat penulisan perintah <a href="http://www.liquibase.org/">Liquibase</a> kita bisa memanfaatkan file liquibase properties. Di file ini kita mengeset semua nilai parameter yang dibutuhkan pada saat menjalankan perintah <a href="http://www.liquibase.org/">Liquibase</a>. Secara default nama yang digunakan untuk file liquibase properties adalah <code>liquibase.properties</code>, jika menggunakan nama default ini kita bisa langsung menjalankan perintah <a href="http://www.liquibase.org/">Liquibase</a> seperti berikut :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># generateChangelog</span>
+</span><span class='line'>liquibase generateChangelog
+</span><span class='line'>
+</span><span class='line'><span class="c"># diffChangeLog</span>
+</span><span class='line'>liquibase diffChangeLog
+</span><span class='line'>
+</span><span class='line'><span class="c"># update/patch database target</span>
+</span><span class='line'>liquibase update
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>dan jika menggunakan nama yang lain, misal untuk masing-masing perintah kita buatkan  file liquibase properties tersendiri, pada saat menjalankan perintah <a href="http://www.liquibase.org/">Liquibase</a> harus kita sebutkan secara explicit nama file  liquibase properties-nya dengan menambahkan parameter <code>defaultsFile=&lt;nama_file_liquibase_properties&gt;</code>. Contoh:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># generateChangelog</span>
+</span><span class='line'>liquibase --defaultsFile<span class="o">=</span>generate-liquibase.properties generateChangelog
+</span><span class='line'>
+</span><span class='line'><span class="c"># diffChangeLog</span>
+</span><span class='line'>liquibase --defaultsFile<span class="o">=</span>diff-liquibase.properties diffChangeLog
+</span><span class='line'>
+</span><span class='line'><span class="c"># update/patch database target</span>
+</span><span class='line'>liquibase --defaultsFile<span class="o">=</span>update-liquibase.properties update
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Dan untuk masing-masing file liquibase properties-nya kita isi seperti berikut:</p>
+
+<div><script src='https://gist.github.com/16429101488c5c734e8f86832c6dc646.js'></script>
+<noscript><pre><code># liquibase.properties
+driver: org.postgresql.Driver
+classpath: ./lib/postgresql-9.4.1212.jar
+url: jdbc:postgresql://localhost:5432/db-develop
+username: postgres
+password: masterkey
+changeLogFile: output/db.changelog-1.0.xml</code></pre></noscript></div>
+
+
+
+
+<div><script src='https://gist.github.com/033067883ebff3ab40ed2b08b3c06a42.js'></script>
+<noscript><pre><code># liquibase.properties
+driver: org.postgresql.Driver
+classpath: ./lib/postgresql-9.4.1212.jar
+
+# db-production
+url: jdbc:postgresql://localhost:5432/db-production
+username: postgres
+password: masterkey
+
+# db-develop
+referenceUrl: jdbc:postgresql://localhost:5432/db-develop
+referenceUsername: postgres
+referencePassword: masterkey
+
+changeLogFile: output/db.changelog-1.1.xml</code></pre></noscript></div>
+
+
+
+
+<div><script src='https://gist.github.com/4ad6e69e060e7fcd4da12fa56fbbaf0c.js'></script>
+<noscript><pre><code># liquibase.properties
+driver: org.postgresql.Driver
+classpath: ./lib/postgresql-9.4.1212.jar
+url: jdbc:postgresql://localhost:5432/db-production
+username: postgres
+password: masterkey
+changeLogFile: output/db.changelog-1.0.xml</code></pre></noscript></div>
+
+
+<p>Selamat mencoba :-)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Build Otomatis Project Visual Basic 6 Menggunakan Jenkins]]></title>
@@ -3950,152 +4246,6 @@ namespace DemoSignalR.WinFormClient
 <p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/270116-08.png"></p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/RemoveMainReportTabOnCRViewer">MENCOBA</a> :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Membuat Laporan Crystal Reports .NET Dengan Model Data-Push Bagian #2]]></title>
-    <link href="http://coding4ever.net/blog/2016/01/24/membuat-laporan-crystal-reports-net-dengan-model-data-push-bagian-number-2/"/>
-    <updated>2016-01-24T15:25:29+07:00</updated>
-    <id>http://coding4ever.net/blog/2016/01/24/membuat-laporan-crystal-reports-net-dengan-model-data-push-bagian-number-2</id>
-    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg" width="120" height="100">Melanjutkan pembahasan tentang bagaimana cara mendesain laporan menggunakan Crystal Reports‎ .NET tanpa terhubung langsung ke database dengan memanfaatkan objek ADO.NET DataSet atau yang dikenal dengan istilah <a href="http://coding4ever.net/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push/">Push model</a>.</p>
-
-<!-- more -->
-
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-01.png"></p>
-
-<p>Jika pada postingan <a href="http://coding4ever.net/blog/2015/04/12/membuat-laporan-crystal-reports-net-dengan-model-data-push/">sebelumnya</a> kita hanya menampilkan data dari sebuah tabel maka untuk <a href="http://coding4ever.net/blog/2016/01/24/membuat-laporan-crystal-reports-net-dengan-model-data-push-bagian-number-2/">postingan</a> kali ini kita menampilkan data dari tiga buah tabel yang saling berhubungan.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-02.png"></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-03.png"></p>
-
-<p>Persiapan tool-tool yang akan digunakan :</p>
-
-<ol>
-<li><a href="http://www.visualstudio.com/en-us/downloads/download-visual-studio-vs#d-community">Visual Studio Community 2013</a>, Anda bisa saja menggunakan Visual Studio .NET versi sebelumnya (2010, 2012)</li>
-<li><a href="http://coding4ever.net/blog/categories/nuget/">NuGet</a>, untuk memudahkan dalam menambahkan library pihak ketiga. Adapun library pihak ketiga yang digunakan dalam sample ini adalah <a href="http://coding4ever.net/blog/categories/dapper-net/">Dapper .NET</a> dan <a href="http://www.nuget.org/packages/System.Data.SQLite.Core/">System.Data.SQLite Core</a></li>
-<li><a href="http://scn.sap.com/docs/DOC-7824">Crystal Reports SP 13</a></li>
-<li>Database <a href="http://www.sqlite.org/">SQLite</a></li>
-</ol>
-
-
-<p>Setelah semua tool yang dibutuhkan tersedia kita lanjutkan dengan pembuatan project :</p>
-
-<ol>
-<li><p>Buat project baru dengan type WinForm</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-04.png"></p></li>
-<li><p>Tambahkan empat folder baru masing-masing dengan nama DataSet, Model, Repository dan Report</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-05.png"></p></li>
-</ol>
-
-
-<p>Folder DataSet digunakan untuk mengelompokkan item-item DataSet yang berfungsi sebagai tabel temporary, folder Model untuk mengelompokkan class-class model atau entity, folder <a href="https://msdn.microsoft.com/en-us/library/ff649690.aspx">Repository</a> untuk mengelompokkan class-class akses database dan terakhir folder Report untuk mengelompokkan item-item Crystal Reports.</p>
-
-<h5>Class Model/Entity</h5>
-
-<p>Untuk menerapkan konsep OOP (Object-oriented programming) dalam pemrograman database kita perlu membuat sebuah class yang disebut dengan istilah class Model atau Entity. Class ini merupakan representasi dari tabel-tabel yang ada di dalam database. Tujuan dari membuat class ini adalah agar kita bisa melakukan mapping (pemetaan) baris/row dari tabel menjadi kumpulan objek (object collection).</p>
-
-<p>Pemetaan bisa dilakukan secara manual atau bisa juga secara otomatis dengan menggunakan tool-tool ORM dari pihak ketiga seperti <a href="http://coding4ever.net/blog/categories/dapper-net/">Dapper .NET</a> dan <a href="](http://coding4ever.net/blog/categories/entity-framework/">Entity Framework</a>. Untuk contoh kali ini kita menggunakan <a href="http://coding4ever.net/blog/categories/dapper-net/">Dapper .NET</a>.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-06.png"></p>
-
-<p>Setelah memahami apa itu class model dan bagaimana proses pemetaan record ke objek terjadi, langkah berikutnya adalah menambahkan class model <em>Category, Product</em> dan <em>Supplier</em> yang mempunyai struktur sama persis dengan rancangan tabel di atas.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-07.png"></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-08.png"></p>
-
-<h5>Class Repository</h5>
-
-<p>Class <a href="https://msdn.microsoft.com/en-us/library/ff649690.aspx">repository</a> adalah class yang bertugas untuk menangani operasi database yang dikenal dengan istilah operasi CRUD (Create, Read, Update dan Delete). Di dalam class inilah kita menuliskan perintah-perintah INSERT, UPDATE, DELETE dan SELECT.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-09.png"></p>
-
-<p>Sebagai contoh kode dibawah ini akan melakukan mapping (pemetaan) baris/row tabel menjadi kumpulan objek (object collection) secara otomatis.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-10.png"></p>
-
-<p>Kode di atas menggunakan <a href="http://coding4ever.net/blog/categories/dapper-net/">Micro ORM</a> <a href="http://coding4ever.net/blog/categories/dapper-net/">Dapper.NET</a> untuk melakukan mapping/pemetaan hasil query ke objek collection.</p>
-
-<p>Kemudian kita panggil seperti berikut :</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-11.png"></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-12.png"></p>
-
-<h5>DataSet</h5>
-
-<p>Dengan model <a href="http://coding4ever.net/blog/categories/crystal-reports-net/">data Push</a> kita tidak langsung menghubungkan antara Crystal Reports dengan database, jadi sebagai solusinya kita menggunakan DataSet yang berfungsi sebagai tabel temporary dan menjadi sumber data bagi Crystal Reports.</p>
-
-<p>Untuk menambahkan item DataSet, klik kanan Project -> Add -> New Item…</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-13.png"></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-14.png"></p>
-
-<p>Setelah menambahkan item DataSet (DsNorthwind), langkah berikutnya adalah menambahkan item DataTable</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-15.png"></p>
-
-<p>Kemudian input informasi DataTablenya seperti gambar berikut :</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-16.png"></p>
-
-<p>Ulangi langkah sebelumnya untuk menambahkan DataTable lainnya.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-17.png"></p>
-
-<h5>Crystal Reports</h5>
-
-<p>Crystal Reports adalah tool yang kita gunakan untuk membuat laporan. Untuk menambahkan item Crystal Report, klik kanan Project -> Add -> New Item…</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-18.png"></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-19.png"></p>
-
-<p>Pilih “As a Blank Report” karena kita akan mendesain report secara manual.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-20.png"></p>
-
-<p>Langkah berikutnya adalah menentukan sumber data yang kita arahkan ke item DataSet yang sudah kita buat pada langkah sebelumnya</p>
-
-<p>Klik kanan Database Fields -> Database Expert &hellip;</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-21.png"></p>
-
-<p>Pilih ADO.NET DataSet</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-22.png"></p>
-
-<p>Drag satu-satu field ke section detail, kemudian dirapikan.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-23.png"></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-24.png"></p>
-
-<h5>Crystal Report Viewer</h5>
-
-<p>Setelah semua persiapan selesai, langkah berikutnya adalah menambahkan Crystal Report Viewer yang berfungsi sebagai container untuk untuk menampilkan report.</p>
-
-<p>Aktifkan form kemudian tambahkan Crystal Report Viewer</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-25.png"></p>
-
-<p>Kemudian tambahkan kode berikut :</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-26.png"></p>
-
-<p>Dari kode di atas kita bisa melihat tidak ada lagi kode untuk mengeset koneksi database dan perintah SQL yang akan dikirimkan. Cara ini sangat cocok digunakan ketika kita akan membangun sistem dengan arsitektur <a href="http://coding4ever.net/blog/2012/02/01/pembuatan-aplikasi-client-server-dengan-arsitektur-3-tier-part-1/">N-Tier</a>, di mana aplikasi klien sudah tidak terkoneksi lagi secara langsung ke database.</p>
-
-<p>Jika kode di atas dijalankan, akan menghasilkan output seperti gambar di bawah ini.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/01/240116-27.png"></p>
-
-<p>Selamat <a href="https://github.com/k4m4r82/DemoCRPushModel2">MENCOBA</a> :)</p>
 ]]></content>
   </entry>
   

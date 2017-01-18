@@ -1,0 +1,620 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Manajemen Perubahan Struktur Database Menggunakan Liquibase - Coding4ever&#8217;s Blog</title>
+  <meta name="author" content="Admin">
+
+  
+  <meta name="description" content="Dalam pembuatan aplikasi perubahan struktur/schema database merupakan hal yang wajar, baik pada fase development maupun setelah masuk ke fase &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://coding4ever.net/blog/2017/01/18/manajemen-perubahan-struktur-database-menggunakan-liquibase">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Coding4ever's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50866618-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Coding4ever&#8217;s Blog</a></h1>
+  
+    <h2>Just coding&#8230; coding&#8230; and coding&#8230; because coding should be fun :)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:coding4ever.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/gudang-software">Gudang Software</a></li>
+  <li><a href="/source-code">Source Code</a></li>  
+  <li><a href="/aplikasi-gratis">Aplikasi Gratis</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Manajemen Perubahan Struktur Database Menggunakan Liquibase</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-01-18T09:43:57+07:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>9:43 am</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img class="left" src="https://coding4ever.files.wordpress.com/2017/01/logo-lb.png" width="105" height="72">Dalam pembuatan aplikasi perubahan struktur/schema database merupakan hal yang wajar, baik pada fase development maupun setelah masuk ke fase implementasi (production/live). Ada banyak alasan kenapa kita perlu melakukan perubahan struktur database, contoh:</p>
+
+<!-- more -->
+
+
+<ul>
+<li>Penambahan fitur baru yang membutuhan penambahan attribut/field di tabel yang sudah ada atau malah menambahkan tabel yang baru.</li>
+<li>Perbaikan bug yang menyebabkan perubahan nama atau jenis data dalam database.</li>
+<li>Issue kinerja sistem yang memerlukan tambahan index dalam database.</li>
+</ul>
+
+
+<p>Perubahan-perubahan ini tentunya <code>wajib</code> kita catat baik secara manual maupun menggunakan tool khusus yang bisa dengan mudah membuat log perubahan struktur database dari waktu ke waktu, karena jika tidak bisa berpotensi menjadi bug di kemudian hari.</p>
+
+<p>Beberapa tool database management seperti <a href="https://www.webyog.com/">SQLyog</a> versi <a href="https://www.webyog.com/product/sqlyogFeatureListExpanded">Enterprise/Ultimate</a> atau <a href="http://www.sqlmanager.net/en/">EMS SQL Manager</a> versi berbayarnya memang menyediakan fitur untuk melakukan sinkronisasi struktur database dengan mudah, tapi bagi Anda yang mempunyai anggaran terbatas untuk membeli lisensinya ada alternatif tool gratis dan open source yang bisa kita gunakan salah satunya yaitu  <a href="http://www.liquibase.org/">Liquibase</a>.</p>
+
+<p>Pernah kebayang nggak ngoding tanpa <a href="https://en.wikipedia.org/wiki/Version_control">source/version control</a> seperti <a href="https://git-scm.com/">Git</a> atau <a href="https://subversion.apache.org/">SVN</a> kalo dulu mungkin iya, kalo sekarang <a href="https://en.wikipedia.org/wiki/Version_control">source/version control</a> merupakan hal yang <code>wajib</code> kita gunakan untuk memberikan rasa aman saat ber-coding ria :-D. <a href="https://en.wikipedia.org/wiki/Version_control">Source/version control</a> ini digunakan untuk mencatat perubahan kode dari waktu ke waktu, apalagi kalo ngodingnya bareng-bareng, hanya orang-orang <code>kreatif</code> saja yang bisa melakukannya tanpa  <a href="https://en.wikipedia.org/wiki/Version_control">source/version control</a> :-D. Dengan mengusung tema <code>Source Control for Your Database</code> <a href="http://www.liquibase.org/">Liquibase</a> juga bisa kita fungsikan sebagai <a href="https://en.wikipedia.org/wiki/Version_control">source/version control</a> untuk mencatat perubahan struktur/schema database.</p>
+
+<h3>Instalasi  Liquibase</h3>
+
+<p><a href="http://www.liquibase.org/">Liquibase</a> tidak memerlukan instalasi khusus, kita tinggal download filenya di web site resmi <a href="http://www.liquibase.org/download/index.html">Liquibase</a> kemudian mengekstraknya.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/01/180117-01.png"></p>
+
+<p>Selain itu ada tool lain yang perlu kita siapkan yaitu:</p>
+
+<ul>
+<li><a href="http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html">JRE</a> atau <a href="http://www.oracle.com/technetwork/java/javase/downloads/index-jsp-138363.html">JDK</a> karena <a href="http://www.liquibase.org/">Liquibase</a> ditulis menggunakan Java.</li>
+<li>JDBC driver disesuaikan dengan database yang digunakan, untuk contoh di sini saya menggunakan database <a href="https://www.postgresql.org/">PostgreSQL</a>. Setelah didownload kita copykan ke folder lib</li>
+</ul>
+
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/01/180117-02.png"></p>
+
+<h3>Membuat Changelog</h3>
+
+<p>Struktur database dalam <a href="http://www.liquibase.org/">Liquibase</a> ditulis dalam format XML, disebut dengan istilah <code>changelog</code>. Ada beberapa <a href="http://www.liquibase.org/documentation/command_line.html">perintah</a> yang bisa digunakan untuk menghasilkan <code>changelog</code>, tentunya disesuaikan dengan kebutuhan.</p>
+
+<h5>generateChangelog</h5>
+
+<p>Perintah ini digunakan untuk membuat <code>changelog</code> dari struktur database secara lengkap jadi mirip dengan perintah dump/export ke sql. Biasanya kita gunakan pada saat implementasi awal sistem untuk mengopykan struktur database kosongan dari server development ke server production/live. Misal di awal implementasi sistem kita mempunyai struktur database seperti berikut :</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/01/180117-03.png"></p>
+
+<p>Dari gambar di atas kita baru mempunyai dua buah tabel yaitu <code>m_customer</code> dan <code>m_supplier</code>.</p>
+
+<p>Kemudian kita jalankan perintah <code>generateChangelog</code>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>liquibase --url<span class="o">=</span><span class="s2">&quot;jdbc:postgresql://localhost:5432/db-develop&quot;</span> --username<span class="o">=</span>postgres --password<span class="o">=</span>masterkey --changeLogFile<span class="o">=</span>output/db.changelog-1.0.xml generateChangeLog
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/01/180117-04.png"></p>
+
+<p>Akan menghasilkan file <code>changelog</code> seperti berikut:</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/01/180117-05.png"></p>
+
+<div><script src='https://gist.github.com/f1b99d6a19c05b241367caa332a11ed5.js'></script>
+<noscript><pre><code>&lt;?xml version=&quot;1.1&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;
+&lt;databaseChangeLog xmlns=&quot;http://www.liquibase.org/xml/ns/dbchangelog&quot; xmlns:ext=&quot;http://www.liquibase.org/xml/ns/dbchangelog-ext&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd&quot;&gt;
+    &lt;changeSet author=&quot;Administrator (generated)&quot; id=&quot;1484639745890-1&quot;&gt;
+        &lt;createTable tableName=&quot;m_customer&quot;&gt;
+            &lt;column name=&quot;customer_id&quot; type=&quot;CHAR(36)&quot;&gt;
+                &lt;constraints nullable=&quot;false&quot;/&gt;
+            &lt;/column&gt;
+            &lt;column name=&quot;nama_customer&quot; type=&quot;VARCHAR(50)&quot;/&gt;
+            &lt;column name=&quot;alamat&quot; type=&quot;VARCHAR(100)&quot;/&gt;
+            &lt;column name=&quot;kontak&quot; type=&quot;VARCHAR(50)&quot;/&gt;
+            &lt;column name=&quot;telepon&quot; type=&quot;VARCHAR(20)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;plafon_piutang&quot; type=&quot;numeric(15, 2)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;total_piutang&quot; type=&quot;numeric(15, 2)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;total_pembayaran_piutang&quot; type=&quot;numeric(15, 2)&quot;/&gt;
+        &lt;/createTable&gt;
+    &lt;/changeSet&gt;
+    &lt;changeSet author=&quot;Administrator (generated)&quot; id=&quot;1484639745890-2&quot;&gt;
+        &lt;createTable tableName=&quot;m_supplier&quot;&gt;
+            &lt;column name=&quot;supplier_id&quot; type=&quot;CHAR(36)&quot;&gt;
+                &lt;constraints nullable=&quot;false&quot;/&gt;
+            &lt;/column&gt;
+            &lt;column name=&quot;nama_supplier&quot; type=&quot;VARCHAR(50)&quot;/&gt;
+            &lt;column name=&quot;alamat&quot; type=&quot;VARCHAR(100)&quot;/&gt;
+            &lt;column name=&quot;kontak&quot; type=&quot;VARCHAR(50)&quot;/&gt;
+            &lt;column name=&quot;telepon&quot; type=&quot;VARCHAR(20)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;total_hutang&quot; type=&quot;numeric(15, 2)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;total_pembayaran_hutang&quot; type=&quot;numeric(15, 2)&quot;/&gt;
+        &lt;/createTable&gt;
+    &lt;/changeSet&gt;
+&lt;/databaseChangeLog&gt;
+</code></pre></noscript></div>
+
+
+<p>Mungkin tidak perlu dijelaskan lagi ya, karena isi dari file <a href="https://gist.github.com/k4m4r82/f1b99d6a19c05b241367caa332a11ed5#file-db-changelog-1-0-xml">db.changelog-1.0.xml</a> di atas hanya menjelaskan struktur dari tabel <code>m_customer</code> dan <code>m_supplier</code> dalam format XML.</p>
+
+<p>Setelah itu kita jalankan perintah <code>update</code> agar <code>changelog</code> yang dihasilkan dari perintah <code>generateChangelog</code> di atas dieksekusi ke database target (db production/live).</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>liquibase --url<span class="o">=</span><span class="s2">&quot;jdbc:postgresql://localhost:5432/db-production&quot;</span> --username<span class="o">=</span>postgres --password<span class="o">=</span>masterkey --changeLogFile<span class="o">=</span>output/db.changelog-1.0.xml update   
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/01/180117-06.png"></p>
+
+<p>Dari gambar di bawah ini terlihat kondisi database production sebelum (sebelah kiri) dan sesudah dijalankan perintah <code>update</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/01/180117-07.png"></p>
+
+<p>Pada saat pertama kali <a href="http://www.liquibase.org/">Liquibase</a> dijalankan untuk database target, <a href="http://www.liquibase.org/">Liquibase</a> akan membuat dua buah tabel sistem yaitu <a href="http://www.liquibase.org/documentation/databasechangelog_table.html">databasechangelog</a> dan <a href="http://www.liquibase.org/documentation/databasechangeloglock_table.html">databasechangeloglock</a> kedua tabel ini digunakan untuk mencatat hasil eksekusi <code>changelog</code> dari waktu ke waktu. Jadi perlu diperhatikan kedua tabel ini jangan dihapus.</p>
+
+<h5>diffChangeLog</h5>
+
+<p>Selama fase development maupun setelah masuk ke fase implementasi (production/live) kadang-kadang terjadi perubahan struktur database, sehingga kita perlu mengetahui perbedaan dari struktur lama dan baru, untuk melakukan ini kita menggunakan perintah <code>diffChangeLog</code>.</p>
+
+<p>Misal seperti penjelasan gambar di bawah ini, yang sebelah kiri adalah struktur awal database yang hanya mempunyai dua buah tabel yaitu <code>m_customer</code> dan <code>m_supplier</code>, selama proses development berlangsung terjadi penambahan beberapa tabel baru yaitu <code>m_golongan</code>, <code>m_produk</code> dan tabel baru lainnya.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/01/180117-08.png"></p>
+
+<p>Nah untuk menghasilkan <code>changelog</code>, yang isinya adalah perbedaan struktur lama dan baru kita gunakan perintah <code>diffChangeLog</code>.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>liquibase --url<span class="o">=</span><span class="s2">&quot;jdbc:postgresql://localhost:5432/db-production&quot;</span> --username<span class="o">=</span>postgres --password<span class="o">=</span>masterkey --referenceUrl<span class="o">=</span><span class="s2">&quot;jdbc:postgresql://localhost:5432/db-develop&quot;</span> --referenceUsername<span class="o">=</span>postgres --referencePassword<span class="o">=</span>masterkey  --changeLogFile<span class="o">=</span>output/db.changelog-1.1.xml diffChangeLog
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/01/180117-09.png"></p>
+
+<p>Contoh file <code>changelog</code> yang dihasilkan:</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/01/180117-10.png"></p>
+
+<div><script src='https://gist.github.com/e66ba9f2bff96f9ba50406d34864d87e.js'></script>
+<noscript><pre><code>&lt;?xml version=&quot;1.1&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;
+&lt;databaseChangeLog xmlns=&quot;http://www.liquibase.org/xml/ns/dbchangelog&quot; xmlns:ext=&quot;http://www.liquibase.org/xml/ns/dbchangelog-ext&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd&quot;&gt;
+    &lt;changeSet author=&quot;Administrator (generated)&quot; id=&quot;1484641393235-1&quot;&gt;
+        &lt;createTable tableName=&quot;m_alasan_penyesuaian_stok&quot;&gt;
+            &lt;column name=&quot;alasan_penyesuaian_stok_id&quot; type=&quot;CHAR(36)&quot;&gt;
+                &lt;constraints nullable=&quot;false&quot;/&gt;
+            &lt;/column&gt;
+            &lt;column name=&quot;alasan&quot; type=&quot;VARCHAR(100)&quot;/&gt;
+        &lt;/createTable&gt;
+    &lt;/changeSet&gt;
+    &lt;changeSet author=&quot;Administrator (generated)&quot; id=&quot;1484641393235-2&quot;&gt;
+        &lt;createTable tableName=&quot;m_golongan&quot;&gt;
+            &lt;column name=&quot;golongan_id&quot; type=&quot;CHAR(36)&quot;&gt;
+                &lt;constraints nullable=&quot;false&quot;/&gt;
+            &lt;/column&gt;
+            &lt;column name=&quot;nama_golongan&quot; type=&quot;VARCHAR(50)&quot;/&gt;
+        &lt;/createTable&gt;
+    &lt;/changeSet&gt;
+    &lt;changeSet author=&quot;Administrator (generated)&quot; id=&quot;1484641393235-3&quot;&gt;
+        &lt;createTable tableName=&quot;m_produk&quot;&gt;
+            &lt;column name=&quot;produk_id&quot; type=&quot;CHAR(36)&quot;&gt;
+                &lt;constraints nullable=&quot;false&quot;/&gt;
+            &lt;/column&gt;
+            &lt;column name=&quot;kode_barcode&quot; type=&quot;VARCHAR(15)&quot;/&gt;
+            &lt;column name=&quot;nama_produk&quot; type=&quot;VARCHAR(50)&quot;/&gt;
+            &lt;column name=&quot;satuan&quot; type=&quot;VARCHAR(20)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;stok&quot; type=&quot;numeric(5, 2)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;harga_beli&quot; type=&quot;numeric(10, 2)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;harga_jual&quot; type=&quot;numeric(10, 2)&quot;/&gt;
+            &lt;column name=&quot;golongan_id&quot; type=&quot;CHAR(36)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;minimal_stok&quot; type=&quot;numeric(5, 2)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;stok_gudang&quot; type=&quot;numeric(5, 2)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;minimal_stok_gudang&quot; type=&quot;numeric(5, 2)&quot;/&gt;
+        &lt;/createTable&gt;
+    &lt;/changeSet&gt;
+    &lt;changeSet author=&quot;Administrator (generated)&quot; id=&quot;1484641393235-4&quot;&gt;
+        &lt;createTable tableName=&quot;t_penyesuaian_stok&quot;&gt;
+            &lt;column name=&quot;penyesuaian_stok_id&quot; type=&quot;CHAR(36)&quot;&gt;
+                &lt;constraints nullable=&quot;false&quot;/&gt;
+            &lt;/column&gt;
+            &lt;column name=&quot;produk_id&quot; type=&quot;CHAR(36)&quot;/&gt;
+            &lt;column name=&quot;alasan_penyesuaian_id&quot; type=&quot;CHAR(36)&quot;/&gt;
+            &lt;column name=&quot;tanggal&quot; type=&quot;date&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;penambahan_stok&quot; type=&quot;numeric(5, 2)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;pengurangan_stok&quot; type=&quot;numeric(5, 2)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;penambahan_stok_gudang&quot; type=&quot;numeric(5, 2)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;pengurangan_stok_gudang&quot; type=&quot;numeric(5, 2)&quot;/&gt;
+            &lt;column name=&quot;keterangan&quot; type=&quot;VARCHAR(100)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;now()&quot; name=&quot;tanggal_sistem&quot; type=&quot;TIMESTAMP(6) WITHOUT TIME ZONE&quot;/&gt;
+        &lt;/createTable&gt;
+    &lt;/changeSet&gt;
+&lt;/databaseChangeLog&gt;</code></pre></noscript></div>
+
+
+<p>Kemudian kita jalankan lagi perintah <code>update</code>. Perintah <code>update</code> ini melakukan <code>patch</code> ke database target (database production/live).</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>liquibase --url<span class="o">=</span><span class="s2">&quot;jdbc:postgresql://localhost:5432/db-production&quot;</span> --username<span class="o">=</span>postgres --password<span class="o">=</span>masterkey --changeLogFile<span class="o">=</span>output/db.changelog-1.1.xml update
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Setelah itu kita cek lagi struktur database productionnya.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/01/180117-11.png"></p>
+
+<p>Gampang bukan :-), dengan menggunakan <a href="http://www.liquibase.org/">Liquibase</a> proses migrasi struktur database pun menjadi lebih mudah.</p>
+
+<h3>File Liquibase Properties</h3>
+
+<p>Untuk menyingkat penulisan perintah <a href="http://www.liquibase.org/">Liquibase</a> kita bisa memanfaatkan file liquibase properties. Di file ini kita mengeset semua nilai parameter yang dibutuhkan pada saat menjalankan perintah <a href="http://www.liquibase.org/">Liquibase</a>. Secara default nama yang digunakan untuk file liquibase properties adalah <code>liquibase.properties</code>, jika menggunakan nama default ini kita bisa langsung menjalankan perintah <a href="http://www.liquibase.org/">Liquibase</a> seperti berikut :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># generateChangelog</span>
+</span><span class='line'>liquibase generateChangelog
+</span><span class='line'>
+</span><span class='line'><span class="c"># diffChangeLog</span>
+</span><span class='line'>liquibase diffChangeLog
+</span><span class='line'>
+</span><span class='line'><span class="c"># update/patch database target</span>
+</span><span class='line'>liquibase update
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>dan jika menggunakan nama yang lain, misal untuk masing-masing perintah kita buatkan  file liquibase properties tersendiri, pada saat menjalankan perintah <a href="http://www.liquibase.org/">Liquibase</a> harus kita sebutkan secara explicit nama file  liquibase properties-nya dengan menambahkan parameter <code>defaultsFile=&lt;nama_file_liquibase_properties&gt;</code>. Contoh:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># generateChangelog</span>
+</span><span class='line'>liquibase --defaultsFile<span class="o">=</span>generate-liquibase.properties generateChangelog
+</span><span class='line'>
+</span><span class='line'><span class="c"># diffChangeLog</span>
+</span><span class='line'>liquibase --defaultsFile<span class="o">=</span>diff-liquibase.properties diffChangeLog
+</span><span class='line'>
+</span><span class='line'><span class="c"># update/patch database target</span>
+</span><span class='line'>liquibase --defaultsFile<span class="o">=</span>update-liquibase.properties update
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Dan untuk masing-masing file liquibase properties-nya kita isi seperti berikut:</p>
+
+<div><script src='https://gist.github.com/16429101488c5c734e8f86832c6dc646.js'></script>
+<noscript><pre><code># liquibase.properties
+driver: org.postgresql.Driver
+classpath: ./lib/postgresql-9.4.1212.jar
+url: jdbc:postgresql://localhost:5432/db-develop
+username: postgres
+password: masterkey
+changeLogFile: output/db.changelog-1.0.xml</code></pre></noscript></div>
+
+
+
+
+<div><script src='https://gist.github.com/033067883ebff3ab40ed2b08b3c06a42.js'></script>
+<noscript><pre><code># liquibase.properties
+driver: org.postgresql.Driver
+classpath: ./lib/postgresql-9.4.1212.jar
+
+# db-production
+url: jdbc:postgresql://localhost:5432/db-production
+username: postgres
+password: masterkey
+
+# db-develop
+referenceUrl: jdbc:postgresql://localhost:5432/db-develop
+referenceUsername: postgres
+referencePassword: masterkey
+
+changeLogFile: output/db.changelog-1.1.xml</code></pre></noscript></div>
+
+
+
+
+<div><script src='https://gist.github.com/4ad6e69e060e7fcd4da12fa56fbbaf0c.js'></script>
+<noscript><pre><code># liquibase.properties
+driver: org.postgresql.Driver
+classpath: ./lib/postgresql-9.4.1212.jar
+url: jdbc:postgresql://localhost:5432/db-production
+username: postgres
+password: masterkey
+changeLogFile: output/db.changelog-1.0.xml</code></pre></noscript></div>
+
+
+<p>Selamat mencoba :-)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Admin</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2017-01-18T09:43:57+07:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>9:43 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/database/'>database</a>, <a class='category' href='/blog/categories/liquibase/'>liquibase</a>
+  
+</span>
+
+
+    </p>
+    
+      <h2>Tentang Penulis</h2>
+<p class="meta">
+<img class="left" src="https://coding4ever.files.wordpress.com/2015/07/avatar-blog-mini.png">Software developer yang fokus mengembangkan aplikasi di atas platform .NET (Desktop, ASP.NET MVC, Web Service) dan Android. Senang mempelajari teknologi baru terutama di bidang OOP, Design Pattern, ORM dan Database.
+<br/>
+Saat ini bekerja sebagai staf IT di salah satu PTS di Yogyakarta sebagai senior software developer. Di waktu luang insya Alloh akan terus berbagi pengalaman di blog <a href="http://coding4ever.net" target="_blank">ini</a> :)
+</p>
+<div class="sharing">
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/12/26/build-otomatis-project-visual-basic-6-menggunakan-jenkins/" title="Previous Post: Build Otomatis Project Visual Basic 6 Menggunakan Jenkins">&laquo; Build Otomatis Project Visual Basic 6 Menggunakan Jenkins</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Admin</h1>
+  
+  <a href="http://www.facebook.com/abu.anas.1232" title="Admin" target="_blank"><img src="https://coding4ever.files.wordpress.com/2015/04/avatar-blog.png" border="0" alt="Admin" /></a><br/>
+  
+  <p>Software developer yang berasal dari Riau, tepatnya di <a href="http://id.wikipedia.org/wiki/Kabupaten_Indragiri_Hilir" title="Negeri Seribu Parit" target="_blank">Negeri Seribu Parit</a> dan saat ini berdomisili di Yogyakarta.</p>
+  
+  <p>Pernah mengajar di salah satu perguruan tinggi swasta (PTS) di Yogyakarta.<br>
+     Saat ini bekerja sebagai staf IT di PTS yang sama sebagai senior software developer.</p>
+  
+  <p>Fokus mengembangkan aplikasi di atas platform .NET (Desktop, ASP.NET MVC, Web Service) dan Android. Di waktu luang insya Alloh akan terus berbagi pengalaman di blog <a href="http://coding4ever.net" target="_blank">ini</a>.</p>    
+</section><section>
+  <h1>Info</h1>
+    <ul>		
+		<li>			
+			<a href="https://www.facebook.com/Asytar2013" title="Asytar Collection" target="_blank">Asytar Collection</a>
+		</li>				
+	</ul>
+	
+  <h1>Contacts</h1>
+    <ul>		
+		<li>			
+			<a href="mailto:coding4ever.net@gmail.com" title="GMail" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/gmail-small2.png" border="0" alt="GMail" /></a>
+		</li>		
+		<li>			
+			<a href="https://github.com/k4m4r82?tab=repositories" title="GitHub" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/github-small2.png" border="0" alt="GitHub" /></a>
+		</li>
+		<li>
+			<a href="http://www.facebook.com/abu.anas.1232" title="Facebook" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/fb-small2.png" border="0" alt="Facebook" /></a>
+		</li>				
+		<li>
+			<img src="https://coding4ever.files.wordpress.com/2016/07/bbm-pin2.png" border="0" alt="BBM PIN" />
+		</li>
+	</ul>
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/01/18/manajemen-perubahan-struktur-database-menggunakan-liquibase/">Manajemen Perubahan Struktur Database Menggunakan Liquibase</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/26/build-otomatis-project-visual-basic-6-menggunakan-jenkins/">Build Otomatis Project Visual Basic 6 Menggunakan Jenkins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/14/membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-menggunakan-jenkins-bagian-number-4/">Membangun Server CI (Continuous Integration) Di Windows Untuk Platform .NET Menggunakan Jenkins Bagian #4</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/07/membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-menggunakan-jenkins-bagian-number-3/">Membangun Server CI (Continuous Integration) Di Windows Untuk Platform .NET Menggunakan Jenkins Bagian #3</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/10/01/membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-menggunakan-jenkins-bagian-number-2/">Membangun Server CI (Continuous Integration) Di Windows Untuk Platform .NET Menggunakan Jenkins Bagian #2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/29/membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-menggunakan-jenkins-bagian-number-1/">Membangun Server CI (Continuous Integration) Di Windows Untuk Platform .NET Menggunakan Jenkins Bagian #1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/26/persiapan-membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-bagian-number-2/">Persiapan Membangun Server CI (Continuous Integration) Di Windows Untuk Platform .NET Bagian #2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/24/persiapan-membangun-server-ci-continuous-integration-pada-windows-untuk-platform-net-bagian-number-1/">Persiapan Membangun Server CI (Continuous Integration) Di Windows Untuk Platform .NET Bagian #1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/12/integration-testing-menggunakan-nunit-dan-ndbunit/">Integration Testing Menggunakan NUnit Dan NDbUnit</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/28/integration-testing-menggunakan-nunit/">Integration Testing Menggunakan NUnit</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+    <ul id="category-list"><li><a href='/blog/categories/dot-net-remoting/'>.net remoting (9)</a></li><li><a href='/blog/categories/active-report/'>active report (4)</a></li><li><a href='/blog/categories/android/'>android (1)</a></li><li><a href='/blog/categories/aplikasi/'>aplikasi (4)</a></li><li><a href='/blog/categories/autoupdater-dot-net/'>autoupdater.net (1)</a></li><li><a href='/blog/categories/build-events/'>build events (3)</a></li><li><a href='/blog/categories/continuous-integration/'>continuous integration (7)</a></li><li><a href='/blog/categories/crashreporter-dot-net/'>crashreporter.net (1)</a></li><li><a href='/blog/categories/crystal-reports-net/'>crystal reports .net (4)</a></li><li><a href='/blog/categories/dapper-net/'>dapper .net (6)</a></li><li><a href='/blog/categories/database/'>database (3)</a></li><li><a href='/blog/categories/entity-framework/'>entity framework (9)</a></li><li><a href='/blog/categories/firebird/'>firebird (12)</a></li><li><a href='/blog/categories/freeware/'>freeware (7)</a></li><li><a href='/blog/categories/inno-setup/'>inno setup (6)</a></li><li><a href='/blog/categories/jaringan/'>jaringan (1)</a></li><li><a href='/blog/categories/jenkins/'>jenkins (5)</a></li><li><a href='/blog/categories/liquibase/'>liquibase (1)</a></li><li><a href='/blog/categories/mysql/'>mysql (10)</a></li><li><a href='/blog/categories/nsis/'>nsis (2)</a></li><li><a href='/blog/categories/nuget/'>nuget (5)</a></li><li><a href='/blog/categories/repository-pattern/'>repository pattern (2)</a></li><li><a href='/blog/categories/signalr/'>signalr (2)</a></li><li><a href='/blog/categories/software-testing/'>software testing (5)</a></li><li><a href='/blog/categories/source-control/'>source control (1)</a></li><li><a href='/blog/categories/sql-server/'>sql server (1)</a></li><li><a href='/blog/categories/sql-server-2000/'>sql server 2000 (1)</a></li><li><a href='/blog/categories/sqlite/'>sqlite (3)</a></li><li><a href='/blog/categories/tools-installer/'>tools installer (8)</a></li><li><a href='/blog/categories/uncategorized/'>uncategorized (8)</a></li><li><a href='/blog/categories/unit-of-work-pattern/'>unit of work pattern (1)</a></li><li><a href='/blog/categories/version-control/'>version control (1)</a></li><li><a href='/blog/categories/visual-basic/'>visual basic (74)</a></li><li><a href='/blog/categories/visual-basic-net/'>visual basic .net (11)</a></li><li><a href='/blog/categories/visual-c-number/'>visual c# (48)</a></li><li><a href='/blog/categories/visual-studio-net/'>visual studio .net (3)</a></li><li><a href='/blog/categories/wcf/'>wcf (4)</a></li><li><a href='/blog/categories/winsock/'>winsock (6)</a></li></ul>
+</section>
+<section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/blog/categories/dot-net-remoting' style='font-size: 107.29729729729729%'>.net remoting(9)</a> <a href='/blog/categories/active-report' style='font-size: 103.24324324324324%'>active report(4)</a> <a href='/blog/categories/android' style='font-size: 100.8108108108108%'>android(1)</a> <a href='/blog/categories/aplikasi' style='font-size: 103.24324324324324%'>aplikasi(4)</a> <a href='/blog/categories/autoupdater-dot-net' style='font-size: 100.8108108108108%'>autoupdater.net(1)</a> <a href='/blog/categories/build-events' style='font-size: 102.43243243243244%'>build events(3)</a> <a href='/blog/categories/continuous-integration' style='font-size: 105.67567567567568%'>continuous integration(7)</a> <a href='/blog/categories/crashreporter-dot-net' style='font-size: 100.8108108108108%'>crashreporter.net(1)</a> <a href='/blog/categories/crystal-reports-net' style='font-size: 103.24324324324324%'>crystal reports .net(4)</a> <a href='/blog/categories/dapper-net' style='font-size: 104.86486486486487%'>dapper .net(6)</a> <a href='/blog/categories/database' style='font-size: 102.43243243243244%'>database(3)</a> <a href='/blog/categories/entity-framework' style='font-size: 107.29729729729729%'>entity framework(9)</a> <a href='/blog/categories/firebird' style='font-size: 109.72972972972973%'>firebird(12)</a> <a href='/blog/categories/freeware' style='font-size: 105.67567567567568%'>freeware(7)</a> <a href='/blog/categories/inno-setup' style='font-size: 104.86486486486487%'>inno setup(6)</a> <a href='/blog/categories/jaringan' style='font-size: 100.8108108108108%'>jaringan(1)</a> <a href='/blog/categories/jenkins' style='font-size: 104.05405405405405%'>jenkins(5)</a> <a href='/blog/categories/liquibase' style='font-size: 100.8108108108108%'>liquibase(1)</a> <a href='/blog/categories/mysql' style='font-size: 108.10810810810811%'>mysql(10)</a> <a href='/blog/categories/nsis' style='font-size: 101.62162162162163%'>nsis(2)</a> <a href='/blog/categories/nuget' style='font-size: 104.05405405405405%'>nuget(5)</a> <a href='/blog/categories/repository-pattern' style='font-size: 101.62162162162163%'>repository pattern(2)</a> <a href='/blog/categories/signalr' style='font-size: 101.62162162162163%'>signalr(2)</a> <a href='/blog/categories/software-testing' style='font-size: 104.05405405405405%'>software testing(5)</a> <a href='/blog/categories/source-control' style='font-size: 100.8108108108108%'>source control(1)</a> <a href='/blog/categories/sql-server' style='font-size: 100.8108108108108%'>sql server(1)</a> <a href='/blog/categories/sql-server-2000' style='font-size: 100.8108108108108%'>sql server 2000(1)</a> <a href='/blog/categories/sqlite' style='font-size: 102.43243243243244%'>sqlite(3)</a> <a href='/blog/categories/tools-installer' style='font-size: 106.48648648648648%'>tools installer(8)</a> <a href='/blog/categories/uncategorized' style='font-size: 106.48648648648648%'>uncategorized(8)</a> <a href='/blog/categories/unit-of-work-pattern' style='font-size: 100.8108108108108%'>unit of work pattern(1)</a> <a href='/blog/categories/version-control' style='font-size: 100.8108108108108%'>version control(1)</a> <a href='/blog/categories/visual-basic' style='font-size: 160.0%'>visual basic(74)</a> <a href='/blog/categories/visual-basic-net' style='font-size: 108.91891891891892%'>visual basic .net(11)</a> <a href='/blog/categories/visual-c-number' style='font-size: 138.9189189189189%'>visual c#(48)</a> <a href='/blog/categories/visual-studio-net' style='font-size: 102.43243243243244%'>visual studio .net(3)</a> <a href='/blog/categories/wcf' style='font-size: 103.24324324324324%'>wcf(4)</a> <a href='/blog/categories/winsock' style='font-size: 104.86486486486487%'>winsock(6)</a> </span>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'k4m4r82',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p align="center">
+  Copyright &copy; 2009 - 2017 - Admin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'coding4ever';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://coding4ever.net/blog/2017/01/18/manajemen-perubahan-struktur-database-menggunakan-liquibase/';
+        var disqus_url = 'http://coding4ever.net/blog/2017/01/18/manajemen-perubahan-struktur-database-menggunakan-liquibase/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>
