@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Database | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/database/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2017-01-18T10:51:42+07:00</updated>
+  <updated>2017-01-18T10:56:28+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Manajemen Perubahan Struktur Database Menggunakan Liquibase]]></title>
     <link href="http://coding4ever.net/blog/2017/01/18/manajemen-perubahan-struktur-database-menggunakan-liquibase/"/>
-    <updated>2017-01-18T09:43:57+07:00</updated>
+    <updated>2017-01-18T10:53:57+07:00</updated>
     <id>http://coding4ever.net/blog/2017/01/18/manajemen-perubahan-struktur-database-menggunakan-liquibase</id>
     <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2017/01/logo-lb.png">https://coding4ever.files.wordpress.com/2017/01/logo-lb.png</a>&#8221; width=&#8221;105&#8221; height=&#8221;72&#8221;>Dalam pembuatan aplikasi perubahan struktur/schema database merupakan hal yang wajar, baik pada fase development maupun setelah masuk ke fase implementasi (production/live). Ada banyak alasan kenapa kita perlu melakukan perubahan struktur database, contoh:</p>
 
