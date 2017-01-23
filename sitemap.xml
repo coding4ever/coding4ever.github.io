@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://coding4ever.net/blog/2017/01/23/membuat-log-aplikasi-menggunakan-log4net/</loc>
+<lastmod>2017-01-23T15:03:40+07:00</lastmod>
+</url>
+<url>
 <loc>http://coding4ever.net/blog/2017/01/18/manajemen-perubahan-struktur-database-menggunakan-liquibase/</loc>
 <lastmod>2017-01-18T10:53:57+07:00</lastmod>
 </url>
@@ -900,5 +904,8 @@
 </url>
 <url>
 <loc>http://coding4ever.net/blog/categories/liquibase/</loc>
+</url>
+<url>
+<loc>http://coding4ever.net/blog/categories/logger/</loc>
 </url>
 </urlset>
