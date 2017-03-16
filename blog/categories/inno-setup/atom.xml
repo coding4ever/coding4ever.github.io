@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Inno Setup | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/inno-setup/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2017-02-04T23:09:15+07:00</updated>
+  <updated>2017-03-16T15:02:25+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -541,7 +541,7 @@ Jika kita mencoba memasukkan informasi registrasi yang salah, maka akan tampil p
 </span><span class='line'>
 </span><span class='line'>&lt;p>// Importing ShowWindow Windows API from User32.DLL
 </span><span class='line'>function ShowWindow(hWnd: Integer; uType: Integer): Integer;
-</span><span class='line'>external &lsquo;&lt;a href="&#x6d;&#97;&#105;&#108;&#116;&#111;&#x3a;&#83;&#104;&#111;&#x77;&#x57;&#x69;&#x6e;&#x64;&#111;&#119;&#64;&#117;&#115;&#x65;&#114;&#51;&#50;&#46;&#x64;&#x6c;&#x6c;">&#83;&#x68;&#111;&#x77;&#x57;&#x69;&#110;&#x64;&#x6f;&#119;&#x40;&#x75;&#x73;&#101;&#114;&#x33;&#x32;&#x2e;&#100;&#x6c;&#108;&lt;/a> stdcall&rsquo;;&lt;/p>
+</span><span class='line'>external &lsquo;&lt;a href="&#109;&#x61;&#x69;&#x6c;&#116;&#x6f;&#58;&#83;&#x68;&#111;&#x77;&#87;&#x69;&#x6e;&#100;&#111;&#119;&#64;&#x75;&#x73;&#101;&#x72;&#x33;&#x32;&#46;&#100;&#108;&#108;">&#83;&#104;&#x6f;&#119;&#87;&#x69;&#x6e;&#100;&#111;&#119;&#64;&#x75;&#115;&#x65;&#114;&#x33;&#x32;&#46;&#x64;&#x6c;&#x6c;&lt;/a> stdcall&rsquo;;&lt;/p>
 </span><span class='line'>
 </span><span class='line'>&lt;p>function InitializeSetup(): Boolean;
 </span><span class='line'>begin
