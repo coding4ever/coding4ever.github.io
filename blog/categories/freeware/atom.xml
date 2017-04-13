@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Freeware | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/freeware/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2017-03-16T15:02:25+07:00</updated>
+  <updated>2017-04-13T22:39:07+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,50 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[OpenRetail - Open Source Project for Retail Business]]></title>
+    <link href="http://coding4ever.net/blog/2017/04/13/openretail-open-source-software-for-retail-business/"/>
+    <updated>2017-04-13T22:18:44+07:00</updated>
+    <id>http://coding4ever.net/blog/2017/04/13/openretail-open-source-software-for-retail-business</id>
+    <content type="html"><![CDATA[<h3>Apa itu OpenRetail?</h3>
+
+<p><img class="left <a" src="href="https://openretailblog.files.wordpress.com/2017/04/logo-openretail.png">https://openretailblog.files.wordpress.com/2017/04/logo-openretail.png</a>&#8221; width=&#8221;91&#8221; height=&#8221;91&#8221;><a href="http://openretailblog.wordpress.com/">OpenRetail</a> adalah software open source khusus untuk bidang usaha ritel, grosir, mini market, toko bangunan, toko komputer, toko buku dan bidang usaha lainnya yang sejenis.</p>
+
+<p>Saat ini pilihan software untuk usaha retil memang banyak ditambah lagi harga yang bervariasi mulai dari ratusan hingga jutaan rupiah. Tapi untuk software yang gratis, open source dan berkualitas mungkin OpenRetail adalah solusinya :-).</p>
+
+<!-- more -->
+
+
+<h3>Apakah aplikasi ini benar-benar gratis?</h3>
+
+<p>Yuph, benar-benar gratis, bahkan lebih dari itu <a href="http://openretailblog.wordpress.com/">OpenRetail</a> adalah software open source sehingga Anda bisa mendownload kode sumbernya, mempelajarinya dan mengembangkan sendiri sesuai kebutuhan, tapi dengan syarat tidak boleh menghapus informasi asli tentang pembuat aplikasi ini.</p>
+
+<p>Sebagai penutup, jika Anda merasakan manfaat menggunakan OpenRetail, jangan lupa untuk ikut <a href="https://openretailblog.wordpress.com/kontribusi/">berkontribusi</a> dalam pengembangan <a href="http://openretailblog.wordpress.com/">OpenRetail</a>.</p>
+
+<p>Download: <a href="https://github.com/rudi-krsoftware/open-retail/releases">OpenRetail</a></p>
+
+<p><img class="center <a" src="href="https://openretailblog.files.wordpress.com/2017/04/08042017-1.png">https://openretailblog.files.wordpress.com/2017/04/08042017-1.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://openretailblog.files.wordpress.com/2017/04/08042017-2.png">https://openretailblog.files.wordpress.com/2017/04/08042017-2.png</a>&#8221; title=&#8221;&#8221; ></p>
+
+<p><img class="center <a" src="href="https://openretailblog.files.wordpress.com/2017/04/08042017-3.png">https://openretailblog.files.wordpress.com/2017/04/08042017-3.png</a>&#8221; title=&#8221;&#8221; ></p>
+
+<p><img class="center <a" src="href="https://openretailblog.files.wordpress.com/2017/04/08042017-4.png">https://openretailblog.files.wordpress.com/2017/04/08042017-4.png</a>&#8221; title=&#8221;&#8221; ></p>
+
+<p><img class="center <a" src="href="https://openretailblog.files.wordpress.com/2017/04/08042017-5.png">https://openretailblog.files.wordpress.com/2017/04/08042017-5.png</a>&#8221; title=&#8221;&#8221; ></p>
+
+<p><img class="center <a" src="href="https://openretailblog.files.wordpress.com/2017/01/07.png">https://openretailblog.files.wordpress.com/2017/01/07.png</a>&#8221; title=&#8221;&#8221; ></p>
+
+<p><img class="center <a" src="href="https://openretailblog.files.wordpress.com/2017/04/08042017-6.png">https://openretailblog.files.wordpress.com/2017/04/08042017-6.png</a>&#8221; title=&#8221;&#8221; ></p>
+
+<p><img class="center <a" src="href="https://openretailblog.files.wordpress.com/2017/04/08042017-7.png">https://openretailblog.files.wordpress.com/2017/04/08042017-7.png</a>&#8221; title=&#8221;&#8221; ></p>
+
+<p><img class="center <a" src="href="https://openretailblog.files.wordpress.com/2017/04/08042017-8.png">https://openretailblog.files.wordpress.com/2017/04/08042017-8.png</a>&#8221; title=&#8221;&#8221; ></p>
+
+<p>Selamat Mencoba :-)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Update Smart Library School 07-08-2012]]></title>
@@ -166,55 +210,6 @@
 <p><strong>Laporan bug/error</strong></p>
 
 <p>Berhubung terbatasnya resource yang saya gunakan untuk mengetes aplikasi ini, jika ada bug/error yang Anda temukan selama mencoba aplikasi ini mohon konfirmasinya ke <a href="k4m4r82@yahoo.com">k4m4r82@yahoo.com</a>.</p>
-
-<p>Selamat mencoba :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Smart Library School Stable Release]]></title>
-    <link href="http://coding4ever.net/blog/2010/05/09/smart-library-school-stable-release/"/>
-    <updated>2010-05-09T12:22:55+07:00</updated>
-    <id>http://coding4ever.net/blog/2010/05/09/smart-library-school-stable-release</id>
-    <content type="html"><![CDATA[<p>Ini adalah rilis final Smart Library School versi 1 build 52, ada beberapa fitur baru yang saya tambahkan yaitu:</p>
-
-<ol>
-<li><p>Buat format data</p></li>
-<li><p>Impor data</p></li>
-<li><p>Auto backup data</p></li>
-<li><p>Manual backup data</p></li>
-</ol>
-
-
-<p>Fitur 1 dan 2 untuk memudahkan menginput data master, adapun modul master yang saya tambahkan untuk fitur ini adalah master Anggota (guru, pegawai dan siswa), Pengarang, Penerbit, Supplier, Lokasi rak, Kategori Buku dan Buku.</p>
-
-<p><!-- more --><a href="http://coding4ever.files.wordpress.com/2010/05/10052010-1.jpg"><img src="http://coding4ever.files.wordpress.com/2010/05/10052010-1.jpg?w=300" alt="" /></a></p>
-
-<p>setelah menjalankan menu tersebut akan dibuatkan otomatis form pengisian data dengan format Ms Excel</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2010/05/10052010-2.jpg"><img src="http://coding4ever.files.wordpress.com/2010/05/10052010-2.jpg?w=300" alt="" /></a></p>
-
-<p>hasil file excel pada gambar 2 langsung bisa diimpor melalui menu Impor data</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2010/05/10052010-3.jpg"><img src="http://coding4ever.files.wordpress.com/2010/05/10052010-3.jpg?w=300" alt="" /></a></p>
-
-<p>Untuk fitur Auto backup saya memanfaatkan tool backup gratis <a href="http://www.talatdogan.com/">FIBS 2.0.1</a>. Fitur ini saya set akan aktif setiap jam 12:00 sedangkan untuk fitur backup manual saya hanya memanfaatkan fasilitas context menu biasa.</p>
-
-<p><a href="http://coding4ever.files.wordpress.com/2010/05/10052010-4.jpg"><img src="http://coding4ever.files.wordpress.com/2010/05/10052010-4.jpg?w=300" alt="" /></a></p>
-
-<p>Agar proses instalasi lebih mudah, bagi yang ingin menggunakan SLS lebih dari 1 komputer, maka file instalasi saya bagi 2 yaitu file instalasi untuk klien dan server.</p>
-
-<p><strong>Link download</strong></p>
-
-<ol>
-<li><p>Petunjuk instalasi <a href="http://www.4shared.com/file/dlvV1VC5/Petunjuk_Instalasi-SLSKlien.html">klien</a> (1.24 MB) dan <a href="http://www.4shared.com/file/Xa4lJ0Ze/Petunjuk_Instalasi-SLSServer.html">server</a> (1.24 MB)</p></li>
-<li><p>File instalasi <a href="http://www.4shared.com/file/Yxot5Ovk/SetupSLSKlien.html">klien</a> (6 MB) dan <a href="http://www.4shared.com/file/Zd8tu0fb/SetupSLSServer.html">server</a> (10.9 MB)</p></li>
-<li><p>Quick Referensi adalah petunjuk ringkas penggunaan Smart Library School (manual lengkap belum sempat saya kerjakan :D). Quick Referensi ini insya Allah saya posting pada postingan berikutnya.</p></li>
-</ol>
-
-
-<p><strong>Pengembangan versi berikutnya</strong>
-Pengembangan Smart Library School tidak akan berhenti sampai disini, jika Anda punya ide/fitur-fitur baru yang ingin ditambahkan pada versi berikutnya silahkan diinformasikan di bagian komentar.</p>
 
 <p>Selamat mencoba :)</p>
 ]]></content>
