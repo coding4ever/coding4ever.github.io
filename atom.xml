@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2017-08-22T16:01:27+07:00</updated>
+  <updated>2017-08-22T16:09:58+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -180,7 +180,7 @@
 
 <h3>Project SMS Gateway</h3>
 
-<p>Project SMS Gateway ini dibangun dengan menggunakan <a href="https://en.wikipedia.org/wiki/Separation_of_concerns">konsep separation  of  concern</a> atau pemisahan kode program berdasarkan fungsinya. Semua kode untuk akses database harus dipisahkan dengan kode untuk pengaturan user inteface. Hal ini memungkinkan kode akses database yang dibuat untuk aplikasi desktop, dengan mudah digunakan untuk aplikasi lainnya seperti web, console atau windows service. Selain itu penerapan konsep <a href="https://en.wikipedia.org/wiki/Separation_of_concerns">separation  of  concern</a> secara disiplin, dapat menghasilkan kode program yang dapat dites secara otomatis menggunakan tool <a href="https://en.wikipedia.org/wiki/Unit_testing">Unit Testing</a>.</p>
+<p>Project SMS Gateway ini dibangun dengan menggunakan <a href="https://en.wikipedia.org/wiki/Separation_of_concerns">konsep separation  of  concern</a> atau pemisahan kode program berdasarkan fungsinya. Semua kode untuk akses database harus dipisahkan dengan kode untuk pengaturan user inteface. Hal ini memungkinkan kode akses database yang dibuat untuk aplikasi desktop, dengan mudah digunakan untuk aplikasi lainnya seperti web, console atau windows service. Selain itu penerapan konsep <a href="https://en.wikipedia.org/wiki/Separation_of_concerns">separation  of  concern</a> secara disiplin, dapat menghasilkan kode program yang dapat dites secara otomatis menggunakan tool <a href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/">Unit Testing</a>.</p>
 
 <p>Untuk urusan kode akses database, project ini menggunakan pattern/pola <a href="http://coding4ever.net/blog/2016/02/22/repository-pattern/">Repository Pattern</a> yang berisi semua kode untuk mengakses database. Semua kode yang sepesifik terhadap implementasi akses database berhenti di sini, lapisan lebih atas tidak boleh tahu bagaimana akses database diterapkan, apakah menggunakan ADO.NET murni (raw ADO.NET) atau menggunakan tool ORM/Micro ORM seperti <a href="http://coding4ever.net/blog/categories/dapper-net/">Dapper.NET</a>, <a href="http://coding4ever.net/blog/categories/entity-framework/">Entity Framework</a> atau NHibernate. Lapisan lainya hanya perlu tahu fungsionalitas dari suatu method di dalam class Repository, tidak perlu tahu bagimana method tersebut diimplementasikan.</p>
 

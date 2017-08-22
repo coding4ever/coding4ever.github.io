@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Liquibase | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/liquibase/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2017-08-22T16:03:33+07:00</updated>
+  <updated>2017-08-22T16:09:58+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -18,7 +18,7 @@
     <link href="http://coding4ever.net/blog/2017/01/18/manajemen-perubahan-struktur-database-menggunakan-liquibase/"/>
     <updated>2017-01-18T10:53:57+07:00</updated>
     <id>http://coding4ever.net/blog/2017/01/18/manajemen-perubahan-struktur-database-menggunakan-liquibase</id>
-    <content type="html"><![CDATA[<p>{% img left <a href="https://coding4ever.files.wordpress.com/2017/01/logo-lb.png">https://coding4ever.files.wordpress.com/2017/01/logo-lb.png</a> 105 72 %}Dalam pembuatan aplikasi perubahan struktur/schema database merupakan hal yang wajar, baik pada fase development maupun setelah masuk ke fase implementasi (production/live). Ada banyak alasan kenapa kita perlu melakukan perubahan struktur database, contoh:</p>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2017/01/logo-lb.png">https://coding4ever.files.wordpress.com/2017/01/logo-lb.png</a>&#8221; width=&#8221;105&#8221; height=&#8221;72&#8221;>Dalam pembuatan aplikasi perubahan struktur/schema database merupakan hal yang wajar, baik pada fase development maupun setelah masuk ke fase implementasi (production/live). Ada banyak alasan kenapa kita perlu melakukan perubahan struktur database, contoh:</p>
 
 <!-- more -->
 
@@ -40,7 +40,7 @@
 
 <p><a href="http://www.liquibase.org/">Liquibase</a> tidak memerlukan instalasi khusus, kita tinggal download filenya di web site resmi <a href="http://www.liquibase.org/download/index.html">Liquibase</a> kemudian mengekstraknya.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/180117-01.png">https://coding4ever.files.wordpress.com/2017/01/180117-01.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/180117-01.png">https://coding4ever.files.wordpress.com/2017/01/180117-01.png</a>&#8221;></p>
 
 <p>Selain itu ada tool lain yang perlu kita siapkan yaitu:</p>
 
@@ -50,7 +50,7 @@
 </ul>
 
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/180117-02.png">https://coding4ever.files.wordpress.com/2017/01/180117-02.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/180117-02.png">https://coding4ever.files.wordpress.com/2017/01/180117-02.png</a>&#8221;></p>
 
 <h3>Membuat Changelog</h3>
 
@@ -60,37 +60,69 @@
 
 <p>Perintah ini digunakan untuk membuat <code>changelog</code> dari struktur database secara lengkap jadi mirip dengan perintah dump/export ke sql. Biasanya kita gunakan pada saat implementasi awal sistem untuk mengopykan struktur database kosongan dari server development ke server production/live. Misal di awal implementasi sistem kita mempunyai struktur database seperti berikut :</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/180117-03.png">https://coding4ever.files.wordpress.com/2017/01/180117-03.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/180117-03.png">https://coding4ever.files.wordpress.com/2017/01/180117-03.png</a>&#8221;></p>
 
 <p>Dari gambar di atas kita baru mempunyai dua buah tabel yaitu <code>m_customer</code> dan <code>m_supplier</code>.</p>
 
 <p>Kemudian kita jalankan perintah <code>generateChangelog</code>:</p>
 
-<p>{% codeblock lang:bash %}
-liquibase &ndash;url=&ldquo;jdbc:postgresql://localhost:5432/db-develop&rdquo; &ndash;username=postgres &ndash;password=masterkey &ndash;changeLogFile=output/db.changelog-1.0.xml generateChangeLog
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>liquibase <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">url</span><span class="o">=</span><span class="p">&amp;</span>ldquo<span class="p">;</span>jdbc:postgresql://localhost:5432/db-develop<span class="p">&amp;</span>rdquo<span class="p">;</span> <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">username</span><span class="o">=</span>postgres <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">password</span><span class="o">=</span>masterkey <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">changeLogFile</span><span class="o">=</span>output/db.changelog-1.0.xml generateChangeLog
+</span></code></pre></td></tr></table></div></figure></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/180117-04.png">https://coding4ever.files.wordpress.com/2017/01/180117-04.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/180117-04.png">https://coding4ever.files.wordpress.com/2017/01/180117-04.png</a>&#8221;></p>
 
 <p>Akan menghasilkan file <code>changelog</code> seperti berikut:</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/180117-05.png">https://coding4ever.files.wordpress.com/2017/01/180117-05.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/180117-05.png">https://coding4ever.files.wordpress.com/2017/01/180117-05.png</a>&#8221;></p>
 
-<p>{% gist f1b99d6a19c05b241367caa332a11ed5 %}</p>
+<p><div><script src='https://gist.github.com/f1b99d6a19c05b241367caa332a11ed5.js'></script>
+<noscript><pre><code>&lt;?xml version=&quot;1.1&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;
+&lt;databaseChangeLog xmlns=&quot;http://www.liquibase.org/xml/ns/dbchangelog&quot; xmlns:ext=&quot;http://www.liquibase.org/xml/ns/dbchangelog-ext&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd&quot;&gt;
+    &lt;changeSet author=&quot;Administrator (generated)&quot; id=&quot;1484639745890-1&quot;&gt;
+        &lt;createTable tableName=&quot;m_customer&quot;&gt;
+            &lt;column name=&quot;customer_id&quot; type=&quot;CHAR(36)&quot;&gt;
+                &lt;constraints nullable=&quot;false&quot;/&gt;
+            &lt;/column&gt;
+            &lt;column name=&quot;nama_customer&quot; type=&quot;VARCHAR(50)&quot;/&gt;
+            &lt;column name=&quot;alamat&quot; type=&quot;VARCHAR(100)&quot;/&gt;
+            &lt;column name=&quot;kontak&quot; type=&quot;VARCHAR(50)&quot;/&gt;
+            &lt;column name=&quot;telepon&quot; type=&quot;VARCHAR(20)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;plafon_piutang&quot; type=&quot;numeric(15, 2)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;total_piutang&quot; type=&quot;numeric(15, 2)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;total_pembayaran_piutang&quot; type=&quot;numeric(15, 2)&quot;/&gt;
+        &lt;/createTable&gt;
+    &lt;/changeSet&gt;
+    &lt;changeSet author=&quot;Administrator (generated)&quot; id=&quot;1484639745890-2&quot;&gt;
+        &lt;createTable tableName=&quot;m_supplier&quot;&gt;
+            &lt;column name=&quot;supplier_id&quot; type=&quot;CHAR(36)&quot;&gt;
+                &lt;constraints nullable=&quot;false&quot;/&gt;
+            &lt;/column&gt;
+            &lt;column name=&quot;nama_supplier&quot; type=&quot;VARCHAR(50)&quot;/&gt;
+            &lt;column name=&quot;alamat&quot; type=&quot;VARCHAR(100)&quot;/&gt;
+            &lt;column name=&quot;kontak&quot; type=&quot;VARCHAR(50)&quot;/&gt;
+            &lt;column name=&quot;telepon&quot; type=&quot;VARCHAR(20)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;total_hutang&quot; type=&quot;numeric(15, 2)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;total_pembayaran_hutang&quot; type=&quot;numeric(15, 2)&quot;/&gt;
+        &lt;/createTable&gt;
+    &lt;/changeSet&gt;
+&lt;/databaseChangeLog&gt;
+</code></pre></noscript></div>
+</p>
 
 <p>Mungkin tidak perlu dijelaskan lagi ya, karena isi dari file <a href="https://gist.github.com/k4m4r82/f1b99d6a19c05b241367caa332a11ed5#file-db-changelog-1-0-xml">db.changelog-1.0.xml</a> di atas hanya menjelaskan struktur dari tabel <code>m_customer</code> dan <code>m_supplier</code> dalam format XML.</p>
 
 <p>Setelah itu kita jalankan perintah <code>update</code> agar <code>changelog</code> yang dihasilkan dari perintah <code>generateChangelog</code> di atas dieksekusi ke database target (db production/live).</p>
 
-<p>{% codeblock lang:bash %}
-liquibase &ndash;url=&ldquo;jdbc:postgresql://localhost:5432/db-production&rdquo; &ndash;username=postgres &ndash;password=masterkey &ndash;changeLogFile=output/db.changelog-1.0.xml update  <br/>
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>liquibase <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">url</span><span class="o">=</span><span class="p">&amp;</span>ldquo<span class="p">;</span>jdbc:postgresql://localhost:5432/db-production<span class="p">&amp;</span>rdquo<span class="p">;</span> <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">username</span><span class="o">=</span>postgres <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">password</span><span class="o">=</span>masterkey <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">changeLogFile</span><span class="o">=</span>output/db.changelog-1.0.xml update  &lt;br/&gt;
+</span></code></pre></td></tr></table></div></figure></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/180117-06.png">https://coding4ever.files.wordpress.com/2017/01/180117-06.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/180117-06.png">https://coding4ever.files.wordpress.com/2017/01/180117-06.png</a>&#8221;></p>
 
 <p>Dari gambar di bawah ini terlihat kondisi database production sebelum (sebelah kiri) dan sesudah dijalankan perintah <code>update</code>.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/180117-07.png">https://coding4ever.files.wordpress.com/2017/01/180117-07.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/180117-07.png">https://coding4ever.files.wordpress.com/2017/01/180117-07.png</a>&#8221;></p>
 
 <p>Pada saat pertama kali <a href="http://www.liquibase.org/">Liquibase</a> dijalankan untuk database target, <a href="http://www.liquibase.org/">Liquibase</a> akan membuat dua buah tabel sistem yaitu <a href="http://www.liquibase.org/documentation/databasechangelog_table.html">databasechangelog</a> dan <a href="http://www.liquibase.org/documentation/databasechangeloglock_table.html">databasechangeloglock</a> kedua tabel ini digunakan untuk mencatat hasil eksekusi <code>changelog</code> dari waktu ke waktu. Jadi perlu diperhatikan kedua tabel ini jangan dihapus.</p>
 
@@ -100,31 +132,84 @@ liquibase &ndash;url=&ldquo;jdbc:postgresql://localhost:5432/db-production&rdquo
 
 <p>Misal seperti penjelasan gambar di bawah ini, yang sebelah kiri adalah struktur awal database yang hanya mempunyai dua buah tabel yaitu <code>m_customer</code> dan <code>m_supplier</code>, selama proses development berlangsung terjadi penambahan beberapa tabel baru yaitu <code>m_golongan</code>, <code>m_produk</code> dan tabel baru lainnya.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/180117-08.png">https://coding4ever.files.wordpress.com/2017/01/180117-08.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/180117-08.png">https://coding4ever.files.wordpress.com/2017/01/180117-08.png</a>&#8221;></p>
 
 <p>Nah untuk menghasilkan <code>changelog</code>, yang isinya adalah perbedaan struktur lama dan baru kita gunakan perintah <code>diffChangeLog</code>.</p>
 
-<p>{% codeblock lang:bash %}
-liquibase &ndash;url=&ldquo;jdbc:postgresql://localhost:5432/db-production&rdquo; &ndash;username=postgres &ndash;password=masterkey &ndash;referenceUrl=&ldquo;jdbc:postgresql://localhost:5432/db-develop&rdquo; &ndash;referenceUsername=postgres &ndash;referencePassword=masterkey  &ndash;changeLogFile=output/db.changelog-1.1.xml diffChangeLog
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>liquibase <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">url</span><span class="o">=</span><span class="p">&amp;</span>ldquo<span class="p">;</span>jdbc:postgresql://localhost:5432/db-production<span class="p">&amp;</span>rdquo<span class="p">;</span> <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">username</span><span class="o">=</span>postgres <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">password</span><span class="o">=</span>masterkey <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">referenceUrl</span><span class="o">=</span><span class="p">&amp;</span>ldquo<span class="p">;</span>jdbc:postgresql://localhost:5432/db-develop<span class="p">&amp;</span>rdquo<span class="p">;</span> <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">referenceUsername</span><span class="o">=</span>postgres <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">referencePassword</span><span class="o">=</span>masterkey  <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">changeLogFile</span><span class="o">=</span>output/db.changelog-1.1.xml diffChangeLog
+</span></code></pre></td></tr></table></div></figure></p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/180117-09.png">https://coding4ever.files.wordpress.com/2017/01/180117-09.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/180117-09.png">https://coding4ever.files.wordpress.com/2017/01/180117-09.png</a>&#8221;></p>
 
 <p>Contoh file <code>changelog</code> yang dihasilkan:</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/180117-10.png">https://coding4ever.files.wordpress.com/2017/01/180117-10.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/180117-10.png">https://coding4ever.files.wordpress.com/2017/01/180117-10.png</a>&#8221;></p>
 
-<p>{% gist e66ba9f2bff96f9ba50406d34864d87e %}</p>
+<p><div><script src='https://gist.github.com/e66ba9f2bff96f9ba50406d34864d87e.js'></script>
+<noscript><pre><code>&lt;?xml version=&quot;1.1&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;
+&lt;databaseChangeLog xmlns=&quot;http://www.liquibase.org/xml/ns/dbchangelog&quot; xmlns:ext=&quot;http://www.liquibase.org/xml/ns/dbchangelog-ext&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd&quot;&gt;
+    &lt;changeSet author=&quot;Administrator (generated)&quot; id=&quot;1484641393235-1&quot;&gt;
+        &lt;createTable tableName=&quot;m_alasan_penyesuaian_stok&quot;&gt;
+            &lt;column name=&quot;alasan_penyesuaian_stok_id&quot; type=&quot;CHAR(36)&quot;&gt;
+                &lt;constraints nullable=&quot;false&quot;/&gt;
+            &lt;/column&gt;
+            &lt;column name=&quot;alasan&quot; type=&quot;VARCHAR(100)&quot;/&gt;
+        &lt;/createTable&gt;
+    &lt;/changeSet&gt;
+    &lt;changeSet author=&quot;Administrator (generated)&quot; id=&quot;1484641393235-2&quot;&gt;
+        &lt;createTable tableName=&quot;m_golongan&quot;&gt;
+            &lt;column name=&quot;golongan_id&quot; type=&quot;CHAR(36)&quot;&gt;
+                &lt;constraints nullable=&quot;false&quot;/&gt;
+            &lt;/column&gt;
+            &lt;column name=&quot;nama_golongan&quot; type=&quot;VARCHAR(50)&quot;/&gt;
+        &lt;/createTable&gt;
+    &lt;/changeSet&gt;
+    &lt;changeSet author=&quot;Administrator (generated)&quot; id=&quot;1484641393235-3&quot;&gt;
+        &lt;createTable tableName=&quot;m_produk&quot;&gt;
+            &lt;column name=&quot;produk_id&quot; type=&quot;CHAR(36)&quot;&gt;
+                &lt;constraints nullable=&quot;false&quot;/&gt;
+            &lt;/column&gt;
+            &lt;column name=&quot;kode_barcode&quot; type=&quot;VARCHAR(15)&quot;/&gt;
+            &lt;column name=&quot;nama_produk&quot; type=&quot;VARCHAR(50)&quot;/&gt;
+            &lt;column name=&quot;satuan&quot; type=&quot;VARCHAR(20)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;stok&quot; type=&quot;numeric(5, 2)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;harga_beli&quot; type=&quot;numeric(10, 2)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;harga_jual&quot; type=&quot;numeric(10, 2)&quot;/&gt;
+            &lt;column name=&quot;golongan_id&quot; type=&quot;CHAR(36)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;minimal_stok&quot; type=&quot;numeric(5, 2)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;stok_gudang&quot; type=&quot;numeric(5, 2)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;minimal_stok_gudang&quot; type=&quot;numeric(5, 2)&quot;/&gt;
+        &lt;/createTable&gt;
+    &lt;/changeSet&gt;
+    &lt;changeSet author=&quot;Administrator (generated)&quot; id=&quot;1484641393235-4&quot;&gt;
+        &lt;createTable tableName=&quot;t_penyesuaian_stok&quot;&gt;
+            &lt;column name=&quot;penyesuaian_stok_id&quot; type=&quot;CHAR(36)&quot;&gt;
+                &lt;constraints nullable=&quot;false&quot;/&gt;
+            &lt;/column&gt;
+            &lt;column name=&quot;produk_id&quot; type=&quot;CHAR(36)&quot;/&gt;
+            &lt;column name=&quot;alasan_penyesuaian_id&quot; type=&quot;CHAR(36)&quot;/&gt;
+            &lt;column name=&quot;tanggal&quot; type=&quot;date&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;penambahan_stok&quot; type=&quot;numeric(5, 2)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;pengurangan_stok&quot; type=&quot;numeric(5, 2)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;penambahan_stok_gudang&quot; type=&quot;numeric(5, 2)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;pengurangan_stok_gudang&quot; type=&quot;numeric(5, 2)&quot;/&gt;
+            &lt;column name=&quot;keterangan&quot; type=&quot;VARCHAR(100)&quot;/&gt;
+            &lt;column defaultValueComputed=&quot;now()&quot; name=&quot;tanggal_sistem&quot; type=&quot;TIMESTAMP(6) WITHOUT TIME ZONE&quot;/&gt;
+        &lt;/createTable&gt;
+    &lt;/changeSet&gt;
+&lt;/databaseChangeLog&gt;</code></pre></noscript></div>
+</p>
 
 <p>Kemudian kita jalankan lagi perintah <code>update</code>. Perintah <code>update</code> ini melakukan <code>patch</code> ke database target (database production/live).</p>
 
-<p>{% codeblock lang:bash %}
-liquibase &ndash;url=&ldquo;jdbc:postgresql://localhost:5432/db-production&rdquo; &ndash;username=postgres &ndash;password=masterkey &ndash;changeLogFile=output/db.changelog-1.1.xml update
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>liquibase <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">url</span><span class="o">=</span><span class="p">&amp;</span>ldquo<span class="p">;</span>jdbc:postgresql://localhost:5432/db-production<span class="p">&amp;</span>rdquo<span class="p">;</span> <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">username</span><span class="o">=</span>postgres <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">password</span><span class="o">=</span>masterkey <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">changeLogFile</span><span class="o">=</span>output/db.changelog-1.1.xml update
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Setelah itu kita cek lagi struktur database productionnya.</p>
 
-<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/180117-11.png">https://coding4ever.files.wordpress.com/2017/01/180117-11.png</a> %}</p>
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/180117-11.png">https://coding4ever.files.wordpress.com/2017/01/180117-11.png</a>&#8221;></p>
 
 <p>Gampang bukan :-), dengan menggunakan <a href="http://www.liquibase.org/">Liquibase</a> proses migrasi struktur database pun menjadi lebih mudah.</p>
 
@@ -132,45 +217,103 @@ liquibase &ndash;url=&ldquo;jdbc:postgresql://localhost:5432/db-production&rdquo
 
 <p>Untuk menyingkat penulisan perintah <a href="http://www.liquibase.org/">Liquibase</a> kita bisa memanfaatkan file liquibase properties. Di file ini kita mengeset semua nilai parameter yang dibutuhkan pada saat menjalankan perintah <a href="http://www.liquibase.org/">Liquibase</a>. Secara default nama yang digunakan untuk file liquibase properties adalah <code>liquibase.properties</code>, jika menggunakan nama default ini kita bisa langsung menjalankan perintah <a href="http://www.liquibase.org/">Liquibase</a> seperti berikut :</p>
 
-<p>{% codeblock lang:bash %}</p>
-
-<h1>generateChangelog</h1>
-
-<p>liquibase generateChangelog</p>
-
-<h1>diffChangeLog</h1>
-
-<p>liquibase diffChangeLog</p>
-
-<h1>update/patch database target</h1>
-
-<p>liquibase update
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;generateChangelog&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;liquibase generateChangelog&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;diffChangeLog&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;liquibase diffChangeLog&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;update/patch database target&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;liquibase update
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>dan jika menggunakan nama yang lain, misal untuk masing-masing perintah kita buatkan  file liquibase properties tersendiri, pada saat menjalankan perintah <a href="http://www.liquibase.org/">Liquibase</a> harus kita sebutkan secara explicit nama file  liquibase properties-nya dengan menambahkan parameter <code>defaultsFile=&lt;nama_file_liquibase_properties&gt;</code>. Contoh:</p>
 
-<p>{% codeblock lang:bash %}</p>
-
-<h1>generateChangelog</h1>
-
-<p>liquibase &ndash;defaultsFile=generate-liquibase.properties generateChangelog</p>
-
-<h1>diffChangeLog</h1>
-
-<p>liquibase &ndash;defaultsFile=diff-liquibase.properties diffChangeLog</p>
-
-<h1>update/patch database target</h1>
-
-<p>liquibase &ndash;defaultsFile=update-liquibase.properties update
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;generateChangelog&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;liquibase <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">defaultsFile</span><span class="o">=</span>generate-liquibase.properties generateChangelog&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;diffChangeLog&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;liquibase <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">defaultsFile</span><span class="o">=</span>diff-liquibase.properties diffChangeLog&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;update/patch database target&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;liquibase <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">defaultsFile</span><span class="o">=</span>update-liquibase.properties update
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Dan untuk masing-masing file liquibase properties-nya kita isi seperti berikut:</p>
 
-<p>{% gist 16429101488c5c734e8f86832c6dc646 %}</p>
+<p><div><script src='https://gist.github.com/16429101488c5c734e8f86832c6dc646.js'></script>
+<noscript><pre><code># liquibase.properties
+driver: org.postgresql.Driver
+classpath: ./lib/postgresql-9.4.1212.jar
+url: jdbc:postgresql://localhost:5432/db-develop
+username: postgres
+password: masterkey
+changeLogFile: output/db.changelog-1.0.xml</code></pre></noscript></div>
+</p>
 
-<p>{% gist 033067883ebff3ab40ed2b08b3c06a42 %}</p>
+<p><div><script src='https://gist.github.com/033067883ebff3ab40ed2b08b3c06a42.js'></script>
+<noscript><pre><code># liquibase.properties
+driver: org.postgresql.Driver
+classpath: ./lib/postgresql-9.4.1212.jar
 
-<p>{% gist 4ad6e69e060e7fcd4da12fa56fbbaf0c %}</p>
+# db-production
+url: jdbc:postgresql://localhost:5432/db-production
+username: postgres
+password: masterkey
+
+# db-develop
+referenceUrl: jdbc:postgresql://localhost:5432/db-develop
+referenceUsername: postgres
+referencePassword: masterkey
+
+changeLogFile: output/db.changelog-1.1.xml</code></pre></noscript></div>
+</p>
+
+<p><div><script src='https://gist.github.com/4ad6e69e060e7fcd4da12fa56fbbaf0c.js'></script>
+<noscript><pre><code># liquibase.properties
+driver: org.postgresql.Driver
+classpath: ./lib/postgresql-9.4.1212.jar
+url: jdbc:postgresql://localhost:5432/db-production
+username: postgres
+password: masterkey
+changeLogFile: output/db.changelog-1.0.xml</code></pre></noscript></div>
+</p>
 
 <p>Selamat mencoba :-)</p>
 ]]></content>
