@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2017-04-13T22:39:07+07:00</updated>
+  <updated>2017-08-22T16:01:27+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,743 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Membuat Service SMS Gateway Untuk Engine Gammu]]></title>
+    <link href="http://coding4ever.net/blog/2017/08/22/membuat-service-sms-gateway-untuk-engine-gammu/"/>
+    <updated>2017-08-22T15:59:07+07:00</updated>
+    <id>http://coding4ever.net/blog/2017/08/22/membuat-service-sms-gateway-untuk-engine-gammu</id>
+    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2017/08/gammu.png" width="100" height="100">Pasti udah pada tau kan apa itu <a href="https://wammu.eu/gammu/">Gammu</a> ? Klo enggak ya keterlaluan he he. Itu loh engine yang biasa digunakan untuk mengirim dan menerima sms dan biasanya sering digunakan untuk membuat sms gateway.</p>
+
+<p>Di postingan ini saya tidak akan membahas bagaimana cara instalasi <a href="https://wammu.eu/gammu/">Gammu</a>, konfigurasi dan database yang digunakan. Jadi saya mengasumsikan bahwa service Gammu Anda (GammuSMSD) sudah berjalan dengan baik, dengan kata lain jika ada sms masuk ke nomor yang Anda gunakan sebagai sms center, maka service <a href="https://wammu.eu/gammu/">Gammu</a> otomatis akan meng-INSERT-kan sms tersebut ke tabel inbox.</p>
+
+<!-- more -->
+
+
+<h3>Struktur Tabel Gammu</h3>
+
+<p>Sebelum kita lanjut bagaimana membuat windows service untuk engine <a href="https://wammu.eu/gammu/">Gammu</a> ada baiknya kita melihat dulu struktur tabel <a href="https://wammu.eu/gammu/">Gammu</a> secara menyeluruh.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170822-01.png"></p>
+
+<p>Dari keenam tabel di atas, kita cukup fokus di 3 tabel utama yaitu <code>inbox</code>, <code>outbox</code> dan <code>outbox_multipart</code>. Tabel inbox otomatis terisi, jika ada sama masuk tentunya dengan syarat service Gammu Anda (GammuSMSD) sudah berjalan dengan baik. Di tabel inbox ini juga sudah ada field dengan nama Processed yang bisa kita gunakan sebagai flag/penanda sms yang sudah diproses.</p>
+
+<p>Nah jika ada sms yang mau dikirim, tinggal kita INSERT-kan datanya secara manual ke tabel outbox. Dan jika smsnya panjang (lebih dari 160 karakter), smsnya harus kita pecah menjadi 2, 3, dst sesuai dengan jumlah karakter yang mau dikirim. Setelah dipecah, sms pertama masuk ke tabel outbox, dan sisanya masuk ke tabel outbox_multipart.</p>
+
+<p>Untuk informasi lebih lanjut tentang struktur database <a href="https://wammu.eu/gammu/">Gammu</a> bisa Anda cek di <a href="https://wammu.eu/docs/manual/smsd/tables.html">sini</a>.</p>
+
+<h3>Konfigurasi Gammu</h3>
+
+<p>Untuk konfigurasi gammu ada dua file yang harus kita edit nilainya yaitu file <code>smsdrc</code> dan <code>gammurc</code>. File ini biasanya ada di folder <code>Instalasi Gammu\share\doc\gammu\examples\config</code> trus kita copykan ke folder <code>Instalasi Gammu\bin</code>. Berikut adalah contoh konfigurasi gammu yang saya gunakan.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># konfigurasi file gammurc
+</span><span class='line'>
+</span><span class='line'>[gammu]
+</span><span class='line'>device = com3:
+</span><span class='line'>connection = at115200</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># konfigurasi file smsdrc
+</span><span class='line'>
+</span><span class='line'>[gammu]
+</span><span class='line'>device = com3:
+</span><span class='line'>connection = at115200
+</span><span class='line'>
+</span><span class='line'>[smsd]
+</span><span class='line'># SMSD service to use, one of FILES, MYSQL, PGSQL, DBI
+</span><span class='line'>service = SQL
+</span><span class='line'>
+</span><span class='line'># File (or stderr, syslog, eventlog) where information will be logged
+</span><span class='line'>logfile = C:\gammu\log\gammu.log
+</span><span class='line'>
+</span><span class='line'># Amount of information being logged, each bit mean one level
+</span><span class='line'>debuglevel = 255
+</span><span class='line'>
+</span><span class='line'># How many seconds should SMSD wait after there is no message in outbox before scanning it again. Default is 30.
+</span><span class='line'>commtimeout = 1
+</span><span class='line'>
+</span><span class='line'># Shows how many seconds SMSD should wait for network answer during sending sms. If nothing happen during this time, sms will be resent. Default is 30.
+</span><span class='line'>sendtimeout = 10
+</span><span class='line'>
+</span><span class='line'># Phone communication settings
+</span><span class='line'>checksecurity = 0
+</span><span class='line'>CheckBattery = 0
+</span><span class='line'>
+</span><span class='line'># Database backends congfiguration
+</span><span class='line'>user = root
+</span><span class='line'>password = rahasia
+</span><span class='line'>host = gammuodbc
+</span><span class='line'>
+</span><span class='line'># pc can also contain port or socket path after colon (eg. localhost:/path/to/socket)
+</span><span class='line'>database = db_gammu
+</span><span class='line'>
+</span><span class='line'># DBI configuration
+</span><span class='line'>driver = odbc
+</span><span class='line'>
+</span><span class='line'># Possible values: mysql, pgsql, sqlite, mssql (Microsoft SQL Server), access (Microsoft Access), oracle
+</span><span class='line'># ref: https://wammu.eu/docs/manual/smsd/config.html#gammu-smsdrc
+</span><span class='line'>sql = mysql</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Coba perhatikan konfigurasi pada file <code>smsdrc</code> di atas terutama di bagian <code>host</code>, nilainya kita isikan dengan nama ODBC yang terhubung ke database gammu, dan untuk membuat ODBCnya kita gunakan fasilitas ODBC Data Source.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170822-02.png"></p>
+
+<p>Untuk menambahkan ODBC di atas, sebelumnya kita harus menginstall terlebih dulu MySQL Connector/ODBC.</p>
+
+<h3>Environment Testing dan Development Tool yang Digunakan</h3>
+
+<ul>
+<li>Windows 7 Pro 64 bit</li>
+<li>Visual Studio Community 2013 – untuk bahasa yang digunakan C#</li>
+<li>Tipe aplikasi – Windows Service</li>
+<li>Micro ORM <a href="http://coding4ever.net/blog/categories/dapper-net/">Dapper.NET</a></li>
+<li>Gammu-1.38.4-Windows-64bit</li>
+<li>Database SQLite – untuk menyimpan data siswa, mata pelajaran dan nilai</li>
+<li>Database MySQL v5.5.45 – untuk menyimpan data gammu</li>
+<li>MySQL Connector/ODBC v5.3.9</li>
+<li>Modem Wavecom M1306B</li>
+</ul>
+
+
+<p>Kok menggunakan Connector/ODBC ? Iya karena Gammu v1.38.4 sudah mendukung koneksi menggunakan ODBC. Jadi selain MySQL, dengan menggunakan ODBC dukungan databasenya jadi lebih banyak seperti PostgreSQL, SQLite, Oracle, MS SQL Server dan MS Access.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170822-03.png"></p>
+
+<h3>Contoh Kasus</h3>
+
+<p>Untuk contoh kasusnya kita akan membuat service sms gateway untuk request data yang berhubungan dengan siswa seperti data pribadi, mata pelajaran dan nilai. Service sms gateway ini akan terhubung ke dua database yaitu database gammu yang tersimpan di MySQL dan database nilai yang tersimpan di SQLite. Sms gateway ini mempunyai beberapa format request data yaitu:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CEKMP                  # request data mata pelajaran
+</span><span class='line'>CEKSISWA#NIS           # request data siswa
+</span><span class='line'>CEKNILAI#NIS#&lt;KODE MP> # request data nilai, kode mp optional</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Untuk data siswa, mata pelajaran dan nilainya disimpan menggunakan database SQLite.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170822-04.png"></p>
+
+<h3>Project SMS Gateway</h3>
+
+<p>Project SMS Gateway ini dibangun dengan menggunakan <a href="https://en.wikipedia.org/wiki/Separation_of_concerns">konsep separation  of  concern</a> atau pemisahan kode program berdasarkan fungsinya. Semua kode untuk akses database harus dipisahkan dengan kode untuk pengaturan user inteface. Hal ini memungkinkan kode akses database yang dibuat untuk aplikasi desktop, dengan mudah digunakan untuk aplikasi lainnya seperti web, console atau windows service. Selain itu penerapan konsep <a href="https://en.wikipedia.org/wiki/Separation_of_concerns">separation  of  concern</a> secara disiplin, dapat menghasilkan kode program yang dapat dites secara otomatis menggunakan tool <a href="https://en.wikipedia.org/wiki/Unit_testing">Unit Testing</a>.</p>
+
+<p>Untuk urusan kode akses database, project ini menggunakan pattern/pola <a href="http://coding4ever.net/blog/2016/02/22/repository-pattern/">Repository Pattern</a> yang berisi semua kode untuk mengakses database. Semua kode yang sepesifik terhadap implementasi akses database berhenti di sini, lapisan lebih atas tidak boleh tahu bagaimana akses database diterapkan, apakah menggunakan ADO.NET murni (raw ADO.NET) atau menggunakan tool ORM/Micro ORM seperti <a href="http://coding4ever.net/blog/categories/dapper-net/">Dapper.NET</a>, <a href="http://coding4ever.net/blog/categories/entity-framework/">Entity Framework</a> atau NHibernate. Lapisan lainya hanya perlu tahu fungsionalitas dari suatu method di dalam class Repository, tidak perlu tahu bagimana method tersebut diimplementasikan.</p>
+
+<p>Idealnya secara logic, arsitektur aplikasi yang kita gunakan seperti berikut:</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170822-05.png"></p>
+
+<p>Tetapi untuk menyederhanakan pembahasan business logic layer bisa kita gabung ke presentation layer, sehingga arsitekturnya menjadi seperti berikut:</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170822-06.png"></p>
+
+<p>Nah untuk contoh project SMS Gateway ini menggunakan arsitektur yang kedua.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170822-07.png"></p>
+
+<p>Yang pertama adalah project <code>WindowsServiceGammu.Model</code>. Project ini bertipe <code>Class Library</code> yang berisi class model/entity yang merupakan representasi dari sebuah table. Jadi kalo kita ingin menerapkan konsep OOP dalam pemrograman database maka class-class model/entity ini wajib kita gunakan.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170822-08.png"></p>
+
+<p>Berikutnya adalah project <code>WindowsServiceGammu.Repository</code>. Project ini bertipe <code>Class Library</code> yang berisi class-class repository yang bertugas untuk menangani operasi CRUD. Biasanya untuk masing-masing class model/entity kita buatkan class repositorynya.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170822-09.png"></p>
+
+<p>Pada gambar di atas saya menggunakan dua class context yaitu <a href="https://github.com/k4m4r82/gammu-sms-gateway/blob/master/src/WindowsServiceGammu.Repository/Context/MySqlContext.cs">MySqlContext</a> dan <a href="https://github.com/k4m4r82/gammu-sms-gateway/blob/master/src/WindowsServiceGammu.Repository/Context/SQLiteContext.cs">SQLiteContext</a>. Class context adalah class yang bertanggung jawab untuk berinteraksi secara langsung dengan database. Jadi class contextlah yang bertugas untuk membuat koneksi, menjalankan perintah sql seperti insert, update, delete dan select atau objek database seperti store procedure dan function. Selain class context juga ada class-class repository yang bertugas untuk menangani operasi CRUD. Berikut adalah contoh class repository untuk class <a href="https://github.com/k4m4r82/gammu-sms-gateway/blob/master/src/WindowsServiceGammu.Repository/SiswaRepository.cs">SiswaRepository</a> dan <a href="https://github.com/k4m4r82/gammu-sms-gateway/blob/master/src/WindowsServiceGammu.Repository/GammuRepository.cs">GammuRepository</a>.</p>
+
+<div><script src='https://gist.github.com/6398e259ef86dcf1a3386a2e3cd55215.js'></script>
+<noscript><pre><code>using Dapper;
+using log4net;
+using WindowsServiceGammu.Model;
+
+namespace WindowsServiceGammu.Repository
+{
+    public interface ISiswaRepository
+    {
+        Siswa GetByNIS(string nis);
+    }
+
+    public class SiswaRepository : ISiswaRepository
+    {
+        private IDapperContext _context;
+        private ILog _log;
+
+        public SiswaRepository(IDapperContext context, ILog log)
+        {
+            this._context = context;
+            this._log = log;
+        }
+
+        public Siswa GetByNIS(string nis)
+        {
+            Siswa siswa = null;
+
+            try
+            {
+                var sql = @&quot;select nis, nama 
+                            from siswa 
+                            where nis = @nis&quot;;
+
+                siswa = _context.db.QuerySingleOrDefault&lt;Siswa&gt;(sql, new { nis });
+            }
+            catch (Exception ex)
+            {
+                _log.Error(&quot;Error:&quot;, ex);
+            }
+
+            return siswa;   
+        }
+    }
+}</code></pre></noscript></div>
+
+
+
+
+<div><script src='https://gist.github.com/e7f4273deeec9753254b46b8a830fa5d.js'></script>
+<noscript><pre><code>using Dapper;
+using log4net;
+using WindowsServiceGammu.Model.Gammu;
+
+namespace WindowsServiceGammu.Repository
+{
+    public interface IGammuRepository
+    {
+        /// &lt;summary&gt;
+        /// Method untuk membaca data sms di tabel inbox yang belum diproses
+        /// &lt;/summary&gt;
+        /// &lt;returns&gt;&lt;/returns&gt;
+        IList&lt;Inbox&gt; ReadInbox();
+
+        /// &lt;summary&gt;
+        /// Method untuk mengupdate status inbox menjadi sudah diproses
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;inboxId&quot;&gt;&lt;/param&gt;
+        /// &lt;returns&gt;&lt;/returns&gt;
+        int UpdateInbox(int inboxId);
+
+        /// &lt;summary&gt;
+        /// Method untuk menyimpan data sms yang akan dikirim ke tabel outbox
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;obj&quot;&gt;&lt;/param&gt;
+        /// &lt;returns&gt;&lt;/returns&gt;
+        int SaveOutbox(Outbox obj);
+
+        /// &lt;summary&gt;
+        /// Method untuk menyimpan data sms ke 2, 3, dst ke tabel outbox_multipart, jika data sms lebih dari 160 karakter
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;obj&quot;&gt;&lt;/param&gt;
+        /// &lt;returns&gt;&lt;/returns&gt;
+        int SaveOutboxMultipart(OutboxMultipart obj);
+    }
+
+    public class GammuRepository : IGammuRepository
+    {
+        private IDapperContext _context;
+        private ILog _log;
+
+        public GammuRepository(IDapperContext context, ILog log)
+        {
+            this._context = context;
+            this._log = log;
+        }
+
+        public IList&lt;Inbox&gt; ReadInbox()
+        {
+            IList&lt;Inbox&gt; listOfSMS = new List&lt;Inbox&gt;();
+
+            try
+            {
+                var sql = @&quot;SELECT `ID`, `UDH`, `SenderNumber`, `TextDecoded`, `ReceivingDateTime`
+                            FROM inbox 
+                            WHERE Processed = &#39;false&#39;
+                            ORDER BY ReceivingDateTime&quot;;
+
+                listOfSMS = _context.db.Query&lt;Inbox&gt;(sql)
+                                              .ToList();
+
+            }
+            catch (Exception ex)
+            {
+                _log.Error(&quot;Error:&quot;, ex);
+            }
+
+            return listOfSMS;
+        }
+
+        public int UpdateInbox(int inboxId)
+        {
+            var result = 0;
+
+            try
+            {
+                var sql = @&quot;UPDATE inbox SET Processed = &#39;true&#39; 
+                            WHERE id = @inboxId&quot;;
+                result = _context.db.Execute(sql, new { inboxId });
+            }
+            catch (Exception ex)
+            {
+                _log.Error(&quot;Error:&quot;, ex);
+            }
+
+            return result;
+        }
+
+        public int SaveOutbox(Outbox obj)
+        {
+            var result = 0;
+
+            try
+            {
+                var sql = @&quot;INSERT INTO outbox (DestinationNumber, UDH, TextDecoded, MultiPart, CreatorID)
+                            VALUES (@DestinationNumber, @UDH, @TextDecoded, @MultiPart, &#39;Gammu&#39;)&quot;;
+                result = _context.db.Execute(sql, obj);
+
+                if (result &gt; 0)
+                {
+                    sql = @&quot;SELECT CONVERT(LAST_INSERT_ID(), SIGNED INTEGER) AS ID&quot;;
+                    obj.Id = _context.db.QuerySingleOrDefault&lt;int&gt;(sql);
+                }
+            }
+            catch (Exception ex)
+            {
+                _log.Error(&quot;Error:&quot;, ex);
+            }
+
+            return result;
+        }
+
+        public int SaveOutboxMultipart(OutboxMultipart obj)
+        {
+            var result = 0;
+
+            try
+            {
+                var sql = @&quot;INSERT INTO outbox_multipart(ID, UDH, TextDecoded, SequencePosition)
+                            VALUES (@ID, @UDH, @TextDecoded, SequencePosition)&quot;;
+                result = _context.db.Execute(sql, obj);
+            }
+            catch (Exception ex)
+            {
+                _log.Error(&quot;Error:&quot;, ex);
+            }
+
+            return result;
+        }
+    }
+}</code></pre></noscript></div>
+
+
+<p>Untuk class repository lainnya bisa Anda cek di <a href="https://github.com/k4m4r82/gammu-sms-gateway/tree/master/src/WindowsServiceGammu.Repository">sini</a>.</p>
+
+<p>Dan yang terakhir adalah project <code>WindowsServiceGammu.Service</code> yang bertipe <code>Windows Service</code>. Project ini tidak bisa dijalankan secara langsung seperti halnya project dengan tipe Console atau Windows Form, tapi harus didaftarkan terlebih dahulu ke Windows Service.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170822-10.png"></p>
+
+<p>Project ini hanya memanggil class-class model atau repository yang sudah ada.</p>
+
+<p>Ada dua class utama yang digunakan oleh project ini yang pertama yaitu class <code>MainService</code> yang merupakan turunan dari class ServiceBase. Class ServiceBase adalah class bawaan .NET Framework yang merupakan class dasar agar sebuah aplikasi bisa di register/menjadi bagian dari aplikasi service (Windows Service).</p>
+
+<div><script src='https://gist.github.com/1713b5f3b53013a0cf2e0e5c199875cf.js'></script>
+<noscript><pre><code>using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Diagnostics;
+using System.Linq;
+using System.ServiceProcess;
+using System.Text;
+
+using log4net;
+
+namespace WindowsServiceGammu.Service
+{
+    public partial class MainService : ServiceBase
+    {
+        private readonly List&lt;TaskBase&gt; _listOfTask;
+        private readonly ILog _log;
+        private const int RefreshInterval = 1000; // In milliseconds
+
+        public MainService()
+        {
+            InitializeComponent();
+            _log = Program.log;
+
+            // Add in this list the tasks to run periodically.
+            // Tasks frequencies are set in the corresponding classes.
+            _listOfTask = new List&lt;TaskBase&gt;
+            {
+                new SMSGatewayTask(RefreshInterval, _log)
+            };
+        }
+
+        protected override void OnStart(string[] args)
+        {
+            try
+            {
+                _log.Info(&quot;Services started ...&quot;);
+                _listOfTask.ForEach(t =&gt; t.StartService());
+            }
+            catch (Exception ex)
+            {
+                _log.Error(&quot;Error:&quot;, ex);
+                Stop();
+            }
+        }
+
+        protected override void OnStop()
+        {
+            _log.Info(&quot;Services stoped ...&quot;);
+            _listOfTask.ForEach(t =&gt; t.StopService());
+        }
+    }
+}</code></pre></noscript></div>
+
+
+<p>Berikutnya adalah class <code>SMSGatewayTask</code> yang bertugas untuk membaca tabel inbox-nya gammu, memvalidasi perintah yang ada dan mengenerate pesan balasan dan kemudian menyimpannya ke tabel outbox. Semua aktivitas membaca dan menyimpan kembali ke database ini dibantu oleh class-class repository.</p>
+
+<div><script src='https://gist.github.com/5d25b7f4ab056635fc915bb1404cf909.js'></script>
+<noscript><pre><code>using log4net;
+using WindowsServiceGammu.Model;
+using WindowsServiceGammu.Model.Gammu;
+using WindowsServiceGammu.Repository;
+
+namespace WindowsServiceGammu.Service
+{
+    public class SMSGatewayTask : TaskBase
+    {
+        private ILog _log;
+
+        public SMSGatewayTask(int refreshInterval, ILog log)
+            : base(refreshInterval) // In milliseconds
+        {
+            _log = log;
+        }        
+
+        protected override void ExecTask()
+        {
+            using (IDapperContext mysqlContext = new MySqlContext())
+            {
+                IGammuRepository gammuRepo = new GammuRepository(mysqlContext, _log);
+                var listOfInbox = gammuRepo.ReadInbox();
+
+                foreach (var inbox in listOfInbox)
+                {                    
+                    var phoneNumber = inbox.SenderNumber;
+
+                    if (phoneNumber.Substring(0, 3) == &quot;+62&quot;)
+                    {
+                        var keyword = inbox.TextDecoded;
+                        var prefix = keyword;
+                        var msg = string.Empty;
+
+                        if (keyword.IndexOf(&quot;#&quot;) &gt;= 0) // karakter # -&gt; separator keyword
+                        {
+                            var nis = string.Empty;
+                            var kodeMP = string.Empty;
+
+                            var arrKeyword = keyword.Split(&#39;#&#39;);
+                            prefix = arrKeyword[0];
+
+                            switch (prefix.ToUpper())
+                            {
+                                case &quot;CEKSISWA&quot;: // FORMAT PERINTAH: CEKSISWA#NIS
+                                    nis = arrKeyword[1]; // nis di ambil dari parameter pertama
+                                    msg = GetBalasanCekSiswa(nis);
+
+                                    break;
+
+                                case &quot;CEKNILAI&quot;: // FORMAT PERINTAH: CEKNILAI#NIS#&lt;OPTIONAL KODE MP&gt;
+                                    nis = arrKeyword[1]; // nis di ambil dari parameter pertama
+                                    kodeMP = arrKeyword.Count() &gt; 2 ? arrKeyword[2] : string.Empty;
+
+                                    msg = GetBalasanCekNilai(nis, kodeMP);
+                                    break;
+
+                                default:
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            // FORMAT PERINTAH: CEKMP
+                            if (keyword.ToUpper() == &quot;CEKMP&quot;)
+                            {
+                                msg = GetBalasanCekMP();
+                            }
+                            else // keyword tidak valid
+                            {
+                                msg = string.Format(&quot;Keyword {0} tidak terdaftar&quot;, keyword.ToUpper());
+                            }
+                        }
+
+                        SaveOutbox(msg, inbox, gammuRepo);
+                    }                    
+                }
+            }
+        }
+
+        /// &lt;summary&gt;
+        /// Method untuk menyimpan pesan yang akan dikirim ke tabel outbox
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;msg&quot;&gt;&lt;/param&gt;
+        /// &lt;param name=&quot;inbox&quot;&gt;&lt;/param&gt;
+        /// &lt;param name=&quot;gammuRepo&quot;&gt;&lt;/param&gt;
+        private void SaveOutbox(string msg, Inbox inbox, IGammuRepository gammuRepo)
+        {
+            var result = 0;
+
+            // insert ke tabel outbox
+            var jumlahSMS = (int)Math.Ceiling((double)msg.Length / 160);
+
+            if (jumlahSMS &gt; 1) // balasan sms &gt; 160 karakter, sms dipecah sebelum dikirim
+            {
+                var listSms = msg.SplitByLength(153)
+                                 .ToList();
+
+                var smsKe = 1;
+                var outboxID = 0;
+                foreach (var sms in listSms)
+                {
+                    var udh = inbox.UDH;
+
+                    if (udh.Length == 0)
+                    {
+                        udh = string.Format(&quot;050003A7{0:00}{1:00}&quot;, listSms.Count, smsKe);
+                    }
+                    else
+                    {
+                        udh = inbox.UDH.Substring(0, inbox.UDH.Length - 4);
+                        udh = string.Format(&quot;{0}{1:00}{2:00}&quot;, udh, listSms.Count, smsKe);
+                    }
+
+                    if (smsKe == 1)
+                    {
+                        var outbox = new Outbox
+                        {
+                            DestinationNumber = inbox.SenderNumber,
+                            UDH = udh,
+                            TextDecoded = sms,
+                            MultiPart = &quot;true&quot;
+                        };
+
+                        result = gammuRepo.SaveOutbox(outbox);
+                        if (result &gt; 0)
+                        {
+                            outboxID = outbox.Id;
+                        }
+                    }
+                    else // sms ke 2, 3, dst, simpan ke tabel outbox_multipart
+                    {
+                        var outboxMultipart = new OutboxMultipart
+                        {
+                            Id = outboxID,
+                            UDH = udh,
+                            TextDecoded = sms,
+                            SequencePosition = smsKe
+                        };
+
+                        result = gammuRepo.SaveOutboxMultipart(outboxMultipart);
+                    }
+
+                    smsKe++;
+                }
+            }
+            else // balasan sms &lt;= 160 karakter
+            {
+                var outbox = new Outbox
+                {
+                    DestinationNumber = inbox.SenderNumber,
+                    UDH = string.Empty,
+                    TextDecoded = msg,
+                    MultiPart = &quot;false&quot;
+                };
+
+                result = gammuRepo.SaveOutbox(outbox);
+            }
+
+            if (result &gt; 0)
+            {
+                // update status pesan di inbox menjadi sudah diproses
+                result = gammuRepo.UpdateInbox(inbox.Id);
+            }
+        }
+
+        /// &lt;summary&gt;
+        /// Method untuk mengenerate pesan balasan untuk keyword: CEKSISWA#NIS
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;nis&quot;&gt;&lt;/param&gt;
+        /// &lt;returns&gt;&lt;/returns&gt;
+        private string GetBalasanCekSiswa(string nis)
+        {
+            var msg = string.Empty;
+
+            using (IDapperContext sqliteContext = new SQLiteContext())
+            {
+                ISiswaRepository siswaRepo = new SiswaRepository(sqliteContext, _log);
+                var siswa = siswaRepo.GetByNIS(nis);
+
+                if (siswa == null)
+                {
+                    msg = string.Format(&quot;NIS: {0} tidak ditemukan&quot;, nis);
+                }
+                else
+                {
+                    msg = string.Format(&quot;NIS: {0}\nNAMA: {1}&quot;, siswa.nis, siswa.nama);
+                }
+            }
+
+            return msg;
+        }
+
+        /// &lt;summary&gt;
+        /// Method untuk mengenerate pesan balasan untuk keyword: CEKNILAI#NIS#&lt;OPTIONAL KODE MP&gt;
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;nis&quot;&gt;&lt;/param&gt;
+        /// &lt;param name=&quot;kodeMP&quot;&gt;&lt;/param&gt;
+        /// &lt;returns&gt;&lt;/returns&gt;
+        private string GetBalasanCekNilai(string nis, string kodeMP)
+        {
+            var msg = string.Empty;
+
+            IList&lt;Nilai&gt; listOfNilai = new List&lt;Nilai&gt;();
+
+            using (IDapperContext sqliteContext = new SQLiteContext())
+            {
+                ISiswaRepository siswaRepo = new SiswaRepository(sqliteContext, _log);
+                var siswa = siswaRepo.GetByNIS(nis);
+
+                if (siswa == null)
+                {
+                    msg = string.Format(&quot;NIS: {0} tidak ditemukan&quot;, nis);
+                }
+                else
+                {
+                    INilaiRepository nilaiRepo = new NilaiRepository(sqliteContext, _log);
+
+                    if (nis.Length &gt; 0 &amp;&amp; kodeMP.Length &gt; 0)
+                    {
+                        var nilai = nilaiRepo.GetByNIS(nis, kodeMP);
+                        listOfNilai.Add(nilai);
+                    }
+                    else
+                    {
+                        listOfNilai = nilaiRepo.GetByNIS(nis);
+                    }
+
+                    msg = string.Format(&quot;NIS: {0}\nNAMA: {1}\n&quot;, siswa.nis, siswa.nama);
+                    msg += &quot;Nilai:\n&quot;;
+
+                    foreach (var nilai in listOfNilai)
+                    {
+                        msg += string.Format(&quot;{0}: {1}\n&quot;, nilai.kode, nilai.nilai);
+                    }
+                }
+            }
+
+            return msg;
+        }
+
+        /// &lt;summary&gt;
+        /// Method untuk mengenerate pesan balasan untuk keyword: CEKMP
+        /// &lt;/summary&gt;
+        /// &lt;returns&gt;&lt;/returns&gt;
+        private string GetBalasanCekMP()
+        {
+            var msg = string.Empty;
+
+            using (IDapperContext sqliteContext = new SQLiteContext())
+            {
+                IMataPelajaranRepository mataPelajaranRepo = new MataPelajaranRepository(sqliteContext, _log);
+                var listOfMataPelajaran = mataPelajaranRepo.GetAll();
+
+                msg = string.Empty;
+                msg = &quot;kode mata pelajaran:\n&quot;;
+
+                foreach (var mataPelajaran in listOfMataPelajaran)
+                {
+                    msg += string.Format(&quot;{0}: {1}\n&quot;, mataPelajaran.kode, mataPelajaran.deskripsi);
+                }
+            }
+
+            return msg;
+        }
+    }
+}</code></pre></noscript></div>
+
+
+<h3>Instalasi Windows Service</h3>
+
+<p>Seperti yang sudah saya jelaskan di atas, project dengan tipe Windows Service tidak bisa dijalankan secara langsung seperti halnya project dengan tipe Console atau Windows Form, tapi harus didaftarkan terlebih dahulu ke Windows Service. Untuk mendaftarkannya kita gunakan tool bawaan .NET Framework yaitu InstallUtil.exe.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># install service
+</span><span class='line'>%WINDIR%\Microsoft.NET\Framework\v4.0.30319\InstallUtil.exe WindowsServiceGammu.Service.exe
+</span><span class='line'>
+</span><span class='line'># uninstall service
+</span><span class='line'>%WINDIR%\Microsoft.NET\Framework\v4.0.30319\InstallUtil.exe WindowsServiceGammu.Service.exe /u</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Jika berhasil seharusnya service sms gateway yang sudah kita buat akan terdaftar di Windows Service.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170822-11.png"></p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/gammu-sms-gateway">MENCOBA</a> :-)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[OpenRetail - Open Source Project for Retail Business]]></title>
@@ -3792,336 +4529,6 @@ namespace Northwind.ConsoleApp
 <p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/150216-01.png"></p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/DemoSignalR2">MENCOBA</a> :-)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Menggunakan Objek Collection Dan Transaction Pada Visual Basic 6]]></title>
-    <link href="http://coding4ever.net/blog/2016/02/11/menggunakan-objek-collection-dan-transaction-pada-visual-basic-6/"/>
-    <updated>2016-02-11T05:44:47+07:00</updated>
-    <id>http://coding4ever.net/blog/2016/02/11/menggunakan-objek-collection-dan-transaction-pada-visual-basic-6</id>
-    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2016/02/visualbasic6.jpg" width="120" height="100">Lagi kangen :-D, udah lama enggak posting tentang <a href="http://coding4ever.net/blog/categories/visual-basic/">Visual Basic 6</a>. Terakhir nulis sekitar <a href="http://coding4ever.net/blog/categories/visual-basic/">3-4 tahun</a> yang lalu he he :-D.</p>
-
-<p>Kali ini saya ingin membahas salah satu poin <code>penting</code> tetapi sering kali disepelekan ketika akan membuat aplikasi bisnis yaitu <a href="http://en.wikipedia.org/wiki/Database_transaction">transaction</a>. Padahal fitur ini sangat penting untuk menjaga konsistensi data, karena hampir bisa dipastikan semua aplikasi bisnis menggunakan skema header-detail.</p>
-
-<!-- more -->
-
-
-<p>Salah satu poin penting dari <a href="http://en.wikipedia.org/wiki/Database_transaction">transaction</a> adalah <a href="http://en.wikipedia.org/wiki/Atomicity_%28database_systems%29">atomic</a>, yaitu beberapa perintah dianggap sebagai satu kesatuan. Kalau satu gagal, yang lain juga harus dibatalkan.</p>
-
-<p>Contoh pada saat terjadi order penjualan proses yang terjadi adalah :</p>
-
-<ol>
-<li>Insert 1 kali ke tabel Order</li>
-<li>Insert n kali ke tabel OrderDetail</li>
-<li>Mengurangi stok barang (tidak di bahas di postingan ini), karena bisa juga diselesaikan dengan database trigger</li>
-</ol>
-
-
-<p>Ketika insert ke tabel OrderDetail gagal, maka tabel Ordernya juga harus di batalkan (undo), klo enggak ya datanya jadi enggak konsisten, karena ada nota Order yang enggak ada OrderDetailnya.</p>
-
-<p>Nah utk mempermudah proses <a href="http://en.wikipedia.org/wiki/Database_transaction">transaction</a>  ini kita bisa menggunakan objek collection untuk menyimpan objek OrderDetail yang kemudian kita binding ke objek Ordernya. Berhubung <a href="http://coding4ever.net/blog/categories/visual-basic/">Visual Basic 6</a> tidak mempunyai class collection yang sepadan dengan class collection yang ada di Visual Basic .NET atau bahasa pemrograman .NET lainnya, sebagai gantinya kita bisa menggunakan class <code>Scripting.Dictionary</code>. Tetapi untuk menggunakan class <code>Scripting.Dictionary</code> ini kita harus menambahkan referensi <code>Microsoft Scripting Runtime</code> terlebih dulu.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/100216-05.png"></p>
-
-<p>Dengan asumsi database berikut tabelnya sudah tersedia, langkah berikutnya adalah membuat class <code>Order</code> dan <code>OrderDetail</code>. Kedua class ini dikenal dengan istilah class model, yaitu class-class yang merupakan representasi dari tabel-tabel yang ada di database.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/100216-01.png"></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/100216-02.png"></p>
-
-<p>Nah class-class model ini biasanya mempunyai beberapa property yang juga merupakan representasi field-field yang ada di dalam tabel.</p>
-
-<div><script src='https://gist.github.com/b374ccae1ccd75e58f17.js'></script>
-<noscript><pre><code>&#39; tambahkan referensi Microsoft Scripting Runtime
-Option Explicit
-
-Private mOrderID            As Long
-Private mCustomerID         As String
-Private mOrderDate          As String
-Private mShipName           As String
-Private mShipAddress        As String
-Private mListOfOrderDetail  As Scripting.Dictionary
-
-Public Property Let orderID(ByVal vData As Long)
-    mOrderID = vData
-End Property
-Public Property Get orderID() As Long
-    orderID = mOrderID
-End Property
-
-Public Property Let customerID(ByVal vData As String)
-    mCustomerID = vData
-End Property
-Public Property Get customerID() As String
-    customerID = mCustomerID
-End Property
-
-Public Property Let orderDate(ByVal vData As String)
-    mOrderDate = vData
-End Property
-Public Property Get orderDate() As String
-    orderDate = mOrderDate
-End Property
-
-Public Property Let shipName(ByVal vData As String)
-    mShipName = vData
-End Property
-Public Property Get shipName() As String
-    shipName = mShipName
-End Property
-
-Public Property Let shipAddress(ByVal vData As String)
-    mShipAddress = vData
-End Property
-Public Property Get shipAddress() As String
-    shipAddress = mShipAddress
-End Property
-
-Public Property Let listOfOrderDetail(ByVal vData As Scripting.Dictionary)
-    Set mListOfOrderDetail = vData
-End Property
-
-Public Property Get listOfOrderDetail() As Scripting.Dictionary
-    Set listOfOrderDetail = mListOfOrderDetail
-End Property</code></pre></noscript></div>
-
-
-
-
-<div><script src='https://gist.github.com/52d180a02053e56fae2b.js'></script>
-<noscript><pre><code>Option Explicit
-
-Private mOrderID        As Long
-Private mProductID      As Long
-Private mUnitPrice      As Double
-Private mQuantity       As Integer
-Private mDiscount       As Single
-
-Public Property Let orderID(ByVal vData As Long)
-    mOrderID = vData
-End Property
-Public Property Get orderID() As Long
-    orderID = mOrderID
-End Property
-
-Public Property Let productID(ByVal vData As Long)
-    mProductID = vData
-End Property
-Public Property Get productID() As Long
-    productID = mProductID
-End Property
-
-Public Property Let unitPrice(ByVal vData As Double)
-    mUnitPrice = vData
-End Property
-Public Property Get unitPrice() As Double
-    unitPrice = mUnitPrice
-End Property
-
-Public Property Let quantity(ByVal vData As Integer)
-    mQuantity = vData
-End Property
-Public Property Get quantity() As Integer
-    quantity = mQuantity
-End Property
-
-Public Property Let discount(ByVal vData As Single)
-    mDiscount = vData
-End Property
-Public Property Get discount() As Single
-    discount = mDiscount
-End Property</code></pre></noscript></div>
-
-
-<p>Setelah class-class model selesai dibuat, untuk urusan <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a>-nya kita buat class tersendiri atau yang dikenal dengan istilah class-class <a href="http://coding4ever.net/blog/2011/09/08/implementasi-konsep-data-access-object-dao-di-vb-6/">DAO</a> atau <a href="https://msdn.microsoft.com/en-us/library/ff649690.aspx">Repository</a>.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/100216-03.png"></p>
-
-<p>Class <a href="http://coding4ever.net/blog/2011/09/08/implementasi-konsep-data-access-object-dao-di-vb-6/">DAO</a> ini biasanya berisi method-method standar seperti Save, Update, Delete dan Get. Tapi untuk contoh kali ini saya hanya menambahkan method Save. Karena kita ingin insert ke tabel Order dan OrderDetail dianggap sebagai satu kesatuan, maka diterapkanlah konsep <a href="http://en.wikipedia.org/wiki/Database_transaction">transaction</a> dengan menambahkan perintah-perintah <a href="http://en.wikipedia.org/wiki/Database_transaction">transaction</a> seperti <code>BeginTrans</code>, <code>CommitTrans</code> dan <code>RollbackTrans</code>.</p>
-
-<div><script src='https://gist.github.com/41b8f6f9570100a2dc98.js'></script>
-<noscript><pre><code>Option Explicit
-
-Private dbConn  As DbConnection
-Private conn    As ADODB.Connection
-Private strSql  As String
-
-Private Sub Class_Initialize()
-    Set dbConn = New DbConnection
-    Set conn = dbConn.GetOpenConnection
-End Sub
-
-Public Function Save(ByVal objOrder As Order) As Integer
-    Dim cmd             As ADODB.Command
-    Dim key             As Variant
-    Dim objItemOrder    As OrderDetail
-    
-    On Error GoTo errHandle
-
-    conn.BeginTrans &#39; begin transaction
-    
-    &#39; insert header
-    strSql = &quot;INSERT INTO Orders (OrderID, CustomerID, OrderDate, ShipName, ShipAddress) &quot; &amp; _
-             &quot;VALUES (?, ?, ?, ?, ?)&quot;
-    Set cmd = New ADODB.Command
-    With cmd
-        .ActiveConnection = conn
-        .CommandType = adCmdText
-        .CommandText = strSql
-        .Prepared = True
-        
-        .Parameters(0) = objOrder.orderID
-        .Parameters(1) = objOrder.customerID
-        .Parameters(2) = objOrder.orderDate
-        .Parameters(3) = objOrder.shipName
-        .Parameters(4) = objOrder.shipAddress
-
-        .Execute
-    End With
-    Set cmd = Nothing
-
-    &#39; insert detail
-    strSql = &quot;INSERT INTO OrderDetails (OrderID, ProductID, UnitPrice, Quantity, Discount) &quot; &amp; _
-             &quot;VALUES (?, ?, ?, ?, ?)&quot;
-
-    For Each key In objOrder.listOfOrderDetail
-        
-        &#39; ekstrak objek item order
-        Set objItemOrder = objOrder.listOfOrderDetail.Item(key)
-
-        Set cmd = New ADODB.Command
-        With cmd
-            .ActiveConnection = conn
-            .CommandType = adCmdText
-            .CommandText = strSql
-            .Prepared = True
-            
-            .Parameters(0) = objOrder.orderID
-            .Parameters(1) = objItemOrder.productID
-            .Parameters(2) = objItemOrder.unitPrice
-            .Parameters(3) = objItemOrder.quantity
-            .Parameters(4) = objItemOrder.discount
-            
-            .Execute
-        End With
-        Set cmd = Nothing
-    Next
-
-    conn.CommitTrans &#39; commit transaction
-    
-    Save = 1
-    
-    Exit Function
-
-errHandle:
-    conn.RollbackTrans &#39; error, rollback transaction
-    Save = 0
-End Function
-
-Private Sub Class_Terminate()
-    Call dbConn.CloseConnection(conn)
-End Sub</code></pre></noscript></div>
-
-
-<p>Nah klo kita perhatikan di bagian constructor (Class_Initialize), terdapat perintah untuk membuat objek Connection dengan memanggil method <code>GetOpenConnection</code> dari class <a href="https://gist.github.com/k4m4r82/de02c82aeceac1f83bd4">DbConnection</a>.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/100216-04.png"></p>
-
-<div><script src='https://gist.github.com/de02c82aeceac1f83bd4.js'></script>
-<noscript><pre><code>Option Explicit
-
-Public Function GetOpenConnection() As ADODB.Connection
-    Dim conn    As ADODB.Connection
-    Dim strCon  As String
-            
-    On Error GoTo errHandle
-        
-    strCon = &quot;DRIVER=SQLite3 ODBC Driver;Database=&quot; &amp; App.Path &amp; &quot;\db\Northwind.db;LongNames=0;Timeout=1000;NoTXN=0;SyncPragma=NORMAL;StepAPI=0&quot;
-    
-    Set conn = New ADODB.Connection
-    conn.ConnectionString = strCon
-    conn.Open
-    
-    Set GetOpenConnection = conn
-    
-    Exit Function
-errHandle:
-    &#39; do nothing
-End Function
-
-Public Sub CloseConnection(ByVal conn As ADODB.Connection)
-    If Not conn Is Nothing Then
-        If conn.State = adStateOpen Then conn.Close
-        Set conn = Nothing
-    End If
-End Sub</code></pre></noscript></div>
-
-
-<p>Setelah semua kodenya lengkap kita tinggal melakukan testing seperti berikut :</p>
-
-<div><script src='https://gist.github.com/ff6696a7d94a1a3e6967.js'></script>
-<noscript><pre><code>Option Explicit
-
-Public Sub Main()
-    &#39; buat objek Order
-    Dim objOrder As New Order
-    
-    With objOrder
-        .orderID = 123451
-        .customerID = &quot;SUPRD&quot;
-        .orderDate = &quot;2016-2-6&quot;
-        .shipName = &quot;Que Delícia&quot;
-        .shipAddress = &quot;Rua da Panificadora, 12&quot;
-    End With
-    
-    &#39; buat objek OrderDetail
-    &#39; objek #1
-    Dim objItemOrder1 As New OrderDetail
-    With objItemOrder1
-        .productID = 11
-        .unitPrice = 9.8
-        .quantity = 10
-        .discount = 0
-    End With
-    
-    &#39; objek #2
-    Dim objItemOrder2 As New OrderDetail
-    With objItemOrder2
-        .productID = 65
-        .unitPrice = 16.8
-        .quantity = 5
-        .discount = 0.15
-    End With
-    
-    &#39; objek #3
-    Dim objItemOrder3 As New OrderDetail
-    With objItemOrder3
-        .productID = 212
-        .unitPrice = 42.4
-        .quantity = 15
-        .discount = 0.25
-    End With
-    
-    &#39; hubungkan objek item order ke objek order
-    objOrder.listOfOrderDetail = New Scripting.Dictionary
-    objOrder.listOfOrderDetail.Add 1, objItemOrder1
-    objOrder.listOfOrderDetail.Add 2, objItemOrder2
-    objOrder.listOfOrderDetail.Add 3, objItemOrder3
-    
-    Dim dao     As New OrderDao
-    Dim result  As Integer
-    
-    result = dao.Save(objOrder)
-    If result &gt; 0 Then
-        Debug.Print &quot;Penyimpanan data order berhasil&quot;
-    Else
-        Debug.Print &quot;Penyimpanan data order gagal&quot;
-    End If
-End Sub</code></pre></noscript></div>
-
-
-<p>Selamat <a href="https://github.com/k4m4r82/DemoTransactionVB6">MENCOBA</a> :-)</p>
 ]]></content>
   </entry>
   

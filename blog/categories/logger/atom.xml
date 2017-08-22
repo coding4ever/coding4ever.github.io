@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Logger | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/logger/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2017-04-13T22:39:07+07:00</updated>
+  <updated>2017-08-22T16:03:33+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -18,7 +18,7 @@
     <link href="http://coding4ever.net/blog/2017/01/23/membuat-log-aplikasi-menggunakan-log4net/"/>
     <updated>2017-01-23T15:03:40+07:00</updated>
     <id>http://coding4ever.net/blog/2017/01/23/membuat-log-aplikasi-menggunakan-log4net</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2017/01/logo-log4net.png">https://coding4ever.files.wordpress.com/2017/01/logo-log4net.png</a>&#8221; width=&#8221;77&#8221; height=&#8221;64&#8221;>Secara teknis kita memang tidak bisa membuat aplikasi yang 100% bebas dari bug. Seberapa keraspun kita mencoba pasti aplikasi yang kita buat ada bugnya. Di sisi lain user adalah tester terbaik yang pernah ada :-D. Mereka bisa melakukan hal-hal luar biasa di luar perkiraan dan skenario kita yang bisa menyebabkan error, sayangnya user biasanya kurang bisa menjelaskan dengan baik apa yang menyebabkan error. Yang jelas, kita tidak dapat memperbaiki bug sampai kita tahu penyebabnya.</p>
+    <content type="html"><![CDATA[<p>{% img left <a href="https://coding4ever.files.wordpress.com/2017/01/logo-log4net.png">https://coding4ever.files.wordpress.com/2017/01/logo-log4net.png</a> 77 64 %}Secara teknis kita memang tidak bisa membuat aplikasi yang 100% bebas dari bug. Seberapa keraspun kita mencoba pasti aplikasi yang kita buat ada bugnya. Di sisi lain user adalah tester terbaik yang pernah ada :-D. Mereka bisa melakukan hal-hal luar biasa di luar perkiraan dan skenario kita yang bisa menyebabkan error, sayangnya user biasanya kurang bisa menjelaskan dengan baik apa yang menyebabkan error. Yang jelas, kita tidak dapat memperbaiki bug sampai kita tahu penyebabnya.</p>
 
 <!-- more -->
 
@@ -63,61 +63,42 @@
 
 <p>Sebelum menggunakan <a href="https://logging.apache.org/log4net/">Log4net</a> kita siapkan terlebih dulu project uji cobanya. Project ini bisa langsung Anda download di <a href="https://github.com/k4m4r82/DemoLog4Net">sini</a>.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/230117-01.png">https://coding4ever.files.wordpress.com/2017/01/230117-01.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/230117-01.png">https://coding4ever.files.wordpress.com/2017/01/230117-01.png</a> %}</p>
 
-<p>Project ini menggunakan konsep <a href="/blog/categories/repository-pattern/">Repository Pattern</a> untuk menerapkan <a href="https://en.wikipedia.org/wiki/Separation_of_concerns">konsep separation of concern</a> atau pemisahan kode program berdasarkan fungsinya. Semua kode untuk akses database harus dipisahkan dengan kode untuk pengaturan user interface. Informasi lebih lanjut tentang <a href="/blog/categories/repository-pattern/">Repository Pattern</a> bisa Anda cek di <a href="/blog/2016/02/22/repository-pattern/">sini</a>.</p>
+<p>Project ini menggunakan konsep <a href="{{%20site.url%20}}/blog/categories/repository-pattern/">Repository Pattern</a> untuk menerapkan <a href="https://en.wikipedia.org/wiki/Separation_of_concerns">konsep separation of concern</a> atau pemisahan kode program berdasarkan fungsinya. Semua kode untuk akses database harus dipisahkan dengan kode untuk pengaturan user interface. Informasi lebih lanjut tentang <a href="{{%20site.url%20}}/blog/categories/repository-pattern/">Repository Pattern</a> bisa Anda cek di <a href="{{%20site.url%20}}/blog/2016/02/22/repository-pattern/">sini</a>.</p>
 
 <h5>Langkah 1: Menyiapkan tabel untuk menyimpan hasil log</h5>
 
 <p>Seperti yang sudah saya jelaskan di bagian intro, bahwa <a href="https://logging.apache.org/log4net/">Log4net</a> mempunyai beberapa jenis objek appender yang bertugas untuk menampilkan log, salah satunya adalah  appender untuk menyimpan ke database. Karena data lognya akan disimpan ke database, tentunya kita harus menyiapkan struktur tabelnya terlebih dulu. Berdasarkan dokumentasi resmi <a href="https://logging.apache.org/log4net/release/config-examples.html">Apache log4net</a> struktur tabel standar yang digunakan adalah sebagai berikut:</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">Log</span> <span class="p">(</span>
-</span><span class='line'>    <span class="n">Id</span> <span class="nb">int</span> <span class="k">IDENTITY</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
-</span><span class='line'>    <span class="nb">Date</span> <span class="n">datetime</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">Thread</span> <span class="nb">varchar</span> <span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
-</span><span class='line'>    <span class="k">Level</span> <span class="nb">varchar</span> <span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">Logger</span> <span class="nb">varchar</span> <span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">Message</span> <span class="nb">varchar</span> <span class="p">(</span><span class="mi">4000</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
-</span><span class='line'>    <span class="k">Exception</span> <span class="nb">varchar</span> <span class="p">(</span><span class="mi">2000</span><span class="p">)</span> <span class="k">NULL</span>
-</span><span class='line'><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:sql %}
+CREATE TABLE Log (
+    Id int IDENTITY (1, 1) NOT NULL,
+    Date datetime NOT NULL,
+    Thread varchar (255) NOT NULL,
+    Level varchar (50) NOT NULL,
+    Logger varchar (255) NOT NULL,
+    Message varchar (4000) NOT NULL,
+    Exception varchar (2000) NULL
+)
+{% endcodeblock %}</p>
 
 <p>Karena tidak semua field tabel di atas kita butuhkan, selain itu ada beberapa field yang perlu kita tambahkan, sehingga struktur tabel log di atas kita revisi seperti berikut:</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">Logs</span><span class="p">(</span>
-</span><span class='line'>    <span class="n">LogID</span> <span class="nb">INTEGER</span> <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="n">AUTOINCREMENT</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
-</span><span class='line'>    <span class="k">Level</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
-</span><span class='line'>    <span class="n">ClassName</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">200</span><span class="p">),</span>
-</span><span class='line'>    <span class="n">MethodName</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span>
-</span><span class='line'>    <span class="n">Message</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span>
-</span><span class='line'>    <span class="n">NewValue</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">1000</span><span class="p">),</span>
-</span><span class='line'>    <span class="n">OldValue</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">1000</span><span class="p">),</span>
-</span><span class='line'>    <span class="k">Exception</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">1000</span><span class="p">),</span>
-</span><span class='line'>    <span class="n">CreatedBy</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span>
-</span><span class='line'>    <span class="n">LogDate</span> <span class="n">DATETIME</span> <span class="k">DEFAULT</span> <span class="k">CURRENT_TIMESTAMP</span>
-</span><span class='line'><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:sql %}
+CREATE TABLE Logs(
+    LogID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    Level VARCHAR(10),
+    ClassName VARCHAR(200),
+    MethodName VARCHAR(100),
+    Message VARCHAR(100),
+    NewValue VARCHAR(1000),
+    OldValue VARCHAR(1000),
+    Exception VARCHAR(1000),
+    CreatedBy VARCHAR(50),
+    LogDate DATETIME DEFAULT CURRENT_TIMESTAMP
+)
+{% endcodeblock %}</p>
 
 <p>Penjelasan struktur tabel:</p>
 
@@ -135,27 +116,27 @@
 
 <p>Di bawah ini adalah contoh hasil log yang sudah disimpan ke dalam database.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/230117-021.png">https://coding4ever.files.wordpress.com/2017/01/230117-021.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/230117-021.png">https://coding4ever.files.wordpress.com/2017/01/230117-021.png</a> %}</p>
 
-<h5>Langkah 2: Menambahkan library <a href="https://logging.apache.org/log4net/">Log4net</a> via <a href="/blog/2014/03/11/nuget/">nuget package manager</a></h5>
+<h5>Langkah 2: Menambahkan library <a href="https://logging.apache.org/log4net/">Log4net</a> via <a href="{{%20site.url%20}}/blog/2014/03/11/nuget/">nuget package manager</a></h5>
 
 <p>Library <a href="https://logging.apache.org/log4net/">Log4net</a> sudah tersedia di repository <a href="http://www.nuget.org/">nuget</a> sehingga mempermudah kita dalam proses instalasinya.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/230117-03.png">https://coding4ever.files.wordpress.com/2017/01/230117-03.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/230117-03.png">https://coding4ever.files.wordpress.com/2017/01/230117-03.png</a> %}</p>
 
 <h5>Langkah 3: Menambahkan class Log4NetRepository dan Log4NetAppender</h5>
 
-<p>Setelah menyiapkan tabel <code>logs</code> (langkah 1), langkah berikutnya adalah menambahkan <a href="https://github.com/k4m4r82/DemoLog4Net/blob/master/src/Northwind.Repository.Service/Log4NetRepository.cs">class repository</a> untuk mengakses tabel tersebut. Class ini dibuat berdasarkan <a href="/blog/categories/repository-pattern/">repository pattern</a> yang sudah pernah saya bahas di <a href="/blog/categories/repository-pattern/">sini</a>.</p>
+<p>Setelah menyiapkan tabel <code>logs</code> (langkah 1), langkah berikutnya adalah menambahkan <a href="https://github.com/k4m4r82/DemoLog4Net/blob/master/src/Northwind.Repository.Service/Log4NetRepository.cs">class repository</a> untuk mengakses tabel tersebut. Class ini dibuat berdasarkan <a href="{{%20site.url%20}}/blog/categories/repository-pattern/">repository pattern</a> yang sudah pernah saya bahas di <a href="{{%20site.url%20}}/blog/categories/repository-pattern/">sini</a>.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/230117-04.png">https://coding4ever.files.wordpress.com/2017/01/230117-04.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/230117-04.png">https://coding4ever.files.wordpress.com/2017/01/230117-04.png</a> %}</p>
 
 <p>Class <a href="https://github.com/k4m4r82/DemoLog4Net/blob/master/src/Northwind.Repository.Service/Log4NetRepository.cs">Log4NetRepository</a> ini nantinya akan kita akses melalui class <a href="https://github.com/k4m4r82/DemoLog4Net/blob/master/src/Northwind.Repository.Service/Log4NetAppender.cs">Log4NetAppender</a>. Class <a href="https://github.com/k4m4r82/DemoLog4Net/blob/master/src/Northwind.Repository.Service/Log4NetAppender.cs">Log4NetAppender</a> merupakan class  custom Log4Net appender yang merupakan turunan dari class <a href="https://logging.apache.org/log4net/log4net-1.2.13/release/sdk/log4net.Appender.AppenderSkeleton.html">AppenderSkeleton</a>. Class ini akan meng-override method Append.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/230117-05.png">https://coding4ever.files.wordpress.com/2017/01/230117-05.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/230117-05.png">https://coding4ever.files.wordpress.com/2017/01/230117-05.png</a> %}</p>
 
 <p>Setelah itu kita lengkapi kode implementasinya seperti berikut:</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/230117-06.png">https://coding4ever.files.wordpress.com/2017/01/230117-06.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/230117-06.png">https://coding4ever.files.wordpress.com/2017/01/230117-06.png</a> %}</p>
 
 <p>Untuk informasi lebih lanjut tentang <code>log4net appender</code> bisa Anda cek di <a href="https://logging.apache.org/log4net/release/config-examples.html">sini</a>.</p>
 
@@ -163,19 +144,19 @@
 
 <p>Edit file app.config/web.config, di file ini kita akan menambahkan konfigurasi log4net untuk mengeset custom appender dan level logging yang sudah kita buat dilangkah 3.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/230117-07.png">https://coding4ever.files.wordpress.com/2017/01/230117-07.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/230117-07.png">https://coding4ever.files.wordpress.com/2017/01/230117-07.png</a> %}</p>
 
 <h5>Langkah 5: Tes Pemanggilan Objek Logger</h5>
 
 <p>Sebelum kita lanjut ke tes pemanggilan objek logger, aktifkan terlebih dulu class  entry point (<a href="https://github.com/k4m4r82/DemoLog4Net/blob/master/src/Northwind.WinFormApp/Program.cs">Program.cs</a>). Setelah itu tambahkan kode berikut:</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/230117-08.png">https://coding4ever.files.wordpress.com/2017/01/230117-08.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/230117-08.png">https://coding4ever.files.wordpress.com/2017/01/230117-08.png</a> %}</p>
 
 <p>Dibaris ke 9, kita menambahkan attribut <code>[assembly: log4net.Config.XmlConfigurator(Watch = true)]</code> yang berfungsi untuk membaca konfigurasi log4net yang tersimpan di file app.config/web.config.</p>
 
 <p>Dibaris 14 kita menambahkan public static objek dengan nama log (logger), objek inilah yang bertugas untuk mengeluaran pesan log. Dan terakhir di baris 23 kita menambahkan custom property dengan nama <code>UserName</code>. Nilai property ini akan di baca oleh class <a href="https://github.com/k4m4r82/DemoLog4Net/blob/master/src/Northwind.Repository.Service/Log4NetAppender.cs">custome Log4Net appender</a> sebelum di simpan ke database.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/230117-09.png">https://coding4ever.files.wordpress.com/2017/01/230117-09.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/230117-09.png">https://coding4ever.files.wordpress.com/2017/01/230117-09.png</a> %}</p>
 
 <p>Setelah semua persiapan selesai, kita akan memanggil objek logger pada event/method tertentu, misal pada saat menyimpan data (Save), Edit data (Update) dan Hapus Data (Delete).</p>
 
@@ -183,17 +164,17 @@
 
 <p>Berikut adalah contoh pemanggilan objek logger untuk method Save.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/230117-10.png">https://coding4ever.files.wordpress.com/2017/01/230117-10.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/230117-10.png">https://coding4ever.files.wordpress.com/2017/01/230117-10.png</a> %}</p>
 
 <p>Perhatikan baris ke 115, kita mengeset nilai custom property dengan nama <code>NewValue</code>. Isinya adalah nilai dari objek class model/entity yang sudah di konversi ke format <a href="http://www.json.org/">JSON</a>. Method <code>ToJson</code> adalah <a href="https://msdn.microsoft.com/en-us//library/bb383977.aspx">method extension</a> yang saya tambahkan untuk mempermudah proses konversi dari objek class model/entity ke format json. Saya sendiri menganggap <a href="https://msdn.microsoft.com/en-us//library/bb383977.aspx">method extension</a> ini sebagai <code>jurus terlarang</code> :-D, kenapa terlarang karena <a href="https://msdn.microsoft.com/en-us//library/bb383977.aspx">method extension</a> ini melanggar salah satu aturan dalam dunia <a href="https://en.wikipedia.org/wiki/Object-oriented_programming">OOP</a> yaitu kita bisa menambahkan method baru dari sebuah class tanpa melalui mekanisme pewarisan (inheritance). Berikut kode untuk <a href="https://msdn.microsoft.com/en-us//library/bb383977.aspx">method extension</a> <a href="https://github.com/k4m4r82/DemoLog4Net/blob/master/src/Northwind.Model/ModelExtension.cs">ToJson</a>.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/230117-11.png">https://coding4ever.files.wordpress.com/2017/01/230117-11.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/230117-11.png">https://coding4ever.files.wordpress.com/2017/01/230117-11.png</a> %}</p>
 
 <p>Kembali ke method Save di atas,jika dipanggil akan menghasilkan log seperti berikut:</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/230117-12.png">https://coding4ever.files.wordpress.com/2017/01/230117-12.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/230117-12.png">https://coding4ever.files.wordpress.com/2017/01/230117-12.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/230117-21.png">https://coding4ever.files.wordpress.com/2017/01/230117-21.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/230117-21.png">https://coding4ever.files.wordpress.com/2017/01/230117-21.png</a> %}</p>
 
 <p>Perhatikan field <code>NewValue</code> di atas, isinya adalah nilai dari objek Category yang sudah di konversi ke dalam format json.</p>
 
@@ -201,21 +182,21 @@
 
 <p>Mirip dengan contoh pemanggilan objek logger untuk method Save. Hanya saja di sini kita mengeset nilai custom property dengan nama <code>OldValue</code> yang isinya adalah nilai objek class model/entity yang sudah  dikonversi ke json.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/230117-13.png">https://coding4ever.files.wordpress.com/2017/01/230117-13.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/230117-13.png">https://coding4ever.files.wordpress.com/2017/01/230117-13.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/230117-14.png">https://coding4ever.files.wordpress.com/2017/01/230117-14.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/230117-14.png">https://coding4ever.files.wordpress.com/2017/01/230117-14.png</a> %}</p>
 
 <h4>Logger untuk Method Update</h4>
 
 <p>Khusus untuk method Update kita akan me-log dua data yaitu data sebelum (OldValue) dan sesudah (NewValue) diupdate. Jadi kita akan memanggil objek logger di dua lokasi yang berbeda yaitu di layer User Interface (UI) dan layer Data Access (Repository).</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/230117-15.png">https://coding4ever.files.wordpress.com/2017/01/230117-15.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/230117-15.png">https://coding4ever.files.wordpress.com/2017/01/230117-15.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/230117-16.png">https://coding4ever.files.wordpress.com/2017/01/230117-16.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/230117-16.png">https://coding4ever.files.wordpress.com/2017/01/230117-16.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/230117-17.png">https://coding4ever.files.wordpress.com/2017/01/230117-17.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/230117-17.png">https://coding4ever.files.wordpress.com/2017/01/230117-17.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/230117-18.png">https://coding4ever.files.wordpress.com/2017/01/230117-18.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/230117-18.png">https://coding4ever.files.wordpress.com/2017/01/230117-18.png</a> %}</p>
 
 <p>Field <code>NewValue</code> akan berisi dengan data setelah diupdate, sedangkan field <code>OldValue</code> akan berisi dengan data sebelum diupdate.</p>
 
@@ -223,9 +204,9 @@
 
 <p>Untuk log exception/error bisa langsung kita tempatkan di blok try .. catch.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/230117-19.png">https://coding4ever.files.wordpress.com/2017/01/230117-19.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/230117-19.png">https://coding4ever.files.wordpress.com/2017/01/230117-19.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/230117-20.png">https://coding4ever.files.wordpress.com/2017/01/230117-20.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/230117-20.png">https://coding4ever.files.wordpress.com/2017/01/230117-20.png</a> %}</p>
 
 <h3>Kesimpulan</h3>
 

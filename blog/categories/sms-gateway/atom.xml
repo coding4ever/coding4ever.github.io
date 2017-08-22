@@ -1,0 +1,1120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Sms Gateway | Coding4ever's Blog]]></title>
+  <link href="http://coding4ever.net/blog/categories/sms-gateway/atom.xml" rel="self"/>
+  <link href="http://coding4ever.net/"/>
+  <updated>2017-08-22T16:03:33+07:00</updated>
+  <id>http://coding4ever.net/</id>
+  <author>
+    <name><![CDATA[Admin]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Membuat Service SMS Gateway Untuk Engine Gammu]]></title>
+    <link href="http://coding4ever.net/blog/2017/08/22/membuat-service-sms-gateway-untuk-engine-gammu/"/>
+    <updated>2017-08-22T15:59:07+07:00</updated>
+    <id>http://coding4ever.net/blog/2017/08/22/membuat-service-sms-gateway-untuk-engine-gammu</id>
+    <content type="html"><![CDATA[<p>{% img left <a href="https://coding4ever.files.wordpress.com/2017/08/gammu.png">https://coding4ever.files.wordpress.com/2017/08/gammu.png</a> 100 100 %}Pasti udah pada tau kan apa itu <a href="https://wammu.eu/gammu/">Gammu</a> ? Klo enggak ya keterlaluan he he. Itu loh engine yang biasa digunakan untuk mengirim dan menerima sms dan biasanya sering digunakan untuk membuat sms gateway.</p>
+
+<p>Di postingan ini saya tidak akan membahas bagaimana cara instalasi <a href="https://wammu.eu/gammu/">Gammu</a>, konfigurasi dan database yang digunakan. Jadi saya mengasumsikan bahwa service Gammu Anda (GammuSMSD) sudah berjalan dengan baik, dengan kata lain jika ada sms masuk ke nomor yang Anda gunakan sebagai sms center, maka service <a href="https://wammu.eu/gammu/">Gammu</a> otomatis akan meng-INSERT-kan sms tersebut ke tabel inbox.</p>
+
+<!-- more -->
+
+
+<h3>Struktur Tabel Gammu</h3>
+
+<p>Sebelum kita lanjut bagaimana membuat windows service untuk engine <a href="https://wammu.eu/gammu/">Gammu</a> ada baiknya kita melihat dulu struktur tabel <a href="https://wammu.eu/gammu/">Gammu</a> secara menyeluruh.</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/08/20170822-01.png">https://coding4ever.files.wordpress.com/2017/08/20170822-01.png</a> %}</p>
+
+<p>Dari keenam tabel di atas, kita cukup fokus di 3 tabel utama yaitu <code>inbox</code>, <code>outbox</code> dan <code>outbox_multipart</code>. Tabel inbox otomatis terisi, jika ada sama masuk tentunya dengan syarat service Gammu Anda (GammuSMSD) sudah berjalan dengan baik. Di tabel inbox ini juga sudah ada field dengan nama Processed yang bisa kita gunakan sebagai flag/penanda sms yang sudah diproses.</p>
+
+<p>Nah jika ada sms yang mau dikirim, tinggal kita INSERT-kan datanya secara manual ke tabel outbox. Dan jika smsnya panjang (lebih dari 160 karakter), smsnya harus kita pecah menjadi 2, 3, dst sesuai dengan jumlah karakter yang mau dikirim. Setelah dipecah, sms pertama masuk ke tabel outbox, dan sisanya masuk ke tabel outbox_multipart.</p>
+
+<p>Untuk informasi lebih lanjut tentang struktur database <a href="https://wammu.eu/gammu/">Gammu</a> bisa Anda cek di <a href="https://wammu.eu/docs/manual/smsd/tables.html">sini</a>.</p>
+
+<h3>Konfigurasi Gammu</h3>
+
+<p>Untuk konfigurasi gammu ada dua file yang harus kita edit nilainya yaitu file <code>smsdrc</code> dan <code>gammurc</code>. File ini biasanya ada di folder <code>Instalasi Gammu\share\doc\gammu\examples\config</code> trus kita copykan ke folder <code>Instalasi Gammu\bin</code>. Berikut adalah contoh konfigurasi gammu yang saya gunakan.</p>
+
+<p>{% codeblock %}</p>
+
+<h1>konfigurasi file gammurc</h1>
+
+<p>[gammu]
+device = com3:
+connection = at115200
+{% endcodeblock %}</p>
+
+<p>{% codeblock %}</p>
+
+<h1>konfigurasi file smsdrc</h1>
+
+<p>[gammu]
+device = com3:
+connection = at115200</p>
+
+<p>[smsd]</p>
+
+<h1>SMSD service to use, one of FILES, MYSQL, PGSQL, DBI</h1>
+
+<p>service = SQL</p>
+
+<h1>File (or stderr, syslog, eventlog) where information will be logged</h1>
+
+<p>logfile = C:\gammu\log\gammu.log</p>
+
+<h1>Amount of information being logged, each bit mean one level</h1>
+
+<p>debuglevel = 255</p>
+
+<h1>How many seconds should SMSD wait after there is no message in outbox before scanning it again. Default is 30.</h1>
+
+<p>commtimeout = 1</p>
+
+<h1>Shows how many seconds SMSD should wait for network answer during sending sms. If nothing happen during this time, sms will be resent. Default is 30.</h1>
+
+<p>sendtimeout = 10</p>
+
+<h1>Phone communication settings</h1>
+
+<p>checksecurity = 0
+CheckBattery = 0</p>
+
+<h1>Database backends congfiguration</h1>
+
+<p>user = root
+password = rahasia
+host = gammuodbc</p>
+
+<h1>pc can also contain port or socket path after colon (eg. localhost:/path/to/socket)</h1>
+
+<p>database = db_gammu</p>
+
+<h1>DBI configuration</h1>
+
+<p>driver = odbc</p>
+
+<h1>Possible values: mysql, pgsql, sqlite, mssql (Microsoft SQL Server), access (Microsoft Access), oracle</h1>
+
+<h1>ref: <a href="https://wammu.eu/docs/manual/smsd/config.html#gammu-smsdrc">https://wammu.eu/docs/manual/smsd/config.html#gammu-smsdrc</a></h1>
+
+<p>sql = mysql
+{% endcodeblock %}</p>
+
+<p>Coba perhatikan konfigurasi pada file <code>smsdrc</code> di atas terutama di bagian <code>host</code>, nilainya kita isikan dengan nama ODBC yang terhubung ke database gammu, dan untuk membuat ODBCnya kita gunakan fasilitas ODBC Data Source.</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/08/20170822-02.png">https://coding4ever.files.wordpress.com/2017/08/20170822-02.png</a> %}</p>
+
+<p>Untuk menambahkan ODBC di atas, sebelumnya kita harus menginstall terlebih dulu MySQL Connector/ODBC.</p>
+
+<h3>Environment Testing dan Development Tool yang Digunakan</h3>
+
+<ul>
+<li>Windows 7 Pro 64 bit</li>
+<li>Visual Studio Community 2013 – untuk bahasa yang digunakan C#</li>
+<li>Tipe aplikasi – Windows Service</li>
+<li>Micro ORM <a href="{{%20site.url%20}}/blog/categories/dapper-net/">Dapper.NET</a></li>
+<li>Gammu-1.38.4-Windows-64bit</li>
+<li>Database SQLite – untuk menyimpan data siswa, mata pelajaran dan nilai</li>
+<li>Database MySQL v5.5.45 – untuk menyimpan data gammu</li>
+<li>MySQL Connector/ODBC v5.3.9</li>
+<li>Modem Wavecom M1306B</li>
+</ul>
+
+
+<p>Kok menggunakan Connector/ODBC ? Iya karena Gammu v1.38.4 sudah mendukung koneksi menggunakan ODBC. Jadi selain MySQL, dengan menggunakan ODBC dukungan databasenya jadi lebih banyak seperti PostgreSQL, SQLite, Oracle, MS SQL Server dan MS Access.</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/08/20170822-03.png">https://coding4ever.files.wordpress.com/2017/08/20170822-03.png</a> %}</p>
+
+<h3>Contoh Kasus</h3>
+
+<p>Untuk contoh kasusnya kita akan membuat service sms gateway untuk request data yang berhubungan dengan siswa seperti data pribadi, mata pelajaran dan nilai. Service sms gateway ini akan terhubung ke dua database yaitu database gammu yang tersimpan di MySQL dan database nilai yang tersimpan di SQLite. Sms gateway ini mempunyai beberapa format request data yaitu:</p>
+
+<p>{% codeblock %}
+CEKMP                 # request data mata pelajaran
+CEKSISWA#NIS           # request data siswa
+CEKNILAI#NIS#<KODE MP> # request data nilai, kode mp optional
+{% endcodeblock %}</p>
+
+<p>Untuk data siswa, mata pelajaran dan nilainya disimpan menggunakan database SQLite.</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/08/20170822-04.png">https://coding4ever.files.wordpress.com/2017/08/20170822-04.png</a> %}</p>
+
+<h3>Project SMS Gateway</h3>
+
+<p>Project SMS Gateway ini dibangun dengan menggunakan <a href="https://en.wikipedia.org/wiki/Separation_of_concerns">konsep separation  of  concern</a> atau pemisahan kode program berdasarkan fungsinya. Semua kode untuk akses database harus dipisahkan dengan kode untuk pengaturan user inteface. Hal ini memungkinkan kode akses database yang dibuat untuk aplikasi desktop, dengan mudah digunakan untuk aplikasi lainnya seperti web, console atau windows service. Selain itu penerapan konsep <a href="https://en.wikipedia.org/wiki/Separation_of_concerns">separation  of  concern</a> secara disiplin, dapat menghasilkan kode program yang dapat dites secara otomatis menggunakan tool <a href="https://en.wikipedia.org/wiki/Unit_testing">Unit Testing</a>.</p>
+
+<p>Untuk urusan kode akses database, project ini menggunakan pattern/pola <a href="{{%20site.url%20}}/blog/2016/02/22/repository-pattern/">Repository Pattern</a> yang berisi semua kode untuk mengakses database. Semua kode yang sepesifik terhadap implementasi akses database berhenti di sini, lapisan lebih atas tidak boleh tahu bagaimana akses database diterapkan, apakah menggunakan ADO.NET murni (raw ADO.NET) atau menggunakan tool ORM/Micro ORM seperti <a href="{{%20site.url%20}}/blog/categories/dapper-net/">Dapper.NET</a>, <a href="{{%20site.url%20}}/blog/categories/entity-framework/">Entity Framework</a> atau NHibernate. Lapisan lainya hanya perlu tahu fungsionalitas dari suatu method di dalam class Repository, tidak perlu tahu bagimana method tersebut diimplementasikan.</p>
+
+<p>Idealnya secara logic, arsitektur aplikasi yang kita gunakan seperti berikut:</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/08/20170822-05.png">https://coding4ever.files.wordpress.com/2017/08/20170822-05.png</a> %}</p>
+
+<p>Tetapi untuk menyederhanakan pembahasan business logic layer bisa kita gabung ke presentation layer, sehingga arsitekturnya menjadi seperti berikut:</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/08/20170822-06.png">https://coding4ever.files.wordpress.com/2017/08/20170822-06.png</a> %}</p>
+
+<p>Nah untuk contoh project SMS Gateway ini menggunakan arsitektur yang kedua.</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/08/20170822-07.png">https://coding4ever.files.wordpress.com/2017/08/20170822-07.png</a> %}</p>
+
+<p>Yang pertama adalah project <code>WindowsServiceGammu.Model</code>. Project ini bertipe <code>Class Library</code> yang berisi class model/entity yang merupakan representasi dari sebuah table. Jadi kalo kita ingin menerapkan konsep OOP dalam pemrograman database maka class-class model/entity ini wajib kita gunakan.</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/08/20170822-08.png">https://coding4ever.files.wordpress.com/2017/08/20170822-08.png</a> %}</p>
+
+<p>Berikutnya adalah project <code>WindowsServiceGammu.Repository</code>. Project ini bertipe <code>Class Library</code> yang berisi class-class repository yang bertugas untuk menangani operasi CRUD. Biasanya untuk masing-masing class model/entity kita buatkan class repositorynya.</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/08/20170822-09.png">https://coding4ever.files.wordpress.com/2017/08/20170822-09.png</a> %}</p>
+
+<p>Pada gambar di atas saya menggunakan dua class context yaitu <a href="https://github.com/k4m4r82/gammu-sms-gateway/blob/master/src/WindowsServiceGammu.Repository/Context/MySqlContext.cs">MySqlContext</a> dan <a href="https://github.com/k4m4r82/gammu-sms-gateway/blob/master/src/WindowsServiceGammu.Repository/Context/SQLiteContext.cs">SQLiteContext</a>. Class context adalah class yang bertanggung jawab untuk berinteraksi secara langsung dengan database. Jadi class contextlah yang bertugas untuk membuat koneksi, menjalankan perintah sql seperti insert, update, delete dan select atau objek database seperti store procedure dan function. Selain class context juga ada class-class repository yang bertugas untuk menangani operasi CRUD. Berikut adalah contoh class repository untuk class <a href="https://github.com/k4m4r82/gammu-sms-gateway/blob/master/src/WindowsServiceGammu.Repository/SiswaRepository.cs">SiswaRepository</a> dan <a href="https://github.com/k4m4r82/gammu-sms-gateway/blob/master/src/WindowsServiceGammu.Repository/GammuRepository.cs">GammuRepository</a>.</p>
+
+<p>{% gist 6398e259ef86dcf1a3386a2e3cd55215 %}</p>
+
+<p>{% gist e7f4273deeec9753254b46b8a830fa5d %}</p>
+
+<p>Untuk class repository lainnya bisa Anda cek di <a href="https://github.com/k4m4r82/gammu-sms-gateway/tree/master/src/WindowsServiceGammu.Repository">sini</a>.</p>
+
+<p>Dan yang terakhir adalah project <code>WindowsServiceGammu.Service</code> yang bertipe <code>Windows Service</code>. Project ini tidak bisa dijalankan secara langsung seperti halnya project dengan tipe Console atau Windows Form, tapi harus didaftarkan terlebih dahulu ke Windows Service.</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/08/20170822-10.png">https://coding4ever.files.wordpress.com/2017/08/20170822-10.png</a> %}</p>
+
+<p>Project ini hanya memanggil class-class model atau repository yang sudah ada.</p>
+
+<p>Ada dua class utama yang digunakan oleh project ini yang pertama yaitu class <code>MainService</code> yang merupakan turunan dari class ServiceBase. Class ServiceBase adalah class bawaan .NET Framework yang merupakan class dasar agar sebuah aplikasi bisa di register/menjadi bagian dari aplikasi service (Windows Service).</p>
+
+<p>{% gist 1713b5f3b53013a0cf2e0e5c199875cf %}</p>
+
+<p>Berikutnya adalah class <code>SMSGatewayTask</code> yang bertugas untuk membaca tabel inbox-nya gammu, memvalidasi perintah yang ada dan mengenerate pesan balasan dan kemudian menyimpannya ke tabel outbox. Semua aktivitas membaca dan menyimpan kembali ke database ini dibantu oleh class-class repository.</p>
+
+<p>{% gist 5d25b7f4ab056635fc915bb1404cf909 %}</p>
+
+<h3>Instalasi Windows Service</h3>
+
+<p>Seperti yang sudah saya jelaskan di atas, project dengan tipe Windows Service tidak bisa dijalankan secara langsung seperti halnya project dengan tipe Console atau Windows Form, tapi harus didaftarkan terlebih dahulu ke Windows Service. Untuk mendaftarkannya kita gunakan tool bawaan .NET Framework yaitu InstallUtil.exe.</p>
+
+<p>{% codeblock %}</p>
+
+<h1>install service</h1>
+
+<p>%WINDIR%\Microsoft.NET\Framework\v4.0.30319\InstallUtil.exe WindowsServiceGammu.Service.exe</p>
+
+<h1>uninstall service</h1>
+
+<p>%WINDIR%\Microsoft.NET\Framework\v4.0.30319\InstallUtil.exe WindowsServiceGammu.Service.exe /u
+{% endcodeblock %}</p>
+
+<p>Jika berhasil seharusnya service sms gateway yang sudah kita buat akan terdaftar di Windows Service.</p>
+
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/08/20170822-11.png">https://coding4ever.files.wordpress.com/2017/08/20170822-11.png</a> %}</p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/gammu-sms-gateway">MENCOBA</a> :-)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[SMS Gateway Edisi .NET Part 1]]></title>
+    <link href="http://coding4ever.net/blog/2014/05/10/sms-gateway-edisi-net-part-1/"/>
+    <updated>2014-05-10T10:11:25+07:00</updated>
+    <id>http://coding4ever.net/blog/2014/05/10/sms-gateway-edisi-net-part-1</id>
+    <content type="html"><![CDATA[<p>{% img left <a href="http://coding4ever.files.wordpress.com/2014/05/sms_gateway.png">http://coding4ever.files.wordpress.com/2014/05/sms_gateway.png</a> %}Postingan pertama di <a href="{{%20site.url%20}}">domain</a> yang baru :), saya ingin membahas lagi tentang pembuatan aplikasi SMS Gateway. Alasannya sederhana karna salah satu artikel yang paling banyak dibaca di blog ini adalah artikel <a href="{{%20site.url%20}}/blog/2010/07/12/membuat-sms-gateway-itu-gampang-jangan-dipersulit/">Membuat Sms Gateway Itu Gampang, Jangan Dipersulit !!!</a>.</p>
+
+<p>Jika pada artikel <a href="{{%20site.url%20}}/blog/2010/07/12/membuat-sms-gateway-itu-gampang-jangan-dipersulit/">Membuat Sms Gateway Itu Gampang, Jangan Dipersulit !!!</a>, kita menggunakan bahasa pemrograman VB 6, untuk postingan kali ini kita akan menggunakan bahasa pemrograman C#.</p>
+
+<!-- more -->
+
+
+<p>Untuk membaca dan mengirim sms kita akan menggunakan library <a href="http://www.nuget.org/packages/GSMComm/">GSMComm</a>, yang bisa diinstall via <a href="{{%20site.url%20}}/blog/categories/nuget/">NuGet</a>.</p>
+
+<p>Sebelum lanjut kita lihat dulu fitur dari library <a href="http://www.nuget.org/packages/GSMComm/">GSMComm</a> :</p>
+
+<ul>
+<li>Manage SMS messages: Send, read, delete, store, import and export messages, get memory status, get/set SMSC.</li>
+<li>Manage the phonebook: Create, find, delete, read, import and export phonebook entries, get memory status.</li>
+<li>Manage the phone: Read general info, reset configuration, enter PIN</li>
+<li>Supports notifications about new messages as well as forwarding them directly to the application.</li>
+<li>Detect phone connection/disconnection.</li>
+<li>Other SMS message variants also possible, such as alerts and notifications.</li>
+<li>Support for Smart Messaging and related messages to create, locate and recombine concatenated text messages, and also to create operator logo messages.</li>
+<li>Logging support with 4 levels to assist in troubleshooting.</li>
+<li>Support for GSM 7-bit default alphabet and Unicode for the message text.</li>
+<li>Supports some operator functions.</li>
+<li>Remoting support for sending SMS messages.</li>
+<li>SMS batch mode for faster sending of multiple messages.</li>
+<li>Execution of custom commands that are not directly supported.</li>
+</ul>
+
+
+<p>Keren bukan untuk ukuran library gratis :)</p>
+
+<p>Pada postingan bagian pertama ini kita hanya akan membahas perintah-perintah dasar yang dibutuhkan untuk membuat aplikasi SMS Gateway, seperti <code>koneksi ke device modem atau hp</code>, <code>membaca sms masuk</code>, dan <code>mengirim sms</code>.</p>
+
+<h3>Membuat Project</h3>
+
+<p>Project yang kita gunakan adalah project berbasis Windows Form.</p>
+
+<p>{% img center <a href="http://coding4ever.files.wordpress.com/2014/05/1.png">http://coding4ever.files.wordpress.com/2014/05/1.png</a> %}</p>
+
+<h3>Menambahkan Library <a href="http://www.nuget.org/packages/GSMComm/">GSMComm</a> via <a href="{{%20site.url%20}}/blog/categories/nuget/">NuGet</a></h3>
+
+<ul>
+<li><p>Klik kanan node References -> Manage NuGet Packages &hellip;</p>
+
+<p>{% img center <a href="http://coding4ever.files.wordpress.com/2014/05/21.png">http://coding4ever.files.wordpress.com/2014/05/21.png</a> %}</p></li>
+<li><p>Pada tab Online pilih nuget.org, pada kotak pencarian ketik <code>gsm</code>, kemudian klik tombol <code>Install</code>.</p>
+
+<p>{% img center <a href="http://coding4ever.files.wordpress.com/2014/05/3.png">http://coding4ever.files.wordpress.com/2014/05/3.png</a> %}</p></li>
+</ul>
+
+
+<p>kemudian tunggu sampai proses instalasi selesai.</p>
+
+<p>{% img center <a href="http://coding4ever.files.wordpress.com/2014/05/4.png">http://coding4ever.files.wordpress.com/2014/05/4.png</a> %}</p>
+
+<p>Tutup dialog NuGet package, Kemudian cek node references, seharusnya ada empat library baru yang sudah ditambahkan yaitu <code>GSMCommServer</code>, <code>GSMCommShared</code>, <code>GSMCommunication</code> dan <code>PDUConverter</code>.</p>
+
+<p>{% img center <a href="http://coding4ever.files.wordpress.com/2014/05/5.png">http://coding4ever.files.wordpress.com/2014/05/5.png</a> %}</p>
+
+<p>Library <code>PDUConverter</code> bertanggung jawaban untuk melakukan proses <code>decoding</code> pesan sms, sedangkan yang bertugas untuk melakukan komunikasi ke modem atau hp adalah library <code>GSMCommunication</code>.</p>
+
+<p>Untuk library <code>GSMCommServer</code> dan <code>GSMCommShared</code> hanya digunakan jika kita ingin mengaktifkan fitur <a href="{{%20site.url%20}}/blog/categories/dot-net-remoting/">.NET Remoting</a> untuk mengirim sms.</p>
+
+<p>Setelah semua persiapan selesai, kita bisa langsung mencoba perintah-perintah dasar yang diperlukan untuk pembuatan aplikasi sms gateway.</p>
+
+<h3>1. Konek ke device modem atau hp</h3>
+
+<p>Untuk melakukan koneksi ke modem atau hp, ada beberapa tahapan yang harus kita lakukan :</p>
+
+<ul>
+<li>Membuat objek dari class GsmCommMain</li>
+<li>Mendaftarkan method ke event <code>MessageReceived</code>, yang dikenal dengan istilah <a href="http://www.codeproject.com/Articles/11657/Understanding-Delegates-in-C">delegate</a>    method.</li>
+<li>Memanggil method <code>Open</code>.</li>
+</ul>
+
+
+<p><strong>Membuat objek dari class GsmCommMain</strong></p>
+
+<p>Misal kita akan membuat sebuah objek dari class GsmCommMain dengan nama <code>comm</code>, maka perintahnya yang digunakan adalah :</p>
+
+<p>{% codeblock lang:c# %}
+var port = &ldquo;COM1&rdquo;; // port yang digunakan menyesuaikan
+var baudRate = 9600;
+var timeout = 150;</p>
+
+<p>var comm = new GsmCommMain(port, baudRate, timeout);
+{% endcodeblock %}</p>
+
+<p><strong>Mendaftarkan method ke event <code>MessageReceived</code> yang dikenal dengan istilah <a href="http://www.codeproject.com/Articles/11657/Understanding-Delegates-in-C">delegate</a>    method</strong></p>
+
+<p>Salah satu fitur keren yang dimiliki oleh library <a href="http://www.nuget.org/packages/GSMComm/">GSMComm</a> adalah Event <code>MessageReceived</code>. Dengan adanya event ini kita tidak perlu menggunakan objek timer untuk mengecek apakah ada sms yang masuk.</p>
+
+<p>Event ini tidak bisa kita akses secara langsung, yang perlu kita lakukan adalah membuat sebuah method kemudian mendaftarkannya ke event ini.</p>
+
+<p>Contoh kita membuat sebuah method dengan nama <code>comm_MessageReceived</code>, method ini hanya akan menampilkan notifikasi sms masuk. Untuk selanjutnya method ini bisa kita kembangkan lagi, misal ketika ada sms masuk datanya langsung kita simpan ke database.</p>
+
+<p>{% codeblock lang:c# %}
+private void comm_MessageReceived(object sender, MessageReceivedEventArgs e)
+{
+    var obj = e.IndicationObject;</p>
+
+<pre><code>if (obj is MemoryLocation)
+{
+    var loc = (MemoryLocation)obj;
+
+    var msg = string.Format("New message received in storage \"{0}\", index {1}.",
+                            loc.Storage, loc.Index);
+    MessageBox.Show(msg);
+
+    return;
+}
+
+if (obj is ShortMessage)
+{
+    var msg = (ShortMessage)obj;
+    var pdu = comm.DecodeReceivedMessage(msg);
+
+    MessageBox.Show("New message received");
+}
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
+
+<p>Kemudian kita daftarkan ke event <code>MessageReceived</code> dengan perintah :</p>
+
+<p>{% codeblock lang:c# %}
+comm.MessageReceived += new MessageReceivedEventHandler(comm_MessageReceived);
+{% endcodeblock %}</p>
+
+<p>sehingga ketika ada sms yang masuk method <code>comm_MessageReceived</code> akan otomatis dipanggil.</p>
+
+<p><strong>Memanggil method <code>Open</code></strong></p>
+
+<p>Setelah langkah pertama dan kedua selesai dikerjakan kita bisa langsung memanggil method <code>Open</code> untuk melakukan koneksi ke modem atau hp.</p>
+
+<p>{% codeblock lang:c# %}
+comm.Open();</p>
+
+<p>while (!comm.IsConnected())
+{
+    var msgResult = MessageBox.Show(this, &ldquo;No phone connected.&rdquo;, &ldquo;Connection setup&rdquo;,
+                                        MessageBoxButtons.RetryCancel, MessageBoxIcon.Exclamation);</p>
+
+<pre><code>if (msgResult == DialogResult.Cancel)
+{
+    comm.Close();
+    return;
+}
+else
+{
+    comm.Close();
+    comm.Open();
+}
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
+
+<h3>2. Membaca SMS Masuk</h3>
+
+<p>Method yang digunakan untuk membaca sms adalah method <code>ReadMessages</code>, method ini mempunyai dua parameter yaitu <code>PhoneMessageStatus</code> dan <code>Storage</code>.</p>
+
+<p>Untuk <code>PhoneMessageStatus</code> pilihannya adalah : <code>ReceivedUnread</code>, <code>ReceivedRead</code>, <code>StoredUnsent</code>, <code>StoredSent</code> dan <code>All</code>. Sedangkan <code>Storage</code> pilihannya hanya dua yaitu : <code>SM</code> dan <code>ME</code>.</p>
+
+<p>{% codeblock lang:c# %}  <br/>
+private void btnBacaSMS_Click(object sender, EventArgs e)
+{
+    var messages = comm.ReadMessages(PhoneMessageStatus.All, PhoneStorageType.Sim);
+    foreach (var message in messages)
+    {
+        var data = (SmsDeliverPdu)message.Data;</p>
+
+<pre><code>    var phoneNumber = data.OriginatingAddress;
+    var msg = data.UserDataText;
+    var tanggal = string.Format("{0:yyyy/MM/dd}", data.SCTimestamp.ToDateTime());
+    var jam = string.Format("{0:HH:mm:ss}", data.SCTimestamp.ToDateTime());
+
+    lstDaftarSMS.Items.Add(string.Format("{0}, {1}, {2}, {3}", tanggal, jam, phoneNumber, msg));
+}
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
+
+<h3>3. Mengirim SMS</h3>
+
+<p>Untuk mengirim sms kita menggunakan method <code>SendMessage</code> yang membutuhkan objek <a href="http://en.wikipedia.org/wiki/Protocol_data_unit">pdu</a>.</p>
+
+<p>{% codeblock lang:c# %}
+private void btnKirimSMS_Click(object sender, EventArgs e)
+{
+    var msg = txtPesan.Text;
+    var phoneNumber = txtNoHp.Text;</p>
+
+<pre><code>var pdu = new SmsSubmitPdu(msg, phoneNumber, string.Empty);
+comm.SendMessage(pdu);
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
+
+<p>Kode di atas hanya bisa mengirim sms dengan jumlah karakter maksimal 160 karakter, jika ingin lebih kita harus merevisi kode di atas dengan menambahkan beberapa method baru yaitu <code>CreateConcatMessage</code> dan <code>SendMultiple</code>.</p>
+
+<p>{% codeblock lang:c# %}
+private OutgoingSmsPdu[] CreateConcatMessage(string message, string number)
+{
+    OutgoingSmsPdu[] pdus = null;</p>
+
+<pre><code>try
+{
+    pdus = SmartMessageFactory.CreateConcatTextMessage(message, number);
+}
+catch
+{
+    return null;
+}
+
+return pdus;
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
+
+<p>{% codeblock lang:c# %}
+private void SendMultiple(OutgoingSmsPdu[] pdus)
+{
+    var num = pdus.Length;</p>
+
+<pre><code>try
+{
+    // Send the created messages
+    comm.EnableTemporarySmsBatchMode();
+
+    foreach (OutgoingSmsPdu pdu in pdus)
+    {
+        comm.SendMessage(pdu);
+    }
+}
+catch
+{
+}
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
+
+<p>Terakhir kode yang ada di method <code>btnKirimSMS_Click</code> juga harus di revisi :</p>
+
+<p>{% codeblock lang:c# %}
+private void btnKirimSMS_Click(object sender, EventArgs e)
+{
+    var msg = txtPesan.Text;
+    var phoneNumber = txtNoHp.Text;</p>
+
+<pre><code>if (msg.Length &gt; 160)
+{
+    var pdus = CreateConcatMessage(msg, phoneNumber);
+    if (pdus != null) SendMultiple(pdus);
+}
+else
+{
+    var pdu = new SmsSubmitPdu(msg, phoneNumber, string.Empty);
+    comm.SendMessage(pdu);
+}
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
+
+<p>Yuph akhirnya selesai juga.</p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/SMSGatewayNET1">MENCOBA</a> :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Update SMS Tausiyah Manager]]></title>
+    <link href="http://coding4ever.net/blog/2010/08/17/update-sms-tausiyah-manager/"/>
+    <updated>2010-08-17T11:00:13+07:00</updated>
+    <id>http://coding4ever.net/blog/2010/08/17/update-sms-tausiyah-manager</id>
+    <content type="html"><![CDATA[<p>Terima kasih saya ucapkan kepada mas <a href="{{%20site.url%20}}/blog/2010/07/27/sms-tausiyah-manager/#comment-717">Haerul</a> atas respon penggunaan <a href="{{%20site.url%20}}/blog/2010/07/27/sms-tausiyah-manager/">SMS Tausiyah Manager</a> dimana pada saat mencoba program ini sms yang masuk gagal dibaca oleh aplikasi service sms tausiyah.</p>
+
+<p>Berhubung saya belum pernah mencoba menggunakan hp nokia 3110c (selama ini saya selalu menggunakan hp siemens c55), saya hanya memperkirakan hp nokia 3110c belum mendukung fitur pembacaan sms dengan mode &ldquo;Any of the storages&rdquo; atau kalo dalam istilah AT COMMANDnya disebut &ldquo;MT&rdquo;</p>
+
+<!-- more -->
+
+
+<p>Untuk mengganti secara manual lokasi pembacaan sms sudah saya tambahkan di form Setting Program</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/08/17082010-1.jpg"><img src="http://coding4ever.files.wordpress.com/2010/08/17082010-1.jpg?w=300" alt="" /></a></p>
+
+<p>saran saya coba pilihan storage diganti menjadi <strong>DEVICE</strong></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/08/17082010-2.jpg"><img src="http://coding4ever.files.wordpress.com/2010/08/17082010-2.jpg?w=300" alt="" /></a></p>
+
+<p>setelah perubahan berhasil disimpan, <strong>service sms tausiyah di stop dan dijalankan ulang</strong>.</p>
+
+<p>Untuk update aplikasi SMS Tausiyah Managernya bisa didownload di<a href="http://www.4shared.com/file/lKlJN5Uu/UpdateSMSTausiyahManager.html">sini</a> (1.35 MB)</p>
+
+<p>Selamat mencoba :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[SMS Tausiyah Manager]]></title>
+    <link href="http://coding4ever.net/blog/2010/07/27/sms-tausiyah-manager/"/>
+    <updated>2010-07-27T13:50:53+07:00</updated>
+    <id>http://coding4ever.net/blog/2010/07/27/sms-tausiyah-manager</id>
+    <content type="html"><![CDATA[<p><strong>Intro</strong></p>
+
+<p>Dalam rangka menyambut bulan suci Ramadhan 1431 H saya merilis aplikasi sms gateway gratis dengan nama &ldquo;<strong>SMS Tausiyah Manager</strong>&rdquo;, aplikasi ini saya buat menggunakan Visual Basic 6 dan untuk databasenya menggunakan<a href="{{%20site.url%20}}/blog/2010/06/14/mengenal-lebih-dekat-database-sqlite/"> SQLite</a> plus proses <a href="{{%20site.url%20}}/blog/2009/12/31/membuat-paket-instalasi-vb-mysql-dengan-inno-setup/">instalasi</a> yang sangat mudah sehingga siapa pun bisa dengan gampang mendistribusikan dan menggunakan aplikasi ini :D</p>
+
+<p>Jadi jika Anda mempunyai kenalan/relasi yang mempunyai agenda/kegiatan Islami selama bulan suci Ramadhan, mungkin agenda tambahan berupa layanan SMS Tausiyah gratis ini bisa dijadikan sebagai bahan pertimbangan.</p>
+
+<p>Aplikasi ini saya bagi menjadi dua :</p>
+
+<ol>
+<li><p>SMS Service, bagian yang bertugas untuk menangani sms masuk dan keluar</p></li>
+<li><p>SMS Manager bagian pengolahan data (member, kontak, inbox, outbox dan lain-lain)</p></li>
+</ol>
+
+
+<p><strong>Keyword</strong></p>
+
+<ol>
+<li><p><strong>reg#nama</strong>, sesuai namanya keyword ini untuk berlangganan layanan sms tausiyah</p></li>
+<li><p><strong>unreg</strong>, untuk berhenti berlangganan layanan sms tausiyah</p></li>
+<li><p><strong>saran#isi saran</strong></p></li>
+</ol>
+
+
+<!-- more -->
+
+
+<p><strong>Kebutuhan Sistem</strong></p>
+
+<ol>
+<li><p>PC/Laptop, berhubung saya developnya di Win XP sebaiknya Anda juga menggunakan OS yang sama :D</p></li>
+<li><p>Untuk modem cukup menggunakan hp + kabel data, untuk mengetes program ini saya menggunakan hp Siemens C55 dengan kabel data Cellular One (port USB)</p></li>
+<li><p>Dan tentunya Software SMS Tausiyah Manager :D</p></li>
+</ol>
+
+
+<p>Berikut adalah daftar modem/hp yang didukung oleh aplikasi ini :</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/07/modem.jpg"><img src="http://coding4ever.files.wordpress.com/2010/07/modem.jpg?w=300" alt="" /></a></p>
+
+<p><strong>Petunjuk Instalasi dan Penggunaan</strong></p>
+
+<ol>
+<li><p><a href="http://www.4shared.com/file/mc5Gpa8-/Petunjuk_Instalasi_Kabel_Data.html">Instalasi perangkat kabel data hp yang akan digunakan</a> (342 kb)</p></li>
+<li><p><a href="http://www.4shared.com/file/wIrFxQ7G/Petunjuk_Instalasi_SMS_Tausiya.html">Instalasi SMS Tausiyah Manager</a> (205 kb)</p></li>
+<li><p><a href="http://www.4shared.com/file/joSYMAGK/Petunjuk_Penggunaan_SMS_Tausiy.html">Petunjuk penggunaan SMS Tausiyah Manager</a> (548 kb)</p></li>
+<li><p><a href="http://www.4shared.com/file/wR4saFiR/Petunjuk_Penggunaan_SMS_Tausiy.html">Petunjuk penggunaan SMS Tausiyah Service</a> (48 kb)</p></li>
+</ol>
+
+
+<p><strong>Screenshot</strong></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/07/27072010-1.jpg"><img src="http://coding4ever.files.wordpress.com/2010/07/27072010-1.jpg?w=300" alt="" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/07/27072010-2.jpg"><img src="http://coding4ever.files.wordpress.com/2010/07/27072010-2.jpg?w=300" alt="" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/07/27072010-3.jpg"><img src="http://coding4ever.files.wordpress.com/2010/07/27072010-3.jpg?w=300" alt="" /></a></p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/07/27072010-41.jpg"><img src="http://coding4ever.files.wordpress.com/2010/07/27072010-41.jpg" alt="" /></a></p>
+
+<p><strong>Link Download</strong></p>
+
+<p>File instalasi SMS Tausiyah Manager bisa Anda download di<a href="http://www.4shared.com/file/RwGUUwVM/SetupSMSTausiyah.html">SINI</a> (5.43 mb), aplikasi ini baru saya tes di Windows XP, dan untuk Windows 7 mudah-mudahan tidak ada masalah kompabilitas :D</p>
+
+<p><strong>Laporan bug/error</strong></p>
+
+<p>Berhubung terbatasnya resource yang saya gunakan untuk mengetes aplikasi ini, jika ada bug/error yang Anda temukan selama mencoba aplikasi ini mohon konfirmasinya ke <a href="k4m4r82@yahoo.com">k4m4r82@yahoo.com</a>.</p>
+
+<p>Selamat mencoba :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Membuat Sms Gateway Itu Gampang, Jangan Dipersulit !!!]]></title>
+    <link href="http://coding4ever.net/blog/2010/07/12/membuat-sms-gateway-itu-gampang-jangan-dipersulit/"/>
+    <updated>2010-07-12T07:01:35+07:00</updated>
+    <id>http://coding4ever.net/blog/2010/07/12/membuat-sms-gateway-itu-gampang-jangan-dipersulit</id>
+    <content type="html"><![CDATA[<p>Berhubung banyaknya pengunjung yang nyasar ke blog ini, gara-gara keyword &ldquo;<strong>sms gateway</strong>&rdquo; saya jadi merasa bersalah klo enggax ikut-ikutan membahas artikel yang satu ini he he he :D.</p>
+
+<p>Walaupun sudah banyak blog yang membahas tentang masalah ini, tapi kayaxnya tema &ldquo;<strong>sms gateway</strong>&rdquo; masih hangat dan <strong>saru</strong> eh&hellip; seru untuk dibahas :D, dan tentunya dengan adanya artikel ini saya berharap lebih banyak lagi yang tersesat ke blog ini :D.</p>
+
+<p>Oke jadi kasusnya apa nih, kita ambil aja sample sederhana yaitu &ldquo;<strong>pembuatan sms gateway untuk request nilai siswa</strong>&rdquo; dan untuk menyederhanakan pembahasan keywordnya kita batasi saja yaitu <strong>request</strong> <strong>nilai tugas</strong> dan <strong>ulangan</strong>.</p>
+
+<p>Apa yang harus di persiapkan, pertama kita rancang dulu databasenya dan berhubung <a href="{{%20site.url%20}}/blog/2010/06/14/mengenal-lebih-dekat-database-sqlite/">artikel</a> saya yang membahas tentang database SQLite masih hangat jadi untuk databasenya kita menggunakan SQLite saja.</p>
+
+<!-- more -->
+
+
+<p>SQLite adalah database standalone yang kecil, mungil dan gratis. Bagaimana cara membuat database di SQLite sudah saya bahas di<a href="{{%20site.url%20}}/blog/2010/06/14/mengenal-lebih-dekat-database-sqlite/">sini</a> kemudian bagaimana mengaksesnya dari aplikasi juga sudah saya bahasa di<a href="{{%20site.url%20}}/blog/2010/07/05/mengakses-database-sqlite-menggunakan-library-dhsqlite/">sini</a>.</p>
+
+<p>Berikut adalah rancangan sederhana database sms yang akan kita buat :</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/07/12072010-1.png"><img src="http://coding4ever.files.wordpress.com/2010/07/12072010-1.png?w=300" alt="" /></a></p>
+
+<p>Ada banyak cara untuk membaca sms masuk dan membalasanya, salah satunya adalah menggunakan perintah <a href="http://www.developershome.com/sms/atCommandsIntro.asp">AT COMMAND</a> dan Microsoft sendiri sudah menyediakan <a href="http://support.microsoft.com/kb/194922">komponen</a> yang bisa mengeksekusi perintah-perintah tersebut.</p>
+
+<p>Tentunya cara ini (menggunakan <a href="http://www.developershome.com/sms/atCommandsIntro.asp">AT COMMAND</a>) bukan cara yang favorit dikalangan programmer instan seperti Anda dan Saya :D, jadi diartikel ini saya menggunakan <a href="http://www.activexperts.com/xmstoolkit/">komponen</a> pihak ketiga.</p>
+
+<blockquote><p>Ingat komponen ini adalah shareware, segala resiko (kemudahan dalam membuat aplikasi sms gateway) ditanggung sendiri :D, saya disini hanya share dan tidak terikat kerja sama dengan pihak ketiga tersebut.</p></blockquote>
+
+<p>Halah pernyataan ngawur :D</p>
+
+<p>Berikut adalah cuplikan source code untuk membaca dan mengirim sms menggunakan komponen <a href="http://www.activexperts.com/xmstoolkit/">ActiveXpert SMS</a></p>
+
+<p><strong>1. Membaca SMS Masuk</strong></p>
+
+<p>{% codeblock lang:vbnet %}
+Private Sub cmdBacaSMS_Click()
+    Dim objGsmIn        As ASmsCtrl.GsmIn</p>
+
+<pre><code>Set objGsmIn = New ASmsCtrl.GsmIn
+With objGsmIn
+    .Activate "XXX-XXXX-XXXX-XXXXX"  'diisi serial number yg Anda dapatkan secara ilegal
+    .Device = "COM1" 'disesuaikan dengan port COM yang digunakan
+    .DeviceSpeed = 19200 'default = 0
+
+    .Storage = 2 '0=sim 1=device 2=any
+    .DeleteAfterReceive = True
+    .Receive
+
+    If .LastError = 0 Or .LastError = 23140 Then ' Success
+        .GetFirstMessage
+
+        While .LastError = 0
+            Debug.Print "Pengirim : " &amp; .MessageSender
+            Debug.Print "Isi SMS : " &amp; .MessageData
+
+            'TODO : INSERT KE TABEL SMS_IN
+
+            .GetNextMessage
+        Wend
+    End If
+End With
+Set objGsmIn = Nothing
+</code></pre>
+
+<p>End Sub
+{% endcodeblock %}</p>
+
+<p><strong>2. Mengirim sms</strong></p>
+
+<p>{% codeblock lang:vbnet %}
+Private Sub cmdKirimSMS_Click()
+    Dim objGsmOut       As ASmsCtrl.GsmOut
+    Dim objConstants    As ASmsCtrl.Constants</p>
+
+<pre><code>Set objGsmOut = New ASmsCtrl.GsmOut
+Set objConstants = New ASmsCtrl.Constants
+
+With objGsmOut
+    .Activate "XXX-XXXX-XXXX-XXXXX"  'diisi serial number yg Anda dapatkan secara ilegal
+    .Device = "COM1" 'disesuaikan dengan port COM yang digunakan
+    .DeviceSpeed = 19200 'default = 0
+    .RequestStatusReport = False
+
+    .MessageType = objConstants.asMESSAGETYPE_TEXT 'mengirim pesan maksimal 160 karakter
+    '.MessageType = objConstants.asMESSAGETYPE_TEXT_MULTIPART 'jika lebih dari 160 karakter gunakan opsi ini
+
+    .MessageRecipient = "nomor tujuan" 'biasanya menggunakan prefix +62
+    .MessageData = "isi pesan"
+    .Send 'kirim
+End With
+
+Set objConstants = Nothing
+Set objGsmOut = Nothing
+</code></pre>
+
+<p>End Sub
+{% endcodeblock %}</p>
+
+<p>Jadi cukup dengan bermodalkan 2 cuplikan kode diatas kita akan menyelesaikan aplikasi yg dibahas pada artikel kali ini.</p>
+
+<p>Adapun untuk keyword yang akan digunakan sebagai berikut :</p>
+
+<p><strong>1. Request nilai tugas</strong></p>
+
+<p>keyword : tgs#nis</p>
+
+<p>contoh :
+tgs#9941224165</p>
+
+<p>balasan :
+Nilai tugas (NAMA SISWA) : BI=95, IPA=75, IPS=80, MTK=85</p>
+
+<p><strong>2. Request nilai ulangan harian</strong></p>
+
+<p>keyword : uh#nis</p>
+
+<p>contoh :
+uh#9941224165</p>
+
+<p>balasan :
+Nilai ulangan (NAMA SISWA) : BI=95, IPA=75, IPS=80, MTK=85</p>
+
+<p>Berikut penjelasan ringkas beberapa cuplikan source code yang digunakan dalam pembuatan aplikasi sms gateway ini.</p>
+
+<p>{% codeblock lang:vbnet %}
+Private Function connectToDevice(ByVal device As String) As Boolean
+    Dim objGsm      As ASmsCtrl.GsmOut
+    Dim manufaktur  As String</p>
+
+<pre><code>On Error GoTo errHandle
+
+Set objGsm = New ASmsCtrl.GsmOut
+With objGsm
+    .Activate SERIAL_NUMBER
+    .device = device
+
+    manufaktur = .SendCommand("AT+CGMI", 500)  'menampilkan informasi manufactur
+    manufaktur = Replace$(manufaktur, vbCrLf, "")
+    manufaktur = Replace$(manufaktur, "OK", "")
+    manufaktur = Replace$(manufaktur, "ERROR", "")
+    manufaktur = Replace$(manufaktur, "AT+CGMI", "")
+End With
+Set objGsm = Nothing
+
+If Len(manufaktur) &gt; 0 Then
+    txtModem.Text = manufaktur
+    connectToDevice = True
+End If
+
+Exit Function
+</code></pre>
+
+<p>errHandle:
+    connectToDevice = False
+End Function
+{% endcodeblock %}</p>
+
+<p>Sesuai namanya fungsi connectToDevice digunakan untuk mengecek status modem sms yang terpasang, salah satu caranya adalah dengan mengirimkan <a href="http://www.developershome.com/sms/atCommandsIntro.asp">AT COMMAND</a> &ldquo;AT+CGM&rdquo;, <a href="http://www.developershome.com/sms/atCommandsIntro.asp">AT COMMAND</a> ini berfungsi untuk mendapatkan informasi manufaktur.</p>
+
+<p>Sebagai contoh jika modem sms yg digunakan adalah hp siemens maka nilai yg dihasilkan dari perintah ini adalah &ldquo;SIEMENS&rdquo; dan tentunya hp yg bersangkutan juga harus mendukung AT COMMAND.</p>
+
+<p>{% codeblock lang:vbnet %}
+Private Sub readSMS()
+    Dim objGsmIn        As ASmsCtrl.GsmIn
+    Dim objConstants    As ASmsCtrl.Constants
+    Dim cmd             As cCommand</p>
+
+<pre><code>Dim keyword         As String
+Dim phoneNumber     As String
+Dim i               As Integer
+
+On Error GoTo errHandle
+
+Screen.MousePointer = vbHourglass
+cmdStop.Enabled = False
+tmrReceiveSms.Enabled = False
+
+DoEvents
+
+Set objGsmIn = New ASmsCtrl.GsmIn
+Set objConstants = New ASmsCtrl.Constants
+
+With objGsmIn
+    .Activate SERIAL_NUMBER
+    .device = cmbPORT.Text
+    .DeviceSpeed = 0
+
+    .Storage = cmbStorage.ItemData(cmbStorage.ListIndex)
+    .DeleteAfterReceive = True 'hapus sms jika sudah dibaca
+    .Receive
+
+    If .LastError = 0 Or .LastError = 23140 Then 'baca sms sukses
+        .GetFirstMessage
+
+        strSql = "INSERT INTO sms_in (phone_number, sms_keyword, date_in, time_in) VALUES (?, ?, ?, ?)"
+        Set cmd = conn.CreateCommand(strSql)
+        conn.BeginTrans
+
+        i = 1
+        While .LastError = 0
+            phoneNumber = rep0to62(.MessageSender)
+            keyword = .MessageData
+
+            cmd.SetText 1, phoneNumber
+            cmd.SetText 2, keyword
+            cmd.SetDate 3, Format(Now, "yyyy/MM/dd")
+            cmd.SetTime 4, Format(Now, "hh:mm:ss")
+
+            cmd.Execute
+
+            If i Mod 10 = 0 Then
+                conn.CommitTrans
+                DoEvents
+
+                conn.BeginTrans
+            End If
+
+            i = i + 1
+
+            .GetNextMessage
+        Wend
+
+        conn.CommitTrans
+        Set cmd = Nothing
+
+    End If
+End With
+Set objGsmIn = Nothing
+
+If cekSMSIn Then
+    Call sendSMS
+Else
+    Call Wait(5000)
+End If
+
+cmdStop.Enabled = True
+Screen.MousePointer = vbDefault
+
+tmrReceiveSms.Enabled = True
+
+Exit Sub
+</code></pre>
+
+<p>errHandle:
+    tmrReceiveSms.Enabled = True
+End Sub
+{% endcodeblock %}</p>
+
+<p>Prosedur readSMS digunakan untuk membaca sms masuk dan menyimpannya ke tabel sms_in, berhubung komponen ActiveXpert SMS tidak mempunyai event yg menandai adanya sms masuk maka sebagai gantinya kita menggunakan timer untuk memanggil prosedur readSMS.</p>
+
+<p>Salah satu properties penting yang dimiliki oleh ActiveXpert SMS adalah DeleteAfterReceive, jika nilainya diset true maka sms yg masuk akan otomatis dihapus dan tentunya setelah smsnya dibaca.</p>
+
+<p>{% codeblock lang:vbnet %}
+Private Function cekSMSIn() As Boolean
+    Dim ret As Integer</p>
+
+<pre><code>strSql = "SELECT COUNT(*) FROM sms_in WHERE status = 0" 'jika status = 0 berarti sms masuk belum di proses
+ret = CInt(dbGetValue(strSql, 0))
+If ret &gt; 0 Then 'ada sms yg belum diproses
+    cekSMSIn = True
+End If
+</code></pre>
+
+<p>End Function
+{% endcodeblock %}</p>
+
+<p>Prosedur cekSMSIn dibutuhkan oleh prosedur readSMS, jadi dengan adanya prosedur cekSMSIn ini program akan mengetahui kapan waktu yg tepat untuk memanggil prosedur sendSMS.</p>
+
+<p>{% codeblock lang:vbnet %}
+Private Sub sendSMS()
+    Dim rsSend          As cRecordset
+    Dim cmd             As cCommand</p>
+
+<pre><code>Dim objGsmOut       As ASmsCtrl.GsmOut
+Dim objConstants    As ASmsCtrl.Constants
+
+Dim phoneNumber     As String
+Dim keyword         As String
+Dim smsBalasan      As String
+
+On Error GoTo errHandle
+
+'cek sms yang belum di proses, ditandai dg status = 0
+strSql = "SELECT id, phone_number, sms_keyword " &amp; _
+         "FROM sms_in " &amp; _
+         "WHERE status = 0 " &amp; _
+         "ORDER BY id"
+Set rsSend = conn.OpenRecordset(strSql)
+If Not rsSend.EOF Then
+    Set objGsmOut = New ASmsCtrl.GsmOut
+    Set objConstants = New ASmsCtrl.Constants
+
+    objGsmOut.Activate SERIAL_NUMBER
+    objGsmOut.device = cmbPORT.Text
+    objGsmOut.DeviceSpeed = 0
+    objGsmOut.RequestStatusReport = False
+    objGsmOut.MessageType = objConstants.asMESSAGETYPE_TEXT_MULTIPART
+
+    Do While Not rsSend.EOF
+        'ganti prefix nomor hp 0 -&gt; +62
+        phoneNumber = rep0to62("" &amp; rsSend("phone_number").Value)
+        keyword = rsSend("sms_keyword").Value
+
+        smsBalasan = getBalasanSms(keyword, phoneNumber)
+
+        objGsmOut.MessageRecipient = phoneNumber
+        objGsmOut.MessageData = smsBalasan
+        objGsmOut.Send
+
+        If objGsmOut.LastError = 0 Or objGsmOut.LastError = 23140 Then 'sms sukses dikirim
+            'update status sms -&gt; 1
+            strSql = "UPDATE sms_in SET status = ?, no_ref = ? " &amp; _
+                     "WHERE id = ?"
+            Set cmd = conn.CreateCommand(strSql)
+            With cmd
+                .SetInt32 1, 1
+                .SetInt32 2, objGsmOut.MessageReference
+                .SetInt32 3, rsSend("id").Value
+
+                .Execute
+            End With
+            Set cmd = Nothing
+
+            'insert ke tabel sms_out, untuk histori sms keluar
+            strSql = "INSERT INTO sms_out (phone_number, replay_msg, date_out, time_out) VALUES (?, ?, ?, ?)"
+            Set cmd = conn.CreateCommand(strSql)
+            With cmd
+                .SetText 1, phoneNumber
+                .SetText 2, smsBalasan
+                .SetDate 3, Format(Now, "yyyy/MM/dd")
+                .SetTime 4, Format(Now, "hh:mm:ss")
+
+                .Execute
+            End With
+            Set cmd = Nothing
+
+        Else 'sms gagal dikirim
+            'update status sms -&gt; 1
+
+            'ini masih bisa dikembangkan lagi dengan menambah kolom max_jumlah_kirim di tabel sms_in
+            'jadi bisa diberi aturan sms yg gagal dikirim &gt; 3x baru status smsnya diupdate menjadi 1
+            strSql = "UPDATE sms_in SET status = ?, no_ref = ? " &amp; _
+                     "WHERE id = ?"
+            Set cmd = conn.CreateCommand(strSql)
+            With cmd
+                .SetInt32 1, 1
+                .SetInt32 2, objGsmOut.MessageReference
+                .SetInt32 3, rsSend("id").Value
+
+                .Execute
+            End With
+            Set cmd = Nothing
+        End If
+
+        Call Wait(5000)
+
+        rsSend.MoveNext
+    Loop
+    Set objConstants = Nothing
+    Set objGsmOut = Nothing
+End If
+
+Exit Sub
+</code></pre>
+
+<p>errHandle:
+    Resume Next
+End Sub
+{% endcodeblock %}</p>
+
+<p>Prosedur sendSMS akan mengolah sms masuk yg belum di proses (ditandai dengan status = 0), mengupdate statusnya menjadi 1 jika berhasil mengirimkan sms, kemudian menyimpannya ke tabel sms_out sebagai histori pengiriman sms.</p>
+
+<p>{% codeblock lang:vbnet %}
+Public Function rep0to62(ByVal phoneNumber As String) As String
+    &lsquo;fungsi untuk mengganti prefix 0 -> +62</p>
+
+<pre><code>rep0to62 = phoneNumber
+If Left(phoneNumber, 1) = "0" Then rep0to62 = "+62" &amp; Right(phoneNumber, Len(phoneNumber) - 1)
+</code></pre>
+
+<p>End Function
+{% endcodeblock %}</p>
+
+<p>Sesuai namanya fungsi ini berguna untuk mengganti prefix nomor hp 0 menjadi +62 (kode indonesia).</p>
+
+<p>Terakhir fungsi untuk memproses keyword sms yang masuk dan sekaligus sebagai balasan untuk sms keluar.</p>
+
+<p>{% codeblock lang:vbnet %}
+Public Function getBalasanSms(ByVal keywordSms As String, ByVal phoneNumber As String) As String
+    Dim rs              As cRecordset
+    Dim param1          As String
+    Dim arrKeyword()    As String</p>
+
+<pre><code>Dim prefix          As String
+Dim nilai           As String
+Dim nama            As String
+
+Dim tha             As String
+Dim semester        As String
+
+If Len(keywordSms) &gt; 0 Then
+    If InStr(1, keywordSms, "#") &gt; 0 Then 'karakter # -&gt; separator keyword
+        arrKeyword = Split(keywordSms, "#")
+        If Not (Len(arrKeyword(0)) &gt; 0) Then
+            getBalasanSms = "Keyword sms salah"
+            Exit Function
+
+        Else
+            'do nothing
+        End If
+
+    Else
+        ReDim arrKeyword(0)
+        arrKeyword(0) = keywordSms
+    End If
+
+Else
+    getBalasanSms = "Keyword sms salah"
+    Exit Function
+End If
+
+prefix = arrKeyword(0)
+prefix = UCase$(prefix)
+
+If UBound(arrKeyword) &gt; 0 Then param1 = arrKeyword(1) 'untuk contoh disini param1 bernilai nomor induk siswa
+
+'untuk pengembangan lebih lanjut tahun ajaran dan semester dibuat settingan tersendiri
+tha = "2009/2010"
+semester = 2
+
+Select Case prefix
+    Case "TGS"
+        'validasi nis siswa
+        If Not isValidNIS(param1) Then getBalasanSms = Replace(NIS_SALAH, "&lt;nis&gt;", param1): Exit Function
+
+        'validasi no hp siswa
+        'nama sekolah sebaiknya disimpan didalam variabel
+        If Not isValidHPSiswa(param1, phoneNumber) Then
+            getBalasanSms = Replace(HP_UNREG, "&lt;nama_sekolah&gt;", "SMA Negeri Yogyakarta")
+            getBalasanSms = Replace(getBalasanSms, "&lt;no_hp&gt;", phoneNumber): Exit Function
+        End If
+
+        strSql = "SELECT UPPER(nama) FROM siswa WHERE nis = '" &amp; param1 &amp; "'"
+        nama = CStr(dbGetValue(strSql, ""))
+
+        'mulai proses pencarian nilai
+        strSql = "SELECT matapelajaran_kode, nilai " &amp; _
+                 "FROM nilai_tugas " &amp; _
+                 "WHERE siswa_nis = '" &amp; param1 &amp; "' AND tahun_ajaran = '" &amp; tha &amp; "' AND semester = " &amp; semester &amp; " " &amp; _
+                 "ORDER BY matapelajaran_kode"
+        Set rs = conn.OpenRecordset(strSql)
+        If Not rs.EOF Then
+            Do While Not rs.EOF
+                nilai = nilai &amp; rs("matapelajaran_kode").Value &amp; "=" &amp; rs("nilai").Value &amp; ", "
+                rs.MoveNext
+            Loop
+        End If
+
+        If Len(nilai) &gt; 0 Then
+            nilai = Left(nilai, Len(nilai) - 2)
+            getBalasanSms = "Nilai tugas (" &amp; nama &amp; ") : " &amp; nilai
+
+        Else
+            getBalasanSms = "Nilai tugas (" &amp; nama &amp; ") sedang dalam proses pendataan"
+        End If
+
+    Case "UH"
+        'validasi nis siswa
+        If Not isValidNIS(param1) Then getBalasanSms = Replace(NIS_SALAH, "&lt;nis&gt;", param1): Exit Function
+
+        'validasi no hp siswa
+        'nama sekolah sebaiknya disimpan didalam variabel
+        If Not isValidHPSiswa(param1, phoneNumber) Then
+            getBalasanSms = Replace(HP_UNREG, "&lt;nama_sekolah&gt;", "SMA Negeri Yogyakarta")
+            getBalasanSms = Replace(getBalasanSms, "&lt;no_hp&gt;", phoneNumber): Exit Function
+        End If
+
+        strSql = "SELECT UPPER(nama) FROM siswa WHERE nis = '" &amp; param1 &amp; "'"
+        nama = CStr(dbGetValue(strSql, ""))
+
+        'mulai proses pencarian nilai
+        strSql = "SELECT matapelajaran_kode, nilai " &amp; _
+                 "FROM nilai_ulangan " &amp; _
+                 "WHERE siswa_nis = '" &amp; param1 &amp; "' AND tahun_ajaran = '" &amp; tha &amp; "' AND semester = " &amp; semester &amp; " " &amp; _
+                 "ORDER BY matapelajaran_kode"
+        Set rs = conn.OpenRecordset(strSql)
+        If Not rs.EOF Then
+            Do While Not rs.EOF
+                nilai = nilai &amp; rs("matapelajaran_kode").Value &amp; "=" &amp; rs("nilai").Value &amp; ", "
+                rs.MoveNext
+            Loop
+        End If
+
+        If Len(nilai) &gt; 0 Then
+            nilai = Left(nilai, Len(nilai) - 2)
+            getBalasanSms = "Nilai ulangan (" &amp; nama &amp; ") : " &amp; nilai
+
+        Else
+            getBalasanSms = "Nilai ulangan (" &amp; nama &amp; ") sedang dalam proses pendataan"
+        End If
+
+    Case Else
+        getBalasanSms = "Keyword sms salah"
+End Select
+</code></pre>
+
+<p>End Function
+{% endcodeblock %}</p>
+
+<p><a href="http://coding4ever.files.wordpress.com/2010/07/12072010-2.jpg"><img src="http://coding4ever.files.wordpress.com/2010/07/12072010-2.jpg?w=300" alt="" /></a></p>
+
+<p>Untuk mengetahui daftar hp/modem apa saja yang didukung, jangan sungkan dan malu-malu untuk mengklik link <a href="http://www.activexperts.com/xmstoolkit/gsmlist/">ini</a>.</p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/SMSGateway">MENCOBA</a> :)</p>
+]]></content>
+  </entry>
+  
+</feed>

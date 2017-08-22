@@ -1,0 +1,1064 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Membuat Service SMS Gateway Untuk Engine Gammu - Coding4ever&#8217;s Blog</title>
+  <meta name="author" content="Admin">
+
+  
+  <meta name="description" content="Pasti udah pada tau kan apa itu Gammu ? Klo enggak ya keterlaluan he he. Itu loh engine yang biasa digunakan untuk mengirim dan menerima sms dan &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://coding4ever.net/blog/2017/08/22/membuat-service-sms-gateway-untuk-engine-gammu">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Coding4ever's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50866618-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Coding4ever&#8217;s Blog</a></h1>
+  
+    <h2>Just coding&#8230; coding&#8230; and coding&#8230; because coding should be fun :)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:coding4ever.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/gudang-software">Gudang Software</a></li>
+  <li><a href="/source-code">Source Code</a></li>  
+  <li><a href="/aplikasi-gratis">Aplikasi Gratis</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Membuat Service SMS Gateway Untuk Engine Gammu</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-08-22T15:59:07+07:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2017</span></span> <span class='time'>3:59 pm</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://coding4ever.net">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img class="left" src="https://coding4ever.files.wordpress.com/2017/08/gammu.png" width="100" height="100">Pasti udah pada tau kan apa itu <a href="https://wammu.eu/gammu/">Gammu</a> ? Klo enggak ya keterlaluan he he. Itu loh engine yang biasa digunakan untuk mengirim dan menerima sms dan biasanya sering digunakan untuk membuat sms gateway.</p>
+
+<p>Di postingan ini saya tidak akan membahas bagaimana cara instalasi <a href="https://wammu.eu/gammu/">Gammu</a>, konfigurasi dan database yang digunakan. Jadi saya mengasumsikan bahwa service Gammu Anda (GammuSMSD) sudah berjalan dengan baik, dengan kata lain jika ada sms masuk ke nomor yang Anda gunakan sebagai sms center, maka service <a href="https://wammu.eu/gammu/">Gammu</a> otomatis akan meng-INSERT-kan sms tersebut ke tabel inbox.</p>
+
+<!-- more -->
+
+
+<h3>Struktur Tabel Gammu</h3>
+
+<p>Sebelum kita lanjut bagaimana membuat windows service untuk engine <a href="https://wammu.eu/gammu/">Gammu</a> ada baiknya kita melihat dulu struktur tabel <a href="https://wammu.eu/gammu/">Gammu</a> secara menyeluruh.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170822-01.png"></p>
+
+<p>Dari keenam tabel di atas, kita cukup fokus di 3 tabel utama yaitu <code>inbox</code>, <code>outbox</code> dan <code>outbox_multipart</code>. Tabel inbox otomatis terisi, jika ada sama masuk tentunya dengan syarat service Gammu Anda (GammuSMSD) sudah berjalan dengan baik. Di tabel inbox ini juga sudah ada field dengan nama Processed yang bisa kita gunakan sebagai flag/penanda sms yang sudah diproses.</p>
+
+<p>Nah jika ada sms yang mau dikirim, tinggal kita INSERT-kan datanya secara manual ke tabel outbox. Dan jika smsnya panjang (lebih dari 160 karakter), smsnya harus kita pecah menjadi 2, 3, dst sesuai dengan jumlah karakter yang mau dikirim. Setelah dipecah, sms pertama masuk ke tabel outbox, dan sisanya masuk ke tabel outbox_multipart.</p>
+
+<p>Untuk informasi lebih lanjut tentang struktur database <a href="https://wammu.eu/gammu/">Gammu</a> bisa Anda cek di <a href="https://wammu.eu/docs/manual/smsd/tables.html">sini</a>.</p>
+
+<h3>Konfigurasi Gammu</h3>
+
+<p>Untuk konfigurasi gammu ada dua file yang harus kita edit nilainya yaitu file <code>smsdrc</code> dan <code>gammurc</code>. File ini biasanya ada di folder <code>Instalasi Gammu\share\doc\gammu\examples\config</code> trus kita copykan ke folder <code>Instalasi Gammu\bin</code>. Berikut adalah contoh konfigurasi gammu yang saya gunakan.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># konfigurasi file gammurc
+</span><span class='line'>
+</span><span class='line'>[gammu]
+</span><span class='line'>device = com3:
+</span><span class='line'>connection = at115200</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># konfigurasi file smsdrc
+</span><span class='line'>
+</span><span class='line'>[gammu]
+</span><span class='line'>device = com3:
+</span><span class='line'>connection = at115200
+</span><span class='line'>
+</span><span class='line'>[smsd]
+</span><span class='line'># SMSD service to use, one of FILES, MYSQL, PGSQL, DBI
+</span><span class='line'>service = SQL
+</span><span class='line'>
+</span><span class='line'># File (or stderr, syslog, eventlog) where information will be logged
+</span><span class='line'>logfile = C:\gammu\log\gammu.log
+</span><span class='line'>
+</span><span class='line'># Amount of information being logged, each bit mean one level
+</span><span class='line'>debuglevel = 255
+</span><span class='line'>
+</span><span class='line'># How many seconds should SMSD wait after there is no message in outbox before scanning it again. Default is 30.
+</span><span class='line'>commtimeout = 1
+</span><span class='line'>
+</span><span class='line'># Shows how many seconds SMSD should wait for network answer during sending sms. If nothing happen during this time, sms will be resent. Default is 30.
+</span><span class='line'>sendtimeout = 10
+</span><span class='line'>
+</span><span class='line'># Phone communication settings
+</span><span class='line'>checksecurity = 0
+</span><span class='line'>CheckBattery = 0
+</span><span class='line'>
+</span><span class='line'># Database backends congfiguration
+</span><span class='line'>user = root
+</span><span class='line'>password = rahasia
+</span><span class='line'>host = gammuodbc
+</span><span class='line'>
+</span><span class='line'># pc can also contain port or socket path after colon (eg. localhost:/path/to/socket)
+</span><span class='line'>database = db_gammu
+</span><span class='line'>
+</span><span class='line'># DBI configuration
+</span><span class='line'>driver = odbc
+</span><span class='line'>
+</span><span class='line'># Possible values: mysql, pgsql, sqlite, mssql (Microsoft SQL Server), access (Microsoft Access), oracle
+</span><span class='line'># ref: https://wammu.eu/docs/manual/smsd/config.html#gammu-smsdrc
+</span><span class='line'>sql = mysql</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Coba perhatikan konfigurasi pada file <code>smsdrc</code> di atas terutama di bagian <code>host</code>, nilainya kita isikan dengan nama ODBC yang terhubung ke database gammu, dan untuk membuat ODBCnya kita gunakan fasilitas ODBC Data Source.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170822-02.png"></p>
+
+<p>Untuk menambahkan ODBC di atas, sebelumnya kita harus menginstall terlebih dulu MySQL Connector/ODBC.</p>
+
+<h3>Environment Testing dan Development Tool yang Digunakan</h3>
+
+<ul>
+<li>Windows 7 Pro 64 bit</li>
+<li>Visual Studio Community 2013 – untuk bahasa yang digunakan C#</li>
+<li>Tipe aplikasi – Windows Service</li>
+<li>Micro ORM <a href="http://coding4ever.net/blog/categories/dapper-net/">Dapper.NET</a></li>
+<li>Gammu-1.38.4-Windows-64bit</li>
+<li>Database SQLite – untuk menyimpan data siswa, mata pelajaran dan nilai</li>
+<li>Database MySQL v5.5.45 – untuk menyimpan data gammu</li>
+<li>MySQL Connector/ODBC v5.3.9</li>
+<li>Modem Wavecom M1306B</li>
+</ul>
+
+
+<p>Kok menggunakan Connector/ODBC ? Iya karena Gammu v1.38.4 sudah mendukung koneksi menggunakan ODBC. Jadi selain MySQL, dengan menggunakan ODBC dukungan databasenya jadi lebih banyak seperti PostgreSQL, SQLite, Oracle, MS SQL Server dan MS Access.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170822-03.png"></p>
+
+<h3>Contoh Kasus</h3>
+
+<p>Untuk contoh kasusnya kita akan membuat service sms gateway untuk request data yang berhubungan dengan siswa seperti data pribadi, mata pelajaran dan nilai. Service sms gateway ini akan terhubung ke dua database yaitu database gammu yang tersimpan di MySQL dan database nilai yang tersimpan di SQLite. Sms gateway ini mempunyai beberapa format request data yaitu:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CEKMP                  # request data mata pelajaran
+</span><span class='line'>CEKSISWA#NIS           # request data siswa
+</span><span class='line'>CEKNILAI#NIS#&lt;KODE MP> # request data nilai, kode mp optional</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Untuk data siswa, mata pelajaran dan nilainya disimpan menggunakan database SQLite.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170822-04.png"></p>
+
+<h3>Project SMS Gateway</h3>
+
+<p>Project SMS Gateway ini dibangun dengan menggunakan <a href="https://en.wikipedia.org/wiki/Separation_of_concerns">konsep separation  of  concern</a> atau pemisahan kode program berdasarkan fungsinya. Semua kode untuk akses database harus dipisahkan dengan kode untuk pengaturan user inteface. Hal ini memungkinkan kode akses database yang dibuat untuk aplikasi desktop, dengan mudah digunakan untuk aplikasi lainnya seperti web, console atau windows service. Selain itu penerapan konsep <a href="https://en.wikipedia.org/wiki/Separation_of_concerns">separation  of  concern</a> secara disiplin, dapat menghasilkan kode program yang dapat dites secara otomatis menggunakan tool <a href="https://en.wikipedia.org/wiki/Unit_testing">Unit Testing</a>.</p>
+
+<p>Untuk urusan kode akses database, project ini menggunakan pattern/pola <a href="http://coding4ever.net/blog/2016/02/22/repository-pattern/">Repository Pattern</a> yang berisi semua kode untuk mengakses database. Semua kode yang sepesifik terhadap implementasi akses database berhenti di sini, lapisan lebih atas tidak boleh tahu bagaimana akses database diterapkan, apakah menggunakan ADO.NET murni (raw ADO.NET) atau menggunakan tool ORM/Micro ORM seperti <a href="http://coding4ever.net/blog/categories/dapper-net/">Dapper.NET</a>, <a href="http://coding4ever.net/blog/categories/entity-framework/">Entity Framework</a> atau NHibernate. Lapisan lainya hanya perlu tahu fungsionalitas dari suatu method di dalam class Repository, tidak perlu tahu bagimana method tersebut diimplementasikan.</p>
+
+<p>Idealnya secara logic, arsitektur aplikasi yang kita gunakan seperti berikut:</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170822-05.png"></p>
+
+<p>Tetapi untuk menyederhanakan pembahasan business logic layer bisa kita gabung ke presentation layer, sehingga arsitekturnya menjadi seperti berikut:</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170822-06.png"></p>
+
+<p>Nah untuk contoh project SMS Gateway ini menggunakan arsitektur yang kedua.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170822-07.png"></p>
+
+<p>Yang pertama adalah project <code>WindowsServiceGammu.Model</code>. Project ini bertipe <code>Class Library</code> yang berisi class model/entity yang merupakan representasi dari sebuah table. Jadi kalo kita ingin menerapkan konsep OOP dalam pemrograman database maka class-class model/entity ini wajib kita gunakan.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170822-08.png"></p>
+
+<p>Berikutnya adalah project <code>WindowsServiceGammu.Repository</code>. Project ini bertipe <code>Class Library</code> yang berisi class-class repository yang bertugas untuk menangani operasi CRUD. Biasanya untuk masing-masing class model/entity kita buatkan class repositorynya.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170822-09.png"></p>
+
+<p>Pada gambar di atas saya menggunakan dua class context yaitu <a href="https://github.com/k4m4r82/gammu-sms-gateway/blob/master/src/WindowsServiceGammu.Repository/Context/MySqlContext.cs">MySqlContext</a> dan <a href="https://github.com/k4m4r82/gammu-sms-gateway/blob/master/src/WindowsServiceGammu.Repository/Context/SQLiteContext.cs">SQLiteContext</a>. Class context adalah class yang bertanggung jawab untuk berinteraksi secara langsung dengan database. Jadi class contextlah yang bertugas untuk membuat koneksi, menjalankan perintah sql seperti insert, update, delete dan select atau objek database seperti store procedure dan function. Selain class context juga ada class-class repository yang bertugas untuk menangani operasi CRUD. Berikut adalah contoh class repository untuk class <a href="https://github.com/k4m4r82/gammu-sms-gateway/blob/master/src/WindowsServiceGammu.Repository/SiswaRepository.cs">SiswaRepository</a> dan <a href="https://github.com/k4m4r82/gammu-sms-gateway/blob/master/src/WindowsServiceGammu.Repository/GammuRepository.cs">GammuRepository</a>.</p>
+
+<div><script src='https://gist.github.com/6398e259ef86dcf1a3386a2e3cd55215.js'></script>
+<noscript><pre><code>using Dapper;
+using log4net;
+using WindowsServiceGammu.Model;
+
+namespace WindowsServiceGammu.Repository
+{
+    public interface ISiswaRepository
+    {
+        Siswa GetByNIS(string nis);
+    }
+
+    public class SiswaRepository : ISiswaRepository
+    {
+        private IDapperContext _context;
+        private ILog _log;
+
+        public SiswaRepository(IDapperContext context, ILog log)
+        {
+            this._context = context;
+            this._log = log;
+        }
+
+        public Siswa GetByNIS(string nis)
+        {
+            Siswa siswa = null;
+
+            try
+            {
+                var sql = @&quot;select nis, nama 
+                            from siswa 
+                            where nis = @nis&quot;;
+
+                siswa = _context.db.QuerySingleOrDefault&lt;Siswa&gt;(sql, new { nis });
+            }
+            catch (Exception ex)
+            {
+                _log.Error(&quot;Error:&quot;, ex);
+            }
+
+            return siswa;   
+        }
+    }
+}</code></pre></noscript></div>
+
+
+
+
+<div><script src='https://gist.github.com/e7f4273deeec9753254b46b8a830fa5d.js'></script>
+<noscript><pre><code>using Dapper;
+using log4net;
+using WindowsServiceGammu.Model.Gammu;
+
+namespace WindowsServiceGammu.Repository
+{
+    public interface IGammuRepository
+    {
+        /// &lt;summary&gt;
+        /// Method untuk membaca data sms di tabel inbox yang belum diproses
+        /// &lt;/summary&gt;
+        /// &lt;returns&gt;&lt;/returns&gt;
+        IList&lt;Inbox&gt; ReadInbox();
+
+        /// &lt;summary&gt;
+        /// Method untuk mengupdate status inbox menjadi sudah diproses
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;inboxId&quot;&gt;&lt;/param&gt;
+        /// &lt;returns&gt;&lt;/returns&gt;
+        int UpdateInbox(int inboxId);
+
+        /// &lt;summary&gt;
+        /// Method untuk menyimpan data sms yang akan dikirim ke tabel outbox
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;obj&quot;&gt;&lt;/param&gt;
+        /// &lt;returns&gt;&lt;/returns&gt;
+        int SaveOutbox(Outbox obj);
+
+        /// &lt;summary&gt;
+        /// Method untuk menyimpan data sms ke 2, 3, dst ke tabel outbox_multipart, jika data sms lebih dari 160 karakter
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;obj&quot;&gt;&lt;/param&gt;
+        /// &lt;returns&gt;&lt;/returns&gt;
+        int SaveOutboxMultipart(OutboxMultipart obj);
+    }
+
+    public class GammuRepository : IGammuRepository
+    {
+        private IDapperContext _context;
+        private ILog _log;
+
+        public GammuRepository(IDapperContext context, ILog log)
+        {
+            this._context = context;
+            this._log = log;
+        }
+
+        public IList&lt;Inbox&gt; ReadInbox()
+        {
+            IList&lt;Inbox&gt; listOfSMS = new List&lt;Inbox&gt;();
+
+            try
+            {
+                var sql = @&quot;SELECT `ID`, `UDH`, `SenderNumber`, `TextDecoded`, `ReceivingDateTime`
+                            FROM inbox 
+                            WHERE Processed = &#39;false&#39;
+                            ORDER BY ReceivingDateTime&quot;;
+
+                listOfSMS = _context.db.Query&lt;Inbox&gt;(sql)
+                                              .ToList();
+
+            }
+            catch (Exception ex)
+            {
+                _log.Error(&quot;Error:&quot;, ex);
+            }
+
+            return listOfSMS;
+        }
+
+        public int UpdateInbox(int inboxId)
+        {
+            var result = 0;
+
+            try
+            {
+                var sql = @&quot;UPDATE inbox SET Processed = &#39;true&#39; 
+                            WHERE id = @inboxId&quot;;
+                result = _context.db.Execute(sql, new { inboxId });
+            }
+            catch (Exception ex)
+            {
+                _log.Error(&quot;Error:&quot;, ex);
+            }
+
+            return result;
+        }
+
+        public int SaveOutbox(Outbox obj)
+        {
+            var result = 0;
+
+            try
+            {
+                var sql = @&quot;INSERT INTO outbox (DestinationNumber, UDH, TextDecoded, MultiPart, CreatorID)
+                            VALUES (@DestinationNumber, @UDH, @TextDecoded, @MultiPart, &#39;Gammu&#39;)&quot;;
+                result = _context.db.Execute(sql, obj);
+
+                if (result &gt; 0)
+                {
+                    sql = @&quot;SELECT CONVERT(LAST_INSERT_ID(), SIGNED INTEGER) AS ID&quot;;
+                    obj.Id = _context.db.QuerySingleOrDefault&lt;int&gt;(sql);
+                }
+            }
+            catch (Exception ex)
+            {
+                _log.Error(&quot;Error:&quot;, ex);
+            }
+
+            return result;
+        }
+
+        public int SaveOutboxMultipart(OutboxMultipart obj)
+        {
+            var result = 0;
+
+            try
+            {
+                var sql = @&quot;INSERT INTO outbox_multipart(ID, UDH, TextDecoded, SequencePosition)
+                            VALUES (@ID, @UDH, @TextDecoded, SequencePosition)&quot;;
+                result = _context.db.Execute(sql, obj);
+            }
+            catch (Exception ex)
+            {
+                _log.Error(&quot;Error:&quot;, ex);
+            }
+
+            return result;
+        }
+    }
+}</code></pre></noscript></div>
+
+
+<p>Untuk class repository lainnya bisa Anda cek di <a href="https://github.com/k4m4r82/gammu-sms-gateway/tree/master/src/WindowsServiceGammu.Repository">sini</a>.</p>
+
+<p>Dan yang terakhir adalah project <code>WindowsServiceGammu.Service</code> yang bertipe <code>Windows Service</code>. Project ini tidak bisa dijalankan secara langsung seperti halnya project dengan tipe Console atau Windows Form, tapi harus didaftarkan terlebih dahulu ke Windows Service.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170822-10.png"></p>
+
+<p>Project ini hanya memanggil class-class model atau repository yang sudah ada.</p>
+
+<p>Ada dua class utama yang digunakan oleh project ini yang pertama yaitu class <code>MainService</code> yang merupakan turunan dari class ServiceBase. Class ServiceBase adalah class bawaan .NET Framework yang merupakan class dasar agar sebuah aplikasi bisa di register/menjadi bagian dari aplikasi service (Windows Service).</p>
+
+<div><script src='https://gist.github.com/1713b5f3b53013a0cf2e0e5c199875cf.js'></script>
+<noscript><pre><code>using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Diagnostics;
+using System.Linq;
+using System.ServiceProcess;
+using System.Text;
+
+using log4net;
+
+namespace WindowsServiceGammu.Service
+{
+    public partial class MainService : ServiceBase
+    {
+        private readonly List&lt;TaskBase&gt; _listOfTask;
+        private readonly ILog _log;
+        private const int RefreshInterval = 1000; // In milliseconds
+
+        public MainService()
+        {
+            InitializeComponent();
+            _log = Program.log;
+
+            // Add in this list the tasks to run periodically.
+            // Tasks frequencies are set in the corresponding classes.
+            _listOfTask = new List&lt;TaskBase&gt;
+            {
+                new SMSGatewayTask(RefreshInterval, _log)
+            };
+        }
+
+        protected override void OnStart(string[] args)
+        {
+            try
+            {
+                _log.Info(&quot;Services started ...&quot;);
+                _listOfTask.ForEach(t =&gt; t.StartService());
+            }
+            catch (Exception ex)
+            {
+                _log.Error(&quot;Error:&quot;, ex);
+                Stop();
+            }
+        }
+
+        protected override void OnStop()
+        {
+            _log.Info(&quot;Services stoped ...&quot;);
+            _listOfTask.ForEach(t =&gt; t.StopService());
+        }
+    }
+}</code></pre></noscript></div>
+
+
+<p>Berikutnya adalah class <code>SMSGatewayTask</code> yang bertugas untuk membaca tabel inbox-nya gammu, memvalidasi perintah yang ada dan mengenerate pesan balasan dan kemudian menyimpannya ke tabel outbox. Semua aktivitas membaca dan menyimpan kembali ke database ini dibantu oleh class-class repository.</p>
+
+<div><script src='https://gist.github.com/5d25b7f4ab056635fc915bb1404cf909.js'></script>
+<noscript><pre><code>using log4net;
+using WindowsServiceGammu.Model;
+using WindowsServiceGammu.Model.Gammu;
+using WindowsServiceGammu.Repository;
+
+namespace WindowsServiceGammu.Service
+{
+    public class SMSGatewayTask : TaskBase
+    {
+        private ILog _log;
+
+        public SMSGatewayTask(int refreshInterval, ILog log)
+            : base(refreshInterval) // In milliseconds
+        {
+            _log = log;
+        }        
+
+        protected override void ExecTask()
+        {
+            using (IDapperContext mysqlContext = new MySqlContext())
+            {
+                IGammuRepository gammuRepo = new GammuRepository(mysqlContext, _log);
+                var listOfInbox = gammuRepo.ReadInbox();
+
+                foreach (var inbox in listOfInbox)
+                {                    
+                    var phoneNumber = inbox.SenderNumber;
+
+                    if (phoneNumber.Substring(0, 3) == &quot;+62&quot;)
+                    {
+                        var keyword = inbox.TextDecoded;
+                        var prefix = keyword;
+                        var msg = string.Empty;
+
+                        if (keyword.IndexOf(&quot;#&quot;) &gt;= 0) // karakter # -&gt; separator keyword
+                        {
+                            var nis = string.Empty;
+                            var kodeMP = string.Empty;
+
+                            var arrKeyword = keyword.Split(&#39;#&#39;);
+                            prefix = arrKeyword[0];
+
+                            switch (prefix.ToUpper())
+                            {
+                                case &quot;CEKSISWA&quot;: // FORMAT PERINTAH: CEKSISWA#NIS
+                                    nis = arrKeyword[1]; // nis di ambil dari parameter pertama
+                                    msg = GetBalasanCekSiswa(nis);
+
+                                    break;
+
+                                case &quot;CEKNILAI&quot;: // FORMAT PERINTAH: CEKNILAI#NIS#&lt;OPTIONAL KODE MP&gt;
+                                    nis = arrKeyword[1]; // nis di ambil dari parameter pertama
+                                    kodeMP = arrKeyword.Count() &gt; 2 ? arrKeyword[2] : string.Empty;
+
+                                    msg = GetBalasanCekNilai(nis, kodeMP);
+                                    break;
+
+                                default:
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            // FORMAT PERINTAH: CEKMP
+                            if (keyword.ToUpper() == &quot;CEKMP&quot;)
+                            {
+                                msg = GetBalasanCekMP();
+                            }
+                            else // keyword tidak valid
+                            {
+                                msg = string.Format(&quot;Keyword {0} tidak terdaftar&quot;, keyword.ToUpper());
+                            }
+                        }
+
+                        SaveOutbox(msg, inbox, gammuRepo);
+                    }                    
+                }
+            }
+        }
+
+        /// &lt;summary&gt;
+        /// Method untuk menyimpan pesan yang akan dikirim ke tabel outbox
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;msg&quot;&gt;&lt;/param&gt;
+        /// &lt;param name=&quot;inbox&quot;&gt;&lt;/param&gt;
+        /// &lt;param name=&quot;gammuRepo&quot;&gt;&lt;/param&gt;
+        private void SaveOutbox(string msg, Inbox inbox, IGammuRepository gammuRepo)
+        {
+            var result = 0;
+
+            // insert ke tabel outbox
+            var jumlahSMS = (int)Math.Ceiling((double)msg.Length / 160);
+
+            if (jumlahSMS &gt; 1) // balasan sms &gt; 160 karakter, sms dipecah sebelum dikirim
+            {
+                var listSms = msg.SplitByLength(153)
+                                 .ToList();
+
+                var smsKe = 1;
+                var outboxID = 0;
+                foreach (var sms in listSms)
+                {
+                    var udh = inbox.UDH;
+
+                    if (udh.Length == 0)
+                    {
+                        udh = string.Format(&quot;050003A7{0:00}{1:00}&quot;, listSms.Count, smsKe);
+                    }
+                    else
+                    {
+                        udh = inbox.UDH.Substring(0, inbox.UDH.Length - 4);
+                        udh = string.Format(&quot;{0}{1:00}{2:00}&quot;, udh, listSms.Count, smsKe);
+                    }
+
+                    if (smsKe == 1)
+                    {
+                        var outbox = new Outbox
+                        {
+                            DestinationNumber = inbox.SenderNumber,
+                            UDH = udh,
+                            TextDecoded = sms,
+                            MultiPart = &quot;true&quot;
+                        };
+
+                        result = gammuRepo.SaveOutbox(outbox);
+                        if (result &gt; 0)
+                        {
+                            outboxID = outbox.Id;
+                        }
+                    }
+                    else // sms ke 2, 3, dst, simpan ke tabel outbox_multipart
+                    {
+                        var outboxMultipart = new OutboxMultipart
+                        {
+                            Id = outboxID,
+                            UDH = udh,
+                            TextDecoded = sms,
+                            SequencePosition = smsKe
+                        };
+
+                        result = gammuRepo.SaveOutboxMultipart(outboxMultipart);
+                    }
+
+                    smsKe++;
+                }
+            }
+            else // balasan sms &lt;= 160 karakter
+            {
+                var outbox = new Outbox
+                {
+                    DestinationNumber = inbox.SenderNumber,
+                    UDH = string.Empty,
+                    TextDecoded = msg,
+                    MultiPart = &quot;false&quot;
+                };
+
+                result = gammuRepo.SaveOutbox(outbox);
+            }
+
+            if (result &gt; 0)
+            {
+                // update status pesan di inbox menjadi sudah diproses
+                result = gammuRepo.UpdateInbox(inbox.Id);
+            }
+        }
+
+        /// &lt;summary&gt;
+        /// Method untuk mengenerate pesan balasan untuk keyword: CEKSISWA#NIS
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;nis&quot;&gt;&lt;/param&gt;
+        /// &lt;returns&gt;&lt;/returns&gt;
+        private string GetBalasanCekSiswa(string nis)
+        {
+            var msg = string.Empty;
+
+            using (IDapperContext sqliteContext = new SQLiteContext())
+            {
+                ISiswaRepository siswaRepo = new SiswaRepository(sqliteContext, _log);
+                var siswa = siswaRepo.GetByNIS(nis);
+
+                if (siswa == null)
+                {
+                    msg = string.Format(&quot;NIS: {0} tidak ditemukan&quot;, nis);
+                }
+                else
+                {
+                    msg = string.Format(&quot;NIS: {0}\nNAMA: {1}&quot;, siswa.nis, siswa.nama);
+                }
+            }
+
+            return msg;
+        }
+
+        /// &lt;summary&gt;
+        /// Method untuk mengenerate pesan balasan untuk keyword: CEKNILAI#NIS#&lt;OPTIONAL KODE MP&gt;
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;nis&quot;&gt;&lt;/param&gt;
+        /// &lt;param name=&quot;kodeMP&quot;&gt;&lt;/param&gt;
+        /// &lt;returns&gt;&lt;/returns&gt;
+        private string GetBalasanCekNilai(string nis, string kodeMP)
+        {
+            var msg = string.Empty;
+
+            IList&lt;Nilai&gt; listOfNilai = new List&lt;Nilai&gt;();
+
+            using (IDapperContext sqliteContext = new SQLiteContext())
+            {
+                ISiswaRepository siswaRepo = new SiswaRepository(sqliteContext, _log);
+                var siswa = siswaRepo.GetByNIS(nis);
+
+                if (siswa == null)
+                {
+                    msg = string.Format(&quot;NIS: {0} tidak ditemukan&quot;, nis);
+                }
+                else
+                {
+                    INilaiRepository nilaiRepo = new NilaiRepository(sqliteContext, _log);
+
+                    if (nis.Length &gt; 0 &amp;&amp; kodeMP.Length &gt; 0)
+                    {
+                        var nilai = nilaiRepo.GetByNIS(nis, kodeMP);
+                        listOfNilai.Add(nilai);
+                    }
+                    else
+                    {
+                        listOfNilai = nilaiRepo.GetByNIS(nis);
+                    }
+
+                    msg = string.Format(&quot;NIS: {0}\nNAMA: {1}\n&quot;, siswa.nis, siswa.nama);
+                    msg += &quot;Nilai:\n&quot;;
+
+                    foreach (var nilai in listOfNilai)
+                    {
+                        msg += string.Format(&quot;{0}: {1}\n&quot;, nilai.kode, nilai.nilai);
+                    }
+                }
+            }
+
+            return msg;
+        }
+
+        /// &lt;summary&gt;
+        /// Method untuk mengenerate pesan balasan untuk keyword: CEKMP
+        /// &lt;/summary&gt;
+        /// &lt;returns&gt;&lt;/returns&gt;
+        private string GetBalasanCekMP()
+        {
+            var msg = string.Empty;
+
+            using (IDapperContext sqliteContext = new SQLiteContext())
+            {
+                IMataPelajaranRepository mataPelajaranRepo = new MataPelajaranRepository(sqliteContext, _log);
+                var listOfMataPelajaran = mataPelajaranRepo.GetAll();
+
+                msg = string.Empty;
+                msg = &quot;kode mata pelajaran:\n&quot;;
+
+                foreach (var mataPelajaran in listOfMataPelajaran)
+                {
+                    msg += string.Format(&quot;{0}: {1}\n&quot;, mataPelajaran.kode, mataPelajaran.deskripsi);
+                }
+            }
+
+            return msg;
+        }
+    }
+}</code></pre></noscript></div>
+
+
+<h3>Instalasi Windows Service</h3>
+
+<p>Seperti yang sudah saya jelaskan di atas, project dengan tipe Windows Service tidak bisa dijalankan secara langsung seperti halnya project dengan tipe Console atau Windows Form, tapi harus didaftarkan terlebih dahulu ke Windows Service. Untuk mendaftarkannya kita gunakan tool bawaan .NET Framework yaitu InstallUtil.exe.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># install service
+</span><span class='line'>%WINDIR%\Microsoft.NET\Framework\v4.0.30319\InstallUtil.exe WindowsServiceGammu.Service.exe
+</span><span class='line'>
+</span><span class='line'># uninstall service
+</span><span class='line'>%WINDIR%\Microsoft.NET\Framework\v4.0.30319\InstallUtil.exe WindowsServiceGammu.Service.exe /u</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Jika berhasil seharusnya service sms gateway yang sudah kita buat akan terdaftar di Windows Service.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170822-11.png"></p>
+
+<p>Selamat <a href="https://github.com/k4m4r82/gammu-sms-gateway">MENCOBA</a> :-)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Admin</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2017-08-22T15:59:07+07:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2017</span></span> <span class='time'>3:59 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/dapper-net/'>dapper .net</a>, <a class='category' href='/blog/categories/sms-gateway/'>sms gateway</a>, <a class='category' href='/blog/categories/visual-c-number/'>visual c#</a>
+  
+</span>
+
+
+    </p>
+    
+      <h2>Tentang Penulis</h2>
+<p class="meta">
+<img class="left" src="https://coding4ever.files.wordpress.com/2015/07/avatar-blog-mini.png">Software developer yang fokus mengembangkan aplikasi di atas platform .NET (Desktop, ASP.NET MVC, Web Service) dan Android. Senang mempelajari teknologi baru terutama di bidang OOP, Design Pattern, ORM dan Database.
+<br/>
+Saat ini bekerja sebagai staf IT di salah satu PTS di Yogyakarta sebagai senior software developer. Di waktu luang insya Alloh akan terus berbagi pengalaman di blog <a href="http://coding4ever.net" target="_blank">ini</a> :)
+</p>
+<div class="sharing">
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2017/04/13/openretail-open-source-software-for-retail-business/" title="Previous Post: OpenRetail - Open Source Project for Retail Business">&laquo; OpenRetail - Open Source Project for Retail Business</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Admin</h1>
+  
+  <a href="http://www.facebook.com/abu.anas.1232" title="Admin" target="_blank"><img src="https://coding4ever.files.wordpress.com/2015/04/avatar-blog.png" border="0" alt="Admin" /></a><br/>
+  
+  <p>Software developer yang berasal dari Riau, tepatnya di <a href="http://id.wikipedia.org/wiki/Kabupaten_Indragiri_Hilir" title="Negeri Seribu Parit" target="_blank">Negeri Seribu Parit</a> dan saat ini berdomisili di Yogyakarta.</p>
+  
+  <p>Pernah mengajar di salah satu perguruan tinggi swasta (PTS) di Yogyakarta.<br>
+     Saat ini bekerja sebagai staf IT di PTS yang sama sebagai senior software developer.</p>
+  
+  <p>Fokus mengembangkan aplikasi di atas platform .NET (Desktop, ASP.NET MVC, Web Service) dan Android. Di waktu luang insya Alloh akan terus berbagi pengalaman di blog <a href="http://coding4ever.net" target="_blank">ini</a>.</p>    
+</section><section>
+  <h1>Open Source Project</h1>
+    <ul>		
+		<li>			
+			<a href="https://github.com/rudi-krsoftware/open-retail" title="Open Retail" target="_blank">Open Retail</a>
+		</li>				
+		<li>			
+			<a href="https://openretailblog.wordpress.com" title="Open Retail Blog" target="_blank">Open Retail Blog</a>
+		</li>
+	</ul>
+	
+  <h1>Contacts</h1>
+    <ul>		
+		<li>			
+			<a href="mailto:coding4ever.net@gmail.com" title="GMail" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/gmail-small2.png" border="0" alt="GMail" /></a>
+		</li>		
+		<li>			
+			<a href="https://github.com/k4m4r82?tab=repositories" title="GitHub" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/github-small2.png" border="0" alt="GitHub" /></a>
+		</li>
+		<li>
+			<a href="http://www.facebook.com/abu.anas.1232" title="Facebook" target="_blank"><img src="http://coding4ever.files.wordpress.com/2014/05/fb-small2.png" border="0" alt="Facebook" /></a>
+		</li>				
+		<li>
+			<img src="https://coding4ever.files.wordpress.com/2016/07/bbm-pin2.png" border="0" alt="BBM PIN" />
+		</li>
+	</ul>
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/08/22/membuat-service-sms-gateway-untuk-engine-gammu/">Membuat Service SMS Gateway Untuk Engine Gammu</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/04/13/openretail-open-source-software-for-retail-business/">OpenRetail - Open Source Project for Retail Business</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/01/23/membuat-log-aplikasi-menggunakan-log4net/">Membuat Log Aplikasi Menggunakan Log4Net</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/01/18/manajemen-perubahan-struktur-database-menggunakan-liquibase/">Manajemen Perubahan Struktur Database Menggunakan Liquibase</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/26/build-otomatis-project-visual-basic-6-menggunakan-jenkins/">Build Otomatis Project Visual Basic 6 Menggunakan Jenkins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/14/membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-menggunakan-jenkins-bagian-number-4/">Membangun Server CI (Continuous Integration) Di Windows Untuk Platform .NET Menggunakan Jenkins Bagian #4</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/07/membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-menggunakan-jenkins-bagian-number-3/">Membangun Server CI (Continuous Integration) Di Windows Untuk Platform .NET Menggunakan Jenkins Bagian #3</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/10/01/membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-menggunakan-jenkins-bagian-number-2/">Membangun Server CI (Continuous Integration) Di Windows Untuk Platform .NET Menggunakan Jenkins Bagian #2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/29/membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-menggunakan-jenkins-bagian-number-1/">Membangun Server CI (Continuous Integration) Di Windows Untuk Platform .NET Menggunakan Jenkins Bagian #1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/26/persiapan-membangun-server-ci-continuous-integration-di-windows-untuk-platform-net-bagian-number-2/">Persiapan Membangun Server CI (Continuous Integration) Di Windows Untuk Platform .NET Bagian #2</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+    <ul id="category-list"><li><a href='/blog/categories/dot-net-remoting/'>.net remoting (9)</a></li><li><a href='/blog/categories/active-report/'>active report (4)</a></li><li><a href='/blog/categories/android/'>android (1)</a></li><li><a href='/blog/categories/aplikasi/'>aplikasi (4)</a></li><li><a href='/blog/categories/autoupdater-dot-net/'>autoupdater.net (1)</a></li><li><a href='/blog/categories/build-events/'>build events (3)</a></li><li><a href='/blog/categories/continuous-integration/'>continuous integration (7)</a></li><li><a href='/blog/categories/crashreporter-dot-net/'>crashreporter.net (1)</a></li><li><a href='/blog/categories/crystal-reports-net/'>crystal reports .net (4)</a></li><li><a href='/blog/categories/dapper-net/'>dapper .net (7)</a></li><li><a href='/blog/categories/database/'>database (3)</a></li><li><a href='/blog/categories/entity-framework/'>entity framework (9)</a></li><li><a href='/blog/categories/firebird/'>firebird (12)</a></li><li><a href='/blog/categories/freeware/'>freeware (8)</a></li><li><a href='/blog/categories/inno-setup/'>inno setup (6)</a></li><li><a href='/blog/categories/jaringan/'>jaringan (1)</a></li><li><a href='/blog/categories/jenkins/'>jenkins (5)</a></li><li><a href='/blog/categories/liquibase/'>liquibase (1)</a></li><li><a href='/blog/categories/logger/'>logger (1)</a></li><li><a href='/blog/categories/mysql/'>mysql (10)</a></li><li><a href='/blog/categories/nsis/'>nsis (2)</a></li><li><a href='/blog/categories/nuget/'>nuget (5)</a></li><li><a href='/blog/categories/repository-pattern/'>repository pattern (2)</a></li><li><a href='/blog/categories/signalr/'>signalr (2)</a></li><li><a href='/blog/categories/sms-gateway/'>sms gateway (5)</a></li><li><a href='/blog/categories/software-testing/'>software testing (5)</a></li><li><a href='/blog/categories/source-control/'>source control (1)</a></li><li><a href='/blog/categories/sql-server/'>sql server (1)</a></li><li><a href='/blog/categories/sql-server-2000/'>sql server 2000 (1)</a></li><li><a href='/blog/categories/sqlite/'>sqlite (3)</a></li><li><a href='/blog/categories/tools-installer/'>tools installer (8)</a></li><li><a href='/blog/categories/uncategorized/'>uncategorized (8)</a></li><li><a href='/blog/categories/unit-of-work-pattern/'>unit of work pattern (1)</a></li><li><a href='/blog/categories/version-control/'>version control (1)</a></li><li><a href='/blog/categories/visual-basic/'>visual basic (74)</a></li><li><a href='/blog/categories/visual-basic-net/'>visual basic .net (11)</a></li><li><a href='/blog/categories/visual-c-number/'>visual c# (49)</a></li><li><a href='/blog/categories/visual-studio-net/'>visual studio .net (3)</a></li><li><a href='/blog/categories/wcf/'>wcf (4)</a></li><li><a href='/blog/categories/winsock/'>winsock (6)</a></li></ul>
+</section>
+<section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/blog/categories/dot-net-remoting' style='font-size: 107.29729729729729%'>.net remoting(9)</a> <a href='/blog/categories/active-report' style='font-size: 103.24324324324324%'>active report(4)</a> <a href='/blog/categories/android' style='font-size: 100.8108108108108%'>android(1)</a> <a href='/blog/categories/aplikasi' style='font-size: 103.24324324324324%'>aplikasi(4)</a> <a href='/blog/categories/autoupdater-dot-net' style='font-size: 100.8108108108108%'>autoupdater.net(1)</a> <a href='/blog/categories/build-events' style='font-size: 102.43243243243244%'>build events(3)</a> <a href='/blog/categories/continuous-integration' style='font-size: 105.67567567567568%'>continuous integration(7)</a> <a href='/blog/categories/crashreporter-dot-net' style='font-size: 100.8108108108108%'>crashreporter.net(1)</a> <a href='/blog/categories/crystal-reports-net' style='font-size: 103.24324324324324%'>crystal reports .net(4)</a> <a href='/blog/categories/dapper-net' style='font-size: 105.67567567567568%'>dapper .net(7)</a> <a href='/blog/categories/database' style='font-size: 102.43243243243244%'>database(3)</a> <a href='/blog/categories/entity-framework' style='font-size: 107.29729729729729%'>entity framework(9)</a> <a href='/blog/categories/firebird' style='font-size: 109.72972972972973%'>firebird(12)</a> <a href='/blog/categories/freeware' style='font-size: 106.48648648648648%'>freeware(8)</a> <a href='/blog/categories/inno-setup' style='font-size: 104.86486486486487%'>inno setup(6)</a> <a href='/blog/categories/jaringan' style='font-size: 100.8108108108108%'>jaringan(1)</a> <a href='/blog/categories/jenkins' style='font-size: 104.05405405405405%'>jenkins(5)</a> <a href='/blog/categories/liquibase' style='font-size: 100.8108108108108%'>liquibase(1)</a> <a href='/blog/categories/logger' style='font-size: 100.8108108108108%'>logger(1)</a> <a href='/blog/categories/mysql' style='font-size: 108.10810810810811%'>mysql(10)</a> <a href='/blog/categories/nsis' style='font-size: 101.62162162162163%'>nsis(2)</a> <a href='/blog/categories/nuget' style='font-size: 104.05405405405405%'>nuget(5)</a> <a href='/blog/categories/repository-pattern' style='font-size: 101.62162162162163%'>repository pattern(2)</a> <a href='/blog/categories/signalr' style='font-size: 101.62162162162163%'>signalr(2)</a> <a href='/blog/categories/sms-gateway' style='font-size: 104.05405405405405%'>sms gateway(5)</a> <a href='/blog/categories/software-testing' style='font-size: 104.05405405405405%'>software testing(5)</a> <a href='/blog/categories/source-control' style='font-size: 100.8108108108108%'>source control(1)</a> <a href='/blog/categories/sql-server' style='font-size: 100.8108108108108%'>sql server(1)</a> <a href='/blog/categories/sql-server-2000' style='font-size: 100.8108108108108%'>sql server 2000(1)</a> <a href='/blog/categories/sqlite' style='font-size: 102.43243243243244%'>sqlite(3)</a> <a href='/blog/categories/tools-installer' style='font-size: 106.48648648648648%'>tools installer(8)</a> <a href='/blog/categories/uncategorized' style='font-size: 106.48648648648648%'>uncategorized(8)</a> <a href='/blog/categories/unit-of-work-pattern' style='font-size: 100.8108108108108%'>unit of work pattern(1)</a> <a href='/blog/categories/version-control' style='font-size: 100.8108108108108%'>version control(1)</a> <a href='/blog/categories/visual-basic' style='font-size: 160.0%'>visual basic(74)</a> <a href='/blog/categories/visual-basic-net' style='font-size: 108.91891891891892%'>visual basic .net(11)</a> <a href='/blog/categories/visual-c-number' style='font-size: 139.72972972972974%'>visual c#(49)</a> <a href='/blog/categories/visual-studio-net' style='font-size: 102.43243243243244%'>visual studio .net(3)</a> <a href='/blog/categories/wcf' style='font-size: 103.24324324324324%'>wcf(4)</a> <a href='/blog/categories/winsock' style='font-size: 104.86486486486487%'>winsock(6)</a> </span>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'k4m4r82',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p align="center">
+  Copyright &copy; 2009 - 2017 - Admin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'coding4ever';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://coding4ever.net/blog/2017/08/22/membuat-service-sms-gateway-untuk-engine-gammu/';
+        var disqus_url = 'http://coding4ever.net/blog/2017/08/22/membuat-service-sms-gateway-untuk-engine-gammu/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>
