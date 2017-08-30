@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Continuous Integration | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/continuous-integration/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2017-08-30T14:31:39+07:00</updated>
+  <updated>2017-08-30T14:36:10+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -94,10 +94,12 @@
 <li><a href="https://www.microsoft.com/en-us/download/details.aspx?id=48159">Microsoft Build 2015</a></li>
 <li>Source/version control <a href="https://git-scm.com/">Git</a></li>
 <li>Pembuat paket installer seperti <a href="http://www.jrsoftware.org/">Inno Setup</a></li>
-<li><a href="https://www.nuget.org/downloads">Nuget</a></li>
+<li><a href="https://www.nuget.org/downloads">Nuget</a> untuk merestore paket nuget</li>
 <li>FTP Client seperti <a href="https://winscp.net/eng/index.php">WinSCP</a></li>
 </ul>
 
+
+<p>Intinya semua tool pendukung di atas, diinstall sesuai dengan kebutuhan environment development.</p>
 
 <h4>Mendaftarkan Repository ke GitLab Runner</h4>
 
