@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2017-08-22T16:09:58+07:00</updated>
+  <updated>2017-08-30T12:39:16+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,217 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[GitLab CI Untuk .NET Developer Bagian #1]]></title>
+    <link href="http://coding4ever.net/blog/2017/08/30/gitlab-ci-untuk-net-developer-bagian-number-1/"/>
+    <updated>2017-08-30T12:32:47+07:00</updated>
+    <id>http://coding4ever.net/blog/2017/08/30/gitlab-ci-untuk-net-developer-bagian-number-1</id>
+    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2017/08/gitlabci.png">Sudah hampir setahun saya menggunakan <a href="http://coding4ever.net/blog/categories/jenkins/">Jenkins</a> sebagai tool/software CI <a href="http://coding4ever.net/blog/categories/continuous-integration/">Continuous Integration</a>. Ada banyak manfaat yang saya rasakan terutama untuk mengurangi pekerjaan-pekerjaan <code>sepele</code> tapi <code>berulang</code> seperti pembuatan paket instalasi, upload updatean terbaru ke server atau deploy web api/service ke server development atau production.  Dengan menggunakan software CI(<a href="http://coding4ever.net/blog/categories/continuous-integration/">Continuous Integration</a>) seperti <a href="http://coding4ever.net/blog/categories/jenkins/">Jenkins</a> pekerjaan-pekerjaan membosankan tersebut bisa dilakukan hanya dengan mengklik satu tombol atau bisa juga dibuat otomatis ketika kita mem-push perubahan source code ke repository git. Waktu yang dibutuhkan juga biasanya tidak lama sekitar 1-3 menit, ya tergantung besar atau kecilnya project yang akan dibuild/deploy.</p>
+
+<!-- more -->
+
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170830-011.png"></p>
+
+<p>Selain itu dari sisi dokumentasi juga ikut terbantu, karena tool seperti <a href="http://coding4ever.net/blog/categories/jenkins/">Jenkins</a> dan dengan bantuan pluginnya bisa otomatis mengenerate history build dari waktu ke waktu.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170830-021.png"></p>
+
+<p>Tapi pada postingan kali ini saya ingin membahas tool/software CI(<a href="http://coding4ever.net/blog/categories/continuous-integration/">Continuous Integration</a>) yang lain yaitu <a href="https://about.gitlab.com/features/gitlab-ci-cd/">GitLab CI</a>. Beberapa hari ini saya menyempatkan untuk mencoba <a href="https://about.gitlab.com/features/gitlab-ci-cd/">GitLab CI</a> dan kesimpulannya ada beberapa kelebihan <a href="https://about.gitlab.com/features/gitlab-ci-cd/">GitLab CI</a> dibandingkan <a href="http://coding4ever.net/blog/categories/jenkins/">Jenkins</a> yaitu:</p>
+
+<ul>
+<li><a href="https://about.gitlab.com/features/gitlab-ci-cd/">GitLab CI</a> sudah terintegrasi dengan <a href="https://gitlab.com/">GitLab </a>. <a href="https://gitlab.com/">GitLab </a> adalah layanan cloud untuk repository git, jadi mirip dengan <a href="http://github.com/">github</a> atau <a href="http://bitbucket.org/">bitbucket</a>. Kelebihan gitlab dibandingkan dengan github dan bitbucket adalah untuk layanan gratisnya tidak ada pembatasan jumlah tim atau jumlah repository private yang bisa dibuat. Sedangkan untuk <a href="http://coding4ever.net/blog/categories/jenkins/">Jenkins</a> repository gitnya harus diinstall terpisah atau menggunakan layanan repository git yang sudah ada seperti gitlab, github atau bitbucket.</li>
+<li>Konfigurasi Job di <a href="https://about.gitlab.com/features/gitlab-ci-cd/">GitLab CI</a> lebih sederhana dibandingkan <a href="http://coding4ever.net/blog/categories/jenkins/">Jenkins</a>. Konfigurasi job <a href="https://about.gitlab.com/features/gitlab-ci-cd/">GitLab CI</a> menggunakan file text biasa dengan format <a href="https://en.wikipedia.org/wiki/YAML">YAML</a>, sehingga file konfigurasi ini bisa kita tambahkan ke repository git.</li>
+<li>Penggunaan  <a href="http://coding4ever.net/blog/categories/jenkins/">Jenkins</a> sangat cocok untuk keperluan internal kantor, jadi jika ingin digunakan secara public (di akses via internet) harus menyediakan mesin khusus yang mempunyai ip public atau bisa juga menggunakan VPS. Sedangkan untuk <a href="https://about.gitlab.com/features/gitlab-ci-cd/">GitLab CI</a> sendiri kita cukup menyediakan mesin yang mempunyai akses internet dan tidak harus mempunyai ip public.</li>
+<li>Satu job <a href="https://about.gitlab.com/features/gitlab-ci-cd/">GitLab CI</a> sudah bisa digunakan untuk beberapa <a href="https://docs.gitlab.com/ee/ci/yaml/README.html#stages">stage</a> sedangkan dengan <a href="http://coding4ever.net/blog/categories/jenkins/">Jenkins</a> kita harus membuat beberapa job untuk masing-masing stage (<a href="https://en.wiktionary.org/wiki/CMIIW">CMIIW</a>).</li>
+<li>Apalagi ya…, silahkan dicoba sendiri he he :-D</li>
+</ul>
+
+
+<h3>Continuous Integration</h3>
+
+<p>Sebelum kita lanjut ke pembahasan <a href="https://about.gitlab.com/features/gitlab-ci-cd/">GitLab CI</a>, saya ingin mereview kembali apa yang dimaksud dengan CI (<a href="http://coding4ever.net/blog/categories/continuous-integration/">Continuous Integration</a>).  <a href="http://coding4ever.net/blog/categories/continuous-integration/">Continuous Integration</a>, untuk selanjutnya kita sebut CI saja, merupakan salah satu kegiatan untuk meningkatkan produktivitas dalam pengembangan aplikasi di mana seluruh hasil kerja (source code) dari masing-masing developer digabungkan (push) ke dalam satu wadah (server repository source code). Bisa sekali sehari, bisa juga beberapa kali dalam sehari. Setiap penggabungan source code akan diverifikasi secara otomatis oleh server CI, yang memungkinkan tim untuk mendeteksi secara dini jika ada masalah/konflik/error pada saat penggabungan source code.</p>
+
+<p>Setelah penggabungan hasil kerja (source code) selesai, server CI otomatis akan melakukan proses build untuk memastikan tidak ada kode yang merusak/membuat proses build gagal. Jadi semakin cepat kegagalan build ini diketahui semakin cepat pula kita meresponnya. Dan jika proses build-nya berhasil akan dilanjutkan dengan proses deploy. Selain itu server CI juga bisa dikonfigurasi untuk melakukan proses lain seperti menjalankan unit testing, integration testing dan testing otomatis lainnya.</p>
+
+<p>Sebagai .NET developer kita sudah biasa melakukan proses build dengan menekan tombol F5 (Start Debugging) atau Ctrl+F5 (Start Without Debugging) baik pada waktu development atau perbaikan bug. Sedangkan untuk contoh deploy anggap saja seperti kita membuat paket installer yang akan didistribusikan ke komputer/server klien. Nah dengan menggunakan CI semua proses ini bisa dilakukan secara otomatis dan terpusat, sehingga kita mempunyai arsip hasil build dan deploy dari waktu ke waktu. Jadi untuk mencari file setup/paket installer terakhir enggak usah lagi nanya ke developer karena bisa langsung kita download dari server CI-nya.</p>
+
+<p>Proses build ini selain bisa dibuat otomatis setiap kita mem-push source code ke server repository bisa juga kita buatkan jadwalnya, misal pas jam makan siang atau jam pulang kantor. Jadi di kantor dibuat kesepakatan/aturan klo ada yang merusak build pas jam makan siang enggak boleh makan siang sampai proses build-nya berhasil atau yang merusak build pas jam pulang kantor enggak boleh pulang sampai proses build-nya berhasil :-D</p>
+
+<p>Jadi dengan menggunakan CI, alur kerja kita lebih kurang seperti berikut :</p>
+
+<ul>
+<li>Menulis kode, build dan tes di komputer masing-masing (seperti biasa).</li>
+<li>Commit dan push kode ke server repository/source control seperti GIT atau SVN.</li>
+<li>Server CI akan meng-clone/pull repository kemudian melakukan build, menjalankan tes otomatis (jika ada) dan deploy secara otomatis. Jika buildnya gagal ulangi lagi langkah pertama.</li>
+</ul>
+
+
+<p>Nah mudah-mudahan sampai di sini sudah punya gambaran ya tentang apa itu <a href="http://coding4ever.net/blog/categories/continuous-integration/">Continuous Integration</a> dan bagaimana cara kerjanya.</p>
+
+<h3>Apa saja yang perlu diketahui ?</h3>
+
+<p>Untuk belajar CI, tentu saja ada pengetahun penunjang yang perlu Anda pelajari yaitu penggunakan <a href="https://en.wikipedia.org/wiki/Version_control">Source/Version Control</a> terutama <a href="https://git-scm.com/">GIT</a> dan aplikasi GIT Client seperti <a href="https://tortoisegit.org/download/">TortoiseGit</a>. Pengetahun lainnya adalah pembuatan paket instalasi menggunakan <a href="http://coding4ever.net/blog/categories/inno-setup/">Inno Setup</a> untuk aplikasi desktop atau bisa juga pengetahuan mendeploy web api/service ke server.</p>
+
+<h3>GitLab CI</h3>
+
+<p><a href="https://about.gitlab.com/features/gitlab-ci-cd/">GitLab CI</a> adalah salah satu tool/software <a href="http://coding4ever.net/blog/categories/continuous-integration/">Continuous Integration</a> gratis yang merupakan bagian dari <a href="https://about.gitlab.com/">GitLab</a>. <a href="https://about.gitlab.com/">GitLab</a> sendiri merupakan layanan cloud repository git, jadi mirip dengan <a href="http://github.com/">github</a> atau <a href="http://bitbucket.org/">bitbucket</a>. Kelebihan dari <a href="https://about.gitlab.com/">GitLab</a> ini sendiri, untuk versi gratisnya tidak dibatasi seperti halnya <a href="http://github.com/">github</a> dan <a href="http://bitbucket.org/">bitbucket</a>. Jadi dengan versi gratisnya tidak ada pembatasan jumlah private repository yang bisa kita buat ataupun jumlah tim yang terlibat. Menarik bukan untuk sebuah layanan cloud repository git yang gratis.</p>
+
+<p><a href="https://about.gitlab.com/features/gitlab-ci-cd/">GitLab CI</a> sendiri kalo kita lihat lebih mirip dengan sebuah dashboard untuk mengelola job dan log hasil buildnya. Jadi aslinya yang melakukan build dan deploy itu bukanlah <a href="https://about.gitlab.com/features/gitlab-ci-cd/">GitLab CI</a> tapi tool lain yang disebut dengan  <a href="https://docs.gitlab.com/runner/#using-gitlab-runner">GitLab Runner</a>. <a href="https://docs.gitlab.com/runner/#using-gitlab-runner">GitLab Runner</a> ini harus kita install di mesin (pc/server) yang mempunyai akses internet agar bisa terhubung ke service <a href="https://about.gitlab.com/features/gitlab-ci-cd/">GitLab CI</a>. Mesin untuk <a href="https://docs.gitlab.com/runner/#using-gitlab-runner">GitLab Runner</a> tidak harus mempunyai ip public yang penting terkoneksi dengan internet.</p>
+
+<p>Idenya sederhana tapi brilian, dengan konsep seperti ini akan menghemat resource dari server <a href="https://about.gitlab.com/">GitLab</a> itu sendiri, karena semua resource yang dibutuhkan untuk proses build dan deploy di tanggung oleh mesin dari user/developer. Tapi dari sisi user/developer juga diuntungkan karena mesin untuk build dan deploynya adalah milik kita sendiri, sehingga kita punya akses full untuk setup/konfigurasi tool/software apa saja yang dibutuhkan untuk proses build dan deploy tersebut.</p>
+
+<h3>GitLab Runner</h3>
+
+<p><a href="https://docs.gitlab.com/runner/#using-gitlab-runner">GitLab Runner</a> adalah tool/software yang bertugas untuk menjalankan job dan mengirimkan kembali hasilnya ke <a href="https://about.gitlab.com/">GitLab</a>, nah data-data inilah yang akan diolah oleh <a href="https://about.gitlab.com/features/gitlab-ci-cd/">GitLab CI</a>.</p>
+
+<p>GitLab Runner bisa diinstall untuk GNU/Linux, macOS, FreeBSD, dan Windows.</p>
+
+<h4>Instalasi GitLab Runner</h4>
+
+<p><a href="https://docs.gitlab.com/runner/install/windows.html">Instalasi GitLab Runner</a> sendiri sangat mudah, ditambah dengan dokumentasi yang lengkap. Jadi seharusnya Anda tidak akan mendapatkan masalah untuk langkah-langkah instalasinya. Untuk petunjuknya bisa ada cek di <a href="https://docs.gitlab.com/runner/install/windows.html">sini</a>.</p>
+
+<p>Untuk memastikan instalasinya GitLab Runnernya berhasil, silahkan Anda cek service GitLab Runnernya.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170830-03.png"></p>
+
+<h4>Mendaftarkan Repository ke GitLab Runner</h4>
+
+<p>Setelah instalasi GitLab Runner, berikutnya adalah mendaftarkan repository git ke GitLab Runner. Berikut langkah-langkahnya:</p>
+
+<p><strong>Langkah 1</strong>.  Login ke <a href="https://about.gitlab.com/">GitLab</a>, klo belum punya ya silahkan daftar terlebih dulu.</p>
+
+<p><strong>Langkah 2</strong>.  Buat repository baru</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170830-04.png"></p>
+
+<p><strong>Langkah 3</strong>.  Setelah membuat repositorynya berhasil, klik link <code>Settings</code> -> <code>Pipelines</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170830-05.png"></p>
+
+<p>Scroll ke bawah sedikit, kemudian catat informasi <code>Specific Runners</code> untuk poin 2 dan 3.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170830-06.png"></p>
+
+<p>Kemudian di bagian <code>Shared Runners</code> klik tombol <code>Disable shared Runners</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170830-07.png"></p>
+
+<p><strong>Langkah 4</strong>.  Berikutnya adalah mengaktifkan <code>Command Prompt</code> dengan mode <code>Administrator</code> kemudian masuk ke folder instalasi GitLab Runner</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170830-08.png"></p>
+
+<p>Setelah itu ketik perintah <code>gitlab-runner register</code>, kemudian tinggal jawab pertanyaan yang ada termasuk informasi <code>Specific Runners</code> yang kita dapatkan di <code>langkah 3</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170830-09.png"></p>
+
+<p>Jika proses registrasinya berhasil, kita bisa cek runner aktifnya dibawah informasi <code>Specific Runners</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170830-10.png"></p>
+
+<h3>Contoh Project</h3>
+
+<p>Untuk keperluan uji coba kali ini saya menggunakan contoh aplikasi Northwind yang bisa Anda download di <a href="https://github.com/k4m4r82/RepositoryPattern">sini</a>. Setelah itu kita <code>push</code> source codenya ke link repository gitlab yang sudah kita buat di langkah-langkah sebelumnya.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170830-11.png"></p>
+
+<p>Dan untuk proses <code>push</code>-nya saya menggunakan <a href="https://tortoisegit.org/download/">TortoiseGit</a>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170830-12.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170830-13.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170830-14.png"></p>
+
+<h3>Menambahkan file .gitlab-ci.yml</h3>
+
+<p>Untuk melakukan konfigurasi <a href="https://about.gitlab.com/features/gitlab-ci-cd/">GitLab CI</a>, kita perlu menambahkan file dengan nama <a href="https://docs.gitlab.com/ee/ci/yaml/">.gitlab-ci.yml</a>. File ini adalah file text biasa yang menggunakan format <a href="https://en.wikipedia.org/wiki/YAML">YAML</a>, sehingga file konfigurasi ini bisa kita tambahkan ke folder source code kemudian kita simpan juga ke repository git.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170830-15.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170830-161.png"></p>
+
+<p>Berikut contoh isi file <code>.gitlab-ci.yml</code></p>
+
+<div><script src='https://gist.github.com/f88e4bb02eb8ade0d9d049a07ec6ee30.js'></script>
+<noscript><pre><code>variables:
+  MsBuildPath: &quot;C:\\Program Files (x86)\\MSBuild\\12.0\\Bin\\MSBuild.exe&quot;
+  NugetPath: &quot;C:\\GitLab-Runner\\NuGet\\nuget.exe&quot;
+  SolutionName: &quot;Northwind.sln&quot;
+
+stages: # tipe dari job
+  - restore # stage untuk merestore paket nuget
+  - build # stage untuk proses build  
+  
+cache:
+  untracked: true
+  paths:    
+    - lib # folder hasil restore nuget package    
+
+restore_nuget_package: # job 1
+  stage: restore
+  script:
+    - echo &quot;Sedang merestore paket nuget untuk %SolutionName%...&quot;
+    - &#39;&quot;%NugetPath%&quot; restore &quot;src\%SolutionName%&quot;&#39;  
+    
+build_solution: # job 2
+  stage: build
+  script:     
+    - echo &quot;Sedang melakukan proses build untuk %SolutionName%...&quot;
+    - &#39;&quot;%MsBuildPath%&quot; &quot;src\%SolutionName%&quot;&#39;    
+  only:
+    - master # validasi untuk branch atau tag</code></pre></noscript></div>
+
+
+<p>Coba perhatikan skrip di atas, di baris ke-6 kita mendefinisikan beberapa stage yaitu <code>restore</code> dan <code>build</code>, kita bisa juga menambahkan stage yang lain misal <code>test</code>, <code>deploy</code>, <code>development</code>, <code>production</code>, dst. Stage digunakan untuk menentukan jenis dari job. Jadi perlu diingat bahwa stage dan job itu berbeda, walaupun dibanyak contoh menggunakan nama yang sama untuk stage dan job.</p>
+
+<p>Eksekusi antar job di <a href="https://about.gitlab.com/features/gitlab-ci-cd/">GitLab CI</a> itu sifatnya independen atau dengan kata lain tidak ada hubungan antar job. Ketika job B membutuhkan file yang dihasilkan oleh job A secara default tidak bisa, sehingga kita perlu menambahkan konfigurasi <code>cache</code>, seperti yang terlihat di baris ke-10. Kita mendaftarkan folder <code>lib</code> ke dalam konfigurasi <code>cache</code>. Folder <code>lib</code> ini berisi file-file library (*.dll) hasil dari job <code>restore_nuget_package</code>. Semua file yang ada di folder <code>lib</code> ini dibutuhkan pada saat menjalankan job <code>build_solution</code>.</p>
+
+<p>Berikutnya kita pindah ke baris 15, di baris ini kita mendefinisikan job dengan nama <code>restore_nuget_package</code> dengan tipe stage <code>restore</code>, kemudian menjalankan skrip untuk merestore paket nuget.</p>
+
+<p>Terakhir di baris ke-21, kita mendefinisikan job lain dengan nama <code>build_solution</code>, sesuai namanya job ini digunakan untuk membuild solution atau project atau klo lewat IDE Visual Studio .NET kita menekan tombol F5 (Start Debugging) atau Ctrl+F5 (Start Without Debugging).</p>
+
+<h3>Cara Mengecek/Memvalidasi Skrip File .gitlab-ci.yml</h3>
+
+<p>Sebelum kita menambahkan file <code>.gitlab-ci.yml</code> ke repository git, ada baiknya kita cek terlebih dahulu apakah script yang kita tuliskan sudah benar atau belum.
+<a href="https://about.gitlab.com/features/gitlab-ci-cd/">GitLab CI</a> sudah menyediakan link khusus untuk mengeceknya, yang bisa Anda cek di <a href="https://gitlab.com/ci/lint">sini</a>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170830-171.png"></p>
+
+<h3>Testing Build</h3>
+
+<p>Untuk testing build kita tinggal melakukan push ke repository git.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170830-181.png"></p>
+
+<p>Kemudian untuk melihat log progres buildnya kita bisa cek link <code>Pipelines</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170830-19.png"></p>
+
+<p>Gambar detail job yang sedang dijalankan</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170830-201.png"></p>
+
+<p>Untuk melihat detail log dari masing-masing job, tinggal kita klik nama jobnya, misal job restore nuget package</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170830-211.png"></p>
+
+<p>job build solution</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170830-221.png"></p>
+
+<p>Status proses build berhasil</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2017/08/20170830-231.png"></p>
+
+<p>Untuk contoh lengkap hasil buildnya bisa Anda cek di <a href="https://gitlab.com/rudi.krsoftware/Northwind/pipelines">sini</a></p>
+
+<p>Akhirnya selesai juga postingan <a href="http://coding4ever.net/blog/2017/08/30/gitlab-ci-untuk-net-developer-bagian-number-1/">GitLab CI untuk .NET Developer Bagian #1</a>, dan mudah-mudahan bisa dipahami :-D. Untuk postingan berikutnya insyaAlloh kita akan menambahkan job untuk membuat paket instalasi menggunakan Inno Setup dan menguploadnya sehingga bisa langsung didownload via  Dashboard <a href="https://about.gitlab.com/features/gitlab-ci-cd/">GitLab CI</a>.</p>
+
+<p>Selamat <a href="https://gitlab.com/rudi.krsoftware/Northwind/pipelines">MENCOBA</a> :-)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Membuat Service SMS Gateway Untuk Engine Gammu]]></title>
@@ -4511,24 +4722,6 @@ namespace Northwind.ConsoleApp
 
 
 <p>Selamat <a href="https://github.com/k4m4r82/RepositoryPattern">MENCOBA</a> :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Pengembangan Aplikasi Real-time Menggunakan SignalR Bagian #2]]></title>
-    <link href="http://coding4ever.net/blog/2016/02/15/pengembangan-aplikasi-real-time-menggunakan-signalr-bagian-number-2/"/>
-    <updated>2016-02-15T07:49:15+07:00</updated>
-    <id>http://coding4ever.net/blog/2016/02/15/pengembangan-aplikasi-real-time-menggunakan-signalr-bagian-number-2</id>
-    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2016/02/signalr.png" width="120" height="100">Dasar-dasar penggunaan <a href="http://signalr.net/">SignalR</a>, sudah saya bahas dipostingan <a href="http://coding4ever.net/blog/2016/02/09/pengembangan-aplikasi-real-time-menggunakan-signalr/">pertama</a>. Jadi dipostingan <a href="http://coding4ever.net/blog/2016/02/15/pengembangan-aplikasi-real-time-menggunakan-signalr-bagian-number-2/">kedua</a> ini saya hanya ingin berbagai source code lain contoh penggunaan <a href="http://signalr.net/">SignalR</a> yaitu source code untuk aplikasi pemesanan <a href="http://coding4ever.net/blog/2016/02/15/pengembangan-aplikasi-real-time-menggunakan-signalr-bagian-number-2/">tiket real-time</a>.</p>
-
-<p>Cara kerja aplikasi ini masih sederhana sekali yaitu hanya mengirimkan informasi nomor kursi yang dipilih oleh user ke server, kemudian server akan melakukan pengiriman (push) nomor kursi yang dipesan kepada semua client yang sudah terkoneksi ke server.</p>
-
-<!-- more -->
-
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/02/150216-01.png"></p>
-
-<p>Selamat <a href="https://github.com/k4m4r82/DemoSignalR2">MENCOBA</a> :-)</p>
 ]]></content>
   </entry>
   
