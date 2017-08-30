@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Continuous Integration | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/continuous-integration/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2017-08-30T14:16:31+07:00</updated>
+  <updated>2017-08-30T14:20:21+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -34,8 +34,8 @@
 <ul>
 <li><a href="https://about.gitlab.com/features/gitlab-ci-cd/">GitLab CI</a> sudah terintegrasi dengan <a href="https://gitlab.com/">GitLab </a>. <a href="https://gitlab.com/">GitLab </a> adalah layanan cloud untuk repository git, jadi mirip dengan <a href="http://github.com/">github</a> atau <a href="http://bitbucket.org/">bitbucket</a>. Kelebihan gitlab dibandingkan dengan github dan bitbucket adalah untuk layanan gratisnya tidak ada pembatasan jumlah tim atau jumlah repository private yang bisa dibuat. Sedangkan untuk <a href="/blog/categories/jenkins/">Jenkins</a> repository gitnya harus diinstall terpisah atau menggunakan layanan repository git yang sudah ada seperti gitlab, github atau bitbucket.</li>
 <li>Konfigurasi Job di <a href="https://about.gitlab.com/features/gitlab-ci-cd/">GitLab CI</a> lebih sederhana dibandingkan <a href="/blog/categories/jenkins/">Jenkins</a>. Konfigurasi job <a href="https://about.gitlab.com/features/gitlab-ci-cd/">GitLab CI</a> menggunakan file text biasa dengan format <a href="https://en.wikipedia.org/wiki/YAML">YAML</a>, sehingga file konfigurasi ini bisa kita tambahkan ke repository git.</li>
-<li>Penggunaan  <a href="/blog/categories/jenkins/">Jenkins</a> sangat cocok untuk keperluan internal kantor, jadi jika ingin digunakan secara public (di akses via internet) harus menyediakan mesin khusus yang mempunyai ip public atau bisa juga menggunakan VPS. Sedangkan untuk <a href="https://about.gitlab.com/features/gitlab-ci-cd/">GitLab CI</a> sendiri kita cukup menyediakan mesin yang mempunyai akses internet dan tidak harus mempunyai ip public.</li>
 <li>Satu konfigurasi <a href="https://about.gitlab.com/features/gitlab-ci-cd/">GitLab CI</a> sudah bisa digunakan untuk beberapa <a href="https://docs.gitlab.com/ee/ci/yaml/#jobs">job</a> dan <a href="https://docs.gitlab.com/ee/ci/yaml/README.html#stages">stage</a> sedangkan dengan <a href="/blog/categories/jenkins/">Jenkins</a> kita harus membuat beberapa job untuk masing-masing stage (<a href="https://en.wiktionary.org/wiki/CMIIW">CMIIW</a>).</li>
+<li>Penggunaan  <a href="/blog/categories/jenkins/">Jenkins</a> sangat cocok untuk keperluan internal kantor, jadi jika ingin digunakan secara public (di akses via internet) harus menyediakan mesin khusus yang mempunyai ip public atau bisa juga menggunakan VPS. Sedangkan untuk <a href="https://about.gitlab.com/features/gitlab-ci-cd/">GitLab CI</a> sendiri kita cukup menyediakan mesin yang mempunyai akses internet dan tidak harus mempunyai ip public.</li>
 <li>Apalagi ya…, silahkan dicoba sendiri he he :-D</li>
 </ul>
 
