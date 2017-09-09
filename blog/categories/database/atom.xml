@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Database | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/database/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2017-08-30T14:36:10+07:00</updated>
+  <updated>2017-09-09T22:21:30+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -18,7 +18,7 @@
     <link href="http://coding4ever.net/blog/2017/01/18/manajemen-perubahan-struktur-database-menggunakan-liquibase/"/>
     <updated>2017-01-18T10:53:57+07:00</updated>
     <id>http://coding4ever.net/blog/2017/01/18/manajemen-perubahan-struktur-database-menggunakan-liquibase</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2017/01/logo-lb.png">https://coding4ever.files.wordpress.com/2017/01/logo-lb.png</a>&#8221; width=&#8221;105&#8221; height=&#8221;72&#8221;>Dalam pembuatan aplikasi perubahan struktur/schema database merupakan hal yang wajar, baik pada fase development maupun setelah masuk ke fase implementasi (production/live). Ada banyak alasan kenapa kita perlu melakukan perubahan struktur database, contoh:</p>
+    <content type="html"><![CDATA[<p>{% img left <a href="https://coding4ever.files.wordpress.com/2017/01/logo-lb.png">https://coding4ever.files.wordpress.com/2017/01/logo-lb.png</a> 105 72 %}Dalam pembuatan aplikasi perubahan struktur/schema database merupakan hal yang wajar, baik pada fase development maupun setelah masuk ke fase implementasi (production/live). Ada banyak alasan kenapa kita perlu melakukan perubahan struktur database, contoh:</p>
 
 <!-- more -->
 
@@ -40,7 +40,7 @@
 
 <p><a href="http://www.liquibase.org/">Liquibase</a> tidak memerlukan instalasi khusus, kita tinggal download filenya di web site resmi <a href="http://www.liquibase.org/download/index.html">Liquibase</a> kemudian mengekstraknya.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/180117-01.png">https://coding4ever.files.wordpress.com/2017/01/180117-01.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/180117-01.png">https://coding4ever.files.wordpress.com/2017/01/180117-01.png</a> %}</p>
 
 <p>Selain itu ada tool lain yang perlu kita siapkan yaitu:</p>
 
@@ -50,7 +50,7 @@
 </ul>
 
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/180117-02.png">https://coding4ever.files.wordpress.com/2017/01/180117-02.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/180117-02.png">https://coding4ever.files.wordpress.com/2017/01/180117-02.png</a> %}</p>
 
 <h3>Membuat Changelog</h3>
 
@@ -60,69 +60,37 @@
 
 <p>Perintah ini digunakan untuk membuat <code>changelog</code> dari struktur database secara lengkap jadi mirip dengan perintah dump/export ke sql. Biasanya kita gunakan pada saat implementasi awal sistem untuk mengopykan struktur database kosongan dari server development ke server production/live. Misal di awal implementasi sistem kita mempunyai struktur database seperti berikut :</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/180117-03.png">https://coding4ever.files.wordpress.com/2017/01/180117-03.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/180117-03.png">https://coding4ever.files.wordpress.com/2017/01/180117-03.png</a> %}</p>
 
 <p>Dari gambar di atas kita baru mempunyai dua buah tabel yaitu <code>m_customer</code> dan <code>m_supplier</code>.</p>
 
 <p>Kemudian kita jalankan perintah <code>generateChangelog</code>:</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>liquibase <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">url</span><span class="o">=</span><span class="p">&amp;</span>ldquo<span class="p">;</span>jdbc:postgresql://localhost:5432/db-develop<span class="p">&amp;</span>rdquo<span class="p">;</span> <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">username</span><span class="o">=</span>postgres <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">password</span><span class="o">=</span>masterkey <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">changeLogFile</span><span class="o">=</span>output/db.changelog-1.0.xml generateChangeLog
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:bash %}
+liquibase &ndash;url=&ldquo;jdbc:postgresql://localhost:5432/db-develop&rdquo; &ndash;username=postgres &ndash;password=masterkey &ndash;changeLogFile=output/db.changelog-1.0.xml generateChangeLog
+{% endcodeblock %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/180117-04.png">https://coding4ever.files.wordpress.com/2017/01/180117-04.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/180117-04.png">https://coding4ever.files.wordpress.com/2017/01/180117-04.png</a> %}</p>
 
 <p>Akan menghasilkan file <code>changelog</code> seperti berikut:</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/180117-05.png">https://coding4ever.files.wordpress.com/2017/01/180117-05.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/180117-05.png">https://coding4ever.files.wordpress.com/2017/01/180117-05.png</a> %}</p>
 
-<p><div><script src='https://gist.github.com/f1b99d6a19c05b241367caa332a11ed5.js'></script>
-<noscript><pre><code>&lt;?xml version=&quot;1.1&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;
-&lt;databaseChangeLog xmlns=&quot;http://www.liquibase.org/xml/ns/dbchangelog&quot; xmlns:ext=&quot;http://www.liquibase.org/xml/ns/dbchangelog-ext&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd&quot;&gt;
-    &lt;changeSet author=&quot;Administrator (generated)&quot; id=&quot;1484639745890-1&quot;&gt;
-        &lt;createTable tableName=&quot;m_customer&quot;&gt;
-            &lt;column name=&quot;customer_id&quot; type=&quot;CHAR(36)&quot;&gt;
-                &lt;constraints nullable=&quot;false&quot;/&gt;
-            &lt;/column&gt;
-            &lt;column name=&quot;nama_customer&quot; type=&quot;VARCHAR(50)&quot;/&gt;
-            &lt;column name=&quot;alamat&quot; type=&quot;VARCHAR(100)&quot;/&gt;
-            &lt;column name=&quot;kontak&quot; type=&quot;VARCHAR(50)&quot;/&gt;
-            &lt;column name=&quot;telepon&quot; type=&quot;VARCHAR(20)&quot;/&gt;
-            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;plafon_piutang&quot; type=&quot;numeric(15, 2)&quot;/&gt;
-            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;total_piutang&quot; type=&quot;numeric(15, 2)&quot;/&gt;
-            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;total_pembayaran_piutang&quot; type=&quot;numeric(15, 2)&quot;/&gt;
-        &lt;/createTable&gt;
-    &lt;/changeSet&gt;
-    &lt;changeSet author=&quot;Administrator (generated)&quot; id=&quot;1484639745890-2&quot;&gt;
-        &lt;createTable tableName=&quot;m_supplier&quot;&gt;
-            &lt;column name=&quot;supplier_id&quot; type=&quot;CHAR(36)&quot;&gt;
-                &lt;constraints nullable=&quot;false&quot;/&gt;
-            &lt;/column&gt;
-            &lt;column name=&quot;nama_supplier&quot; type=&quot;VARCHAR(50)&quot;/&gt;
-            &lt;column name=&quot;alamat&quot; type=&quot;VARCHAR(100)&quot;/&gt;
-            &lt;column name=&quot;kontak&quot; type=&quot;VARCHAR(50)&quot;/&gt;
-            &lt;column name=&quot;telepon&quot; type=&quot;VARCHAR(20)&quot;/&gt;
-            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;total_hutang&quot; type=&quot;numeric(15, 2)&quot;/&gt;
-            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;total_pembayaran_hutang&quot; type=&quot;numeric(15, 2)&quot;/&gt;
-        &lt;/createTable&gt;
-    &lt;/changeSet&gt;
-&lt;/databaseChangeLog&gt;
-</code></pre></noscript></div>
-</p>
+<p>{% gist f1b99d6a19c05b241367caa332a11ed5 %}</p>
 
 <p>Mungkin tidak perlu dijelaskan lagi ya, karena isi dari file <a href="https://gist.github.com/k4m4r82/f1b99d6a19c05b241367caa332a11ed5#file-db-changelog-1-0-xml">db.changelog-1.0.xml</a> di atas hanya menjelaskan struktur dari tabel <code>m_customer</code> dan <code>m_supplier</code> dalam format XML.</p>
 
 <p>Setelah itu kita jalankan perintah <code>update</code> agar <code>changelog</code> yang dihasilkan dari perintah <code>generateChangelog</code> di atas dieksekusi ke database target (db production/live).</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>liquibase <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">url</span><span class="o">=</span><span class="p">&amp;</span>ldquo<span class="p">;</span>jdbc:postgresql://localhost:5432/db-production<span class="p">&amp;</span>rdquo<span class="p">;</span> <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">username</span><span class="o">=</span>postgres <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">password</span><span class="o">=</span>masterkey <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">changeLogFile</span><span class="o">=</span>output/db.changelog-1.0.xml update  &lt;br/&gt;
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:bash %}
+liquibase &ndash;url=&ldquo;jdbc:postgresql://localhost:5432/db-production&rdquo; &ndash;username=postgres &ndash;password=masterkey &ndash;changeLogFile=output/db.changelog-1.0.xml update  <br/>
+{% endcodeblock %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/180117-06.png">https://coding4ever.files.wordpress.com/2017/01/180117-06.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/180117-06.png">https://coding4ever.files.wordpress.com/2017/01/180117-06.png</a> %}</p>
 
 <p>Dari gambar di bawah ini terlihat kondisi database production sebelum (sebelah kiri) dan sesudah dijalankan perintah <code>update</code>.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/180117-07.png">https://coding4ever.files.wordpress.com/2017/01/180117-07.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/180117-07.png">https://coding4ever.files.wordpress.com/2017/01/180117-07.png</a> %}</p>
 
 <p>Pada saat pertama kali <a href="http://www.liquibase.org/">Liquibase</a> dijalankan untuk database target, <a href="http://www.liquibase.org/">Liquibase</a> akan membuat dua buah tabel sistem yaitu <a href="http://www.liquibase.org/documentation/databasechangelog_table.html">databasechangelog</a> dan <a href="http://www.liquibase.org/documentation/databasechangeloglock_table.html">databasechangeloglock</a> kedua tabel ini digunakan untuk mencatat hasil eksekusi <code>changelog</code> dari waktu ke waktu. Jadi perlu diperhatikan kedua tabel ini jangan dihapus.</p>
 
@@ -132,84 +100,31 @@
 
 <p>Misal seperti penjelasan gambar di bawah ini, yang sebelah kiri adalah struktur awal database yang hanya mempunyai dua buah tabel yaitu <code>m_customer</code> dan <code>m_supplier</code>, selama proses development berlangsung terjadi penambahan beberapa tabel baru yaitu <code>m_golongan</code>, <code>m_produk</code> dan tabel baru lainnya.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/180117-08.png">https://coding4ever.files.wordpress.com/2017/01/180117-08.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/180117-08.png">https://coding4ever.files.wordpress.com/2017/01/180117-08.png</a> %}</p>
 
 <p>Nah untuk menghasilkan <code>changelog</code>, yang isinya adalah perbedaan struktur lama dan baru kita gunakan perintah <code>diffChangeLog</code>.</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>liquibase <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">url</span><span class="o">=</span><span class="p">&amp;</span>ldquo<span class="p">;</span>jdbc:postgresql://localhost:5432/db-production<span class="p">&amp;</span>rdquo<span class="p">;</span> <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">username</span><span class="o">=</span>postgres <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">password</span><span class="o">=</span>masterkey <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">referenceUrl</span><span class="o">=</span><span class="p">&amp;</span>ldquo<span class="p">;</span>jdbc:postgresql://localhost:5432/db-develop<span class="p">&amp;</span>rdquo<span class="p">;</span> <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">referenceUsername</span><span class="o">=</span>postgres <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">referencePassword</span><span class="o">=</span>masterkey  <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">changeLogFile</span><span class="o">=</span>output/db.changelog-1.1.xml diffChangeLog
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:bash %}
+liquibase &ndash;url=&ldquo;jdbc:postgresql://localhost:5432/db-production&rdquo; &ndash;username=postgres &ndash;password=masterkey &ndash;referenceUrl=&ldquo;jdbc:postgresql://localhost:5432/db-develop&rdquo; &ndash;referenceUsername=postgres &ndash;referencePassword=masterkey  &ndash;changeLogFile=output/db.changelog-1.1.xml diffChangeLog
+{% endcodeblock %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/180117-09.png">https://coding4ever.files.wordpress.com/2017/01/180117-09.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/180117-09.png">https://coding4ever.files.wordpress.com/2017/01/180117-09.png</a> %}</p>
 
 <p>Contoh file <code>changelog</code> yang dihasilkan:</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/180117-10.png">https://coding4ever.files.wordpress.com/2017/01/180117-10.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/180117-10.png">https://coding4ever.files.wordpress.com/2017/01/180117-10.png</a> %}</p>
 
-<p><div><script src='https://gist.github.com/e66ba9f2bff96f9ba50406d34864d87e.js'></script>
-<noscript><pre><code>&lt;?xml version=&quot;1.1&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;
-&lt;databaseChangeLog xmlns=&quot;http://www.liquibase.org/xml/ns/dbchangelog&quot; xmlns:ext=&quot;http://www.liquibase.org/xml/ns/dbchangelog-ext&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd&quot;&gt;
-    &lt;changeSet author=&quot;Administrator (generated)&quot; id=&quot;1484641393235-1&quot;&gt;
-        &lt;createTable tableName=&quot;m_alasan_penyesuaian_stok&quot;&gt;
-            &lt;column name=&quot;alasan_penyesuaian_stok_id&quot; type=&quot;CHAR(36)&quot;&gt;
-                &lt;constraints nullable=&quot;false&quot;/&gt;
-            &lt;/column&gt;
-            &lt;column name=&quot;alasan&quot; type=&quot;VARCHAR(100)&quot;/&gt;
-        &lt;/createTable&gt;
-    &lt;/changeSet&gt;
-    &lt;changeSet author=&quot;Administrator (generated)&quot; id=&quot;1484641393235-2&quot;&gt;
-        &lt;createTable tableName=&quot;m_golongan&quot;&gt;
-            &lt;column name=&quot;golongan_id&quot; type=&quot;CHAR(36)&quot;&gt;
-                &lt;constraints nullable=&quot;false&quot;/&gt;
-            &lt;/column&gt;
-            &lt;column name=&quot;nama_golongan&quot; type=&quot;VARCHAR(50)&quot;/&gt;
-        &lt;/createTable&gt;
-    &lt;/changeSet&gt;
-    &lt;changeSet author=&quot;Administrator (generated)&quot; id=&quot;1484641393235-3&quot;&gt;
-        &lt;createTable tableName=&quot;m_produk&quot;&gt;
-            &lt;column name=&quot;produk_id&quot; type=&quot;CHAR(36)&quot;&gt;
-                &lt;constraints nullable=&quot;false&quot;/&gt;
-            &lt;/column&gt;
-            &lt;column name=&quot;kode_barcode&quot; type=&quot;VARCHAR(15)&quot;/&gt;
-            &lt;column name=&quot;nama_produk&quot; type=&quot;VARCHAR(50)&quot;/&gt;
-            &lt;column name=&quot;satuan&quot; type=&quot;VARCHAR(20)&quot;/&gt;
-            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;stok&quot; type=&quot;numeric(5, 2)&quot;/&gt;
-            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;harga_beli&quot; type=&quot;numeric(10, 2)&quot;/&gt;
-            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;harga_jual&quot; type=&quot;numeric(10, 2)&quot;/&gt;
-            &lt;column name=&quot;golongan_id&quot; type=&quot;CHAR(36)&quot;/&gt;
-            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;minimal_stok&quot; type=&quot;numeric(5, 2)&quot;/&gt;
-            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;stok_gudang&quot; type=&quot;numeric(5, 2)&quot;/&gt;
-            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;minimal_stok_gudang&quot; type=&quot;numeric(5, 2)&quot;/&gt;
-        &lt;/createTable&gt;
-    &lt;/changeSet&gt;
-    &lt;changeSet author=&quot;Administrator (generated)&quot; id=&quot;1484641393235-4&quot;&gt;
-        &lt;createTable tableName=&quot;t_penyesuaian_stok&quot;&gt;
-            &lt;column name=&quot;penyesuaian_stok_id&quot; type=&quot;CHAR(36)&quot;&gt;
-                &lt;constraints nullable=&quot;false&quot;/&gt;
-            &lt;/column&gt;
-            &lt;column name=&quot;produk_id&quot; type=&quot;CHAR(36)&quot;/&gt;
-            &lt;column name=&quot;alasan_penyesuaian_id&quot; type=&quot;CHAR(36)&quot;/&gt;
-            &lt;column name=&quot;tanggal&quot; type=&quot;date&quot;/&gt;
-            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;penambahan_stok&quot; type=&quot;numeric(5, 2)&quot;/&gt;
-            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;pengurangan_stok&quot; type=&quot;numeric(5, 2)&quot;/&gt;
-            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;penambahan_stok_gudang&quot; type=&quot;numeric(5, 2)&quot;/&gt;
-            &lt;column defaultValueComputed=&quot;0.00&quot; name=&quot;pengurangan_stok_gudang&quot; type=&quot;numeric(5, 2)&quot;/&gt;
-            &lt;column name=&quot;keterangan&quot; type=&quot;VARCHAR(100)&quot;/&gt;
-            &lt;column defaultValueComputed=&quot;now()&quot; name=&quot;tanggal_sistem&quot; type=&quot;TIMESTAMP(6) WITHOUT TIME ZONE&quot;/&gt;
-        &lt;/createTable&gt;
-    &lt;/changeSet&gt;
-&lt;/databaseChangeLog&gt;</code></pre></noscript></div>
-</p>
+<p>{% gist e66ba9f2bff96f9ba50406d34864d87e %}</p>
 
 <p>Kemudian kita jalankan lagi perintah <code>update</code>. Perintah <code>update</code> ini melakukan <code>patch</code> ke database target (database production/live).</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>liquibase <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">url</span><span class="o">=</span><span class="p">&amp;</span>ldquo<span class="p">;</span>jdbc:postgresql://localhost:5432/db-production<span class="p">&amp;</span>rdquo<span class="p">;</span> <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">username</span><span class="o">=</span>postgres <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">password</span><span class="o">=</span>masterkey <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">changeLogFile</span><span class="o">=</span>output/db.changelog-1.1.xml update
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:bash %}
+liquibase &ndash;url=&ldquo;jdbc:postgresql://localhost:5432/db-production&rdquo; &ndash;username=postgres &ndash;password=masterkey &ndash;changeLogFile=output/db.changelog-1.1.xml update
+{% endcodeblock %}</p>
 
 <p>Setelah itu kita cek lagi struktur database productionnya.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2017/01/180117-11.png">https://coding4ever.files.wordpress.com/2017/01/180117-11.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2017/01/180117-11.png">https://coding4ever.files.wordpress.com/2017/01/180117-11.png</a> %}</p>
 
 <p>Gampang bukan :-), dengan menggunakan <a href="http://www.liquibase.org/">Liquibase</a> proses migrasi struktur database pun menjadi lebih mudah.</p>
 
@@ -217,103 +132,45 @@
 
 <p>Untuk menyingkat penulisan perintah <a href="http://www.liquibase.org/">Liquibase</a> kita bisa memanfaatkan file liquibase properties. Di file ini kita mengeset semua nilai parameter yang dibutuhkan pada saat menjalankan perintah <a href="http://www.liquibase.org/">Liquibase</a>. Secara default nama yang digunakan untuk file liquibase properties adalah <code>liquibase.properties</code>, jika menggunakan nama default ini kita bisa langsung menjalankan perintah <a href="http://www.liquibase.org/">Liquibase</a> seperti berikut :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;generateChangelog&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;liquibase generateChangelog&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;diffChangeLog&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;liquibase diffChangeLog&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;update/patch database target&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;liquibase update
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:bash %}</p>
+
+<h1>generateChangelog</h1>
+
+<p>liquibase generateChangelog</p>
+
+<h1>diffChangeLog</h1>
+
+<p>liquibase diffChangeLog</p>
+
+<h1>update/patch database target</h1>
+
+<p>liquibase update
+{% endcodeblock %}</p>
 
 <p>dan jika menggunakan nama yang lain, misal untuk masing-masing perintah kita buatkan  file liquibase properties tersendiri, pada saat menjalankan perintah <a href="http://www.liquibase.org/">Liquibase</a> harus kita sebutkan secara explicit nama file  liquibase properties-nya dengan menambahkan parameter <code>defaultsFile=&lt;nama_file_liquibase_properties&gt;</code>. Contoh:</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;generateChangelog&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;liquibase <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">defaultsFile</span><span class="o">=</span>generate-liquibase.properties generateChangelog&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;diffChangeLog&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;liquibase <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">defaultsFile</span><span class="o">=</span>diff-liquibase.properties diffChangeLog&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;update/patch database target&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;liquibase <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">defaultsFile</span><span class="o">=</span>update-liquibase.properties update
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:bash %}</p>
+
+<h1>generateChangelog</h1>
+
+<p>liquibase &ndash;defaultsFile=generate-liquibase.properties generateChangelog</p>
+
+<h1>diffChangeLog</h1>
+
+<p>liquibase &ndash;defaultsFile=diff-liquibase.properties diffChangeLog</p>
+
+<h1>update/patch database target</h1>
+
+<p>liquibase &ndash;defaultsFile=update-liquibase.properties update
+{% endcodeblock %}</p>
 
 <p>Dan untuk masing-masing file liquibase properties-nya kita isi seperti berikut:</p>
 
-<p><div><script src='https://gist.github.com/16429101488c5c734e8f86832c6dc646.js'></script>
-<noscript><pre><code># liquibase.properties
-driver: org.postgresql.Driver
-classpath: ./lib/postgresql-9.4.1212.jar
-url: jdbc:postgresql://localhost:5432/db-develop
-username: postgres
-password: masterkey
-changeLogFile: output/db.changelog-1.0.xml</code></pre></noscript></div>
-</p>
+<p>{% gist 16429101488c5c734e8f86832c6dc646 %}</p>
 
-<p><div><script src='https://gist.github.com/033067883ebff3ab40ed2b08b3c06a42.js'></script>
-<noscript><pre><code># liquibase.properties
-driver: org.postgresql.Driver
-classpath: ./lib/postgresql-9.4.1212.jar
+<p>{% gist 033067883ebff3ab40ed2b08b3c06a42 %}</p>
 
-# db-production
-url: jdbc:postgresql://localhost:5432/db-production
-username: postgres
-password: masterkey
-
-# db-develop
-referenceUrl: jdbc:postgresql://localhost:5432/db-develop
-referenceUsername: postgres
-referencePassword: masterkey
-
-changeLogFile: output/db.changelog-1.1.xml</code></pre></noscript></div>
-</p>
-
-<p><div><script src='https://gist.github.com/4ad6e69e060e7fcd4da12fa56fbbaf0c.js'></script>
-<noscript><pre><code># liquibase.properties
-driver: org.postgresql.Driver
-classpath: ./lib/postgresql-9.4.1212.jar
-url: jdbc:postgresql://localhost:5432/db-production
-username: postgres
-password: masterkey
-changeLogFile: output/db.changelog-1.0.xml</code></pre></noscript></div>
-</p>
+<p>{% gist 4ad6e69e060e7fcd4da12fa56fbbaf0c %}</p>
 
 <p>Selamat mencoba :-)</p>
 ]]></content>
@@ -324,7 +181,7 @@ changeLogFile: output/db.changelog-1.0.xml</code></pre></noscript></div>
     <link href="http://coding4ever.net/blog/2016/01/06/online-backup-database/"/>
     <updated>2016-01-06T14:42:52+07:00</updated>
     <id>http://coding4ever.net/blog/2016/01/06/online-backup-database</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2016/01/google-drive.png">https://coding4ever.files.wordpress.com/2016/01/google-drive.png</a>&#8221; width=&#8221;100&#8221; height=&#8221;100&#8221;><a href="/blog/2015/04/30/membuat-jadwal-backup-database-otomatis/">Backup database lokal</a> saja ternyata tidak cukup, paling tidak itu yang saya rasakan ketika salah satu klien saya hardisk servernya <code>tewas</code> :-D. Padahal dulu itu saya sudah menyarankan untuk menggunakan UPS, tapi katanya &ldquo;<em>kalo pake UPS, fitur  powerON di biosnya jadi gak jalan&hellip;</em>&rdquo; dan saya maklum karena servernya memang ON 24 jam dan memang tidak ada petugas khusus yang mengONkan servernya kalo pas lagi OFF.
+    <content type="html"><![CDATA[<p>{% img left <a href="https://coding4ever.files.wordpress.com/2016/01/google-drive.png">https://coding4ever.files.wordpress.com/2016/01/google-drive.png</a> 100 100 %}<a href="{{%20site.url%20}}/blog/2015/04/30/membuat-jadwal-backup-database-otomatis/">Backup database lokal</a> saja ternyata tidak cukup, paling tidak itu yang saya rasakan ketika salah satu klien saya hardisk servernya <code>tewas</code> :-D. Padahal dulu itu saya sudah menyarankan untuk menggunakan UPS, tapi katanya &ldquo;<em>kalo pake UPS, fitur  powerON di biosnya jadi gak jalan&hellip;</em>&rdquo; dan saya maklum karena servernya memang ON 24 jam dan memang tidak ada petugas khusus yang mengONkan servernya kalo pas lagi OFF.
 Jadi kita memang dituntut untuk memberikan solusi untuk masalah ini, terutama solusi yang murah meriah he he :-D</p>
 
 <!-- more -->
@@ -338,37 +195,37 @@ Jadi kita memang dituntut untuk memberikan solusi untuk masalah ini, terutama so
 
 <p>Untuk membuat client id, kita bisa langsung mengakses link <a href="https://console.developers.google.com/">Google Developer Console</a> kemudian login menggunakan email google Anda</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/060116-19.png">https://coding4ever.files.wordpress.com/2016/01/060116-19.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/060116-19.png">https://coding4ever.files.wordpress.com/2016/01/060116-19.png</a> %}</p>
 
 <h5>2. Membuat project</h5>
 
 <p>Klik menu Select a project -> Create a project…</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/060116-01.png">https://coding4ever.files.wordpress.com/2016/01/060116-01.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/060116-01.png">https://coding4ever.files.wordpress.com/2016/01/060116-01.png</a> %}</p>
 
 <p>Kemudian isikan nama project, misal <code>OnlineBackup</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/060116-02.png">https://coding4ever.files.wordpress.com/2016/01/060116-02.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/060116-02.png">https://coding4ever.files.wordpress.com/2016/01/060116-02.png</a> %}</p>
 
 <h5>3. Mengaktifkan Google API</h5>
 
 <p>Dari menu dashboard klik link <code>Use Google APIs</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/060116-03.png">https://coding4ever.files.wordpress.com/2016/01/060116-03.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/060116-03.png">https://coding4ever.files.wordpress.com/2016/01/060116-03.png</a> %}</p>
 
 <p>Secara default google sudah mengaktifkan beberapa API yang bisa kita akses dari aplikasi</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/060116-04.png">https://coding4ever.files.wordpress.com/2016/01/060116-04.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/060116-04.png">https://coding4ever.files.wordpress.com/2016/01/060116-04.png</a> %}</p>
 
 <p>Dari daftar api di atas kita belum menemukan API untuk mengakses google drive, sehingga API ini harus kita aktifkan secara manual dengan mengklik link <code>Google APIs</code> kemudian di kotak pencarian ketik <code>Drive API</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/060116-05.png">https://coding4ever.files.wordpress.com/2016/01/060116-05.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/060116-05.png">https://coding4ever.files.wordpress.com/2016/01/060116-05.png</a> %}</p>
 
 <p>Selanjutnya klik link <code>Drive API</code> kemudian pilih <code>Enable API</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/060116-06.png">https://coding4ever.files.wordpress.com/2016/01/060116-06.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/060116-06.png">https://coding4ever.files.wordpress.com/2016/01/060116-06.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/060116-07.png">https://coding4ever.files.wordpress.com/2016/01/060116-07.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/060116-07.png">https://coding4ever.files.wordpress.com/2016/01/060116-07.png</a> %}</p>
 
 <h5>4. Membuat Credential</h5>
 
@@ -376,29 +233,29 @@ Jadi kita memang dituntut untuk memberikan solusi untuk masalah ini, terutama so
 
 <p>Untuk membuat <code>Credential</code> klik menu <code>Credentials</code> kemudian pilih <code>OAuth client ID</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/060116-08.png">https://coding4ever.files.wordpress.com/2016/01/060116-08.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/060116-08.png">https://coding4ever.files.wordpress.com/2016/01/060116-08.png</a> %}</p>
 
 <p>Kemudian klik menu <code>Configure consent screen</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/060116-09.png">https://coding4ever.files.wordpress.com/2016/01/060116-09.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/060116-09.png">https://coding4ever.files.wordpress.com/2016/01/060116-09.png</a> %}</p>
 
 <p>Isikan datanya sesuai kebutuhan</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/060116-10.png">https://coding4ever.files.wordpress.com/2016/01/060116-10.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/060116-10.png">https://coding4ever.files.wordpress.com/2016/01/060116-10.png</a> %}</p>
 
 <p>Selanjutnya kita akan menentukan jenis aplikasi yang akan mengakses API ini. Untuk contoh disini saya menggunakan aplikasi console.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/060116-11.png">https://coding4ever.files.wordpress.com/2016/01/060116-11.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/060116-11.png">https://coding4ever.files.wordpress.com/2016/01/060116-11.png</a> %}</p>
 
 <p>Jika berhasil kita akan mendapatkan informasi <code>client ID</code> dan <code>client secret</code>. Informasi ini akan kita gunakan untuk mengakses layanan/API google drive ataupun layanan lainnya.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/060116-12.png">https://coding4ever.files.wordpress.com/2016/01/060116-12.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/060116-12.png">https://coding4ever.files.wordpress.com/2016/01/060116-12.png</a> %}</p>
 
 <h5>5. Menyiapkan folder backup</h5>
 
 <p>Langkah berikutnya adalah masuk ke <code>Google Drive</code> kemudian kita buat folder untuk backup database. Setelah membuat folder ini, kita perlu mengetahui informasi <code>folder id</code> dari folder backup ini. Untuk mendapatkan <code>folder id</code> bisa kita lihat dibagian address bar.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/060116-13.png">https://coding4ever.files.wordpress.com/2016/01/060116-13.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/060116-13.png">https://coding4ever.files.wordpress.com/2016/01/060116-13.png</a> %}</p>
 
 <p>Pada gambar di atas <code>folder id</code> dari folder <code>Backup Database</code> ini adalah : <code>0B5aEAoHOGHqkelgzM2cxVncxNGM</code>.</p>
 
@@ -408,206 +265,132 @@ Jadi kita memang dituntut untuk memberikan solusi untuk masalah ini, terutama so
 
 <p>Untuk contoh di sini kita akan menggunakan <code>aplikasi console</code> untuk mendemokan proses upload file ke Google Drive. Artinya aplikasi ini akan dijalankan via batch command atau command prompt.</p>
 
-<p>Aplikasi ini juga membutuhkan dua library pihak ketiga yaitu <a href="https://www.nuget.org/packages/Google.Apis.Drive.v2/">Google.Apis.Drive.v2</a> dan <a href="https://www.nuget.org/packages/DotNetZip/">DotNetZip</a> yang bisa diinstall via <a href="/blog/categories/nuget/">NuGet</a>.</p>
+<p>Aplikasi ini juga membutuhkan dua library pihak ketiga yaitu <a href="https://www.nuget.org/packages/Google.Apis.Drive.v2/">Google.Apis.Drive.v2</a> dan <a href="https://www.nuget.org/packages/DotNetZip/">DotNetZip</a> yang bisa diinstall via <a href="{{%20site.url%20}}/blog/categories/nuget/">NuGet</a>.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/060116-14.png">https://coding4ever.files.wordpress.com/2016/01/060116-14.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/060116-14.png">https://coding4ever.files.wordpress.com/2016/01/060116-14.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/060116-15.png">https://coding4ever.files.wordpress.com/2016/01/060116-15.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/060116-15.png">https://coding4ever.files.wordpress.com/2016/01/060116-15.png</a> %}</p>
 
 <p>File backup database yang akan kita upload adalah file backup yang sudah kita buatkan versi kompresnya, disini kita menggunakan library <a href="https://www.nuget.org/packages/DotNetZip/">DotNetZip</a>.
 Contoh kodenya  seperti berikut :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="k">void</span> <span class="nf">CreateZip</span><span class="p">(</span><span class="kt">string</span> <span class="n">pathFileBackup</span><span class="p">,</span> <span class="kt">string</span> <span class="n">fileBackup</span><span class="p">,</span> <span class="kt">string</span> <span class="n">extension</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">fileToZip</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="err">@</span><span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;{</span><span class="m">0</span><span class="p">}{</span><span class="m">1</span><span class="p">}.</span><span class="n">zip</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">pathFileBackup</span><span class="p">,</span> <span class="n">fileBackup</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">fileBackup</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="err">@</span><span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;{</span><span class="m">0</span><span class="p">}{</span><span class="m">1</span><span class="p">}.{</span><span class="m">2</span><span class="p">}&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">pathFileBackup</span><span class="p">,</span> <span class="n">fileBackup</span><span class="p">,</span> <span class="n">extension</span><span class="p">);&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">zip</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ZipFile</span><span class="p">())</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;\nAdding {0}...&quot;</span><span class="p">,</span> <span class="n">fileBackup</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">ZipEntry</span> <span class="n">e</span> <span class="p">=</span> <span class="n">zip</span><span class="p">.</span><span class="n">AddFile</span><span class="p">(</span><span class="n">fileBackup</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">zip</span><span class="p">.</span><span class="n">Save</span><span class="p">(</span><span class="n">fileToZip</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+private static void CreateZip(string pathFileBackup, string fileBackup, string extension)
+{
+    var fileToZip = string.Format(@&ldquo;{0}{1}.zip&rdquo;, pathFileBackup, fileBackup);
+    fileBackup = string.Format(@&ldquo;{0}{1}.{2}&rdquo;, pathFileBackup, fileBackup, extension);</p>
+
+<pre><code>using (var zip = new ZipFile())
+{
+    Console.WriteLine("\nAdding {0}...", fileBackup);
+    ZipEntry e = zip.AddFile(fileBackup, "");
+
+    zip.Save(fileToZip);
+}
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p>Setelah berhasil membuat file zipnya, tinggal upload ke google drive. Berikut contoh kodenya :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">private</span> <span class="k">static</span> <span class="k">void</span> <span class="nf">UploadToGoogleDrive</span><span class="p">(</span><span class="kt">string</span> <span class="n">pathFileBackup</span><span class="p">,</span> <span class="kt">string</span> <span class="n">fileBackup</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="c1">// TODO : disesuaikan dengan nilai clientId dan clientSecret Anda</span>
-</span><span class='line'>    <span class="c1">//        setting ini juga bisa disimpan di file App.config</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">clientId</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="m">505165741497</span><span class="p">-</span><span class="n">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span><span class="p">.</span><span class="n">apps</span><span class="p">.</span><span class="n">googleusercontent</span><span class="p">.</span><span class="n">com</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">clientSecret</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="m">6</span><span class="n">Nxxxxxx</span><span class="p">-</span><span class="n">xxxxxxxxxxxxxxx</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="kt">var</span> <span class="n">service</span> <span class="p">=</span> <span class="n">GoogleDriveHelper</span><span class="p">.</span><span class="n">AuthenticateOauth</span><span class="p">(</span><span class="n">clientId</span><span class="p">,</span> <span class="n">clientSecret</span><span class="p">,</span> <span class="n">Environment</span><span class="p">.</span><span class="n">UserName</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">service</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Authentication error&quot;</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">ReadLine</span><span class="p">();</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">try</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Sedang proses upload ...&quot;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// TODO : disesuaikan dengan nilai folder id Anda</span>
-</span><span class='line'>    <span class="c1">//        setting ini juga bisa disimpan di file App.config</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">folderId</span> <span class="p">=</span> <span class="s">&quot;0B5xxxxxxxxxxxxxxxxxxxxxxxxx&quot;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// upload file</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">fileToUpload</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;{0}\\{1}.zip&quot;</span><span class="p">,</span> <span class="n">pathFileBackup</span><span class="p">,</span> <span class="n">fileBackup</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">File</span> <span class="n">newFile</span> <span class="p">=</span> <span class="n">GoogleDriveHelper</span><span class="p">.</span><span class="n">UploadFile</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">fileToUpload</span><span class="p">,</span> <span class="n">folderId</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">catch</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;\nUpload file gagal !&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">finally</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="c1">// hapus file yang berhasil diupload</span>
-</span><span class='line'>    <span class="kt">var</span> <span class="n">fileToDelete</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;{0}\\{1}.zip&quot;</span><span class="p">,</span> <span class="n">pathFileBackup</span><span class="p">,</span> <span class="n">fileBackup</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">File</span><span class="p">.</span><span class="n">Delete</span><span class="p">(</span><span class="n">fileToDelete</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:c# %}
+private static void UploadToGoogleDrive(string pathFileBackup, string fileBackup)
+{
+    // TODO : disesuaikan dengan nilai clientId dan clientSecret Anda
+    //        setting ini juga bisa disimpan di file App.config
+    var clientId = &ldquo;505165741497-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com&rdquo;;
+    var clientSecret = &ldquo;6Nxxxxxx-xxxxxxxxxxxxxxx&rdquo;;</p>
+
+<pre><code>var service = GoogleDriveHelper.AuthenticateOauth(clientId, clientSecret, Environment.UserName);
+
+if (service == null)
+{
+    Console.WriteLine("Authentication error");
+    Console.ReadLine();
+}            
+
+try
+{
+    Console.WriteLine("Sedang proses upload ...");
+
+    // TODO : disesuaikan dengan nilai folder id Anda
+    //        setting ini juga bisa disimpan di file App.config
+    var folderId = "0B5xxxxxxxxxxxxxxxxxxxxxxxxx";                
+
+    // upload file
+    var fileToUpload = string.Format("{0}\\{1}.zip", pathFileBackup, fileBackup);
+    File newFile = GoogleDriveHelper.UploadFile(service, fileToUpload, folderId);
+
+}
+catch
+{
+    Console.WriteLine("\nUpload file gagal !");
+}
+finally
+{
+    // hapus file yang berhasil diupload
+    var fileToDelete = string.Format("{0}\\{1}.zip", pathFileBackup, fileBackup);
+    System.IO.File.Delete(fileToDelete);
+}
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p>Method <code>UploadToGoogleDrive</code> di atas membutuhkan class <a href="https://github.com/k4m4r82/DemoOnlineBackup/blob/master/src/DemoOnlineBackup/GoogleDriveHelper.cs">GoogleDriveHelper</a> yang bisa Anda cek di <a href="https://github.com/k4m4r82/DemoOnlineBackup/blob/master/src/DemoOnlineBackup/GoogleDriveHelper.cs">sini</a>.</p>
 
 <p>Method <code>CreateZip</code> dan <code>UploadToGoogleDrive</code> di atas mempunyai parameter seperti berikut :
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="k">void</span> <span class="nf">CreateZip</span><span class="p">(</span><span class="kt">string</span> <span class="n">pathFileBackup</span><span class="p">,</span> <span class="kt">string</span> <span class="n">fileBackup</span><span class="p">,</span> <span class="kt">string</span> <span class="n">extension</span><span class="p">)</span>
-</span><span class='line'><span class="k">void</span> <span class="nf">UploadToGoogleDrive</span><span class="p">(</span><span class="kt">string</span> <span class="n">pathFileBackup</span><span class="p">,</span> <span class="kt">string</span> <span class="n">fileBackup</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></p>
+{% codeblock lang:c# %}
+void CreateZip(string pathFileBackup, string fileBackup, string extension)
+void UploadToGoogleDrive(string pathFileBackup, string fileBackup)
+{% endcodeblock %}</p>
 
 <p>Nilai masing-masing parameter di atas kita isi pada saat memanggil aplikasi via batch command atau command prompt. Contoh :</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/060116-16.png">https://coding4ever.files.wordpress.com/2016/01/060116-16.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/060116-16.png">https://coding4ever.files.wordpress.com/2016/01/060116-16.png</a> %}</p>
 
 <p>Dan untuk mendapatkan nilainya, kita bisa mengakses parameter <code>args</code> dari method Main.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/060116-17.png">https://coding4ever.files.wordpress.com/2016/01/060116-17.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/060116-17.png">https://coding4ever.files.wordpress.com/2016/01/060116-17.png</a> %}</p>
 
 <h5>7. Menjalankan aplikasi client via batch command</h5>
 
 <p>Untuk menjalankan aplikasi di atas kita bisa menggunakan batch command. Untuk contoh kodenya menggunakan database MySQL :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>for /f &ldquo;tokens=2-4 delims=/ &rdquo; %%a in (&lsquo;date /T&rsquo;) do set year=%%c
-</span><span class='line'>for /f &ldquo;tokens=2-4 delims=/ &rdquo; %%a in (&lsquo;date /T&rsquo;) do set month=%%a
-</span><span class='line'>for /f &ldquo;tokens=2-4 delims=/ &rdquo; %%a in (&lsquo;date /T&rsquo;) do set day=%%b&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>for /f &ldquo;tokens=1 delims=: &rdquo; %%h in (&lsquo;time /T&rsquo;) do set hour=%%h
-</span><span class='line'>for /f &ldquo;tokens=2 delims=: &rdquo; %%m in (&lsquo;time /T&rsquo;) do set minutes=%%m
-</span><span class='line'>for /f &ldquo;tokens=3 delims=: &rdquo; %%a in (&lsquo;time /T&rsquo;) do set ampm=%%a&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>rem membuat file backup database dengan format nama_database-tahun-bulan-hari_jam_menit
-</span><span class='line'>set FILE_BACKUP=pulsa-%year%-%month%-%day%_%hour%-%minutes%-%ampm%
-</span><span class='line'>set LOKASI_BACKUP=D:\BackupDatabase\backups
-</span><span class='line'>set FILE_EXTENSION=sql&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>rem set user dan password mysql
-</span><span class='line'>set USER_MYSQL=root
-</span><span class='line'>set PASS_MYSQL=rahasia&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>rem USER_NAME, USER_PASSWORD dan NAMA_DATABASE menyesuaikan
-</span><span class='line'>mysqldump -u%USER_MYSQL% -p%PASS_MYSQL% pulsa > %LOKASI_BACKUP%\%FILE_BACKUP%.%FILE_EXTENSION%&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>D:\BackupDatabase\DemoOnlineBackup.exe %LOKASI_BACKUP% %FILE_BACKUP% %FILE_EXTENSION%</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+for /f &ldquo;tokens=2-4 delims=/ &rdquo; %%a in (&lsquo;date /T&rsquo;) do set year=%%c
+for /f &ldquo;tokens=2-4 delims=/ &rdquo; %%a in (&lsquo;date /T&rsquo;) do set month=%%a
+for /f &ldquo;tokens=2-4 delims=/ &rdquo; %%a in (&lsquo;date /T&rsquo;) do set day=%%b</p>
+
+<p>for /f &ldquo;tokens=1 delims=: &rdquo; %%h in (&lsquo;time /T&rsquo;) do set hour=%%h
+for /f &ldquo;tokens=2 delims=: &rdquo; %%m in (&lsquo;time /T&rsquo;) do set minutes=%%m
+for /f &ldquo;tokens=3 delims=: &rdquo; %%a in (&lsquo;time /T&rsquo;) do set ampm=%%a</p>
+
+<p>rem membuat file backup database dengan format nama_database-tahun-bulan-hari_jam_menit
+set FILE_BACKUP=pulsa-%year%-%month%-%day%_%hour%-%minutes%-%ampm%
+set LOKASI_BACKUP=D:\BackupDatabase\backups
+set FILE_EXTENSION=sql</p>
+
+<p>rem set user dan password mysql
+set USER_MYSQL=root
+set PASS_MYSQL=rahasia</p>
+
+<p>rem USER_NAME, USER_PASSWORD dan NAMA_DATABASE menyesuaikan
+mysqldump -u%USER_MYSQL% -p%PASS_MYSQL% pulsa > %LOKASI_BACKUP%\%FILE_BACKUP%.%FILE_EXTENSION%</p>
+
+<p>D:\BackupDatabase\DemoOnlineBackup.exe %LOKASI_BACKUP% %FILE_BACKUP% %FILE_EXTENSION%
+{% endcodeblock %}</p>
 
 <p>Kemudian kode di atas kita simpan dengan nama <code>backup.cmd</code> di folder <code>Instalasi MySQL\bin</code>.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/060116-18.png">https://coding4ever.files.wordpress.com/2016/01/060116-18.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/060116-18.png">https://coding4ever.files.wordpress.com/2016/01/060116-18.png</a> %}</p>
 
-<p>Agar proses backup ini bisa otomatis dan terjadwal kita bisa memanfaatkan <a href="/blog/2015/04/30/membuat-jadwal-backup-database-otomatis/">Windows Task Scheduler</a>.</p>
+<p>Agar proses backup ini bisa otomatis dan terjadwal kita bisa memanfaatkan <a href="{{%20site.url%20}}/blog/2015/04/30/membuat-jadwal-backup-database-otomatis/">Windows Task Scheduler</a>.</p>
 
 <p>Terakhir hasil tes kode di atas berhasil mengupload file ke Google Drive dengan lancar :-)</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/060116-20.png">https://coding4ever.files.wordpress.com/2016/01/060116-20.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/060116-20.png">https://coding4ever.files.wordpress.com/2016/01/060116-20.png</a> %}</p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/DemoOnlineBackup">MENCOBA</a> :-)</p>
 
@@ -626,7 +409,7 @@ Contoh kodenya  seperti berikut :</p>
     <link href="http://coding4ever.net/blog/2015/04/30/membuat-jadwal-backup-database-otomatis/"/>
     <updated>2015-04-30T15:33:59+07:00</updated>
     <id>http://coding4ever.net/blog/2015/04/30/membuat-jadwal-backup-database-otomatis</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-14.png">https://coding4ever.files.wordpress.com/2015/04/300415-14.png</a>&#8221; width=&#8221;100&#8221; height=&#8221;100&#8221;>Backup database merupakan salah satu hal penting, apalagi jika kita bekerja sebagai database administrator.</p>
+    <content type="html"><![CDATA[<p>{% img left <a href="https://coding4ever.files.wordpress.com/2015/04/300415-14.png">https://coding4ever.files.wordpress.com/2015/04/300415-14.png</a> 100 100 %}Backup database merupakan salah satu hal penting, apalagi jika kita bekerja sebagai database administrator.</p>
 
 <p>Semakin banyaknya data-data yang tersimpan seperti data keuangan, akademik dan data penting lainnya mengharuskan kita untuk meluangkan waktu khusus untuk melakukan backup database.</p>
 
@@ -643,49 +426,38 @@ Contoh kodenya  seperti berikut :</p>
 
 <p>Adapun perintahnya seperti berikut :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lsquo; backup
-</span><span class='line'>mysqldump -uUSER_NAME -pUSER_PASSWORD &ndash;routines NAMA_DATABASE > LOKASI_FILE_BACKUP.SQL</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+&lsquo; backup
+mysqldump -uUSER_NAME -pUSER_PASSWORD &ndash;routines NAMA_DATABASE > LOKASI_FILE_BACKUP.SQL
+{% endcodeblock %}</p>
 
 <p>Parameter <code>–routines</code> ditambahkan jika database mempunyai fungsi/trigger.</p>
 
 <p>Karena data backupnya yang disimpan lebih dari satu, untuk nama database akan kita buat unik dengan format : <code>nama_database-tahun-bulan-hari_jam_menit</code>. Contoh :</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-01.png">https://coding4ever.files.wordpress.com/2015/04/300415-01.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-01.png">https://coding4ever.files.wordpress.com/2015/04/300415-01.png</a> %}</p>
 
 <p>Untuk mendapatkan informasi tahun, bulan, hari dan jam, kita bisa memanfaatkan batch command dengan perintah seperti berikut :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>for /f &ldquo;tokens=2-4 delims=/ &rdquo; %%a in (&lsquo;date /T&rsquo;) do set year=%%c
-</span><span class='line'>for /f &ldquo;tokens=2-4 delims=/ &rdquo; %%a in (&lsquo;date /T&rsquo;) do set month=%%a
-</span><span class='line'>for /f &ldquo;tokens=2-4 delims=/ &rdquo; %%a in (&lsquo;date /T&rsquo;) do set day=%%b&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>for /f &ldquo;tokens=1 delims=: &rdquo; %%h in (&lsquo;time /T&rsquo;) do set hour=%%h
-</span><span class='line'>for /f &ldquo;tokens=2 delims=: &rdquo; %%m in (&lsquo;time /T&rsquo;) do set minutes=%%m
-</span><span class='line'>for /f &ldquo;tokens=3 delims=: &rdquo; %%a in (&lsquo;time /T&rsquo;) do set ampm=%%a&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>rem membuat file backup database dengan format nama_database-tahun-bulan-hari_jam_menit
-</span><span class='line'>set FILE_BACKUP=D:\backup\Chinook-%year%-%month%-%day%_%hour%-%minutes%-%ampm%&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>rem USER_NAME, USER_PASSWORD dan NAMA_DATABASE menyesuaikan
-</span><span class='line'>mysqldump -uroot -prahasia &ndash;routines Chinook > %FILE_BACKUP%.sql</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+for /f &ldquo;tokens=2-4 delims=/ &rdquo; %%a in (&lsquo;date /T&rsquo;) do set year=%%c
+for /f &ldquo;tokens=2-4 delims=/ &rdquo; %%a in (&lsquo;date /T&rsquo;) do set month=%%a
+for /f &ldquo;tokens=2-4 delims=/ &rdquo; %%a in (&lsquo;date /T&rsquo;) do set day=%%b</p>
+
+<p>for /f &ldquo;tokens=1 delims=: &rdquo; %%h in (&lsquo;time /T&rsquo;) do set hour=%%h
+for /f &ldquo;tokens=2 delims=: &rdquo; %%m in (&lsquo;time /T&rsquo;) do set minutes=%%m
+for /f &ldquo;tokens=3 delims=: &rdquo; %%a in (&lsquo;time /T&rsquo;) do set ampm=%%a</p>
+
+<p>rem membuat file backup database dengan format nama_database-tahun-bulan-hari_jam_menit
+set FILE_BACKUP=D:\backup\Chinook-%year%-%month%-%day%_%hour%-%minutes%-%ampm%</p>
+
+<p>rem USER_NAME, USER_PASSWORD dan NAMA_DATABASE menyesuaikan
+mysqldump -uroot -prahasia &ndash;routines Chinook > %FILE_BACKUP%.sql
+{% endcodeblock %}</p>
 
 <p>Setelah itu kode di atas kita simpan di folder <code>Instalasi MySQL\bin</code>, misal dengan nama <code>backup.cmd</code>.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-02.png">https://coding4ever.files.wordpress.com/2015/04/300415-02.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-02.png">https://coding4ever.files.wordpress.com/2015/04/300415-02.png</a> %}</p>
 
 <h3>Windows Task Scheduler</h3>
 
@@ -693,41 +465,41 @@ Contoh kodenya  seperti berikut :</p>
 
 <p>Untuk mengakses tool ini bisa dilakukan melalui menu Start -> Accessories -> System Tools -> Task Scheduler</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-03.png">https://coding4ever.files.wordpress.com/2015/04/300415-03.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-03.png">https://coding4ever.files.wordpress.com/2015/04/300415-03.png</a> %}</p>
 
 <p>Berikut langkah-langkah untuk menambahkan task baru.</p>
 
 <ol>
 <li><p>Klik <code>Create Basic Task</code> di panel Actions
-<img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-04.png">https://coding4ever.files.wordpress.com/2015/04/300415-04.png</a>&#8221;>
+{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-04.png">https://coding4ever.files.wordpress.com/2015/04/300415-04.png</a> %}
 Kemudian isikan informasi <code>Name</code> dan <code>Description</code> kemudian klik tombol Next</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-05.png">https://coding4ever.files.wordpress.com/2015/04/300415-05.png</a>&#8221;></p></li>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-05.png">https://coding4ever.files.wordpress.com/2015/04/300415-05.png</a> %}</p></li>
 <li><p>Di dialog berikutnya kita akan menentukan kapan task ini akan di eksekusi. Contoh jika task ini akan dieksekusi setiap hari kita pilih <code>Daily</code>.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-06.png">https://coding4ever.files.wordpress.com/2015/04/300415-06.png</a>&#8221;></p></li>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-06.png">https://coding4ever.files.wordpress.com/2015/04/300415-06.png</a> %}</p></li>
 <li><p>Berikutnya kita akan menentukan jam berapa task ini akan dieksekusi</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-07.png">https://coding4ever.files.wordpress.com/2015/04/300415-07.png</a>&#8221;>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-07.png">https://coding4ever.files.wordpress.com/2015/04/300415-07.png</a> %}
 Pada gambar di atas, task ini akan dieksekusi setiap jam 5 sore.</p></li>
 <li><p>Berikutnya kita akan menentukan apa yang akan dilakukan task ini, ketika dieksekusi. Sebagai contoh task ini akan menjalankan file <code>backup.cmd</code> yang tersimpan di folder bin MySQL</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-08.png">https://coding4ever.files.wordpress.com/2015/04/300415-08.png</a>&#8221;>
-<img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-09.png">https://coding4ever.files.wordpress.com/2015/04/300415-09.png</a>&#8221;>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-08.png">https://coding4ever.files.wordpress.com/2015/04/300415-08.png</a> %}
+{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-09.png">https://coding4ever.files.wordpress.com/2015/04/300415-09.png</a> %}
 Di bagian <code>Program/script</code> kita tentukan nama file <code>backup.cmd</code>, sedangkan untuk <code>Start in</code> kita tentukan lokasi/folder file <code>backup.cmd</code></p></li>
 <li>Terakhir klik tombol Finish</li>
 </ol>
 
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-10.png">https://coding4ever.files.wordpress.com/2015/04/300415-10.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-10.png">https://coding4ever.files.wordpress.com/2015/04/300415-10.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-11.png">https://coding4ever.files.wordpress.com/2015/04/300415-11.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-11.png">https://coding4ever.files.wordpress.com/2015/04/300415-11.png</a> %}</p>
 
 <p>Untuk mencoba apakah backup berjalan dengan baik, klik kanan nama task <code>Backup Database Chinook</code> -> Run</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-12.png">https://coding4ever.files.wordpress.com/2015/04/300415-12.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-12.png">https://coding4ever.files.wordpress.com/2015/04/300415-12.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2015/04/300415-13.png">https://coding4ever.files.wordpress.com/2015/04/300415-13.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2015/04/300415-13.png">https://coding4ever.files.wordpress.com/2015/04/300415-13.png</a> %}</p>
 
 <p>Selamat MENCOBA :)</p>
 ]]></content>
