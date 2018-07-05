@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://coding4ever.net/blog/2018/07/05/membuat-jaringan-vpn-menggunakan-softether-vpn-bagian-number-1/</loc>
+<lastmod>2018-07-05T14:50:45+07:00</lastmod>
+</url>
+<url>
 <loc>http://coding4ever.net/blog/2017/09/09/gitlab-ci-untuk-net-developer-bagian-number-2/</loc>
 <lastmod>2017-09-09T22:17:36+07:00</lastmod>
 </url>
@@ -929,5 +933,8 @@
 </url>
 <url>
 <loc>http://coding4ever.net/blog/categories/gitlab-ci/</loc>
+</url>
+<url>
+<loc>http://coding4ever.net/blog/categories/vpn/</loc>
 </url>
 </urlset>

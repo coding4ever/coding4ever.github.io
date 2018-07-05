@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Jaringan | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/jaringan/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2017-09-10T10:35:40+07:00</updated>
+  <updated>2018-07-05T16:33:05+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -141,7 +141,7 @@
 
 <p>Jika hasil ping masih Request timed out coba nonaktifkan windows firewall di komputer server kemudian coba di ping lagi.</p>
 
-<p>Oke sampai disini kita sudah berhasil membuat jaringan VPN sendiri dan memudahkan saya untuk menulis artikel terakhir yang insya Alloh dengan judul <a href="/blog/2010/02/04/belajar-winsock-bagian-akhir-%e2%80%93-contoh-kasus-mengakses-data-stok-barang-dari-luar/">Belajar Winsock bagian akhir – Contoh kasus mengakses data stok barang dari luar</a>.</p>
+<p>Oke sampai disini kita sudah berhasil membuat jaringan VPN sendiri dan memudahkan saya untuk menulis artikel terakhir yang insya Alloh dengan judul <a href="{{%20site.url%20}}/blog/2010/02/04/belajar-winsock-bagian-akhir-%e2%80%93-contoh-kasus-mengakses-data-stok-barang-dari-luar/">Belajar Winsock bagian akhir – Contoh kasus mengakses data stok barang dari luar</a>.</p>
 
 <p>Selamat mencoba :)</p>
 ]]></content>

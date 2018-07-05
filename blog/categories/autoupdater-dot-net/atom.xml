@@ -4,7 +4,7 @@
   <title><![CDATA[Category: autoupdater.net | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/autoupdater-dot-net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2017-09-10T10:35:40+07:00</updated>
+  <updated>2018-07-05T16:33:05+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -18,7 +18,7 @@
     <link href="http://coding4ever.net/blog/2016/01/10/paket-nuget-yang-wajib-dicoba-bagian-number-2-autoupdater-dot-net/"/>
     <updated>2016-01-10T10:35:44+07:00</updated>
     <id>http://coding4ever.net/blog/2016/01/10/paket-nuget-yang-wajib-dicoba-bagian-number-2-autoupdater-dot-net</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png">http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png</a>&#8221; width=&#8221;120&#8221; height=&#8221;100&#8221;>Masalah update program adalah masalah klasik bagi para programmer aplikasi desktop. Apakah itu untuk perbaikan bug atau penambahan fitur baru. Bagaimana tidak, biasanya kita selalu disibukan dengan masalah yang satu ini. Update… update… dan update … :-D apalagi dengan jumlah klien yang banyak wahhhh cape deh :&lsquo;(</p>
+    <content type="html"><![CDATA[<p>{% img left <a href="http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png">http://coding4ever.files.wordpress.com/2014/03/nuget-logo1.png</a> 120 100 %}Masalah update program adalah masalah klasik bagi para programmer aplikasi desktop. Apakah itu untuk perbaikan bug atau penambahan fitur baru. Bagaimana tidak, biasanya kita selalu disibukan dengan masalah yang satu ini. Update… update… dan update … :-D apalagi dengan jumlah klien yang banyak wahhhh cape deh :&lsquo;(</p>
 
 <!-- more -->
 
@@ -35,77 +35,69 @@
 
 <h5>1. File exe versi terakhir</h5>
 
-<p>File exe ini akan kita simpan di server, file inilah yang akan didownload oleh klien jika ada updatean terbaru. Jika akan mengupdate beberapa file sekaligus, misal selain mengupdate file exe juga mengupdate file <a href="https://en.wikipedia.org/wiki/Dynamic-link_library">dll</a>, untuk kasus seperti ini kita bisa menggunakan <a href="/blog/categories/tools-installer/">paket installer</a>.</p>
+<p>File exe ini akan kita simpan di server, file inilah yang akan didownload oleh klien jika ada updatean terbaru. Jika akan mengupdate beberapa file sekaligus, misal selain mengupdate file exe juga mengupdate file <a href="https://en.wikipedia.org/wiki/Dynamic-link_library">dll</a>, untuk kasus seperti ini kita bisa menggunakan <a href="{{%20site.url%20}}/blog/categories/tools-installer/">paket installer</a>.</p>
 
-<p>Ada banyak <a href="/blog/categories/tools-installer/">tools gratis</a> untuk membuat <a href="/blog/categories/tools-installer/">paket installer</a> seperti <a href="/blog/categories/inno-setup/">Inno Setup</a> dan <a href="/blog/categories/nsis/">NSIS</a>. Untuk contoh pembuatan paket installer update bisa dilihat di <a href="/blog/2009/12/29/membuat-paket-instalasi-update-program-menggunakan-inno-setup/">sini</a> dan <a href="/blog/2009/12/29/membuat-paket-instalasi-update-program-menggunakan-nsis/">sini</a>.</p>
+<p>Ada banyak <a href="{{%20site.url%20}}/blog/categories/tools-installer/">tools gratis</a> untuk membuat <a href="{{%20site.url%20}}/blog/categories/tools-installer/">paket installer</a> seperti <a href="{{%20site.url%20}}/blog/categories/inno-setup/">Inno Setup</a> dan <a href="{{%20site.url%20}}/blog/categories/nsis/">NSIS</a>. Untuk contoh pembuatan paket installer update bisa dilihat di <a href="{{%20site.url%20}}/blog/2009/12/29/membuat-paket-instalasi-update-program-menggunakan-inno-setup/">sini</a> dan <a href="{{%20site.url%20}}/blog/2009/12/29/membuat-paket-instalasi-update-program-menggunakan-nsis/">sini</a>.</p>
 
 <h5>2. File Info Rilis</h5>
 
 <p>File info rilis akan kita simpan di server. File ini berfungsi sebagai informasi bagi aplikasi klien apakah ada update-an terbaru atau tidak. File ini dibuat dengan menggunakan format XML. Contoh :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version=&ldquo;1.0&rdquo; encoding=&ldquo;UTF-8&rdquo;?>
-</span><span class='line'>&lt;item>
-</span><span class='line'>    &lt;title>Sistem Informasi Manufaktur&lt;/title>
-</span><span class='line'>    &lt;version>1.3.1.0&lt;/version>
-</span><span class='line'>    &lt;url>&lt;a href="http://xxxxx.xxx/online-update/manufactur/auto-updater.exe">http://xxxxx.xxx/online-update/manufactur/auto-updater.exe&lt;/a>&lt;/url> &lt;br/>
-</span><span class='line'>&lt;/item></span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+&lt;?xml version=&ldquo;1.0&rdquo; encoding=&ldquo;UTF-8&rdquo;?>
+<item>
+    <title>Sistem Informasi Manufaktur</title>
+    <version>1.3.1.0</version>
+    <url><a href="http://xxxxx.xxx/online-update/manufactur/auto-updater.exe">http://xxxxx.xxx/online-update/manufactur/auto-updater.exe</a></url> <br/>
+</item>
+{% endcodeblock %}</p>
 
 <h5>3. Web Server</h5>
 
 <p>Anda bisa menggunakan IIS, Apache atau web server lainnya. Di web server ini kita akan menyimpan file exe dan info rilis (poin 1 dan 2).</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/100116-01.png">https://coding4ever.files.wordpress.com/2016/01/100116-01.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/100116-01.png">https://coding4ever.files.wordpress.com/2016/01/100116-01.png</a> %}</p>
 
 <h5>Menambahkan Library AutoUpdater.NET</h5>
 
-<p>Untuk menambahkan library <a href="http://www.nuget.org/packages/AutoupdaterdotNet/">AutoUpdater.NET</a> bisa kita lakukan via <a href="/blog/categories/nuget/">NuGet Package Manager</a>. Adapun caranya seperti berikut :</p>
+<p>Untuk menambahkan library <a href="http://www.nuget.org/packages/AutoupdaterdotNet/">AutoUpdater.NET</a> bisa kita lakukan via <a href="{{%20site.url%20}}/blog/categories/nuget/">NuGet Package Manager</a>. Adapun caranya seperti berikut :</p>
 
 <h6>1. Klik kanan node References -> Manage NuGet Packages&hellip;</h6>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/100116-02.png">https://coding4ever.files.wordpress.com/2016/01/100116-02.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/100116-02.png">https://coding4ever.files.wordpress.com/2016/01/100116-02.png</a> %}</p>
 
 <h6>2. Cari AutoUpdater.NET dan klik tombol Install</h6>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/100116-03.png">https://coding4ever.files.wordpress.com/2016/01/100116-03.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/100116-03.png">https://coding4ever.files.wordpress.com/2016/01/100116-03.png</a> %}</p>
 
 <p>Klik tombol Close, kemudian cek node <code>References</code>, seharusnya sudah ada tambahan library <code>AutoUpdater.NET</code></p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/100116-04.png">https://coding4ever.files.wordpress.com/2016/01/100116-04.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/100116-04.png">https://coding4ever.files.wordpress.com/2016/01/100116-04.png</a> %}</p>
 
 <h5>Cara Penggunaan Library AutoUpdater.NET</h5>
 
 <p>Cara penggunaan <a href="http://www.nuget.org/packages/AutoupdaterdotNet/">AutoUpdater.NET</a> sangat mudah, kita cukup menambahkan beberapa kode berikut di form utama.</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/100116-05.png">https://coding4ever.files.wordpress.com/2016/01/100116-05.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/100116-05.png">https://coding4ever.files.wordpress.com/2016/01/100116-05.png</a> %}</p>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/100116-06.png">https://coding4ever.files.wordpress.com/2016/01/100116-06.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/100116-06.png">https://coding4ever.files.wordpress.com/2016/01/100116-06.png</a> %}</p>
 
 <p>Pada kode di atas method <code>Start</code> kita arahkan ke url :<br><a href="http://localhost/update/DemoAutoUpdaterDotNet.xml">http://localhost/update/DemoAutoUpdaterDotNet.xml</a></p>
 
 <p>Adapun isi dari file <code>DemoAutoUpdaterDotNet.xml</code> seperti berikut :</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version=&ldquo;1.0&rdquo; encoding=&ldquo;UTF-8&rdquo;?>
-</span><span class='line'>&lt;item>
-</span><span class='line'>  &lt;title>Demo AutoUpdater.Net&lt;/title>
-</span><span class='line'>  &lt;version>1.1.0.0&lt;/version>
-</span><span class='line'>  &lt;url>&lt;a href="http://localhost/update/DemoAutoUpdaterDotNet.exe">http://localhost/update/DemoAutoUpdaterDotNet.exe&lt;/a>&lt;/url>
-</span><span class='line'>&lt;/item></span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+&lt;?xml version=&ldquo;1.0&rdquo; encoding=&ldquo;UTF-8&rdquo;?>
+<item>
+  <title>Demo AutoUpdater.Net</title>
+  <version>1.1.0.0</version>
+  <url><a href="http://localhost/update/DemoAutoUpdaterDotNet.exe">http://localhost/update/DemoAutoUpdaterDotNet.exe</a></url>
+</item>
+{% endcodeblock %}</p>
 
 <h5>Demo AutoUpdater.NET</h5>
 
-<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2016/01/100116-071.png">https://coding4ever.files.wordpress.com/2016/01/100116-071.png</a>&#8221;></p>
+<p>{% img center <a href="https://coding4ever.files.wordpress.com/2016/01/100116-071.png">https://coding4ever.files.wordpress.com/2016/01/100116-071.png</a> %}</p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/DemoOnlineBackup">MENCOBA</a> :-)</p>
 ]]></content>
