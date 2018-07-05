@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Sql Server 2000 | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/sql-server-2000/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2018-07-05T16:33:05+07:00</updated>
+  <updated>2018-07-05T16:39:14+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -35,99 +35,175 @@
 
 <p>Bagi yang males membaca referensi (termasuk sy :D) biasa menuliskan kode berikut untuk mengINSERTkan dan mendapatkan nilai ID yang terakhir, kita ambil contoh tabel provinsi.</p>
 
-<p>{% codeblock lang:vbnet %}
-Private Sub btnInsert_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnInsert.Click
-    Dim lastID As Long = 0</p>
-
-<pre><code>' langkah 1 - menambahkan data
-strSql = "INSERT INTO provinsi (keterangan) VALUES (@1)"
-Using cmd As New SqlClient.SqlCommand(strSql, conn)
-    With cmd
-        .Parameters.Clear()
-        .Parameters.AddWithValue("@1", "Riau")
-
-        .ExecuteNonQuery()
-    End With
-End Using
-
-' langkah 2 - mengambil id terakhir dg memanfaatkan fungsi MAX
-strSql = "SELECT MAX(id) FROM provinsi"
-Using cmd As New SqlClient.SqlCommand(strSql, conn)
-    lastID = Convert.ToInt32(cmd.ExecuteScalar())
-End Using
-
-' tampilkan ID terakhir
-MessageBox.Show("Last ID : " &amp; lastID.ToString())
-</code></pre>
-
-<p>End Sub
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">btnInsert_Click</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">sender</span> <span class="ow">As</span> <span class="n">System</span><span class="p">.</span><span class="n">Object</span><span class="p">,</span> <span class="k">ByVal</span> <span class="n">e</span> <span class="ow">As</span> <span class="n">System</span><span class="p">.</span><span class="n">EventArgs</span><span class="p">)</span> <span class="k">Handles</span> <span class="n">btnInsert</span><span class="p">.</span><span class="n">Click</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">lastID</span> <span class="ow">As</span> <span class="kt">Long</span> <span class="o">=</span> <span class="mi">0</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="c">&#39; langkah 1 - menambahkan data</span>
+</span><span class='line'><span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;INSERT INTO provinsi (keterangan) VALUES (@1)&quot;</span>
+</span><span class='line'><span class="k">Using</span> <span class="n">cmd</span> <span class="ow">As</span> <span class="k">New</span> <span class="n">SqlClient</span><span class="p">.</span><span class="n">SqlCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">With</span> <span class="n">cmd</span>
+</span><span class='line'>        <span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">Clear</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="s">&quot;Riau&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">.</span><span class="n">ExecuteNonQuery</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">End</span> <span class="k">With</span>
+</span><span class='line'><span class="k">End</span> <span class="k">Using</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&#39; langkah 2 - mengambil id terakhir dg memanfaatkan fungsi MAX</span>
+</span><span class='line'><span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;SELECT MAX(id) FROM provinsi&quot;</span>
+</span><span class='line'><span class="k">Using</span> <span class="n">cmd</span> <span class="ow">As</span> <span class="k">New</span> <span class="n">SqlClient</span><span class="p">.</span><span class="n">SqlCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">lastID</span> <span class="o">=</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToInt32</span><span class="p">(</span><span class="n">cmd</span><span class="p">.</span><span class="n">ExecuteScalar</span><span class="p">())</span>
+</span><span class='line'><span class="k">End</span> <span class="k">Using</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&#39; tampilkan ID terakhir</span>
+</span><span class='line'><span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="s">&quot;Last ID : &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">lastID</span><span class="p">.</span><span class="n">ToString</span><span class="p">())</span>
+</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Sub</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Sekarang kita lihat bedanya jika memanfaatkan fungsi SELECT SCOPE_IDENTITY().</p>
 
-<p>{% codeblock lang:vbnet %}
-Private Sub btnInsert_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnInsert.Click
-    Dim lastID As Long = 0</p>
-
-<pre><code>strSql = "INSERT INTO provinsi (keterangan) VALUES (@1) SELECT SCOPE_IDENTITY()" ' ada tambahan SELECT SCOPE_IDENTITY()
-Using cmd As New SqlClient.SqlCommand(strSql, conn)
-    With cmd
-        .Parameters.Clear()
-        .Parameters.AddWithValue("@1", "Riau")
-
-        lastID = Convert.ToInt32(.ExecuteScalar())
-    End With
-End Using
-
-MessageBox.Show ("Last ID : " &amp; lastID.ToString())
-</code></pre>
-
-<p>End Sub
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">btnInsert_Click</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">sender</span> <span class="ow">As</span> <span class="n">System</span><span class="p">.</span><span class="n">Object</span><span class="p">,</span> <span class="k">ByVal</span> <span class="n">e</span> <span class="ow">As</span> <span class="n">System</span><span class="p">.</span><span class="n">EventArgs</span><span class="p">)</span> <span class="k">Handles</span> <span class="n">btnInsert</span><span class="p">.</span><span class="n">Click</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">lastID</span> <span class="ow">As</span> <span class="kt">Long</span> <span class="o">=</span> <span class="mi">0</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;INSERT INTO provinsi (keterangan) VALUES (@1) SELECT SCOPE_IDENTITY()&quot;</span> <span class="c">&#39; ada tambahan SELECT SCOPE_IDENTITY()</span>
+</span><span class='line'><span class="k">Using</span> <span class="n">cmd</span> <span class="ow">As</span> <span class="k">New</span> <span class="n">SqlClient</span><span class="p">.</span><span class="n">SqlCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">With</span> <span class="n">cmd</span>
+</span><span class='line'>        <span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">Clear</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="s">&quot;Riau&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">lastID</span> <span class="o">=</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToInt32</span><span class="p">(.</span><span class="n">ExecuteScalar</span><span class="p">())</span>
+</span><span class='line'>    <span class="k">End</span> <span class="k">With</span>
+</span><span class='line'><span class="k">End</span> <span class="k">Using</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span> <span class="p">(</span><span class="s">&quot;Last ID : &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">lastID</span><span class="p">.</span><span class="n">ToString</span><span class="p">())</span>
+</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Sub</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Gimana lebih simple kan ? :)</p>
 
 <p>Oke sekarang kita lihat kode untuk MySQL(SELECT LAST_INSERT_ID) dan Firebird (RETURN KOLOM_PK).</p>
 
-<p>{% codeblock lang:vbnet %}
-&lsquo; MySQL
-Private Sub btnInsert_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnInsert.Click
-    Dim lastID As Long = 0</p>
-
-<pre><code>strSql = "INSERT INTO provinsi (keterangan) VALUES (@1); SELECT LAST_INSERT_ID()"
-Using cmd As New MySqlClient.MySqlCommand(strSql, conn)
-    With cmd
-        .Parameters.Clear()
-        .Parameters.AddWithValue("@1", "Riau")
-
-        lastID = Convert.ToInt32(.ExecuteScalar())
-    End With
-End Using
-
-MessageBox.Show ("Last ID : " &amp; lastID.ToString())
-</code></pre>
-
-<p>End Sub</p>
-
-<p>&lsquo; Firebird
-Private Sub btnInsert_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnInsert.Click
-    Dim lastID As Long = 0</p>
-
-<pre><code>strSql = "INSERT INTO provinsi (keterangan) VALUES (@1) RETURNING ID" ' ID -&gt; kolom primary key
-Using cmd As New FirebirdClient.FbCommand(strSql, conn)
-    With cmd
-        .Parameters.Clear()
-        .Parameters.AddWithValue("@1", "Riau")
-
-        lastID = Convert.ToInt32(.ExecuteScalar())
-    End With
-End Using
-
-MessageBox.Show ("Last ID : " &amp; lastID.ToString())
-</code></pre>
-
-<p>End Sub
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='vbnet'><span class='line'><span class="o">&amp;</span><span class="n">lsquo</span><span class="err">;</span> <span class="n">MySQL</span>
+</span><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">btnInsert_Click</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">sender</span> <span class="ow">As</span> <span class="n">System</span><span class="p">.</span><span class="n">Object</span><span class="p">,</span> <span class="k">ByVal</span> <span class="n">e</span> <span class="ow">As</span> <span class="n">System</span><span class="p">.</span><span class="n">EventArgs</span><span class="p">)</span> <span class="k">Handles</span> <span class="n">btnInsert</span><span class="p">.</span><span class="n">Click</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">lastID</span> <span class="ow">As</span> <span class="kt">Long</span> <span class="o">=</span> <span class="mi">0</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;INSERT INTO provinsi (keterangan) VALUES (@1); SELECT LAST_INSERT_ID()&quot;</span>
+</span><span class='line'><span class="k">Using</span> <span class="n">cmd</span> <span class="ow">As</span> <span class="k">New</span> <span class="n">MySqlClient</span><span class="p">.</span><span class="n">MySqlCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">With</span> <span class="n">cmd</span>
+</span><span class='line'>        <span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">Clear</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="s">&quot;Riau&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">lastID</span> <span class="o">=</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToInt32</span><span class="p">(.</span><span class="n">ExecuteScalar</span><span class="p">())</span>
+</span><span class='line'>    <span class="k">End</span> <span class="k">With</span>
+</span><span class='line'><span class="k">End</span> <span class="k">Using</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span> <span class="p">(</span><span class="s">&quot;Last ID : &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">lastID</span><span class="p">.</span><span class="n">ToString</span><span class="p">())</span>
+</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Sub</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;p&gt;</span><span class="o">&amp;</span><span class="n">lsquo</span><span class="err">;</span> <span class="n">Firebird</span>
+</span><span class='line'><span class="k">Private</span> <span class="k">Sub</span> <span class="nf">btnInsert_Click</span><span class="p">(</span><span class="k">ByVal</span> <span class="n">sender</span> <span class="ow">As</span> <span class="n">System</span><span class="p">.</span><span class="n">Object</span><span class="p">,</span> <span class="k">ByVal</span> <span class="n">e</span> <span class="ow">As</span> <span class="n">System</span><span class="p">.</span><span class="n">EventArgs</span><span class="p">)</span> <span class="k">Handles</span> <span class="n">btnInsert</span><span class="p">.</span><span class="n">Click</span>
+</span><span class='line'>    <span class="k">Dim</span> <span class="n">lastID</span> <span class="ow">As</span> <span class="kt">Long</span> <span class="o">=</span> <span class="mi">0</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;pre&gt;</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">strSql</span> <span class="o">=</span> <span class="s">&quot;INSERT INTO provinsi (keterangan) VALUES (@1) RETURNING ID&quot;</span> <span class="c">&#39; ID -&amp;gt; kolom primary key</span>
+</span><span class='line'><span class="k">Using</span> <span class="n">cmd</span> <span class="ow">As</span> <span class="k">New</span> <span class="n">FirebirdClient</span><span class="p">.</span><span class="n">FbCommand</span><span class="p">(</span><span class="n">strSql</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">With</span> <span class="n">cmd</span>
+</span><span class='line'>        <span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">Clear</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">AddWithValue</span><span class="p">(</span><span class="s">&quot;@1&quot;</span><span class="p">,</span> <span class="s">&quot;Riau&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">lastID</span> <span class="o">=</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToInt32</span><span class="p">(.</span><span class="n">ExecuteScalar</span><span class="p">())</span>
+</span><span class='line'>    <span class="k">End</span> <span class="k">With</span>
+</span><span class='line'><span class="k">End</span> <span class="k">Using</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span> <span class="p">(</span><span class="s">&quot;Last ID : &quot;</span> <span class="o">&amp;</span><span class="n">amp</span><span class="err">;</span> <span class="n">lastID</span><span class="p">.</span><span class="n">ToString</span><span class="p">())</span>
+</span><span class='line'><span class="na">&lt;/code&gt;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;p&gt;</span><span class="k">End</span> <span class="k">Sub</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Untuk bisa mengakses database MySQL dan Firebird di Visual Basic .NET kita harus menginstall <a href="http://dev.mysql.com/downloads/connector/net/">MySQL Connector/Net</a> dan <a href="http://firebirdsql.org/index.php?op=files&amp;id=netprovider">Firebird ADO.NET Data Provider</a>.</p>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Vpn | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/vpn/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2018-07-05T16:31:16+07:00</updated>
+  <updated>2018-07-05T16:39:14+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -18,7 +18,7 @@
     <link href="http://coding4ever.net/blog/2018/07/05/membuat-jaringan-vpn-menggunakan-softether-vpn-bagian-number-1/"/>
     <updated>2018-07-05T14:50:45+07:00</updated>
     <id>http://coding4ever.net/blog/2018/07/05/membuat-jaringan-vpn-menggunakan-softether-vpn-bagian-number-1</id>
-    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2018/07/softethervpn-logo-small.png">https://coding4ever.files.wordpress.com/2018/07/softethervpn-logo-small.png</a>&#8220;>Salah satu tantangan bagi kita, pengembang software untuk aplikasi bisnis berbasis desktop adalah ketika klien kita bertanya &ldquo;Mas, databasenya kalau di taruh di server saja bisa ya? Jadi bisa di akses dari mana saja, soalnya butuh juga akses dari luar&rdquo;, sedangkan kondisi database server mereka hanya mempunyai <code>ip private</code>. Solusi paling cepat dan murah (gratis) yang mungkin bisa kita tawarkan adalah dengan menggunakan software VPN. Ada banyak pilihan software VPN, mulai dari instalasinya yang gampang seperti <a href="https://www.vpn.net/">Hamachi</a> dan <a href="https://www.zerotier.com/">ZeroTier One</a> atau sedikit yang lebih ribet tapi menawarkan segudang fitur yang wah seperti  <a href="https://www.softether.org/">SoftEther VPN</a>.</p>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2018/07/softethervpn-logo-small.png">https://coding4ever.files.wordpress.com/2018/07/softethervpn-logo-small.png</a>&#8220;>Salah satu tantangan bagi kita, pengembang software untuk aplikasi bisnis berbasis desktop adalah ketika klien kita bertanya &ldquo;Mas, databasenya kalau di taruh di server saja bisa ya? Jadi bisa di akses dari mana saja, soalnya butuh juga akses dari luar&rdquo;, sedangkan kondisi database server mereka hanya mempunyai <code>ip private</code>. Solusi paling cepat dan murah (gratis) yang mungkin bisa kita tawarkan adalah dengan menggunakan software VPN. Ada banyak pilihan software VPN, mulai dari instalasinya yang gampang seperti <a href="https://www.vpn.net/">Hamachi</a> dan <a href="https://www.zerotier.com/">ZeroTier One</a> atau yang sedikit lebih ribet tapi menawarkan segudang fitur yang wah seperti  <a href="https://www.softether.org/">SoftEther VPN</a>.</p>
 
 <!-- more -->
 
