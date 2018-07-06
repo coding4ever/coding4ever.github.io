@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2018-07-05T22:36:31+07:00</updated>
+  <updated>2018-07-06T09:48:08+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -276,7 +276,16 @@
 
 <p><img class="center" src="https://coding4ever.files.wordpress.com/2018/07/20180705-45.png"></p>
 
-<p>Setelah terkoneksi ke server VPN, kita bisa melakukan beberapa tes, misal melakukan <code>ping</code> ke server VPN atau server database yang ada di kantor, dan jika berhasil, selamat !!!, Anda sudah mempunyai server VPN sendiri dan bisa mengakses jaringan internal kantor dari mana saja.</p>
+<p>Setelah terkoneksi ke server VPN, kita bisa melakukan beberapa tes, misal:</p>
+
+<ol>
+<li>Melakukan <code>ping</code> ke beberapa pc yang ada di kantor.</li>
+<li>Melakukan <code>remote</code> menggunakan RDC (Remote Desktop Connection).</li>
+<li>Atau query langsung ke server database.</li>
+</ol>
+
+
+<p>Dan jika berhasil, selamat !!!, Anda sudah mempunyai server VPN sendiri dan bisa mengakses jaringan internal kantor dari mana saja.</p>
 
 <h3>Kesimpulan</h3>
 
