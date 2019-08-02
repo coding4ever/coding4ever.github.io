@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2018-10-02T05:03:22+07:00</updated>
+  <updated>2019-08-02T16:17:37+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,144 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Menyimpan Konfigurasi Terpusat Menggunakan Consul Key-Value Store Bagian #1]]></title>
+    <link href="http://coding4ever.net/blog/2019/08/02/menyimpan-konfigurasi-terpusat-menggunakan-consul-key-value-store-bagian-number-1/"/>
+    <updated>2019-08-02T15:13:39+07:00</updated>
+    <id>http://coding4ever.net/blog/2019/08/02/menyimpan-konfigurasi-terpusat-menggunakan-consul-key-value-store-bagian-number-1</id>
+    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2019/08/consul-logo.jpg" width="85" height="93">Cara apa yang biasa Anda gunakan untuk menyimpan konfigurasi aplikasi? Biasanya ada beberapa pilihan seperti menyimpan dalam format text (INI, XML, JSON), database atau langsung di hardcode di dalam kode program. Nah cara terakhir adalah yang paling ekstrim, jika terjadi perubahan konfigurasi berarti kita harus merubah kode program dan melakukan kompilasi ulang :-D.</p>
+
+<!-- more -->
+
+
+<p>Konfigurasi lokalan ini memang sedikit merepotkan bagai programmer desktop, karana aplikasinya biasanya diinstall dibeberapa tempat sesuai dengan jumlah klien yang ada.</p>
+
+<p>Konfigurasi apa saja sih yang biasanya diperlukan oleh sebuah aplikasi? Ini juga tergantung kebutuhan, biasanya yang paling umum itu ya konfigurasi yang berhubungan dengan database seperti, <em>ip server</em>, <em>nama database</em> dan <em>port</em> yang digunakan. Contoh:</p>
+
+<div><script src='https://gist.github.com/acd0b3a14f3830fff0c603909ef4a097.js'></script>
+<noscript><pre><code>[database]
+server=192.168.1.1
+database=DbOpenRetail
+port=5432</code></pre></noscript></div>
+
+
+
+
+<div><script src='https://gist.github.com/817ed3721c9d6a62e2a17b1e58f51129.js'></script>
+<noscript><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;configuration&gt;
+  
+  &lt;appSettings&gt;
+    &lt;add key=&quot;server&quot; value=&quot;192.168.1.1&quot; /&gt;
+    &lt;add key=&quot;database&quot; value=&quot;DbOpenRetail&quot; /&gt;
+    &lt;add key=&quot;port&quot; value=&quot;5432&quot; /&gt;    
+  &lt;/appSettings&gt;
+  
+&lt;/configuration&gt;</code></pre></noscript></div>
+
+
+
+
+<div><script src='https://gist.github.com/872fa7d5e9775078e13c922c9e301cf4.js'></script>
+<noscript><pre><code>{
+  &quot;server&quot;: &quot;192.168.1.1&quot;,
+  &quot;database&quot;: &quot;DbOpenRetail&quot;,
+  &quot;port&quot;: 5432
+}</code></pre></noscript></div>
+
+
+<p>Pada contoh di atas konfigurasi aplikasi disimpan dengan berbagai format seperti INI, XML dan JSON.</p>
+
+<p>Untuk aplikasi yang dibuat menggunakan VB6 biasanya akan menyimpan konfigurasi dengan format INI, sedangkan yang menggunakan .NET lebih senang menggunakan format XML atau JSON.</p>
+
+<p>Jadi apapun pilihan format konfigurasi aplikasi yang Anda gunakan, ketika ada perubahan konfigurasi berarti kita harus merubah satu per satu konfigurasi lokal dari aplikasi kita yang sudah terinstall di pc/laptop klien, baik dilakukan secara langsung (datang ke lokasi) atau dengan bantuan tool remote seperti Radmin.  Anda bayangkan saja klo pengguna aplikasi kita sudah ratusan bahkan ribuan, tentu akan menjadi pekerjaan yang merepotkan alias buang-buang waktu :-D</p>
+
+<h3>Apa itu Consul?</h3>
+
+<p><a href="https://www.consul.io/">Consul</a> adalah tool yang digunakan untuk keperluan discovery dan konfigurasi service. Tool ini mempunyai beberapa fitur utama yaitu:</p>
+
+<ul>
+<li>Service Discovery</li>
+<li>Health Checking</li>
+<li>Key/Value Store</li>
+<li>Multi Datacenter</li>
+</ul>
+
+
+<p>Saya sendiri mencoba tool ini ketika mempelajari arsitektur <a href="https://microservices.io/">microservices</a> untuk keperluan monitoring service. Nah salah satu fitur tool ini yaitu <em>Key/Value Store</em> yang bisa kita gunakan untuk keperluan menyimpan konfigurasi terpusat.</p>
+
+<h3>Cara Menginstall Consul</h3>
+
+<p>Cara installnya gampang, Anda tinggal <a href="https://www.consul.io/downloads.html">download</a> consul sesuai dengan versi OS yang Anda gunakan.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2019/08/20190802-01.png"></p>
+
+<p>Contoh di sini saya mendownload consul versi Windows dan menyimpannya di folder c:\consul.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2019/08/20190802-02.png"></p>
+
+<p>Setelah itu kita bisa langsung menjalankan consul dengan mode development.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2019/08/20190802-03.png"></p>
+
+<p>Setelah jalan, kita bisa langsung mengakses web administrasi consul di alamat localhost:8500</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2019/08/20190802-04.png"></p>
+
+<p>Menjalankan consul dengan mode development ini ada sedikit kekurangan yaitu perubahan data yang kita lakukan misal menambahkan data di menu <code>Key/Value</code> itu tidak tersimpan secara permanen, jadi kita akan menjalankan consul agent dengan mode production. Caranya adalah dengan menambahkan file konfigurasi, misal kita simpan di folder c:\consul\config dengan nama <code>consul.json</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2019/08/20190802-05.png"></p>
+
+<p>Kemudian untuk isinya seperti gambar berikut:</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2019/08/20190802-06.png"></p>
+
+<p>Untuk element <code>bind_addr</code> diisi dengan ip pc/server dimana consul dijalankan. Dan untuk informasi lebih lanjut tentang bagaimana cara mengkonfigurasi consul, bisa anda cek di link <a href="https://www.consul.io/docs/agent/options.html">ini</a>.</p>
+
+<p>Setelah itu kita jalankan kembali consul dengan mode production.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2019/08/20190802-07.png"></p>
+
+<h3>Consul Key-Value Store</h3>
+
+<p>Seperti yang sudah saya jelaskan di atas, salah satu fitur menarik yang dimiliki oleh consul yaitu <code>Key-Value Store</code>. Dengan fitur ini kita bisa menyimpan konfigurasi aplikasi secara terpusat di pc/server yang sudah terinstall consul.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2019/08/20190802-08.png"></p>
+
+<h3>Mengakses Data Key-Value Store</h3>
+
+<p>Data yang tersimpan di <code>Key-Value Store</code> bisa diakses via RESTful API, untuk postingan <a href="http://coding4ever.net/blog/2019/08/02/menyimpan-konfigurasi-terpusat-menggunakan-consul-key-value-store-bagian-number-1/">pertama</a> ini kita akan menggunakan rest api client <a href="https://www.getpostman.com/downloads/">Postman</a> untuk mengakses data tersebut. Adapun endpoint yang digunakan yaitu <code>/v1/kv</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2019/08/20190802-09.png"></p>
+
+<p>Untuk response valuenya sudah diencoded menggunakan algoritma Base64, tapi jika ingin langsung menampilkan data aslinya kita tinggal tambahkan parameter <code>?raw=true</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2019/08/20190802-10.png"></p>
+
+<h3>Menambahkan token</h3>
+
+<p>Kayaknya kurang aman klo semua orang bisa langsung mengakses endpoint <code>Key-Value Store</code> tersebut tanpa memasukan token terlebih dulu. Jadi kita bisa menambahkan token pada saat mengakses endpoint <code>Key-Value Store</code>. Caranya adalah dengan mengedit kembali file konfigurasi consulnya.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2019/08/20190802-11.png"></p>
+
+<p>Setelah itu kita coba akses kembali untuk mengakses endpoint <code>Key-Value Store</code>nya tanpa token. Apakah masih bisa?</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2019/08/20190802-12.png"></p>
+
+<p>Karna sudah tertolak, sekarang coba tambahkan parameter <code>?token</code>  untuk mengakses endpointya.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2019/08/20190802-13.png"></p>
+
+<p>Horeee berhasil :-)</p>
+
+<p>Mungkin cukup ya untuk postingan bagian <a href="http://coding4ever.net/blog/2019/08/02/menyimpan-konfigurasi-terpusat-menggunakan-consul-key-value-store-bagian-number-1/">pertama</a> ini, insyaAlloh di postingan berikutnya kita akan bahas bagaimana mengakses data <code>Key-Value Store</code> langsung dari aplikasi yang dibuat menggunakan VB6 dan .NET.</p>
+
+<p>Oh iya ada yang kelupaan, gimana caranya agar consul bisa diinstall sebagai service (windows service)? Gampang, Anda tinggal ikuti langkah-langkah yang ada di <a href="https://learn.hashicorp.com/consul/datacenter-deploy/windows">sini</a> :-D.</p>
+
+<p>Selamat mencoba :-)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Membuat Jaringan VPN Menggunakan SoftEther VPN Bagian #1]]></title>
@@ -4080,345 +4218,6 @@ namespace Northwind.Repository.Service
 <p><img class="center" src="https://coding4ever.files.wordpress.com/2016/06/280616-09.png"></p>
 
 <p>Selamat <a href="https://github.com/k4m4r82/RepositoryPattern2">MENCOBA</a> :-)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Membuat User Function Library Pada Crystal Report .NET]]></title>
-    <link href="http://coding4ever.net/blog/2016/03/26/membuat-user-function-library-pada-crystal-report-net/"/>
-    <updated>2016-03-26T12:45:06+07:00</updated>
-    <id>http://coding4ever.net/blog/2016/03/26/membuat-user-function-library-pada-crystal-report-net</id>
-    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2015/04/sap-cr.jpg" width="120" height="100">Crystal Report .NET selain memudahkan kita dalam mendesain report/laporan juga menyediakan puluhan fungsi yang siap pakai (built-in function) yang bisa mempercepat dalam pembuatan report/laporan. Tetapi ada waktunya ketika kita membutuhkan fungsi khusus yang tidak disediakan oleh Crystal Report .NET, dan kabar baiknya Crystal Report .NET juga menyediakan fasilitas untuk membuat fungsi tambahan yang dikenal dengan istilah <a href="http://scn.sap.com/community/crystal-reports-for-visual-studio/blog/2009/05/22/creating-crystal-reports-user-function-libraries-ufl-with-visual-studio-net">User Function Library (UFL)</a>.</p>
-
-<!-- more -->
-
-
-<p><a href="http://scn.sap.com/community/crystal-reports-for-visual-studio/blog/2009/05/22/creating-crystal-reports-user-function-libraries-ufl-with-visual-studio-net">User Function Library (UFL)</a> adalah class library .NET yang dibuat dengan beberapa aturan sebagai berikut :</p>
-
-<ol>
-<li>Nama project harus di beri prefix <code>CRUFL</code>. Misal kita ingin membuat project dengan nama CrystalReportHelper, nama project ini harus kita tambahkan prefix <code>CRUFL</code>, sehingga nama projectnya menjadi <strong>CRUFL</strong>CrystalReportHelper.</li>
-<li>Project harus terdiri dari interface dan class konkret</li>
-<li>Setiap interface harus mempunyai attribut COM yang mempunya tiga nilai yaitu <code>ComVisible</code>, <code>InterfaceType</code> dan <code>Guid</code></li>
-<li>Begitu juga class konkret harus mempunyai attribut COM yang mempunya tiga nilai yaitu <code>ComVisible</code>, <code>ClassInterface</code> dan <code>Guid</code></li>
-<li>Mengaktifkan pilihan <code>Register for COM interop</code> (Project -> Properties -> Build)</li>
-<li>Menginstall hasil build ke <a href="https://en.wikipedia.org/wiki/Global_Assembly_Cache">GAC(Global Assembly Cache)</a></li>
-</ol>
-
-
-<p>Oke kita langsung saja, kita awali dengan membuat User Function Library Class Library.</p>
-
-<h5>Membuat UFL Class Library</h5>
-
-<ol>
-<li><p>Klik menu File ->New -> Project …</p></li>
-<li><p>Pada dialog New Project aktifkan pilihan Visual C# kemudian pada pilihan Templates pilih Class Library</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-01.png"></p>
-
-<p>Nama project harus diberi prefix <code>CRUFL</code></p></li>
-<li><p>Setelah project berhasil dibuat, klik kanan nama project -> properties</p></li>
-<li><p>Klik tab Build, kemudian aktifkan pilihan <code>Register for COM interop</code></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-02.png"></p>
-
-<p>Mengaktifkan pilihan <code>Register for COM interop</code> akan menyebabkan assembly secara otomatis diregister oleh utility regasm.exe, ketika project dibuild/compile. Jadi, kita tidak perlu menjalankan regasm.exe secara manual via command prompt.</p></li>
-</ol>
-
-
-<p>Setelah project berhasil dibuat, kita akan menambahkan interface dan class konkretnya. Untuk contoh kali ini kita akan membuat fungsi terbilang yang biasanya digunakan dalam pembuatan aplikasi ritel.</p>
-
-<p>Kita akan mulai dengan interface terlebih dulu.</p>
-
-<h5>Membuat Interface dengan Attribut COM</h5>
-
-<ol>
-<li><p>Hapus class default (Class1)</p></li>
-<li><p>Tambahkan sebuah interface dengan nama ITerbilang, kemudian tambahkan juga method abstractnya dengan nama TerbilangIndonesia</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-03.png"></p></li>
-<li><p>Kemudian tambahkan attribut COM</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-04.png"></p>
-
-<p>Attribut COM untuk interface terdiri dari tiga nilai yaitu <code>ComVisible</code>, <code>InterfaceType</code> dan <code>Guid</code>. Attribut ini perlu kita tambahkan agar class library yang kita buat bisa dikenali oleh Crystal Report.</p>
-
-<p>Untuk mendapatkan nilai GUID, bisa menggunakan tool GUID yang sudah disediakan oleh Visual Studio .NET. Tool ini bisa diaktifkan melalui menu <code>Tools -&gt; Create GUID</code>.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-05.png"></p></li>
-</ol>
-
-
-<p>Setelah menyelesaikan pembuatan interface ITerbilang, kita lanjutkan dengan pembuatan class konkretnya.</p>
-
-<h5>Membuat Class dengan Attribut COM</h5>
-
-<ol>
-<li><p>Tambahkan sebuah class dengan nama Terbilang. Class harus mengimplementasikan interface ITerbilang.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-06.png"></p>
-
-<p>Karena class Terbilang mengimplementasikan interface ITerbilang, maka class Terbilang wajib mendefinisikan ulang (override) method TerbilangIndonesia.</p></li>
-<li><p>Kemudian tambahkan Attribut COM</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-07.png"></p>
-
-<p>Attribut COM untuk class  terdiri dari tiga nilai yaitu <code>ComVisible</code>, <code>ClassInterface</code> dan <code>Guid</code>. Setelah itu lengkapi kode method TerbilangIndonesia seperti berikut :</p>
-
-<p><div><script src='https://gist.github.com/34337e1baec374270fb4.js'></script>
-<noscript><pre><code>[ComVisible(true), ClassInterface(ClassInterfaceType.None), Guid(&quot;BA626A6E-0AA9-45C9-AA47-2E9674406A75&quot;)]
-public class Terbilang : ITerbilang
-{
- public string TerbilangIndonesia(int nominal)
- {
-     string strTot = string.Empty;
-     string urai = string.Empty;
-     string strJmlHuruf = string.Empty;
-     string bil1 = string.Empty;
-     string bil2 = string.Empty;</p>
-
-<pre><code> int y = 0;
- int x = 0;
- int z = 0;
-
- strJmlHuruf = Convert.ToString(nominal);
-
- urai = string.Empty;
- while (x &amp;lt; strJmlHuruf.Length)
- {
-     x++;
-     strTot = strJmlHuruf.Substring(x - 1, 1);
-     y = y + Convert.ToInt32(strTot);
-     z = strJmlHuruf.Length - x + 1;
-     switch (Convert.ToInt32(strTot))
-     {
-         case 1:
-             if ((z == 1 | z == 7 | z == 10 | z == 13))
-             {
-                 bil1 = &amp;quot;SATU &amp;quot;;
-             }
-             else if ((z == 4))
-             {
-                 if ((x == 1))
-                 {
-                     bil1 = &amp;quot;SE&amp;quot;;
-                 }
-                 else
-                 {
-                     bil1 = &amp;quot;SATU &amp;quot;;
-                 }
-             }
-             else if ((z == 2 | z == 5 | z == 8 | z == 11 | z == 14))
-             {
-                 x = x + 1;
-                 strTot = strJmlHuruf.Substring(x - 1, 1);
-                 z = strJmlHuruf.Length - x + 1;
-                 bil2 = string.Empty;
-                 switch (Convert.ToInt32(strTot))
-                 {
-                     case 0:
-                         bil1 = &amp;quot;SEPULUH &amp;quot;;
-                         break;
-                     case 1:
-                         bil1 = &amp;quot;SEBELAS &amp;quot;;
-                         break;
-                     case 2:
-                         bil1 = &amp;quot;DUA BELAS &amp;quot;;
-                         break;
-                     case 3:
-                         bil1 = &amp;quot;TIGA BELAS &amp;quot;;
-                         break;
-                     case 4:
-                         bil1 = &amp;quot;EMPAT BELAS &amp;quot;;
-                         break;
-                     case 5:
-                         bil1 = &amp;quot;LIMA BELAS &amp;quot;;
-                         break;
-                     case 6:
-                         bil1 = &amp;quot;ENAM BELAS &amp;quot;;
-                         break;
-                     case 7:
-                         bil1 = &amp;quot;TUJUH BELAS &amp;quot;;
-                         break;
-                     case 8:
-                         bil1 = &amp;quot;DELAPAN BELAS &amp;quot;;
-                         break;
-                     case 9:
-                         bil1 = &amp;quot;SEMBILAN BELAS &amp;quot;;
-                         break;
-                 }
-             }
-             else
-             {
-                 bil1 = &amp;quot;SE&amp;quot;;
-             }
-             break;
-         case 2:
-             bil1 = &amp;quot;DUA &amp;quot;;
-             break;
-         case 3:
-             bil1 = &amp;quot;TIGA &amp;quot;;
-             break;
-         case 4:
-             bil1 = &amp;quot;EMPAT &amp;quot;;
-             break;
-         case 5:
-             bil1 = &amp;quot;LIMA &amp;quot;;
-             break;
-         case 6:
-             bil1 = &amp;quot;ENAM &amp;quot;;
-             break;
-         case 7:
-             bil1 = &amp;quot;TUJUH &amp;quot;;
-             break;
-         case 8:
-             bil1 = &amp;quot;DELAPAN &amp;quot;;
-             break;
-         case 9:
-             bil1 = &amp;quot;SEMBILAN &amp;quot;;
-             break;
-         default:
-             bil1 = string.Empty;
-             break;
-     }
-
-     if ((Convert.ToInt32(strTot) &amp;gt; 0))
-     {
-         if ((z == 2 | z == 5 | z == 8 | z == 11 | z == 14))
-         {
-             bil2 = &amp;quot;PULUH &amp;quot;;
-         }
-         else if ((z == 3 | z == 6 | z == 9 | z == 12 | z == 15))
-         {
-             bil2 = &amp;quot;RATUS &amp;quot;;
-         }
-         else
-         {
-             bil2 = string.Empty;
-         }
-     }
-     else
-     {
-         bil2 = string.Empty;
-     }
-
-     if ((y &amp;gt; 0))
-     {
-         switch (z)
-         {
-             case 4:
-                 bil2 = bil2 + &amp;quot;RIBU &amp;quot;;
-                 y = 0;
-                 break;
-             case 7:
-                 bil2 = bil2 + &amp;quot;JUTA &amp;quot;;
-                 y = 0;
-                 break;
-             case 10:
-                 bil2 = bil2 + &amp;quot;MILYAR &amp;quot;;
-                 y = 0;
-                 break;
-             case 13:
-                 bil2 = bil2 + &amp;quot;TRILYUN &amp;quot;;
-                 y = 0;
-                 break;
-         }
-     }
-     urai = urai + bil1 + bil2;
- }
-
- return urai.ToLower() + &amp;quot;rupiah&amp;quot;;
-</code></pre>
-
-<p> }
-}</code></pre></noscript></div></p></li>
-</ol>
-
-
-<p>Langkah berikutnya adalah mengeset Strong-Name key, ini adalah peraturan berikutnya yang harus kita ikuti agar class <a href="http://scn.sap.com/community/crystal-reports-for-visual-studio/blog/2009/05/22/creating-crystal-reports-user-function-libraries-ufl-with-visual-studio-net">User Function Library (UFL)</a> yang sudah kita buat bisa di daftarkan ke <a href="https://en.wikipedia.org/wiki/Global_Assembly_Cache">GAC(Global Assembly Cache)</a>.</p>
-
-<h5>Mengeset Strong-Name key</h5>
-
-<ol>
-<li><p>Klik kanan project -> Properties</p></li>
-<li><p>Aktifkan tab signing, kemudian aktifkan pilihan <code>Sign the assembly</code></p></li>
-<li><p>Pada pilihan combo <code>Choose a string name key file</code>, pilih &lt;New…> setelah itu akan tampil dialog <code>Create Strong Name Key</code> kemudian isikan nilai input key file name, misal dengan nama <code>CRUFLCrystalReportHelperKey</code>.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-08.png"></p></li>
-<li><p>Terakhir lakukan proses Build/Compile, melalui menu Build -> Build Solution</p></li>
-</ol>
-
-
-<h5>Mendaftarkan Assembly ke GAC(Global Assembly Cache)</h5>
-
-<p>Hasil build/compile dari project <code>CRUFLCrystalReportHelper</code>, akan menghasilkan file dengan ekstensi .dll atau yang dikenal dengan istilah file Assembly. File ini harus kita daftarkan terlebih dulu ke <a href="https://en.wikipedia.org/wiki/Global_Assembly_Cache">GAC(Global Assembly Cache)</a> agar bisa dikenali oleh Crystal Report.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-22.png"></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-23.png"></p>
-
-<p>Berikut langkah-langkah untuk mendaftarkan file Assembly ke <a href="https://en.wikipedia.org/wiki/Global_Assembly_Cache">GAC(Global Assembly Cache)</a> :</p>
-
-<ol>
-<li><p>Aktifkan Visual Studio Command Prompt sesuai dengan versi Visual Studio .NET Anda</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-09.png"></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-10.png"></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-11.png"></p></li>
-<li><p>Gunakan tool <code>gacutil</code>, dengan format perintah seperti berikut</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gacutil -if &lt;Assembly Name></span></code></pre></td></tr></table></div></figure></p>
-
-<p> contoh :</p>
-
-<p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gacutil -if CRUFLCrystalReportHelper.dll</span></code></pre></td></tr></table></div></figure></p>
-
-<p> <img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-12.png"></p>
-
-<p> Jika berhasil akan tampil pesan <code>Assembly successfully added to the cache</code>.</p></li>
-</ol>
-
-
-<h5>Testing User Function Library</h5>
-
-<p>Setelah menyelesaikan project CRUFLCrystalReportHelper dan mendaftarkannya ke <a href="https://en.wikipedia.org/wiki/Global_Assembly_Cache">GAC(Global Assembly Cache)</a>, kita akan menambahkan project baru dengan tipe WinForm Application.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-13.png"></p>
-
-<p>Setelah itu tambahkan juga item Crystal Report.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-14.png"></p>
-
-<p>Kemudian desain reportnya seperti berikut :</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-15.png"></p>
-
-<p>Selanjutnya kita akan menambahkan formula baru dengan nama <code>terbilang</code>, caranya dengan mengklik kanan <code>Formula Fields</code> -> New …</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-16.png"></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-17.png"></p>
-
-<p>Setelah itu akan tampil dialog Formula Workshop</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-18.png"></p>
-
-<p>Fungsi terbilang <code>TerbilangIndonesia</code> yang sudah kita buat masuk ke dalam kelompok <code>Additional Functions</code> -> <code>COM and .NET UFLs (u212com.dll)</code>. Fungsi ini membutuhkan parameter nominal yang nilainya kita isi dengan field total dari tabel Jual.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-19.png"></p>
-
-<p>Kemudian tambahkan formula <code>terbilang</code> ke dalam report.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-20.png"></p>
-
-<p>Terakhir kita running project, dan lihat hasil dari formula terbilangnya.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/03/260316-21.png"></p>
-
-<p>Selamat <a href="https://github.com/k4m4r82/DemoUFLforCR">MENCOBA</a> :)</p>
 ]]></content>
   </entry>
   

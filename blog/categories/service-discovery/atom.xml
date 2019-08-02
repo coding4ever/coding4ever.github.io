@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Service Discovery | Coding4ever's Blog]]></title>
+  <link href="http://coding4ever.net/blog/categories/service-discovery/atom.xml" rel="self"/>
+  <link href="http://coding4ever.net/"/>
+  <updated>2019-08-02T16:17:37+07:00</updated>
+  <id>http://coding4ever.net/</id>
+  <author>
+    <name><![CDATA[Admin]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Menyimpan Konfigurasi Terpusat Menggunakan Consul Key-Value Store Bagian #1]]></title>
+    <link href="http://coding4ever.net/blog/2019/08/02/menyimpan-konfigurasi-terpusat-menggunakan-consul-key-value-store-bagian-number-1/"/>
+    <updated>2019-08-02T15:13:39+07:00</updated>
+    <id>http://coding4ever.net/blog/2019/08/02/menyimpan-konfigurasi-terpusat-menggunakan-consul-key-value-store-bagian-number-1</id>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2019/08/consul-logo.jpg">https://coding4ever.files.wordpress.com/2019/08/consul-logo.jpg</a>&#8221; width=&#8221;85&#8221; height=&#8221;93&#8221;>Cara apa yang biasa Anda gunakan untuk menyimpan konfigurasi aplikasi? Biasanya ada beberapa pilihan seperti menyimpan dalam format text (INI, XML, JSON), database atau langsung di hardcode di dalam kode program. Nah cara terakhir adalah yang paling ekstrim, jika terjadi perubahan konfigurasi berarti kita harus merubah kode program dan melakukan kompilasi ulang :-D.</p>
+
+<!-- more -->
+
+
+<p>Konfigurasi lokalan ini memang sedikit merepotkan bagai programmer desktop, karana aplikasinya biasanya diinstall dibeberapa tempat sesuai dengan jumlah klien yang ada.</p>
+
+<p>Konfigurasi apa saja sih yang biasanya diperlukan oleh sebuah aplikasi? Ini juga tergantung kebutuhan, biasanya yang paling umum itu ya konfigurasi yang berhubungan dengan database seperti, <em>ip server</em>, <em>nama database</em> dan <em>port</em> yang digunakan. Contoh:</p>
+
+<p><div><script src='https://gist.github.com/acd0b3a14f3830fff0c603909ef4a097.js'></script>
+<noscript><pre><code>[database]
+server=192.168.1.1
+database=DbOpenRetail
+port=5432</code></pre></noscript></div>
+</p>
+
+<p><div><script src='https://gist.github.com/817ed3721c9d6a62e2a17b1e58f51129.js'></script>
+<noscript><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;configuration&gt;
+  
+  &lt;appSettings&gt;
+    &lt;add key=&quot;server&quot; value=&quot;192.168.1.1&quot; /&gt;
+    &lt;add key=&quot;database&quot; value=&quot;DbOpenRetail&quot; /&gt;
+    &lt;add key=&quot;port&quot; value=&quot;5432&quot; /&gt;    
+  &lt;/appSettings&gt;
+  
+&lt;/configuration&gt;</code></pre></noscript></div>
+</p>
+
+<p><div><script src='https://gist.github.com/872fa7d5e9775078e13c922c9e301cf4.js'></script>
+<noscript><pre><code>{
+  &quot;server&quot;: &quot;192.168.1.1&quot;,
+  &quot;database&quot;: &quot;DbOpenRetail&quot;,
+  &quot;port&quot;: 5432
+}</code></pre></noscript></div>
+</p>
+
+<p>Pada contoh di atas konfigurasi aplikasi disimpan dengan berbagai format seperti INI, XML dan JSON.</p>
+
+<p>Untuk aplikasi yang dibuat menggunakan VB6 biasanya akan menyimpan konfigurasi dengan format INI, sedangkan yang menggunakan .NET lebih senang menggunakan format XML atau JSON.</p>
+
+<p>Jadi apapun pilihan format konfigurasi aplikasi yang Anda gunakan, ketika ada perubahan konfigurasi berarti kita harus merubah satu per satu konfigurasi lokal dari aplikasi kita yang sudah terinstall di pc/laptop klien, baik dilakukan secara langsung (datang ke lokasi) atau dengan bantuan tool remote seperti Radmin.  Anda bayangkan saja klo pengguna aplikasi kita sudah ratusan bahkan ribuan, tentu akan menjadi pekerjaan yang merepotkan alias buang-buang waktu :-D</p>
+
+<h3>Apa itu Consul?</h3>
+
+<p><a href="https://www.consul.io/">Consul</a> adalah tool yang digunakan untuk keperluan discovery dan konfigurasi service. Tool ini mempunyai beberapa fitur utama yaitu:</p>
+
+<ul>
+<li>Service Discovery</li>
+<li>Health Checking</li>
+<li>Key/Value Store</li>
+<li>Multi Datacenter</li>
+</ul>
+
+
+<p>Saya sendiri mencoba tool ini ketika mempelajari arsitektur <a href="https://microservices.io/">microservices</a> untuk keperluan monitoring service. Nah salah satu fitur tool ini yaitu <em>Key/Value Store</em> yang bisa kita gunakan untuk keperluan menyimpan konfigurasi terpusat.</p>
+
+<h3>Cara Menginstall Consul</h3>
+
+<p>Cara installnya gampang, Anda tinggal <a href="https://www.consul.io/downloads.html">download</a> consul sesuai dengan versi OS yang Anda gunakan.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2019/08/20190802-01.png">https://coding4ever.files.wordpress.com/2019/08/20190802-01.png</a>&#8221;></p>
+
+<p>Contoh di sini saya mendownload consul versi Windows dan menyimpannya di folder c:\consul.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2019/08/20190802-02.png">https://coding4ever.files.wordpress.com/2019/08/20190802-02.png</a>&#8221;></p>
+
+<p>Setelah itu kita bisa langsung menjalankan consul dengan mode development.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2019/08/20190802-03.png">https://coding4ever.files.wordpress.com/2019/08/20190802-03.png</a>&#8221;></p>
+
+<p>Setelah jalan, kita bisa langsung mengakses web administrasi consul di alamat localhost:8500</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2019/08/20190802-04.png">https://coding4ever.files.wordpress.com/2019/08/20190802-04.png</a>&#8221;></p>
+
+<p>Menjalankan consul dengan mode development ini ada sedikit kekurangan yaitu perubahan data yang kita lakukan misal menambahkan data di menu <code>Key/Value</code> itu tidak tersimpan secara permanen, jadi kita akan menjalankan consul agent dengan mode production. Caranya adalah dengan menambahkan file konfigurasi, misal kita simpan di folder c:\consul\config dengan nama <code>consul.json</code>.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2019/08/20190802-05.png">https://coding4ever.files.wordpress.com/2019/08/20190802-05.png</a>&#8221;></p>
+
+<p>Kemudian untuk isinya seperti gambar berikut:</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2019/08/20190802-06.png">https://coding4ever.files.wordpress.com/2019/08/20190802-06.png</a>&#8221;></p>
+
+<p>Untuk element <code>bind_addr</code> diisi dengan ip pc/server dimana consul dijalankan. Dan untuk informasi lebih lanjut tentang bagaimana cara mengkonfigurasi consul, bisa anda cek di link <a href="https://www.consul.io/docs/agent/options.html">ini</a>.</p>
+
+<p>Setelah itu kita jalankan kembali consul dengan mode production.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2019/08/20190802-07.png">https://coding4ever.files.wordpress.com/2019/08/20190802-07.png</a>&#8221;></p>
+
+<h3>Consul Key-Value Store</h3>
+
+<p>Seperti yang sudah saya jelaskan di atas, salah satu fitur menarik yang dimiliki oleh consul yaitu <code>Key-Value Store</code>. Dengan fitur ini kita bisa menyimpan konfigurasi aplikasi secara terpusat di pc/server yang sudah terinstall consul.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2019/08/20190802-08.png">https://coding4ever.files.wordpress.com/2019/08/20190802-08.png</a>&#8221;></p>
+
+<h3>Mengakses Data Key-Value Store</h3>
+
+<p>Data yang tersimpan di <code>Key-Value Store</code> bisa diakses via RESTful API, untuk postingan <a href="/blog/2019/08/02/menyimpan-konfigurasi-terpusat-menggunakan-consul-key-value-store-bagian-number-1/">pertama</a> ini kita akan menggunakan rest api client <a href="https://www.getpostman.com/downloads/">Postman</a> untuk mengakses data tersebut. Adapun endpoint yang digunakan yaitu <code>/v1/kv</code>.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2019/08/20190802-09.png">https://coding4ever.files.wordpress.com/2019/08/20190802-09.png</a>&#8221;></p>
+
+<p>Untuk response valuenya sudah diencoded menggunakan algoritma Base64, tapi jika ingin langsung menampilkan data aslinya kita tinggal tambahkan parameter <code>?raw=true</code>.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2019/08/20190802-10.png">https://coding4ever.files.wordpress.com/2019/08/20190802-10.png</a>&#8221;></p>
+
+<h3>Menambahkan token</h3>
+
+<p>Kayaknya kurang aman klo semua orang bisa langsung mengakses endpoint <code>Key-Value Store</code> tersebut tanpa memasukan token terlebih dulu. Jadi kita bisa menambahkan token pada saat mengakses endpoint <code>Key-Value Store</code>. Caranya adalah dengan mengedit kembali file konfigurasi consulnya.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2019/08/20190802-11.png">https://coding4ever.files.wordpress.com/2019/08/20190802-11.png</a>&#8221;></p>
+
+<p>Setelah itu kita coba akses kembali untuk mengakses endpoint <code>Key-Value Store</code>nya tanpa token. Apakah masih bisa?</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2019/08/20190802-12.png">https://coding4ever.files.wordpress.com/2019/08/20190802-12.png</a>&#8221;></p>
+
+<p>Karna sudah tertolak, sekarang coba tambahkan parameter <code>?token</code>  untuk mengakses endpointya.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2019/08/20190802-13.png">https://coding4ever.files.wordpress.com/2019/08/20190802-13.png</a>&#8221;></p>
+
+<p>Horeee berhasil :-)</p>
+
+<p>Mungkin cukup ya untuk postingan bagian <a href="/blog/2019/08/02/menyimpan-konfigurasi-terpusat-menggunakan-consul-key-value-store-bagian-number-1/">pertama</a> ini, insyaAlloh di postingan berikutnya kita akan bahas bagaimana mengakses data <code>Key-Value Store</code> langsung dari aplikasi yang dibuat menggunakan VB6 dan .NET.</p>
+
+<p>Oh iya ada yang kelupaan, gimana caranya agar consul bisa diinstall sebagai service (windows service)? Gampang, Anda tinggal ikuti langkah-langkah yang ada di <a href="https://learn.hashicorp.com/consul/datacenter-deploy/windows">sini</a> :-D.</p>
+
+<p>Selamat mencoba :-)</p>
+]]></content>
+  </entry>
+  
+</feed>
