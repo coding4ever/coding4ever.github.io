@@ -102,7 +102,7 @@
   </header>
 
 
-<div class="entry-content"><p><img class="left" src="https://coding4ever.files.wordpress.com/2019/08/consul-logo.jpg" width="85" height="93">Cara apa yang biasa Anda gunakan untuk menyimpan konfigurasi aplikasi? Biasanya ada beberapa pilihan seperti menyimpan dalam format text (INI, XML, JSON), database atau langsung di hardcode di dalam kode program. Nah cara terakhir adalah yang paling ekstrim, jika terjadi perubahan konfigurasi berarti kita harus merubah kode program dan melakukan kompilasi ulang :-D.</p>
+<div class="entry-content"><p><img class="left" src="https://coding4ever.files.wordpress.com/2019/08/consul-logo.jpg" width="85" height="93">Cara apa yang biasa Anda gunakan untuk menyimpan konfigurasi aplikasi? Biasanya ada beberapa pilihan seperti menyimpan dalam format text (<a href="https://en.wikipedia.org/wiki/INI_file">INI</a>, <a href="https://en.wikipedia.org/wiki/XML">XML</a>, <a href="https://www.json.org/">JSON</a>), database atau langsung di hardcode di dalam kode program. Nah cara terakhir adalah yang paling ekstrim, jika terjadi perubahan konfigurasi berarti kita harus merubah kode program dan melakukan kompilasi ulang :-D.</p>
 
 <!-- more -->
 
@@ -143,9 +143,9 @@ port=5432</code></pre></noscript></div>
 }</code></pre></noscript></div>
 
 
-<p>Pada contoh di atas konfigurasi aplikasi disimpan dengan berbagai format seperti INI, XML dan JSON.</p>
+<p>Pada contoh di atas konfigurasi aplikasi disimpan dengan berbagai format seperti <a href="https://en.wikipedia.org/wiki/INI_file">INI</a>, <a href="https://en.wikipedia.org/wiki/XML">XML</a> dan <a href="https://www.json.org/">JSON</a>.</p>
 
-<p>Untuk aplikasi yang dibuat menggunakan VB6 biasanya akan menyimpan konfigurasi dengan format INI, sedangkan yang menggunakan .NET lebih senang menggunakan format XML atau JSON.</p>
+<p>Untuk aplikasi yang dibuat menggunakan VB6 biasanya akan menyimpan konfigurasi dengan format <a href="https://en.wikipedia.org/wiki/INI_file">INI</a>, sedangkan yang menggunakan .NET lebih senang menggunakan format <a href="https://en.wikipedia.org/wiki/XML">XML</a> atau <a href="https://www.json.org/">JSON</a>.</p>
 
 <p>Jadi apapun pilihan format konfigurasi aplikasi yang Anda gunakan, ketika ada perubahan konfigurasi berarti kita harus merubah satu per satu konfigurasi lokal dari aplikasi kita yang sudah terinstall di pc/laptop klien, baik dilakukan secara langsung (datang ke lokasi) atau dengan bantuan tool remote seperti Radmin.  Anda bayangkan saja klo pengguna aplikasi kita sudah ratusan bahkan ribuan, tentu akan menjadi pekerjaan yang merepotkan alias buang-buang waktu :-D</p>
 
@@ -161,7 +161,7 @@ port=5432</code></pre></noscript></div>
 </ul>
 
 
-<p>Saya sendiri mencoba tool ini ketika mempelajari arsitektur <a href="https://microservices.io/">microservices</a> untuk keperluan monitoring service. Nah salah satu fitur tool ini yaitu <em>Key/Value Store</em> yang bisa kita gunakan untuk keperluan menyimpan konfigurasi terpusat.</p>
+<p>Saya sendiri mencoba tool ini ketika mempelajari arsitektur <a href="https://microservices.io/">microservices</a> untuk keperluan monitoring service. Nah salah satu fitur tool ini yaitu <code>Key/Value Store</code> yang bisa kita gunakan untuk keperluan menyimpan konfigurasi terpusat.</p>
 
 <h3>Cara Menginstall Consul</h3>
 
@@ -197,13 +197,13 @@ port=5432</code></pre></noscript></div>
 
 <h3>Consul Key-Value Store</h3>
 
-<p>Seperti yang sudah saya jelaskan di atas, salah satu fitur menarik yang dimiliki oleh consul yaitu <code>Key-Value Store</code>. Dengan fitur ini kita bisa menyimpan konfigurasi aplikasi secara terpusat di pc/server yang sudah terinstall consul.</p>
+<p>Seperti yang sudah saya jelaskan di atas, salah satu fitur menarik yang dimiliki oleh consul yaitu <code>Key-Value Store</code>. Dengan fitur ini kita bisa menyimpan konfigurasi aplikasi secara terpusat di pc/server yang sudah terinstall consul. Jadi konfigurasi aplikasi kita yang awalnya tersimpan di lokalan, apakah itu menggunakan format <a href="https://en.wikipedia.org/wiki/INI_file">INI</a>, <a href="https://en.wikipedia.org/wiki/XML">XML</a> atau <a href="https://www.json.org/">JSON</a> bisa langsung kita pindah ke sini.</p>
 
 <p><img class="center" src="https://coding4ever.files.wordpress.com/2019/08/20190802-08.png"></p>
 
 <h3>Mengakses Data Key-Value Store</h3>
 
-<p>Data yang tersimpan di <code>Key-Value Store</code> bisa diakses via RESTful API, untuk postingan <a href="http://coding4ever.net/blog/2019/08/02/menyimpan-konfigurasi-terpusat-menggunakan-consul-key-value-store-bagian-number-1/">pertama</a> ini kita akan menggunakan rest api client <a href="https://www.getpostman.com/downloads/">Postman</a> untuk mengakses data tersebut. Adapun endpoint yang digunakan yaitu <code>/v1/kv</code>.</p>
+<p>Data yang tersimpan di <code>Key-Value Store</code> bisa diakses via RESTful API, untuk postingan <a href="http://coding4ever.net/blog/2019/08/02/menyimpan-konfigurasi-terpusat-menggunakan-consul-key-value-store-bagian-number-1/">pertama</a> ini kita akan menggunakan salah satu tool  REST Client yaitu <a href="https://www.getpostman.com/downloads/">Postman</a> untuk mengakses data tersebut. Adapun endpoint yang digunakan yaitu <code>/v1/kv</code>.</p>
 
 <p><img class="center" src="https://coding4ever.files.wordpress.com/2019/08/20190802-09.png"></p>
 
@@ -226,6 +226,8 @@ port=5432</code></pre></noscript></div>
 <p><img class="center" src="https://coding4ever.files.wordpress.com/2019/08/20190802-13.png"></p>
 
 <p>Horeee berhasil :-)</p>
+
+<p>Nah dengan adanya fitur <code>Key-Value Store</code> yang di miliki oleh <a href="https://www.consul.io/">Consul</a> ini, akan memudahkan kita jika terjadi perubahan konfigurasi aplikasi karena bisa dilakukan secara terpusat.</p>
 
 <p>Mungkin cukup ya untuk postingan bagian <a href="http://coding4ever.net/blog/2019/08/02/menyimpan-konfigurasi-terpusat-menggunakan-consul-key-value-store-bagian-number-1/">pertama</a> ini, insyaAlloh di postingan berikutnya kita akan bahas bagaimana mengakses data <code>Key-Value Store</code> langsung dari aplikasi yang dibuat menggunakan VB6 dan .NET.</p>
 
