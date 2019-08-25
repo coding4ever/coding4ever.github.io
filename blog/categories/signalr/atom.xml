@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Signalr | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/signalr/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2019-08-03T08:47:16+07:00</updated>
+  <updated>2019-08-25T16:01:03+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,94 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Solusi Mengakses Database Lokal (IP Private) Secara Online]]></title>
+    <link href="http://coding4ever.net/blog/2019/08/25/solusi-mengakses-database-lokal-ip-private-secara-online/"/>
+    <updated>2019-08-25T16:00:03+07:00</updated>
+    <id>http://coding4ever.net/blog/2019/08/25/solusi-mengakses-database-lokal-ip-private-secara-online</id>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2019/08/websocket-logo.png">https://coding4ever.files.wordpress.com/2019/08/websocket-logo.png</a>&#8221; width=&#8221;85&#8221; height=&#8221;93&#8221;>Salah satu tantangan bagi software developer untuk aplikasi bisnis berbasis desktop adalah ketika klien meminta untuk mengonlinekan database mereka. Karena memang rata-rata aplikasi desktop hanya digunakan untuk keperluan internal kantor/perusahaan.</p>
+
+<p>Biasanya ada beberapa solusi yang bisa kita tawarkan, ketika klien menginginkan database lokal mereka (ip private) bisa diakses secara online, seperti:</p>
+
+<!-- more -->
+
+
+<ul>
+<li>Upgrade paket internet, jika klien kita berlangganan paket internet indihome bisa upgrade ke paket enterprise, tapi klo berat dibiaya bisa langganan IP Dynamic Indihome. Apakah masalah sudah selesai sampai di sini? Engga juga sih, kita masih harus menyeting portforwarding dan setting-lainnya lainya.</li>
+<li>Menggunakan software VPN seperti <a href="/blog/2010/02/02/belajar-winsock-bagian-4-e28093-membuat-jaringan-vpn-sendiri/">Hamachi</a>, <a href="https://www.zerotier.com/">ZeroTier</a>, atau <a href="/blog/2018/07/05/membuat-jaringan-vpn-menggunakan-softether-vpn-bagian-number-1/">SoftEther VPN</a>, tapi cara kedua ini akan mengurangi koneksi internet kita karena harus menyediakan jalur untuk koneksi VPNnya.</li>
+<li>Menyewa layanan <code>Shared Hosting</code>, biaya langganannya juga lumayan murah, sekitar 100 ribuan pertahun. Dengan menyewa layanan <code>Shared Hosting</code> berarti kita harus membuat copyan database lokal untuk ditempatkan di <code>Shared Hosting</code> agar bisa diakses secara online. Tantangannya adalah kita harus membuat aplikasi kecil yang bertugas menyinkronkan database lokal dan database yang ada di <code>Shared Hosting</code>.</li>
+<li>Membuat sendiri service yang berfungsi sebagai gateway yang bertugas menjembatani antara aplikasi klien dan database. Untuk cara yang terakhir ini kita membutuhkan sebuah server dengan ip public, contoh disini saya menyewa VPS dengan OS Linux (Ubuntu) di <a href="https://www.digitalocean.com/">digitalocean</a>.</li>
+</ul>
+
+
+<p>Nah dipostingan ini kita akan membahas solusi terakhir. Idenya adalah kita ingin memberikan kemudahan kepada klien/customer dalam menggunakan aplikasi yang kita buat, jadi dengan konfigurasi yang sangat minim sekali, aplikasi client bisa langsung konek ke database. Keuntungan lainnya adalah dengan cara ini bisa dijadikan lahan bisnis untuk layanan sewa server, jadi klo klien ingin databasenya bisa diakses secara online ya harus sewa server dulu hehehe :-D</p>
+
+<p>Karena postingan kali ini adalah hasil dari riset komersil yang saya kerjakan, jadi saya hanya akan membahas tentang <code>arsitektur</code> dan <code>teknologi</code> yang digunakan, tanpa kode ya… :-D.</p>
+
+<h3>Arsitektur Aplikasi</h3>
+
+<p>Untuk arsitektur aplikasi yang digunakan seperti gambar berikut:</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2019/08/2019082501.png">https://coding4ever.files.wordpress.com/2019/08/2019082501.png</a>&#8221;></p>
+
+<p>Keterangan gambar:</p>
+
+<ol>
+<li>Database yang diinstall di jaringan lokal, bisa database PostgreSql, FirebirdSql, SQL Server, MySQL, dan lain-lain. Tergantung database yang Anda gunakan.</li>
+<li><p>WebSocketService – Aplikasi ini bisa diinstall secara terpisah atau satu mesin dengan database. Jadi aplikasi inilah yang terkoneksi langsung dengan database via jaringan lokal (LAN). Aplikasi ini dibuat menggunakan WinForm atau bisa juga berbasis windows service, intinya disesuaikan dengan kebutuhan Anda. Karena aplikasi ini menggunakan library <a href="https://docs.microsoft.com/en-us/aspnet/core/signalr/introduction?view=aspnetcore-2.2">SignalR Core</a> untuk berkomunikasi dengan aplikasi WebSocketGateway yang ada di VPS, maka untuk menjalankan aplikasi ini minimal windows yang dibutuhkan adalah Windows 7 SP1 (.NET Framework 4.6.x).
+<img class="center <a" src="href="https://coding4ever.files.wordpress.com/2019/08/2019082502.png">https://coding4ever.files.wordpress.com/2019/08/2019082502.png</a>&#8221;></p></li>
+<li><p>WebSocketGateway – Aplikasi ini berfungsi sebagai WebSocket server, dibuat menggunakan ASP.NET Core. Selain bertugas untuk menghandle komunikasi via websocket (signalR), juga bertugas untuk menghandle komunikasi via http (web api). WebSocketGateway ini nantinya akan di deploy ke VPS dengan bantuan <a href="https://www.docker.com/">Docker</a>.
+<img class="center <a" src="href="https://coding4ever.files.wordpress.com/2019/08/2019082503.png">https://coding4ever.files.wordpress.com/2019/08/2019082503.png</a>&#8221;></p></li>
+<li><p>Aplikasi klien, bisa berupa desktop, web dan mobile. Aplikasi ini akan berkomunikasi dengan WebSocketGateway via web api (web service)
+<img class="center <a" src="href="https://coding4ever.files.wordpress.com/2019/08/2019082504.png">https://coding4ever.files.wordpress.com/2019/08/2019082504.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2019/08/2019082505.png">https://coding4ever.files.wordpress.com/2019/08/2019082505.png</a>&#8221;></p></li>
+</ol>
+
+
+<h3>Teknologi yang digunakan:</h3>
+
+<ul>
+<li>ASP.NET Core, teknologi ini saya gunakan karena VPS yang disewa berbasis linux (Ubuntu)</li>
+<li>Websocket menggunakan <a href="/blog/categories/signalr/">SignalR</a></li>
+<li><a href="https://www.docker.com/">Docker</a> digunakan untuk mempermudah proses deploy aplikasi ASP.NET Corenya</li>
+</ul>
+
+
+<h3>Apa itu ASP.NET Core?</h3>
+
+<p>ASP.NET Core adalah sebuah framework yang bisa digunakan untuk membangun sebuah layanan Web API berbasis teknologi .NET. Framework ini adalah versi open-source dari ASP.NET, yang bisa berjalan di berbagai platform seperti macOS, Linux, dan Windows.</p>
+
+<p>Untuk informasi lebih lanjut mengenai ASP.NET Core bisa Anda baca di <a href="https://docs.microsoft.com/en-us/aspnet/core/?view=aspnetcore-2.2">sini</a>.</p>
+
+<h3>Apa itu SignalR</h3>
+
+<p>SignalR adalah library yang memudahkan kita untuk menambahkan fungsi komunikasi real-time pada aplikasi yang kita kembangkan. Fungsi real-time di sini adalah kemampuan server melakukan pengiriman (push) konten atau data kepada client yang sudah terkoneksi ke server, sehingga server tidak perlu menunggu client untuk melakukan permintaan (request) data terbaru.</p>
+
+<p>SignalR selain digunakan untuk pengembangan aplikasi web, juga bisa digunakan untuk platform lainnya seperti desktop (console dan windows form) ataupun mobile (windows phone, android dan iOS).</p>
+
+<p>SignalR menyediakan API yang memungkinkan server memanggil fungsi/method yang dimiliki oleh client atau pun sebaliknya. Proses memanggil method secara remote ini dikenal dengan istilah remote procedure call (RPC).</p>
+
+<p>Komunikasi antara client dan server SignalR dibangun di atas koneksi <a href="https://en.wikipedia.org/wiki/WebSocket">WebSocket</a>.</p>
+
+<p>Beberapa waktu lalu saya pernah menulis implementasi SignalR untuk aplikasi berbasis windows yang bisa Anda baca di<a href="/blog/categories/signalr/">sini</a>.</p>
+
+<h3>Apa itu Docker?</h3>
+
+<p>Docker adalah teknologi container yang memudahkan kita untuk melakukan proses <code>deployment</code> aplikasi ke berbagai platform (macOS, Linux, dan Windows). Untuk informasi lebih lanjut tentang Docker, bisa Anda baca di<a href="https://www.docker.com/">sini</a>.</p>
+
+<h3>Demo Aplikasi</h3>
+
+<p>Cara menghubungan aplikasi klien (desktop atau mobile) dengan WebSocketService sangat mudah, cukup menginputkan app id yang ditampilkan aplikasi WebSocketService pada tab Pengaturan. Setelah itu aplikasi klien Anda langsung terhubung ke database lokal.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2019/08/2019082506.png">https://coding4ever.files.wordpress.com/2019/08/2019082506.png</a>&#8221;></p>
+
+<p>Jika Anda juga penasaran dengan cara kerja aplikasi ini, dan ingin mencoba langsung, bisa Anda download demonya di <a href="https://github.com/k4m4r82/demo-websocket-signalr">sini</a>.</p>
+
+<p>Selamat mencoba :-)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Pengembangan Aplikasi Real-time Menggunakan SignalR Bagian #2]]></title>
