@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://coding4ever.net/blog/2019/08/31/menyimpan-konfigurasi-terpusat-menggunakan-consul-key-value-store-bagian-number-2/</loc>
+<lastmod>2019-08-31T09:26:47+07:00</lastmod>
+</url>
+<url>
 <loc>http://coding4ever.net/blog/2019/08/25/solusi-mengakses-database-lokal-ip-private-secara-online/</loc>
 <lastmod>2019-08-25T16:00:03+07:00</lastmod>
 </url>

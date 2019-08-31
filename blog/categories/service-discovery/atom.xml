@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Service Discovery | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/service-discovery/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2019-08-29T10:31:19+07:00</updated>
+  <updated>2019-08-31T09:32:18+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,104 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Menyimpan Konfigurasi Terpusat Menggunakan Consul Key-Value Store Bagian #2]]></title>
+    <link href="http://coding4ever.net/blog/2019/08/31/menyimpan-konfigurasi-terpusat-menggunakan-consul-key-value-store-bagian-number-2/"/>
+    <updated>2019-08-31T09:26:47+07:00</updated>
+    <id>http://coding4ever.net/blog/2019/08/31/menyimpan-konfigurasi-terpusat-menggunakan-consul-key-value-store-bagian-number-2</id>
+    <content type="html"><![CDATA[<p><img class="left <a" src="href="https://coding4ever.files.wordpress.com/2019/08/consul-logo.jpg">https://coding4ever.files.wordpress.com/2019/08/consul-logo.jpg</a>&#8221; width=&#8221;85&#8221; height=&#8221;93&#8221;>Oke, hari ini saya ingin melanjutkan pembahasan <a href="/blog/2019/08/02/menyimpan-konfigurasi-terpusat-menggunakan-consul-key-value-store-bagian-number-1/">postingan</a> saya sebelumnya tentang penyimpanan konfigurasi aplikasi secara terpusat menggunakan <a href="https://www.consul.io/">consul</a>. Jika pada <a href="/blog/2019/08/02/menyimpan-konfigurasi-terpusat-menggunakan-consul-key-value-store-bagian-number-1/">postingan</a> sebelumnya fokus pembahasan pada instalasi kemudian dilanjutkan dengan demo cara mengakses data yang tersimpan pada <code>key-value store</code> menggunakan salah satu tool REST Client favorit saya yaitu <a href="https://www.getpostman.com/downloads/">Postman</a>, maka fokus pembahasan kali ini adalah bagaimana cara mengakses data <code>key-value store</code> menggunakan bahasa pemrograman Visual Basic 6 dan C# (.NET).</p>
+
+<!-- more -->
+
+
+<h3>Mengakses Data Key-Value Store</h3>
+
+<p>Sebagai review untuk data yang tersimpan di <code>key-value store</code> bisa diakses via RESTful API (Web API) menggunakan <code>HTTP METHOD GET</code>. Adapun endpoint yang digunakan yaitu <code>/v1/kv/NAMA_KEY</code>. Contoh</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2019/08/20190829-01.png">https://coding4ever.files.wordpress.com/2019/08/20190829-01.png</a>&#8221;></p>
+
+<p>Informasi <code>endpoint</code> dan <code>HTTP METHOD</code> ini penting untuk dicatat karena berhubungan dengan kode program yang akan kita tulis di pembahasan berikutnya.</p>
+
+<h3>Mengakses Data Key-Value Store Dari Visual Basic 6</h3>
+
+<p>Sebagai contoh kasus kita akan membuat form login, di mana form login ini selain membutuhkan <code>user</code> dan <code>password</code> juga membutuhkan informasi <code>server</code>, <code>database</code> dan <code>port</code>. Khusus untuk informasi <code>server</code>, <code>database</code> dan <code>port</code> secara otomatis akan membaca data yang tersimpan di dalam <code>Key-Value Store</code>.</p>
+
+<p>Untuk tampilannya kita buat yang sederhana aja ya :-D</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2019/08/20190829-02.png">https://coding4ever.files.wordpress.com/2019/08/20190829-02.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2019/08/20190829-03.png">https://coding4ever.files.wordpress.com/2019/08/20190829-03.png</a>&#8221;></p>
+
+<p>Karena data yang diakses berupa RESTful API (dokumen web), di Visual Basic 6 kita menggunakan library <code>Microsoft XML v6.0</code></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2019/08/20190829-04.png">https://coding4ever.files.wordpress.com/2019/08/20190829-04.png</a>&#8221;></p>
+
+<p>Setelah itu kita buat sebuah method dengan nama <code>GetRequest</code> untuk mengakses RESTful API dengan menggunakan library <code>Microsoft XML v6.0</code>.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2019/08/20190829-05.png">https://coding4ever.files.wordpress.com/2019/08/20190829-05.png</a>&#8221;></p>
+
+<p>Kemudian tambahkan lagi sebuah method dengan nama <code>LoadAppConfig</code>, di dalam method ini kita memanggil method <code>GetRequest</code> dan menampilkan hasilnya ke console. Agar method ini bisa dipangil secara otomatis, kita panggil method ini di event form load.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2019/08/20190829-06.png">https://coding4ever.files.wordpress.com/2019/08/20190829-06.png</a>&#8221;></p>
+
+<p>Jika berhasil, hasilnya seperti berikut:</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2019/08/20190829-07.png">https://coding4ever.files.wordpress.com/2019/08/20190829-07.png</a>&#8221;></p>
+
+<p>Nah dari gambar di atas, kita lihat bahwa hasil pemanggilan endpoint <code>Key-Value Store</code> ini mengembalikan data string dengan format <a href="https://www.json.org/">JSON</a>. Secara built-in VB6 tidak menyediakan library untuk mengolah data dengan format <a href="https://www.json.org/">JSON</a>, tapi untungnya di luar sana sudah ada yang berbaik hati membuatkan <a href="http://www.ediy.co.nz/vbjson-json-parser-library-in-vb6-xidc55680.html">librarynya</a>, sehingga mempermudah kita untuk mengolah data dengan format <a href="https://www.json.org/">JSON</a> menggunakan Visual Basic 6.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2019/08/20190829-08.png">https://coding4ever.files.wordpress.com/2019/08/20190829-08.png</a>&#8221;></p>
+
+<p>Setelah menambahkan library <a href="http://www.ediy.co.nz/vbjson-json-parser-library-in-vb6-xidc55680.html">VB-JSON</a> sekarang kita bisa langsung mengolah data <a href="https://www.json.org/">JSON</a>nya sebagai sebuah objek dan kemudian langsung menampilkan hasilnya ke dalam textbox <code>server</code>, <code>database</code> dan <code>port</code>. Berikut adalah hasil revisinya method <code>LoadAppConfig</code>nya:</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2019/08/20190829-09.png">https://coding4ever.files.wordpress.com/2019/08/20190829-09.png</a>&#8221;></p>
+
+<p>Ok sampai di sini, kita bisa langsung menjalankan aplikasi untuk melihat hasilnya. Setelah form loginnya tampil aktifkan tab Connection, di mana informasi server, database dan port sudah otomatis terisi sesuai dengan informasi <code>Key-Value Store</code> yang tersimpan di server consul.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2019/08/20190829-10.png">https://coding4ever.files.wordpress.com/2019/08/20190829-10.png</a>&#8221;></p>
+
+<p>Sudah tampil bukan?</p>
+
+<p>Sekarang kita coba edit informasi db-confignya, melalui menu <code>Key/Value</code>, kemudian jalankan sekali lagi aplikasinya.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2019/08/20190829-11.png">https://coding4ever.files.wordpress.com/2019/08/20190829-11.png</a>&#8221;></p>
+
+<p>Nah secara otomatis perubahan data yang tersimpan di <code>Key-Value Store</code> juga akan terbaca oleh aplikasi.</p>
+
+<h3>Mengakses Data Key-Value Store Dari C# (.NET)</h3>
+
+<p>Untuk contoh berikutnya kita akan mengakses data <code>Key-Value Store</code> menggunakan bahasa pemrograman C# (.NET). Di C# saya biasanya menggunakan library <a href="https://www.nuget.org/packages/RestSharp/">RestSharp</a> untuk mengakses web api, selain itu kita juga membutuhkan library <a href="https://www.nuget.org/packages/Newtonsoft.Json">Newtonsoft.Json</a>, kenapa? Karena hasil dari pemanggilan web apinya berupa string dengan format json. Jadi kita membutuhkan library ini untuk mengkonversi string json ke objek class. Untuk menginstall kedua library ini Anda bisa menggunakan  <a href="/blog/categories/nuget/">Nuget Package Manager Console</a> dengan perintah berikut:</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>Install-Package RestSharp -Version 105.2.3
+</span><span class='line'>Install-Package Newtonsoft.Json -v 9.0.1
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Setelah menginstall ke dua library di atas, langkah berikutnya adalah kita akan menambahkan class model terlebih dulu. Class model ini saya beri nama <code>AppConfig</code> agar nanti hasil dari pemanggilan webnya bisa langsung kita konversi ke objek class model ini dengan bantuan library <a href="https://www.nuget.org/packages/Newtonsoft.Json">Newtonsoft.Json</a>. Berikut contoh class model yang dibuat.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2019/08/20190829-15.png">https://coding4ever.files.wordpress.com/2019/08/20190829-15.png</a>&#8221;></p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2019/08/20190829-12.png">https://coding4ever.files.wordpress.com/2019/08/20190829-12.png</a>&#8221;></p>
+
+<p>Pada gambar di atas, kita bisa lihat untuk struktur class modelnya dibuat menyesuaikan struktur json yang ada di <code>Key-Value Store</code>.</p>
+
+<p>Setelah itu tambahkan kode berikut untuk pemanggilan web apinya.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2019/08/20190829-13.png">https://coding4ever.files.wordpress.com/2019/08/20190829-13.png</a>&#8221;></p>
+
+<p>Kemudian kita bisa langsung menjalankan aplikasi untuk melihat hasilnya. Setelah form loginnya tampil aktifkan tab Connection, di mana informasi server, database dan port sudah otomatis terisi sesuai dengan informasi <code>Key-Value Store</code> yang tersimpan di server consul.</p>
+
+<p><img class="center <a" src="href="https://coding4ever.files.wordpress.com/2019/08/20190829-14.png">https://coding4ever.files.wordpress.com/2019/08/20190829-14.png</a>&#8221;></p>
+
+<h3>Kesimpulan</h3>
+
+<p>Dengan menggunakan <a href="https://www.consul.io/">consul</a> sebagai pusat penyimpanan konfigurasi aplikasi, akan mempermudah kita ketika terjadi perubahan konfigurasi aplikasi yang selama ini biasanya disimpan secara lokalan. Jadi kita tidak perlu merubah konfigurasi lokal aplikasi satu per satu di pc/lapton klien.</p>
+
+<p>Selamat mencoba :-)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Menyimpan Konfigurasi Terpusat Menggunakan Consul Key-Value Store Bagian #1]]></title>
@@ -141,7 +239,7 @@ port=5432</code></pre></noscript></div>
 
 <p>Nah dengan adanya fitur <code>Key-Value Store</code> yang di miliki oleh <a href="https://www.consul.io/">Consul</a> ini, akan memudahkan kita jika terjadi perubahan konfigurasi aplikasi karena bisa dilakukan secara terpusat.</p>
 
-<p>Mungkin cukup ya untuk postingan bagian <a href="/blog/2019/08/02/menyimpan-konfigurasi-terpusat-menggunakan-consul-key-value-store-bagian-number-1/">pertama</a> ini, insyaAlloh di postingan berikutnya kita akan bahas bagaimana mengakses data <code>Key-Value Store</code> langsung dari aplikasi yang dibuat menggunakan VB6 dan .NET.</p>
+<p>Mungkin cukup ya untuk postingan bagian <a href="/blog/2019/08/02/menyimpan-konfigurasi-terpusat-menggunakan-consul-key-value-store-bagian-number-1/">pertama</a> ini, insyaAlloh di postingan <a href="/blog/2019/08/31/menyimpan-konfigurasi-terpusat-menggunakan-consul-key-value-store-bagian-number-2/">berikutnya</a> kita akan bahas bagaimana mengakses data <code>Key-Value Store</code> langsung dari aplikasi yang dibuat menggunakan VB6 dan .NET.</p>
 
 <p>Oh iya ada yang kelupaan, gimana caranya agar consul bisa diinstall sebagai service (windows service)? Gampang, Anda tinggal ikuti langkah-langkah yang ada di <a href="https://learn.hashicorp.com/consul/datacenter-deploy/windows">sini</a> :-D.</p>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2019-08-29T10:31:19+07:00</updated>
+  <updated>2019-08-31T09:32:18+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -12,6 +12,105 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Menyimpan Konfigurasi Terpusat Menggunakan Consul Key-Value Store Bagian #2]]></title>
+    <link href="http://coding4ever.net/blog/2019/08/31/menyimpan-konfigurasi-terpusat-menggunakan-consul-key-value-store-bagian-number-2/"/>
+    <updated>2019-08-31T09:26:47+07:00</updated>
+    <id>http://coding4ever.net/blog/2019/08/31/menyimpan-konfigurasi-terpusat-menggunakan-consul-key-value-store-bagian-number-2</id>
+    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2019/08/consul-logo.jpg" width="85" height="93">Oke, hari ini saya ingin melanjutkan pembahasan <a href="http://coding4ever.net/blog/2019/08/02/menyimpan-konfigurasi-terpusat-menggunakan-consul-key-value-store-bagian-number-1/">postingan</a> saya sebelumnya tentang penyimpanan konfigurasi aplikasi secara terpusat menggunakan <a href="https://www.consul.io/">consul</a>. Jika pada <a href="http://coding4ever.net/blog/2019/08/02/menyimpan-konfigurasi-terpusat-menggunakan-consul-key-value-store-bagian-number-1/">postingan</a> sebelumnya fokus pembahasan pada instalasi kemudian dilanjutkan dengan demo cara mengakses data yang tersimpan pada <code>key-value store</code> menggunakan salah satu tool REST Client favorit saya yaitu <a href="https://www.getpostman.com/downloads/">Postman</a>, maka fokus pembahasan kali ini adalah bagaimana cara mengakses data <code>key-value store</code> menggunakan bahasa pemrograman Visual Basic 6 dan C# (.NET).</p>
+
+<!-- more -->
+
+
+<h3>Mengakses Data Key-Value Store</h3>
+
+<p>Sebagai review untuk data yang tersimpan di <code>key-value store</code> bisa diakses via RESTful API (Web API) menggunakan <code>HTTP METHOD GET</code>. Adapun endpoint yang digunakan yaitu <code>/v1/kv/NAMA_KEY</code>. Contoh</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2019/08/20190829-01.png"></p>
+
+<p>Informasi <code>endpoint</code> dan <code>HTTP METHOD</code> ini penting untuk dicatat karena berhubungan dengan kode program yang akan kita tulis di pembahasan berikutnya.</p>
+
+<h3>Mengakses Data Key-Value Store Dari Visual Basic 6</h3>
+
+<p>Sebagai contoh kasus kita akan membuat form login, di mana form login ini selain membutuhkan <code>user</code> dan <code>password</code> juga membutuhkan informasi <code>server</code>, <code>database</code> dan <code>port</code>. Khusus untuk informasi <code>server</code>, <code>database</code> dan <code>port</code> secara otomatis akan membaca data yang tersimpan di dalam <code>Key-Value Store</code>.</p>
+
+<p>Untuk tampilannya kita buat yang sederhana aja ya :-D</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2019/08/20190829-02.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2019/08/20190829-03.png"></p>
+
+<p>Karena data yang diakses berupa RESTful API (dokumen web), di Visual Basic 6 kita menggunakan library <code>Microsoft XML v6.0</code></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2019/08/20190829-04.png"></p>
+
+<p>Setelah itu kita buat sebuah method dengan nama <code>GetRequest</code> untuk mengakses RESTful API dengan menggunakan library <code>Microsoft XML v6.0</code>.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2019/08/20190829-05.png"></p>
+
+<p>Kemudian tambahkan lagi sebuah method dengan nama <code>LoadAppConfig</code>, di dalam method ini kita memanggil method <code>GetRequest</code> dan menampilkan hasilnya ke console. Agar method ini bisa dipangil secara otomatis, kita panggil method ini di event form load.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2019/08/20190829-06.png"></p>
+
+<p>Jika berhasil, hasilnya seperti berikut:</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2019/08/20190829-07.png"></p>
+
+<p>Nah dari gambar di atas, kita lihat bahwa hasil pemanggilan endpoint <code>Key-Value Store</code> ini mengembalikan data string dengan format <a href="https://www.json.org/">JSON</a>. Secara built-in VB6 tidak menyediakan library untuk mengolah data dengan format <a href="https://www.json.org/">JSON</a>, tapi untungnya di luar sana sudah ada yang berbaik hati membuatkan <a href="http://www.ediy.co.nz/vbjson-json-parser-library-in-vb6-xidc55680.html">librarynya</a>, sehingga mempermudah kita untuk mengolah data dengan format <a href="https://www.json.org/">JSON</a> menggunakan Visual Basic 6.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2019/08/20190829-08.png"></p>
+
+<p>Setelah menambahkan library <a href="http://www.ediy.co.nz/vbjson-json-parser-library-in-vb6-xidc55680.html">VB-JSON</a> sekarang kita bisa langsung mengolah data <a href="https://www.json.org/">JSON</a>nya sebagai sebuah objek dan kemudian langsung menampilkan hasilnya ke dalam textbox <code>server</code>, <code>database</code> dan <code>port</code>. Berikut adalah hasil revisinya method <code>LoadAppConfig</code>nya:</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2019/08/20190829-09.png"></p>
+
+<p>Ok sampai di sini, kita bisa langsung menjalankan aplikasi untuk melihat hasilnya. Setelah form loginnya tampil aktifkan tab Connection, di mana informasi server, database dan port sudah otomatis terisi sesuai dengan informasi <code>Key-Value Store</code> yang tersimpan di server consul.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2019/08/20190829-10.png"></p>
+
+<p>Sudah tampil bukan?</p>
+
+<p>Sekarang kita coba edit informasi db-confignya, melalui menu <code>Key/Value</code>, kemudian jalankan sekali lagi aplikasinya.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2019/08/20190829-11.png"></p>
+
+<p>Nah secara otomatis perubahan data yang tersimpan di <code>Key-Value Store</code> juga akan terbaca oleh aplikasi.</p>
+
+<h3>Mengakses Data Key-Value Store Dari C# (.NET)</h3>
+
+<p>Untuk contoh berikutnya kita akan mengakses data <code>Key-Value Store</code> menggunakan bahasa pemrograman C# (.NET). Di C# saya biasanya menggunakan library <a href="https://www.nuget.org/packages/RestSharp/">RestSharp</a> untuk mengakses web api, selain itu kita juga membutuhkan library <a href="https://www.nuget.org/packages/Newtonsoft.Json">Newtonsoft.Json</a>, kenapa? Karena hasil dari pemanggilan web apinya berupa string dengan format json. Jadi kita membutuhkan library ini untuk mengkonversi string json ke objek class. Untuk menginstall kedua library ini Anda bisa menggunakan  <a href="http://coding4ever.net/blog/categories/nuget/">Nuget Package Manager Console</a> dengan perintah berikut:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>Install-Package RestSharp -Version 105.2.3
+</span><span class='line'>Install-Package Newtonsoft.Json -v 9.0.1
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Setelah menginstall ke dua library di atas, langkah berikutnya adalah kita akan menambahkan class model terlebih dulu. Class model ini saya beri nama <code>AppConfig</code> agar nanti hasil dari pemanggilan webnya bisa langsung kita konversi ke objek class model ini dengan bantuan library <a href="https://www.nuget.org/packages/Newtonsoft.Json">Newtonsoft.Json</a>. Berikut contoh class model yang dibuat.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2019/08/20190829-15.png"></p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2019/08/20190829-12.png"></p>
+
+<p>Pada gambar di atas, kita bisa lihat untuk struktur class modelnya dibuat menyesuaikan struktur json yang ada di <code>Key-Value Store</code>.</p>
+
+<p>Setelah itu tambahkan kode berikut untuk pemanggilan web apinya.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2019/08/20190829-13.png"></p>
+
+<p>Kemudian kita bisa langsung menjalankan aplikasi untuk melihat hasilnya. Setelah form loginnya tampil aktifkan tab Connection, di mana informasi server, database dan port sudah otomatis terisi sesuai dengan informasi <code>Key-Value Store</code> yang tersimpan di server consul.</p>
+
+<p><img class="center" src="https://coding4ever.files.wordpress.com/2019/08/20190829-14.png"></p>
+
+<h3>Kesimpulan</h3>
+
+<p>Dengan menggunakan <a href="https://www.consul.io/">consul</a> sebagai pusat penyimpanan konfigurasi aplikasi, akan mempermudah kita ketika terjadi perubahan konfigurasi aplikasi yang selama ini biasanya disimpan secara lokalan. Jadi kita tidak perlu merubah konfigurasi lokal aplikasi satu per satu di pc/lapton klien.</p>
+
+<p>Selamat mencoba :-)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Solusi Mengakses Database Lokal (IP Private) Secara Online]]></title>
@@ -233,7 +332,7 @@ port=5432</code></pre></noscript></div>
 
 <p>Nah dengan adanya fitur <code>Key-Value Store</code> yang di miliki oleh <a href="https://www.consul.io/">Consul</a> ini, akan memudahkan kita jika terjadi perubahan konfigurasi aplikasi karena bisa dilakukan secara terpusat.</p>
 
-<p>Mungkin cukup ya untuk postingan bagian <a href="http://coding4ever.net/blog/2019/08/02/menyimpan-konfigurasi-terpusat-menggunakan-consul-key-value-store-bagian-number-1/">pertama</a> ini, insyaAlloh di postingan berikutnya kita akan bahas bagaimana mengakses data <code>Key-Value Store</code> langsung dari aplikasi yang dibuat menggunakan VB6 dan .NET.</p>
+<p>Mungkin cukup ya untuk postingan bagian <a href="http://coding4ever.net/blog/2019/08/02/menyimpan-konfigurasi-terpusat-menggunakan-consul-key-value-store-bagian-number-1/">pertama</a> ini, insyaAlloh di postingan <a href="http://coding4ever.net/blog/2019/08/31/menyimpan-konfigurasi-terpusat-menggunakan-consul-key-value-store-bagian-number-2/">berikutnya</a> kita akan bahas bagaimana mengakses data <code>Key-Value Store</code> langsung dari aplikasi yang dibuat menggunakan VB6 dan .NET.</p>
 
 <p>Oh iya ada yang kelupaan, gimana caranya agar consul bisa diinstall sebagai service (windows service)? Gampang, Anda tinggal ikuti langkah-langkah yang ada di <a href="https://learn.hashicorp.com/consul/datacenter-deploy/windows">sini</a> :-D.</p>
 
@@ -3915,208 +4014,6 @@ Salah satu solusinya adalah dengan memanfaatkan fasilitas <a href="http://coding
 <li><a href="http://www.nunit.org/">Nunit</a></li>
 <li><a href="https://github.com/opencover/opencover">OpenCover</a></li>
 <li><a href="https://github.com/danielpalme/ReportGenerator">Report Generator</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Unit Testing Menggunakan NUnit]]></title>
-    <link href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/"/>
-    <updated>2016-07-20T14:42:50+07:00</updated>
-    <id>http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit</id>
-    <content type="html"><![CDATA[<p><img class="left" src="https://coding4ever.files.wordpress.com/2016/07/nunit.png" width="120" height="57">Testing merupakan salah satu fase penting yang harus dilakukan ketika membuat sebuah aplikasi. Testing biasanya dilakukan secara berbarengan pada saat menulis kode. Ada banyak <code>gaya</code> dalam melakukan testing dan yang paling favorit biasanya adalah gaya konvensional. Dengan menggunakan gaya ini programmer desktop akan menggunakan console/winform untuk melihat hasil tes dari sebuah unit (fungsi/method) sedangankan programmer web langsung menggunakan halaman web.</p>
-
-<!-- more -->
-
-
-<p>Ini adalah gaya lama yang kita pelajari dari jaman Majapahit <strong>#eh</strong>, maksudnya masa-masa kuliah dulu :-D, kan enggak keren banget udah jadi programmer pro (programmer yang udah kerja) tapi testingnya masih bergaya <code>mahasiswa</code> :-D</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-01.png"></p>
-
-<p>Dengan testing gaya <code>jadul</code> ini, <code>kita</code> yang harus melakukan evaluasi terhadap hasil tesnya. Contoh tes di atas <code>5 + 2</code> kok hasilnya <code>10</code>. Bayangkan klo kita kurang teliti bakalan jadi bug di kemudian hari.</p>
-
-<p>Jika Anda bosan dengan gaya ini (konvensional/jadul/mahasiswa) dan ingin naik level, kita bisa menggunakan tool yang memang dibuat khusus untuk melakukan unit testing seperti  <a href="http://www.nunit.org/">NUnit</a>.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-02.png"></p>
-
-<p>Dengan menggunakan tool unit testing, <code>komputer</code>-lah yang melakukan evaluasi terhadap hasil tesnya. Kita tinggal duduk manis he he :-)</p>
-
-<h3>Jenis-jenis Testing</h3>
-
-<p>Sebenarnya ada banyak jenis-jenis testing, tetapi karena keterbatasan waktu dan ilmu, saya hanya membahas jenis-jenis testing berikut :</p>
-
-<ul>
-<li><a href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/">Unit Testing</a></li>
-<li><a href="http://coding4ever.net/blog/2016/07/22/coverage-testing-menggunakan-nunit-opencover-reportgenerator/">Coverage Testing</a></li>
-<li><a href="http://coding4ever.net/blog/2016/07/28/integration-testing-menggunakan-nunit/">Integration Testing</a></li>
-<li><a href="http://coding4ever.net/blog/2015/10/20/performance-test-menggunakan-jmeter/">Performance Testing</a></li>
-</ul>
-
-
-<p>Jadi kita akan membahas <a href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/">Unit Testing</a> terlebih dulu.</p>
-
-<h3>Unit testing</h3>
-
-<p>Unit testing adalah testing di level paling detail dari aplikasi. Artinya, testing di level method/function. Tes ini biasanya dilakukan oleh programmer dan bukan oleh tester, karena membutuhkan pengetahuan yang rinci tentang desain aplikasi dan kode yang ditulis.
-Ada beberapa tool yg bisa digunakan untuk keperluan ini tergantung dari bahasa pemrograman yang kita gunakan. Misal di .NET (NUnit), Java (JUnit) dan PHP (PHPUnit).</p>
-
-<p>Di postingan ini kita akan menggunakan <a href="http://nunit.org/">NUnit</a> sebagai tool untuk melakukan unit testing. <a href="http://www.nunit.org/">NUnit</a> adalah framework unit testing yang digunakan untuk bahasa pemrograman .NET. <a href="http://www.nunit.org/">NUnit</a> sendiri merupakan hasil portingan dari <a href="http://junit.org/">JUnit</a>.
-Sebelum menggunakan NUnit tentunya harus kita <a href="http://www.nunit.org/index.php?p=download">download</a> dan kemudian menginstallnya.</p>
-
-<h3>Membuat Project</h3>
-
-<p>Untuk uji coba <a href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/">unit testing</a> ada dua project yang akan kita buat yaitu :</p>
-
-<ol>
-<li><p>Project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorLib">CalculatorLib</a> – Ini adalah project target yang akan kita tes untuk setiap unitnya (fungsi/method).</p></li>
-<li><p>Project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorUnitTest">CalculatorUnitTest</a> – Ini adalah project <a href="http://coding4ever.net/blog/2016/07/20/unit-testing-menggunakan-nunit/">unit testing</a> yang digunakan untuk mengetes project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorLib">CalculatorLib</a>.</p></li>
-</ol>
-
-
-<h3>Membuat Project CalculatorLib</h3>
-
-<p>Project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorLib">CalculatorLib</a> adalah project yang akan kita buatkan unit testingnya, project ini bertipe <code>Class Library</code>.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-03.png"></p>
-
-<p>Nah di project ini, kita akan membuat class baru dengan nama <code>Calculator</code> kemudian menambahkan empat method yaitu <code>Tambah</code>, <code>Kurang</code>, <code>Kali</code> dan <code>Bagi</code>.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-04.png"></p>
-
-<p>Coba perhatikan gambar di atas, method <code>Tambah</code> sengaja dibuat salah dengan menggunakan operator kali (*), biar nanti keliatan efeknya ketika dites menggunakan <a href="http://www.nunit.org/">NUnit</a>.</p>
-
-<p>Setelah project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorLib">CalculatorLib</a> selesai kita lanjut dengan membuat project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorUnitTest">CalculatorUnitTest</a>.</p>
-
-<h3>Membuat Project CalculatorUnitTest</h3>
-
-<p>Project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorUnitTest">CalculatorUnitTest</a> adalah project unit testing yang digunakan untuk mengetes project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorLib">CalculatorLib</a>, project ini juga bertipe <code>Class Library</code>.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-05.png"></p>
-
-<p>Di project ini, kita akan menambahkan class baru dengan nama <code>CalculatorTest</code> yang mempunyai empat method yaitu <code>TambahTest</code>, <code>KurangTest</code>, <code>KaliTest</code> dan <code>BagiTest</code>. Jadi konvensi penamaannya adalah untuk nama class di tambah akhiran <code>Test</code>. Contoh class <code>Calculator</code> menjadi <code>CalculatorTest</code>. Untuk method juga sama, misal method <code>Tambah</code> menjadi <code>TambahTest</code>, method <code>Kurang</code> menjadi <code>KurangTest</code> begitu seterusnya.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-06.png"></p>
-
-<p>Method-method yang ada di class unit testingnya, biasanya bersifat <code>independent</code> artinya masing-masing method ini bisa dijalankan/eksekusi secara mandiri (tidak tergantung dengan method yang lain) sehingga kita bisa menjalankan unit testing secara berulang.</p>
-
-<h3>Menambahkan Referensi Project CalculatorLib</h3>
-
-<p>Agar project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorUnitTest">CalculatorUnitTest</a> bisa mengakses semua class dan method yang ada di project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorLib">CalculatorLib</a>, kita terlebih dulu harus menambahkan referensi CalculatorLib. Caranya seperti berikut :</p>
-
-<ol>
-<li><p>Klik kanan node References -> Add Reference…</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-07.png"></p></li>
-<li><p>Aktifkan panel Solution kemudian pilih project CalculatorLib</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-08.png"></p></li>
-<li><p>Klik tombol Ok, kemudian cek lagi node References, seharusnya sudah ada tambahan library CalculatorLib</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-09.png"></p></li>
-</ol>
-
-
-<p>Kemudian lengkapi kode class <a href="https://github.com/k4m4r82/DemoUnitTesting/blob/master/src/CalculatorUnitTest/CalculatorTest.cs">CalculatorTest</a>, seperti gambar di bawah ini.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-10.png"></p>
-
-<h3>Menambahkan Library Unit Testing</h3>
-
-<p>Seperti penjelasan saya di awal postingan, untuk contoh unit testing ini kita akan menggunakan <a href="http://www.nunit.org/">NUnit</a>. Berikut langkah-langkah menambahkan library <a href="http://www.nunit.org/">NUnit</a></p>
-
-<ol>
-<li><p>Klik kanan node References -> Add Reference…</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-11.png"></p></li>
-<li><p>Setelah tampil dialog Reference Manager, aktifkan panel Assemblies -> Extensions kemudian aktifkan pilihan nunit.framework</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-12.png"></p></li>
-<li><p>Klik tombol Ok, kemudian cek lagi node References, seharusnya sudah ada tambahan library nunit.framework</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-13.png"></p></li>
-</ol>
-
-
-<h3>Menulis Unit Testing</h3>
-
-<p>Setelah menambahkan library unit testing, project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorUnitTest">CalculatorUnitTest</a> tidak otomatis langsung dikenali oleh  tool unit testing, ada hal-hal lainnya yang perlu kita
-ketahui dalam menulis unit testing menggunakan <a href="http://www.nunit.org/">Nunit</a> yaitu :</p>
-
-<ul>
-<li><a href="http://www.nunit.org/index.php?p=attributes&amp;r=2.4">Attributes</a></li>
-<li><a href="http://www.nunit.org/index.php?p=assertions&amp;r=2.2.10">Assertions</a></li>
-</ul>
-
-
-<h4>Attributes</h4>
-
-<p>Digunakan untuk memberi tag/penanda  class dan method yang akan dites. Ada dua attribut yang sering digunakan yaitu attribut <code>[TestFixture]</code> untuk menandai <code>class</code> dan attribut <code>[Test]</code> untuk menandai method. Contoh :</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-14.png"></p>
-
-<p>Selain itu ada attribut lain yang digunakan untuk menandai method yang berfungsi sebagai method inisialisasi yaitu attribut <code>[SetUp]</code>. Contoh :</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-15.png"></p>
-
-<p>Jadi method <code>Init</code> di atas akan dijalankan terlebih dulu sebelum tool <a href="http://www.nunit.org/">Nunit</a> menjalankan method-method lain yang ditandai dengan attribut <code>[Test]</code>.</p>
-
-<h4>Assertions</h4>
-
-<p>Merupakan sekumpulan method static yang digunakan untuk mengevaluasi method yang akan dites.  Jadi method-method assertions akan mengembalikan nilai boolean (true/false). Contoh :</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-16.png"></p>
-
-<p>Pada gambar di atas kita menggunakan salah satu method <code>Assertions</code> yaitu method <code>AreEqual</code> untuk membandingkan dua buah nilai, yaitu nilai yang di harapkan (expected) dan nilai aktual. Nilai expected  kita inputkan secara manual sedangkan nilai aktual dihasilkan dari pemanggilan method. Coba perhatikan potongan kode berikut :</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-17.png"></p>
-
-<p>Dari hasil pemanggilan method Tambah(5, 2), jika menghasilkan nilai 7 maka method <code>AreEqual</code> akan mengembalikan nilai true yang artinya tes berhasil karena sesuai dengan nilai yang diharapkan yaitu <code>7</code> selain itu akan mengembalikan nilai false/gagal.</p>
-
-<p>Untuk referensi method-method <code>Assertions</code> lainnya bisa dicek di<a href="http://www.nunit.org/index.php?p=assertions&amp;r=2.5.10">sini</a>.</p>
-
-<h3>NUnit GUI Runner</h3>
-
-<p>Merupakan tool GUI bawaan NUnit yang digunakan untuk menjalankan project unit testing. Tool ini membutuhkan file assembly (dll) dari project unit testing. Jadi project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorUnitTest">CalculatorUnitTest</a> harus kita <code>build</code> terlebih dulu untuk menghasilkan file assembly(CalculatorUnitTest.dll), kemudian kita buka menggunakan tool <code>NUnit GUI Runner</code>.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-18.png"></p>
-
-<p>Caranya dari menu File -> Open Project kemudian cari hasil build project <a href="https://github.com/k4m4r82/DemoUnitTesting/tree/master/src/CalculatorUnitTest">CalculatorUnitTest</a> (CalculatorUnitTest.dll).</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-25.png"></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-19.png"></p>
-
-<p>Untuk memulai tes, klik tombol <code>Run</code></p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-20.png"></p>
-
-<p>Dari gambar di atas hanya method <code>Tambah</code> yang gagal melewati unit testing, coba kita cek kode unit testnya.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-21.png"></p>
-
-<p>Dari kode di atas <code>5 + 2</code> seharusnya menghasilkan nilai <code>7</code> (nilai expected/diharapkan), tetapi dari hasil unit testingnya malah menghasilkan nilai <code>10</code>, dari mana datangnya nilai <code>10</code> ini ?</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-22.png"></p>
-
-<p>Dari sini kita sudah bisa menebak ada yang salah dengan method Tambahnya, coba kita cek lagi method Tambah dari class Calculator.</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-23.png"></p>
-
-<p>Ops!!! ternyata benar ada <code>kesalahan logic</code> yaitu salah operator di method Tambah yang seharusnya menggunakan operator tambah (+) malah menggunakan operator kali (*), sehingga wajar <code>5 * 2</code> menghasilkan nilai <code>10</code> bukannya <code>7</code>. Jadi harus kita benarin dulu operatornya kemudian build ulang.</p>
-
-<p>Setelah itu kita cek lagi hasil unit testingnya</p>
-
-<p><img class="center" src="https://coding4ever.files.wordpress.com/2016/07/200716-24.png"></p>
-
-<p>Selamat <a href="https://github.com/k4m4r82/DemoUnitTesting">MENCOBA</a> :-)</p>
-
-<p>Referensi :</p>
-
-<ul>
-<li><a href="http://www.nunit.org/">NUnit</a></li>
-<li><a href="http://nunit.org/index.php?p=quickStart&amp;r=2.6.4">NUnit Quick Start</a></li>
-<li><a href="http://nunit.org/index.php?p=writingTests&amp;r=2.6.4">Writing Tests</a></li>
 </ul>
 
 ]]></content>
