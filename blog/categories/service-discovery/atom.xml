@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Service Discovery | Coding4ever's Blog]]></title>
   <link href="http://coding4ever.net/blog/categories/service-discovery/atom.xml" rel="self"/>
   <link href="http://coding4ever.net/"/>
-  <updated>2019-08-31T09:41:02+07:00</updated>
+  <updated>2019-08-31T09:51:02+07:00</updated>
   <id>http://coding4ever.net/</id>
   <author>
     <name><![CDATA[Admin]]></name>
@@ -171,7 +171,7 @@ port=5432</code></pre></noscript></div>
 </ul>
 
 
-<p>Saya sendiri mencoba tool ini ketika mempelajari arsitektur <a href="https://microservices.io/">microservices</a> untuk keperluan monitoring service. Nah salah satu fitur tool ini yaitu <code>Key/Value Store</code> yang bisa kita gunakan untuk keperluan menyimpan konfigurasi terpusat.</p>
+<p>Saya sendiri mencoba tool ini ketika mempelajari arsitektur <a href="https://microservices.io/">microservices</a> untuk keperluan monitoring service. Nah salah satu fitur tool ini yaitu <code>Key/Value Store</code> yang bisa kita gunakan untuk keperluan menyimpan konfigurasi aplikasi secara terpusat.</p>
 
 <h3>Cara Menginstall Consul</h3>
 
